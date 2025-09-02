@@ -6,50 +6,43 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Vite + React</title>
   </head>
-    <!-- Netlify Identity widget: 초대/복구 토큰 처리 + 로그인 후 /admin 으로 이동 -->
-<script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
-<script>
-  (function () {
-    // 해시에 초대/확인/복구 토큰이 붙어온 경우 처리
-    const hash = window.location.hash || "";
-    const m = hash.match(/(?:invite|confirmation|recovery)_token=([^&]+)/);
-
-    function goAdminSoon() {
-      // 로그인 직후 /admin 으로 이동
-      setTimeout(() => (window.location.href = "/admin/"), 300);
-    }
-
-    if (window.netlifyIdentity) {
-      window.netlifyIdentity.on("init", (user) => {
-        if (user) {
-          // 이미 로그인 상태면 CMS로
-          goAdminSoon();
-          return;
-        }
-
-        // 초대/복구 토큰이 있으면 위젯이 처리하도록 초기화
-        if (m) {
-          window.netlifyIdentity
-            .acceptInvite
-              ? window.netlifyIdentity
-                  .acceptInvite(m[1], true) // 자동 로그인
-                  .then(goAdminSoon)
-                  .catch(goAdminSoon)
-              : window.netlifyIdentity.on("login", goAdminSoon);
-        } else {
-          // 평소에는 로그인하면 CMS로
-          window.netlifyIdentity.on("login", goAdminSoon);
-        }
-      });
-
-      // 위젯 초기화
-      window.netlifyIdentity.init();
-    }
-  })();
-</script>
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
-    
+
+    <!-- Netlify Identity widget: 초대/복구 토큰 처리 (홈은 그대로 유지) -->
+    <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+    <script>
+      (function () {
+        // 초대/확인/복구 토큰(#invite_token 등) 있는지 확인
+        var hash = window.location.hash || "";
+        var m = hash.match(/(?:invite|confirmation|recovery)_token=([^&]+)/);
+
+        if (!m) return; // 평소엔 아무것도 하지 않음
+
+        function goAdmin() {
+          try {
+            // 해시 제거 (새로고침 시 반복 안 되도록)
+            history.replaceState(null, "", window.location.pathname);
+          } catch (e) {}
+          window.location.href = "/admin/";
+        }
+
+        if (!window.netlifyIdentity) return;
+
+        window.netlifyIdentity.on("init", function () {
+          if (window.netlifyIdentity.acceptInvite) {
+            window.netlifyIdentity
+              .acceptInvite(m[1], true)
+              .then(goAdmin)
+              .catch(goAdmin);
+          } else {
+            window.netlifyIdentity.on("login", goAdmin);
+          }
+        });
+
+        window.netlifyIdentity.init();
+      })();
+    </script>
   </body>
 </html>
