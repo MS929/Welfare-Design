@@ -1,0 +1,20 @@
+backend:
+  name: git-gateway
+  branch: main   # 기본 브랜치 이름에 맞추세요 (main/master)
+
+media_folder: "public/uploads"
+public_folder: "/uploads"
+
+local_backend: false
+
+collections:
+  - name: "news"
+    label: "소식"
+    folder: "src/content/news"
+    create: true
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    fields:
+      - { label: "제목", name: "title", widget: "string" }
+      - { label: "작성일", name: "date", widget: "datetime" }
+      - { label: "대표 이미지", name: "thumbnail", widget: "image", required: false }
+      - { label: "본문", name: "body", widget: "markdown" }
