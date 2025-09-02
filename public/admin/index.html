@@ -9,3 +9,18 @@
     <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
   </body>
 </html>
+
+<!-- Netlify Identity widget: 초대 링크/로그인 처리 -->
+<script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+<script>
+  // 초대 링크를 타고 들어오면 토큰을 처리하고 /admin 으로 보내줌
+  if (window.netlifyIdentity) {
+    window.netlifyIdentity.on("init", (user) => {
+      if (!user) {
+        window.netlifyIdentity.on("login", () => {
+          window.location.href = "/admin/";
+        });
+      }
+    });
+  }
+</script>
