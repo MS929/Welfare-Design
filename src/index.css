@@ -1,0 +1,28 @@
+/* Tailwind 지시어 */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ===== 레이아웃 잘림 방지 전역 리셋 ===== */
+html, body, #root {
+  width: 100%;
+  height: 100%;
+}
+
+body {
+  margin: 0;              /* 브라우저 기본 여백 제거 */
+}
+
+/* Vite 템플릿의 #root 기본 너비/패딩이 남아있을 수 있어 강제 해제 */
+#root {
+  max-width: none !important;
+  padding: 0 !important;
+  margin: 0 auto;          /* 가운데 정렬(필요 없으면 지워도 됨) */
+}
+
+/* 섹션이 가로로 꽉 차도록(혹시 상위가 제한되더라도 강제) */
+.full-bleed {
+  width: 100vw;
+  margin-left: 50%;
+  transform: translateX(-50%);
+}
