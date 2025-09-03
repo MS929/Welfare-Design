@@ -9,7 +9,7 @@ export default function NewsNotices() {
 
   useEffect(() => {
     (async () => {
-      const modules = import.meta.glob("/src/content/notices/*.md", {
+      const modules = import.meta.glob("./src/content/notices/*.md", {
         as: "raw",
       });
       const entries = await Promise.all(
