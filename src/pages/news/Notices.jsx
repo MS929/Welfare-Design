@@ -4,48 +4,66 @@ import { Link } from "react-router-dom";
 import matter from "gray-matter";
 
 export default function NewsNotices() {
-  const [items, setItems] = useState(null); // null=로딩, []=비었음
-  const [debug, setDebug] = useState("");
+  const [items, setItems] = useState(null); // null=로딩, []=없음
+  const [debug, setDebug] = useState({}); // 어떤 패턴이 몇 개 잡혔는지 표시
 
   useEffect(() => {
     (async () => {
       try {
-        // 기본 경로
-        const a = import.meta.glob("./src/content/notices/*.md", { as: "raw" });
-        // 혹시 과거에 다른 위치에 저장된 적이 있다면(임시 백업 경로)
-        const b = import.meta.glob("./src/content/notice/*.md", { as: "raw" });
-        const c = import.meta.glob("./src/content/news/*.md", { as: "raw" });
+        // ✅ 세 가지 패턴을 모두 시도해서 뭐가 잡히는지 화면에 표기
+        const g1 = import.meta.glob("/src/content/notices/*.md", { as: "raw" });
+        const g2 = import.meta.glob("./src/content/notices/*.md", {
+          as: "raw",
+        });
+        const g3 = import.meta.glob("../content/notices/*.md", { as: "raw" }); // 현재 파일 위치 기준( src/pages/news )
 
-        const modules = { ...a, ...b, ...c };
-        const paths = Object.keys(modules);
+        const all = { ...g1, ...g2, ...g3 };
+        const keysByPattern = {
+          "/src/content/notices/*.md": Object.keys(g1),
+          "./src/content/notices/*.md": Object.keys(g2),
+          "../content/notices/*.md": Object.keys(g3),
+        };
 
+        setDebug({
+          matchedCounts: {
+            "/src/content/notices/*.md":
+              keysByPattern["/src/content/notices/*.md"].length,
+            "./src/content/notices/*.md":
+              keysByPattern["./src/content/notices/*.md"].length,
+            "../content/notices/*.md":
+              keysByPattern["../content/notices/*.md"].length,
+          },
+          matchedPaths: [
+            ...keysByPattern["/src/content/notices/*.md"],
+            ...keysByPattern["./src/content/notices/*.md"],
+            ...keysByPattern["../content/notices/*.md"],
+          ],
+        });
+
+        const paths = Object.keys(all);
         if (paths.length === 0) {
-          setDebug("glob 결과가 0개입니다. (경로 확인 필요)");
           setItems([]);
           return;
         }
 
         const loaded = await Promise.all(
           paths.map(async (p) => {
-            const raw = await modules[p]();
+            const raw = await all[p]();
             const { data, content } = matter(raw);
-            // slug = 파일명 (확장자 제외)
             const slug = p.split("/").pop().replace(/\.md$/, "");
             return { slug, ...data, content };
           })
         );
 
-        // frontmatter에 date가 있다면 최신순 정렬
-        loaded.sort((x, y) => {
-          const dx = x.date ? new Date(x.date).getTime() : 0;
-          const dy = y.date ? new Date(y.date).getTime() : 0;
-          return dy - dx;
+        loaded.sort((a, b) => {
+          const da = a.date ? new Date(a.date).getTime() : 0;
+          const db = b.date ? new Date(b.date).getTime() : 0;
+          return db - da;
         });
 
         setItems(loaded);
-        setDebug(`로드 개수: ${loaded.length} (${paths.length} 파일 감지)`);
       } catch (e) {
-        setDebug(`에러: ${e.message}`);
+        setDebug((d) => ({ ...d, error: e.message }));
         setItems([]);
       }
     })();
@@ -65,8 +83,24 @@ export default function NewsNotices() {
       <h1 className="text-3xl font-extrabold">공지/공모</h1>
       <p className="text-gray-500 mt-2">공지/공모 글 목록이 표시됩니다.</p>
 
-      {/* 디버그(임시) — 문제가 있을 때만 보려고 희미하게 */}
-      <p className="mt-3 text-xs text-gray-400">{debug}</p>
+      {/* ===== 디버그 박스 (임시) ===== */}
+      <div className="mt-6 rounded-lg border bg-gray-50 p-4">
+        <div className="text-xs text-gray-600 font-mono">
+          <div className="font-semibold mb-1">[DEBUG] matchedCounts</div>
+          <pre>{JSON.stringify(debug.matchedCounts, null, 2)}</pre>
+          <div className="font-semibold mt-3 mb-1">[DEBUG] matchedPaths</div>
+          <pre className="max-h-40 overflow-auto">
+            {JSON.stringify(debug.matchedPaths, null, 2)}
+          </pre>
+          {debug.error && (
+            <>
+              <div className="font-semibold mt-3 mb-1">[DEBUG] error</div>
+              <pre>{debug.error}</pre>
+            </>
+          )}
+        </div>
+      </div>
+      {/* ============================ */}
 
       <div className="mt-8 space-y-4">
         {items.length === 0 ? (
@@ -79,7 +113,6 @@ export default function NewsNotices() {
               className="block border rounded-xl p-4 hover:bg-gray-50"
             >
               <div className="flex gap-4 items-center">
-                {/* 썸네일 */}
                 {n.thumbnail ? (
                   <img
                     src={n.thumbnail}
@@ -90,7 +123,6 @@ export default function NewsNotices() {
                 ) : (
                   <div className="w-28 h-20 rounded-lg bg-gray-100" />
                 )}
-
                 <div className="min-w-0">
                   <h3 className="text-lg font-semibold truncate">{n.title}</h3>
                   {n.date && (
