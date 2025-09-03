@@ -28,7 +28,7 @@ collections:
     create: true
     slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
     fields:
-      - { name: "title", label: "제목" }
-      - { name: "date", label: "작성일", widget: "datetime", format: "YYYY-MM-DDTHH:mm:ssZ" }
-      - { name: "thumbnail", label: "대표 이미지", widget: "image", required: false, media_folder: "public/uploads", public_folder: "/uploads" }
-      - { name: "body", label: "본문", widget: "markdown" }
+      - { label: "제목", name: "title", widget: "string" }
+      - { label: "작성일", name: "date", widget: "datetime" }
+      - { label: "대표 이미지", name: "thumbnail", widget: "image", required: false }
+      - { label: "본문", name: "body", widget: "markdown" }
