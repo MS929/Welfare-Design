@@ -6,3 +6,4 @@ export default function NewsNewsletter() {
     </section>
   );
 }
+const files = import.meta.glob("/src/content/news/**/*.md", { eager: true });
