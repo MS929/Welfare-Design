@@ -5,6 +5,8 @@ import { BrowserRouter } from "react-router-dom";
 import App from "./App";
 import "./index.css";
 import { Buffer } from "buffer";
+
+
 if (!window.Buffer) window.Buffer = Buffer;
 
 ReactDOM.createRoot(document.getElementById("root")).render(
