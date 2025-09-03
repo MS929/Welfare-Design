@@ -14,17 +14,16 @@ import AboutEstablishment from "./pages/about/Establishment";
 import NewsStories from "./pages/news/Stories";
 import NewsNotices from "./pages/news/Notices";
 import NewsNewsletter from "./pages/news/Newsletter";
-import StoryDetail from "./pages/news/Story";
-
+import StoryDetail from "./pages/news/StoryDetail"; // ✅ 파일명 정확히!
 
 // 사업
-import BizOverview from "./pages/business/Overview";              // 0. 사업영역
-import BizRental from "./pages/business/Rental";                  // 1. 휠체어 및 복지용구 무료 대여
-import BizApplyHelp from "./pages/business/ApplyHelp";            // 2. 보조기기·복지용구 신청 안내 지원
-import BizDonation from "./pages/business/DonationCampaign";      // 3. 보조기기 기증 캠페인
+import BizOverview from "./pages/business/Overview"; // 0. 사업영역
+import BizRental from "./pages/business/Rental"; // 1. 휠체어 및 복지용구 무료 대여
+import BizApplyHelp from "./pages/business/ApplyHelp"; // 2. 보조기기·복지용구 신청 안내 지원
+import BizDonation from "./pages/business/DonationCampaign"; // 3. 보조기기 기증 캠페인
 import BizInsurance from "./pages/business/EWheelchairInsurance"; // 4. 취약계층 전동 휠체어 보험금 지원
-import BizSurvey from "./pages/business/NeedsSurvey";             // 5. 취약계층 복지욕구 실태조사
-import BizMemberSvc from "./pages/business/MemberServices";       // 6. 조합원 지원 서비스
+import BizSurvey from "./pages/business/NeedsSurvey"; // 5. 취약계층 복지욕구 실태조사
+import BizMemberSvc from "./pages/business/MemberServices"; // 6. 조합원 지원 서비스
 
 // 후원
 import SupGuide from "./pages/support/Guide";
@@ -49,19 +48,17 @@ export default function App() {
         <Routes>
           {/* 메인 */}
           <Route path="/" element={<Home />} />
-
           {/* 소개 */}
           <Route path="/about/establishment" element={<AboutEstablishment />} />
           <Route path="/about/what" element={<AboutWhat />} />
           <Route path="/about/history" element={<AboutHistory />} />
           <Route path="/about/people" element={<AboutPeople />} />
-
           {/* 소식 */}
           <Route path="/news/stories" element={<NewsStories />} />
+          <Route path="/news/stories/:slug" element={<StoryDetail />} />{" "}
+          {/* ✅ 상세 */}
           <Route path="/news/notices" element={<NewsNotices />} />
           <Route path="/news/newsletter" element={<NewsNewsletter />} />
-          <Route path="/news/stories/:slug" element={<StoryDetail />} />
-
           {/* 사업 */}
           <Route path="/business/overview" element={<BizOverview />} />
           <Route path="/business/rental" element={<BizRental />} />
@@ -70,12 +67,10 @@ export default function App() {
           <Route path="/business/ewc-insurance" element={<BizInsurance />} />
           <Route path="/business/needs-survey" element={<BizSurvey />} />
           <Route path="/business/member-services" element={<BizMemberSvc />} />
-
           {/* 후원 */}
           <Route path="/support/guide" element={<SupGuide />} />
           <Route path="/support/corporate" element={<SupCorporate />} />
           <Route path="/support/faq" element={<SupFAQ />} />
-
           {/* 404 */}
           <Route path="*" element={<NotFound />} />
         </Routes>
