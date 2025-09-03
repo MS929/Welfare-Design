@@ -8,8 +8,8 @@ public_folder: "/uploads"
 local_backend: false
 
 collections:
-  - name: "news"
-    label: "소식"
+  - name: "stories"
+    label: "동행이야기"
     folder: "src/content/news"
     create: true
     slug: "{{year}}-{{month}}-{{day}}-{{slug}}"

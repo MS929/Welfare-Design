@@ -14,6 +14,8 @@ import AboutEstablishment from "./pages/about/Establishment";
 import NewsStories from "./pages/news/Stories";
 import NewsNotices from "./pages/news/Notices";
 import NewsNewsletter from "./pages/news/Newsletter";
+import StoryDetail from "./pages/news/Story";
+
 
 // 사업
 import BizOverview from "./pages/business/Overview";              // 0. 사업영역
@@ -58,6 +60,7 @@ export default function App() {
           <Route path="/news/stories" element={<NewsStories />} />
           <Route path="/news/notices" element={<NewsNotices />} />
           <Route path="/news/newsletter" element={<NewsNewsletter />} />
+          <Route path="/news/stories/:slug" element={<StoryDetail />} />
 
           {/* 사업 */}
           <Route path="/business/overview" element={<BizOverview />} />
