@@ -1,81 +1,97 @@
+// src/pages/news/Stories.jsx
 import { Link } from "react-router-dom";
 
-// Vite가 빌드타임에 src/content/stories/*.md 를 모두 가져오게 함
-const files = import.meta.glob("../../content/stories/*.md", {
-  eager: true,
-  as: "raw",
-});
-
-function parseFrontmatter(raw) {
-  // --- frontmatter --- + 본문 분리 (아주 단순 파서)
-  const m = /^---\n([\s\S]*?)\n---\n([\s\S]*)$/m.exec(raw);
-  if (!m) return { data: {}, content: raw };
-  const yaml = m[1];
-  const content = m[2];
-  const data = {};
-  yaml.split("\n").forEach((line) => {
+/** frontmatter + body 파서 */
+function parseMD(raw) {
+  const m = raw.match(/^---\n([\s\S]*?)\n---\n([\s\S]*)$/);
+  if (!m) return { frontmatter: {}, body: raw };
+  const [, fmBlock, body] = m;
+  const fm = {};
+  fmBlock.split("\n").forEach((line) => {
     const idx = line.indexOf(":");
-    if (idx > -1) {
-      const k = line.slice(0, idx).trim();
-      let v = line.slice(idx + 1).trim();
-      v = v.replace(/^"(.*)"$/, "$1").replace(/^'(.*)'$/, "$1");
-      data[k] = v;
-    }
+    if (idx === -1) return;
+    const key = line.slice(0, idx).trim();
+    const val = line
+      .slice(idx + 1)
+      .trim()
+      .replace(/^"|"$/g, "");
+    fm[key] = val;
   });
-  return { data, content };
+  return { frontmatter: fm, body: body?.trim() ?? "" };
 }
 
-function buildPosts() {
-  return Object.entries(files)
-    .map(([path, raw]) => {
-      const { data } = parseFrontmatter(raw);
-      // slug는 파일명(확장자 제외)
-      const slug = path.split("/").pop().replace(/\.md$/, "");
-      return {
-        slug,
-        title: data.title || "제목 없음",
-        date: data.date || "",
-        thumbnail: data.thumbnail || "/uploads/placeholder.jpg",
-      };
-    })
-    .sort((a, b) => (a.date < b.date ? 1 : -1));
+/** 파일 경로에서 slug 뽑기 */
+function slugFromPath(path) {
+  // 예: /src/content/stories/2025-09-03-abc.md -> 2025-09-03-abc
+  return path.split("/").pop().replace(/\.md$/, "");
 }
 
-export default function Stories() {
-  const posts = buildPosts();
+export default function NewsStories() {
+  // md 파일 내용을 문자열(raw)로 eager import
+  const files = import.meta.glob("/src/content/stories/*.md", {
+    eager: true,
+    as: "raw",
+  });
+
+  // 파싱 + slug 붙이기
+  const posts = Object.entries(files).map(([path, raw]) => {
+    const { frontmatter, body } = parseMD(raw);
+    return {
+      slug: slugFromPath(path),
+      title: frontmatter.title || "제목 없음",
+      date: frontmatter.date || "",
+      thumbnail: frontmatter.thumbnail || "", // /uploads/xxx.jpg (public 폴더 기준)
+      body,
+    };
+  });
+
+  // 날짜 내림차순
+  posts.sort((a, b) => (a.date < b.date ? 1 : -1));
 
   return (
-    <div className="max-w-5xl mx-auto px-4 py-12">
+    <div className="max-w-screen-xl mx-auto px-4 py-12">
       <h1 className="text-3xl md:text-4xl font-extrabold mb-8">동행이야기</h1>
 
-      {posts.length === 0 ? (
+      {posts.length === 0 && (
         <p className="text-gray-500">스토리/블로그 글 목록이 표시됩니다.</p>
-      ) : (
-        <ul className="space-y-4">
-          {posts.map((p) => (
-            <li key={p.slug}>
-              <Link
-                to={`/news/stories/${p.slug}`}
-                className="flex items-center gap-4 rounded-xl border p-4 hover:bg-gray-50"
-              >
-                <img
-                  src={p.thumbnail}
-                  alt=""
-                  className="w-20 h-20 rounded-lg object-cover"
-                />
-                <div>
-                  <div className="font-semibold">{p.title}</div>
-                  {p.date && (
-                    <div className="text-sm text-gray-500">
-                      {p.date.slice(0, 10)}
-                    </div>
-                  )}
-                </div>
-              </Link>
-            </li>
-          ))}
-        </ul>
       )}
+
+      <div className="space-y-5">
+        {posts.map((p) => (
+          <Link
+            key={p.slug}
+            to={`/news/stories/${p.slug}`} // ✅ 상세로 이동
+            className="block rounded-xl border hover:shadow-md transition bg-white"
+          >
+            <div className="flex items-center gap-4 p-5">
+              {/* 썸네일 */}
+              <div className="w-20 h-20 rounded-lg overflow-hidden bg-gray-100 flex-shrink-0">
+                {p.thumbnail ? (
+                  <img
+                    src={p.thumbnail}
+                    alt={p.title}
+                    className="w-full h-full object-cover"
+                  />
+                ) : (
+                  <div className="w-full h-full flex items-center justify-center text-gray-400 text-sm">
+                    No Image
+                  </div>
+                )}
+              </div>
+
+              {/* 제목/날짜 */}
+              <div className="flex-1 min-w-0">
+                <h3 className="font-semibold truncate">{p.title}</h3>
+                {p.date && (
+                  <p className="text-sm text-gray-500 mt-1">
+                    {new Date(p.date).toISOString().slice(0, 10)}
+                  </p>
+                )}
+              </div>
+            </div>
+          </Link>
+        ))}
+      </div>
     </div>
   );
 }

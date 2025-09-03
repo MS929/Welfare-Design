@@ -1,75 +1,86 @@
+// src/pages/news/StoryDetail.jsx
 import { useParams, Link } from "react-router-dom";
-import { marked } from "marked";
 
-const files = import.meta.glob("../../content/stories/*.md", {
-  eager: true,
-  as: "raw",
-});
-
-function parseFrontmatter(raw) {
-  const m = /^---\n([\s\S]*?)\n---\n([\s\S]*)$/m.exec(raw);
-  if (!m) return { data: {}, content: raw };
-  const yaml = m[1];
-  const content = m[2];
-  const data = {};
-  yaml.split("\n").forEach((line) => {
+/** frontmatter + body 파서 */
+function parseMD(raw) {
+  const m = raw.match(/^---\n([\s\S]*?)\n---\n([\s\S]*)$/);
+  if (!m) return { frontmatter: {}, body: raw };
+  const [, fmBlock, body] = m;
+  const fm = {};
+  fmBlock.split("\n").forEach((line) => {
     const idx = line.indexOf(":");
-    if (idx > -1) {
-      const k = line.slice(0, idx).trim();
-      let v = line.slice(idx + 1).trim();
-      v = v.replace(/^"(.*)"$/, "$1").replace(/^'(.*)'$/, "$1");
-      data[k] = v;
-    }
+    if (idx === -1) return;
+    const key = line.slice(0, idx).trim();
+    const val = line.slice(idx + 1).trim().replace(/^"|"$/g, "");
+    fm[key] = val;
   });
-  return { data, content };
+  return { frontmatter: fm, body: body?.trim() ?? "" };
+}
+
+/** 파일 경로에서 slug 뽑기 */
+function slugFromPath(path) {
+  return path.split("/").pop().replace(/\.md$/, "");
 }
 
 export default function StoryDetail() {
-  const { slug } = useParams();
-  const match = Object.entries(files).find(([path]) =>
-    path.endsWith(`${slug}.md`)
-  );
+    const { slug } = useParams();
 
-  if (!match) {
-    return (
-      <div className="max-w-5xl mx-auto px-4 py-12">
-        <p className="text-gray-500">글을 찾을 수 없습니다.</p>
-        <Link className="text-sky-600 mt-4 inline-block" to="/news/stories">
-          ← 목록으로
-        </Link>
-      </div>
-    );
-  }
+    // 모든 파일 로드
+    const files = import.meta.glob("/src/content/stories/*.md", {
+        eager: true,
+        as: "raw",
+    });
 
-  const raw = match[1];
-  const { data, content } = parseFrontmatter(raw);
-  const html = marked.parse(content || "");
+    // slug 매칭 파일 찾기
+    let found = null;
+    for (const [path, raw] of Object.entries(files)) {
+        if (slugFromPath(path) === slug) {
+            const { frontmatter, body } = parseMD(raw);
+            found = {
+                title: frontmatter.title || "제목 없음",
+                date: frontmatter.date || "",
+                thumbnail: frontmatter.thumbnail || "",
+                body,
+            };
+            break;
+        }
 
-  return (
-    <div className="max-w-3xl mx-auto px-4 py-12">
-      <Link className="text-sky-600" to="/news/stories">
-        ← 목록으로
-      </Link>
+        if (!found) {
+            return (
+                <div className="max-w-screen-md mx-auto px-4 py-16">
+                    <p className="text-gray-600">해당 스토리를 찾을 수 없습니다.</p>
+                    <Link to="/news/stories" className="text-sky-600 underline mt-4 inline-block">
+                        목록으로 돌아가기
+                    </Link>
+                </div>
+            );
+        }
 
-      <h1 className="mt-4 text-3xl md:text-4xl font-extrabold">
-        {data.title || "제목 없음"}
-      </h1>
-      {data.date && (
-        <p className="text-gray-500 mt-2">{String(data.date).slice(0, 10)}</p>
-      )}
+        // 아주 간단한 마크다운 처리 (줄바꿈만)
+        const html = found.body
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/\n/g, "<br />");
 
-      {data.thumbnail && (
-        <img
-          src={data.thumbnail}
-          alt=""
-          className="mt-6 w-full rounded-xl object-cover"
-        />
-      )}
+        return (
+            <div className="max-w-screen-md mx-auto px-4 py-12">
+                <Link to="/news/stories" className="text-sm text-sky-600">&larr; 목록으로</Link>
+                <h1 className="text-3xl md:text-4xl font-extrabold mt-2">{found.title}</h1>
+                {found.date && (
+                    <p className="text-gray-500 mt-2">{new Date(found.date).toISOString().slice(0, 10)}</p>
+                )}
 
-      <article
-        className="prose max-w-none mt-8"
-        dangerouslySetInnerHTML={{ __html: html }}
-      />
-    </div>
-  );
+                {found.thumbnail && (
+                    <div className="mt-6 rounded-xl overflow-hidden">
+                        <img src={found.thumbnail} alt={found.title} className="w-full object-cover" />
+                    </div>
+                )}
+
+                <div
+                    className="prose max-w-none mt-8"
+                    dangerouslySetInnerHTML={{ __html: html }}
+                />
+            </div>
+        );
+    }
 }
