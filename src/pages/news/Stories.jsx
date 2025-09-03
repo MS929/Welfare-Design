@@ -1,74 +1,74 @@
-import { Link, useParams } from "react-router-dom";
-import { loadPosts } from "../../lib/md";
+// src/pages/news/Stories.jsx
+import { Link } from "react-router-dom";
 
-// 둘 다 대비(상대/절대) — 빌드 환경차 안전장치
-const gAbs = import.meta.glob("/src/content/stories/*.md", {
-  eager: true,
-  as: "raw",
-});
-const gRel = import.meta.glob("../../content/stories/*.md", {
-  eager: true,
-  as: "raw",
-});
-const posts = loadPosts([gAbs, gRel]);
+function parseFrontMatter(raw) {
+  const m = raw.match(/^---\n([\s\S]*?)\n---\n([\s\S]*)$/);
+  if (!m) return { data: {}, body: raw };
+  const yaml = Object.fromEntries(
+    m[1]
+      .split("\n")
+      .filter(Boolean)
+      .map((line) => {
+        const idx = line.indexOf(":");
+        const k = line.slice(0, idx).trim();
+        const v = line
+          .slice(idx + 1)
+          .trim()
+          .replace(/^"|"$/g, "");
+        return [k, v];
+      })
+  );
+  return { data: yaml, body: m[2].trim() };
+}
 
-export default function StoriesPage() {
+export default function Stories() {
+  // stories 우선, news도 함께 읽는 임시 호환
+  const modules = import.meta.glob("../../content/{stories,news}/*.md", {
+    eager: true,
+    as: "raw",
+  });
+
+  const items = Object.entries(modules)
+    .map(([path, raw]) => {
+      const { data } = parseFrontMatter(raw);
+      return {
+        path,
+        title: data.title ?? "제목 없음",
+        date: data.date ?? "",
+        thumbnail: data.thumbnail ?? "",
+      };
+    })
+    .sort((a, b) => (a.date < b.date ? 1 : -1));
+
   return (
-    <div className="max-w-5xl mx-auto px-4 py-12">
+    <div className="max-w-4xl mx-auto px-4 py-12">
       <h1 className="text-3xl font-bold mb-6">동행이야기</h1>
-      {posts.length === 0 ? (
-        <p className="text-gray-500">등록된 글이 없습니다.</p>
+      {items.length === 0 ? (
+        <p className="text-gray-500">스토리/블로그 글 목록이 표시됩니다.</p>
       ) : (
-        <ul className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {posts.map((p) => (
+        <ul className="space-y-4">
+          {items.map((it) => (
             <li
-              key={p.slug}
-              className="border rounded-xl overflow-hidden bg-white"
+              key={it.path}
+              className="border rounded-lg p-4 flex items-center gap-4"
             >
-              {p.thumbnail && (
+              {it.thumbnail ? (
                 <img
-                  src={p.thumbnail}
+                  src={it.thumbnail}
                   alt=""
-                  className="w-full h-40 object-cover"
+                  className="w-20 h-20 object-cover rounded-md"
                 />
+              ) : (
+                <div className="w-20 h-20 bg-gray-100 rounded-md" />
               )}
-              <div className="p-4">
-                <time className="text-xs text-gray-500">
-                  {p.date.toLocaleDateString()}
-                </time>
-                <h3 className="font-semibold mt-1">{p.title}</h3>
-                <Link
-                  to={`/news/stories/${encodeURIComponent(p.slug)}`}
-                  className="text-sky-600 text-sm mt-2 inline-block"
-                >
-                  자세히 보기 →
-                </Link>
+              <div>
+                <h3 className="font-semibold">{it.title}</h3>
+                <p className="text-sm text-gray-500">{it.date?.slice(0, 10)}</p>
               </div>
             </li>
           ))}
         </ul>
       )}
     </div>
-  );
-}
-
-export function StoryDetail() {
-  const { slug } = useParams();
-  const post = posts.find((p) => p.slug === slug);
-  if (!post)
-    return (
-      <div className="max-w-3xl mx-auto px-4 py-12">글을 찾을 수 없습니다.</div>
-    );
-  return (
-    <article className="max-w-3xl mx-auto px-4 py-12 prose">
-      <h1>{post.title}</h1>
-      <time className="text-sm text-gray-500 block mb-6">
-        {post.date.toLocaleString()}
-      </time>
-      {post.thumbnail && (
-        <img src={post.thumbnail} alt="" className="rounded-lg mb-6" />
-      )}
-      <pre style={{ whiteSpace: "pre-wrap" }}>{post.content}</pre>
-    </article>
   );
 }

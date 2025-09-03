@@ -5,27 +5,29 @@ backend:
 media_folder: "public/uploads"
 public_folder: "/uploads"
 
+locale: "ko"
+
 collections:
-  # 동행이야기
+  # 동행이야기 (Stories)
   - name: "stories"
     label: "동행이야기"
     folder: "src/content/stories"
     create: true
     slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
     fields:
-      - { name: "title", label: "제목", widget: "string" }
-      - { name: "date",  label: "작성일", widget: "datetime" }
-      - { name: "thumbnail", label: "대표 이미지", widget: "image", required: false }
-      - { name: "body", label: "본문", widget: "markdown" }
+      - { label: "제목", name: "title", widget: "string" }
+      - { label: "작성일", name: "date", widget: "datetime", format: "YYYY-MM-DDTHH:mm:ssZ" }
+      - { label: "대표 이미지", name: "thumbnail", widget: "image", required: false }
+      - { label: "본문", name: "body", widget: "markdown" }
 
-  # 공지/공모
+  # 공지/공모 (Notices)
   - name: "notices"
     label: "공지/공모"
     folder: "src/content/notices"
     create: true
     slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
     fields:
-      - { name: "title", label: "제목", widget: "string" }
-      - { name: "date",  label: "작성일", widget: "datetime" }
-      - { name: "thumbnail", label: "대표 이미지", widget: "image", required: false }
-      - { name: "body", label: "본문", widget: "markdown" }
+      - { label: "제목", name: "title", widget: "string" }
+      - { label: "작성일", name: "date", widget: "datetime", format: "YYYY-MM-DDTHH:mm:ssZ" }
+      - { label: "대표 이미지", name: "thumbnail", widget: "image", required: false }
+      - { label: "본문", name: "body", widget: "markdown" }
