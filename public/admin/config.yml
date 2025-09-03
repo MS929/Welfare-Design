@@ -1,20 +1,31 @@
 backend:
   name: git-gateway
-  branch: main   # 기본 브랜치 이름에 맞추세요 (main/master)
+  branch: main
 
 media_folder: "public/uploads"
 public_folder: "/uploads"
 
-local_backend: false
-
 collections:
+  # 동행이야기
   - name: "stories"
     label: "동행이야기"
-    folder: "src/content/news"
+    folder: "src/content/stories"
     create: true
     slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
     fields:
-      - { label: "제목", name: "title", widget: "string" }
-      - { label: "작성일", name: "date", widget: "datetime" }
-      - { label: "대표 이미지", name: "thumbnail", widget: "image", required: false }
-      - { label: "본문", name: "body", widget: "markdown" }
+      - { name: "title", label: "제목", widget: "string" }
+      - { name: "date",  label: "작성일", widget: "datetime" }
+      - { name: "thumbnail", label: "대표 이미지", widget: "image", required: false }
+      - { name: "body", label: "본문", widget: "markdown" }
+
+  # 공지/공모
+  - name: "notices"
+    label: "공지/공모"
+    folder: "src/content/notices"
+    create: true
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    fields:
+      - { name: "title", label: "제목", widget: "string" }
+      - { name: "date",  label: "작성일", widget: "datetime" }
+      - { name: "thumbnail", label: "대표 이미지", widget: "image", required: false }
+      - { name: "body", label: "본문", widget: "markdown" }

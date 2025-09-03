@@ -1,92 +1,74 @@
-// src/pages/news/Stories.jsx
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
+import { loadPosts } from "../../lib/md";
 
-// Vite: 뉴스 폴더의 md 파일을 raw로 모두 불러오기
-const rawModules = import.meta.glob("/src/content/news/*.md", {
+// 둘 다 대비(상대/절대) — 빌드 환경차 안전장치
+const gAbs = import.meta.glob("/src/content/stories/*.md", {
   eager: true,
   as: "raw",
 });
+const gRel = import.meta.glob("../../content/stories/*.md", {
+  eager: true,
+  as: "raw",
+});
+const posts = loadPosts([gAbs, gRel]);
 
-// --- front-matter 파싱 도우미 ---
-function parseFrontMatter(md) {
-  const fmMatch = md.match(/^---([\s\S]*?)---\s*/);
-  const fmBlock = fmMatch ? fmMatch[1] : "";
-  const body = md.replace(/^---[\s\S]*?---\s*/, "").trim();
-
-  const fm = {};
-  fmBlock
-    .split("\n")
-    .map((l) => l.trim())
-    .filter(Boolean)
-    .forEach((line) => {
-      const idx = line.indexOf(":");
-      if (idx === -1) return;
-      const key = line.slice(0, idx).trim();
-      let value = line.slice(idx + 1).trim();
-      value = value.replace(/^"(.*)"$/, "$1");
-      fm[key] = value;
-    });
-
-  return { frontmatter: fm, body };
-}
-
-const posts = Object.entries(rawModules)
-  .map(([path, raw]) => {
-    const { frontmatter, body } = parseFrontMatter(raw);
-    const slug = path.split("/").pop().replace(".md", "");
-    return {
-      title: frontmatter.title || "(제목 없음)",
-      date: frontmatter.date || "",
-      thumbnail: frontmatter.thumbnail || "",
-      body,
-      slug,
-    };
-  })
-  .sort((a, b) => new Date(b.date) - new Date(a.date));
-
-export default function NewsStories() {
+export default function StoriesPage() {
   return (
-    <div className="max-w-screen-xl mx-auto px-4 py-12">
-      {/* 브레드크럼 */}
-      <p className="text-sm text-gray-500 mb-2">소식 &gt; 동행이야기</p>
-      <h1 className="text-3xl md:text-4xl font-extrabold mb-8">동행이야기</h1>
-
-      {!posts.length ? (
-        <p className="text-gray-500">아직 등록된 글이 없습니다.</p>
+    <div className="max-w-5xl mx-auto px-4 py-12">
+      <h1 className="text-3xl font-bold mb-6">동행이야기</h1>
+      {posts.length === 0 ? (
+        <p className="text-gray-500">등록된 글이 없습니다.</p>
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <ul className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {posts.map((p) => (
-            <article
+            <li
               key={p.slug}
-              className="rounded-xl border bg-white shadow-sm overflow-hidden"
+              className="border rounded-xl overflow-hidden bg-white"
             >
-              {p.thumbnail ? (
+              {p.thumbnail && (
                 <img
                   src={p.thumbnail}
-                  alt={p.title}
-                  className="w-full h-44 object-cover"
+                  alt=""
+                  className="w-full h-40 object-cover"
                 />
-              ) : null}
+              )}
               <div className="p-4">
                 <time className="text-xs text-gray-500">
-                  {p.date?.slice(0, 10)}
+                  {p.date.toLocaleDateString()}
                 </time>
-                <h3 className="mt-1 font-semibold line-clamp-2">{p.title}</h3>
-                <p className="mt-2 text-sm text-gray-600 line-clamp-3">
-                  {p.body.replace(/\n+/g, " ").slice(0, 120)}
-                  {p.body.length > 120 ? "…" : ""}
-                </p>
+                <h3 className="font-semibold mt-1">{p.title}</h3>
                 <Link
-                  to={`/news/stories/${p.slug}`}
-                  className="mt-3 inline-block text-sky-700 text-sm"
+                  to={`/news/stories/${encodeURIComponent(p.slug)}`}
+                  className="text-sky-600 text-sm mt-2 inline-block"
                 >
                   자세히 보기 →
                 </Link>
               </div>
-            </article>
+            </li>
           ))}
-        </div>
+        </ul>
       )}
     </div>
+  );
+}
+
+export function StoryDetail() {
+  const { slug } = useParams();
+  const post = posts.find((p) => p.slug === slug);
+  if (!post)
+    return (
+      <div className="max-w-3xl mx-auto px-4 py-12">글을 찾을 수 없습니다.</div>
+    );
+  return (
+    <article className="max-w-3xl mx-auto px-4 py-12 prose">
+      <h1>{post.title}</h1>
+      <time className="text-sm text-gray-500 block mb-6">
+        {post.date.toLocaleString()}
+      </time>
+      {post.thumbnail && (
+        <img src={post.thumbnail} alt="" className="rounded-lg mb-6" />
+      )}
+      <pre style={{ whiteSpace: "pre-wrap" }}>{post.content}</pre>
+    </article>
   );
 }
