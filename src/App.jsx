@@ -15,6 +15,8 @@ import NewsStories from "./pages/news/Stories";
 import NewsNotices from "./pages/news/Notices";
 import NewsNewsletter from "./pages/news/Newsletter";
 import StoryDetail from "./pages/news/StoryDetail"; // 파일명/경로 꼭 확인!
+import NoticeDetail from "./pages/news/NoticeDetail";
+
 
 /* 사업 */
 import BizOverview from "./pages/business/Overview";
@@ -59,7 +61,9 @@ export default function App() {
           <Route path="/news/stories" element={<NewsStories />} />
           <Route path="/news/stories/:slug" element={<StoryDetail />} />
           <Route path="/news/notices" element={<NewsNotices />} />
+          <Route path="/news/notices/:slug" element={<NoticeDetail />} />
           <Route path="/news/newsletter" element={<NewsNewsletter />} />
+
 
           {/* 사업 */}
           <Route path="/business/overview" element={<BizOverview />} />

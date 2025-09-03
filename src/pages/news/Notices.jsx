@@ -1,68 +1,62 @@
 // src/pages/news/Notices.jsx
-function parseFrontMatter(raw) {
-  const m = raw.match(/^---\n([\s\S]*?)\n---\n([\s\S]*)$/);
-  if (!m) return { data: {}, body: raw };
-  const yaml = Object.fromEntries(
-    m[1]
-      .split("\n")
-      .filter(Boolean)
-      .map((line) => {
-        const idx = line.indexOf(":");
-        const k = line.slice(0, idx).trim();
-        const v = line
-          .slice(idx + 1)
-          .trim()
-          .replace(/^"|"$/g, "");
-        return [k, v];
-      })
-  );
-  return { data: yaml, body: m[2].trim() };
-}
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import matter from "gray-matter";
 
-export default function Notices() {
-  // notices 폴더만 읽음 (필요하면 news도 포함 가능)
-  const modules = import.meta.glob("../../content/notices/*.md", {
-    eager: true,
-    as: "raw",
-  });
+// /src/content/notices/*.md 를 읽어 목록으로 렌더
+export default function NewsNotices() {
+  const [items, setItems] = useState([]);
 
-  const items = Object.entries(modules)
-    .map(([path, raw]) => {
-      const { data } = parseFrontMatter(raw);
-      return {
-        path,
-        title: data.title ?? "제목 없음",
-        date: data.date ?? "",
-        thumbnail: data.thumbnail ?? "",
-      };
-    })
-    .sort((a, b) => (a.date < b.date ? 1 : -1));
+  useEffect(() => {
+    (async () => {
+      const modules = import.meta.glob("/src/content/notices/*.md", {
+        as: "raw",
+      });
+      const entries = await Promise.all(
+        Object.entries(modules).map(async ([path, loader]) => {
+          const raw = await loader();
+          const { data } = matter(raw);
+          const slug = path.split("/").pop().replace(/\.md$/, ""); // 파일명=slug
+          return { slug, ...data };
+        })
+      );
+      entries.sort((a, b) => new Date(b.date) - new Date(a.date));
+      setItems(entries);
+    })();
+  }, []);
 
   return (
-    <div className="max-w-4xl mx-auto px-4 py-12">
-      <h1 className="text-3xl font-bold mb-6">공지/공모</h1>
+    <div className="max-w-screen-lg mx-auto px-4 py-10">
+      <h1 className="text-3xl font-extrabold mb-8">공지/공모</h1>
+
       {items.length === 0 ? (
         <p className="text-gray-500">공지/공모 글 목록이 표시됩니다.</p>
       ) : (
         <ul className="space-y-4">
-          {items.map((it) => (
-            <li
-              key={it.path}
-              className="border rounded-lg p-4 flex items-center gap-4"
-            >
-              {it.thumbnail ? (
-                <img
-                  src={it.thumbnail}
-                  alt=""
-                  className="w-20 h-20 object-cover rounded-md"
-                />
-              ) : (
-                <div className="w-20 h-20 bg-gray-100 rounded-md" />
-              )}
-              <div>
-                <h3 className="font-semibold">{it.title}</h3>
-                <p className="text-sm text-gray-500">{it.date?.slice(0, 10)}</p>
-              </div>
+          {items.map((n) => (
+            <li key={n.slug}>
+              <Link
+                to={`/news/notices/${n.slug}`}
+                className="block rounded-xl border p-4 hover:bg-gray-50"
+              >
+                <div className="flex items-center gap-4">
+                  {n.thumbnail && (
+                    <img
+                      src={n.thumbnail}
+                      alt=""
+                      className="w-16 h-16 object-cover rounded-lg"
+                    />
+                  )}
+                  <div>
+                    <h3 className="font-semibold">{n.title}</h3>
+                    {n.date && (
+                      <p className="text-sm text-gray-500 mt-1">
+                        {new Date(n.date).toISOString().slice(0, 10)}
+                      </p>
+                    )}
+                  </div>
+                </div>
+              </Link>
             </li>
           ))}
         </ul>
