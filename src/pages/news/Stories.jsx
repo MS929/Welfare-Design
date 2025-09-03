@@ -1,70 +1,77 @@
-// src/pages/news/Stories.jsx
 import { Link } from "react-router-dom";
 
-function parseFrontMatter(raw) {
-  const m = raw.match(/^---\n([\s\S]*?)\n---\n([\s\S]*)$/);
-  if (!m) return { data: {}, body: raw };
-  const yaml = Object.fromEntries(
-    m[1]
-      .split("\n")
-      .filter(Boolean)
-      .map((line) => {
-        const idx = line.indexOf(":");
-        const k = line.slice(0, idx).trim();
-        const v = line
-          .slice(idx + 1)
-          .trim()
-          .replace(/^"|"$/g, "");
-        return [k, v];
-      })
-  );
-  return { data: yaml, body: m[2].trim() };
+// Vite가 빌드타임에 src/content/stories/*.md 를 모두 가져오게 함
+const files = import.meta.glob("../../content/stories/*.md", {
+  eager: true,
+  as: "raw",
+});
+
+function parseFrontmatter(raw) {
+  // --- frontmatter --- + 본문 분리 (아주 단순 파서)
+  const m = /^---\n([\s\S]*?)\n---\n([\s\S]*)$/m.exec(raw);
+  if (!m) return { data: {}, content: raw };
+  const yaml = m[1];
+  const content = m[2];
+  const data = {};
+  yaml.split("\n").forEach((line) => {
+    const idx = line.indexOf(":");
+    if (idx > -1) {
+      const k = line.slice(0, idx).trim();
+      let v = line.slice(idx + 1).trim();
+      v = v.replace(/^"(.*)"$/, "$1").replace(/^'(.*)'$/, "$1");
+      data[k] = v;
+    }
+  });
+  return { data, content };
 }
 
-export default function Stories() {
-  // stories 우선, news도 함께 읽는 임시 호환
-  const modules = import.meta.glob("../../content/{stories,news}/*.md", {
-    eager: true,
-    as: "raw",
-  });
-
-  const items = Object.entries(modules)
+function buildPosts() {
+  return Object.entries(files)
     .map(([path, raw]) => {
-      const { data } = parseFrontMatter(raw);
+      const { data } = parseFrontmatter(raw);
+      // slug는 파일명(확장자 제외)
+      const slug = path.split("/").pop().replace(/\.md$/, "");
       return {
-        path,
-        title: data.title ?? "제목 없음",
-        date: data.date ?? "",
-        thumbnail: data.thumbnail ?? "",
+        slug,
+        title: data.title || "제목 없음",
+        date: data.date || "",
+        thumbnail: data.thumbnail || "/uploads/placeholder.jpg",
       };
     })
     .sort((a, b) => (a.date < b.date ? 1 : -1));
+}
+
+export default function Stories() {
+  const posts = buildPosts();
 
   return (
-    <div className="max-w-4xl mx-auto px-4 py-12">
-      <h1 className="text-3xl font-bold mb-6">동행이야기</h1>
-      {items.length === 0 ? (
+    <div className="max-w-5xl mx-auto px-4 py-12">
+      <h1 className="text-3xl md:text-4xl font-extrabold mb-8">동행이야기</h1>
+
+      {posts.length === 0 ? (
         <p className="text-gray-500">스토리/블로그 글 목록이 표시됩니다.</p>
       ) : (
         <ul className="space-y-4">
-          {items.map((it) => (
-            <li
-              key={it.path}
-              className="border rounded-lg p-4 flex items-center gap-4"
-            >
-              {it.thumbnail ? (
+          {posts.map((p) => (
+            <li key={p.slug}>
+              <Link
+                to={`/news/stories/${p.slug}`}
+                className="flex items-center gap-4 rounded-xl border p-4 hover:bg-gray-50"
+              >
                 <img
-                  src={it.thumbnail}
+                  src={p.thumbnail}
                   alt=""
-                  className="w-20 h-20 object-cover rounded-md"
+                  className="w-20 h-20 rounded-lg object-cover"
                 />
-              ) : (
-                <div className="w-20 h-20 bg-gray-100 rounded-md" />
-              )}
-              <div>
-                <h3 className="font-semibold">{it.title}</h3>
-                <p className="text-sm text-gray-500">{it.date?.slice(0, 10)}</p>
-              </div>
+                <div>
+                  <div className="font-semibold">{p.title}</div>
+                  {p.date && (
+                    <div className="text-sm text-gray-500">
+                      {p.date.slice(0, 10)}
+                    </div>
+                  )}
+                </div>
+              </Link>
             </li>
           ))}
         </ul>
