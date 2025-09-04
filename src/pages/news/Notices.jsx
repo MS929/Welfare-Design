@@ -82,7 +82,10 @@ export default function Notices() {
 
             <div className="mt-3">
               <div className="text-sm text-gray-500">
-                {post.category} · {post.date?.slice(0, 10)}
+                {post.category} ·{" "}
+                {post.date
+                  ? new Date(post.date).toISOString().slice(0, 10)
+                  : ""}
               </div>
               <h2 className="mt-1 font-semibold text-lg line-clamp-2">
                 {post.title}
