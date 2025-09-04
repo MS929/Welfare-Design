@@ -10,10 +10,7 @@ export default function NewsNotices() {
     (async () => {
       try {
         // ✅ Vite에서 안전한 절대경로 글로빙
-        const modules = import.meta.glob("/src/content/notices/*.md", {
-          query: "?raw",
-          import: "default",
-        });
+        const modules = import.meta.glob('/src/content/notices/*.md', { query: '?raw', import: 'default' })
 
         const entries = await Promise.all(
           Object.entries(modules).map(async ([path, loader]) => {

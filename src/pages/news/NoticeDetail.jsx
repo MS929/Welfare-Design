@@ -12,10 +12,7 @@ export default function NoticeDetail() {
   useEffect(() => {
     (async () => {
       try {
-        const modules = import.meta.glob("/src/content/notices/*.md", {
-          query: "?raw",
-          import: "default",
-        });
+        const modules = import.meta.glob('/src/content/notices/*.md', { query: '?raw', import: 'default' })
         const fileKey = Object.keys(modules).find((p) =>
           p.endsWith(`${slug}.md`)
         );
