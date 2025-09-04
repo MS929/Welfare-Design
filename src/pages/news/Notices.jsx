@@ -70,14 +70,17 @@ export default function Notices() {
             className="block rounded-2xl border p-5 hover:shadow-md transition"
           >
             <div className="w-full aspect-[16/9] overflow-hidden rounded-xl bg-gray-100">
+              {/* 썸네일 */}
               {post.thumbnail ? (
                 <img
                   src={post.thumbnail}
-                  alt=""
-                  className="w-full h-full object-cover"
+                  alt={post.title}
                   loading="lazy"
+                  className="w-full h-56 md:h-64 lg:h-72 object-cover rounded-t-xl"
                 />
-              ) : null}
+              ) : (
+                <div className="w-full h-56 md:h-64 lg:h-72 bg-gray-100 rounded-t-xl" />
+              )}
             </div>
 
             <div className="mt-3">

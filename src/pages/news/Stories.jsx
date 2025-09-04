@@ -31,14 +31,12 @@ function StoryCard({ item }) {
       to={`/news/stories/${item.slug}`}
       className="group block overflow-hidden rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition-shadow bg-white"
     >
-      {item.thumbnail ? (
-        <img
-          src={item.thumbnail}
-          alt=""
-          className="aspect-[16/11] w-full object-cover group-hover:scale-[1.01] transition-transform"
-        />
-      ) : (
-        <div className="aspect-[16/11] w-full bg-gray-100" />
+        {item.thumbnail && (
+          <img
+            src={item.thumbnail}
+            alt=""
+            className="mt-6 w-full max-h-[520px] object-contain rounded-xl"
+          />
       )}
 
       <div className="p-4 sm:p-5">
