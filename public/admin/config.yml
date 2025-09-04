@@ -36,4 +36,9 @@ collections:
       - { label: "제목", name: "title", widget: "string" }
       - { label: "작성일", name: "date", widget: "datetime", format: "YYYY-MM-DDTHH:mm:ssZ" }
       - { label: "대표 이미지(선택)", name: "thumbnail", widget: "image", choose_url: true, required: false }
+      - label: "카테고리"              # ✅ 추가
+        name: "category"
+        widget: "select"
+        options: ["공지", "공모"]
+        default: "공지"
       - { label: "본문", name: "body", widget: "markdown" }
