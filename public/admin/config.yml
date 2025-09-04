@@ -1,5 +1,5 @@
 backend:
-  name: git_gateway
+  name: git-gateway   # ← 하이픈!
   branch: main
 
 publish_mode: editorial_workflow
