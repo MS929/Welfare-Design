@@ -6,7 +6,7 @@ import ReactMarkdown from "react-markdown";
 
 export default function StoryDetail() {
   const { slug: rawSlug } = useParams();
-  const slug = decodeURIComponent(rawSlug); // ← 디코딩
+  const slug = decodeURIComponent(rawSlug || ""); // ← 디코딩
   const nav = useNavigate();
   const [post, setPost] = useState(null);
   const [notFound, setNotFound] = useState(false);
@@ -14,25 +14,35 @@ export default function StoryDetail() {
   useEffect(() => {
     (async () => {
       try {
-        const modules = import.meta.glob("/src/content/stories/*.md", {
+        // ✅ 최신 Vite 옵션 사용
+        const abs = import.meta.glob("/src/content/stories/*.md", {
+          query: "?raw",
+          import: "default",
+        });
+        const rel = import.meta.glob("./../../content/stories/*.md", {
           query: "?raw",
           import: "default",
         });
 
-        const targetKey = Object.keys(modules).find((p) =>
-          p.endsWith(`${slug}.md`)
-        );
+        // 키 후보를 전부 모아 slug와 끝이 일치하는 파일을 찾음
+        const all = { ...abs, ...rel };
+        const keys = Object.keys(all);
+
+        let targetKey =
+          keys.find((p) => p.endsWith(`${slug}.md`)) ||
+          // 혹시 인코딩 차이로 실패하면 다시 한번 비교
+          keys.find((p) => decodeURIComponent(p).endsWith(`${slug}.md`));
 
         if (!targetKey) {
           setNotFound(true);
           return;
         }
 
-        const raw = await modules[targetKey]();
+        const raw = await all[targetKey]();
         const { data, content } = matter(raw);
         setPost({ ...data, content });
       } catch (e) {
-        console.error(e);
+        console.error("[StoryDetail] load error:", e);
         setNotFound(true);
       }
     })();
