@@ -1,16 +1,12 @@
+# public/admin/config.yml
 backend:
-  name: git-gateway   # ← 하이픈!
+  name: git_gateway
   branch: main
 
-publish_mode: editorial_workflow
+publish_mode: simple    # ← 여기!
 
 media_folder: "public/uploads"
 public_folder: "/uploads"
-
-slug:
-  encoding: "unicode"
-  clean_accents: true
-  sanitize_replacement: "-"
 
 collections:
   - name: "stories"
