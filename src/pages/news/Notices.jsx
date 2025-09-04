@@ -1,102 +1,156 @@
 // src/pages/news/Notices.jsx
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import matter from "gray-matter";
 
+// Vite 최신 권장: as:'raw' 대신 query:'?raw'
+const modules = import.meta.glob("/src/content/notices/*.md", {
+  query: "?raw",
+  import: "default",
+});
+
+function normalizeDate(v) {
+  try {
+    // ISO, YYYY-MM-DD 모두 대응
+    const d = new Date(v);
+    if (!isNaN(d.getTime())) return d;
+  } catch (_) {}
+  return null;
+}
+
 export default function Notices() {
-  const [posts, setPosts] = useState([]);
-  const [filter, setFilter] = useState("전체");
+  const [items, setItems] = useState([]);
+  const [tab, setTab] = useState("전체"); // 전체 | 공지 | 공모
+  const [q, setQ] = useState("");
 
   useEffect(() => {
     (async () => {
-      const modules = import.meta.glob("/src/content/notices/*.md", {
-        query: "?raw",
-        import: "default",
-      });
       const entries = await Promise.all(
         Object.entries(modules).map(async ([path, loader]) => {
           const raw = await loader();
-          const { data } = matter(raw);
-          // 파일명으로 slug 생성
+          const { data, content } = matter(raw);
+
+          // /src/content/notices/2025-09-03-foo.md -> 2025-09-03-foo
           const slug = path.split("/").pop().replace(/\.md$/, "");
+
           return {
             slug,
             title: data.title ?? "",
             date: data.date ?? "",
-            category: data.category ?? "공지",
-            thumbnail: data.thumbnail ?? "", // ✅ 키 이름 'thumbnail'
+            dateObj: normalizeDate(data.date),
+            thumbnail: data.thumbnail ?? "",
+            category: data.category ?? "공지", // 기본값
+            excerpt:
+              content
+                .replace(/\n+/g, " ")
+                .replace(/!\[[^\]]*\]\([^)]+\)/g, "") // 마크다운 이미지 제거
+                .slice(0, 120) + (content.length > 120 ? "…" : ""),
           };
         })
       );
+
       // 최신순 정렬
-      entries.sort((a, b) => (a.date < b.date ? 1 : -1));
-      setPosts(entries);
+      entries.sort((a, b) => {
+        const ta = a.dateObj ? a.dateObj.getTime() : 0;
+        const tb = b.dateObj ? b.dateObj.getTime() : 0;
+        return tb - ta;
+      });
+
+      setItems(entries);
     })();
   }, []);
 
-  const filtered = posts.filter((p) =>
-    filter === "전체" ? true : p.category === filter
-  );
+  const filtered = useMemo(() => {
+    return items.filter((it) => {
+      const byTab = tab === "전체" ? true : it.category === tab;
+      const query = q.trim().toLowerCase();
+      const byQ =
+        query === ""
+          ? true
+          : (it.title ?? "").toLowerCase().includes(query) ||
+            (it.excerpt ?? "").toLowerCase().includes(query);
+      return byTab && byQ;
+    });
+  }, [items, tab, q]);
 
   return (
-    <div className="max-w-screen-lg mx-auto px-4 py-10">
+    <div className="max-w-screen-xl mx-auto px-4 py-10">
       <h1 className="text-3xl font-extrabold mb-6">공지/공모</h1>
 
-      {/* 필터 */}
-      <div className="flex gap-3 mb-6">
-        {["전체", "공지", "공모"].map((cat) => (
+      {/* 필터 + 검색 */}
+      <div className="flex flex-wrap items-center gap-3 mb-6">
+        {["전체", "공지", "공모"].map((t) => (
           <button
-            key={cat}
-            onClick={() => setFilter(cat)}
-            className={`px-3 py-1 rounded-full border ${
-              filter === cat ? "bg-black text-white" : "bg-white"
+            key={t}
+            onClick={() => setTab(t)}
+            className={`px-4 py-2 rounded-full border ${
+              tab === t
+                ? "bg-black text-white border-black"
+                : "bg-white text-gray-700 hover:bg-gray-50"
             }`}
           >
-            {cat}
+            {t}
           </button>
         ))}
+
+        <div className="ml-auto w-full sm:w-72">
+          <input
+            value={q}
+            onChange={(e) => setQ(e.target.value)}
+            placeholder="Search"
+            className="w-full rounded-full border px-4 py-2 outline-none focus:ring-2 focus:ring-sky-300"
+          />
+        </div>
       </div>
 
-      {/* 목록 */}
-      <div className="grid gap-6">
-        {filtered.length === 0 && (
-          <p className="text-gray-500">등록된 글이 없습니다.</p>
-        )}
-
-        {filtered.map((post) => (
-          <Link
-            key={post.slug}
-            to={`/news/notices/${post.slug}`}
-            className="block rounded-2xl border p-5 hover:shadow-md transition"
-          >
-            <div className="w-full aspect-[16/9] overflow-hidden rounded-xl bg-gray-100">
-              {/* 썸네일 */}
-              {post.thumbnail ? (
+      {/* 카드 그리드 */}
+      {filtered.length === 0 ? (
+        <p className="text-gray-500">등록된 글이 없습니다.</p>
+      ) : (
+        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
+          {filtered.map((it) => (
+            <Link
+              key={it.slug}
+              to={`/news/notices/${encodeURIComponent(it.slug)}`}
+              className="group block rounded-xl border overflow-hidden shadow-sm hover:shadow-md transition"
+            >
+              {/* 썸네일: 고정 높이 + object-cover (Stories와 동일 톤) */}
+              {it.thumbnail ? (
                 <img
-                  src={post.thumbnail}
-                  alt={post.title}
+                  src={it.thumbnail}
+                  alt={it.title}
+                  className="w-full h-48 object-cover"
                   loading="lazy"
-                  className="w-full h-56 md:h-64 lg:h-72 object-cover rounded-t-xl"
                 />
               ) : (
-                <div className="w-full h-56 md:h-64 lg:h-72 bg-gray-100 rounded-t-xl" />
+                <div className="w-full h-48 bg-gray-100" />
               )}
-            </div>
 
-            <div className="mt-3">
-              <div className="text-sm text-gray-500">
-                {post.category} ·{" "}
-                {post.date
-                  ? new Date(post.date).toISOString().slice(0, 10)
-                  : ""}
+              <div className="p-4">
+                {/* 카테고리 배지 */}
+                <span className="inline-flex items-center rounded-full bg-emerald-50 text-emerald-700 text-xs font-semibold px-2 py-1">
+                  {it.category}
+                </span>
+
+                <h3 className="mt-2 text-lg font-semibold group-hover:underline">
+                  {it.title || "제목 없음"}
+                </h3>
+
+                <p className="text-sm text-gray-500 mt-1">
+                  {(it.dateObj && it.dateObj.toISOString().slice(0, 10)) ||
+                    it.date ||
+                    ""}
+                </p>
+
+                {/* 간단 요약 (2줄) */}
+                <p className="mt-2 text-sm text-gray-700 overflow-hidden text-ellipsis line-clamp-2">
+                  {it.excerpt}
+                </p>
               </div>
-              <h2 className="mt-1 font-semibold text-lg line-clamp-2">
-                {post.title}
-              </h2>
-            </div>
-          </Link>
-        ))}
-      </div>
+            </Link>
+          ))}
+        </div>
+      )}
     </div>
   );
 }
