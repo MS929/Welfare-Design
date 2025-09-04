@@ -1,9 +1,9 @@
 # public/admin/config.yml
 backend:
-  name: git_gateway
+  name: git-gateway
   branch: main
 
-publish_mode: simple    # ← 여기!
+publish_mode: simple
 
 media_folder: "public/uploads"
 public_folder: "/uploads"

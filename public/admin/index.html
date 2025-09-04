@@ -2,13 +2,26 @@
 <html lang="ko">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Admin</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>CMS</title>
+
+    <!-- Netlify Identity (초대/비번 재설정 등) -->
+    <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+
+    <!-- Decap CMS core v3 -->
+    <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
+
+    <!-- Netlify(= git-gateway) 백엔드 플러그인 v3 -->
+    <script src="https://unpkg.com/decap-cms-backend-netlify@^3.0.0/dist/standalone.js"></script>
   </head>
   <body>
-    <!-- Netlify Identity (Invite 수락/로그인 위젯) -->
-    <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
-    <!-- Decap CMS -->
-    <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
+    <script>
+      // (선택) 자동 로그인 버튼 등 필요시 identity 위젯 사용
+      if (window.netlifyIdentity) {
+        netlifyIdentity.on("init", user => {
+          if (!user) netlifyIdentity.on("login", () => document.location.reload());
+        });
+      }
+    </script>
   </body>
 </html>
