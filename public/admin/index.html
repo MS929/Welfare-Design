@@ -4,24 +4,20 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <title>CMS</title>
-
-    <!-- Netlify Identity (초대/비번 재설정 등) -->
-    <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
-
-    <!-- Decap CMS core v3 -->
-    <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
-
-    <!-- Netlify(= git-gateway) 백엔드 플러그인 v3 -->
-    <script src="https://unpkg.com/decap-cms-backend-netlify@^3.0.0/dist/standalone.js"></script>
   </head>
   <body>
-    <script>
-      // (선택) 자동 로그인 버튼 등 필요시 identity 위젯 사용
-      if (window.netlifyIdentity) {
-        netlifyIdentity.on("init", user => {
-          if (!user) netlifyIdentity.on("login", () => document.location.reload());
-        });
-      }
-    </script>
+    <!-- ✅ Decap가 여기에 렌더링한다 -->
+    <div id="nc-root"></div>
+
+    <!-- (선택) Netlify Identity 위젯 -->
+    <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+
+    <!-- ✅ Decap CMS v3 core -->
+    <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
+
+    <!-- ✅ Netlify(= git-gateway) 백엔드 플러그인 -->
+    <script src="https://unpkg.com/decap-cms-backend-netlify@^3.0.0/dist/standalone.js"></script>
+
+    <!-- 자동 초기화가 기본값이라 따로 CMS.init()는 보통 필요 없음 -->
   </body>
 </html>
