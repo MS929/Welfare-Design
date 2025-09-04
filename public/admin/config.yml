@@ -1,34 +1,40 @@
+# public/admin/config.yml  (전체 교체)
+
 backend:
   name: git-gateway
   branch: main
 
-media_folder: "public/uploads"
-public_folder: "/uploads"
+publish_mode: editorial_workflow
 
-locale: "ko"
+media_folder: "public/uploads"   # 저장되는 실제 경로
+public_folder: "/uploads"        # 사이트에서 접근하는 경로
+
+slug:
+  encoding: "unicode"
+  clean_accents: true
+  sanitize_replacement: "-"
 
 collections:
-  # 동행이야기 (Stories)
   - name: "stories"
     label: "동행이야기"
     folder: "src/content/stories"
     create: true
+    format: "frontmatter"
     slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
     fields:
       - { label: "제목", name: "title", widget: "string" }
       - { label: "작성일", name: "date", widget: "datetime", format: "YYYY-MM-DDTHH:mm:ssZ" }
-      - { label: "대표 이미지", name: "thumbnail", widget: "image", required: false }
+      - { label: "대표 이미지(선택)", name: "thumbnail", widget: "image", choose_url: true, required: false }
       - { label: "본문", name: "body", widget: "markdown" }
 
-# 공지/공모 (Notices)
-collections:
   - name: "notices"
     label: "공지/공모"
     folder: "src/content/notices"
     create: true
+    format: "frontmatter"
     slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
     fields:
       - { label: "제목", name: "title", widget: "string" }
-      - { label: "작성일", name: "date", widget: "datetime" }
-      - { label: "대표 이미지", name: "thumbnail", widget: "image", required: false }
+      - { label: "작성일", name: "date", widget: "datetime", format: "YYYY-MM-DDTHH:mm:ssZ" }
+      - { label: "대표 이미지(선택)", name: "thumbnail", widget: "image", choose_url: true, required: false }
       - { label: "본문", name: "body", widget: "markdown" }
