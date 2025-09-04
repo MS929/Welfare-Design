@@ -1,13 +1,11 @@
-# public/admin/config.yml  (전체 교체)
-
 backend:
   name: git-gateway
   branch: main
 
 publish_mode: editorial_workflow
 
-media_folder: "public/uploads"   # 저장되는 실제 경로
-public_folder: "/uploads"        # 사이트에서 접근하는 경로
+media_folder: "public/uploads"   # 파일 실제 저장 경로
+public_folder: "/uploads"        # 사이트에서 접근 경로
 
 slug:
   encoding: "unicode"
