@@ -11,7 +11,8 @@ export default function NewsNotices() {
       try {
         // ✅ Vite에서 안전한 절대경로 글로빙
         const modules = import.meta.glob("/src/content/notices/*.md", {
-          as: "raw",
+          query: "?raw",
+          import: "default",
         });
 
         const entries = await Promise.all(

@@ -13,7 +13,8 @@ export default function NoticeDetail() {
     (async () => {
       try {
         const modules = import.meta.glob("/src/content/notices/*.md", {
-          as: "raw",
+          query: "?raw",
+          import: "default",
         });
         const fileKey = Object.keys(modules).find((p) =>
           p.endsWith(`${slug}.md`)
