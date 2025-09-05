@@ -39,26 +39,32 @@ export default function AboutHistory() {
             <section key={year} className="relative mb-16">
               {/* 왼쪽 연도 배지 */}
               <div className="flex items-center gap-6">
-                <div className="shrink-0">
-                  <div className="w-16 h-16 md:w-20 md:h-20 rounded-full bg-[var(--accent)] text-white flex items-center justify-center text-xl md:text-2xl font-extrabold shadow-md">
+                <div className="relative shrink-0">
+                  {/* glow */}
+                  <div
+                    className="absolute -inset-2 rounded-full bg-[var(--accent)] opacity-25 blur-md"
+                    aria-hidden="true"
+                  />
+                  <div className="relative w-16 h-16 md:w-20 md:h-20 rounded-full bg-[var(--accent)] text-white flex items-center justify-center text-xl md:text-2xl font-extrabold ring-4 ring-white shadow-xl">
                     {year}
                   </div>
                 </div>
 
                 {/* 세로 라인 + 카드들 */}
                 <div className="relative flex-1">
-                  <div className="absolute left-3 md:left-4 top-0 bottom-0 border-l-2 border-[var(--accent-soft)]" />
+                  <div className="absolute left-3 md:left-4 top-0 bottom-0 border-l-2 border-dashed border-[var(--accent)]/20" />
                   <div className="space-y-8 ml-12 md:ml-20 lg:ml-28">
                     {byYear[year].map((item, i) => (
-                      <article
-                        key={i}
-                        className="bg-white border rounded-xl shadow-sm p-5 md:p-6 hover:shadow-md transition-shadow"
-                      >
-                        <time className="inline-block px-3 py-1 text-xs font-semibold text-[var(--accent)] bg-[var(--accent-soft)] rounded-full">
-                          {item.ym}
-                        </time>
-                        <p className="mt-3 text-gray-800">{item.event}</p>
-                      </article>
+                      <div key={i} className="relative">
+                        {/* node dot on the line */}
+                        <span className="absolute -left-3 md:-left-4 top-6 w-3 h-3 md:w-3.5 md:h-3.5 rounded-full bg-[var(--accent)] ring-4 ring-white" />
+                        <article className="bg-white border rounded-xl shadow-sm p-5 md:p-6 hover:shadow-md transition-shadow">
+                          <time className="inline-block px-3 py-1 text-xs font-semibold text-[var(--accent)] bg-[var(--accent-soft)] rounded-full">
+                            {item.ym}
+                          </time>
+                          <p className="mt-3 text-gray-800">{item.event}</p>
+                        </article>
+                      </div>
                     ))}
                   </div>
                 </div>
