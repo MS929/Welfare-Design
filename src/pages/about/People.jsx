@@ -138,13 +138,13 @@ function OrgChart() {
             {/* 고정 가로선 */}
             <div className="absolute top-1/2 left-0 right-0 -translate-y-1/2 h-px bg-gray-300" />
             {/* 감사 박스: 선 길이에 영향 없이 위치만 조정 */}
-            <div className="absolute top-1/2 -translate-y-1/2 right-16">
+            <div className="absolute top-1/2 -translate-y-1/2 right-2">
               <Node label="감사" small />
             </div>
           </div>
           {/* 중앙: 트렁크 접점 */}
           <div className="justify-self-center">
-            <VLine h={5} />
+            <VLine h={7} />
           </div>
           <div />
         </div>
