@@ -69,7 +69,7 @@ function OrgChart() {
           <Node label="이사장" />
 
           {/* 1차 분기: 이사장 아래 수평선 → (왼쪽: 감사, 중앙: 사무국) */}
-          <div className="relative w-full" style={{ height: 120 }}>
+          <div className="relative w-full" style={{ height: 140 }}>
             {/* 가로 분기선 */}
             <div
               className="absolute left-0 right-0 bg-gray-300"
@@ -93,11 +93,11 @@ function OrgChart() {
             {/* 감사 (왼쪽) */}
             <div
               className="absolute bg-gray-300"
-              style={{ left: "30%", top: 40, width: 1, height: 20 }}
+              style={{ left: "18%", top: 40, width: 1, height: 20 }}
             />
             <div
               className="absolute"
-              style={{ left: "30%", top: 68, transform: "translateX(-50%)" }}
+              style={{ left: "18%", top: 68, transform: "translateX(-50%)" }}
             >
               <Node label="감사" />
             </div>
