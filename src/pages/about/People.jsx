@@ -144,12 +144,12 @@ function OrgChart() {
         {/* 감사(좌) + trunk connector */}
         <div className="relative w-full mt-3">
           {/* 감사 박스를 약간 오른쪽으로 이동 */}
-          <div className="absolute left-28 top-0">
+          <div className="absolute left-36 top-0">
             <Node label="감사" small />
           </div>
           {/* 감사 → 중앙 세로 트렁크로 수평 연결 (컨테이너 중앙까지) */}
           <div
-            className="absolute top-1/2 left-28 -translate-y-1/2 h-px bg-gray-300"
+            className="absolute top-1/2 left-36 -translate-y-1/2 h-px bg-gray-300"
             style={{ right: "50%" }}
           />
           {/* 중앙 세로 트렁크를 조금 더 내려 연결 */}
@@ -164,18 +164,18 @@ function OrgChart() {
         {/* 선만 길게: 가로선은 컨테이너 전체, 세로선은 3등분 위치에 길게 드롭 */}
         <div className="w-full mt-2">
           {/* 세로를 조금 더 내려서 카드 상단까지 닿게 */}
-          <VLine h={16} />
+          <VLine h={20} />
           <div className="h-px w-full bg-gray-300" />
           {/* 카드 그리드와 동일한 3등분 위치에 세로선 길게 */}
           <div className="grid grid-cols-3">
             <div className="flex justify-center">
-              <VLine h={28} />
+              <VLine h={32} />
             </div>
             <div className="flex justify-center">
-              <VLine h={28} />
+              <VLine h={32} />
             </div>
             <div className="flex justify-center">
-              <VLine h={28} />
+              <VLine h={32} />
             </div>
           </div>
         </div>
