@@ -104,12 +104,11 @@ function OrgChart({ platforms = [] }) {
         <div className="relative w-full flex justify-center">
           <Node label="이사장" />
           {/* 이사장에서 좌측/하향으로 갈라지는 라인 */}
-          <div className="absolute left-1/2 top-full -translate-x-1/2">
-            {/* 아래로 */}
-            <div className="w-px h-5 bg-gray-300 mx-auto" />
-            {/* 좌측으로 (감사 방향) */}
-            <div className="relative">
-              <div className="h-px w-40 bg-gray-300 -ml-40" />
+          <div className="absolute left-1/2 top-full -translate-x-1/2 flex flex-col items-center">
+            {/* 아래로 길게 */}
+            <div className="w-px h-16 bg-gray-300 mx-auto" />
+            {/* 가로 분기 */}
+            <div className="relative w-40 h-px bg-gray-300">
               {/* 좌측 끝에서 위로 살짝 */}
               <div className="absolute left-0 -top-5 w-px h-5 bg-gray-300" />
             </div>
@@ -120,16 +119,17 @@ function OrgChart({ platforms = [] }) {
         <div className="grid grid-cols-3 items-start w-full mt-3">
           {/* 감사(좌측 정렬) */}
           <div className="flex justify-start">
-            <Node label="감사" small />
+            <div className="flex flex-col items-center">
+              <VLine h={23} />
+              <Node label="감사" small />
+            </div>
           </div>
           {/* 중앙 사무국 */}
-          <div className="flex justify-center">
-            <VLine h={8} />
+          <div className="flex justify-center flex-col items-center">
+            <VLine h={38} />
+            <Node label="사무국" />
           </div>
           <div />
-        </div>
-        <div className="flex justify-center w-full">
-          <Node label="사무국" />
         </div>
 
         {/* 사무국 밑 가로 라인 (플랫폼 3개로 분기 + 카드 연결) */}
@@ -142,7 +142,7 @@ function OrgChart({ platforms = [] }) {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-start mt-0">
             {[0, 1, 2].map((i) => (
               <div key={i} className="flex flex-col items-center">
-                <VLine h={18} />
+                <VLine h={28} />
                 {platforms[i] && <PlatformCard {...platforms[i]} />}
               </div>
             ))}
