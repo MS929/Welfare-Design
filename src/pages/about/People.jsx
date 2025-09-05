@@ -157,7 +157,7 @@ function CrossAuditor() {
         <VLine h={10} />
       </div>
       {/* 감사 박스: 선 위에 올려두되, 선은 그대로 유지 */}
-      <div className="absolute left-[22%] top-1/2 -translate-y-1/2">
+      <div className="absolute left-[35%] top-1/2 -translate-y-1/2">
         <Node label="감사" small />
       </div>
     </div>
