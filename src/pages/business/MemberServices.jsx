@@ -2,7 +2,7 @@
 import BizLayout from "./_Layout";
 import BusinessHero from "./_BusinessHero";
 
-export default function MemberServices() {
+export default function MemberServices() {      // 6. 조합원을 지원하는 서비스
   return (
     <BizLayout title="조합원 지원 서비스">
       <BusinessHero

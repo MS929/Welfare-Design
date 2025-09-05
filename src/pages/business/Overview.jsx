@@ -2,7 +2,7 @@
 import { Link } from "react-router-dom";
 import BizLayout from "./_Layout";
 
-export default function BizOverview() {
+export default function BizOverview() {     // 0. 사업영역
   // 운영 중인 6개 사업 카드
   const programs = [
     {
