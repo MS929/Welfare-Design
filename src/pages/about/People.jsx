@@ -141,16 +141,21 @@ function OrgChart() {
           </div>
         </div>
 
-        {/* 감사(좌) + 사무국(중앙) */}
-        <div className="grid grid-cols-3 items-start w-full mt-3 relative">
-          <div className="flex justify-start ml-12 relative">
+        {/* 감사(좌) + trunk connector */}
+        <div className="relative w-full mt-3">
+          {/* 감사 박스를 약간 오른쪽으로 이동 */}
+          <div className="absolute left-28 top-0">
             <Node label="감사" small />
-            <div className="absolute top-1/2 left-1/2 w-1/2 h-px bg-gray-300 -translate-y-1/2 -translate-x-full" />
           </div>
+          {/* 감사 → 중앙 세로 트렁크로 수평 연결 (컨테이너 중앙까지) */}
+          <div
+            className="absolute top-1/2 left-28 -translate-y-1/2 h-px bg-gray-300"
+            style={{ right: "50%" }}
+          />
+          {/* 중앙 세로 트렁크를 조금 더 내려 연결 */}
           <div className="flex justify-center">
             <VLine h={8} />
           </div>
-          <div />
         </div>
         <div className="flex justify-center w-full">
           <Node label="사무국" />
