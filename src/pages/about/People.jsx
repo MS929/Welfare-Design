@@ -131,23 +131,22 @@ function OrgChart() {
         <CrossAuditor />
 
         {/* 사무국 (트렁크가 끊기지 않도록 바로 이어짐) */}
-        <VLine h={10} />
+        <VLine h={40} />
         <Node label="사무국" />
 
         {/* 하단 분기: 3플랫폼 위치까지 하강 및 가로선/세로선 */}
-        <VLine h={24} />
-        <div className="grid w-full grid-cols-3">
-          <div className="flex justify-center relative">
-            <div className="absolute top-0 h-px bg-gray-300 w-1/3"></div>
-            <VLine h={36} />
-          </div>
-          <div className="flex justify-center relative">
-            <div className="absolute top-0 h-px bg-gray-300 w-1/3 left-1/3"></div>
-            <VLine h={36} />
-          </div>
-          <div className="flex justify-center relative">
-            <div className="absolute top-0 h-px bg-gray-300 w-1/3 right-0"></div>
-            <VLine h={36} />
+        <div className="relative w-full">
+          <div className="absolute top-0 left-0 w-full h-px bg-gray-300"></div>
+          <div className="grid w-full grid-cols-3">
+            <div className="flex justify-center relative">
+              <VLine h={36} />
+            </div>
+            <div className="flex justify-center relative">
+              <VLine h={36} />
+            </div>
+            <div className="flex justify-center relative">
+              <VLine h={36} />
+            </div>
           </div>
         </div>
       </div>
