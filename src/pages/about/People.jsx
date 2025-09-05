@@ -60,17 +60,7 @@ export default function AboutPeople() {
 
       {/* ===== 조직도 캔버스 ===== */}
       <section className="max-w-screen-xl mx-auto px-4 py-10">
-        <OrgChart />
-      </section>
-
-      {/* ===== 하단 3 플랫폼 카드 ===== */}
-      <section className="max-w-screen-xl mx-auto px-4 pb-14">
-        <h2 className="text-xl font-bold mb-5">플랫폼별 주요 역할</h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {platforms.map((p) => (
-            <PlatformCard key={p.title} {...p} />
-          ))}
-        </div>
+        <OrgChart platforms={platforms} />
       </section>
 
       {/* ===== 역할 표 ===== */}
@@ -101,7 +91,7 @@ export default function AboutPeople() {
 
 /* ================= 조직도 ================= */
 
-function OrgChart() {
+function OrgChart({ platforms = [] }) {
   return (
     <div className="relative mx-auto w-full max-w-4xl">
       {/* 세로 축 (총회-이사회-이사장) */}
@@ -142,21 +132,20 @@ function OrgChart() {
           <Node label="사무국" />
         </div>
 
-        {/* 사무국 밑 가로 라인 (플랫폼 3개로 분기) */}
-        <div className="w-full max-w-3xl mt-2">
-          <VLine h={10} />
+        {/* 사무국 밑 가로 라인 (플랫폼 3개로 분기 + 카드 연결) */}
+        <div className="w-full max-w-3xl mt-2 mx-auto">
+          {/* 아래로 한 번 더 */}
+          <VLine h={12} />
+          {/* 가로 분기 */}
           <div className="h-px w-full bg-gray-300" />
-          {/* 세 갈래 내려가는 세로 라인 */}
-          <div className="grid grid-cols-3">
-            <div className="flex justify-center">
-              <VLine h={12} />
-            </div>
-            <div className="flex justify-center">
-              <VLine h={12} />
-            </div>
-            <div className="flex justify-center">
-              <VLine h={12} />
-            </div>
+          {/* 세 갈래 + 카드 연결 */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-start mt-0">
+            {[0, 1, 2].map((i) => (
+              <div key={i} className="flex flex-col items-center">
+                <VLine h={18} />
+                {platforms[i] && <PlatformCard {...platforms[i]} />}
+              </div>
+            ))}
           </div>
         </div>
       </div>
