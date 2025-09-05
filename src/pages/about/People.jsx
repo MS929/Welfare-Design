@@ -21,7 +21,38 @@ export default function AboutPeople() {
   );
 }
 
-/* =============== 조직도 =============== */
+/* ===================== 데이터 ===================== */
+const platformDetails = {
+  left: {
+    title: "복지연결플랫폼",
+    items: [
+      "보조기기 및 복지용구 기증·수리·재분배 시스템 구축",
+      "전동휠체어 이용자 대상 보험 지원 서비스",
+      "복지정보 제공 및 복지 신청 지원 서비스",
+      "지역사회 복지 연계·제고 및 통합 프로그램 운영",
+    ],
+  },
+  center: {
+    title: "복지디자인연구소",
+    items: [
+      "취약계층 서비스 연구 및 개발",
+      "복지 인력 및 주민 대상 교육·콘텐츠 기획·운영",
+      "복지 관련 출판물 제작·배포",
+      "복지모델 컨설팅",
+    ],
+  },
+  right: {
+    title: "협력운영플랫폼",
+    items: [
+      "조합원과 직원에 대한 상담·교육",
+      "육·훈련 및 정보제공 사업",
+      "조합 간 협력을 위한 사업",
+      "조합 홍보 및 지역사회룰 위한 사업",
+    ],
+  },
+};
+
+/* ===================== 조직도 ===================== */
 function OrgChart() {
   return (
     <div className="relative mx-auto w-full max-w-5xl">
@@ -54,7 +85,7 @@ function OrgChart() {
           {/* 감사(왼쪽) */}
           <div
             className="absolute -translate-x-1/2 w-px bg-gray-300"
-            style={{ left: "14%", top: 88, height: 56 }}
+            style={{ left: "18%", top: 88, height: 56 }}
           />
           {/* 사무국(중앙) */}
           <div
@@ -76,7 +107,7 @@ function OrgChart() {
           />
         </div>
 
-        {/* 감사 / 사무국 노드 (버스라인 아래에 배치) */}
+        {/* 감사 / 사무국 노드 */}
         <div className="grid grid-cols-3 items-start w-full pt-[168px]">
           <div className="flex justify-start pl-6">
             <Node label="감사" small />
@@ -87,24 +118,43 @@ function OrgChart() {
           <div />
         </div>
 
-        {/* 플랫폼 3개 노드 (버스라인에서 3갈래로 연결된 박스) */}
-        <div className="grid grid-cols-3 gap-6 w-full mt-8">
-          <div className="flex justify-center">
-            <Node label="복지연결플랫폼" wide />
-          </div>
-          <div className="flex justify-center">
-            <Node label="복지디자인연구소" wide />
-          </div>
-          <div className="flex justify-center">
-            <Node label="협력운영플랫폼" wide />
-          </div>
+        {/* 플랫폼 3개 노드 (선 연결 완료) */}
+        <div className="grid grid-cols-3 gap-8 w-full mt-8">
+          <PlatformNode pos="left" data={platformDetails.left} />
+          <PlatformNode pos="center" data={platformDetails.center} />
+          <PlatformNode pos="right" data={platformDetails.right} />
         </div>
       </div>
     </div>
   );
 }
 
-/* =============== UI 부품 =============== */
+/* ===================== 부품 ===================== */
+function PlatformNode({ pos, data }) {
+  return (
+    <div className="flex flex-col items-center">
+      <Node label={data.title} wide />
+
+      {/* 접는 상세(내용 보존) */}
+      <details className="w-full max-w-md mt-3 group">
+        <summary className="cursor-pointer select-none text-sm text-gray-600 hover:text-gray-900 flex items-center">
+          <span className="inline-block mr-2 transition-transform group-open:rotate-90">
+            ▶
+          </span>
+          역할 보기
+        </summary>
+        <div className="mt-2 rounded-lg border bg-white p-4 shadow-sm">
+          <ul className="list-disc pl-5 text-sm leading-6 text-gray-700">
+            {data.items.map((t, i) => (
+              <li key={i}>{t}</li>
+            ))}
+          </ul>
+        </div>
+      </details>
+    </div>
+  );
+}
+
 function Node({ label, small = false, wide = false }) {
   return (
     <div
