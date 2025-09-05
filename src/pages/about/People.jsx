@@ -102,36 +102,30 @@ export default function AboutPeople() {
 
 function OrgChart() {
   return (
-    <div className="relative mx-auto w-full max-w-4xl">
-      {/* 세로 축 (총회-이사회-이사장) */}
+    // 카드 섹션과 너비를 정확히 맞추기 위해 max-w-screen-xl 사용
+    <div className="relative mx-auto w-full max-w-screen-xl">
       <div className="flex flex-col items-center">
         <Node label="조합원총회" />
         <VLine h={22} />
         <Node label="이사회" />
         <VLine h={22} />
-        {/* 이사장 + 분기 라인 */}
+
         <div className="relative w-full flex justify-center">
           <Node label="이사장" />
-          {/* 이사장에서 좌측/하향으로 갈라지는 라인 */}
           <div className="absolute left-1/2 top-full -translate-x-1/2">
-            {/* 아래로 */}
             <div className="w-px h-5 bg-gray-300 mx-auto" />
-            {/* 좌측으로 (감사 방향) */}
             <div className="relative">
               <div className="h-px w-40 bg-gray-300 -ml-40" />
-              {/* 좌측 끝에서 위로 살짝 */}
               <div className="absolute left-0 -top-5 w-px h-5 bg-gray-300" />
             </div>
           </div>
         </div>
 
-        {/* 감사 (좌측) + 사무국(중앙) */}
+        {/* 감사(좌) + 사무국(중앙) */}
         <div className="grid grid-cols-3 items-start w-full mt-3">
-          {/* 감사(좌측 정렬) */}
           <div className="flex justify-start">
             <Node label="감사" small />
           </div>
-          {/* 중앙 사무국 */}
           <div className="flex justify-center">
             <VLine h={8} />
           </div>
@@ -141,64 +135,25 @@ function OrgChart() {
           <Node label="사무국" />
         </div>
 
-        {/* 사무국 밑 가로 라인 (플랫폼 3개로 분기) */}
-        <div className="w-full max-w-3xl mt-2">
-          <VLine h={10} />
+        {/* 선만 길게: 가로선은 컨테이너 전체, 세로선은 3등분 위치에 길게 드롭 */}
+        <div className="w-full mt-2">
+          {/* 세로를 조금 더 내려서 카드 상단까지 닿게 */}
+          <VLine h={16} />
           <div className="h-px w-full bg-gray-300" />
-          {/* 세 갈래 내려가는 세로 라인 */}
+          {/* 카드 그리드와 동일한 3등분 위치에 세로선 길게 */}
           <div className="grid grid-cols-3">
             <div className="flex justify-center">
-              <VLine h={12} />
+              <VLine h={28} />
             </div>
             <div className="flex justify-center">
-              <VLine h={12} />
+              <VLine h={28} />
             </div>
             <div className="flex justify-center">
-              <VLine h={12} />
+              <VLine h={28} />
             </div>
           </div>
         </div>
       </div>
     </div>
   );
-}
-
-/* ================= 작은 부품 ================= */
-
-function Node({ label, small = false }) {
-  return (
-    <div
-      className={[
-        "rounded-lg border bg-white shadow-sm ring-1 ring-gray-200",
-        "px-4",
-        small ? "py-1 text-sm" : "py-2",
-        "min-w-[140px] text-center font-medium",
-      ].join(" ")}
-    >
-      {label}
-    </div>
-  );
-}
-function VLine({ h = 16 }) {
-  return <div style={{ height: h }} className="w-px bg-gray-300 mx-auto" />;
-}
-function PlatformCard({ title, items, color, ring }) {
-  return (
-    <div
-      className={`rounded-2xl border p-5 bg-gradient-to-b ${color} ring-1 ${ring}`}
-    >
-      <h3 className="font-semibold text-lg">{title}</h3>
-      <ul className="mt-3 space-y-2 text-gray-700 list-disc pl-5">
-        {items.map((t, i) => (
-          <li key={i}>{t}</li>
-        ))}
-      </ul>
-    </div>
-  );
-}
-function Th({ children }) {
-  return <th className="px-4 py-3 text-sm font-medium border-b">{children}</th>;
-}
-function Td({ children, className = "" }) {
-  return <td className={`px-4 py-3 text-sm ${className}`}>{children}</td>;
 }
