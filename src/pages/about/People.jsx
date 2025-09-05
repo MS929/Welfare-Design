@@ -58,7 +58,7 @@ export default function AboutPeople() {
 function OrgChart() {
   return (
     <div className="mx-auto w-full max-w-5xl">
-      {/* 3열 그리드: [왼쪽(감사/복지연결플랫폼)] [중앙(수직축/사무국/연구소)] [오른쪽(협력운영플랫폼)] */}
+      {/* 1열 중앙 수직축: 조합원총회, 이사회, 이사장, 감사, 사무국 */}
       <div className="grid grid-cols-3 gap-x-10 justify-items-center">
         {/* ---------- 중앙 수직축 ---------- */}
         <div className="col-start-2 w-full flex flex-col items-center">
@@ -67,6 +67,10 @@ function OrgChart() {
           <Node label="이사회" />
           <VLine h={24} />
           <Node label="이사장" />
+          <VLine h={24} />
+          <Node label="감사" small />
+          <VLine h={24} />
+          <Node label="사무국" />
         </div>
 
         {/* ---------- 가로 기준선(모든 칸을 정확히 잇기) ---------- */}
@@ -74,11 +78,6 @@ function OrgChart() {
           {/* 중앙 세로선이 기준선에 정확히 닿도록 */}
           <div className="absolute left-1/2 -translate-x-1/2">
             <VLine h={28} />
-          </div>
-
-          {/* 왼쪽(감사) 연결선 */}
-          <div className="absolute left-[16.66%] -translate-x-1/2">
-            <VLine h={16} />
           </div>
 
           {/* 기준 가로선 자체 */}
@@ -100,15 +99,6 @@ function OrgChart() {
             <VLine h={28} direction="down" />
           </div>
         </div>
-
-        {/* ---------- 감사(왼쪽), 사무국(중앙) ---------- */}
-        <div className="col-start-1 w-full flex justify-center">
-          <Node label="감사" small />
-        </div>
-        <div className="col-start-2 w-full flex justify-center">
-          <Node label="사무국" />
-        </div>
-        <div className="col-start-3" />
 
         {/* ---------- 하단 3 플랫폼 카드(정확히 3분할 정렬) ---------- */}
         <PlatformCard
