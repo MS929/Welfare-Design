@@ -126,15 +126,9 @@ function OrgChart() {
         <Node label="이사회" />
         <VLine h={22} />
 
-        <div className="relative w-full flex justify-center">
+        <div className="flex flex-col items-center w-full">
           <Node label="이사장" />
-          <div className="absolute left-1/2 top-full -translate-x-1/2">
-            <div className="w-px h-5 bg-gray-300 mx-auto" />
-            <div className="relative">
-              <div className="h-px w-40 bg-gray-300 -ml-40" />
-              <div className="absolute left-0 -top-5 w-px h-5 bg-gray-300" />
-            </div>
-          </div>
+          <VLine h={10} />
         </div>
 
         {/* 감사(좌) — 박스는 고정, 선만 늘려서 중앙 트렁크에 정확히 연결 */}
