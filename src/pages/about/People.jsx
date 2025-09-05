@@ -17,6 +17,31 @@ export default function AboutPeople() {
       <section className="max-w-screen-xl mx-auto px-4 py-10">
         <OrgChart />
       </section>
+
+      {/* 플랫폼별 주요 역할 (복구) */}
+      <section className="max-w-screen-xl mx-auto px-4 pb-16">
+        <h2 className="text-xl font-bold mb-6">플랫폼별 주요 역할</h2>
+        <div className="grid gap-6 md:grid-cols-3">
+          <Card title="복지연결플랫폼" badge="Platform">
+            <Li>보조기기 및 복지용구 기증·수리·재분배 시스템 구축</Li>
+            <Li>전동휠체어 이용자 대상 보험 지원 서비스</Li>
+            <Li>복지정보 제공 및 복지 신청 지원 서비스</Li>
+            <Li>지역사회 복지 연계·제고 및 통합 프로그램 운영</Li>
+          </Card>
+          <Card title="복지디자인연구소" badge="Lab">
+            <Li>취약계층 서비스 연구 및 개발</Li>
+            <Li>복지 인력 및 주민 대상 교육·콘텐츠 기획·운영</Li>
+            <Li>복지 관련 출판물 제작·배포</Li>
+            <Li>복지모델 컨설팅</Li>
+          </Card>
+          <Card title="협력운영플랫폼" badge="Ops">
+            <Li>조합원과 직원에 대한 상담·교육</Li>
+            <Li>육·훈련 및 정보제공 사업</Li>
+            <Li>조합 간 협력을 위한 사업</Li>
+            <Li>조합 홍보 및 지역사회와의 협력</Li>
+          </Card>
+        </div>
+      </section>
     </div>
   );
 }
@@ -38,25 +63,30 @@ function OrgChart() {
             <Node label="이사장" />
           </div>
 
-          {/* 이사장 아래로 수직선 */}
+          {/* 이사장 아래 수직선 */}
           <div
-            className="absolute left-1/2 top-[64px] -translate-x-1/2 w-px bg-gray-300"
-            style={{ height: 24 }}
+            className="absolute left-1/2 -translate-x-1/2 w-px bg-gray-300"
+            style={{ top: 64, height: 24 }}
           />
 
-          {/* 이사장 아래 가로 라인(감사/사무국으로 분기되는 메인 버스라인) */}
-          <div className="absolute left-0 right-0 top-[88px] h-px bg-gray-300" />
+          {/* 메인 가로 버스라인 */}
+          <div
+            className="absolute left-0 right-0"
+            style={{ top: 88, height: 1 }}
+          >
+            <div className="h-px w-full bg-gray-300" />
+          </div>
 
-          {/* 가로 라인과 각 노드를 연결하는 수직선들 */}
+          {/* 버스라인에서 노드로 내려가는 수직선들 */}
           {/* 감사(좌측) */}
           <div
-            className="absolute left-[12%] top-[88px] -translate-x-1/2 w-px bg-gray-300"
-            style={{ height: 24 }}
+            className="absolute -translate-x-1/2 w-px bg-gray-300"
+            style={{ left: "12%", top: 88, height: 24 }}
           />
           {/* 사무국(중앙) */}
           <div
-            className="absolute left-1/2 top-[88px] -translate-x-1/2 w-px bg-gray-300"
-            style={{ height: 24 }}
+            className="absolute left-1/2 -translate-x-1/2 w-px bg-gray-300"
+            style={{ top: 88, height: 24 }}
           />
         </div>
 
@@ -75,7 +105,7 @@ function OrgChart() {
   );
 }
 
-/* =============== UI 작은 부품 =============== */
+/* =============== UI 부품 =============== */
 function Node({ label, small = false }) {
   return (
     <div
@@ -92,4 +122,25 @@ function Node({ label, small = false }) {
 }
 function VLine({ h = 16 }) {
   return <div style={{ height: h }} className="w-px bg-gray-300 mx-auto" />;
+}
+
+function Card({ title, children, badge }) {
+  return (
+    <div className="rounded-2xl border bg-white p-5 shadow-sm">
+      <div className="mb-2 flex items-center gap-2">
+        <h3 className="text-lg font-semibold">{title}</h3>
+        {badge ? (
+          <span className="rounded-full border px-2 py-0.5 text-xs text-gray-600">
+            {badge}
+          </span>
+        ) : null}
+      </div>
+      <ul className="list-disc pl-5 space-y-1 text-sm text-gray-700">
+        {children}
+      </ul>
+    </div>
+  );
+}
+function Li({ children }) {
+  return <li>{children}</li>;
 }
