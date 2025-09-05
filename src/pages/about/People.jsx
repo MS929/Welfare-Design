@@ -118,65 +118,52 @@ function PlatformCard({ title, items, color, ring }) {
 
 function OrgChart() {
   return (
-    // 카드 섹션과 너비를 정확히 맞추기 위해 max-w-screen-xl 사용
     <div className="relative mx-auto w-full max-w-screen-xl">
       <div className="flex flex-col items-center">
+        {/* 중앙 트렁크: 총회 → 이사회 → 이사장 */}
         <Node label="조합원총회" />
         <VLine h={22} />
         <Node label="이사회" />
         <VLine h={22} />
+        <Node label="이사장" />
 
-        <div className="flex flex-col items-center w-full">
-          <Node label="이사장" />
-          <VLine h={12} />
-        </div>
+        {/* 감사 교차부: 가로선은 전체, 중앙에 세로 연결점 포함 */}
+        <CrossAuditor />
 
-        {/* 감사(좌) — 박스는 고정, 선만 늘려서 중앙 트렁크에 정확히 연결 */}
-        <div className="w-full grid grid-cols-[22%_0px_1fr] items-center">
-          {/* 좌측: 선은 고정, 박스만 오른쪽으로 이동 */}
-          <div className="relative w-[360px] h-9 justify-self-end">
-            {/* 고정 가로선 */}
-            <div className="absolute top-1/2 left-0 right-0 -translate-y-1/2 h-px bg-gray-300" />
-            {/* 감사 박스: 선 길이에 영향 없이 위치만 조정 */}
-            <div className="absolute top-1/2 -translate-y-1/2 right-0">
-              <Node label="감사" small />
-            </div>
-          </div>
-          {/* 중앙: 트렁크 접점 */}
-          <div className="justify-self-center">
-            <VLine h={8} />
-          </div>
-          <div />
-        </div>
+        {/* 사무국 (트렁크가 끊기지 않도록 바로 이어짐) */}
+        <VLine h={10} />
+        <Node label="사무국" />
 
-        {/* 사무국: 추가 세그먼트 없이 바로 붙도록 살짝 당김 */}
-        <div className="flex justify-center w-full mt-1">
-          <Node label="사무국" />
-        </div>
-
-        {/* 선만 길게: 가로선은 컨테이너 전체, 세로선은 3등분 위치에 길게 드롭 */}
-        <div className="w-full mt-2">
-          {/* 세로를 조금 더 내려서 카드 상단까지 닿게 */}
-          <VLine h={24} />
-          <div className="h-px w-full bg-gray-300" />
-          {/* 카드 그리드와 동일한 3등분 위치에 세로선 길게 */}
-          <div className="grid grid-cols-3">
-            <div className="flex justify-center">
-              <VLine h={36} />
-            </div>
-            <div className="flex justify-center">
-              <VLine h={36} />
-            </div>
-            <div className="flex justify-center">
-              <VLine h={36} />
-            </div>
-          </div>
+        {/* 하단 분기: 3플랫폼 위치까지 하강 및 가로선/세로선 */}
+        <VLine h={24} />
+        <div className="h-px w-full bg-gray-300" />
+        <div className="grid w-full grid-cols-3">
+          <div className="flex justify-center"><VLine h={36} /></div>
+          <div className="flex justify-center"><VLine h={36} /></div>
+          <div className="flex justify-center"><VLine h={36} /></div>
         </div>
       </div>
     </div>
   );
 }
-// ===== helpers =====
+// 가운데 트렁크에 정확히 접속하는 감사 교차부
+function CrossAuditor() {
+  return (
+    <div className="relative w-full h-10">
+      {/* 중앙 트렁크와 교차하는 가로 라인 (끊김 없음) */}
+      <div className="absolute inset-x-0 top-1/2 -translate-y-1/2 h-px bg-gray-300" />
+      {/* 중앙 트렁크와의 접점 세로선 (작게) */}
+      <div className="absolute left-1/2 top-0 -translate-x-1/2">
+        <VLine h={10} />
+      </div>
+      {/* 감사 박스: 선 위에 올려두되, 선은 그대로 유지 */}
+      <div className="absolute left-[22%] top-1/2 -translate-y-1/2">
+        <Node label="감사" small />
+      </div>
+    </div>
+  );
+}
+
 function VLine({ h = 8 }) {
   return (
     <div
