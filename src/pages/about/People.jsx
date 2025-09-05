@@ -148,16 +148,24 @@ function OrgChart() {
 }
 // 가운데 트렁크에 정확히 접속하는 감사 교차부
 function CrossAuditor() {
+  // left spur length from the center to the 감사 node
+  const spur = 280; // px
   return (
     <div className="relative w-full h-10">
-      {/* 중앙 트렁크와 교차하는 가로 라인 (끊김 없음) */}
-      <div className="absolute inset-x-0 top-1/2 -translate-y-1/2 h-px bg-gray-300" />
-      {/* 중앙 트렁크와의 접점 세로선 (작게) */}
+      {/* central joint to keep the trunk visually continuous */}
       <div className="absolute left-1/2 top-0 -translate-x-1/2">
         <VLine h={10} />
       </div>
-      {/* 감사 박스: 선 위에 올려두되, 선은 그대로 유지 */}
-      <div className="absolute left-[35%] top-1/2 -translate-y-1/2">
+      {/* SHORT horizontal line only from the trunk to the 감사 box (left side) */}
+      <div
+        className="absolute top-1/2 -translate-y-1/2 h-px bg-gray-300"
+        style={{ left: `calc(50% - ${spur}px)`, width: `${spur}px` }}
+      />
+      {/* 감사 node placed exactly at the end of the spur */}
+      <div
+        className="absolute top-1/2 -translate-y-1/2"
+        style={{ left: `calc(50% - ${spur}px)` }}
+      >
         <Node label="감사" small />
       </div>
     </div>
