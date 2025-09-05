@@ -58,72 +58,50 @@ export default function AboutPeople() {
 function OrgChart() {
   return (
     <div className="mx-auto w-full max-w-5xl">
-      {/* 중앙축: 조합원총회 → 이사회 → 이사장 */}
+      {/* 전체 그리드: 위는 중앙축, 아래는 카드 3열 */}
       <div className="grid grid-cols-3 gap-x-10 justify-items-center">
-        {/* ---------- 중앙 수직축 ---------- */}
+        {/* ---------- 중앙 수직축 (조합원총회 → 이사회 → 이사장) ---------- */}
         <div className="col-start-2 w-full flex flex-col items-center">
           <Node label="조합원총회" />
-          <VLine h={24} />
+          <VLine h={26} />
           <Node label="이사회" />
-          <VLine h={24} />
+          <VLine h={26} />
           <Node label="이사장" />
 
-          {/* 1차 분기: 이사장 아래 수평선 → (왼쪽: 감사, 중앙: 사무국) */}
+          {/* ─ Crossbar 아래: 왼쪽=감사, 중앙=사무국 */}
           <div className="relative w-full" style={{ height: 140 }}>
-            {/* 가로 분기선 */}
-            <div
-              className="absolute left-0 right-0 bg-gray-300"
-              style={{ top: 40, height: 1 }}
-            />
+            {/* 가로 크로스바 */}
+            <div className="absolute left-0 right-0 top-36 h-px bg-gray-300" />
 
-            {/* 중앙(사무국) 세로 연결선 */}
-            <div
-              className="absolute left-1/2 -translate-x-1/2 bg-gray-300"
-              style={{ top: 40, width: 1, height: 40 }}
-            />
-
-            {/* 사무국 노드 (중앙) */}
-            <div
-              className="absolute left-1/2 -translate-x-1/2"
-              style={{ top: 88 }}
-            >
+            {/* 중앙(사무국) 수직선 */}
+            <div className="absolute left-1/2 -translate-x-1/2 top-36 w-px bg-gray-300" style={{ height: 54 }} />
+            {/* 사무국 노드 - 중앙 */}
+            <div className="absolute left-1/2 -translate-x-1/2" style={{ top: 36 + 54 }}>
               <Node label="사무국" />
             </div>
 
-            {/* 감사 (왼쪽) */}
-            <div
-              className="absolute bg-gray-300"
-              style={{ left: "18%", top: 40, width: 1, height: 20 }}
-            />
-            <div
-              className="absolute"
-              style={{ left: "18%", top: 68, transform: "translateX(-50%)" }}
-            >
+            {/* 감사 분기: 크로스바의 왼쪽 지점에서 아래로 */}
+            <div className="absolute top-36 w-px bg-gray-300" style={{ left: "18%", height: 28 }} />
+            <div className="absolute" style={{ left: "18%", top: 36 + 28, transform: "translateX(-50%)" }}>
               <Node label="감사" />
             </div>
           </div>
 
-          {/* 사무국에서 2차 기준선까지 수직 연결 (겹침 방지 여유) */}
-          <div className="relative w-full" style={{ height: 16 }}>
+          {/* 사무국에서 아래 기준선까지 긴 수직선 */}
+          <div className="relative w-full" style={{ height: 64 }}>
             <div className="absolute left-1/2 -translate-x-1/2 top-0 w-px h-full bg-gray-300" />
           </div>
         </div>
 
-        {/* ---------- 2차 기준선: 사무국에서 아래로 이어서 플랫폼 3가닥 ---------- */}
+        {/* ---------- 기준선 & 3가닥 (플랫폼 정렬선) ---------- */}
         <div className="col-span-3 w-full relative mb-6">
           {/* 가로 기준선 */}
           <div className="h-px w-full bg-gray-300" />
 
-          {/* 플랫폼 3가닥 세로선: 1/6, 1/2, 5/6 위치 (사무국 중심 정렬) */}
-          <div className="absolute left-[16.666%] -translate-x-1/2 top-0">
-            <VLine h={28} />
-          </div>
-          <div className="absolute left-1/2 -translate-x-1/2 top-0">
-            <VLine h={28} />
-          </div>
-          <div className="absolute left-[83.333%] -translate-x-1/2 top-0">
-            <VLine h={28} />
-          </div>
+          {/* 세로 스템: 1/6, 1/2, 5/6 */}
+          <div className="absolute left-[16.666%] -translate-x-1/2 top-0"><VLine h={28} /></div>
+          <div className="absolute left-1/2 -translate-x-1/2 top-0"><VLine h={28} /></div>
+          <div className="absolute left-[83.333%] -translate-x-1/2 top-0"><VLine h={28} /></div>
         </div>
 
         {/* ---------- 하단 3 플랫폼 카드 ---------- */}
@@ -171,7 +149,7 @@ function Node({ label, small = false }) {
         "rounded-lg border bg-white shadow-sm ring-1 ring-gray-200",
         "px-4",
         small ? "py-1 text-sm" : "py-2",
-        "min-w-[140px] text-center font-medium",
+        "min-w-[160px] text-center font-medium",
       ].join(" ")}
     >
       {label}
