@@ -52,10 +52,6 @@ export default function AboutPeople() {
         <h1 className="mt-3 text-3xl md:text-4xl font-extrabold tracking-tight">
           함께하는 사람들
         </h1>
-        <p className="mt-2 text-gray-600">
-          원본 도식(총회→이사회→이사장, 좌측 감사 분기, 중앙 사무국, 하단
-          3플랫폼)을 반응형으로 정리했습니다.
-        </p>
       </header>
 
       {/* ===== 조직도 캔버스 ===== */}
@@ -141,22 +137,23 @@ function OrgChart() {
           </div>
         </div>
 
-        {/* 감사(좌) + trunk connector */}
-        <div className="relative w-full mt-3">
-          {/* 감사 박스를 약간 오른쪽으로 이동 */}
-          <div className="absolute left-36 top-0">
+        {/* 감사(좌) — 박스는 고정, 선만 늘려서 중앙 트렁크에 정확히 연결 */}
+        <div className="w-full mt-3 grid grid-cols-[1fr,0px,1fr] items-center">
+          {/* 좌측: 감사 + 중앙으로 뻗는 수평선 */}
+          <div className="flex items-center justify-end gap-3">
             <Node label="감사" small />
+            {/* 감사 오른쪽에서 중앙 트렁크까지 자동으로 늘어나는 선 */}
+            <div className="h-px bg-gray-300 flex-1 min-w-[72px]" />
           </div>
-          {/* 감사 → 중앙 세로 트렁크로 수평 연결 (컨테이너 중앙까지) */}
-          <div
-            className="absolute top-1/2 left-36 -translate-y-1/2 h-px bg-gray-300"
-            style={{ right: "50%" }}
-          />
-          {/* 중앙 세로 트렁크를 조금 더 내려 연결 */}
-          <div className="flex justify-center">
+          {/* 중앙: 트렁크 접점(짧은 수직선) */}
+          <div className="justify-self-center">
             <VLine h={8} />
           </div>
+          {/* 우측은 비움 */}
+          <div />
         </div>
+
+        <VLine h={8} />
         <div className="flex justify-center w-full">
           <Node label="사무국" />
         </div>
@@ -164,18 +161,18 @@ function OrgChart() {
         {/* 선만 길게: 가로선은 컨테이너 전체, 세로선은 3등분 위치에 길게 드롭 */}
         <div className="w-full mt-2">
           {/* 세로를 조금 더 내려서 카드 상단까지 닿게 */}
-          <VLine h={20} />
+          <VLine h={24} />
           <div className="h-px w-full bg-gray-300" />
           {/* 카드 그리드와 동일한 3등분 위치에 세로선 길게 */}
           <div className="grid grid-cols-3">
             <div className="flex justify-center">
-              <VLine h={32} />
+              <VLine h={36} />
             </div>
             <div className="flex justify-center">
-              <VLine h={32} />
+              <VLine h={36} />
             </div>
             <div className="flex justify-center">
-              <VLine h={32} />
+              <VLine h={36} />
             </div>
           </div>
         </div>
