@@ -136,7 +136,8 @@ function OrgChart() {
 
         {/* 하단 분기: 3플랫폼 위치까지 하강 및 가로선/세로선 */}
         <VLine h={24} />
-        <div className="h-px w-full bg-gray-300" />
+        {/* Horizontal connector trimmed to span only between the left/right platform columns */}
+        <div className="h-px w-2/3 mx-auto bg-gray-300" />
         <div className="grid w-full grid-cols-3">
           <div className="flex justify-center"><VLine h={36} /></div>
           <div className="flex justify-center"><VLine h={36} /></div>
