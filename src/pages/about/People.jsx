@@ -70,31 +70,31 @@ function OrgChart() {
           <VLine h={24} />
 
           {/* 1차 분기: 이사장 → (감사, 사무국) */}
-          <div className="relative w-full" style={{ height: 60 }}>
+          <div className="relative w-full" style={{ height: 76 }}>
             {/* 가로 분기선 */}
             <div className="absolute left-0 right-0 top-1/2 -translate-y-1/2 h-px bg-gray-300" />
 
-            {/* 감사(왼쪽) — 기준: 전체의 35% 지점 */}
-            <div className="absolute left-[35%] top-1/2 -translate-x-1/2 -translate-y-1/2 w-px h-6 bg-gray-300" />
-            <div className="absolute left-[35%] top-full mt-2 -translate-x-1/2">
+            {/* 감사(왼쪽) — 전체의 35% 지점 */}
+            <div className="absolute left-[35%] top-1/2 -translate-x-1/2 -translate-y-1/2 w-px h-8 bg-gray-300" />
+            <div className="absolute left-[35%] top-full mt-3 -translate-x-1/2">
               <Node label="감사" />
             </div>
 
-            {/* 사무국(정중앙) — 이후 3가닥 분기의 기준점이 됨 */}
-            <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-px h-6 bg-gray-300" />
-            <div className="absolute left-1/2 top-full mt-2 -translate-x-1/2">
+            {/* 사무국(정중앙) */}
+            <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-px h-8 bg-gray-300" />
+            <div className="absolute left-1/2 top-full mt-3 -translate-x-1/2">
               <Node label="사무국" />
             </div>
+          </div>
+
+          {/* 사무국에서 아래 기준선까지 수직 연결 (겹침 방지용 여유 공간) */}
+          <div className="relative h-8 w-full">
+            <div className="absolute left-1/2 -translate-x-1/2 top-0 w-px h-full bg-gray-300" />
           </div>
         </div>
 
         {/* ---------- 2차 기준선: 사무국에서 아래로 이어서 플랫폼 3가닥 ---------- */}
-        <div className="col-span-3 w-full relative mt-20 mb-6">
-          {/* 사무국 중앙(50%)에서 아래로 내려오는 세로선 */}
-          <div className="absolute left-1/2 -translate-x-1/2 top-[-28px]">
-            <VLine h={28} />
-          </div>
-
+        <div className="col-span-3 w-full relative mb-6">
           {/* 가로 기준선 */}
           <div className="h-px w-full bg-gray-300" />
 
