@@ -142,9 +142,10 @@ function OrgChart() {
         </div>
 
         {/* 감사(좌) + 사무국(중앙) */}
-        <div className="grid grid-cols-3 items-start w-full mt-3">
-          <div className="flex justify-start">
+        <div className="grid grid-cols-3 items-start w-full mt-3 relative">
+          <div className="flex justify-start ml-12 relative">
             <Node label="감사" small />
+            <div className="absolute top-1/2 left-1/2 w-1/2 h-px bg-gray-300 -translate-y-1/2 -translate-x-full" />
           </div>
           <div className="flex justify-center">
             <VLine h={8} />
