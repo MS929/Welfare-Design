@@ -65,7 +65,6 @@ export default function AboutPeople() {
 
       {/* ===== 하단 3 플랫폼 카드 ===== */}
       <section className="max-w-screen-xl mx-auto px-4 pb-14">
-        <h2 className="text-xl font-bold mb-5">플랫폼별 주요 역할</h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {platforms.map((p) => (
             <PlatformCard key={p.title} {...p} />
