@@ -21,7 +21,10 @@ const byYear = raw
 
 export default function AboutHistory() {
   return (
-    <div className="max-w-7xl mx-auto px-3 md:px-6 lg:px-8 py-16">
+    <div
+      className="max-w-7xl mx-auto px-3 md:px-6 lg:px-8 py-16"
+      style={{ "--accent": "#0ea5e9", "--accent-soft": "rgba(14,165,233,.12)" }}
+    >
       {/* 브레드크럼 */}
       <p className="text-sm text-gray-500 mb-2">소개 &gt; 연혁</p>
 
@@ -37,21 +40,21 @@ export default function AboutHistory() {
               {/* 왼쪽 연도 배지 */}
               <div className="flex items-center gap-6">
                 <div className="shrink-0">
-                  <div className="w-16 h-16 md:w-20 md:h-20 rounded-full bg-sky-500 text-white flex items-center justify-center text-xl md:text-2xl font-extrabold shadow-md">
+                  <div className="w-16 h-16 md:w-20 md:h-20 rounded-full bg-[var(--accent)] text-white flex items-center justify-center text-xl md:text-2xl font-extrabold shadow-md">
                     {year}
                   </div>
                 </div>
 
                 {/* 세로 라인 + 카드들 */}
                 <div className="relative flex-1">
-                  <div className="absolute left-3 md:left-4 top-0 bottom-0 border-l-2 border-sky-200" />
+                  <div className="absolute left-3 md:left-4 top-0 bottom-0 border-l-2 border-[var(--accent-soft)]" />
                   <div className="space-y-8 ml-12 md:ml-20 lg:ml-28">
                     {byYear[year].map((item, i) => (
                       <article
                         key={i}
-                        className="bg-white border rounded-xl shadow-sm p-5 md:p-6"
+                        className="bg-white border rounded-xl shadow-sm p-5 md:p-6 hover:shadow-md transition-shadow"
                       >
-                        <time className="inline-block px-3 py-1 text-xs font-semibold text-sky-700 bg-sky-50 rounded-full">
+                        <time className="inline-block px-3 py-1 text-xs font-semibold text-[var(--accent)] bg-[var(--accent-soft)] rounded-full">
                           {item.ym}
                         </time>
                         <p className="mt-3 text-gray-800">{item.event}</p>
