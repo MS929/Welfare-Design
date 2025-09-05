@@ -132,7 +132,7 @@ function OrgChart() {
         </div>
 
         {/* 감사(좌) — 박스는 고정, 선만 늘려서 중앙 트렁크에 정확히 연결 */}
-        <div className="w-full grid grid-cols-[0.7fr,0px,1fr] items-center">
+        <div className="w-full grid grid-cols-[28%_0px_1fr] items-center">
           {/* 좌측: 감사 + 중앙으로 뻗는 수평선 */}
           <div className="flex items-center justify-end gap-2">
             <Node label="감사" small />
