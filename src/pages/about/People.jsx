@@ -177,3 +177,33 @@ function OrgChart() {
     </div>
   );
 }
+// ===== helpers =====
+function VLine({ h = 8 }) {
+  return (
+    <div
+      className="w-px bg-gray-300 mx-auto"
+      style={{ height: `${h * 4}px` }}
+    />
+  );
+}
+
+function Node({ label, small = false }) {
+  const base =
+    "inline-flex items-center justify-center rounded-xl border border-gray-300 bg-white px-4 text-gray-800 shadow-sm";
+  const size = small
+    ? "h-9 text-sm"
+    : "h-11 text-base min-w-[96px]";
+  return <div className={`${base} ${size}`}>{label}</div>;
+}
+
+function Th({ children }) {
+  return (
+    <th className="p-3 text-sm font-semibold text-gray-700">{children}</th>
+  );
+}
+
+function Td({ children, className = "" }) {
+  return (
+    <td className={`p-3 text-sm text-gray-700 align-top ${className}`}>{children}</td>
+  );
+}
