@@ -138,7 +138,7 @@ function OrgChart() {
             {/* 고정 가로선 */}
             <div className="absolute top-1/2 left-0 right-0 -translate-y-1/2 h-px bg-gray-300" />
             {/* 감사 박스: 선 길이에 영향 없이 위치만 조정 */}
-            <div className="absolute top-1/2 -translate-y-1/2 right-0.01">
+            <div className="absolute top-1/2 -translate-y-1/2 right-0.5">
               <Node label="감사" small />
             </div>
           </div>
