@@ -128,27 +128,25 @@ function OrgChart() {
 
         <div className="flex flex-col items-center w-full">
           <Node label="이사장" />
-          <VLine h={10} />
+          <VLine h={12} />
         </div>
 
         {/* 감사(좌) — 박스는 고정, 선만 늘려서 중앙 트렁크에 정확히 연결 */}
-        <div className="w-full mt-3 grid grid-cols-[1fr,0px,1fr] items-center">
+        <div className="w-full grid grid-cols-[1fr,0px,1fr] items-center">
           {/* 좌측: 감사 + 중앙으로 뻗는 수평선 */}
           <div className="flex items-center justify-end gap-3">
             <Node label="감사" small />
-            {/* 감사 오른쪽에서 중앙 트렁크까지 자동으로 늘어나는 선 */}
             <div className="h-px bg-gray-300 flex-1 min-w-[72px]" />
           </div>
-          {/* 중앙: 트렁크 접점(짧은 수직선) */}
+          {/* 중앙: 트렁크 접점 — 이전/이후 세그먼트와 자연스럽게 이어지도록 길이를 늘림 */}
           <div className="justify-self-center">
-            <VLine h={8} />
+            <VLine h={14} />
           </div>
-          {/* 우측은 비움 */}
           <div />
         </div>
 
-        <VLine h={8} />
-        <div className="flex justify-center w-full">
+        {/* 사무국: 추가 세그먼트 없이 바로 붙도록 살짝 당김 */}
+        <div className="flex justify-center w-full -mt-1">
           <Node label="사무국" />
         </div>
 
