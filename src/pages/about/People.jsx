@@ -97,6 +97,26 @@ export default function AboutPeople() {
     </div>
   );
 }
+// 카드: 하단 3개 플랫폼 공통 UI
+function PlatformCard({ title, items, color, ring }) {
+  return (
+    <div
+      className={[
+        "rounded-2xl bg-gradient-to-b p-6 shadow-sm",
+        "ring-1",
+        ring,
+        color,
+      ].join(" ")}
+    >
+      <h3 className="text-lg font-bold mb-3">{title}</h3>
+      <ul className="space-y-2 text-gray-700 leading-relaxed list-disc pl-5">
+        {items.map((it, idx) => (
+          <li key={idx}>{it}</li>
+        ))}
+      </ul>
+    </div>
+  );
+}
 
 /* ================= 조직도 ================= */
 
