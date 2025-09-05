@@ -120,29 +120,28 @@ function OrgChart({ platforms = [] }) {
           {/* 감사(좌측 정렬) */}
           <div className="flex justify-start">
             <div className="flex flex-col items-center">
-              <VLine h={23} />
+              <VLine h={28} />
               <Node label="감사" small />
             </div>
           </div>
           {/* 중앙 사무국 */}
           <div className="flex justify-center flex-col items-center">
-            <VLine h={38} />
+            <VLine h={42} />
             <Node label="사무국" />
           </div>
           <div />
         </div>
 
         {/* 사무국 밑 가로 라인 (플랫폼 3개로 분기 + 카드 연결) */}
-        <div className="w-full max-w-3xl mt-2 mx-auto">
-          {/* 아래로 한 번 더 */}
-          <VLine h={12} />
-          {/* 가로 분기 */}
-          <div className="h-px w-full bg-gray-300" />
-          {/* 세 갈래 + 카드 연결 */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-start mt-0">
+        <div className="w-full mt-2 relative">
+          {/* 가로 분기선: 사무국에서 좌우로 길게 */}
+          <div className="absolute top-0 left-0 right-0 h-px bg-gray-300" />
+
+          {/* 세 갈래 + 카드 연결 (수직선은 가로선에서 바로 내려오게) */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-start pt-0">
             {[0, 1, 2].map((i) => (
-              <div key={i} className="flex flex-col items-center">
-                <VLine h={28} />
+              <div key={i} className="relative flex flex-col items-center">
+                <div className="w-px h-8 bg-gray-300" />
                 {platforms[i] && <PlatformCard {...platforms[i]} />}
               </div>
             ))}
@@ -174,11 +173,9 @@ function VLine({ h = 16 }) {
 }
 function PlatformCard({ title, items, color, ring }) {
   return (
-    <div
-      className={`rounded-2xl border p-5 bg-gradient-to-b ${color} ring-1 ${ring}`}
-    >
-      <h3 className="font-semibold text-lg">{title}</h3>
-      <ul className="mt-3 space-y-2 text-gray-700 list-disc pl-5">
+    <div className="rounded-xl border bg-white shadow-sm ring-1 ring-gray-200 w-full">
+      <h3 className="font-semibold text-lg px-5 pt-4">{title}</h3>
+      <ul className="mt-3 mb-5 space-y-2 text-gray-800 list-disc pl-10 pr-5">
         {items.map((t, i) => (
           <li key={i}>{t}</li>
         ))}
