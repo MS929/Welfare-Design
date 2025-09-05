@@ -64,7 +64,7 @@ export default function AboutPeople() {
       </section>
 
       {/* ===== 하단 3 플랫폼 카드 ===== */}
-      <section className="max-w-screen-xl mx-auto px-4 pb-14">
+      <section className="max-w-screen-xl mx-auto px-4 pb-14 -mt-10 md:-mt-16 lg:-mt-20 relative z-10">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {platforms.map((p) => (
             <PlatformCard key={p.title} {...p} />
