@@ -136,11 +136,19 @@ function OrgChart() {
 
         {/* 하단 분기: 3플랫폼 위치까지 하강 및 가로선/세로선 */}
         <VLine h={24} />
-        <div className="h-px w-full bg-gray-300" />
         <div className="grid w-full grid-cols-3">
-          <div className="flex justify-center"><VLine h={36} /></div>
-          <div className="flex justify-center"><VLine h={36} /></div>
-          <div className="flex justify-center"><VLine h={36} /></div>
+          <div className="flex justify-center relative">
+            <div className="absolute top-0 h-px bg-gray-300 w-1/3"></div>
+            <VLine h={36} />
+          </div>
+          <div className="flex justify-center relative">
+            <div className="absolute top-0 h-px bg-gray-300 w-1/3 left-1/3"></div>
+            <VLine h={36} />
+          </div>
+          <div className="flex justify-center relative">
+            <div className="absolute top-0 h-px bg-gray-300 w-1/3 right-0"></div>
+            <VLine h={36} />
+          </div>
         </div>
       </div>
     </div>
