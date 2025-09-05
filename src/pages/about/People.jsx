@@ -144,7 +144,7 @@ function OrgChart() {
           </div>
           {/* 중앙: 트렁크 접점 */}
           <div className="justify-self-center">
-            <VLine h={20} />
+            <VLine h={5} />
           </div>
           <div />
         </div>
