@@ -68,13 +68,27 @@ function OrgChart() {
           <VLine h={24} />
           <Node label="이사장" />
           <VLine h={24} />
-          <Node label="감사" small />
-          <VLine h={24} />
-          <Node label="사무국" />
+          {/* Insert horizontal branch line here */}
+          <div className="relative w-full flex justify-center items-center" style={{height: 40}}>
+            {/* Horizontal line */}
+            <div className="absolute top-1/2 left-0 right-0 h-px bg-gray-300" />
+            {/* Left vertical line down to 감사 */}
+            <div className="absolute left-1/4 top-1/2 -translate-y-1/2 w-px h-10 bg-gray-300" />
+            {/* Right vertical line down to 사무국 */}
+            <div className="absolute left-1/2 top-1/2 -translate-y-1/2 w-px h-10 bg-gray-300" />
+            {/* 감사 node on left */}
+            <div className="absolute left-1/4 top-full mt-2 -translate-x-1/2">
+              <Node label="감사" />
+            </div>
+            {/* 사무국 node on right */}
+            <div className="absolute left-1/2 top-full mt-2 -translate-x-1/2">
+              <Node label="사무국" />
+            </div>
+          </div>
         </div>
 
         {/* ---------- 가로 기준선(모든 칸을 정확히 잇기) ---------- */}
-        <div className="col-span-3 w-full relative mt-6 mb-6">
+        <div className="col-span-3 w-full relative mt-20 mb-6">
           {/* 중앙 세로선이 기준선에 정확히 닿도록 */}
           <div className="absolute left-1/2 -translate-x-1/2">
             <VLine h={28} />
@@ -82,11 +96,6 @@ function OrgChart() {
 
           {/* 기준 가로선 자체 */}
           <div className="h-px w-full bg-gray-300" />
-
-          {/* 사무국으로 내려가는 중앙 세로선(기준선 아래측) */}
-          <div className="absolute left-1/2 -translate-x-1/2 top-0">
-            <VLine h={28} direction="down" />
-          </div>
 
           {/* 플랫폼 3개로 내려가는 세로선 */}
           <div className="absolute left-[16.66%] -translate-x-1/2 top-0">
