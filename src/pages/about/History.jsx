@@ -43,11 +43,11 @@ export default function AboutHistory() {
       />
 
       {/* 헤더: whatIs.jsx와 동일 규격 */}
-      <section className="max-w-screen-xl mx-auto px-4 pt-10">
+      <section className="max-w-screen-xl mx-auto px-4 pt-8 md:pt-10">
         <nav className="text-sm text-gray-500">
-          소개 &gt; <span className="text-gray-700">설립 내용</span>
+          소개 &gt; <span className="text-gray-700">연혁</span>
         </nav>
-        <h1 className="mt-4 text-3xl md:text-4xl font-extrabold">설립 내용</h1>
+        <h1 className="mt-4 text-3xl md:text-4xl font-extrabold">연혁</h1>
       </section>
 
       {/* 타임라인 래퍼: Establishment와 맞추기 위해 좌측 고정 여백 부여 */}
