@@ -33,21 +33,21 @@ export default function AboutHistory() {
 
   return (
     <div
-      className="relative max-w-7xl mx-auto px-4 md:px-6 lg:px-8 pt-4 pb-12"
+      className="relative max-w-7xl mx-auto px-4 md:px-6 lg:px-8 pt-2 pb-12"
       style={themeVars}
     >
       {/* 상단 소프트 그라데이션 */}
       <div
-        className="pointer-events-none absolute inset-x-0 -top-24 h-64 bg-gradient-to-b from-[var(--pri-soft)] via-[var(--sec-soft)] to-transparent blur-2xl"
+        className="pointer-events-none absolute inset-x-0 -top-24 h-48 bg-gradient-to-b from-[var(--pri-soft)] via-[var(--sec-soft)] to-transparent blur-2xl"
         aria-hidden="true"
       />
 
-      {/* 헤더 섹션 */}
-      <section className="max-w-screen-xl mx-auto px-4 pt-10">
+      {/* 헤더 섹션: 사이트 공통 여백/폭 맞춤 */}
+      <section className="mx-auto max-w-[1080px] px-4 sm:px-6 lg:px-8 pt-6 md:pt-8">
         <nav className="text-sm text-gray-500">
           소개 &gt; <span className="text-gray-700">연혁</span>
         </nav>
-        <h1 className="mt-4 text-3xl md:text-4xl font-extrabold">연혁</h1>
+        <h1 className="mt-3 text-3xl md:text-4xl font-extrabold tracking-tight">연혁</h1>
       </section>
 
       {/* 타임라인 래퍼: 넓게 보이도록 살짝 좌측으로 */}
