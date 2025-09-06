@@ -43,7 +43,7 @@ export default function AboutHistory() {
       />
 
       {/* 헤더 섹션 */}
-      <section className="max-w-screen-xl mx-auto px-4 pt-10">
+      <section className="max-w-screen-xl mx-auto px-0 pt-10 md:pt-8">
         <nav className="text-sm text-gray-500">
           소개 &gt; <span className="text-gray-700">연혁</span>
         </nav>
@@ -53,7 +53,7 @@ export default function AboutHistory() {
       </section>
 
       {/* 타임라인 래퍼: 넓게 보이도록 살짝 좌측으로 */}
-      <div className="relative lg:-ml-10 xl:-ml-16">
+      <div className="relative mt-8">
         {Object.keys(byYear)
           .sort()
           .map((year) => (
