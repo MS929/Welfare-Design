@@ -38,20 +38,20 @@ export default function AboutHistory() {
     >
       {/* 상단 소프트 그라데이션 */}
       <div
-        className="pointer-events-none absolute inset-x-0 -top-20 h-40 bg-gradient-to-b from-[var(--pri-soft)] via-[var(--sec-soft)] to-transparent blur-2xl"
+        className="pointer-events-none absolute inset-x-0 -top-12 h-28 bg-gradient-to-b from-[var(--pri-soft)] via-[var(--sec-soft)] to-transparent blur-2xl"
         aria-hidden="true"
       />
 
       {/* 헤더: whatIs.jsx와 동일 규격 */}
-      <section className="max-w-screen-xl mx-auto px-4 pt-8 md:pt-10">
+      <section className="max-w-screen-xl mx-auto px-4 pt-4 md:pt-8">
         <nav className="text-sm text-gray-500">
           소개 &gt; <span className="text-gray-700">연혁</span>
         </nav>
-        <h1 className="mt-4 text-3xl md:text-4xl font-extrabold">연혁</h1>
+        <h1 className="mt-3 text-3xl md:text-4xl font-extrabold">연혁</h1>
       </section>
 
       {/* 타임라인 래퍼: Establishment와 맞추기 위해 좌측 고정 여백 부여 */}
-      <div className="relative mt-6 lg:pl-[300px]">
+      <div className="relative mt-5 lg:pl-[280px]">
         {Object.keys(byYear)
           .sort()
           .map((year) => (
