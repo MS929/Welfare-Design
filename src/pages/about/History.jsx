@@ -42,13 +42,15 @@ export default function AboutHistory() {
         aria-hidden="true"
       />
 
-      {/* 브레드크럼 */}
-      <p className="text-sm text-gray-500 mb-2">소개 &gt; 연혁</p>
-
-      {/* 제목 */}
-      <h1 className="text-3xl md:text-4xl font-extrabold tracking-tight mb-12">
-        연혁
-      </h1>
+      {/* 헤더 섹션 */}
+      <section className="max-w-screen-xl mx-auto px-4 pt-10">
+        <nav className="text-sm text-gray-500">
+          소개 &gt; <span className="text-gray-700">연혁</span>
+        </nav>
+        <h1 className="mt-4 text-3xl md:text-4xl font-extrabold tracking-tight">
+          연혁
+        </h1>
+      </section>
 
       {/* 타임라인 래퍼: 넓게 보이도록 살짝 좌측으로 */}
       <div className="relative lg:-ml-10 xl:-ml-16">
