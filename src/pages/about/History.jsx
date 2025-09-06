@@ -50,8 +50,8 @@ export default function AboutHistory() {
         <h1 className="mt-3 text-4xl font-extrabold tracking-tight">연혁</h1>
       </header>
 
-      {/* 타임라인 래퍼: 넓게 보이도록 살짝 좌측으로 */}
-      <div className="relative mt-6">
+      {/* 타임라인 래퍼: Establishment와 맞추기 위해 좌측 고정 여백 부여 */}
+      <div className="relative mt-6 lg:pl-[300px]">
         {Object.keys(byYear)
           .sort()
           .map((year) => (
