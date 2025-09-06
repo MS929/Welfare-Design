@@ -72,28 +72,22 @@ export default function AboutHistory() {
               </div>
 
               {/* 세로 라인 + 카드들 */}
-              <div className="relative flex-1">
-                {/* vertical line (연한 주황) */}
-                <div className="absolute left-2 md:left-3 top-0 bottom-0 border-l-2 border-dashed border-[var(--pri)]/30" />
+              <div className="relative flex-1 pl-8 md:pl-10 lg:pl-12">
+                {/* vertical rail aligned to the page's left guide */}
+                <div className="absolute left-0 top-0 bottom-0 border-l-2 border-dashed border-[var(--pri)]/30" />
 
-                <div className="space-y-8 ml-10 md:ml-14 lg:ml-16">
+                <div className="space-y-8">
                   {byYear[year].map((item, i) => (
                     <div key={i} className="relative">
-                      {/* 타임라인 노드: 다이아몬드 */}
-                      <span className="absolute -left-4 md:-left-5 top-6 block w-2.5 h-2.5 rotate-45 bg-[var(--pri)] shadow-sm" />
+                      {/* timeline diamond pinned to the rail */}
+                      <span className="absolute -left-3 md:-left-3.5 top-6 block w-2.5 h-2.5 rotate-45 bg-[var(--pri)] shadow-sm" />
 
-                      {/* 카드 */}
+                      {/* card */}
                       <article className="relative bg-white/90 backdrop-blur-sm border border-slate-200 rounded-xl shadow-sm hover:shadow-md transition overflow-hidden">
-                        {/* 좌측 컬러 스트립: 주황 → 청록 */}
                         <div className="absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b from-[var(--pri)] to-[var(--sec)]" />
-
                         <div className="p-5 md:p-6">
-                          <time className="inline-block px-3 py-1 text-xs font-semibold text-[var(--pri)] bg-[var(--pri-soft)] rounded-full">
-                            {item.ym}
-                          </time>
-                          <p className="mt-2 md:mt-3 font-medium text-slate-800 leading-relaxed">
-                            {item.event}
-                          </p>
+                          <time className="inline-block px-3 py-1 text-xs font-semibold text-[var(--pri)] bg-[var(--pri-soft)] rounded-full">{item.ym}</time>
+                          <p className="mt-2 md:mt-3 font-medium text-slate-800 leading-relaxed">{item.event}</p>
                         </div>
                       </article>
                     </div>
