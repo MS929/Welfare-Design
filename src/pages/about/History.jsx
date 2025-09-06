@@ -42,13 +42,13 @@ export default function AboutHistory() {
         aria-hidden="true"
       />
 
-      {/* 헤더 섹션: 사이트 공통 여백/폭 맞춤 */}
-      <section className="mx-auto max-w-[1080px] px-4 sm:px-6 lg:px-8 pt-6 md:pt-8">
-        <nav className="text-sm text-gray-500">
-          소개 &gt; <span className="text-gray-700">연혁</span>
+      {/* 헤더: whatIs.jsx와 동일 규격 */}
+      <header className="mx-auto max-w-[1040px] px-4 sm:px-6 lg:px-8 pt-8">
+        <nav className="text-sm text-slate-500">
+          소개 &gt; <span className="text-slate-700">연혁</span>
         </nav>
-        <h1 className="mt-3 text-3xl md:text-4xl font-extrabold tracking-tight">연혁</h1>
-      </section>
+        <h1 className="mt-4 text-4xl font-extrabold tracking-tight">연혁</h1>
+      </header>
 
       {/* 타임라인 래퍼: 넓게 보이도록 살짝 좌측으로 */}
       <div className="relative mt-8">
