@@ -33,7 +33,7 @@ export default function AboutHistory() {
 
   return (
     <div
-      className="relative max-w-7xl mx-auto px-4 md:px-6 lg:px-8 py-16"
+      className="relative max-w-7xl mx-auto px-4 md:px-6 lg:px-8 py-12"
       style={themeVars}
     >
       {/* 상단 소프트 그라데이션 */}
@@ -43,7 +43,7 @@ export default function AboutHistory() {
       />
 
       {/* 헤더 섹션 */}
-      <section className="max-w-screen-xl mx-auto px-0 pt-10 md:pt-8">
+      <section className="max-w-screen-xl mx-auto px-0 pt-4 md:pt-6">
         <nav className="text-sm text-gray-500">
           소개 &gt; <span className="text-gray-700">연혁</span>
         </nav>
