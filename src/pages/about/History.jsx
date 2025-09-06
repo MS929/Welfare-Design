@@ -43,7 +43,7 @@ export default function AboutHistory() {
       />
 
       {/* 헤더: whatIs.jsx와 동일 규격 */}
-      <header className="mx-auto max-w-[1040px] px-4 sm:px-6 lg:px-8 pt-8">
+      <header className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-12">
         <nav className="text-sm text-slate-500">
           소개 &gt; <span className="text-slate-700">연혁</span>
         </nav>
@@ -106,3 +106,4 @@ export default function AboutHistory() {
     </div>
   );
 }
+
