@@ -29,6 +29,7 @@ export default function AboutHistory() {
     "--acc": "#F4C542",
     "--pri-soft": "rgba(242,108,42,0.10)",
     "--sec-soft": "rgba(44,185,177,0.10)",
+    "--rail": "-6px" // page left guide fine‑tune (align to header guide)
   };
 
   return (
@@ -51,7 +52,7 @@ export default function AboutHistory() {
       </section>
 
       {/* 타임라인 래퍼: Establishment와 맞추기 위해 좌측 고정 여백 부여 */}
-      <div className="relative mt-5 lg:pl-[280px]">
+      <div className="relative mt-5 lg:pl-[280px]" style={{"--rail":"-6px"}}>
         {Object.keys(byYear)
           .sort()
           .map((year) => (
@@ -74,14 +75,23 @@ export default function AboutHistory() {
               {/* 세로 라인 + 카드들 */}
               <div className="relative flex-1 pl-8 md:pl-10 lg:pl-12">
                 {/* vertical rail aligned to the page's left guide */}
-                <div className="absolute left-0 top-0 bottom-0 border-l-2 border-dashed border-[var(--pri)]/30" />
+                <div
+                  className="absolute top-0 bottom-0 border-l-2 border-dashed border-[var(--pri)]/30"
+                  style={{ left: "var(--rail)" }}
+                />
 
                 <div className="space-y-8">
                   {byYear[year].map((item, i) => (
                     <div key={i} className="relative">
                       {/* timeline diamond pinned to the rail */}
-                      <span className="absolute -left-3 md:-left-3.5 top-6 block w-2.5 h-2.5 rotate-45 bg-[var(--pri)] shadow-sm" />
-
+                      <span
+                        className="absolute top-6 block w-2.5 h-2.5 rotate-45 bg-[var(--pri)] shadow-sm"
+                        style={{ left: "calc(var(--rail) - 5px)" }}
+                      />
+                      <span
+                        className="absolute top-[26px] h-[2px] bg-gradient-to-r from-[var(--pri)] to-[var(--sec)] opacity-60"
+                        style={{ left: "var(--rail)", width: "20px" }}
+                      />
                       {/* card */}
                       <article className="relative bg-white/90 backdrop-blur-sm border border-slate-200 rounded-xl shadow-sm hover:shadow-md transition overflow-hidden">
                         <div className="absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b from-[var(--pri)] to-[var(--sec)]" />
