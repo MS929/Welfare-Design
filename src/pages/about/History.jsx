@@ -38,12 +38,12 @@ export default function AboutHistory() {
     >
       {/* 상단 소프트 그라데이션 */}
       <div
-        className="pointer-events-none absolute inset-x-0 -top-12 h-28 bg-gradient-to-b from-[var(--pri-soft)] via-[var(--sec-soft)] to-transparent blur-2xl"
+        className="pointer-events-none absolute inset-x-0 -top-10 h-24 bg-gradient-to-b from-[var(--pri-soft)] via-[var(--sec-soft)] to-transparent blur-2xl"
         aria-hidden="true"
       />
 
-      {/* 헤더: whatIs.jsx와 동일 규격 */}
-      <section className="max-w-screen-xl mx-auto px-4 pt-4 md:pt-8">
+      {/* 헤더: whatIs.jsx와 동일 규격 + 좌측 레일 정렬 */}
+      <section className="px-4 md:px-6 lg:px-8 mt-2 lg:pl-[280px]">
         <nav className="text-sm text-gray-500">
           소개 &gt; <span className="text-gray-700">연혁</span>
         </nav>
