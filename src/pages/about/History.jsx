@@ -39,17 +39,22 @@ export default function AboutHistory() {
     >
       {/* 상단 소프트 그라데이션 */}
       <div
-        className="pointer-events-none absolute inset-x-0 -top-10 h-24 bg-gradient-to-b from-[var(--pri-soft)] via-[var(--sec-soft)] to-transparent blur-2xl"
+        className="pointer-events-none absolute inset-x-0 -top-8 h-20 bg-gradient-to-b from-[var(--pri-soft)] via-[var(--sec-soft)] to-transparent blur-2xl"
         aria-hidden="true"
       />
 
       {/* 헤더: whatIs.jsx와 동일 규격 + 좌측 레일 정렬 */}
       <section className="px-4 md:px-6 lg:px-8 mt-2 lg:pl-[300px]">
-        {/* breadcrumb on its own row, then title — aligns to the same left guide */}
-        <nav className="text-sm text-gray-500 mb-1 leading-none">
-          소개 &gt; <span className="text-gray-700">연혁</span>
-        </nav>
-        <h1 className="text-3xl md:text-4xl font-extrabold leading-tight">연혁</h1>
+        {/* breadcrumb pill aligned to the same left guide (whatIs.jsx 스타일) */}
+        <div className="mb-3">
+          <span className="inline-flex items-center gap-1 rounded-xl border border-slate-200 bg-white px-3 py-1 text-sm text-slate-600 shadow-sm">
+            <span className="text-slate-400">소개</span>
+            <span className="text-slate-300">›</span>
+            <span className="font-semibold text-slate-700">연혁</span>
+          </span>
+        </div>
+        {/* page title */}
+        <h1 className="text-3xl md:text-4xl font-extrabold leading-tight tracking-tight">연혁</h1>
       </section>
 
       {/* 타임라인 래퍼: Establishment와 맞추기 위해 좌측 고정 여백 부여 */}
