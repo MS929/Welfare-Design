@@ -66,18 +66,20 @@ export default function AboutHistory() {
           .map((year) => (
             <section key={year} className="relative mb-16">
               {/* 연도 헤더 */}
-              <div className="pl-1 mb-6 flex items-center gap-3">
-                {/* 작은 색 바 */}
-                <span className="h-6 w-1.5 rounded bg-[var(--pri)]" />
-                {/* 그라데이션 텍스트 */}
-                <h2 className="text-2xl md:text-3xl font-black tracking-tight">
-                  <span className="bg-gradient-to-r from-[var(--pri)] to-[var(--sec)] bg-clip-text text-transparent">
-                    {year}
+              <div className="pl-1 mb-6 relative" style={{ height: "24px" }}>
+                <div
+                  className="absolute left-[var(--rail)] flex flex-col items-center -translate-x-1/2"
+                >
+                  {/* 그라데이션 텍스트 */}
+                  <h2 className="text-2xl md:text-3xl font-black tracking-tight leading-none">
+                    <span className="bg-gradient-to-r from-[var(--pri)] to-[var(--sec)] bg-clip-text text-transparent">
+                      {year}
+                    </span>
+                  </h2>
+                  <span className="mt-1 px-2 py-0.5 text-xs font-semibold rounded-full bg-[var(--pri-soft)] text-[var(--pri)]">
+                    YEAR
                   </span>
-                </h2>
-                <span className="ml-1 px-2 py-0.5 text-xs font-semibold rounded-full bg-[var(--pri-soft)] text-[var(--pri)]">
-                  YEAR
-                </span>
+                </div>
               </div>
 
               {/* 세로 라인 + 카드들 */}
