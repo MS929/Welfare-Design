@@ -29,7 +29,7 @@ export default function AboutHistory() {
     "--acc": "#F4C542",
     "--pri-soft": "rgba(242,108,42,0.10)",
     "--sec-soft": "rgba(44,185,177,0.10)",
-    "--rail": "-6px" // page left guide fine‑tune (align to header guide)
+    "--rail": "-4px" // page left guide fine‑tune (align to header guide)
   };
 
   return (
@@ -44,7 +44,7 @@ export default function AboutHistory() {
       />
 
       {/* 헤더: whatIs.jsx와 동일 규격 + 좌측 레일 정렬 */}
-      <section className="px-4 md:px-6 lg:px-8 mt-2 lg:pl-[280px]">
+      <section className="px-4 md:px-6 lg:px-8 mt-2 lg:pl-[300px]">
         <nav className="text-sm text-gray-500">
           소개 &gt; <span className="text-gray-700">연혁</span>
         </nav>
@@ -52,7 +52,7 @@ export default function AboutHistory() {
       </section>
 
       {/* 타임라인 래퍼: Establishment와 맞추기 위해 좌측 고정 여백 부여 */}
-      <div className="relative mt-5 lg:pl-[280px]" style={{"--rail":"-6px"}}>
+      <div className="relative mt-5 lg:pl-[300px]" style={{"--rail":"-4px"}}>
         {Object.keys(byYear)
           .sort()
           .map((year) => (
