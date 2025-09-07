@@ -29,8 +29,8 @@ export default function AboutHistory() {
     "--acc": "#F4C542",
     "--pri-soft": "rgba(242,108,42,0.10)",
     "--sec-soft": "rgba(44,185,177,0.10)",
-    "--title-guide": "10px",
-    "--timeline-guide": "0px",
+    "--title-guide": "20px",
+    "--timeline-guide": "20px",
     "--rail": "-4px" // page left guide fine‑tune (align to header guide)
   };
 
