@@ -45,9 +45,9 @@ export default function AboutHistory() {
       />
 
       {/* 헤더: whatIs.jsx와 동일 규격 + 좌측 레일 정렬 */}
-      <section className="px-4 md:px-6 lg:px-8 mt-2">
+      <section className="px-4 md:px-6 lg:px-8 mt-2 flex flex-col items-start" style={{ paddingLeft: "var(--guide)" }}>
         {/* breadcrumb pill (좌측 레일 맞춤) */}
-        <div className="mb-3" style={{ paddingLeft: "var(--guide)" }}>
+        <div className="mb-3">
           <span className="inline-flex items-center gap-1 rounded-xl border border-slate-200 bg-white px-3 py-1 text-sm text-slate-600 shadow-sm">
             <span className="text-slate-400">소개</span>
             <span className="text-slate-300">›</span>
@@ -55,7 +55,7 @@ export default function AboutHistory() {
           </span>
         </div>
         {/* page title */}
-        <h1 className="text-3xl md:text-4xl font-extrabold leading-tight tracking-tight" style={{ paddingLeft: "var(--guide)" }}>
+        <h1 className="text-3xl md:text-4xl font-extrabold leading-tight tracking-tight">
           연혁
         </h1>
       </section>
