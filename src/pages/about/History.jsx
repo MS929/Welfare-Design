@@ -93,11 +93,7 @@ export default function AboutHistory() {
                 <div className="space-y-8">
                   {byYear[year].map((item, i) => (
                     <div key={i} className="relative">
-                      {/* timeline diamond pinned to the rail */}
-                      <span
-                        className="absolute top-6 block w-2.5 h-2.5 rotate-45 bg-[var(--pri)] shadow-sm"
-                        style={{ left: "calc(var(--rail) - 5px)" }}
-                      />
+                      {/* timeline diamond pinned to the rail (removed) */}
                       <span
                         className="absolute top-[26px] h-[2px] bg-gradient-to-r from-[var(--pri)] to-[var(--sec)] opacity-60"
                         style={{ left: "var(--rail)", width: "20px" }}
