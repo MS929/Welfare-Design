@@ -29,7 +29,8 @@ export default function AboutHistory() {
     "--acc": "#F4C542",
     "--pri-soft": "rgba(242,108,42,0.10)",
     "--sec-soft": "rgba(44,185,177,0.10)",
-    "--guide": "128px",
+    "--title-guide": "128px",
+    "--timeline-guide": "0px",
     "--rail": "-4px" // page left guide fine‑tune (align to header guide)
   };
 
@@ -45,7 +46,7 @@ export default function AboutHistory() {
       />
 
       {/* 헤더: whatIs.jsx와 동일 규격 + 좌측 레일 정렬 */}
-      <section className="mt-2 flex flex-col items-start" style={{ marginLeft: "var(--guide)" }}>
+      <section className="mt-2 flex flex-col items-start" style={{ marginLeft: "var(--title-guide)" }}>
         {/* breadcrumb pill (좌측 레일 맞춤) */}
         <div className="mb-3">
           <span className="inline-flex items-center gap-1 rounded-xl border border-slate-200 bg-white px-3 py-1 text-sm text-slate-600 shadow-sm">
@@ -61,7 +62,7 @@ export default function AboutHistory() {
       </section>
 
       {/* 타임라인 래퍼: Establishment와 맞추기 위해 좌측 고정 여백 부여 */}
-      <div className="relative mt-5" style={{ marginLeft: "var(--guide)", "--rail": "-4px" }}>
+      <div className="relative mt-5" style={{ marginLeft: "var(--timeline-guide)" }}>
         {Object.keys(byYear)
           .sort()
           .map((year) => (
