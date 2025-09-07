@@ -29,7 +29,7 @@ export default function AboutHistory() {
     "--acc": "#F4C542",
     "--pri-soft": "rgba(242,108,42,0.10)",
     "--sec-soft": "rgba(44,185,177,0.10)",
-    "--title-guide": "20px",
+    "--title-guide": "0px",
     "--timeline-guide": "0px",
     "--rail": "-4px" // page left guide fine‑tune (align to header guide)
   };
@@ -48,12 +48,10 @@ export default function AboutHistory() {
       {/* 헤더: whatIs.jsx와 동일 규격 + 좌측 레일 정렬 */}
       <section className="mt-2 flex flex-col items-start" style={{ marginLeft: "var(--title-guide)" }}>
         {/* breadcrumb pill (좌측 레일 맞춤) */}
-        <div className="mb-3">
-          <span className="inline-flex items-center gap-1 rounded-xl border border-slate-200 bg-white px-3 py-1 text-sm text-slate-600 shadow-sm">
-            <span className="text-slate-400">소개</span>
-            <span className="text-slate-300">›</span>
-            <span className="font-semibold text-slate-700">연혁</span>
-          </span>
+        <div className="mb-2 text-sm text-slate-500">
+          <span className="text-slate-400">소개</span>
+          <span className="mx-1 text-slate-300">›</span>
+          <span className="text-slate-600">연혁</span>
         </div>
         {/* page title */}
         <h1 className="text-3xl md:text-4xl font-extrabold leading-tight tracking-tight">
