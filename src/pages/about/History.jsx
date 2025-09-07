@@ -46,7 +46,7 @@ export default function AboutHistory() {
       />
 
       {/* 헤더: whatIs.jsx와 동일 규격 + 좌측 레일 정렬 */}
-      <section className="mt-2 flex flex-col items-start" style={{ marginLeft: "var(--title-guide)" }}>
+      <section className="mt-12 flex flex-col items-start" style={{ marginLeft: "var(--title-guide)" }}>
         {/* breadcrumb pill (좌측 레일 맞춤) */}
         <div className="mb-2 text-sm text-slate-500">
           <span className="text-slate-400">소개</span>
