@@ -54,7 +54,7 @@ export default function AboutHistory() {
           <span className="text-slate-600">연혁</span>
         </div>
         {/* page title */}
-        <h1 className="text-3xl md:text-4xl font-extrabold leading-tight tracking-tight">
+        <h1 className="text-3xl md:text-4xl font-extrabold leading-tight tracking-tight mb-6">
           연혁
         </h1>
       </section>
