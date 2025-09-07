@@ -60,7 +60,7 @@ export default function AboutHistory() {
       </section>
 
       {/* 타임라인 래퍼: Establishment와 맞추기 위해 좌측 고정 여백 부여 */}
-      <div className="relative mt-5" style={{ marginLeft: "var(--timeline-guide)" }}>
+      <div className="relative mt-5" style={{ marginLeft: "calc(var(--timeline-guide) + 80px)" }}>
         {Object.keys(byYear)
           .sort()
           .map((year) => (
