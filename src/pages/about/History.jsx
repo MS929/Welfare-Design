@@ -29,7 +29,7 @@ export default function AboutHistory() {
     "--acc": "#F4C542",
     "--pri-soft": "rgba(242,108,42,0.10)",
     "--sec-soft": "rgba(44,185,177,0.10)",
-    "--title-guide": "128px",
+    "--title-guide": "24px",
     "--timeline-guide": "0px",
     "--rail": "-4px" // page left guide fine‑tune (align to header guide)
   };
