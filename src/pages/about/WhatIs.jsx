@@ -5,9 +5,9 @@ export default function AboutWhat() {
     title: "설립 배경",
     image: "/images/about/main.png", // 없으면 자동 대체 이미지로 표시됨
     paragraphs: [
-      "복지디자인 사회적협동조합은 한국침례신학대학교 사회복지대학원에서 만난 12명의 동문들이 사람을 향한 마음을 배우고 사회복지의 가치를 실천해온 경험을 지역사회와 이웃에게 돌려드리고자 설립한 조합입니다.",
-      "우리는 복지가 설계될 수 있다는 믿음 아래, 작고 연약한 삶도 따뜻하게 디자인될 수 있으며 의미와 책임, 그리고 소명을 담은 복지를 만들어가야 한다고 확신합니다.",
-      "복지디자인 사회적협동조합은 은혜의 복지를 기획하고, 사람을 향한 섬김을 실천하며, 지속가능하고 따뜻한 공동체를 이루는 것을 목표로 합니다.",
+      "복지디자인 사회적협동조합은 한국침례신학대학교 사회복지대학원에서 만난 12명의 동문들이\n사람을 향한 마음을 배우고 사회복지의 가치를 실천해온 경험을 지역사회와 이웃에게 돌려드리고자 설립한 조합입니다.",
+      "우리는 복지가 설계될 수 있다는 믿음 아래, 작고 연약한 삶도 따뜻하게 디자인될 수 있으며\n의미와 책임, 그리고 소명을 담은 복지를 만들어가야 한다고 확신합니다.",
+      "복지디자인 사회적협동조합은 은혜의 복지를 기획하고, 사람을 향한 섬김을 실천하며,\n지속가능하고 따뜻한 공동체를 이루는 것을 목표로 합니다.",
     ],
   };
 
@@ -597,7 +597,7 @@ export default function AboutWhat() {
         <h2 className="text-2xl font-bold mb-6 text-brand-900">설립 배경</h2>
 
         <div className="grid md:grid-cols-[260px,1fr] gap-6 items-start">
-          <div className="rounded-xl overflow-hidden border border-brand-200 bg-white shadow-sm">
+          <div className="rounded-xl overflow-hidden bg-white shadow-sm">
             <img
               src={background.image}
               onError={(e) => {
@@ -609,7 +609,7 @@ export default function AboutWhat() {
             />
           </div>
 
-          <div className="space-y-4 text-gray-800 leading-relaxed">
+          <div className="space-y-4 text-gray-800 leading-relaxed whitespace-pre-line break-keep">
             {background.paragraphs.map((t, i) => (
               <p key={i}>{t}</p>
             ))}
