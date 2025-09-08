@@ -1,7 +1,7 @@
 // src/pages/about/Establishment.jsx
 export default function AboutGreeting() {
   return (
-    <div className="bg-white antialiased">
+    <div className="bg-white">
       {/* 상단 : 브레드크럼 + 제목 (톤 다운) */}
       <section className="max-w-screen-xl mx-auto px-4 pt-10 pb-4">
         <nav className="text-sm text-gray-500">
@@ -14,9 +14,9 @@ export default function AboutGreeting() {
       </section>
 
       {/* 본문 : 좌측 여백 + 담백한 레이아웃 */}
-      <section className="max-w-screen-md mx-auto px-4 py-10 tracking-normal">
+      <section className="max-w-screen-md mx-auto px-4 py-10" style={{ fontKerning: 'normal' }}>
         {/* 서두 한 줄 (공지 느낌 완화: 굵은 테두리/라인 제거, 이탤릭 톤) */}
-        <p className="text-lg md:text-xl text-gray-700 italic leading-relaxed tracking-normal">
+        <p className="text-lg md:text-xl text-gray-700 italic leading-relaxed tracking-[-0.005em]">
           “사람을 향한 사랑의 마음으로, 복지를 디자인하는 따뜻한 연결을 시작합니다.”
         </p>
 
@@ -24,7 +24,7 @@ export default function AboutGreeting() {
         <div className="mt-6" />
 
         {/* 인사말 본문 (왼쪽 정렬, 자연스러운 문단 간격) */}
-        <div className="space-y-5 text-[15.5px] md:text-base leading-8 text-gray-800 tracking-normal whitespace-normal">
+        <div className="space-y-5 text-[15.5px] md:text-base leading-8 text-gray-800 tracking-[-0.01em] whitespace-normal">
           <p>
             안녕하십니까. 복지디자인 사회적협동조합 이사장 <strong>신창섭</strong>입니다. 저희 조합은 한국침례신학대학교 사회복지대학원에서 함께 배움의 시간을 나누었던 12명의 동문들이, 각자의 자리에서 쌓아온 실천 경험과 복지에 대한 사명을 지역사회와 나누고자 모여 설립한 사회적협동조합입니다.
           </p>
@@ -43,7 +43,7 @@ export default function AboutGreeting() {
         </div>
 
         {/* 서명 블록 (오른쪽 정렬, 공지문 분위기 탈피) */}
-        <div className="mt-10 text-right tracking-normal">
+        <div className="mt-10 text-right">
           <p className="text-sm text-gray-500">복지디자인 사회적협동조합 이사장</p>
           <p className="mt-1 text-lg md:text-xl font-semibold">신창섭 올림</p>
         </div>
