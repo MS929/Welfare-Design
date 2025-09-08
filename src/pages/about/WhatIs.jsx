@@ -31,11 +31,7 @@ export default function AboutWhat() {
   ];
 
   const pastChairs = [
-    "초대 이사장 (예시)",
-    "제1–3대 이사장 (예시)",
-    "제2–4대 부이사장 (예시)",
-    "제3–4대 이사장 (예시)",
-    "제5대 이사장 (예시)",
+    "1대 이사장 신창섭",
   ];
 
   const memberEligibility = [
