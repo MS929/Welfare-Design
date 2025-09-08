@@ -88,13 +88,16 @@ export default function AboutHistory() {
               </div>
 
               {/* 세로 라인 + 카드들 */}
-              <div className="relative flex-1 pl-8 md:pl-10 lg:pl-12">
+              <div className="relative flex-1">
+                {/* 세로선: 카드 중앙에 맞춤 */}
+                <div className="absolute top-0 bottom-0 left-1/2 -translate-x-1/2 border-l-2 border-dashed border-[var(--pri)]/30 pointer-events-none z-0" />
                 <div className="space-y-8">
                   {byYear[year].map((item, i) => (
                     <div key={i} className="relative">
                       {/* card */}
-                      <article className="relative bg-white/90 backdrop-blur-sm border border-slate-200 rounded-xl shadow-sm hover:shadow-md transition overflow-hidden">
-                        <div className="absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b from-[var(--pri)] to-[var(--sec)]" />
+                      <article className="relative bg-white/90 backdrop-blur-sm border border-slate-200 rounded-xl shadow-sm hover:shadow-md transition overflow-hidden ml-10">
+                        {/* 카드 중앙 세로선 */}
+                        <div className="absolute left-1/2 -translate-x-1/2 top-0 bottom-0 w-1 bg-gradient-to-b from-[var(--pri)] to-[var(--sec)] z-10" />
                         <div className="p-5 md:p-6">
                           <time className="inline-block px-3 py-1 text-xs font-semibold text-[var(--pri)] bg-[var(--pri-soft)] rounded-full">
                             {item.ym}
