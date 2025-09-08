@@ -722,8 +722,7 @@ export default function AboutWhat() {
                 >
                   {p.no}
                 </div>
-                <h4 className="mt-2 font-semibold" style={{ color: pc }}>{p.title}</h4>git add src/pages/about/WhatIs.jsx public/images/about/main.png
-
+                <h4 className="mt-2 font-semibold" style={{ color: pc }}>{p.title}</h4>
                 {Array.isArray(p.desc) ? (
                   <ul className="mt-2 list-disc pl-5 space-y-1 text-gray-800 leading-relaxed">
                     {p.desc.map((line, idx) => (
