@@ -606,7 +606,7 @@ export default function AboutWhat() {
       <section className="max-w-screen-xl mx-auto px-4 py-10">
         <SectionTitle color="#3BA7A0">설립 배경</SectionTitle>
 
-        <div className="grid md:grid-cols-[200px,1fr] gap-6 items-start">
+        <div className="grid md:grid-cols-[200px,1fr] gap-6 items-center">
           <div className="rounded-lg overflow-hidden">
             <img
               src={background.image}
@@ -618,7 +618,7 @@ export default function AboutWhat() {
             />
           </div>
 
-          <div className="space-y-4 text-gray-800 leading-relaxed whitespace-normal break-words">
+          <div className="space-y-4 text-gray-800 leading-relaxed whitespace-normal break-words self-center">
             {background.paragraphs.map((t, i) => (
               <p key={i}>{t}</p>
             ))}
