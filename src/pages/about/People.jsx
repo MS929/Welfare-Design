@@ -9,8 +9,7 @@ export default function AboutPeople() {
         "복지정보 제공 및 복지 신청 지원 서비스",
         "지역사회 복지 연계·제고 및 통합 프로그램 운영",
       ],
-      color: "from-emerald-50 to-white",
-      ring: "ring-emerald-200",
+      color: "#F4B731", // sunflower
     },
     {
       title: "복지디자인연구소",
@@ -20,8 +19,7 @@ export default function AboutPeople() {
         "복지 관련 출판물 제작·배포",
         "복지모델 컨설팅",
       ],
-      color: "from-sky-50 to-white",
-      ring: "ring-sky-200",
+      color: "#ED6A32", // persimmon
     },
     {
       title: "협력운영플랫폼",
@@ -31,8 +29,7 @@ export default function AboutPeople() {
         "조합 간 협력을 위한 사업",
         "조합의 홍보 및 지역사회를 위한 사업",
       ],
-      color: "from-amber-50 to-white",
-      ring: "ring-amber-200",
+      color: "#3BA7A0", // teal
     },
   ];
 
@@ -94,20 +91,28 @@ export default function AboutPeople() {
   );
 }
 // 카드: 하단 3개 플랫폼 공통 UI
-function PlatformCard({ title, items, color, ring }) {
+function PlatformCard({ title, items, color }) {
+  const tint = `${color}1A`; // ~10% opacity hex (1A)
+  const ring = color;
   return (
     <div
-      className={[
-        "rounded-2xl bg-gradient-to-b p-6 shadow-sm",
-        "ring-1",
-        ring,
-        color,
-      ].join(" ")}
+      className="rounded-2xl p-6 shadow-sm border bg-white"
+      style={{ borderColor: ring, background: `linear-gradient(180deg, ${tint}, #ffffff)` }}
     >
-      <h3 className="text-lg font-bold mb-3">{title}</h3>
-      <ul className="space-y-2 text-gray-700 leading-relaxed list-disc pl-5">
+      <div className="flex items-center gap-2 mb-3">
+        <span
+          className="inline-block w-2.5 h-2.5 rounded-full"
+          style={{ backgroundColor: color }}
+          aria-hidden
+        />
+        <h3 className="text-lg font-bold" style={{ color }}>{title}</h3>
+      </div>
+      <ul className="space-y-2 text-gray-700 leading-relaxed">
         {items.map((it, idx) => (
-          <li key={idx}>{it}</li>
+          <li key={idx} className="flex gap-2">
+            <span className="mt-2 inline-block w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ backgroundColor: color }} />
+            <span>{it}</span>
+          </li>
         ))}
       </ul>
     </div>
