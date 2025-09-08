@@ -628,11 +628,11 @@ export default function AboutWhat() {
         <div className="grid md:grid-cols-3 gap-6">
           {gmv.map((b, idx) => {
             const accents = [
-              { bg: "#2457B2" }, // Cobalt
-              { bg: "#3FAE63" }, // Leaf
-              { bg: "#2B2E34" }, // Charcoal
+              { bg: "#ED6A32", fg: "#FFFFFF" }, // Orange
+              { bg: "#F4B731", fg: "#2B2E34" }, // Yellow (dark text for contrast)
+              { bg: "#3BA7A0", fg: "#FFFFFF" }, // Teal
             ];
-            const color = accents[idx % accents.length].bg;
+            const accent = accents[idx % accents.length];
             return (
               <div
                 key={b.key}
@@ -642,7 +642,7 @@ export default function AboutWhat() {
                 {/* 컬러 헤더 (제목 가운데) */}
                 <div
                   className="py-3 text-center font-semibold tracking-tight"
-                  style={{ backgroundColor: color, color: "#fff" }}
+                  style={{ backgroundColor: accent.bg, color: accent.fg }}
                 >
                   {b.key}
                 </div>
