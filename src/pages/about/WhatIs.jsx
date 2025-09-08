@@ -742,7 +742,7 @@ export default function AboutWhat() {
             );
           })}
         </div>
-        <p className="mt-4 text-sm text-brand-700/80">
+        <p className="mt-4 text-sm text-black">
           출처: 국제협동조합연맹(ICA)의 협동조합 7대원칙(1995년)
         </p>
       </section>
