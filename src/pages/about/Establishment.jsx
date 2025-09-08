@@ -14,24 +14,24 @@ export default function AboutGreeting() {
       {/* 본문 : 최적 가독 폭 + 타이포그래피 정리 */}
       <section className="px-4 pb-16">
         <div
-          className="mx-auto max-w-[72ch] md:max-w-[78ch]"
+          className="mx-auto max-w-[70ch] md:max-w-[76ch]"
           style={{
-            letterSpacing: '-0.012em',
-            fontKerning: 'normal',
-            fontFeatureSettings: '"kern" 1, "liga" 1',
+            letterSpacing: '0',
+            fontKerning: 'none',
             textRendering: 'optimizeLegibility',
             WebkitFontSmoothing: 'antialiased',
+            MozOsxFontSmoothing: 'grayscale',
             wordBreak: 'keep-all'
           }}
         >
           {/* 인용구 : 가운데 정렬 */}
-          <blockquote className="text-center text-gray-700 italic text-lg md:text-xl leading-relaxed">
+          <blockquote className="text-center text-gray-700 italic text-lg md:text-xl leading-relaxed tracking-tight">
             “사람을 향한 사랑의 마음으로, 복지를 디자인하는 따뜻한 연결을 시작합니다.”
           </blockquote>
           <div className="mx-auto mt-3 mb-6 h-1 w-10 rounded-full bg-gray-200" />
 
           {/* 본문 문단 */}
-          <div className="space-y-6 text-[15.5px] md:text-[17px] leading-[1.9] text-gray-800">
+          <div className="space-y-6 text-[16px] md:text-[17.5px] leading-[1.85] tracking-normal text-gray-800">
             <p>
               안녕하십니까. 복지디자인 사회적협동조합 이사장 <strong>신창섭</strong>입니다. 저희 조합은 한국침례신학대학교 사회복지대학원에서 함께 배움의 시간을 나누었던 12명의 동문들이, 각자의 자리에서 쌓아온 실천 경험과 복지에 대한 사명을 지역사회와 나누고자 모여 설립한 사회적협동조합입니다.
             </p>
