@@ -144,9 +144,9 @@ function OrgChart() {
         {/* Horizontal connector trimmed to span only between the left/right platform columns */}
         <div className="h-px w-2/3 mx-auto bg-gray-300" />
         <div className="grid w-full grid-cols-3">
-          <div className="flex justify-center"><VLine h={28} /></div>
-          <div className="flex justify-center"><VLine h={28} /></div>
-          <div className="flex justify-center"><VLine h={28} /></div>
+          <div className="flex justify-center"><VLine h={35} /></div>
+          <div className="flex justify-center"><VLine h={35} /></div>
+          <div className="flex justify-center"><VLine h={35} /></div>
         </div>
       </div>
     </div>
