@@ -126,27 +126,27 @@ function OrgChart() {
     <div className="relative mx-auto w-full max-w-screen-xl">
       <div className="flex flex-col items-center">
         {/* 중앙 트렁크: 총회 → 이사회 → 이사장 */}
-        <VLine h={18} />
-        <Node attach label="조합원총회" />
-        <VLine h={18} />
-        <Node attach label="이사회" />
-        <VLine h={18} />
-        <Node attach label="이사장" />
+        <Node label="조합원총회" />
+        <VLine h={22} />
+        <Node label="이사회" />
+        <VLine h={22} />
+        <Node label="이사장" />
 
-        {/* 감사 교차부: 트렁크 중앙에서 감사(좌측)까지, 노드의 가운데에 접속 */}
+        {/* 감사 교차부: 가로선은 전체, 중앙에 세로 연결점 포함 */}
         <CrossAuditor />
 
-        {/* 사무국 */}
-        <VLine h={12} />
-        <Node attach label="사무국" />
-
-        {/* 하단 분기: 3개 플랫폼으로 내려가는 세로선들 */}
+        {/* 사무국 (트렁크가 끊기지 않도록 바로 이어짐) */}
         <VLine h={10} />
+        <Node label="사무국" />
+
+        {/* 하단 분기: 3플랫폼 위치까지 하강 및 가로선/세로선 */}
+        <VLine h={16} />
+        {/* Horizontal connector trimmed to span only between the left/right platform columns */}
         <div className="h-px w-2/3 mx-auto bg-gray-300" />
         <div className="grid w-full grid-cols-3">
-          <div className="flex justify-center"><VLine h={28} /></div>
-          <div className="flex justify-center"><VLine h={28} /></div>
-          <div className="flex justify-center"><VLine h={28} /></div>
+          <div className="flex justify-center"><VLine h={30} /></div>
+          <div className="flex justify-center"><VLine h={30} /></div>
+          <div className="flex justify-center"><VLine h={30} /></div>
         </div>
       </div>
     </div>
@@ -154,25 +154,25 @@ function OrgChart() {
 }
 // 가운데 트렁크에 정확히 접속하는 감사 교차부
 function CrossAuditor() {
-  // 수평 스퍼(트렁크 중심 → 감사 중심) 길이(px)
-  const spur = 240;
+  // left spur length from the center to the 감사 node
+  const spur = 280; // px
   return (
-    <div className="relative w-full h-12">
-      {/* 트렁크가 끊기지 않게 중앙 조인트 */}
+    <div className="relative w-full h-10">
+      {/* central joint to keep the trunk visually continuous */}
       <div className="absolute left-1/2 top-0 -translate-x-1/2">
         <VLine h={10} />
       </div>
-      {/* 트렁크에서 감사 "중앙"까지 가는 짧은 가로선 */}
+      {/* SHORT horizontal line only from the trunk to the 감사 box (left side) */}
       <div
         className="absolute top-1/2 -translate-y-1/2 h-px bg-gray-300"
         style={{ left: `calc(50% - ${spur}px)`, width: `${spur}px` }}
       />
-      {/* 감사 노드: 스퍼 끝의 중앙에 배치 */}
+      {/* 감사 node placed exactly at the end of the spur */}
       <div
-        className="absolute top-1/2 -translate-x-1/2 -translate-y-1/2"
+        className="absolute top-1/2 -translate-y-1/2"
         style={{ left: `calc(50% - ${spur}px)` }}
       >
-        <Node label="감사" small attach />
+        <Node label="감사" small />
       </div>
     </div>
   );
@@ -187,17 +187,13 @@ function VLine({ h = 8 }) {
   );
 }
 
-function Node({ label, small = false, attach = false }) {
+function Node({ label, small = false }) {
   const base =
     "inline-flex items-center justify-center rounded-xl border border-gray-300 bg-white px-4 text-gray-800 shadow-sm";
-  const size = small ? "h-9 text-sm min-w-[88px]" : "h-11 text-base min-w-[108px]";
-  // 선이 박스 가운데에 닿도록, 박스를 위로 소폭 끌어올림(선 두께/패딩 보정)
-  const pull = attach
-    ? { marginTop: small ? "-18px" : "-22px" } // 노드 높이의 절반 정도
-    : undefined;
-  return (
-    <div className={`${base} ${size}`} style={pull}>{label}</div>
-  );
+  const size = small
+    ? "h-9 text-sm"
+    : "h-11 text-base min-w-[96px]";
+  return <div className={`${base} ${size}`}>{label}</div>;
 }
 
 function Th({ children }) {
