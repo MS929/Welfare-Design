@@ -57,7 +57,7 @@ export default function AboutPeople() {
       </section>
 
       {/* ===== 하단 3 플랫폼 카드 ===== */}
-      <section className="max-w-screen-xl mx-auto px-4 pb-14 mt-6 relative">
+      <section className="max-w-screen-xl mx-auto px-4 pb-14 mt-2 relative">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {platforms.map((p) => (
             <PlatformCard key={p.title} {...p} />
@@ -96,9 +96,14 @@ function PlatformCard({ title, items, color }) {
   const ring = color;
   return (
     <div
-      className="rounded-2xl p-6 shadow-sm border bg-white"
+      className="relative rounded-2xl p-6 pt-8 shadow-sm border bg-white"
       style={{ borderColor: ring, background: `linear-gradient(180deg, ${tint}, #ffffff)` }}
     >
+      <span
+        className="absolute -top-3 left-1/2 -translate-x-1/2 w-3 h-3 rounded-full ring-2 ring-white"
+        style={{ backgroundColor: color }}
+        aria-hidden
+      />
       <div className="flex items-center gap-2 mb-3">
         <span
           className="inline-block w-2.5 h-2.5 rounded-full"
@@ -144,9 +149,9 @@ function OrgChart() {
         {/* Horizontal connector trimmed to span only between the left/right platform columns */}
         <div className="h-px w-2/3 mx-auto bg-gray-300" />
         <div className="grid w-full grid-cols-3">
-          <div className="flex justify-center"><VLine h={20} /></div>
-          <div className="flex justify-center"><VLine h={20} /></div>
-          <div className="flex justify-center"><VLine h={20} /></div>
+          <div className="flex justify-center"><VLine h={12} /></div>
+          <div className="flex justify-center"><VLine h={12} /></div>
+          <div className="flex justify-center"><VLine h={12} /></div>
         </div>
       </div>
     </div>
