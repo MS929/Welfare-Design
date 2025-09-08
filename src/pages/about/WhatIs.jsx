@@ -618,9 +618,9 @@ export default function AboutWhat() {
             />
           </div>
 
-          <div className="space-y-4 text-gray-800 leading-relaxed whitespace-normal break-words self-center">
+          <div className="space-y-4 text-gray-800 leading-relaxed break-words self-center">
             {background.paragraphs.map((t, i) => (
-              <p key={i}>{t}</p>
+              <p key={i} className="whitespace-pre-line">{t}</p>
             ))}
           </div>
         </div>
