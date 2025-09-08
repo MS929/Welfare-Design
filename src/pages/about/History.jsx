@@ -83,12 +83,12 @@ export default function AboutHistory() {
                 </div>
               </div>
 
-              {/* 세로 라인 + 카드들 */}
+              {/* 세로 라인 + 카드들 */}ㄴ
               <div className="relative flex-1 pl-8 md:pl-10 lg:pl-12">
                 {/* vertical rail aligned to the page's left guide */}
                 <div
                   className="absolute bottom-6 border-l-2 border-dashed border-[var(--pri)]/30"
-                  style={{ left: "var(--rail)", top: "calc(var(--year-block) - 12px)" }}
+                  style={{ left: "var(--rail)", top: "calc(var(--year-block) - 16px)" }}
                 />
 
                 <div className="space-y-8">
