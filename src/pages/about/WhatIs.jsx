@@ -624,24 +624,44 @@ export default function AboutWhat() {
 
       {/* ===== 설립 목적 / 미션 / 비전 ===== */}
       <section className="max-w-screen-xl mx-auto px-4 pb-10">
+        {/* 카드 상단을 브랜드 3색으로 채우고, 제목을 가운데 정렬 */}
         <div className="grid md:grid-cols-3 gap-6">
-          {gmv.map((b) => (
-            <div
-              key={b.key}
-              className="group rounded-xl border border-brand-200 bg-white p-5 shadow-sm hover:shadow-md transition-shadow"
-            >
-              <h3 className="text-lg font-semibold mb-2 text-brand-800">{b.key}</h3>
-              {Array.isArray(b.body) ? (
-                <ul className="list-disc pl-5 space-y-2 text-gray-800 leading-relaxed">
-                  {b.body.map((t, i) => (
-                    <li key={i}>{t}</li>
-                  ))}
-                </ul>
-              ) : (
-                <p className="text-gray-800 leading-relaxed">{b.body}</p>
-              )}
-            </div>
-          ))}
+          {gmv.map((b, idx) => {
+            const accents = [
+              { bg: "#2457B2" }, // Cobalt
+              { bg: "#3FAE63" }, // Leaf
+              { bg: "#2B2E34" }, // Charcoal
+            ];
+            const color = accents[idx % accents.length].bg;
+            return (
+              <div
+                key={b.key}
+                className="rounded-xl overflow-hidden border border-gray-200 bg-white shadow-sm hover:shadow-md transition-shadow"
+                style={{ boxShadow: "0 1px 3px rgba(0,0,0,0.06)" }}
+              >
+                {/* 컬러 헤더 (제목 가운데) */}
+                <div
+                  className="py-3 text-center font-semibold tracking-tight"
+                  style={{ backgroundColor: color, color: "#fff" }}
+                >
+                  {b.key}
+                </div>
+
+                {/* 내용 */}
+                <div className="p-5">
+                  {Array.isArray(b.body) ? (
+                    <ul className="list-disc pl-5 space-y-2 text-gray-800 leading-relaxed">
+                      {b.body.map((t, i) => (
+                        <li key={i}>{t}</li>
+                      ))}
+                    </ul>
+                  ) : (
+                    <p className="text-gray-800 leading-relaxed">{b.body}</p>
+                  )}
+                </div>
+              </div>
+            );
+          })}
         </div>
       </section>
 
