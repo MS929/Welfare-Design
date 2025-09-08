@@ -2,10 +2,10 @@
 
 // 원자료 (오름차순 정렬 기준: YYYY.MM)
 const raw = [
-  { date: "2024.11", event: "가칭) 복지디자인사회적협동조합 창립총회 개최" },
-  { date: "2024.12", event: "가칭) 복지디자인사회적협동조합 설립동의자 모집 및 준비모임" },
   { date: "2025.05", event: "가칭) 복지디자인사회적협동조합 실무자 교육 진행" },
   { date: "2025.06", event: "가칭) 복지디자인사회적협동조합 설립 추진단 결성" },
+  { date: "2024.11", event: "가칭) 복지디자인사회적협동조합 창립총회 개최" },
+  { date: "2024.12", event: "가칭) 복지디자인사회적협동조합 설립동의자 모집 및 준비모임" },
 ];
 
 // 날짜 오름차순 정렬 + 년도별 그룹
@@ -86,7 +86,7 @@ export default function AboutHistory() {
               <div className="relative flex-1 pl-8 md:pl-10 lg:pl-12">
                 {/* vertical rail aligned to the page's left guide */}
                 <div
-                  className="absolute top-0 bottom-0 border-l-2 border-dashed border-[var(--pri)]/30"
+                  className="absolute top-20 bottom-0 border-l-2 border-dashed border-[var(--pri)]/30"
                   style={{ left: "var(--rail)" }}
                 />
 
