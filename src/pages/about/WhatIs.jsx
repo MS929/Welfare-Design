@@ -3,7 +3,7 @@ export default function AboutWhat() {
   // ===== 데이터: 텍스트만 바꾸면 됨 =====
   const background = {
     title: "설립 배경",
-    image: "public/images/about/main.png", // 없으면 자동 대체 이미지로 표시됨
+    image: "/images/about/main.png", // 없으면 자동 대체 이미지로 표시됨
     paragraphs: [
       "복지디자인 사회적협동조합은 한국침례신학대학교 사회복지대학원에서 만난 12명의 동문들이 설립하였습니다.",
       "20여 년 전 “사람을 향한 하나님의 마음”을 배운 우리는, 각자의 자리에서 사회복지의 가치와 실천을 이어왔습니다.",
@@ -707,26 +707,35 @@ export default function AboutWhat() {
           운영 원칙(협동조합 7대 원칙)
         </h2>
         <div className="grid md:grid-cols-2 gap-6">
-          {principles.map((p) => (
-            <div
-              key={p.no}
-              className="rounded-xl border border-brand-200 bg-white p-5 shadow-sm hover:shadow-md transition-shadow"
-            >
-              <div className="inline-flex h-6 w-12 items-center justify-center rounded-full bg-brand-100 text-xs font-semibold text-brand-800">
-                {p.no}
+          {principles.map((p, idx) => {
+            const principlePalette = ["#F4B731", "#ED6A32", "#3BA7A0"]; // repeat
+            const pc = principlePalette[idx % principlePalette.length];
+            return (
+              <div
+                key={p.no}
+                className="rounded-xl border bg-white p-5 shadow-sm hover:shadow-md transition-shadow"
+                style={{ borderColor: pc, borderLeftWidth: 6, borderLeftColor: pc }}
+              >
+                <div
+                  className="inline-flex h-6 w-12 items-center justify-center rounded-full text-xs font-semibold"
+                  style={{ backgroundColor: pc, color: '#2B2E34' }}
+                >
+                  {p.no}
+                </div>
+                <h4 className="mt-2 font-semibold" style={{ color: pc }}>{p.title}</h4>git add src/pages/about/WhatIs.jsx public/images/about/main.png
+
+                {Array.isArray(p.desc) ? (
+                  <ul className="mt-2 list-disc pl-5 space-y-1 text-gray-800 leading-relaxed">
+                    {p.desc.map((line, idx) => (
+                      <li key={idx}>{line}</li>
+                    ))}
+                  </ul>
+                ) : (
+                  <p className="text-gray-800 mt-2 leading-relaxed">{p.desc}</p>
+                )}
               </div>
-              <h4 className="mt-2 font-semibold text-brand-900">{p.title}</h4>
-              {Array.isArray(p.desc) ? (
-                <ul className="mt-2 list-disc pl-5 space-y-1 text-gray-800 leading-relaxed">
-                  {p.desc.map((line, idx) => (
-                    <li key={idx}>{line}</li>
-                  ))}
-                </ul>
-              ) : (
-                <p className="text-gray-800 mt-2 leading-relaxed">{p.desc}</p>
-              )}
-            </div>
-          ))}
+            );
+          })}
         </div>
         <p className="mt-4 text-sm text-brand-700/80">
           출처: 국제협동조합연맹(ICA)의 협동조합 7대원칙(1995년)
