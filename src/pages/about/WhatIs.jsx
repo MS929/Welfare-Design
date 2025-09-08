@@ -18,11 +18,15 @@ export default function AboutWhat() {
     },
     {
       key: "미션",
-      body: "생활·건강·역량의 세 축에서 실질적 지원을 제공하고, 협동의 가치에 기반한 연대 네트워크를 확장합니다.",
+      body: "복지 실천가들과 함께 성장하며, 지역 주민의 삶을 행복하게 디자인 합니다.",
     },
     {
       key: "비전",
-      body: "복지사회가 일상이 되는 도시. 도움이 필요할 때 가까이에서 함께하는 돌봄 공동체.",
+      body: [
+        "누구나 접근할 수 있는 맞춤형 복지 플랫폼 실현",
+        "복지 실천가와 함께 성장하는 지식 기반 협력 생태계 구축",
+        "복지서비스의 품질을 높여 지역사회에 실질적으로 기여",
+      ],
     },
   ];
 
@@ -50,7 +54,7 @@ export default function AboutWhat() {
     {
       no: "01.",
       title: "자발적·개방적 조합원 제도",
-      desc: "차별 없이 누구나 가입할 수 있는 개방성을 지향하고, 조합원 자율성을 보장합니다.",
+      desc: "협동조합은 자발적인 조직으로, 성(性)적·사회적·인종적·정치적·종교적 차별 없이 모든 사람에게 열려 있습니다.",
     },
     {
       no: "02.",
@@ -241,7 +245,15 @@ export default function AboutWhat() {
           {gmv.map((b) => (
             <div key={b.key} className="rounded-xl border p-5 bg-white">
               <h3 className="text-lg font-semibold mb-2">{b.key}</h3>
-              <p className="text-gray-700 leading-relaxed">{b.body}</p>
+              {Array.isArray(b.body) ? (
+                <ul className="list-disc pl-5 space-y-2 text-gray-700 leading-relaxed">
+                  {b.body.map((t, i) => (
+                    <li key={i}>{t}</li>
+                  ))}
+                </ul>
+              ) : (
+                <p className="text-gray-700 leading-relaxed">{b.body}</p>
+              )}
             </div>
           ))}
         </div>
