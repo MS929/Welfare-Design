@@ -605,7 +605,7 @@ export default function AboutWhat() {
                   "https://picsum.photos/520/360?grayscale&random=11";
               }}
               alt="설립 배경"
-              className="w-full h-full object-cover"
+              className="w-full h-64 object-cover md:h-80"
             />
           </div>
 
