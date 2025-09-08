@@ -569,13 +569,13 @@ export default function AboutWhat() {
 `;
 
   return (
-    <div className="bg-gradient-to-b from-emerald-50/70 to-white">
+    <div className="bg-white">
       {/* ===== 브레드크럼 + 제목 (필요 시 수정) ===== */}
       <section className="max-w-screen-xl mx-auto px-4 pt-10">
-        <nav className="text-sm text-emerald-700/80">
+        <nav className="text-sm text-brand-700/80">
           소개 &gt; <span className="text-gray-700">복지디자인?</span>
         </nav>
-        <h1 className="mt-3 text-3xl md:text-4xl font-extrabold tracking-tight text-emerald-800">
+        <h1 className="mt-3 text-3xl md:text-4xl font-extrabold tracking-tight text-brand-800">
           복지디자인은?
         </h1>
       </section>
@@ -583,26 +583,26 @@ export default function AboutWhat() {
       {/* ===== 소개 카피(헤더 카피) ===== */}
       <section className="max-w-screen-xl mx-auto px-4 pt-6 pb-4 text-center">
         {/* 1줄 제목 */}
-        <h2 className="mt-2 text-xl md:text-2xl font-semibold text-emerald-700">
+        <h2 className="mt-2 text-xl md:text-2xl font-semibold text-brand-700">
           복지디자인사회적협동조합은
         </h2>
 
         {/* 2줄 메인 카피 (따옴표 강조) */}
-        <p className="mt-2 text-2xl md:text-3xl font-extrabold text-emerald-900">
+        <p className="mt-2 text-2xl md:text-3xl font-extrabold text-brand-900">
           <span className="text-gray-900">
             “함께 성장하며, 모두의 행복을 위한 복지를 디자인합니다.”
           </span>
         </p>
 
         {/* 가는 구분선 (선택) */}
-        <div className="mx-auto mt-5 h-1 w-28 rounded-full bg-gradient-to-r from-emerald-400 to-emerald-600" />
+        <div className="mx-auto mt-5 h-1 w-28 rounded-full bg-gradient-to-r from-brand-400 to-brand-600" />
       </section>
       {/* ===== 설립 배경 ===== */}
       <section className="max-w-screen-xl mx-auto px-4 py-10">
-        <h2 className="text-2xl font-bold mb-6 text-emerald-900">설립 배경</h2>
+        <h2 className="text-2xl font-bold mb-6 text-brand-900">설립 배경</h2>
 
         <div className="grid md:grid-cols-[260px,1fr] gap-6 items-start">
-          <div className="rounded-xl overflow-hidden border border-emerald-200 bg-white shadow-sm">
+          <div className="rounded-xl overflow-hidden border border-brand-200 bg-white shadow-sm">
             <img
               src={background.image}
               onError={(e) => {
@@ -628,9 +628,9 @@ export default function AboutWhat() {
           {gmv.map((b) => (
             <div
               key={b.key}
-              className="group rounded-xl border border-emerald-200 bg-white p-5 shadow-sm hover:shadow-md transition-shadow"
+              className="group rounded-xl border border-brand-200 bg-white p-5 shadow-sm hover:shadow-md transition-shadow"
             >
-              <h3 className="text-lg font-semibold mb-2 text-emerald-800">{b.key}</h3>
+              <h3 className="text-lg font-semibold mb-2 text-brand-800">{b.key}</h3>
               {Array.isArray(b.body) ? (
                 <ul className="list-disc pl-5 space-y-2 text-gray-800 leading-relaxed">
                   {b.body.map((t, i) => (
@@ -647,12 +647,12 @@ export default function AboutWhat() {
 
       {/* ===== 역대 이사장 ===== */}
       <section className="max-w-screen-xl mx-auto px-4 pb-10">
-        <h2 className="text-2xl font-bold mb-4 text-emerald-900">역대 이사장</h2>
+        <h2 className="text-2xl font-bold mb-4 text-brand-900">역대 이사장</h2>
         <div className="flex flex-wrap gap-3">
           {pastChairs.map((name, i) => (
             <span
               key={i}
-              className="rounded-full border border-emerald-200 bg-emerald-50 px-4 py-2 text-sm text-emerald-800"
+              className="rounded-full border border-brand-200 bg-brand-50 px-4 py-2 text-sm text-brand-800"
             >
               {name}
             </span>
@@ -662,8 +662,8 @@ export default function AboutWhat() {
 
       {/* ===== 조합원의 자격 및 유형 / 운영 공개 ===== */}
       <section className="max-w-screen-xl mx-auto px-4 pb-10 grid md:grid-cols-2 gap-6">
-        <div className="rounded-xl border border-emerald-200 bg-white p-5 shadow-sm">
-          <h3 className="text-lg font-semibold mb-3 text-emerald-800">조합원의 자격 및 유형</h3>
+        <div className="rounded-xl border border-brand-200 bg-white p-5 shadow-sm">
+          <h3 className="text-lg font-semibold mb-3 text-brand-800">조합원의 자격 및 유형</h3>
           <ul className="list-disc pl-5 space-y-2 text-gray-800">
             {memberEligibility.map((t, i) => (
               <li key={i}>{t}</li>
@@ -671,8 +671,8 @@ export default function AboutWhat() {
           </ul>
         </div>
 
-        <div className="rounded-xl border border-emerald-200 bg-white p-5 shadow-sm">
-          <h3 className="text-lg font-semibold mb-3 text-emerald-800">운영 공개</h3>
+        <div className="rounded-xl border border-brand-200 bg-white p-5 shadow-sm">
+          <h3 className="text-lg font-semibold mb-3 text-brand-800">운영 공개</h3>
           <ul className="list-disc pl-5 space-y-2 text-gray-800">
             {operationDisclosure.map((t, i) => (
               <li key={i}>{t}</li>
@@ -683,19 +683,19 @@ export default function AboutWhat() {
 
       {/* ===== 운영 원칙 (7대 원칙) ===== */}
       <section className="max-w-screen-xl mx-auto px-4 pb-10">
-        <h2 className="text-2xl font-bold mb-4 text-emerald-900">
+        <h2 className="text-2xl font-bold mb-4 text-brand-900">
           운영 원칙(협동조합 7대 원칙)
         </h2>
         <div className="grid md:grid-cols-2 gap-6">
           {principles.map((p) => (
             <div
               key={p.no}
-              className="rounded-xl border border-emerald-200 bg-white p-5 shadow-sm hover:shadow-md transition-shadow"
+              className="rounded-xl border border-brand-200 bg-white p-5 shadow-sm hover:shadow-md transition-shadow"
             >
-              <div className="inline-flex h-6 w-12 items-center justify-center rounded-full bg-emerald-100 text-xs font-semibold text-emerald-800">
+              <div className="inline-flex h-6 w-12 items-center justify-center rounded-full bg-brand-100 text-xs font-semibold text-brand-800">
                 {p.no}
               </div>
-              <h4 className="mt-2 font-semibold text-emerald-900">{p.title}</h4>
+              <h4 className="mt-2 font-semibold text-brand-900">{p.title}</h4>
               {Array.isArray(p.desc) ? (
                 <ul className="mt-2 list-disc pl-5 space-y-1 text-gray-800 leading-relaxed">
                   {p.desc.map((line, idx) => (
@@ -708,16 +708,16 @@ export default function AboutWhat() {
             </div>
           ))}
         </div>
-        <p className="mt-4 text-sm text-emerald-700/80">
+        <p className="mt-4 text-sm text-brand-700/80">
           출처: 국제협동조합연맹(ICA)의 협동조합 7대원칙(1995년)
         </p>
       </section>
 
       {/* ===== 정관 (스크롤 박스) ===== */}
       <section className="max-w-screen-xl mx-auto px-4 pb-16">
-        <h2 className="text-2xl font-bold mb-4 text-emerald-900">정관</h2>
+        <h2 className="text-2xl font-bold mb-4 text-brand-900">정관</h2>
 
-        <div className="rounded-xl border border-emerald-200 bg-white p-4 md:p-5 shadow-sm">
+        <div className="rounded-xl border border-brand-200 bg-white p-4 md:p-5 shadow-sm">
           {/* 고정 높이 + 스크롤 */}
           <div className="max-h-[60vh] overflow-y-auto whitespace-pre-wrap leading-relaxed text-gray-900">
             {bylawsText}
