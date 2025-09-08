@@ -3,24 +3,26 @@ export default function AboutGreeting() {
   return (
     <div className="bg-white">
       {/* 브레드크럼 + 제목 */}
-      <section className="max-w-screen-xl mx-auto px-4 pt-10">
-        <nav className="text-sm text-gray-500">
+      <section className="max-w-screen-xl mx-auto px-4 pt-10 pb-4 border-b-2 border-teal-500">
+        <nav className="text-sm text-gray-500 mb-2">
           소개 &gt; <span className="text-gray-700">인사말</span>
         </nav>
         <h1 className="mt-4 text-3xl md:text-4xl font-extrabold">인사말</h1>
       </section>
 
       {/* 헤드라인 문구 */}
-      <section className="max-w-screen-md mx-auto px-4 pt-6">
-        <blockquote className="text-center text-xl md:text-2xl font-semibold text-teal-700 leading-relaxed whitespace-pre-line">
+      <section className="max-w-screen-md mx-auto px-4 pt-8 pb-8 flex flex-col items-center">
+        <div className="w-full border-t-2 border-teal-500 mb-4"></div>
+        <blockquote className="text-center text-3xl md:text-4xl font-extrabold text-teal-700 leading-relaxed whitespace-pre-line">
           {`“사람을 향한 사랑의 마음으로,
             복지를 디자인하는 따뜻한 연결을 시작합니다.”`}
         </blockquote>
+        <div className="w-full border-b-2 border-teal-500 mt-4"></div>
       </section>
 
       {/* 본문 인사말 */}
-      <section className="max-w-screen-md mx-auto px-4 py-10">
-        <div className="space-y-6 text-gray-800 leading-relaxed">
+      <section className="max-w-screen-md mx-auto px-4 py-10 space-y-6">
+        <div className="bg-white shadow-lg rounded-lg p-6 space-y-6 text-gray-800 leading-relaxed">
           <p className="whitespace-pre-line">
             {`안녕하십니까.
               복지디자인 사회적협동조합 이사장 신창섭입니다.
@@ -49,7 +51,7 @@ export default function AboutGreeting() {
               이 따뜻한 변화의 여정에 여러분의 관심과 참여를 부탁드립니다.`}
           </p>
 
-          <div className="mt-6 text-right whitespace-pre-line">
+          <div className="mt-6 text-right whitespace-pre-line italic text-gray-600">
             {`감사합니다.
               복지디자인 사회적협동조합 이사장
               신창섭 올림`}
