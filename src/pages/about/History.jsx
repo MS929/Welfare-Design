@@ -31,6 +31,7 @@ export default function AboutHistory() {
     "--sec-soft": "rgba(44,185,177,0.10)",
     "--title-guide": "20px",
     "--timeline-guide": "20px",
+    "--year-block": "72px",
     "--rail": "-4px" // page left guide fine‑tune (align to header guide)
   };
 
@@ -66,7 +67,7 @@ export default function AboutHistory() {
           .map((year) => (
             <section key={year} className="relative mb-16">
               {/* 연도 헤더 */}
-              <div className="pl-1 mb-6 relative" style={{ height: "24px" }}>
+              <div className="pl-1 mb-6 relative" style={{ height: "var(--year-block)" }}>
                 <div
                   className="absolute left-[var(--rail)] flex flex-col items-center -translate-x-1/2"
                 >
@@ -86,8 +87,8 @@ export default function AboutHistory() {
               <div className="relative flex-1 pl-8 md:pl-10 lg:pl-12">
                 {/* vertical rail aligned to the page's left guide */}
                 <div
-                  className="absolute top-20 bottom-0 border-l-2 border-dashed border-[var(--pri)]/30"
-                  style={{ left: "var(--rail)" }}
+                  className="absolute bottom-6 border-l-2 border-dashed border-[var(--pri)]/30"
+                  style={{ left: "var(--rail)", top: "var(--year-block)" }}
                 />
 
                 <div className="space-y-8">
