@@ -3,7 +3,7 @@ export default function AboutWhat() {
   const SectionTitle = ({ color, children }) => (
     <div className="flex items-center gap-3 mb-6">
       <span
-        className="inline-block h-6 w-6 rounded-full ring-2 ring-black/5 shadow-sm"
+        className="inline-block h-6 w-6 rounded-full"
         style={{ backgroundColor: color }}
         aria-hidden
       />
@@ -611,8 +611,7 @@ export default function AboutWhat() {
             <img
               src={background.image}
               onError={(e) => {
-                e.currentTarget.src =
-                  "https://picsum.photos/520/360?grayscale&random=11";
+                e.currentTarget.style.display = 'none';
               }}
               alt="설립 배경"
               className="w-full h-auto object-contain max-h-52 md:max-h-56"
@@ -641,7 +640,7 @@ export default function AboutWhat() {
             return (
               <div
                 key={b.key}
-                className="rounded-xl overflow-hidden border border-gray-200 bg-white shadow-sm hover:shadow-md transition-shadow"
+                className="rounded-xl overflow-hidden border border-gray-200 bg-white shadow-sm min-h-[240px] flex flex-col"
                 style={{ boxShadow: "0 1px 3px rgba(0,0,0,0.06)" }}
               >
                 {/* 컬러 헤더 (제목 가운데) */}
@@ -653,7 +652,7 @@ export default function AboutWhat() {
                 </div>
 
                 {/* 내용 */}
-                <div className="p-5">
+                <div className="p-5 flex-1">
                   {Array.isArray(b.body) ? (
                     <ul className="list-disc pl-5 space-y-2 text-gray-800 leading-relaxed">
                       {b.body.map((t, i) => (
@@ -716,7 +715,7 @@ export default function AboutWhat() {
             return (
               <div
                 key={p.no}
-                className="rounded-xl overflow-hidden border bg-white shadow-sm h-full min-h-[180px] flex flex-col hover:shadow-md transition-shadow"
+                className="rounded-xl overflow-hidden border bg-white shadow-sm h-full min-h-[180px] flex flex-col"
                 style={{ borderColor: pc }}
               >
                 {/* 상단 헤더: 01. 제목 (배경색 = 팔레트 색) */}
