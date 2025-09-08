@@ -2,37 +2,36 @@
 export default function AboutGreeting() {
   return (
     <div className="bg-white">
-      {/* 상단 : 브레드크럼 + 제목 (톤 다운) */}
+      {/* 상단 : 브레드크럼 + 제목 */}
       <section className="max-w-screen-xl mx-auto px-4 pt-10 pb-4">
         <nav className="text-sm text-gray-500">
           소개 &gt; <span className="text-gray-700">인사말</span>
         </nav>
-        <h1 className="mt-3 text-[28px] md:text-[34px] font-extrabold text-gray-900 tracking-normal">
-          인사말
-        </h1>
-        <div className="mt-3 h-1 w-12 rounded-full bg-gray-200" />
+        <h1 className="mt-3 text-[28px] md:text-[34px] font-extrabold text-gray-900">인사말</h1>
+        <div className="mt-3 h-1.5 w-12 rounded-full bg-[#3BA7A0]/70" />
       </section>
 
-      {/* 본문 : 좌측 여백 + 담백한 레이아웃 */}
-      <section className="max-w-screen-md mx-auto px-4 py-10">
+      {/* 본문 : 최적 가독 폭 + 타이포그래피 정리 */}
+      <section className="px-4 pb-16">
         <div
+          className="mx-auto max-w-[72ch] md:max-w-[78ch]"
           style={{
             letterSpacing: '-0.012em',
             fontKerning: 'normal',
             fontFeatureSettings: '"kern" 1, "liga" 1',
-            textRendering: 'optimizeLegibility'
+            textRendering: 'optimizeLegibility',
+            WebkitFontSmoothing: 'antialiased',
+            wordBreak: 'keep-all'
           }}
         >
-          {/* 서두 한 줄 (공지 느낌 완화: 굵은 테두리/라인 제거, 이탤릭 톤) */}
-          <p className="text-lg md:text-xl text-gray-700 italic leading-relaxed">
+          {/* 인용구 : 가운데 정렬 */}
+          <blockquote className="text-center text-gray-700 italic text-lg md:text-xl leading-relaxed">
             “사람을 향한 사랑의 마음으로, 복지를 디자인하는 따뜻한 연결을 시작합니다.”
-          </p>
+          </blockquote>
+          <div className="mx-auto mt-3 mb-6 h-1 w-10 rounded-full bg-gray-200" />
 
-          {/* 간격 */}
-          <div className="mt-6" />
-
-          {/* 인사말 본문 (왼쪽 정렬, 자연스러운 문단 간격) */}
-          <div className="space-y-5 text-[15.5px] md:text-base leading-[1.9] md:leading-8 text-gray-800 whitespace-normal">
+          {/* 본문 문단 */}
+          <div className="space-y-6 text-[15.5px] md:text-[17px] leading-[1.9] text-gray-800">
             <p>
               안녕하십니까. 복지디자인 사회적협동조합 이사장 <strong>신창섭</strong>입니다. 저희 조합은 한국침례신학대학교 사회복지대학원에서 함께 배움의 시간을 나누었던 12명의 동문들이, 각자의 자리에서 쌓아온 실천 경험과 복지에 대한 사명을 지역사회와 나누고자 모여 설립한 사회적협동조합입니다.
             </p>
@@ -50,10 +49,10 @@ export default function AboutGreeting() {
             </p>
           </div>
 
-          {/* 서명 블록 (오른쪽 정렬, 공지문 분위기 탈피) */}
+          {/* 서명 블록 */}
           <div className="mt-10 text-right">
             <p className="text-sm text-gray-500">복지디자인 사회적협동조합 이사장</p>
-            <p className="mt-1 text-lg md:text-xl font-semibold">신창섭 올림</p>
+            <p className="mt-1 text-lg md:text-xl font-semibold tracking-tight">신창섭 올림</p>
           </div>
         </div>
       </section>
