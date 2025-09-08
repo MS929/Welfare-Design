@@ -62,6 +62,10 @@ export default function AboutHistory() {
 
       {/* 타임라인 래퍼: Establishment와 맞추기 위해 좌측 고정 여백 부여 */}
       <div className="relative mt-5" style={{ marginLeft: "calc(var(--timeline-guide) + 80px)" }}>
+        <div
+          className="absolute top-0 bottom-0 border-l-2 border-dashed border-[var(--pri)]/30"
+          style={{ left: "var(--rail)" }}
+        />
         {Object.keys(byYear)
           .sort()
           .map((year) => (
@@ -85,16 +89,6 @@ export default function AboutHistory() {
 
               {/* 세로 라인 + 카드들 */}
               <div className="relative flex-1 pl-8 md:pl-10 lg:pl-12">
-                {/* vertical rail aligned to the page's left guide */}
-                <div
-                  className="absolute bottom-6 border-l-2 border-dashed border-[var(--pri)]/30"
-                  style={{
-                    left: "var(--rail)",
-                    top: "calc(var(--year-block) + 8px)",
-                    height: "calc(100% - var(--year-block) - 8px)"
-                  }}
-                />
-
                 <div className="space-y-8">
                   {byYear[year].map((item, i) => (
                     <div key={i} className="relative">
