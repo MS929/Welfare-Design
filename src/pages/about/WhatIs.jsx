@@ -1,5 +1,15 @@
 // src/pages/about/WhatIs.jsx
 export default function AboutWhat() {
+  const SectionTitle = ({ color, children }) => (
+    <div className="flex items-center gap-3 mb-6">
+      <span
+        className="inline-block h-6 w-6 rounded-full ring-2 ring-black/5 shadow-sm"
+        style={{ backgroundColor: color }}
+        aria-hidden
+      />
+      <h2 className="text-2xl font-bold text-brand-900 m-0">{children}</h2>
+    </div>
+  );
   // ===== 데이터: 텍스트만 바꾸면 됨 =====
   const background = {
     title: "설립 배경",
@@ -594,7 +604,7 @@ export default function AboutWhat() {
       </section>
       {/* ===== 설립 배경 ===== */}
       <section className="max-w-screen-xl mx-auto px-4 py-10">
-        <h2 className="text-2xl font-bold mb-6 text-brand-900">설립 배경</h2>
+        <SectionTitle color="#3BA7A0">설립 배경</SectionTitle>
 
         <div className="grid md:grid-cols-[200px,1fr] gap-6 items-start">
           <div className="rounded-lg overflow-hidden">
@@ -609,7 +619,7 @@ export default function AboutWhat() {
             />
           </div>
 
-          <div className="space-y-4 text-gray-800 leading-relaxed whitespace-pre-line break-keep max-w-prose">
+          <div className="space-y-4 text-gray-800 leading-relaxed whitespace-normal break-words">
             {background.paragraphs.map((t, i) => (
               <p key={i}>{t}</p>
             ))}
@@ -662,7 +672,7 @@ export default function AboutWhat() {
 
       {/* ===== 역대 이사장 ===== */}
       <section className="max-w-screen-xl mx-auto px-4 pb-10">
-        <h2 className="text-2xl font-bold mb-4 text-brand-900">역대 이사장</h2>
+        <SectionTitle color="#ED6A32">역대 이사장</SectionTitle>
         <div className="flex flex-wrap gap-3">
           {pastChairs.map((name, i) => (
             <span
@@ -698,9 +708,7 @@ export default function AboutWhat() {
 
       {/* ===== 운영 원칙 (7대 원칙) ===== */}
       <section className="max-w-screen-xl mx-auto px-4 pb-10">
-        <h2 className="text-2xl font-bold mb-4 text-brand-900">
-          운영 원칙(협동조합 7대 원칙)
-        </h2>
+        <SectionTitle color="#F4B731">운영 원칙(협동조합 7대 원칙)</SectionTitle>
         <div className="grid md:grid-cols-2 gap-6 items-stretch">
           {principles.map((p, idx) => {
             const principlePalette = ["#F4B731", "#ED6A32", "#3BA7A0"]; // repeat
@@ -742,7 +750,7 @@ export default function AboutWhat() {
 
       {/* ===== 정관 (스크롤 박스) ===== */}
       <section className="max-w-screen-xl mx-auto px-4 pb-16">
-        <h2 className="text-2xl font-bold mb-4 text-brand-900">정관</h2>
+        <SectionTitle color="#2B2E34">정관</SectionTitle>
 
         <div className="rounded-xl border border-brand-200 bg-white p-4 md:p-5 shadow-sm">
           {/* 고정 높이 + 스크롤 */}
