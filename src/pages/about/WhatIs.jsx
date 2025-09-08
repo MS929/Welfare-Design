@@ -701,32 +701,36 @@ export default function AboutWhat() {
         <h2 className="text-2xl font-bold mb-4 text-brand-900">
           운영 원칙(협동조합 7대 원칙)
         </h2>
-        <div className="grid md:grid-cols-2 gap-6">
+        <div className="grid md:grid-cols-2 gap-6 items-stretch">
           {principles.map((p, idx) => {
             const principlePalette = ["#F4B731", "#ED6A32", "#3BA7A0"]; // repeat
             const pc = principlePalette[idx % principlePalette.length];
             return (
               <div
                 key={p.no}
-                className="rounded-xl border bg-white p-5 shadow-sm hover:shadow-md transition-shadow"
-                style={{ borderColor: pc, borderLeftWidth: 6, borderLeftColor: pc }}
+                className="rounded-xl overflow-hidden border bg-white shadow-sm h-full min-h-[180px] flex flex-col hover:shadow-md transition-shadow"
+                style={{ borderColor: pc }}
               >
+                {/* 상단 헤더: 01. 제목 (배경색 = 팔레트 색) */}
                 <div
-                  className="inline-flex h-6 w-12 items-center justify-center rounded-full text-xs font-semibold"
-                  style={{ backgroundColor: pc, color: '#2B2E34' }}
+                  className="px-4 py-3 text-[17px] font-semibold tracking-tight"
+                  style={{ backgroundColor: pc, color: "#2B2E34" }}
                 >
-                  {p.no}
+                  {p.no} {p.title}
                 </div>
-                <h4 className="mt-2 font-semibold" style={{ color: pc }}>{p.title}</h4>
-                {Array.isArray(p.desc) ? (
-                  <ul className="mt-2 list-disc pl-5 space-y-1 text-gray-800 leading-relaxed">
-                    {p.desc.map((line, idx) => (
-                      <li key={idx}>{line}</li>
-                    ))}
-                  </ul>
-                ) : (
-                  <p className="text-gray-800 mt-2 leading-relaxed">{p.desc}</p>
-                )}
+
+                {/* 내용 */}
+                <div className="p-5 flex-1">
+                  {Array.isArray(p.desc) ? (
+                    <ul className="list-disc pl-5 space-y-1 text-gray-800 leading-relaxed">
+                      {p.desc.map((line, i) => (
+                        <li key={i}>{line}</li>
+                      ))}
+                    </ul>
+                  ) : (
+                    <p className="text-gray-800 leading-relaxed">{p.desc}</p>
+                  )}
+                </div>
               </div>
             );
           })}
@@ -744,7 +748,7 @@ export default function AboutWhat() {
           {/* 고정 높이 + 스크롤 */}
           <div className="max-h-[60vh] overflow-y-auto whitespace-pre-wrap leading-relaxed text-gray-900">
             {bylawsText}
-          </div>
+          </div> 
 
           {/* 부가 행동 (선택) */}
           {/* 다운로드 파일이 있으면 href 바꿔 사용 */}
