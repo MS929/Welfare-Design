@@ -3,7 +3,7 @@ export default function AboutWhat() {
   // ===== 데이터: 텍스트만 바꾸면 됨 =====
   const background = {
     title: "설립 배경",
-    image: "/images/about/main.png", // 없으면 자동 대체 이미지로 표시됨
+    image: "public/images/about/main.png", // 없으면 자동 대체 이미지로 표시됨
     paragraphs: [
       "복지디자인 사회적협동조합은 한국침례신학대학교 사회복지대학원에서 만난 12명의 동문들이 설립하였습니다.",
       "20여 년 전 “사람을 향한 하나님의 마음”을 배운 우리는, 각자의 자리에서 사회복지의 가치와 실천을 이어왔습니다.",
@@ -628,9 +628,9 @@ export default function AboutWhat() {
         <div className="grid md:grid-cols-3 gap-6">
           {gmv.map((b, idx) => {
             const accents = [
-              { bg: "#ED6A32", fg: "#FFFFFF" }, // Orange
               { bg: "#F4B731", fg: "#2B2E34" }, // Yellow (dark text for contrast)
-              { bg: "#3BA7A0", fg: "#FFFFFF" }, // Teal
+              { bg: "#ED6A32", fg: "#2B2E34" }, // Orange
+              { bg: "#3BA7A0", fg: "#2B2E34" }, // Teal
             ];
             const accent = accents[idx % accents.length];
             return (
