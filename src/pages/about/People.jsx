@@ -99,11 +99,6 @@ function PlatformCard({ title, items, color }) {
       className="relative rounded-2xl p-6 pt-8 shadow-sm border bg-white"
       style={{ borderColor: ring, background: `linear-gradient(180deg, ${tint}, #ffffff)` }}
     >
-      <span
-        className="absolute -top-3 left-1/2 -translate-x-1/2 w-3 h-3 rounded-full ring-2 ring-white"
-        style={{ backgroundColor: color }}
-        aria-hidden
-      />
       <div className="flex items-center gap-2 mb-3">
         <span
           className="inline-block w-2.5 h-2.5 rounded-full"
@@ -149,9 +144,9 @@ function OrgChart() {
         {/* Horizontal connector trimmed to span only between the left/right platform columns */}
         <div className="h-px w-2/3 mx-auto bg-gray-300" />
         <div className="grid w-full grid-cols-3">
-          <div className="flex justify-center"><VLine h={24} /></div>
-          <div className="flex justify-center"><VLine h={24} /></div>
-          <div className="flex justify-center"><VLine h={24} /></div>
+          <div className="flex justify-center"><VLine h={28} /></div>
+          <div className="flex justify-center"><VLine h={28} /></div>
+          <div className="flex justify-center"><VLine h={28} /></div>
         </div>
       </div>
     </div>
