@@ -88,7 +88,7 @@ export default function AboutHistory() {
                 {/* vertical rail aligned to the page's left guide */}
                 <div
                   className="absolute bottom-6 border-l-2 border-dashed border-[var(--pri)]/30"
-                  style={{ left: "var(--rail)", top: "calc(var(--year-block) - 28px)" }}
+                  style={{ left: "var(--rail)", top: "calc(var(--year-block) - 40px)" }}
                 />
 
                 <div className="space-y-8">
