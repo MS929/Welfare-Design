@@ -14,7 +14,7 @@ export default function AboutWhat() {
   const gmv = [
     {
       key: "설립 목적",
-      body: "복지의 사각지대를 줄이고 지역 기반의 상호부조 체계를 구축하여 시민 누구나 기본적인 복지서비스에 접근할 수 있도록 합니다.",
+      body: "조합은 자주적·자립적·자치적인 협동조합 활동을 바탕으로, 복지정보에 대한 접근이 어려운 고령자·장애인 등 이동 취약계층뿐만 아니라 누구나 복지 사각지대 없이 맞춤형 복지서비스를 기획·연결·운영하고, 정보 연계, 행정 절차 동행 지원, 보조기기 나눔 등을 통해 실질적인 복지 접근권을 보장함으로써, 주민의 삶의 질을 향상하는 것을 목적으로 한다.",
     },
     {
       key: "미션",
@@ -215,18 +215,16 @@ export default function AboutWhat() {
 
       {/* ===== 소개 카피(헤더 카피) ===== */}
       <section className="max-w-screen-xl mx-auto px-4 pt-6 pb-4 text-center">
-
         {/* 1줄 제목 */}
         <h2 className="mt-2 text-xl md:text-2xl font-semibold">
-          복지동행 사회적협동조합은
+          복지디자인사회적협동조합은
         </h2>
 
         {/* 2줄 메인 카피 (따옴표 강조) */}
         <p className="mt-2 text-2xl md:text-3xl font-extrabold">
           <span className="text-gray-900">
-            ‘복지사회를 지향하는 사람 누구나’
+            “함께 성장하며, 모두의 행복을 위한 복지를 디자인합니다.”
           </span>
-          를 환영합니다.
         </p>
 
         {/* 가는 구분선 (선택) */}
@@ -244,7 +242,6 @@ export default function AboutWhat() {
                 e.currentTarget.src =
                   "https://picsum.photos/520/360?grayscale&random=11";
               }}
-              
               alt="설립 배경"
               className="w-full h-full object-cover"
             />
