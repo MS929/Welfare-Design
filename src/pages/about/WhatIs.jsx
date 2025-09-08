@@ -596,8 +596,8 @@ export default function AboutWhat() {
       <section className="max-w-screen-xl mx-auto px-4 py-10">
         <h2 className="text-2xl font-bold mb-6 text-brand-900">설립 배경</h2>
 
-        <div className="grid md:grid-cols-[260px,1fr] gap-6 items-start">
-          <div className="rounded-xl overflow-hidden bg-white shadow-sm">
+        <div className="grid md:grid-cols-[200px,1fr] gap-6 items-start">
+          <div className="rounded-lg overflow-hidden">
             <img
               src={background.image}
               onError={(e) => {
@@ -605,11 +605,11 @@ export default function AboutWhat() {
                   "https://picsum.photos/520/360?grayscale&random=11";
               }}
               alt="설립 배경"
-              className="w-full h-64 object-cover md:h-80"
+              className="w-full h-auto object-contain max-h-52 md:max-h-56"
             />
           </div>
 
-          <div className="space-y-4 text-gray-800 leading-relaxed whitespace-pre-line break-keep">
+          <div className="space-y-4 text-gray-800 leading-relaxed whitespace-pre-line break-keep max-w-prose">
             {background.paragraphs.map((t, i) => (
               <p key={i}>{t}</p>
             ))}
