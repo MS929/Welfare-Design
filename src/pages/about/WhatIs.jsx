@@ -102,7 +102,7 @@ export default function AboutWhat() {
       no: "07.",
       title: "지역사회에 대한 기여",
       desc: [
-        "조합은 지역사회의 지속가능한 발전에 기여하며, 공익을 증진하는 사업을 추진합니다.",
+        "조합은 지역사회의 지속가능한 발전에 기여하며, 공익을 증진하는 사업을 추진합니다。",
       ],
     },
   ];
@@ -336,6 +336,9 @@ export default function AboutWhat() {
             </div>
           ))}
         </div>
+        <p className="text-sm text-gray-500 mt-4">
+          출처: 국제협동조합연맹(ICA)의 협동조합 7대원칙(1995년)
+        </p>
       </section>
 
       {/* ===== 정관 (스크롤 박스) ===== */}
