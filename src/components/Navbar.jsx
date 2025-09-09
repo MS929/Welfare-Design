@@ -87,7 +87,7 @@ export default function Navbar() {
           <Dropdown
             title="소식"
             items={[
-              { to: "/news/stories", label: "동행이야기" },
+              { to: "/news/stories", label: "복지 디자인 이야기" },
               { to: "/news/notices", label: "공지/공모" },
               { to: "/news/newsletter", label: "뉴스레터" },
             ]}
@@ -153,7 +153,7 @@ export default function Navbar() {
                 className="block px-3 py-2 rounded hover:bg-gray-50"
                 onClick={() => setMobileOpen(false)}
               >
-                동행은?
+                복지디자인은?
               </NavLink>
               <NavLink
                 to="/about/history"
@@ -182,7 +182,7 @@ export default function Navbar() {
                 className="block px-3 py-2 rounded hover:bg-gray-50"
                 onClick={() => setMobileOpen(false)}
               >
-                동행이야기
+                복지디자인 이야기
               </NavLink>
               <NavLink
                 to="/news/notices"
