@@ -22,7 +22,7 @@ export default function ApplyHelp() {
               <ul className="space-y-4 text-gray-800">
                 <li className="flex gap-3">
                   <span className="mt-1.5 h-2 w-2 rounded-full bg-emerald-500" />
-                  <span>장애인등록, 노인장기요양, 긴급복지 등 지원제도 안내</span>
+                  <span>장애인등록, 노인장기요양, 긴급복지 등 지원제도 안</span>
                 </li>
                 <li className="flex gap-3">
                   <span className="mt-1.5 h-2 w-2 rounded-full bg-emerald-500" />
