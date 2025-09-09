@@ -124,7 +124,6 @@ export default function Navbar() {
         <ul
           className="hidden md:grid grid-cols-4 place-items-center gap-12 lg:gap-16 xl:gap-20 w-full max-w-3xl font-medium mx-auto -translate-x-4"
           onMouseEnter={() => setMegaOpen(true)}
-          onMouseLeave={() => { setMegaOpen(false); setHoveredIdx(null); }}
         >
           {sections.map((s, idx) => (
             <li
@@ -174,8 +173,6 @@ export default function Navbar() {
         {megaOpen && (
           <div
             className="absolute inset-x-0 top-full bg-white/95 border-t border-b backdrop-blur-sm shadow-sm"
-            onMouseEnter={() => setMegaOpen(true)}
-            onMouseLeave={() => { setMegaOpen(false); setHoveredIdx(null); }}
           >
             <div className="max-w-3xl mx-auto px-0 pt-6 pb-8 -translate-x-2">
               {/* 상단 네비게이션 그리드와 동일한 간격/정렬 적용하여 칼럼 정렬 고정 */}
