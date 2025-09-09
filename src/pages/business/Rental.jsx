@@ -5,20 +5,19 @@ import BusinessHero from "./_BusinessHero";
 export default function Rental() {    // 1. 휠체어 및 복지용구 무료 대여
   return (
     <BizLayout title="휠체어 및 복지용구 무료 대여">
-      <BusinessHero
-        imageSrc="/images/business/rental.png"
-        subtitle="단기·긴급 상황의 이동권 보장"
-        bullets={[
-          "수동/전동 휠체어, 보행보조기, 목욕의자 등 기초 복지용구 무료 대여",
-          "사전 연락 후 재고 확인 및 대여 대장 작성",
-          "사용법 안내 및 기초 안전 교육",
-          "기본 7일 대여, 1회 연장 가능(최대 14일)",
-        ]}
-      />
-
-      {/* 기대 효과 */}
-      <div className="max-w-screen-xl mx-auto px-4 mt-8">
-        <div className="border border-gray-200 rounded-lg p-6 bg-white shadow-sm">
+      <div className="max-w-screen-xl mx-auto px-4">
+        <BusinessHero
+          imageSrc="/images/business/rental.png"
+          subtitle="단기·긴급 상황의 이동권 보장"
+          bullets={[
+            "수동/전동 휠체어, 보행보조기, 목욕의자 등 기초 복지용구 무료 대여",
+            "사전 연락 후 재고 확인 및 대여 대장 작성",
+            "사용법 안내 및 기초 안전 교육",
+            "기본 7일 대여, 1회 연장 가능(최대 14일)",
+          ]}
+        />
+        {/* 기대 효과 */}
+        <div className="border border-gray-200 rounded-lg p-6 bg-white shadow-sm mt-8">
           <h3 className="font-semibold text-lg mb-3">기대 효과</h3>
           <ul className="list-disc list-inside space-y-1 text-gray-700">
             <li>복지 사각지대 해소 및 취약계층 복지 접근성 강화</li>
