@@ -69,6 +69,9 @@ export default function Navbar() {
   // 메가메뉴(데스크톱) 열기 상태
   const [megaOpen, setMegaOpen] = useState(false);
 
+  // 현재 포인터가 올라간 상단 탭 인덱스(메가메뉴는 해당 섹션만 표시)
+  const [hoveredIdx, setHoveredIdx] = useState(null);
+
   // 상단 섹션/항목 정의(중복 제거)
   const sections = [
     {
@@ -121,13 +124,23 @@ export default function Navbar() {
         <ul
           className="hidden md:flex items-center gap-8 font-medium"
           onMouseEnter={() => setMegaOpen(true)}
-          onMouseLeave={() => setMegaOpen(false)}
+          onMouseLeave={() => { setMegaOpen(false); setHoveredIdx(null); }}
         >
-          {sections.map((s) => (
-            <li key={s.title} className="relative">
-              <span type="button" className="hover:text-emerald-600 focus:outline-none px-2">
+          {sections.map((s, idx) => (
+            <li
+              key={s.title}
+              className="relative"
+              onMouseEnter={() => { setHoveredIdx(idx); setMegaOpen(true); }}
+              onFocus={() => { setHoveredIdx(idx); setMegaOpen(true); }}
+            >
+              <button
+                type="button"
+                className="px-2 hover:text-emerald-600 focus:outline-none"
+                aria-haspopup="true"
+                aria-expanded={megaOpen && hoveredIdx === idx}
+              >
                 {s.title}
-              </span>
+              </button>
             </li>
           ))}
         </ul>
@@ -156,35 +169,37 @@ export default function Navbar() {
       <div
         className="hidden md:block relative"
         onMouseEnter={() => setMegaOpen(true)}
-        onMouseLeave={() => setMegaOpen(false)}
+        onMouseLeave={() => { setMegaOpen(false); setHoveredIdx(null); }}
       >
-        {megaOpen && (
-          <div className="absolute inset-x-0 top-full bg-white/95 border-t border-b backdrop-blur-sm">
-            <div className="max-w-6xl mx-auto px-8 py-6">
-              {/* 4열 고정, 칼럼을 중앙 정렬하고 간격을 줄여 동행 스타일에 맞춤 */}
-              <div className="grid grid-cols-2 md:grid-cols-4 justify-items-center gap-x-24 gap-y-6">
-                {sections.map((sec) => (
-                  <div key={sec.title} className="w-[200px] text-center">
-                    <h4 className="mb-2 text-base font-semibold text-gray-700 tracking-tight">
-                      {sec.title}
-                    </h4>
-                    <ul className="space-y-1.5">
-                      {sec.items.map((it) => (
-                        <li key={it.to}>
-                          <NavLink
-                            to={it.to}
-                            className="inline-block text-sm leading-6 text-gray-700 hover:text-emerald-600"
-                            onClick={() => setMegaOpen(false)}
-                          >
-                            {it.label}
-                          </NavLink>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                ))}
-              </div>
-            </div>
+        {megaOpen && hoveredIdx !== null && (
+          <div
+            className="absolute inset-x-0 top-full bg-white/95 border-t border-b backdrop-blur-sm shadow-sm"
+            onMouseEnter={() => setMegaOpen(true)}
+            onMouseLeave={() => { setMegaOpen(false); setHoveredIdx(null); }}
+          >
+            {(() => {
+              const sec = sections[hoveredIdx];
+              return (
+                <div className="max-w-4xl mx-auto px-8 py-7 text-center">
+                  <h4 className="mb-3 text-base font-semibold text-gray-700 tracking-tight">
+                    {sec.title}
+                  </h4>
+                  <ul className="space-y-2">
+                    {sec.items.map((it) => (
+                      <li key={it.to}>
+                        <NavLink
+                          to={it.to}
+                          className="inline-block text-[15px] leading-7 text-gray-700 hover:text-emerald-600"
+                          onClick={() => { setMegaOpen(false); setHoveredIdx(null); }}
+                        >
+                          {it.label}
+                        </NavLink>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              );
+            })()}
           </div>
         )}
       </div>
