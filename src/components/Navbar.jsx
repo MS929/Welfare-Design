@@ -122,7 +122,7 @@ export default function Navbar() {
 
         {/* 데스크톱 메뉴 + 메가메뉴 트리거 */}
         <ul
-          className="hidden md:grid grid-cols-4 place-items-center gap-16 lg:gap-24 xl:gap-32 w-full max-w-4xl font-medium mx-auto"
+          className="hidden md:grid grid-cols-4 place-items-center gap-12 lg:gap-16 xl:gap-20 w-full max-w-3xl font-medium mx-auto"
           onMouseEnter={() => setMegaOpen(true)}
           onMouseLeave={() => { setMegaOpen(false); setHoveredIdx(null); }}
         >
@@ -177,9 +177,9 @@ export default function Navbar() {
             onMouseEnter={() => setMegaOpen(true)}
             onMouseLeave={() => { setMegaOpen(false); setHoveredIdx(null); }}
           >
-            <div className="max-w-4xl mx-auto px-4 pt-8 pb-10">
+            <div className="max-w-3xl mx-auto px-4 pt-8 pb-10">
               {/* 각 상단 탭 바로 아래에 열이 오도록, 상단 메뉴와 동일한 컨테이너 폭에서 균등 배치 */}
-              <div className="grid grid-cols-4 gap-8">
+              <div className="grid grid-cols-4 gap-6">
                 {sections.map((sec) => (
                   <ul key={sec.title} className="space-y-2 text-center">
                     {sec.items.map((it) => (
