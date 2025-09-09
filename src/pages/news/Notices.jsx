@@ -124,25 +124,25 @@ export default function Notices() {
               to={`/news/notices/${encodeURIComponent(it.slug)}`}
               className="group block rounded-xl border overflow-hidden shadow-sm hover:shadow-md transition"
             >
-              {/* 썸네일: 고정 높이 + object-cover (Stories와 동일 톤) */}
-              {it.thumbnail ? (
-                <img
-                  src={it.thumbnail}
-                  alt={it.title}
-                  className="w-full h-48 object-cover"
-                  loading="lazy"
-                />
-              ) : (
-                <div className="w-full h-48 bg-gray-100" />
-              )}
-
-              <div className="p-4">
-                {/* 카테고리 배지 */}
-                <span className="inline-flex items-center rounded-full bg-emerald-50 text-emerald-700 text-xs font-semibold px-2 py-1">
+              {/* 썸네일 + 카테고리 배지 오버레이 */}
+              <div className="relative">
+                {it.thumbnail ? (
+                  <img
+                    src={it.thumbnail}
+                    alt={it.title}
+                    className="w-full h-48 object-cover"
+                    loading="lazy"
+                  />
+                ) : (
+                  <div className="w-full h-48 bg-gray-100" />
+                )}
+                <span className="absolute top-2 left-2 inline-flex items-center rounded-full bg-emerald-600/90 text-white text-xs font-semibold px-2 py-1 shadow">
                   {it.category}
                 </span>
+              </div>
 
-                <h3 className="mt-2 text-lg font-semibold group-hover:underline">
+              <div className="p-4">
+                <h3 className="text-lg font-semibold group-hover:underline mt-0">
                   {it.title || "제목 없음"}
                 </h3>
 
@@ -163,35 +163,33 @@ export default function Notices() {
       )}
 
       {/* Pagination Controls */}
-      {totalPages > 1 && (
-        <div className="flex justify-center items-center gap-4 mt-8">
-          <button
-            onClick={() => setPage((p) => Math.max(1, p - 1))}
-            disabled={page === 1}
-            className={`px-4 py-2 rounded border ${
-              page === 1
-                ? "bg-gray-200 text-gray-500 cursor-not-allowed"
-                : "bg-white text-gray-700 hover:bg-gray-50"
-            }`}
-          >
-            이전
-          </button>
-          <span className="text-gray-700">
-            {page} / {totalPages}
-          </span>
-          <button
-            onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
-            disabled={page === totalPages}
-            className={`px-4 py-2 rounded border ${
-              page === totalPages
-                ? "bg-gray-200 text-gray-500 cursor-not-allowed"
-                : "bg-white text-gray-700 hover:bg-gray-50"
-            }`}
-          >
-            다음
-          </button>
-        </div>
-      )}
+      <div className="flex justify-center items-center gap-4 mt-8">
+        <button
+          onClick={() => setPage((p) => Math.max(1, p - 1))}
+          disabled={page === 1}
+          className={`px-4 py-2 rounded border ${
+            page === 1
+              ? "bg-gray-200 text-gray-500 cursor-not-allowed"
+              : "bg-white text-gray-700 hover:bg-gray-50"
+          }`}
+        >
+          이전
+        </button>
+        <span className="text-gray-700">
+          {page} / {totalPages}
+        </span>
+        <button
+          onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
+          disabled={page === totalPages}
+          className={`px-4 py-2 rounded border ${
+            page === totalPages
+              ? "bg-gray-200 text-gray-500 cursor-not-allowed"
+              : "bg-white text-gray-700 hover:bg-gray-50"
+          }`}
+        >
+          다음
+        </button>
+      </div>
     </div>
   );
 }
