@@ -125,9 +125,9 @@ export default function Navbar() {
         >
           {sections.map((s) => (
             <li key={s.title} className="relative">
-              <button type="button" className="hover:text-sky-600 focus:outline-none">
+              <span type="button" className="hover:text-emerald-600 focus:outline-none">
                 {s.title}
-              </button>
+              </span>
             </li>
           ))}
         </ul>
@@ -159,17 +159,16 @@ export default function Navbar() {
         onMouseLeave={() => setMegaOpen(false)}
       >
         {megaOpen && (
-          <div className="absolute inset-x-0 top-0 bg-white/95 backdrop-blur border-t shadow-xl">
-            <div className="max-w-screen-xl mx-auto grid grid-cols-2 lg:grid-cols-4 divide-x divide-gray-100 p-6">
+          <div className="absolute inset-x-0 top-0 bg-white border-t shadow-md/20">
+            <div className="max-w-screen-xl mx-auto grid grid-cols-2 lg:grid-cols-4 gap-x-10 p-8">
               {sections.map((sec) => (
-                <div key={sec.title} className="px-6 first:pl-0 last:pr-0">
-                  <h4 className="text-xs font-semibold text-gray-500 tracking-wider mb-3">{sec.title}</h4>
-                  <ul className="space-y-1.5">
+                <div key={sec.title} className="px-2">
+                  <ul className="space-y-3 text-center">
                     {sec.items.map((it) => (
                       <li key={it.to}>
                         <NavLink
                           to={it.to}
-                          className="block rounded px-2 py-1.5 text-gray-700 hover:bg-gray-50 hover:text-sky-600"
+                          className="inline-block px-2 py-1.5 text-gray-700 hover:text-emerald-600"
                           onClick={() => setMegaOpen(false)}
                         >
                           {it.label}
