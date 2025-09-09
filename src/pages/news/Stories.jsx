@@ -2,7 +2,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import matter from "gray-matter";
-import "../styles/global.css";
+import "../../styles/global.css";
 
 const CATEGORIES = ["전체", "인터뷰", "행사", "공탁", "공조동방"];
 
