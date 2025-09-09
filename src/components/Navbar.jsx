@@ -125,7 +125,7 @@ export default function Navbar() {
         >
           {sections.map((s) => (
             <li key={s.title} className="relative">
-              <span type="button" className="hover:text-emerald-600 focus:outline-none">
+              <span type="button" className="hover:text-emerald-600 focus:outline-none px-2">
                 {s.title}
               </span>
             </li>
@@ -159,16 +159,16 @@ export default function Navbar() {
         onMouseLeave={() => setMegaOpen(false)}
       >
         {megaOpen && (
-          <div className="absolute inset-x-0 top-0 bg-white border-t shadow-md/20">
-            <div className="max-w-screen-xl mx-auto grid grid-cols-2 lg:grid-cols-4 gap-x-10 p-8">
+          <div className="absolute inset-x-0 top-full bg-white border-t border-b">
+            <div className="max-w-screen-xl mx-auto grid grid-cols-2 lg:grid-cols-4 gap-x-16 py-8">
               {sections.map((sec) => (
                 <div key={sec.title} className="px-2">
-                  <ul className="space-y-3 text-center">
+                  <ul className="space-y-2 text-center">
                     {sec.items.map((it) => (
                       <li key={it.to}>
                         <NavLink
                           to={it.to}
-                          className="inline-block px-2 py-1.5 text-gray-700 hover:text-emerald-600"
+                          className="inline-block py-1 text-gray-800 hover:text-emerald-600"
                           onClick={() => setMegaOpen(false)}
                         >
                           {it.label}
