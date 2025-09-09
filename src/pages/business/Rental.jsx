@@ -6,13 +6,13 @@ export default function Rental() { // 1. 휠체어 및 복지용구 무료 대�
     <BizLayout title="휠체어 및 복지용구 무료 대여">
       <div className="max-w-screen-xl mx-auto px-4">
         {/* 이미지 + 우측 정보 박스(대여 안내) + 기대효과(우측 박스 아래) */}
-        <div className="grid gap-8 md:grid-cols-2 items-start">
+        <div className="grid gap-8 md:grid-cols-2 items-stretch">
           {/* 좌측 이미지 */}
-          <div className="rounded-2xl bg-emerald-50/40 p-4 md:p-6 shadow-inner">
+          <div className="rounded-2xl bg-emerald-50/40 p-4 md:p-6 shadow-inner h-full flex">
             <img
               src="/images/business/rental.png"
               alt="휠체어 및 복지용구 무료 대여"
-              className="w-full h-[calc(100%+160px)] object-cover rounded-xl border border-emerald-100"
+              className="w-full h-full object-cover rounded-xl border border-emerald-100"
             />
           </div>
 
