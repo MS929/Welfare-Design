@@ -66,6 +66,50 @@ function Dropdown({ title, items }) {
 export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
 
+  // 메가메뉴(데스크톱) 열기 상태
+  const [megaOpen, setMegaOpen] = useState(false);
+
+  // 상단 섹션/항목 정의(중복 제거)
+  const sections = [
+    {
+      title: "복지디자인 소개",
+      items: [
+        { to: "/about/what", label: "복지디자인은?" },
+        { to: "/about/establishment", label: "인사말" },
+        { to: "/about/history", label: "연혁" },
+        { to: "/about/people", label: "조직도" },
+      ],
+    },
+    {
+      title: "소식",
+      items: [
+        { to: "/news/stories", label: "복지디자인 이야기" },
+        { to: "/news/notices", label: "공지/공모" },
+        { to: "/news/newsletter", label: "뉴스레터" },
+      ],
+    },
+    {
+      title: "사업",
+      items: [
+        { to: "/business/overview", label: "사업영역" },
+        { to: "/business/rental", label: "휠체어·복지용구 무료 대여" },
+        { to: "/business/apply-help", label: "복지용구 신청 안내 지원" },
+        { to: "/business/donation", label: "보조기기 기증 캠페인" },
+        { to: "/business/ewc-insurance", label: "전동휠체어 보험금 지원" },
+        { to: "/business/needs-survey", label: "복지욕구 실태조사" },
+        { to: "/business/member-services", label: "조합원 지원 서비스" },
+      ],
+    },
+    {
+      title: "후원",
+      items: [
+        { to: "/support/guide", label: "후원가이드" },
+        { to: "/support/corporate", label: "기업·단체 후원" },
+        { to: "/support/faq", label: "FAQ" },
+      ],
+    },
+  ];
+
   return (
     <header className="sticky top-0 z-50 bg-white/90 backdrop-blur shadow">
       <nav className="max-w-screen-xl mx-auto flex items-center justify-between px-4 py-3">
@@ -73,45 +117,19 @@ export default function Navbar() {
           복지 디자인
         </Link>
 
-        {/* 데스크톱 메뉴 */}
-        <ul className="hidden md:flex items-center gap-10 font-medium">
-          <Dropdown
-            title="복지디자인 소개"
-            items={[
-              { to: "/about/what", label: "복지디자인은?" },
-              { to: "/about/establishment", label: "인사말" },
-              { to: "/about/history", label: "연혁" },
-              { to: "/about/people", label: "조직도" },
-            ]}
-          />
-          <Dropdown
-            title="소식"
-            items={[
-              { to: "/news/stories", label: "복지디자인 이야기" },
-              { to: "/news/notices", label: "공지/공모" },
-              { to: "/news/newsletter", label: "뉴스레터" },
-            ]}
-          />
-          <Dropdown
-            title="사업"
-            items={[
-              { to: "/business/overview", label: "사업영역" },
-              { to: "/business/rental", label: "휠체어·복지용구 무료 대여" },
-              { to: "/business/apply-help", label: "복지용구 신청 안내 지원" },
-              { to: "/business/donation", label: "보조기기 기증 캠페인" },
-              { to: "/business/ewc-insurance", label: "전동휠체어 보험금 지원" },
-              { to: "/business/needs-survey", label: "복지욕구 실태조사" },
-              { to: "/business/member-services", label: "조합원 지원 서비스" },
-            ]}
-          />
-          <Dropdown
-            title="후원"
-            items={[
-              { to: "/support/guide", label: "후원가이드" },
-              { to: "/support/corporate", label: "기업·단체 후원" },
-              { to: "/support/faq", label: "FAQ" },
-            ]}
-          />
+        {/* 데스크톱 메뉴 + 메가메뉴 트리거 */}
+        <ul
+          className="hidden md:flex items-center gap-10 font-medium"
+          onMouseEnter={() => setMegaOpen(true)}
+          onMouseLeave={() => setMegaOpen(false)}
+        >
+          {sections.map((s) => (
+            <li key={s.title} className="relative">
+              <button type="button" className="hover:text-sky-600 focus:outline-none">
+                {s.title}
+              </button>
+            </li>
+          ))}
         </ul>
 
         {/* 우측 버튼 */}
@@ -133,6 +151,36 @@ export default function Navbar() {
           ☰
         </button>
       </nav>
+
+      {/* 메가메뉴(데스크톱): 상단에 마우스 올리면 전체 하위메뉴 노출 */}
+      {megaOpen && (
+        <div
+          className="hidden md:block border-t shadow-lg bg-white/95 backdrop-blur-sm"
+          onMouseEnter={() => setMegaOpen(true)}
+          onMouseLeave={() => setMegaOpen(false)}
+        >
+          <div className="max-w-screen-xl mx-auto grid grid-cols-2 lg:grid-cols-4 gap-8 p-6">
+            {sections.map((sec) => (
+              <div key={sec.title}>
+                <h4 className="text-sm font-semibold text-gray-900 mb-3">{sec.title}</h4>
+                <ul className="space-y-1.5">
+                  {sec.items.map((it) => (
+                    <li key={it.to}>
+                      <NavLink
+                        to={it.to}
+                        className="block rounded px-2 py-1.5 hover:bg-gray-50"
+                        onClick={() => setMegaOpen(false)}
+                      >
+                        {it.label}
+                      </NavLink>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
 
       {/* 모바일 메뉴(간단 버전) */}
       {mobileOpen && (
@@ -214,18 +262,46 @@ export default function Navbar() {
                 사업영역
               </NavLink>
               <NavLink
-                to="/business/loan"
+                to="/business/rental"
                 className="block px-3 py-2 rounded hover:bg-gray-50"
                 onClick={() => setMobileOpen(false)}
               >
-                대출 지원
+                휠체어·복지용구 무료 대여
               </NavLink>
               <NavLink
-                to="/business/health"
+                to="/business/apply-help"
                 className="block px-3 py-2 rounded hover:bg-gray-50"
                 onClick={() => setMobileOpen(false)}
               >
-                건강의료 지원
+                복지용구 신청 안내 지원
+              </NavLink>
+              <NavLink
+                to="/business/donation"
+                className="block px-3 py-2 rounded hover:bg-gray-50"
+                onClick={() => setMobileOpen(false)}
+              >
+                보조기기 기증 캠페인
+              </NavLink>
+              <NavLink
+                to="/business/ewc-insurance"
+                className="block px-3 py-2 rounded hover:bg-gray-50"
+                onClick={() => setMobileOpen(false)}
+              >
+                전동휠체어 보험금 지원
+              </NavLink>
+              <NavLink
+                to="/business/needs-survey"
+                className="block px-3 py-2 rounded hover:bg-gray-50"
+                onClick={() => setMobileOpen(false)}
+              >
+                복지욕구 실태조사
+              </NavLink>
+              <NavLink
+                to="/business/member-services"
+                className="block px-3 py-2 rounded hover:bg-gray-50"
+                onClick={() => setMobileOpen(false)}
+              >
+                조합원 지원 서비스
               </NavLink>
             </div>
           </details>
