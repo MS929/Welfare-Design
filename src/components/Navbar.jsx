@@ -179,16 +179,15 @@ export default function Navbar() {
           >
             <div className="max-w-3xl mx-auto px-0 pt-6 pb-8">
               {/* 상단 네비게이션 그리드와 동일한 간격/정렬 적용하여 칼럼 정렬 고정 */}
-              <div className="grid grid-cols-4 place-items-center gap-12 lg:gap-16 xl:gap-20">
+              <div className="grid grid-cols-4 items-start justify-items-center gap-12 lg:gap-16 xl:gap-20">
                 {sections.map((sec) => (
-                  <ul key={sec.title} className="space-y-2 text-center w-[200px] sm:w-[220px]">
+                  <ul key={sec.title} className="space-y-3 text-center w-[200px] sm:w-[220px]">
                     {sec.items.map((it, i) => (
                       <li key={it.to}>
                         <NavLink
                           to={it.to}
                           className={
-                            "inline-flex items-center justify-center text-[17px] leading-[1.6] text-gray-700 hover:text-emerald-600 " +
-                            (i === 0 ? "min-h-[32px]" : "")
+                            "flex items-center justify-center h-10 text-[17px] leading-none text-gray-700 hover:text-emerald-600"
                           }
                           onClick={() => { setMegaOpen(false); setHoveredIdx(null); }}
                         >
