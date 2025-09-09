@@ -115,14 +115,14 @@ export default function Navbar() {
 
   return (
     <header className="sticky top-0 z-50 bg-white/90 backdrop-blur shadow">
-      <nav className="max-w-screen-xl mx-auto flex items-center justify-between px-4 py-3">
+      <nav className="max-w-screen-2xl mx-auto flex items-center justify-between px-6 py-4">
         <Link to="/" className="text-2xl font-bold text-sky-500">
           복지 디자인
         </Link>
 
         {/* 데스크톱 메뉴 + 메가메뉴 트리거 */}
         <ul
-          className="hidden md:flex items-center justify-between max-w-4xl font-medium mx-auto"
+          className="hidden md:grid grid-cols-4 place-items-center gap-16 lg:gap-24 xl:gap-32 w-full max-w-screen-xl font-medium mx-auto"
           onMouseEnter={() => setMegaOpen(true)}
           onMouseLeave={() => { setMegaOpen(false); setHoveredIdx(null); }}
         >
@@ -135,7 +135,7 @@ export default function Navbar() {
             >
               <button
                 type="button"
-                className="px-2 hover:text-emerald-600 focus:outline-none"
+                className="px-3 py-1 hover:text-emerald-600 focus:outline-none"
                 aria-haspopup="true"
                 aria-expanded={megaOpen && hoveredIdx === idx}
               >
@@ -177,16 +177,16 @@ export default function Navbar() {
             onMouseEnter={() => setMegaOpen(true)}
             onMouseLeave={() => { setMegaOpen(false); setHoveredIdx(null); }}
           >
-            <div className="max-w-4xl mx-auto px-2 pt-6 pb-8">
+            <div className="max-w-screen-xl mx-auto px-4 pt-8 pb-10">
               {/* 각 상단 탭 바로 아래에 열이 오도록, 상단 메뉴와 동일한 컨테이너 폭에서 균등 배치 */}
-              <div className="flex justify-between">
+              <div className="grid grid-cols-4 gap-10">
                 {sections.map((sec) => (
-                  <ul key={sec.title} className="w-1/4 space-y-2 text-center">
+                  <ul key={sec.title} className="space-y-2 text-center">
                     {sec.items.map((it) => (
                       <li key={it.to}>
                         <NavLink
                           to={it.to}
-                          className="inline-block text-[17px] leading-[1.9] text-gray-700 hover:text-emerald-600"
+                          className="inline-block text-[18px] leading-relaxed text-gray-700 hover:text-emerald-600"
                           onClick={() => { setMegaOpen(false); setHoveredIdx(null); }}
                         >
                           {it.label}
