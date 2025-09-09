@@ -14,9 +14,6 @@ export default function Rental() {    // 1. 휠체어 및 복지용구 무료 �
           "사용법 안내 및 기초 안전 교육",
           "기본 7일 대여, 1회 연장 가능(최대 14일)",
         ]}
-        note="문의: 복지디자인 ☎ 042-000-0000"
-        ctaText="대여 신청하기"
-        ctaHref="/apply/rental"
       />
 
       <div className="max-w-screen-xl mx-auto px-4 mt-8">
@@ -26,6 +23,16 @@ export default function Rental() {    // 1. 휠체어 및 복지용구 무료 �
             042-000-0000
           </a>
         </p>
+      </div>
+
+      {/* 기대 효과 */}
+      <div className="max-w-screen-xl mx-auto px-4 mt-10">
+        <h3 className="font-semibold text-lg mb-3">기대 효과</h3>
+        <ul className="list-disc list-inside space-y-1 text-gray-700">
+          <li>복지 사각지대 해소 및 취약계층 복지 접근성 강화</li>
+          <li>지역 복지 자원의 선순환 구조 형성</li>
+          <li>협력기관 및 조합원과의 지속 가능한 복지 파트너십 구축</li>
+        </ul>
       </div>
     </BizLayout>
   );
