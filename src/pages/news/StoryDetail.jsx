@@ -3,6 +3,8 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import matter from "gray-matter";
 import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
+import "../../styles/global.css"; // ★ 여기서도 import!
 
 export default function StoryDetail() {
   const { slug: rawSlug } = useParams();
@@ -67,7 +69,7 @@ export default function StoryDetail() {
         ← 목록으로
       </button>
 
-      <h1 className="text-3xl font-extrabold">{post.title}</h1>
+      <h1 className="text-3xl font-extrabold mb-1">{post.title}</h1>
       {post.date && (
         <p className="text-gray-500 mt-2">
           {new Date(post.date).toISOString().slice(0, 10)}
@@ -78,8 +80,33 @@ export default function StoryDetail() {
         <img src={post.thumbnail} alt="" className="mt-6 w-full rounded-xl" />
       )}
 
-      <article className="prose max-w-none mt-8">
-        <ReactMarkdown>{post.content}</ReactMarkdown>
+      <article className="cms-content prose prose-slate max-w-none mt-8">
+        <ReactMarkdown
+          remarkPlugins={[remarkGfm]}
+          components={{
+            img: (props) => (
+              // force responsive images inserted from CMS
+              <img
+                {...props}
+                className={(props.className ? props.className + " " : "") +
+                  "mx-auto my-4 rounded-lg max-w-full h-auto"}
+                loading="lazy"
+                decoding="async"
+              />
+            ),
+            a: (props) => (
+              <a
+                {...props}
+                className={(props.className ? props.className + " " : "") +
+                  "text-sky-600 underline underline-offset-2 hover:no-underline"}
+                target={props.href?.startsWith("/") ? undefined : "_blank"}
+                rel={props.href?.startsWith("/") ? undefined : "noopener noreferrer"}
+              />
+            ),
+          }}
+        >
+          {post.content}
+        </ReactMarkdown>
       </article>
     </div>
   );

@@ -1,7 +1,20 @@
-.story-content img {
+/* CMS(마크다운) 본문 이미지/미디어 통일 */
+.cms-content img {
+  display: block;
   max-width: 100%;
   height: auto;
+  border-radius: 0.5rem;   /* 선택 */
+  margin: 1rem 0;
+  object-fit: contain;     /* 이미지 비율 유지 */
+}
+
+/* figure / video / iframe도 안전하게 */
+.cms-content figure { margin: 1rem 0; }
+.cms-content video,
+.cms-content iframe {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16/9;      /* 유튜브, 비디오 가로세로 비율 고정 */
   display: block;
-  margin: 1rem auto;
-  border-radius: 0.5rem;
+  border-radius: 0.5rem;   /* 선택 */
 }
