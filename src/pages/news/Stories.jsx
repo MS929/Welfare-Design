@@ -110,7 +110,10 @@ export default function NewsStories() {
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-10">
-      <h1 className="text-3xl sm:text-4xl font-extrabold mb-6">동행이야기</h1>
+      {/* <h1 className="text-3xl sm:text-4xl font-extrabold mb-6">동행이야기</h1> */}
+      <div className="mb-6">
+        <Tag>동행이야기</Tag>
+      </div>
 
       {/* 탭 */}
       <div className="flex flex-wrap items-center gap-2 sm:gap-3 mb-6">
