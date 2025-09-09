@@ -52,12 +52,12 @@ export default function AboutPeople() {
       </header>
 
       {/* ===== 조직도 캔버스 ===== */}
-      <section className="max-w-screen-xl mx-auto px-4 py-10">
+      <section className="max-w-screen-xl mx-auto px-4 pt-10 pb-0 mb-[-36px]">
         <OrgChart />
       </section>
 
       {/* ===== 하단 3 플랫폼 카드 ===== */}
-      <section className="max-w-screen-xl mx-auto px-4 pb-14 mt-2 relative">
+      <section className="max-w-screen-xl mx-auto px-4 pb-14 mt-0 relative">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {platforms.map((p) => (
             <PlatformCard key={p.title} {...p} />
@@ -144,9 +144,9 @@ function OrgChart() {
         {/* Horizontal connector trimmed to span only between the left/right platform columns */}
         <div className="h-px w-2/3 mx-auto bg-gray-300" />
         <div className="grid w-full grid-cols-3">
-          <div className="flex justify-center"><VLine h={30} /></div>
-          <div className="flex justify-center"><VLine h={30} /></div>
-          <div className="flex justify-center"><VLine h={30} /></div>
+          <div className="flex justify-center"><VLine h={36} /></div>
+          <div className="flex justify-center"><VLine h={36} /></div>
+          <div className="flex justify-center"><VLine h={36} /></div>
         </div>
       </div>
     </div>
