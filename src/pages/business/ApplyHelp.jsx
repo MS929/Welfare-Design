@@ -6,17 +6,17 @@ export default function ApplyHelp() {
     <BizLayout title="복지용구 신청 안내 지원">
       <div className="max-w-screen-xl mx-auto px-4">
         {/* 상단: 좌측 이미지 / 우측 안내 박스 */}
-        <div className="grid lg:grid-cols-2 gap-8 items-start">
+        <div className="grid lg:grid-cols-2 gap-8 items-start lg:items-stretch">
           {/* 이미지 */}
-          <div className="rounded-2xl bg-emerald-50 p-4 shadow-[inset_0_0_0_1px_rgba(0,0,0,0.05)]">
+          <div className="rounded-2xl bg-emerald-50 p-4 shadow-[inset_0_0_0_1px_rgba(0,0,0,0.05)] h-full flex lg:min-h-[520px]">
             <img
               src="/images/business/apply-help.png"
               alt="복지용구 신청 안내 지원"
-              className="w-full h-[350px] rounded-xl object-contain"
+              className="w-full h-full rounded-xl object-contain"
             />
           </div>
           {/* 안내 박스 (불릿) + 기대 효과 + 상담 문의 배너 */}
-          <div className="flex flex-col gap-6">
+          <div className="flex flex-col gap-6 h-full">
             {/* 안내 박스 */}
             <div className="rounded-2xl border border-emerald-200 bg-white p-6">
               <ul className="space-y-4 text-gray-800">
