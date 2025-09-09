@@ -160,10 +160,11 @@ export default function Navbar() {
       >
         {megaOpen && (
           <div className="absolute inset-x-0 top-full bg-white border-t border-b">
-            <div className="max-w-screen-xl mx-auto grid grid-cols-2 lg:grid-cols-4 gap-x-16 py-8">
+            <div className="max-w-screen-xl mx-auto grid grid-cols-2 lg:grid-cols-4 gap-x-8 py-6">
               {sections.map((sec) => (
                 <div key={sec.title} className="px-2">
-                  <ul className="space-y-2 text-center">
+                  <h4 className="mb-3 text-center text-sm font-semibold text-gray-700">{sec.title}</h4>
+                  <ul className="space-y-1 text-center">
                     {sec.items.map((it) => (
                       <li key={it.to}>
                         <NavLink
