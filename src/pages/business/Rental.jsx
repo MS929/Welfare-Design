@@ -1,14 +1,36 @@
 // src/pages/business/Rental.jsx
 import BizLayout from "./_Layout";
+import { useEffect, useRef } from "react";
 
 export default function Rental() { // 1. 휠체어 및 복지용구 무료 대여
+  const leftColRef = useRef(null);
+  const rightColRef = useRef(null);
+
+  useEffect(() => {
+    const syncHeights = () => {
+      if (!leftColRef.current || !rightColRef.current) return;
+      // Only force equal height on md and up
+      if (window.innerWidth < 768) {
+        leftColRef.current.style.height = "auto";
+        return;
+      }
+      leftColRef.current.style.height = `${rightColRef.current.offsetHeight}px`;
+    };
+
+    syncHeights();
+    window.addEventListener("resize", syncHeights);
+    return () => window.removeEventListener("resize", syncHeights);
+  }, []);
   return (
     <BizLayout title="휠체어 및 복지용구 무료 대여">
       <div className="max-w-screen-xl mx-auto px-4">
         {/* 이미지 + 우측 정보 박스(대여 안내) + 기대효과(우측 박스 아래) */}
         <div className="grid gap-8 md:grid-cols-2 items-stretch">
           {/* 좌측 이미지 */}
-          <div className="rounded-2xl bg-emerald-50/40 p-4 md:p-6 shadow-inner h-full flex">
+          <div
+            className="rounded-2xl bg-emerald-50/40 p-4 md:p-6 shadow-inner h-full flex"
+            ref={leftColRef}
+          >
             <img
               src="/images/business/rental.png"
               alt="휠체어 및 복지용구 무료 대여"
@@ -17,7 +39,7 @@ export default function Rental() { // 1. 휠체어 및 복지용구 무료 대�
           </div>
 
           {/* 우측: 대여 안내 박스 */}
-          <div>
+          <div ref={rightColRef}>
             <div className="rounded-xl border border-emerald-200 bg-white shadow-sm p-6">
               <ul className="space-y-4 text-gray-800">
                 <li className="flex gap-3">
