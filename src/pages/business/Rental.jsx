@@ -14,7 +14,7 @@ export default function Rental() { // 1. 휠체어 및 복지용구 무료 대�
       if (!leftColRef.current || !rightColRef.current) return;
       // Only force equal height on md and up
       if (window.innerWidth < 768) {
-        leftColRef.current.style.height = "auto";
+        leftColRef.current.style.removeProperty('height');
         return;
       }
       leftColRef.current.style.height = `${rightColRef.current.offsetHeight}px`;
@@ -22,6 +22,9 @@ export default function Rental() { // 1. 휠체어 및 복지용구 무료 대�
 
     // Initial sync
     syncHeights();
+    requestAnimationFrame(syncHeights);
+    setTimeout(syncHeights, 0);
+    if (document.fonts && document.fonts.ready) { document.fonts.ready.then(syncHeights); }
 
     // Re-sync on window resize
     window.addEventListener("resize", syncHeights);
@@ -44,10 +47,18 @@ export default function Rental() { // 1. 휠체어 및 복지용구 무료 대�
       }
     }
 
+    const onReadyStateChange = () => {
+      if (document.readyState === 'complete') {
+        syncHeights();
+      }
+    };
+    document.addEventListener('readystatechange', onReadyStateChange);
+
     return () => {
       window.removeEventListener("resize", syncHeights);
       if (ro) ro.disconnect();
       if (imgEl) imgEl.removeEventListener("load", onImgLoad);
+      document.removeEventListener('readystatechange', onReadyStateChange);
     };
   }, []);
   return (
@@ -57,14 +68,14 @@ export default function Rental() { // 1. 휠체어 및 복지용구 무료 대�
         <div className="grid gap-8 md:grid-cols-2 items-stretch">
           {/* 좌측 이미지 */}
           <div
-            className="rounded-2xl bg-emerald-50/40 p-4 md:p-6 shadow-inner h-full flex items-center justify-center"
+            className="rounded-2xl bg-emerald-50/40 p-4 md:p-6 shadow-inner flex items-center justify-center overflow-hidden md:max-h-[560px]"
             ref={leftColRef}
           >
             <img
               ref={imgRef}
               src="/images/business/rental.png"
               alt="휠체어 및 복지용구 무료 대여"
-              className="h-full w-full max-w-full object-contain object-top rounded-xl border border-emerald-100 bg-white"
+              className="w-full max-w-full max-h-full object-contain object-top rounded-xl border border-emerald-100 bg-white"
             />
           </div>
 
