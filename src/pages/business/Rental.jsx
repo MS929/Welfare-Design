@@ -48,14 +48,30 @@ export default function Rental() { // 1. 휠체어 및 복지용구 무료 대�
                 <li>지역 복지 자원의 선순환 구조 형성</li>
                 <li>협력기관 및 조합원과의 지속 가능한 복지 파트너십 구축</li>
               </ul>
-              <p className="text-gray-700 mt-6">
-                <span className="font-medium">신청 문의</span>: 복지디자인{" "}
-                <a href="tel:0420000000" className="underline underline-offset-2">
-                  042-000-0000
-                </a>
-              </p>
             </div>
           </div>
+        </div>
+        {/* 신청 문의 : 박스 밖 별도 콜아웃 */}
+        <div className="mt-10">
+          <a
+            href="tel:0420000000"
+            className="block rounded-xl border border-emerald-300 bg-emerald-50/70 px-6 py-4 shadow-sm hover:bg-emerald-50 focus:outline-none focus:ring-2 focus:ring-emerald-400"
+          >
+            <div className="flex items-center justify-center gap-3 text-emerald-900">
+              {/* phone icon */}
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+                className="h-5 w-5"
+                aria-hidden="true"
+              >
+                <path d="M2.25 6.75c0 7.008 5.742 12.75 12.75 12.75.71 0 1.32-.51 1.44-1.21l.38-2.19a1.5 1.5 0 0 0-1.08-1.71l-2.24-.62a1.5 1.5 0 0 0-1.49.44l-.82.83a10.97 10.97 0 0 1-4.26-4.27l.83-.82a1.5 1.5 0 0 0 .44-1.49l-.62-2.24a1.5 1.5 0 0 0-1.71-1.08l-2.19.38c-.7.12-1.21.73-1.21 1.44Z"/>
+              </svg>
+              <span className="font-semibold tracking-wide">신청 문의 : 복지디자인</span>
+              <span className="font-bold text-xl tabular-nums">042-000-0000</span>
+            </div>
+          </a>
         </div>
       </div>
     </BizLayout>
