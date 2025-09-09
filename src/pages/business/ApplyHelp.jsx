@@ -30,17 +30,6 @@ export default function ApplyHelp() {
                   <span className="mt-1.5 h-2 w-2 rounded-full bg-emerald-500" />
                   <span>신청 방법/순서/기간/필수서류 체크리스트 제공</span>
                 </li>
-                <div
-                  style={{
-                    position: "fixed",
-                    bottom: 8,
-                    right: 8,
-                    fontSize: 11,
-                    color: "#999",
-                  }}
-                >
-                  from: ApplyHelp.jsx
-                </div>
                 <li className="flex gap-3">
                   <span className="mt-1.5 h-2 w-2 rounded-full bg-emerald-500" />
                   <span>읍면동·구청·국민건강보험공단 등 유관기관 연계</span>
