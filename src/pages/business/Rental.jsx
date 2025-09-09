@@ -12,7 +12,7 @@ export default function Rental() { // 1. 휠체어 및 복지용구 무료 대�
             <img
               src="/images/business/rental.png"
               alt="휠체어 및 복지용구 무료 대여"
-              className="w-full h-full object-cover rounded-xl border border-emerald-100"
+              className="w-full h-[calc(100%+160px)] object-cover rounded-xl border border-emerald-100"
             />
           </div>
 
