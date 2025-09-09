@@ -26,6 +26,23 @@ export default function ApplyHelp() {   // 2. 복지용구 신청 안내 지원
           <li>접수기관 연결 및 결과 안내</li>
         </ol>
       </div>
+
+      <div className="max-w-screen-xl mx-auto px-4 mt-10">
+        <h3 className="font-semibold text-lg mb-3">기대 효과</h3>
+        <ul className="list-disc list-inside space-y-1 text-gray-700">
+          <li>취약계층의 복지정보 접근성 강화 및 제도적 권리 실현 지원</li>
+          <li>보조기기 및 복지용구의 지역 내 순환 체계 구축</li>
+        </ul>
+        <div className="mt-6 p-4 border rounded-lg bg-green-50 text-gray-800 flex items-center space-x-2">
+          <span className="material-icons text-green-600">call</span>
+          <span>
+            상담 문의 : <strong>복지디자인</strong>{" "}
+            <a href="tel:0420000000" className="font-bold text-gray-900">
+              042-000-0000
+            </a>
+          </span>
+        </div>
+      </div>
     </BizLayout>
   );
 }
