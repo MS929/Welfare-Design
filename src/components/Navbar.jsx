@@ -153,34 +153,36 @@ export default function Navbar() {
       </nav>
 
       {/* 메가메뉴(데스크톱): 상단에 마우스 올리면 전체 하위메뉴 노출 */}
-      {megaOpen && (
-        <div
-          className="hidden md:block border-t shadow-lg bg-white/95 backdrop-blur-sm"
-          onMouseEnter={() => setMegaOpen(true)}
-          onMouseLeave={() => setMegaOpen(false)}
-        >
-          <div className="max-w-screen-xl mx-auto grid grid-cols-2 lg:grid-cols-4 gap-8 p-6">
-            {sections.map((sec) => (
-              <div key={sec.title}>
-                <h4 className="text-sm font-semibold text-gray-900 mb-3">{sec.title}</h4>
-                <ul className="space-y-1.5">
-                  {sec.items.map((it) => (
-                    <li key={it.to}>
-                      <NavLink
-                        to={it.to}
-                        className="block rounded px-2 py-1.5 hover:bg-gray-50"
-                        onClick={() => setMegaOpen(false)}
-                      >
-                        {it.label}
-                      </NavLink>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
+      <div
+        className="hidden md:block relative"
+        onMouseEnter={() => setMegaOpen(true)}
+        onMouseLeave={() => setMegaOpen(false)}
+      >
+        {megaOpen && (
+          <div className="absolute inset-x-0 top-0 bg-white/95 backdrop-blur border-t shadow-xl">
+            <div className="max-w-screen-xl mx-auto grid grid-cols-2 lg:grid-cols-4 divide-x divide-gray-100 p-6">
+              {sections.map((sec) => (
+                <div key={sec.title} className="px-6 first:pl-0 last:pr-0">
+                  <h4 className="text-xs font-semibold text-gray-500 tracking-wider mb-3">{sec.title}</h4>
+                  <ul className="space-y-1.5">
+                    {sec.items.map((it) => (
+                      <li key={it.to}>
+                        <NavLink
+                          to={it.to}
+                          className="block rounded px-2 py-1.5 text-gray-700 hover:bg-gray-50 hover:text-sky-600"
+                          onClick={() => setMegaOpen(false)}
+                        >
+                          {it.label}
+                        </NavLink>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
+            </div>
           </div>
-        </div>
-      )}
+        )}
+      </div>
 
       {/* 모바일 메뉴(간단 버전) */}
       {mobileOpen && (
