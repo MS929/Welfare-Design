@@ -122,7 +122,7 @@ export default function Navbar() {
 
         {/* 데스크톱 메뉴 + 메가메뉴 트리거 */}
         <ul
-          className="hidden md:flex items-center justify-between w-[52rem] lg:w-[60rem] xl:w-[68rem] font-medium mx-auto"
+          className="hidden md:flex items-center justify-between max-w-4xl font-medium mx-auto"
           onMouseEnter={() => setMegaOpen(true)}
           onMouseLeave={() => { setMegaOpen(false); setHoveredIdx(null); }}
         >
@@ -179,9 +179,9 @@ export default function Navbar() {
           >
             <div className="max-w-screen-xl mx-auto px-4 pt-6 pb-10">
               {/* 각 상단 탭 바로 아래에 열이 오도록, 상단 메뉴와 동일한 컨테이너 폭에서 균등 배치 */}
-              <div className="grid grid-cols-4 gap-12">
+              <div className="grid grid-cols-4 gap-8 justify-items-center">
                 {sections.map((sec) => (
-                  <ul key={sec.title} className="space-y-3 text-center">
+                  <ul key={sec.title} className="space-y-2 text-center">
                     {sec.items.map((it) => (
                       <li key={it.to}>
                         <NavLink
