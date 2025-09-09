@@ -177,16 +177,16 @@ export default function Navbar() {
             onMouseEnter={() => setMegaOpen(true)}
             onMouseLeave={() => { setMegaOpen(false); setHoveredIdx(null); }}
           >
-            <div className="max-w-screen-xl mx-auto px-4 pt-6 pb-10">
+            <div className="max-w-4xl mx-auto px-2 pt-6 pb-8">
               {/* 각 상단 탭 바로 아래에 열이 오도록, 상단 메뉴와 동일한 컨테이너 폭에서 균등 배치 */}
-              <div className="grid grid-cols-4 gap-8 justify-items-center">
+              <div className="flex justify-between">
                 {sections.map((sec) => (
-                  <ul key={sec.title} className="space-y-2 text-center">
+                  <ul key={sec.title} className="w-1/4 space-y-2 text-center">
                     {sec.items.map((it) => (
                       <li key={it.to}>
                         <NavLink
                           to={it.to}
-                          className="inline-block text-base leading-7 text-gray-700 hover:text-emerald-600"
+                          className="inline-block text-[17px] leading-[1.9] text-gray-700 hover:text-emerald-600"
                           onClick={() => { setMegaOpen(false); setHoveredIdx(null); }}
                         >
                           {it.label}
