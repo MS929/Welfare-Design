@@ -5,8 +5,11 @@ import { useEffect, useRef } from "react";
 export default function Rental() { // 1. 휠체어 및 복지용구 무료 대여
   const leftColRef = useRef(null);
   const rightColRef = useRef(null);
+  const imgRef = useRef(null);
 
   useEffect(() => {
+    if (!leftColRef.current || !rightColRef.current) return;
+
     const syncHeights = () => {
       if (!leftColRef.current || !rightColRef.current) return;
       // Only force equal height on md and up
@@ -17,9 +20,35 @@ export default function Rental() { // 1. 휠체어 및 복지용구 무료 대�
       leftColRef.current.style.height = `${rightColRef.current.offsetHeight}px`;
     };
 
+    // Initial sync
     syncHeights();
+
+    // Re-sync on window resize
     window.addEventListener("resize", syncHeights);
-    return () => window.removeEventListener("resize", syncHeights);
+
+    // Re-sync when right column content height changes
+    let ro;
+    if (typeof ResizeObserver !== "undefined") {
+      ro = new ResizeObserver(syncHeights);
+      ro.observe(rightColRef.current);
+    }
+
+    // Re-sync when image finishes loading (in case it affects layout)
+    const imgEl = imgRef.current;
+    const onImgLoad = () => syncHeights();
+    if (imgEl) {
+      if (imgEl.complete) {
+        syncHeights();
+      } else {
+        imgEl.addEventListener("load", onImgLoad);
+      }
+    }
+
+    return () => {
+      window.removeEventListener("resize", syncHeights);
+      if (ro) ro.disconnect();
+      if (imgEl) imgEl.removeEventListener("load", onImgLoad);
+    };
   }, []);
   return (
     <BizLayout title="휠체어 및 복지용구 무료 대여">
@@ -32,9 +61,10 @@ export default function Rental() { // 1. 휠체어 및 복지용구 무료 대�
             ref={leftColRef}
           >
             <img
+              ref={imgRef}
               src="/images/business/rental.png"
               alt="휠체어 및 복지용구 무료 대여"
-              className="w-full h-full object-contain object-top rounded-xl border border-emerald-100 bg-white"
+              className="h-full w-full max-w-full object-contain object-top rounded-xl border border-emerald-100 bg-white"
             />
           </div>
 
