@@ -28,13 +28,13 @@ export default function Rental() { // 1. 휠체어 및 복지용구 무료 대�
         <div className="grid gap-8 md:grid-cols-2 items-stretch">
           {/* 좌측 이미지 */}
           <div
-            className="rounded-2xl bg-emerald-50/40 p-4 md:p-6 shadow-inner h-full flex"
+            className="rounded-2xl bg-emerald-50/40 p-4 md:p-6 shadow-inner h-full flex items-center justify-center"
             ref={leftColRef}
           >
             <img
               src="/images/business/rental.png"
               alt="휠체어 및 복지용구 무료 대여"
-              className="w-full h-full object-cover rounded-xl border border-emerald-100"
+              className="w-full h-full object-contain object-top rounded-xl border border-emerald-100 bg-white"
             />
           </div>
 
