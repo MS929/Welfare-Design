@@ -31,13 +31,19 @@ function StoryCard({ item }) {
       to={`/news/stories/${item.slug}`}
       className="group block overflow-hidden rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition-shadow bg-white"
     >
-        {item.thumbnail && (
-          <img
-            src={item.thumbnail}
-            alt=""
-            className="mt-6 w-full max-h-[520px] object-contain rounded-xl"
-          />
-      )}
+        <div className="mt-6 w-full aspect-[16/9] bg-gray-50 overflow-hidden rounded-xl">
+          {item.thumbnail ? (
+            <img
+              src={item.thumbnail}
+              alt=""
+              className="h-full w-full object-cover"
+            />
+          ) : (
+            <div className="flex h-full w-full items-center justify-center text-gray-400 text-sm">
+              No image
+            </div>
+          )}
+        </div>
 
       <div className="p-4 sm:p-5">
         <div className="mb-2">
