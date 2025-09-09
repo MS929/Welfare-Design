@@ -163,7 +163,7 @@ export default function Notices() {
       )}
 
       {/* Pagination Controls */}
-      {filtered.length > PAGE_SIZE && (
+      {totalPages > 1 && (
         <div className="flex justify-center items-center gap-4 mt-8">
           <button
             onClick={() => setPage((p) => Math.max(1, p - 1))}
