@@ -1,46 +1,56 @@
 // src/pages/business/ApplyHelp.jsx
 import BizLayout from "./_Layout";
-import BusinessHero from "./_BusinessHero";
 
-export default function ApplyHelp() {   // 2. 복지용구 신청 안내 지원
+export default function ApplyHelp() {
   return (
     <BizLayout title="복지용구 신청 안내 지원">
-      <BusinessHero
-        imageSrc="/images/business/apply-help.png"
-        subtitle="절차 안내부터 서류 준비, 기관 연계까지"
-        bullets={[
-          "장애인등록, 노인장기요양, 긴급복지 등 지원제도 안내",
-          "신청 방법/순서/기간/필수서류 체크리스트 제공",
-          "읍면동·구청·국민건강보험공단 등 유관기관 연계",
-        ]}
-        note="개별 상담 후 개인 상황에 맞춘 경로를 안내합니다."
-        ctaText="상담 예약하기"
-        ctaHref="/apply/consult"
-      />
+      <div className="max-w-screen-xl mx-auto px-4">
+        {/* 상단: 좌측 이미지 / 우측 안내 박스 */}
+        <div className="grid lg:grid-cols-2 gap-8 items-start">
+          {/* 이미지 */}
+          <div className="rounded-2xl bg-emerald-50 p-4 shadow-[inset_0_0_0_1px_rgba(0,0,0,0.05)]">
+            <img
+              src="/images/business/apply-help.png"
+              alt="복지용구 신청 안내 지원"
+              className="w-full h-auto rounded-xl object-contain"
+            />
+          </div>
 
-      <div className="max-w-screen-xl mx-auto px-4 mt-10">
-        <h3 className="font-semibold text-lg mb-3">진행 절차</h3>
-        <ol className="list-decimal list-inside space-y-1 text-gray-700">
-          <li>사전 상담 · 기초정보 확인</li>
-          <li>적합한 제도 탐색(요건/서류/기간/절차)</li>
-          <li>접수기관 연결 및 결과 안내</li>
-        </ol>
-      </div>
+          {/* 안내 박스 (불릿) */}
+          <div className="rounded-2xl border border-emerald-200 bg-white p-6">
+            <ul className="space-y-4 text-gray-800">
+              <li className="flex gap-3">
+                <span className="mt-1.5 h-2 w-2 rounded-full bg-emerald-500" />
+                <span>장애인등록, 노인장기요양, 긴급복지 등 지원제도 안내</span>
+              </li>
+              <li className="flex gap-3">
+                <span className="mt-1.5 h-2 w-2 rounded-full bg-emerald-500" />
+                <span>신청 방법/순서/기간/필수서류 체크리스트 제공</span>
+              </li>
+              <li className="flex gap-3">
+                <span className="mt-1.5 h-2 w-2 rounded-full bg-emerald-500" />
+                <span>읍면동·구청·국민건강보험공단 등 유관기관 연계</span>
+              </li>
+            </ul>
+          </div>
+        </div>
 
-      <div className="max-w-screen-xl mx-auto px-4 mt-10">
-        <h3 className="font-semibold text-lg mb-3">기대 효과</h3>
-        <ul className="list-disc list-inside space-y-1 text-gray-700">
-          <li>취약계층의 복지정보 접근성 강화 및 제도적 권리 실현 지원</li>
-          <li>보조기기 및 복지용구의 지역 내 순환 체계 구축</li>
-        </ul>
-        <div className="mt-6 p-4 border rounded-lg bg-green-50 text-gray-800 flex items-center space-x-2">
-          <span className="material-icons text-green-600">call</span>
-          <span>
+        {/* 기대 효과 */}
+        <div className="mt-8 rounded-2xl border border-emerald-200 bg-white p-6">
+          <h3 className="font-semibold text-gray-900 mb-4">기대 효과</h3>
+          <ul className="list-disc list-inside space-y-1 text-gray-700">
+            <li>취약계층의 복지정보 접근성 강화 및 제도적 권리 실현 지원</li>
+            <li>보조기기 및 복지용구의 지역 내 순환 체계 구축</li>
+          </ul>
+        </div>
+
+        {/* 상담 문의 배너 */}
+        <div className="mt-6 rounded-2xl border border-emerald-200 bg-emerald-50 p-5 flex items-center gap-3">
+          <span className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-emerald-600 text-white">☎</span>
+          <p className="text-gray-800">
             상담 문의 : <strong>복지디자인</strong>{" "}
-            <a href="tel:0420000000" className="font-bold text-gray-900">
-              042-000-0000
-            </a>
-          </span>
+            <a href="tel:0420000000" className="font-bold text-gray-900">042-000-0000</a>
+          </p>
         </div>
       </div>
     </BizLayout>
