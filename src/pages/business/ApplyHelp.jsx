@@ -12,7 +12,7 @@ export default function ApplyHelp() {
             <img
               src="/images/business/apply-help.png"
               alt="복지용구 신청 안내 지원"
-              className="w-full h-auto rounded-xl object-contain"
+              className="w-full h-[350px] rounded-xl object-contain"
             />
           </div>
           {/* 안내 박스 (불릿) + 기대 효과 + 상담 문의 배너 */}
