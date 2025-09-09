@@ -171,20 +171,16 @@ export default function Navbar() {
         onMouseEnter={() => setMegaOpen(true)}
         onMouseLeave={() => { setMegaOpen(false); setHoveredIdx(null); }}
       >
-        {megaOpen && hoveredIdx !== null && (
+        {megaOpen && (
           <div
             className="absolute inset-x-0 top-full bg-white/95 border-t border-b backdrop-blur-sm shadow-sm"
             onMouseEnter={() => setMegaOpen(true)}
             onMouseLeave={() => { setMegaOpen(false); setHoveredIdx(null); }}
           >
-            {(() => {
-              const sec = sections[hoveredIdx];
-              return (
-                <div className="max-w-4xl mx-auto px-8 py-7 text-center">
-                  <h4 className="mb-3 text-base font-semibold text-gray-700 tracking-tight">
-                    {sec.title}
-                  </h4>
-                  <ul className="space-y-2">
+            <div className="max-w-6xl mx-auto px-8 py-8">
+              <div className="grid grid-cols-4 gap-10 text-center">
+                {sections.map((sec) => (
+                  <ul key={sec.title} className="space-y-2">
                     {sec.items.map((it) => (
                       <li key={it.to}>
                         <NavLink
@@ -197,9 +193,9 @@ export default function Navbar() {
                       </li>
                     ))}
                   </ul>
-                </div>
-              );
-            })()}
+                ))}
+              </div>
+            </div>
           </div>
         )}
       </div>
