@@ -159,19 +159,21 @@ export default function Navbar() {
         onMouseLeave={() => setMegaOpen(false)}
       >
         {megaOpen && (
-          <div className="absolute inset-x-0 top-full bg-white border-t border-b">
-            <div className="max-w-5xl mx-auto px-6 py-8">
-              {/* 4열 고정, 각 칼럼 폭 동일 + 가운데 정렬 (동행 스타일) */}
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-x-12 gap-y-8 place-items-center">
+          <div className="absolute inset-x-0 top-full bg-white/95 border-t border-b backdrop-blur-sm">
+            <div className="max-w-6xl mx-auto px-8 py-6">
+              {/* 4열 고정, 칼럼을 중앙 정렬하고 간격을 줄여 동행 스타일에 맞춤 */}
+              <div className="grid grid-cols-2 md:grid-cols-4 justify-items-center gap-x-24 gap-y-6">
                 {sections.map((sec) => (
-                  <div key={sec.title} className="w-48 text-center">
-                    <h4 className="mb-4 text-[15px] font-semibold text-gray-800">{sec.title}</h4>
-                    <ul className="space-y-2">
+                  <div key={sec.title} className="w-[200px] text-center">
+                    <h4 className="mb-2 text-base font-semibold text-gray-700 tracking-tight">
+                      {sec.title}
+                    </h4>
+                    <ul className="space-y-1.5">
                       {sec.items.map((it) => (
                         <li key={it.to}>
                           <NavLink
                             to={it.to}
-                            className="inline-block text-[15px] leading-6 text-gray-700 hover:text-emerald-600"
+                            className="inline-block text-sm leading-6 text-gray-700 hover:text-emerald-600"
                             onClick={() => setMegaOpen(false)}
                           >
                             {it.label}
