@@ -1,12 +1,5 @@
 // src/pages/about/People.jsx
 export default function AboutPeople() {
-  // Brand palette (from logo)
-  const BRAND = {
-    yellow: "#F4B731",
-    orange: "#ED6A32",
-    teal: "#3BA7A0",
-  };
-
   const platforms = [
     {
       title: "복지연결플랫폼",
@@ -16,7 +9,7 @@ export default function AboutPeople() {
         "복지정보 제공 및 복지 신청 지원 서비스",
         "지역사회 복지 연계·제고 및 통합 프로그램 운영",
       ],
-      color: BRAND.yellow,
+      color: "#F4B731", // sunflower
     },
     {
       title: "복지디자인연구소",
@@ -26,7 +19,7 @@ export default function AboutPeople() {
         "복지 관련 출판물 제작·배포",
         "복지모델 컨설팅",
       ],
-      color: BRAND.orange,
+      color: "#ED6A32", // persimmon
     },
     {
       title: "협력운영플랫폼",
@@ -36,7 +29,7 @@ export default function AboutPeople() {
         "조합 간 협력을 위한 사업",
         "조합의 홍보 및 지역사회를 위한 사업",
       ],
-      color: BRAND.teal,
+      color: "#3BA7A0", // teal
     },
   ];
 
@@ -56,23 +49,15 @@ export default function AboutPeople() {
         <h1 className="mt-3 text-3xl md:text-4xl font-extrabold tracking-tight">
           함께하는 사람들
         </h1>
-        {/* 브랜드 악센트 바 */}
-        <div
-          className="mt-3 h-1 w-20 rounded-full"
-          style={{
-            background:
-              "linear-gradient(90deg, #F4B731 0%, #ED6A32 50%, #3BA7A0 100%)",
-          }}
-        />
       </header>
 
       {/* ===== 조직도 캔버스 ===== */}
-      <section className="max-w-screen-xl mx-auto px-4 pt-10 pb-0">
+      <section className="max-w-screen-xl mx-auto px-4 pt-10 pb-0 mb-[-0px]">
         <OrgChart />
       </section>
 
       {/* ===== 하단 3 플랫폼 카드 ===== */}
-      <section className="max-w-screen-xl mx-auto px-4 pb-14 mt-0">
+      <section className="max-w-screen-xl mx-auto px-4 pb-14 mt-0 relative">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {platforms.map((p) => (
             <PlatformCard key={p.title} {...p} />
@@ -105,46 +90,31 @@ export default function AboutPeople() {
     </div>
   );
 }
-
-// ======= 카드: 하단 3개 플랫폼 공통 UI (no hover) =======
+// 카드: 하단 3개 플랫폼 공통 UI
 function PlatformCard({ title, items, color }) {
   const tint = `${color}1A`; // ~10% opacity hex (1A)
+  const ring = color;
   return (
     <div
-      className="relative rounded-2xl p-6 pt-7 shadow-sm border bg-white min-h-[260px] flex flex-col"
-      style={{
-        borderColor: color,
-        background: `linear-gradient(180deg, ${tint}, #ffffff)`,
-      }}
+      className="relative rounded-2xl p-6 pt-8 shadow-sm border bg-white"
+      style={{ borderColor: ring, background: `linear-gradient(180deg, ${tint}, #ffffff)` }}
     >
-      {/* 상단 얇은 컬러바 */}
-      <div
-        className="absolute left-0 right-0 top-0 h-1 rounded-t-2xl"
-        style={{ backgroundColor: color }}
-      />
       <div className="flex items-center gap-2 mb-3">
         <span
           className="inline-block w-2.5 h-2.5 rounded-full"
           style={{ backgroundColor: color }}
           aria-hidden
         />
-        <h3 className="text-lg font-bold" style={{ color }}>
-          {title}
-        </h3>
+        <h3 className="text-lg font-bold" style={{ color }}>{title}</h3>
       </div>
       <ul className="space-y-2 text-gray-700 leading-relaxed">
         {items.map((it, idx) => (
           <li key={idx} className="flex gap-2">
-            <span
-              className="mt-2 inline-block w-2 h-2 rounded-full flex-shrink-0"
-              style={{ backgroundColor: color }}
-            />
+            <span className="mt-2 inline-block w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ backgroundColor: color }} />
             <span>{it}</span>
           </li>
         ))}
       </ul>
-      {/* 바닥 여백 균형 */}
-      <div className="mt-auto" />
     </div>
   );
 }
@@ -162,48 +132,42 @@ function OrgChart() {
         <VLine h={22} />
         <Node label="이사장" />
 
-        {/* 감사: 좌측으로 깔끔히, 메인 트렁크는 끊김 없이 유지 */}
+        {/* 감사 교차부: 가로선은 전체, 중앙에 세로 연결점 포함 */}
         <CrossAuditor />
 
         {/* 사무국 (트렁크가 끊기지 않도록 바로 이어짐) */}
         <VLine h={10} />
         <Node label="사무국" />
 
-        {/* 하단 분기: 3플랫폼 연결 (가로선은 플랫폼 영역까지만) */}
+        {/* 하단 분기: 3플랫폼 위치까지 하강 및 가로선/세로선 */}
         <VLine h={16} />
-        <div className="h-px w-11/12 md:w-2/3 mx-auto bg-gray-300" />
-        <div className="grid w-full grid-cols-1 md:grid-cols-3">
-          <div className="flex justify-center md:justify-center">
-            <VLine h={36} dashed />
-          </div>
-          <div className="hidden md:flex justify-center">
-            <VLine h={36} dashed />
-          </div>
-          <div className="hidden md:flex justify-center">
-            <VLine h={36} dashed />
-          </div>
+        {/* Horizontal connector trimmed to span only between the left/right platform columns */}
+        <div className="h-px w-2/3 mx-auto bg-gray-300" />
+        <div className="grid w-full grid-cols-3">
+          <div className="flex justify-center"><VLine h={36} /></div>
+          <div className="flex justify-center"><VLine h={36} /></div>
+          <div className="flex justify-center"><VLine h={36} /></div>
         </div>
       </div>
     </div>
   );
 }
-
 // 가운데 트렁크에 정확히 접속하는 감사 교차부
 function CrossAuditor() {
-  const spur = 260; // px : trunk -> 감사 노드까지 가로 길이
+  // left spur length from the center to the 감사 node
+  const spur = 280; // px
   return (
     <div className="relative w-full h-10">
-      {/* 트렁크 연속성 유지용 짧은 세로선 */}
+      {/* central joint to keep the trunk visually continuous */}
       <div className="absolute left-1/2 top-0 -translate-x-1/2">
         <VLine h={10} />
       </div>
-
-      {/* 트렁크 -> 감사까지 가로 연결선 (박스에 닿을 때까지만) */}
+      {/* SHORT horizontal line only from the trunk to the 감사 box (left side) */}
       <div
         className="absolute top-1/2 -translate-y-1/2 h-px bg-gray-300"
-        style={{ left: `calc(50% - ${spur}px)`, width: `${spur - 100}px` }}
+        style={{ left: `calc(50% - ${spur}px)`, width: `${spur}px` }}
       />
-      {/* 감사 노드 (가로선 끝 지점에 정확히 배치) */}
+      {/* 감사 node placed exactly at the end of the spur */}
       <div
         className="absolute top-1/2 -translate-y-1/2"
         style={{ left: `calc(50% - ${spur}px)` }}
@@ -214,29 +178,32 @@ function CrossAuditor() {
   );
 }
 
-function VLine({ h = 8, dashed = false }) {
+function VLine({ h = 8 }) {
   return (
     <div
-      className={`mx-auto ${dashed ? "border-l border-dashed" : "w-px"} bg-gray-300`}
-      style={{
-        height: `${h * 4}px`,
-        borderColor: dashed ? "rgba(0,0,0,0.15)" : undefined,
-      }}
+      className="w-px bg-gray-300 mx-auto"
+      style={{ height: `${h * 4}px` }}
     />
   );
 }
 
 function Node({ label, small = false }) {
   const base =
-    "inline-flex items-center justify-center rounded-xl border border-gray-200 bg-white px-4 text-gray-800 shadow-sm";
-  const size = small ? "h-9 text-sm" : "h-11 text-base min-w-[110px]";
+    "inline-flex items-center justify-center rounded-xl border border-gray-300 bg-white px-4 text-gray-800 shadow-sm";
+  const size = small
+    ? "h-9 text-sm"
+    : "h-11 text-base min-w-[96px]";
   return <div className={`${base} ${size}`}>{label}</div>;
 }
 
 function Th({ children }) {
-  return <th className="p-3 text-sm font-semibold text-gray-700">{children}</th>;
+  return (
+    <th className="p-3 text-sm font-semibold text-gray-700">{children}</th>
+  );
 }
 
 function Td({ children, className = "" }) {
-  return <td className={`p-3 text-sm text-gray-700 align-top ${className}`}>{children}</td>;
+  return (
+    <td className={`p-3 text-sm text-gray-700 align-top ${className}`}>{children}</td>
+  );
 }
