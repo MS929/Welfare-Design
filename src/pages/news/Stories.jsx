@@ -110,7 +110,7 @@ export default function NewsStories() {
 
   return (
     <div className="max-w-screen-xl mx-auto px-4 py-10">
-      <h1 className="text-3xl font-extrabold mb-6">공지/공모</h1>
+      <h1 className="text-3xl font-extrabold mb-6">복지 디자인 이야기</h1>
 
       {/* 탭 */}
       <div className="flex flex-wrap items-center gap-2 sm:gap-3 mb-6">
