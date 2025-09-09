@@ -122,7 +122,7 @@ export default function Navbar() {
 
         {/* 데스크톱 메뉴 + 메가메뉴 트리거 */}
         <ul
-          className="hidden md:flex items-center gap-8 font-medium"
+          className="hidden md:flex items-center gap-10 lg:gap-20 xl:gap-28 font-medium"
           onMouseEnter={() => setMegaOpen(true)}
           onMouseLeave={() => { setMegaOpen(false); setHoveredIdx(null); }}
         >
@@ -177,15 +177,15 @@ export default function Navbar() {
             onMouseEnter={() => setMegaOpen(true)}
             onMouseLeave={() => { setMegaOpen(false); setHoveredIdx(null); }}
           >
-            <div className="max-w-6xl mx-auto px-8 py-8">
-              <div className="grid grid-cols-4 gap-10 text-center">
+            <div className="max-w-screen-xl mx-auto px-6 py-10">
+              <div className="grid grid-cols-4 gap-20 xl:gap-28 text-center">
                 {sections.map((sec) => (
-                  <ul key={sec.title} className="space-y-2">
+                  <ul key={sec.title} className="space-y-3">
                     {sec.items.map((it) => (
                       <li key={it.to}>
                         <NavLink
                           to={it.to}
-                          className="inline-block text-[15px] leading-7 text-gray-700 hover:text-emerald-600"
+                          className="inline-block text-base leading-7 text-gray-700 hover:text-emerald-600"
                           onClick={() => { setMegaOpen(false); setHoveredIdx(null); }}
                         >
                           {it.label}
