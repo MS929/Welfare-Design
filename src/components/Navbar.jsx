@@ -177,11 +177,11 @@ export default function Navbar() {
             onMouseEnter={() => setMegaOpen(true)}
             onMouseLeave={() => { setMegaOpen(false); setHoveredIdx(null); }}
           >
-            <div className="max-w-3xl mx-auto px-4 pt-8 pb-10">
-              {/* 각 상단 탭 바로 아래에 열이 오도록, 상단 메뉴와 동일한 컨테이너 폭에서 균등 배치 */}
-              <div className="grid grid-cols-4 gap-6">
+            <div className="max-w-3xl mx-auto px-0 pt-6 pb-8">
+              {/* 상단 네비게이션 그리드와 동일한 간격/정렬 적용하여 칼럼 정렬 고정 */}
+              <div className="grid grid-cols-4 place-items-center gap-12 lg:gap-16 xl:gap-20">
                 {sections.map((sec) => (
-                  <ul key={sec.title} className="space-y-2 text-center">
+                  <ul key={sec.title} className="space-y-2 text-center w-[200px] sm:w-[220px]">
                     {sec.items.map((it) => (
                       <li key={it.to}>
                         <NavLink
