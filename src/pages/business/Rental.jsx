@@ -16,23 +16,22 @@ export default function Rental() {    // 1. 휠체어 및 복지용구 무료 �
         ]}
       />
 
-      <div className="max-w-screen-xl mx-auto px-4 mt-8">
-        <p className="text-gray-700">
-          <span className="font-medium">신청 문의</span>: 복지디자인{" "}
-          <a href="tel:0420000000" className="underline underline-offset-2">
-            042-000-0000
-          </a>
-        </p>
-      </div>
-
       {/* 기대 효과 */}
-      <div className="max-w-screen-xl mx-auto px-4 mt-10">
-        <h3 className="font-semibold text-lg mb-3">기대 효과</h3>
-        <ul className="list-disc list-inside space-y-1 text-gray-700">
-          <li>복지 사각지대 해소 및 취약계층 복지 접근성 강화</li>
-          <li>지역 복지 자원의 선순환 구조 형성</li>
-          <li>협력기관 및 조합원과의 지속 가능한 복지 파트너십 구축</li>
-        </ul>
+      <div className="max-w-screen-xl mx-auto px-4 mt-8">
+        <div className="border border-gray-200 rounded-lg p-6 bg-white shadow-sm">
+          <h3 className="font-semibold text-lg mb-3">기대 효과</h3>
+          <ul className="list-disc list-inside space-y-1 text-gray-700">
+            <li>복지 사각지대 해소 및 취약계층 복지 접근성 강화</li>
+            <li>지역 복지 자원의 선순환 구조 형성</li>
+            <li>협력기관 및 조합원과의 지속 가능한 복지 파트너십 구축</li>
+          </ul>
+          <p className="text-gray-700 mt-6">
+            <span className="font-medium">신청 문의</span>: 복지디자인{" "}
+            <a href="tel:0420000000" className="underline underline-offset-2">
+              042-000-0000
+            </a>
+          </p>
+        </div>
       </div>
     </BizLayout>
   );
