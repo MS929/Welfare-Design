@@ -52,7 +52,7 @@ export default function AboutPeople() {
       </header>
 
       {/* ===== 조직도 캔버스 ===== */}
-      <section className="max-w-screen-xl mx-auto px-4 pt-10 pb-0 mb-[-40px]">
+      <section className="max-w-screen-xl mx-auto px-4 pt-10 pb-0 mb-[-30px]">
         <OrgChart />
       </section>
 
