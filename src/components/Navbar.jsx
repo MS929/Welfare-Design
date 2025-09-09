@@ -182,11 +182,14 @@ export default function Navbar() {
               <div className="grid grid-cols-4 place-items-center gap-12 lg:gap-16 xl:gap-20">
                 {sections.map((sec) => (
                   <ul key={sec.title} className="space-y-2 text-center w-[200px] sm:w-[220px]">
-                    {sec.items.map((it) => (
+                    {sec.items.map((it, i) => (
                       <li key={it.to}>
                         <NavLink
                           to={it.to}
-                          className="inline-block text-[17px] leading-relaxed text-gray-700 hover:text-emerald-600"
+                          className={
+                            "inline-flex items-center justify-center text-[17px] leading-[1.6] text-gray-700 hover:text-emerald-600 " +
+                            (i === 0 ? "min-h-[32px]" : "")
+                          }
                           onClick={() => { setMegaOpen(false); setHoveredIdx(null); }}
                         >
                           {it.label}
