@@ -65,6 +65,8 @@ export default function NewsStories() {
   const [rawItems, setRawItems] = useState([]);
   const [activeCat, setActiveCat] = useState("전체");
   const [q, setQ] = useState("");
+  const [page, setPage] = useState(1);
+  const PAGE_SIZE = 9;
 
   useEffect(() => {
     (async () => {
@@ -114,6 +116,16 @@ export default function NewsStories() {
     );
   }, [rawItems, activeCat, q]);
 
+  // 페이지가 바뀌거나 필터가 바뀌면 페이지를 1로 리셋
+  useEffect(() => {
+    setPage(1);
+  }, [activeCat, q]);
+
+  const startIdx = (page - 1) * PAGE_SIZE;
+  const endIdx = startIdx + PAGE_SIZE;
+  const pagedItems = filtered.slice(startIdx, endIdx);
+  const totalPages = Math.ceil(filtered.length / PAGE_SIZE);
+
   return (
     <div className="max-w-screen-xl mx-auto px-4 py-10">
       <h1 className="text-3xl font-extrabold mb-6">복지디자인 이야기</h1>
@@ -151,11 +163,41 @@ export default function NewsStories() {
       {filtered.length === 0 ? (
         <p className="text-gray-500">등록된 글이 없습니다.</p>
       ) : (
-        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          {filtered.map((it) => (
-            <StoryCard key={it.slug} item={it} />
-          ))}
-        </div>
+        <>
+          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+            {pagedItems.map((it) => (
+              <StoryCard key={it.slug} item={it} />
+            ))}
+          </div>
+          {/* Pagination controls */}
+          <div className="flex justify-center items-center gap-3 mt-8">
+            <button
+              onClick={() => setPage((p) => Math.max(p - 1, 1))}
+              disabled={page <= 1}
+              className={`px-4 py-2 rounded border text-sm font-medium ${
+                page <= 1
+                  ? "bg-gray-100 text-gray-400 cursor-not-allowed"
+                  : "bg-white border-gray-300 text-gray-700 hover:border-emerald-400"
+              }`}
+            >
+              이전
+            </button>
+            <span className="text-sm font-semibold">
+              {page} / {totalPages}
+            </span>
+            <button
+              onClick={() => setPage((p) => Math.min(p + 1, totalPages))}
+              disabled={page >= totalPages}
+              className={`px-4 py-2 rounded border text-sm font-medium ${
+                page >= totalPages
+                  ? "bg-gray-100 text-gray-400 cursor-not-allowed"
+                  : "bg-white border-gray-300 text-gray-700 hover:border-emerald-400"
+              }`}
+            >
+              다음
+            </button>
+          </div>
+        </>
       )}
     </div>
   );
