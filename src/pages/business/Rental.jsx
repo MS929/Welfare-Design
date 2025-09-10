@@ -68,7 +68,7 @@ export default function Rental() {
                 </span>
                 <a
                   href="tel:0420000000"
-                  className="font-extrabold text-xl md:text-2xl tabular-nums text-[#F26C2A] hover:underline"
+                  className="font-extrabold text-xl md:text-2xl tabular-nums text-[#F26C2A] underline"
                 >
                   042-000-0000
                 </a>
