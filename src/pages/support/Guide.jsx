@@ -20,16 +20,10 @@ export default function SupGuide() {
       {/* 3가지 방식 */}
       <section className="grid md:grid-cols-3 gap-6">
         <SupportCard
-          title="개인 정기/일시 후원"
+          title="정기 후원/일시 후원"
           desc="매달 혹은 일시 후원으로 사업의 지속가능성을 높여주세요."
           bullets={["계좌이체/자동이체", "기부금 영수증 발급"]}
-          cta={{ label: "개인 후원 안내", href: "/support/faq#personal" }}
-        />
-        <SupportCard
-          title="기업·단체 후원"
-          desc="파트너십/캠페인/지정기탁 등 다양한 방식으로 함께할 수 있어요."
-          bullets={["연간 파트너십"]}
-          cta={{ label: "기업 후원 문의", href: "/support/corporate" }}
+          cta={{ label: "후원 안내", href: "/support/faq#personal" }}
         />
         <SupportCard
           title="물품 기부"
@@ -107,8 +101,8 @@ function BankBox({ className = "" }) {
   const [copied, setCopied] = useState(false);
 
   const bank = {
-    name: "하나은행",
-    number: "123-456789-1011-22",
+    name: "00은행",
+    number: "000-000000-0000-00",
     holder: "복지디자인사회적협동조합",
   };
 
