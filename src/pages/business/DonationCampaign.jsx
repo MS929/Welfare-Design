@@ -8,11 +8,11 @@ export default function Donation() {
         {/* 이미지 + 우측 정보 박스(대여 안내) + 기대효과(대여 안내 박스 아래) */}
         <div className="grid gap-8 md:grid-cols-2 items-stretch">
           {/* 좌측 이미지: JS 동기화 제거, 순수 CSS로 동일 높이 */}
-          <div className="rounded-2xl bg-emerald-50 p-4 shadow-[inset_0_0_0_1px_rgba(0,0,0,0.05)] flex items-center justify-center overflow-hidden">
+          <div className="rounded-2xl bg-emerald-50 p-6 shadow-[inset_0_0_0_1px_rgba(0,0,0,0.05)] flex items-center justify-center overflow-hidden">
             <img
               src="/images/business/donation.png"
               alt="보조기기 기증 캠페인"
-              className="w-auto max-w-full max-h-[360px] lg:max-h-[420px] rounded-xl object-contain"
+              className="w-auto max-w-full max-h-[440px] lg:max-h-[520px] rounded-xl object-contain"
             />
           </div>
 
