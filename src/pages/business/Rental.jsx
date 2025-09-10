@@ -8,65 +8,65 @@ export default function Rental() {
         {/* 이미지 + 우측 정보 박스(대여 안내) + 기대효과(대여 안내 박스 아래) */}
         <div className="grid gap-8 md:grid-cols-2 items-stretch">
           {/* 좌측 이미지: JS 동기화 제거, 순수 CSS로 동일 높이 */}
-          <div className="rounded-2xl bg-emerald-50 p-4 shadow-[inset_0_0_0_1px_rgba(0,0,0,0.05)] flex items-center justify-center overflow-hidden">
+          <div className="rounded-3xl bg-gradient-to-br from-emerald-50 to-emerald-100/60 p-5 ring-1 ring-emerald-100 shadow-md flex items-center justify-center overflow-hidden">
             <img
               src="/images/business/rental.png"
               alt="휠체어 및 복지용구 무료 대여"
-              className="w-auto max-w-full max-h-[360px] lg:max-h-[420px] rounded-xl object-contain"
+              className="w-auto max-w-full max-h-[380px] lg:max-h-[440px] rounded-xl object-contain"
             />
           </div>
 
           {/* 우측: 대여 안내 + 기대효과 + 문의 */}
           <div className="flex flex-col h-full">
-            <div className="rounded-xl border border-emerald-200 bg-white shadow-sm p-6">
-              <ul className="space-y-4 text-gray-800">
+            <div className="rounded-2xl border border-emerald-200/80 bg-white/90 backdrop-blur-[1px] shadow-md p-7 md:p-8">
+              <ul className="space-y-4 text-gray-800 leading-relaxed">
                 <li className="flex gap-3">
-                  <span className="mt-2 h-2 w-2 rounded-full bg-emerald-500 shrink-0" />
+                  <span className="mt-2 h-2 w-2 rounded-full bg-emerald-500/90 shadow-[0_0_0_2px_rgba(16,185,129,0.15)] shrink-0" />
                   <span>
                     수동/전동 휠체어, 보행보조기, 목욕의자 등 기초 복지용구 무료
                     대여
                   </span>
                 </li>
                 <li className="flex gap-3">
-                  <span className="mt-2 h-2 w-2 rounded-full bg-emerald-500 shrink-0" />
+                  <span className="mt-2 h-2 w-2 rounded-full bg-emerald-500/90 shadow-[0_0_0_2px_rgba(16,185,129,0.15)] shrink-0" />
                   <span>사전 연락 후 재고 확인 및 대여 대장 작성</span>
                 </li>
                 <li className="flex gap-3">
-                  <span className="mt-2 h-2 w-2 rounded-full bg-emerald-500 shrink-0" />
+                  <span className="mt-2 h-2 w-2 rounded-full bg-emerald-500/90 shadow-[0_0_0_2px_rgba(16,185,129,0.15)] shrink-0" />
                   <span>사용법 안내 및 기초 안전 교육</span>
                 </li>
                 <li className="flex gap-3">
-                  <span className="mt-2 h-2 w-2 rounded-full bg-emerald-500 shrink-0" />
+                  <span className="mt-2 h-2 w-2 rounded-full bg-emerald-500/90 shadow-[0_0_0_2px_rgba(16,185,129,0.15)] shrink-0" />
                   <span>기본 7일 대여, 1회 연장 가능(최대 14일)</span>
                 </li>
               </ul>
             </div>
 
-            <div className="rounded-xl border border-gray-200 bg-white shadow-sm p-6 mt-6">
-              <h3 className="font-semibold text-lg mb-3">기대 효과</h3>
-              <ul className="list-disc list-inside space-y-1 text-gray-700">
+            <div className="rounded-2xl border border-gray-200/80 bg-white/90 backdrop-blur-[1px] shadow-md p-7 md:p-8 mt-6">
+              <h3 className="font-semibold text-lg tracking-tight text-emerald-900 mb-3">기대 효과</h3>
+              <ul className="list-disc list-inside space-y-1.5 text-gray-700 leading-relaxed">
                 <li>복지 사각지대 해소 및 취약계층 복지 접근성 강화</li>
                 <li>지역 복지 자원의 선순환 구조 형성</li>
                 <li>협력기관 및 조합원과의 지속 가능한 복지 파트너십 구축</li>
               </ul>
             </div>
 
-            <div className="rounded-xl border border-emerald-300 bg-emerald-50/70 px-6 py-4 shadow-sm mt-6">
-              <div className="flex items-center gap-3 text-emerald-900">
+            <div className="rounded-2xl border border-emerald-300 bg-gradient-to-r from-emerald-50 to-emerald-100/70 px-8 py-5 shadow-md mt-6">
+              <div className="flex items-center gap-3 text-emerald-900 tracking-tight">
                 {/* phone icon */}
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 24 24"
                   fill="currentColor"
-                  className="h-5 w-5"
+                  className="h-5 w-5 text-emerald-700"
                   aria-hidden="true"
                 >
                   <path d="M2.25 6.75c0 7.008 5.742 12.75 12.75 12.75.71 0 1.32-.51 1.44-1.21l.38-2.19a1.5 1.5 0 0 0-1.08-1.71l-2.24-.62a1.5 1.5 0 0 0-1.49.44l-.82.83a10.97 10.97 0 0 1-4.26-4.27l.83-.82a1.5 1.5 0 0 0 .44-1.49l-.62-2.24a1.5 1.5 0 0 0-1.71-1.08l-2.19.38c-.7.12-1.21.73-1.21 1.44Z" />
                 </svg>
-                <span className="font-semibold tracking-wide">
+                <span className="font-semibold tracking-wide text-emerald-900/90">
                   신청 문의 : 복지디자인
                 </span>
-                <span className="font-bold text-xl tabular-nums">
+                <span className="font-extrabold text-xl md:text-2xl tabular-nums text-emerald-900">
                   042-000-0000
                 </span>
               </div>
