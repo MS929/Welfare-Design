@@ -8,8 +8,8 @@ export default function ApplyHelp() {
         {/* 상단: 좌측 이미지 / 우측 안내 박스 */}
         <div className="grid lg:grid-cols-2 gap-8 items-start">
           {/* 이미지 */}
-          <div className="rounded-2xl bg-emerald-50 p-7 shadow-[inset_0_0_0_1px_rgba(0,0,0,0.05)] flex items-center justify-center overflow-hidden h-full min-h-[260px] sm:min-h-[300px] md:min-h-[320px]">
-            <div className="w-[clamp(280px,32vw,420px)] aspect-[3/4]">
+          <div className="rounded-2xl bg-emerald-50 p-8 shadow-[inset_0_0_0_1px_rgba(0,0,0,0.05)] flex items-center justify-center overflow-hidden h-full min-h-[340px] sm:min-h-[380px] md:min-h-[420px]">
+            <div className="w-[clamp(320px,40vw,520px)] aspect-[3/4]">
               <img
                 src="/images/business/apply-help.png"
                 alt="복지용구 신청 안내 지원"
@@ -18,10 +18,10 @@ export default function ApplyHelp() {
             </div>
           </div>
           {/* 안내 박스 (불릿) + 기대 효과 + 상담 문의 배너 */}
-          <div className="flex flex-col gap-6 h-full">
+          <div className="flex flex-col gap-7 h-full">
             {/* 안내 박스 */}
-            <div className="rounded-2xl border border-emerald-200 bg-white p-7">
-              <ul className="space-y-4 text-gray-800">
+            <div className="rounded-2xl border border-emerald-200 bg-white p-8">
+              <ul className="space-y-5 text-gray-800">
                 <li className="flex gap-3">
                   <span className="mt-1.5 h-2 w-2 rounded-full bg-emerald-500" />
                   <span>
@@ -39,7 +39,7 @@ export default function ApplyHelp() {
               </ul>
             </div>
             {/* 기대 효과 */}
-            <div className="rounded-2xl border border-emerald-200 bg-white p-7">
+            <div className="rounded-2xl border border-emerald-200 bg-white p-8">
               <h3 className="font-semibold text-gray-900 mb-4">기대 효과</h3>
               <ul className="list-disc list-inside space-y-1 text-gray-700">
                 <li>
@@ -49,7 +49,7 @@ export default function ApplyHelp() {
               </ul>
             </div>
             {/* 상담 문의 배너 */}
-            <div className="rounded-2xl border border-emerald-200 bg-emerald-50 p-6 flex items-center gap-3">
+            <div className="rounded-2xl border border-emerald-200 bg-emerald-50 p-7 flex items-center gap-3">
               <span className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-emerald-600 text-white">
                 ☎
               </span>
