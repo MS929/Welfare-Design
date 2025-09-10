@@ -6,9 +6,9 @@ export default function Donation() {
     <BizLayout title="보조기기 기증 캠페인">
       <div className="max-w-screen-xl mx-auto px-4">
         {/* 이미지 + 우측 정보 박스(대여 안내) + 기대효과(대여 안내 박스 아래) */}
-        <div className="grid gap-10 md:grid-cols-2 items-start h-full flex justify-between">
+        <div className="grid gap-10 md:grid-cols-2 md:items-stretch">
           {/* 좌측 이미지: JS 동기화 제거, 순수 CSS로 동일 높이 */}
-          <div className="rounded-2xl bg-emerald-50 p-6 shadow-[inset_0_0_0_1px_rgba(0,0,0,0.05)] flex items-center justify-center overflow-hidden">
+          <div className="rounded-2xl bg-emerald-50 p-6 shadow-[inset_0_0_0_1px_rgba(0,0,0,0.05)] flex items-center justify-center overflow-hidden md:h-[560px]">
             <img
               src="/images/business/donation.png"
               alt="보조기기 기증 캠페인"
@@ -17,7 +17,7 @@ export default function Donation() {
           </div>
 
           {/* 우측: 대여 안내 + 기대효과 + 문의 */}
-          <div className="flex flex-col gap-6 h-full">
+          <div className="flex flex-col gap-6 h-full justify-between">
             <div className="rounded-xl border border-emerald-200 bg-white shadow-sm p-6 flex-grow">
               <h3 className="font-semibold text-lg mb-3">사업 안내</h3>
               <ul className="space-y-4 text-gray-800">
