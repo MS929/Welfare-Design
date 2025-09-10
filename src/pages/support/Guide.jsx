@@ -18,7 +18,7 @@ export default function SupGuide() {
       </header>
 
       {/* 3가지 방식 */}
-      <section className="grid md:grid-cols-3 gap-6">
+      <section className="grid md:grid-cols-3 gap-6 items-stretch">
         <SupportCard
           title="정기 후원/일시 후원"
           desc="매달 혹은 일시 후원으로 사업의 지속가능성을 높여주세요."
@@ -75,7 +75,7 @@ export default function SupGuide() {
 
 function SupportCard({ title, desc, bullets = [], cta, className = "" }) {
   return (
-    <div className={`rounded-2xl border p-6 bg-white ${className}`}>
+    <div className={`rounded-2xl border p-6 bg-white flex flex-col h-full ${className}`}>
       <h3 className="text-lg font-semibold">{title}</h3>
       <p className="text-gray-700 mt-2">{desc}</p>
       {bullets?.length > 0 && (
