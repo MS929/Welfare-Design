@@ -47,18 +47,28 @@ export default function BizOverview() {     // 0. 사업영역
         </p>
 
         {/* 프로그램 카드 그리드 */}
-        <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 gap-6">
           {programs.map((p) => (
             <Link
               key={p.to}
               to={p.to}
-              className="block h-full rounded-2xl bg-[#2CB9B1] text-white p-6 shadow hover:shadow-lg transition"
+              className="block h-full rounded-2xl border border-[#2CB9B1]/30 bg-white/90 backdrop-blur-[1px] ring-1 ring-inset ring-white/60 shadow-sm hover:shadow-md transition-all duration-200 hover:border-[#2CB9B1]/50 focus:outline-none focus:ring-2 focus:ring-[#2CB9B1]/40"
             >
-              <div className="flex flex-col h-full">
-                <h4 className="font-semibold text-lg">{p.title}</h4>
-                <p className="text-sm mt-2 flex-1">{p.desc}</p>
-                <span className="inline-block mt-4 text-sm font-medium underline underline-offset-2">
-                  자세히 보기 +
+              <div className="p-5 flex flex-col h-full">
+                <div className="flex items-start gap-3">
+                  <span className="mt-1 inline-block h-2.5 w-2.5 rounded-full bg-[#F26C2A] shadow-[0_0_0_2px_rgba(242,108,42,0.18)]" />
+                  <h4 className="font-semibold text-[17px] text-[#111827] leading-snug">
+                    {p.title}
+                  </h4>
+                </div>
+                <p className="text-sm text-gray-600 mt-3 leading-relaxed flex-1">
+                  {p.desc}
+                </p>
+                <span className="inline-flex items-center gap-1 text-[#F26C2A] font-semibold mt-4">
+                  자세히 보기
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="h-4 w-4">
+                    <path d="M13.5 4.5 21 12l-7.5 7.5m7.5-7.5H3" />
+                  </svg>
                 </span>
               </div>
             </Link>
