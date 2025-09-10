@@ -37,21 +37,21 @@ export default function EwcInsurance() {
             </div>
 
             <div className="mt-6 md:mt-auto rounded-xl border border-emerald-300 bg-emerald-50 px-8 py-7 shadow-sm">
-              <div className="flex flex-col items-center justify-center gap-2 text-emerald-900 text-center">
+              <div className="flex items-center justify-center gap-3 text-emerald-900 text-xl md:text-2xl">
                 {/* phone icon */}
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 24 24"
                   fill="currentColor"
-                  className="h-7 w-7 mb-2 text-emerald-700"
+                  className="h-6 w-6 text-emerald-700"
                   aria-hidden="true"
                 >
                   <path d="M2.25 6.75c0 7.008 5.742 12.75 12.75 12.75.71 0 1.32-.51 1.44-1.21l.38-2.19a1.5 1.5 0 0 0-1.08-1.71l-2.24-.62a1.5 1.5 0 0 0-1.49.44l-.82.83a10.97 10.97 0 0 1-4.26-4.27l.83-.82a1.5 1.5 0 0 0 .44-1.49l-.62-2.24a1.5 1.5 0 0 0-1.71-1.08l-2.19.38c-.7.12-1.21.73-1.21 1.44Z" />
                 </svg>
-                <span className="font-semibold tracking-wide text-lg md:text-xl">
+                <span className="font-semibold tracking-wide">
                   신청 문의 : 복지디자인
                 </span>
-                <span className="font-extrabold text-4xl md:text-5xl tabular-nums text-emerald-900">
+                <span className="font-extrabold text-2xl md:text-3xl tabular-nums text-emerald-900">
                   042-000-0000
                 </span>
               </div>
