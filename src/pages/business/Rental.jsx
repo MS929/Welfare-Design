@@ -66,9 +66,12 @@ export default function Rental() {
                 <span className="font-semibold tracking-wide text-[#374151]">
                   신청 문의 : 복지디자인
                 </span>
-                <span className="font-extrabold text-xl md:text-2xl tabular-nums text-[#F26C2A]">
+                <a
+                  href="tel:0420000000"
+                  className="font-extrabold text-xl md:text-2xl tabular-nums text-[#F26C2A] hover:underline"
+                >
                   042-000-0000
-                </span>
+                </a>
               </div>
             </div>
           </div>
