@@ -8,7 +8,7 @@ export default function MemberServices() {
         {/* 이미지 + 우측 정보 박스(대여 안내) + 기대효과(대여 안내 박스 아래) */}
         <div className="grid gap-8 md:grid-cols-2 items-stretch">
           {/* 좌측 이미지: JS 동기화 제거, 순수 CSS로 동일 높이 */}
-          <div className="rounded-3xl bg-white p-5 ring-1 ring-[#2CB9B1]/30 shadow-md flex items-center justify-center overflow-hidden h-[440px] lg:h-[470px]">
+          <div className="rounded-3xl bg-white p-5 ring-1 ring-[#2CB9B1]/30 shadow-md flex items-center justify-center overflow-hidden h-full">
             <img
               src="/images/business/member-services.png"
               alt="조합원 지원 서비스"
@@ -17,7 +17,7 @@ export default function MemberServices() {
           </div>
 
           {/* 우측: 대여 안내 + 기대효과 + 문의 */}
-          <div className="grid h-[440px] lg:h-[470px] grid-rows-[auto,1fr,auto] gap-6">
+          <div className="grid h-full grid-rows-[auto,1fr,auto] gap-6">
             <div className="rounded-2xl border border-[#2CB9B1]/40 bg-white/90 backdrop-blur-[1px] shadow-md p-7 md:p-8">
               <ul className="space-y-4 text-gray-800 leading-relaxed">
                 <li className="flex gap-3">
