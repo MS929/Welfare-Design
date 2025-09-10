@@ -12,7 +12,7 @@ export default function Donation() {
             <img
               src="/images/business/donation.png"
               alt="보조기기 기증 캠페인"
-              className="w-auto max-w-full max-h-[440px] lg:max-h-[520px] rounded-xl object-contain"
+              className="w-auto max-w-full max-h-[400px] lg:max-h-[460px] rounded-xl object-contain"
             />
           </div>
 
