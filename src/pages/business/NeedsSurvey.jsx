@@ -24,14 +24,13 @@ export default function NeedsSurvey() {
                 <li className="flex gap-3">
                   <span className="mt-2 h-2 w-2 rounded-full bg-emerald-500 shrink-0" />
                   <span>
-                    1. 저소득 취약계층 전동휠체어 사용자 대상 보험료 일부 지원
+                    취약계층 및 보호자 대상, 설문·심층면접 기반 조사(연 1회,
+                    필요시 수시)
                   </span>
                 </li>
                 <li className="flex gap-3">
                   <span className="mt-2 h-2 w-2 rounded-full bg-emerald-500 shrink-0" />
-                  <span>
-                    2. 사례관리 기관과 협력하여 대상자 발굴 및 기존 사업과 연계하여 지원
-                  </span>
+                  <span>2. 결과 공유회, 향후 서비스 개선 반영</span>
                 </li>
               </ul>
             </div>
@@ -39,8 +38,12 @@ export default function NeedsSurvey() {
             <div className="rounded-xl border border-gray-200 bg-white shadow-sm p-6 mt-6">
               <h3 className="font-semibold text-lg mb-3">기대 효과</h3>
               <ul className="list-disc list-inside space-y-1 text-gray-700">
-                <li>취약계층의 복지정보 접근성 강화 및 제도적 권리 실현 지원</li>
-                <li>전동보장구 이용자의 안전망 확보 및 사고 예방</li>
+                <li>
+                  취약계층의 복지정보 접근성 강화 및 제도적 권리 실현 지원
+                </li>
+                <li>
+                  실태조사 기반의 복지서비스 품질 향상 및 수요 맞춤형 정책 제안
+                </li>
               </ul>
             </div>
 
