@@ -8,14 +8,11 @@ export default function Rental() {
         {/* 이미지 + 우측 정보 박스(대여 안내) + 기대효과(대여 안내 박스 아래) */}
         <div className="grid gap-8 md:grid-cols-2 items-stretch">
           {/* 좌측 이미지: JS 동기화 제거, 순수 CSS로 동일 높이 */}
-          <div className="rounded-2xl bg-emerald-50/40 p-4 md:p-6 shadow-inner overflow-hidden h-full flex items-start md:items-center">
+          <div className="rounded-2xl bg-emerald-50 p-4 shadow-[inset_0_0_0_1px_rgba(0,0,0,0.05)] flex items-center justify-center overflow-hidden">
             <img
               src="/images/business/rental.png"
               alt="휠체어 및 복지용구 무료 대여"
-              className="mx-auto w-auto max-h-[520px] md:max-h-[560px] object-contain rounded-xl border border-emerald-100 bg-white"
-              loading="eager"
-              fetchpriority="high"
-              sizes="(min-width: 1024px) 600px, (min-width: 768px) 520px, 90vw"
+              className="w-auto max-w-full max-h-[360px] lg:max-h-[420px] rounded-xl object-contain"
             />
           </div>
 
@@ -25,7 +22,10 @@ export default function Rental() {
               <ul className="space-y-4 text-gray-800">
                 <li className="flex gap-3">
                   <span className="mt-2 h-2 w-2 rounded-full bg-emerald-500 shrink-0" />
-                  <span>수동/전동 휠체어, 보행보조기, 목욕의자 등 기초 복지용구 무료 대여</span>
+                  <span>
+                    수동/전동 휠체어, 보행보조기, 목욕의자 등 기초 복지용구 무료
+                    대여
+                  </span>
                 </li>
                 <li className="flex gap-3">
                   <span className="mt-2 h-2 w-2 rounded-full bg-emerald-500 shrink-0" />
@@ -61,10 +61,14 @@ export default function Rental() {
                   className="h-5 w-5"
                   aria-hidden="true"
                 >
-                  <path d="M2.25 6.75c0 7.008 5.742 12.75 12.75 12.75.71 0 1.32-.51 1.44-1.21l.38-2.19a1.5 1.5 0 0 0-1.08-1.71l-2.24-.62a1.5 1.5 0 0 0-1.49.44l-.82.83a10.97 10.97 0 0 1-4.26-4.27l.83-.82a1.5 1.5 0 0 0 .44-1.49l-.62-2.24a1.5 1.5 0 0 0-1.71-1.08l-2.19.38c-.7.12-1.21.73-1.21 1.44Z"/>
+                  <path d="M2.25 6.75c0 7.008 5.742 12.75 12.75 12.75.71 0 1.32-.51 1.44-1.21l.38-2.19a1.5 1.5 0 0 0-1.08-1.71l-2.24-.62a1.5 1.5 0 0 0-1.49.44l-.82.83a10.97 10.97 0 0 1-4.26-4.27l.83-.82a1.5 1.5 0 0 0 .44-1.49l-.62-2.24a1.5 1.5 0 0 0-1.71-1.08l-2.19.38c-.7.12-1.21.73-1.21 1.44Z" />
                 </svg>
-                <span className="font-semibold tracking-wide">신청 문의 : 복지디자인</span>
-                <span className="font-bold text-xl tabular-nums">042-000-0000</span>
+                <span className="font-semibold tracking-wide">
+                  신청 문의 : 복지디자인
+                </span>
+                <span className="font-bold text-xl tabular-nums">
+                  042-000-0000
+                </span>
               </div>
             </div>
           </div>
