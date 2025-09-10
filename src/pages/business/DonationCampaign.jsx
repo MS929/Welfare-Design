@@ -23,8 +23,9 @@ export default function Donation() {
                 <li className="flex gap-3">
                   <span className="mt-2 h-2 w-2 rounded-full bg-emerald-500 shrink-0" />
                   <span>
-                    지역 주민과 단체를 대상으로 보조기기 기증 캠페인 실시 <br></br>
-                    - 기증가능 품목 : 수동/전동 휠체어, 보행보조기, 목욕의자, 안전손잡이 등
+                    지역 주민과 단체를 대상으로 보조기기 기증 캠페인 실시{" "}
+                    <br></br>- 기증가능 품목 : 수동/전동 휠체어, 보행보조기,
+                    목욕의자, 안전손잡이 등
                   </span>
                 </li>
                 <li className="flex gap-3">
