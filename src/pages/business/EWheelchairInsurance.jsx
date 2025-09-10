@@ -6,13 +6,13 @@ export default function EwcInsurance() {
     <BizLayout title="취약 계층 전동휠체어 보험금 지원">
       <div className="max-w-screen-xl mx-auto px-4">
         {/* 이미지 + 우측 정보 박스(대여 안내) + 기대효과(대여 안내 박스 아래) */}
-        <div className="grid gap-8 md:grid-cols-2 items-stretch md:items-stretch min-h-[560px]">
+        <div className="grid gap-8 md:grid-cols-2 items-stretch">
           {/* 좌측 이미지: JS 동기화 제거, 순수 CSS로 동일 높이 */}
-          <div className="rounded-2xl bg-emerald-50 p-4 shadow-[inset_0_0_0_1px_rgba(0,0,0,0.05)] flex items-center justify-center overflow-hidden min-h-[560px]">
+          <div className="rounded-2xl bg-emerald-50 p-4 shadow-[inset_0_0_0_1px_rgba(0,0,0,0.05)] flex items-center justify-center overflow-hidden">
             <img
               src="/images/business/ewc-insurance.png"
               alt="취약 계층 전동휠체어 보험금 지원"
-              className="h-full w-auto max-w-full max-h-full rounded-xl object-contain"
+              className="w-auto max-w-full max-h-[360px] lg:max-h-[420px] rounded-xl object-contain"
             />
           </div>
 
@@ -22,7 +22,10 @@ export default function EwcInsurance() {
               <h3 className="font-semibold text-lg mb-3">사업 안내</h3>
               <ul className="list-disc list-inside space-y-2 text-gray-700">
                 <li>저소득 취약계층 전동휠체어 사용자 대상 보험료 일부 지원</li>
-                <li>사례관리 기관과 협력하여 대상자 발굴 및 기존 사업과 연계하여 지원</li>
+                <li>
+                  사례관리 기관과 협력하여 대상자 발굴 및 기존 사업과 연계하여
+                  지원
+                </li>
               </ul>
             </div>
 
