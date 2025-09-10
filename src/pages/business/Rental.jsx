@@ -8,13 +8,14 @@ export default function Rental() {
         {/* 이미지 + 우측 정보 박스(대여 안내) + 기대효과(대여 안내 박스 아래) */}
         <div className="grid gap-8 md:grid-cols-2 items-stretch">
           {/* 좌측 이미지: JS 동기화 제거, 순수 CSS로 동일 높이 */}
-          <div className="rounded-2xl bg-emerald-50/40 p-4 md:p-6 shadow-inner overflow-hidden h-full">
+          <div className="rounded-2xl bg-emerald-50/40 p-4 md:p-6 shadow-inner overflow-hidden h-full flex items-start md:items-center">
             <img
               src="/images/business/rental.png"
               alt="휠체어 및 복지용구 무료 대여"
-              className="h-full w-full object-contain object-top rounded-xl border border-emerald-100 bg-white"
+              className="mx-auto w-auto max-h-[520px] md:max-h-[560px] object-contain rounded-xl border border-emerald-100 bg-white"
               loading="eager"
               fetchpriority="high"
+              sizes="(min-width: 1024px) 600px, (min-width: 768px) 520px, 90vw"
             />
           </div>
 
