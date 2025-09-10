@@ -49,7 +49,7 @@ export default function Donation() {
               </div>
 
               <div className="rounded-xl border border-emerald-300 bg-emerald-50/70 px-6 py-4 shadow-sm mt-6 h-full">
-                <div className="flex items-center gap-3 text-emerald-900">
+                <div className="flex items-center justify-center gap-3 text-emerald-900">
                   {/* phone icon */}
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -60,10 +60,10 @@ export default function Donation() {
                   >
                     <path d="M2.25 6.75c0 7.008 5.742 12.75 12.75 12.75.71 0 1.32-.51 1.44-1.21l.38-2.19a1.5 1.5 0 0 0-1.08-1.71l-2.24-.62a1.5 1.5 0 0 0-1.49.44l-.82.83a10.97 10.97 0 0 1-4.26-4.27l.83-.82a1.5 1.5 0 0 0 .44-1.49l-.62-2.24a1.5 1.5 0 0 0-1.71-1.08l-2.19.38c-.7.12-1.21.73-1.21 1.44Z" />
                   </svg>
-                  <span className="font-semibold tracking-wide">
+                  <span className="font-semibold tracking-wide text-lg">
                     신청 문의 : 복지디자인
                   </span>
-                  <span className="font-bold text-xl tabular-nums">
+                  <span className="font-bold text-2xl tabular-nums">
                     042-000-0000
                   </span>
                 </div>
