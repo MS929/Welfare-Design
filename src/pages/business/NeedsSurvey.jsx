@@ -24,7 +24,8 @@ export default function NeedsSurvey() {
                 <li className="flex gap-3">
                   <span className="mt-2 h-2 w-2 rounded-full bg-emerald-500 shrink-0" />
                   <span>
-                    취약계층 및 보호자 대상, 설문·심층면접 기반 조사(연 1회, 필요시 수시)
+                    취약계층 및 보호자 대상, 설문·심층면접 기반 조사(연 1회,
+                    필요시 수시)
                   </span>
                 </li>
                 <li className="flex gap-3">
