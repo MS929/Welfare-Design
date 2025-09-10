@@ -17,8 +17,8 @@ export default function EwcInsurance() {
           </div>
 
           {/* 우측: 대여 안내 + 기대효과 + 문의 */}
-          <div className="flex flex-col h-full justify-between">
-            <div className="rounded-xl border border-emerald-200 bg-white shadow-sm p-6">
+          <div className="flex flex-col h-full gap-6">
+            <div className="flex-1 rounded-xl border border-emerald-200 bg-white shadow-sm p-8 min-h-[220px]">
               <ul className="space-y-4 text-gray-800">
                 <li className="flex gap-3">
                   <span className="mt-2 h-2 w-2 rounded-full bg-emerald-500 shrink-0" />
@@ -36,9 +36,9 @@ export default function EwcInsurance() {
               </ul>
             </div>
 
-            <div className="rounded-xl border border-gray-200 bg-white shadow-sm p-6 mt-6">
+            <div className="flex-1 rounded-xl border border-gray-200 bg-white shadow-sm p-8">
               <h3 className="font-semibold text-lg mb-3">기대 효과</h3>
-              <ul className="list-disc list-inside space-y-1 text-gray-700">
+              <ul className="list-disc list-inside space-y-2 text-gray-700">
                 <li>
                   취약계층의 복지정보 접근성 강화 및 제도적 권리 실현 지원
                 </li>
