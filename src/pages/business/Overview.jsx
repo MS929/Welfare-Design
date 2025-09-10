@@ -9,37 +9,37 @@ export default function BizOverview() {     // 0. 사업영역
       to: "/business/rental",
       title: "휠체어 및 복지용구 무료 대여",
       desc: "단기/긴급 대여로 이동권과 일상 회복을 지원합니다.",
-      icon: "/images/icons/rental.png",
+      icon: "/public/images/icons/rental.png",
     },
     {
       to: "/business/apply-help",
       title: "보조기기·복지용구 신청 안내 지원",
       desc: "신청 절차 안내, 서류 준비, 기관 연계까지 동행 지원.",
-      icon: "/images/icons/apply-help.png",
+      icon: "/public/images/icons/apply-help.png",
     },
     {
       to: "/business/donation",
       title: "보조기기 기증 캠페인",
       desc: "기증–수리–재분배로 순환 시스템을 구축합니다.",
-      icon: "/images/icons/donation.png",
+      icon: "/public/images/icons/donation.png",
     },
     {
       to: "/business/ewc-insurance",
       title: "취약 계층 전동 휠체어 보험금 지원",
       desc: "사고·고장 대비 보험료/보장 연계 지원.",
-      icon: "/images/icons/ewc-insurance.png",
+      icon: "/public/images/icons/ewc-insurance.png",
     },
     {
       to: "/business/needs-survey",
       title: "취약 계층 복지욕구 실태조사",
       desc: "현장의 요구를 데이터로 수집·분석하여 정책·사업에 반영.",
-      icon: "/images/icons/needs-survey.png",
+      icon: "/public/images/icons/needs-survey.png",
     },
     {
       to: "/business/member-services",
       title: "조합원 지원 서비스",
       desc: "상담·교육·정보제공 등 조합원 전용 프로그램.",
-      icon: "/images/icons/member-services.png",
+      icon: "/public/images/icons/member-services.png",
     },
   ];
 
