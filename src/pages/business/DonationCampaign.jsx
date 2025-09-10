@@ -8,17 +8,17 @@ export default function Donation() {
         {/* 이미지 + 우측 정보 박스(대여 안내) + 기대효과(대여 안내 박스 아래) */}
         <div className="grid gap-10 md:grid-cols-2 md:items-stretch">
           {/* 좌측 이미지: JS 동기화 제거, 순수 CSS로 동일 높이 */}
-          <div className="rounded-2xl bg-emerald-50 p-6 shadow-[inset_0_0_0_1px_rgba(0,0,0,0.05)] flex items-center justify-center overflow-hidden md:h-[560px]">
+          <div className="rounded-2xl bg-emerald-50 p-4 shadow-[inset_0_0_0_1px_rgba(0,0,0,0.05)] flex items-center justify-center overflow-hidden min-h-[560px]">
             <img
               src="/images/business/donation.png"
               alt="보조기기 기증 캠페인"
-              className="w-auto max-w-full max-h-[480px] lg:max-h-[520px] rounded-xl object-contain"
+              className="h-full w-auto max-w-full max-h-full rounded-xl object-contain"
             />
           </div>
 
           {/* 우측: 대여 안내 + 기대효과 + 문의 */}
           <div className="flex flex-col gap-6 h-full justify-between">
-            <div className="rounded-xl border border-emerald-200 bg-white shadow-sm p-6 flex-grow">
+            <div className="rounded-xl border border-emerald-200 bg-white shadow-sm p-8">
               <h3 className="font-semibold text-lg mb-3">사업 안내</h3>
               <ul className="space-y-4 text-gray-800">
                 <li className="flex gap-3">
@@ -38,7 +38,7 @@ export default function Donation() {
               </ul>
             </div>
 
-            <div className="rounded-xl border border-gray-200 bg-white shadow-sm p-7 mt-6 flex-grow">
+            <div className="rounded-xl border border-gray-200 bg-white shadow-sm p-8">
               <h3 className="font-semibold text-lg mb-3">기대 효과</h3>
               <ul className="list-disc list-inside space-y-1 text-gray-700 text-[15.5px]">
                 <li>
@@ -48,17 +48,13 @@ export default function Donation() {
               </ul>
             </div>
 
-            <div className="rounded-xl border border-emerald-300 bg-emerald-50/80 px-7 py-6 shadow-sm mt-2 flex-grow flex items-center justify-center">
-              <div className="flex flex-col items-center justify-center gap-2 text-emerald-900 text-center">
-                <div className="flex items-center gap-2">
-                  <span className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-emerald-100 text-emerald-700">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="h-5 w-5" aria-hidden="true">
-                      <path d="M2.25 6.75c0 7.008 5.742 12.75 12.75 12.75.71 0 1.32-.51 1.44-1.21l.38-2.19a1.5 1.5 0 0 0-1.08-1.71l-2.24-.62a1.5 1.5 0 0 0-1.49.44l-.82.83a10.97 10.97 0 0 1-4.26-4.27l.83-.82a1.5 1.5 0 0 0 .44-1.49l-.62-2.24a1.5 1.5 0 0 0-1.71-1.08l-2.19.38c-.7.12-1.21.73-1.21 1.44Z" />
-                    </svg>
-                  </span>
-                  <span className="font-semibold tracking-wide text-[18px] md:text-lg">신청 문의 · 복지디자인</span>
-                </div>
-                <span className="font-extrabold text-[26px] md:text-[28px] leading-none tabular-nums">042-000-0000</span>
+            <div className="rounded-xl border border-emerald-300 bg-emerald-50 px-8 py-7 shadow-sm">
+              <div className="flex items-center justify-center gap-3 text-emerald-900 text-xl md:text-2xl">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="h-6 w-6 text-emerald-700" aria-hidden="true">
+                  <path d="M2.25 6.75c0 7.008 5.742 12.75 12.75 12.75.71 0 1.32-.51 1.44-1.21l.38-2.19a1.5 1.5 0 0 0-1.08-1.71l-2.24-.62a1.5 1.5 0 0 0-1.49.44l-.82.83a10.97 10.97 0 0 1-4.26-4.27l.83-.82a1.5 1.5 0 0 0 .44-1.49l-.62-2.24a1.5 1.5 0 0 0-1.71-1.08l-2.19.38c-.7.12-1.21.73-1.21 1.44Z" />
+                </svg>
+                <span className="font-semibold tracking-wide">신청 문의 · 복지디자인</span>
+                <span className="font-extrabold text-2xl md:text-3xl tabular-nums text-emerald-900">042-000-0000</span>
               </div>
             </div>
           </div>
