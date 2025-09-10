@@ -23,13 +23,15 @@ export default function EwcInsurance() {
                 <li className="flex gap-3">
                   <span className="mt-2 h-2 w-2 rounded-full bg-emerald-500 shrink-0" />
                   <span>
-                    1. 지역 주민과 단체를 대상으로 보조기기 기증 캠페인 실시
-                     - 기증 가능 품목 : 수동/전동 휠체어, 보행보조기, 목욕의자, 안전손잡이 등
+                    저소득 취약계층 전동휠체어 사용자 대상 보험료 일부 지원
                   </span>
                 </li>
                 <li className="flex gap-3">
                   <span className="mt-2 h-2 w-2 rounded-full bg-emerald-500 shrink-0" />
-                  <span>2. 주민센터 및 공공기관 대상 장애인 인식개선 캠페인 연 2회 진행</span>
+                  <span>
+                    사례관리 기관과 협력하여 대상자 발굴 및 기존 사업과 연계하여
+                    지원
+                  </span>
                 </li>
               </ul>
             </div>
@@ -37,8 +39,10 @@ export default function EwcInsurance() {
             <div className="rounded-xl border border-gray-200 bg-white shadow-sm p-6 mt-6">
               <h3 className="font-semibold text-lg mb-3">기대 효과</h3>
               <ul className="list-disc list-inside space-y-1 text-gray-700">
-                <li>취약계층의 복지정보 접근성 강화 및 제도적 권리 실현 지원</li>
-                <li>장애인에 대한 지역사회 인식 개선 및 복지문화 조성</li>
+                <li>
+                  취약계층의 복지정보 접근성 강화 및 제도적 권리 실현 지원
+                </li>
+                <li>전동보장구 이용자의 안전망 확보 및 사고 예방</li>
               </ul>
             </div>
 
