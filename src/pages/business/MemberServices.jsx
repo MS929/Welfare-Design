@@ -12,7 +12,7 @@ export default function MemberServices() {
             <img
               src="/images/business/member-services.png"
               alt="조합원 지원 서비스"
-              className="h-full w-auto max-w-full rounded-xl object-contain drop-shadow-sm"
+              className="w-auto max-w-full max-h-[360px] lg:max-h-[420px] rounded-xl object-contain"
             />
           </div>
 
