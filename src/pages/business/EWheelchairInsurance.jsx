@@ -18,21 +18,11 @@ export default function EwcInsurance() {
 
           {/* 우측: 대여 안내 + 기대효과 + 문의 */}
           <div className="flex flex-col h-full gap-6">
-            <div className="flex-1 rounded-xl border border-emerald-200 bg-white shadow-sm p-8 min-h-[220px]">
-              <ul className="space-y-4 text-gray-800">
-                <li className="flex gap-3">
-                  <span className="mt-2 h-2 w-2 rounded-full bg-emerald-500 shrink-0" />
-                  <span>
-                    저소득 취약계층 전동휠체어 사용자 대상 보험료 일부 지원
-                  </span>
-                </li>
-                <li className="flex gap-3">
-                  <span className="mt-2 h-2 w-2 rounded-full bg-emerald-500 shrink-0" />
-                  <span>
-                    사례관리 기관과 협력하여 대상자 발굴 및 기존 사업과 연계하여
-                    지원
-                  </span>
-                </li>
+            <div className="rounded-xl border border-emerald-200 bg-white shadow-sm p-8">
+              <h3 className="font-semibold text-lg mb-3">사업 안내</h3>
+              <ul className="list-disc list-inside space-y-2 text-gray-700">
+                <li>저소득 취약계층 전동휠체어 사용자 대상 보험료 일부 지원</li>
+                <li>사례관리 기관과 협력하여 대상자 발굴 및 기존 사업과 연계하여 지원</li>
               </ul>
             </div>
 
