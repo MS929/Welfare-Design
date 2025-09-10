@@ -77,7 +77,7 @@ export default function BizOverview() {     // 0. 사업영역
                   </svg>
                 </span>
               </div>
-              <img src={p.icon} alt="" className="w-10 h-10 absolute bottom-3 right-3 opacity-80" />
+              <img src={p.icon} alt="" className="w-12 h-12 absolute bottom-3 right-3 opacity-80" />
             </Link>
           ))}
         </div>
