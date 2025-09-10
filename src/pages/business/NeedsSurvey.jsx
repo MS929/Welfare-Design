@@ -1,30 +1,71 @@
 // src/pages/business/NeedsSurvey.jsx
-import BizLayout from "./_Layout";
-import BusinessHero from "./_BusinessHero";
 
-export default function NeedsSurvey() {         // 5. 취약 계층 복지욕구 실태조사   
+import BizLayout from "./_Layout";
+
+export default function NeedsSurvey() {
   return (
     <BizLayout title="취약 계층 복지욕구 실태조사">
-      <BusinessHero
-        imageSrc="/images/business/needs-survey.png"
-        subtitle="현장의 목소리를 데이터로"
-        bullets={[
-          "설문·심층면접 기반의 기초 조사",
-          "생활/건강/이동/돌봄/주거 등 다영역 분석",
-          "결과는 공공정책·사업 설계 개선에 반영",
-        ]}
-        note="조사 참여자 정보는 관련 법령에 따라 철저히 보호됩니다."
-        ctaText="조사 참여 의향 등록"
-        ctaHref="/apply/survey"
-      />
+      <div className="max-w-screen-xl mx-auto px-4">
+        {/* 이미지 + 우측 정보 박스(대여 안내) + 기대효과(대여 안내 박스 아래) */}
+        <div className="grid gap-8 md:grid-cols-2 items-stretch">
+          {/* 좌측 이미지: JS 동기화 제거, 순수 CSS로 동일 높이 */}
+          <div className="rounded-2xl bg-emerald-50 p-4 shadow-[inset_0_0_0_1px_rgba(0,0,0,0.05)] flex items-center justify-center overflow-hidden">
+            <img
+              src="/images/business/needs-survey.png"
+              alt="취약 계층 복지욕구 실태조사"
+              className="w-auto max-w-full max-h-[360px] lg:max-h-[420px] rounded-xl object-contain"
+            />
+          </div>
 
-      <div className="max-w-screen-xl mx-auto px-4 mt-10">
-        <h3 className="font-semibold text-lg mb-3">조사 개요</h3>
-        <ul className="list-disc list-inside space-y-1 text-gray-700">
-          <li>기간: 연 1회(필요 시 수시 보완)</li>
-          <li>대상: 지역 취약계층 및 보호자</li>
-          <li>방법: 온라인/오프라인 병행</li>
-        </ul>
+          {/* 우측: 대여 안내 + 기대효과 + 문의 */}
+          <div className="flex flex-col h-full">
+            <div className="rounded-xl border border-emerald-200 bg-white shadow-sm p-6">
+              <ul className="space-y-4 text-gray-800">
+                <li className="flex gap-3">
+                  <span className="mt-2 h-2 w-2 rounded-full bg-emerald-500 shrink-0" />
+                  <span>
+                    1. 저소득 취약계층 전동휠체어 사용자 대상 보험료 일부 지원
+                  </span>
+                </li>
+                <li className="flex gap-3">
+                  <span className="mt-2 h-2 w-2 rounded-full bg-emerald-500 shrink-0" />
+                  <span>
+                    2. 사례관리 기관과 협력하여 대상자 발굴 및 기존 사업과 연계하여 지원
+                  </span>
+                </li>
+              </ul>
+            </div>
+
+            <div className="rounded-xl border border-gray-200 bg-white shadow-sm p-6 mt-6">
+              <h3 className="font-semibold text-lg mb-3">기대 효과</h3>
+              <ul className="list-disc list-inside space-y-1 text-gray-700">
+                <li>취약계층의 복지정보 접근성 강화 및 제도적 권리 실현 지원</li>
+                <li>전동보장구 이용자의 안전망 확보 및 사고 예방</li>
+              </ul>
+            </div>
+
+            <div className="rounded-xl border border-emerald-300 bg-emerald-50/70 px-6 py-4 shadow-sm mt-6">
+              <div className="flex items-center gap-3 text-emerald-900">
+                {/* phone icon */}
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                  className="h-5 w-5"
+                  aria-hidden="true"
+                >
+                  <path d="M2.25 6.75c0 7.008 5.742 12.75 12.75 12.75.71 0 1.32-.51 1.44-1.21l.38-2.19a1.5 1.5 0 0 0-1.08-1.71l-2.24-.62a1.5 1.5 0 0 0-1.49.44l-.82.83a10.97 10.97 0 0 1-4.26-4.27l.83-.82a1.5 1.5 0 0 0 .44-1.49l-.62-2.24a1.5 1.5 0 0 0-1.71-1.08l-2.19.38c-.7.12-1.21.73-1.21 1.44Z" />
+                </svg>
+                <span className="font-semibold tracking-wide">
+                  신청 문의 : 복지디자인
+                </span>
+                <span className="font-bold text-xl tabular-nums">
+                  042-000-0000
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </BizLayout>
   );
