@@ -8,11 +8,11 @@ export default function ApplyHelp() {
         {/* 상단: 좌측 이미지 / 우측 안내 박스 */}
         <div className="grid lg:grid-cols-2 gap-8 items-start">
           {/* 이미지 */}
-          <div className="rounded-2xl bg-emerald-50 p-6 shadow-[inset_0_0_0_1px_rgba(0,0,0,0.05)] flex items-center justify-center overflow-hidden">
+          <div className="rounded-2xl bg-emerald-50 p-6 shadow-[inset_0_0_0_1px_rgba(0,0,0,0.05)] flex items-center justify-center overflow-hidden h-full min-h-[260px] sm:min-h-[300px] md:min-h-[320px]">
             <img
               src="/images/business/apply-help.png"
               alt="복지용구 신청 안내 지원"
-              className="w-auto max-w-full h-auto max-w-[360px] sm:max-w-[420px] md:max-w-[460px] max-h-[320px] sm:max-h-[360px] md:max-h-[420px] rounded-xl object-contain mx-auto"
+              className="w-auto h-auto max-w-full max-h-full rounded-xl object-contain mx-auto max-w-[300px] sm:max-w-[340px] md:max-w-[360px]"
             />
           </div>
           {/* 안내 박스 (불릿) + 기대 효과 + 상담 문의 배너 */}
