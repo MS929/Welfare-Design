@@ -23,9 +23,9 @@ export default function MemberServices() {
                 <li className="flex gap-3">
                   <span className="mt-2 h-2 w-2 rounded-full bg-emerald-500 shrink-0" />
                   <span>
-                    1. 조합원에 대한 상담, 교육·훈련 및 정보 제공
-                    - 조합원 맞춤 상담
-                    - 기본 및 실무교육
+                    1. 조합원에 대한 상담, 교육·훈련 및 정보 제공 <br></br>
+                    - 조합원 맞춤 상담  <br></br>
+                    - 기본 및 실무교육 <br></br>
                     - 정보 제공 및 커뮤니티 구축
                   </span>
                 </li>
