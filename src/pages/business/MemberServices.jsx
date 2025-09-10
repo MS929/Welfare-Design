@@ -36,14 +36,14 @@ export default function MemberServices() {
                     - 외부 네트워크 구축 <br></br>
                     - 내부거래 활성화
                   </span>
-                  <li className="flex gap-3">
-                    <span className="mt-2 h-2 w-2 rounded-full bg-emerald-500 shrink-0" />
-                    <span>
-                      조합 홍보 및 지역사회를 위한 사업 <br></br>
-                      - 주민 대상 홍보캠페인 운영 <br></br>
-                      - 사회복지시설 연계 홍보
-                    </span>
-                  </li>
+                </li>
+                <li className="flex gap-3">
+                  <span className="mt-2 h-2 w-2 rounded-full bg-emerald-500 shrink-0" />
+                  <span>
+                    조합 홍보 및 지역사회를 위한 사업 <br></br>
+                    - 주민 대상 홍보캠페인 운영 <br></br>
+                    - 사회복지시설 연계 홍보
+                  </span>
                 </li>
               </ul>
             </div>
