@@ -9,13 +9,11 @@ export default function ApplyHelp() {
         <div className="grid gap-8 md:grid-cols-2 items-stretch">
           {/* 이미지 */}
           <div className="rounded-2xl bg-emerald-50 p-4 shadow-[inset_0_0_0_1px_rgba(0,0,0,0.05)] flex items-center justify-center overflow-hidden">
-            <div className="w-full max-w-[640px] aspect-[3/3.5]">
-              <img
-                src="/images/business/apply-help.png"
-                alt="복지용구 신청 안내 지원"
-                className="h-full w-full object-contain rounded-xl"
-              />
-            </div>
+            <img
+              src="/images/business/apply-help.png"
+              alt="복지용구 신청 안내 지원"
+              className="w-auto max-w-full max-h-[360px] lg:max-h-[420px] rounded-xl object-contain"
+            />
           </div>
           {/* 안내 박스 (불릿) + 기대 효과 + 상담 문의 배너 */}
           <div className="flex flex-col h-full">
@@ -40,7 +38,7 @@ export default function ApplyHelp() {
             </div>
             {/* 기대 효과 */}
             <div className="rounded-xl border border-gray-200 bg-white shadow-sm p-6 mt-6">
-              <h3 className="font-semibold text-gray-900 mb-3">기대 효과</h3>
+              <h3 className="font-semibold text-lg mb-3">기대 효과</h3>
               <ul className="list-disc list-inside space-y-1 text-gray-700">
                 <li>
                   취약계층의 복지정보 접근성 강화 및 제도적 권리 실현 지원
