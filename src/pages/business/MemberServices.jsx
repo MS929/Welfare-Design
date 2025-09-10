@@ -8,18 +8,18 @@ export default function MemberServices() {
         {/* 이미지 + 우측 정보 박스(대여 안내) + 기대효과(대여 안내 박스 아래) */}
         <div className="grid gap-8 md:grid-cols-2 items-stretch">
           {/* 좌측 이미지: JS 동기화 제거, 순수 CSS로 동일 높이 */}
-          <div className="rounded-2xl bg-emerald-50 p-4 shadow-[inset_0_0_0_1px_rgba(0,0,0,0.05)] flex items-center justify-center overflow-hidden h-[440px] lg:h-[470px]">
+          <div className="rounded-2xl bg-emerald-50 p-4 shadow-[inset_0_0_0_1px_rgba(0,0,0,0.05)] flex items-center justify-center overflow-hidden">
             <img
               src="/images/business/member-services.png"
               alt="조합원 지원 서비스"
-              className="h-full w-auto max-w-full rounded-xl object-contain"
+              className="w-auto max-w-full max-h-[360px] lg:max-h-[420px] rounded-xl object-contain"
             />
           </div>
 
           {/* 우측: 대여 안내 + 기대효과 + 문의 */}
-          <div className="grid h-[440px] lg:h-[470px] grid-rows-[auto,1fr,auto] gap-6">
+          <div className="flex flex-col h-full">
             <div className="rounded-xl border border-emerald-200 bg-white shadow-sm p-6">
-              <ul className="space-y-3 text-gray-800">
+              <ul className="space-y-4 text-gray-800">
                 <li className="flex gap-3">
                   <span className="mt-2 h-2 w-2 rounded-full bg-emerald-500 shrink-0" />
                   <span>
@@ -48,7 +48,7 @@ export default function MemberServices() {
               </ul>
             </div>
 
-            <div className="rounded-xl border border-gray-200 bg-white shadow-sm p-6 h-full">
+            <div className="rounded-xl border border-gray-200 bg-white shadow-sm p-6 mt-6">
               <h3 className="font-semibold text-lg mb-3">기대 효과</h3>
               <ul className="list-disc list-inside space-y-1 text-gray-700">
                 <li>전문성 및 자립 능력 향상 조합원 역량 강화</li>
@@ -57,7 +57,7 @@ export default function MemberServices() {
               </ul>
             </div>
 
-            <div className="rounded-xl border border-emerald-300 bg-emerald-50/70 px-8 py-5 shadow-sm">
+            <div className="rounded-xl border border-emerald-300 bg-emerald-50/70 px-6 py-4 shadow-sm mt-6">
               <div className="flex items-center gap-3 text-emerald-900">
                 {/* phone icon */}
                 <svg
