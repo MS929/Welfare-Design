@@ -43,7 +43,7 @@ collections:
       - { label: "본문", name: "body", widget: "markdown" }
 
   - name: "faq"
-    label: "자주 묻는 질문"
+    label: "faq"
     folder: "src/content/faq"
     create: true
     format: "frontmatter"
