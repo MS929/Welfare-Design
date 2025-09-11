@@ -6,57 +6,70 @@
     <title>CMS</title>
     <!-- HEAD 안 -->
 <style id="decap-cms-scroll-fix">
-/* Keep scrolling on the window, not inside nested panes */
+/* ===== Decap CMS scroll & top-gap hard‑fix ===== */
+/* Keep the window as the only scroll container */
 html, body {
   margin: 0 !important;
   padding: 0 !important;
-  height: auto !important;
   min-height: 100vh !important;
-  overflow-y: auto !important; /* window scroll */
+  height: auto !important;
+  overflow-y: scroll !important; /* always show scrollbar */
   overflow-x: hidden !important;
   background: #fff !important;
 }
 
-/* Decap mount and its first wrapper: no inner scrollbars */
+/* Decap mount and wrappers must not create their own scroll areas */
 #nc-root, #nc-root > div {
   display: block !important;
   height: auto !important;
   min-height: 100vh !important;
-  overflow: visible !important; /* DO NOT create a nested scroll area */
-}
-
-/* Entries list must use the window scroll so the virtual list can keep loading */
-#nc-root main,
-#nc-root [data-testid="collection-page"],
-#nc-root [data-testid="collection-content"],
-#nc-root [data-testid="entries"]{
-  height: auto !important;
-  max-height: none !important;
   overflow: visible !important;
-  contain: none !important; /* avoid isolation that can break observers */
 }
 
-/* Neutralize sticky headers/toolbars that can produce phantom top gaps */
-#nc-root [style*="position: sticky"],
-#nc-root header[role="banner"]{
+/* Neutralize sticky header and its phantom spacer */
+#nc-root header[role="banner"] {
   position: static !important;
   top: auto !important;
 }
+/* Some builds insert an empty spacer right under the header for sticky layout */
+#nc-root header[role="banner"] + div { display: none !important; }
+/* Remove any padding added for the sticky header */
+#nc-root main,
+#nc-root [data-testid="app-container"],
+#nc-root [data-testid="collection-page"],
+#nc-root [data-testid="collection-content"],
+#nc-root [data-testid="editor-container"] {
+  padding-top: 0 !important;
+}
 
-/* Split panes should size automatically */
+/* Entries list: allow infinite loading with the window scroll */
+#nc-root [data-testid="entries"] {
+  height: auto !important;
+  max-height: none !important;
+  overflow: visible !important;
+  contain: none !important; /* keep IO working */
+}
+/* Make sure there is a bottom target for the IntersectionObserver */
+#nc-root [data-testid="entries"]::after {
+  content: "";
+  display: block;
+  height: 2px; /* minimal but present */
+}
+
+/* Split panes should not clamp heights */
 #nc-root .SplitPane,
 #nc-root .ReactSplitPane,
-#nc-root .Pane{
+#nc-root .Pane {
   height: auto !important;
   max-height: none !important;
   min-height: auto !important;
   overflow: visible !important;
 }
 
-/* Do not cap heights anywhere inside the admin */
+/* Guard against inline max-height / overflow caps sprinkled by the UI lib */
 #nc-root *[style*="max-height"],
 #nc-root *[style*="height: calc(100vh"],
-#nc-root *[style*="overflow: hidden"]{
+#nc-root *[style*="overflow: hidden"] {
   max-height: none !important;
   overflow: visible !important;
 }
