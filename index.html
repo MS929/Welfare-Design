@@ -29,28 +29,28 @@
         overflow: auto !important;
       }
     </style>
-    <style id="decap-cms-scroll-fix-strong">
-      /* Force scrolling in Decap CMS regardless of inherited styles */
-      html, body {
-        height: auto !important;
-        min-height: 100vh !important;
-        overflow: auto !important;
-      }
-      #nc-root, #nc-root > div {
+    <style id="cms-scroll-enforce">
+      html, body, #nc-root, #nc-root > div, main {
         height: auto !important;
         min-height: 100vh !important;
         overflow: auto !important;
         position: static !important;
       }
-      .Pane_content,
+      /* Common Decap containers */
+      .Pane_root, .Pane_content, .Pane_scrollContainer,
       .CollectionContainer_container,
       .DefaultCollectionPage_container,
       .DefaultControlPane_container,
       .EditorContainer_root,
-      .cms-editor-iframe {
+      .cms-editor-iframe,
+      .ReactVirtualized__Grid, .ReactVirtualized__List, .ReactVirtualized__Grid__innerScrollContainer {
         max-height: none !important;
         height: auto !important;
         min-height: 100% !important;
+        overflow: auto !important;
+      }
+      /* Guard against any overflow:hidden leaking in */
+      *[style*="overflow: hidden"], *[style*="overflow:hidden"] {
         overflow: auto !important;
       }
     </style>
@@ -93,43 +93,45 @@
         window.netlifyIdentity.init();
       })();
     </script>
-    <script id="decap-cms-scroll-fix-runtime">
+    <script id="cms-scroll-enforce-runtime">
       (function () {
-        function forceScroll() {
+        function enforceOnce() {
           try {
-            var docEl = document.documentElement;
-            var body = document.body;
-            var root = document.getElementById('nc-root');
-            [docEl, body, root].forEach(function (el) {
+            var targets = [document.documentElement, document.body, document.getElementById('nc-root')];
+            targets.forEach(function (el) {
               if (!el) return;
-              el.style.overflow = 'auto';
-              el.style.height = 'auto';
-              el.style.minHeight = '100vh';
-              el.style.position = 'static';
+              el.style.setProperty('overflow', 'auto', 'important');
+              el.style.setProperty('height', 'auto', 'important');
+              el.style.setProperty('min-height', '100vh', 'important');
+              el.style.setProperty('position', 'static', 'important');
             });
             var sels = [
-              '.Pane_content',
-              '.CollectionContainer_container',
-              '.DefaultCollectionPage_container',
-              '.DefaultControlPane_container',
-              '.EditorContainer_root',
-              '.cms-editor-iframe'
+              'main', '.Pane_root', '.Pane_content', '.Pane_scrollContainer',
+              '.CollectionContainer_container', '.DefaultCollectionPage_container',
+              '.DefaultControlPane_container', '.EditorContainer_root',
+              '.ReactVirtualized__Grid', '.ReactVirtualized__List', '.ReactVirtualized__Grid__innerScrollContainer'
             ];
             sels.forEach(function (sel) {
               document.querySelectorAll(sel).forEach(function (el) {
-                el.style.maxHeight = 'none';
-                el.style.height = 'auto';
-                el.style.minHeight = '100%';
-                el.style.overflow = 'auto';
+                el.style.setProperty('max-height', 'none', 'important');
+                el.style.setProperty('height', 'auto', 'important');
+                el.style.setProperty('min-height', '100%', 'important');
+                el.style.setProperty('overflow', 'auto', 'important');
               });
             });
           } catch (e) {}
         }
-        // run now and again after Decap mounts
-        document.addEventListener('DOMContentLoaded', forceScroll);
-        window.addEventListener('load', forceScroll);
-        // also re-apply when navigating inside CMS (spa)
-        var _push = history.pushState; history.pushState = function(){ _push.apply(this, arguments); setTimeout(forceScroll, 50); };
+        function enforceBurst() {
+          var n = 0, timer = setInterval(function(){
+            enforceOnce();
+            if (++n > 40) clearInterval(timer); // ~20s max
+          }, 500);
+        }
+        document.addEventListener('DOMContentLoaded', enforceBurst);
+        window.addEventListener('load', enforceBurst);
+        window.addEventListener('resize', enforceOnce);
+        var _push = history.pushState; history.pushState = function(){ _push.apply(this, arguments); setTimeout(enforceBurst, 100); };
+        var _replace = history.replaceState; history.replaceState = function(){ _replace.apply(this, arguments); setTimeout(enforceBurst, 100); };
       })();
     </script>
   </body>
