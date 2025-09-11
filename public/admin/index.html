@@ -102,5 +102,52 @@
         }
       })();
     </script>
+    <script>
+      // 일부 컬렉션 뷰는 window 의 'scroll' 이벤트를 감지해 다음 항목을 불러옵니다.
+      // 우리 레이아웃에서는 내부 스크롤 컨테이너(#nc-root 내부)가 스크롤을 담당하므로
+      // 그 컨테이너의 스크롤을 window 로 중계(relay)해 줍니다.
+      (function relayWindowScroll() {
+        var BOUND_FLAG = '__relayBound';
+
+        function getScroller() {
+          var root = document.getElementById('nc-root');
+          if (!root) return null;
+          return root.querySelector('.Pane-content, [data-testid="collection-page"], main[role="main"]');
+        }
+
+        function bind() {
+          var scroller = getScroller();
+          if (!scroller) {
+            requestAnimationFrame(bind);
+            return;
+          }
+          if (scroller[BOUND_FLAG]) return; // already bound
+          scroller[BOUND_FLAG] = true;
+
+          // 내부 스크롤이 발생하면 window 로도 scroll 이벤트를 발행
+          scroller.addEventListener('scroll', function () {
+            window.dispatchEvent(new Event('scroll'));
+          }, { passive: true });
+
+          // 라우팅 등으로 스크롤러 노드가 교체될 수 있으므로 감시 후 재바인딩
+          var root = document.getElementById('nc-root');
+          var mo = new MutationObserver(function () {
+            var current = getScroller();
+            if (current && current !== scroller && !current[BOUND_FLAG]) {
+              mo.disconnect();
+              // 새 노드에 다시 바인딩
+              relayWindowScroll();
+            }
+          });
+          if (root) mo.observe(root, { childList: true, subtree: true });
+        }
+
+        if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', bind);
+        } else {
+          bind();
+        }
+      })();
+    </script>
   </body>
 </html>
