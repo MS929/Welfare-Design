@@ -6,46 +6,43 @@
     <title>CMS</title>
     <!-- HEAD 안 -->
 <style id="decap-cms-scroll-fix">
-/* ==== Reset so site-wide CSS doesn't bleed into CMS ==== */
-:root, html, body { all: revert !important; box-sizing: border-box !important; }
-*, *::before, *::after { box-sizing: inherit !important; }
+/* keep it minimal — only what we need for proper scrolling */
 html, body {
-  height: 100% !important;
-  min-height: 100% !important;
   margin: 0 !important;
   padding: 0 !important;
-  overflow: auto !important;            /* 페이지 자체가 정상 스크롤 */
+  height: auto !important;
+  min-height: 100vh !important;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
   background: #fff !important;
 }
 
-/* ==== CMS 루트는 화면 최상단에서 시작 & 뷰포트 채움 ==== */
-#nc-root { min-height: 100vh !important; display: block !important; }
-#nc-root > div { min-height: 100vh !important; }
+/* Decap mount point fills viewport without phantom gaps */
+#nc-root {
+  display: block !important;
+  min-height: 100vh !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
 
-/* 상단 여백/패딩 강제 제거 (의도치 않은 큰 공백 제거) */
+/* remove accidental top spacing on first children */
+#nc-root > * { margin-top: 0 !important; }
+
+/* header sticks to top; content area scrolls */
+#nc-root [class*="AppHeader"] {
+  position: sticky !important;
+  top: 0 !important;
+  z-index: 1000 !important;
+}
+
 #nc-root main,
 #nc-root [role="main"],
-#nc-root .PaneContainer_root,
-#nc-root .CMS_Scrollable,
 #nc-root [data-testid="collection-page"] {
   margin-top: 0 !important;
-  padding-top: .25rem !important;
-}
-
-/* 헤더는 항상 맨 위에 고정 */
-#nc-root [class*="AppHeader"] { position: sticky !important; top: 0 !important; z-index: 1000 !important; }
-
-/* 콘텐츠 영역은 화면 높이를 채우고 자체 스크롤 허용 */
-#nc-root .CMS_Container,
-#nc-root .CollectionPage_root,
-#nc-root [data-testid="collection-page"] {
-  min-height: calc(100vh - 48px) !important;
+  padding-top: 0 !important;
+  min-height: calc(100vh - 56px) !important; /* header height guard */
   overflow: auto !important;
 }
-
-/* 카드 리스트 간격 살짝 줄이기 */
-#nc-root [class*="CardList"] article,
-#nc-root [data-testid="collection-card"] { margin-bottom: 10px !important; }
 </style>
   </head>
   <body>
@@ -62,13 +59,5 @@ html, body {
     <script src="https://unpkg.com/decap-cms-backend-netlify@^3.0.0/dist/standalone.js"></script>
 
     <!-- 자동 초기화가 기본값이라 따로 CMS.init()는 보통 필요 없음 -->
-     <!-- BODY 끝 직전 -->
-<script id="decap-cms-scroll-fix-runtime">
-  (function(){
-    function toTop(){ try{ window.scrollTo(0,0); }catch(e){} }
-    document.addEventListener('DOMContentLoaded', toTop);
-    window.addEventListener('load', toTop);
-  })();
-</script>
   </body>
 </html>
