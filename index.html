@@ -5,6 +5,22 @@
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Vite + React</title>
+    <style id="cms-reset">
+      /* 관리자 화면을 앱 전역 CSS로부터 보호 */
+      html, body, #nc-root {
+        height: auto !important;
+        min-height: 100vh !important;
+        overflow: auto !important;
+      }
+      #nc-root {
+        position: static !important;
+      }
+      /* 혹시 프레임 내부가 고정될 때 */
+      .cms-editor-iframe, .DefaultControlPane_container {
+        height: auto !important;
+        min-height: 100% !important;
+      }
+    </style>
   </head>
   <body>
     <div id="root"></div>
