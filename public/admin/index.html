@@ -6,7 +6,7 @@
     <title>CMS</title>
     <!-- HEAD 안 -->
 <style id="decap-cms-scroll-fix">
-/* keep it minimal — only what we need for proper scrolling */
+/* Minimal scroll fix: keep body scrollable but don't touch inner layout */
 html, body {
   margin: 0 !important;
   padding: 0 !important;
@@ -24,25 +24,8 @@ html, body {
   margin: 0 !important;
   padding: 0 !important;
 }
-
-/* remove accidental top spacing on first children */
-#nc-root > * { margin-top: 0 !important; }
-
-/* header sticks to top; content area scrolls */
-#nc-root [class*="AppHeader"] {
-  position: sticky !important;
-  top: 0 !important;
-  z-index: 1000 !important;
-}
-
-#nc-root main,
-#nc-root [role="main"],
-#nc-root [data-testid="collection-page"] {
-  margin-top: 0 !important;
-  padding-top: 0 !important;
-  min-height: calc(100vh - 56px) !important; /* header height guard */
-  overflow: auto !important;
-}
+/* NOTE: intentionally removed sticky header and overflow rules on inner elements
+   so modals (image upload, media library) are not clipped or hidden. */
 </style>
   </head>
   <body>
