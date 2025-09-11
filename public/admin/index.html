@@ -6,26 +6,19 @@
     <title>CMS</title>
     <!-- HEAD 안 -->
 <style id="cms-fixes">
-  /* Keep the CMS isolated from site-wide styles and let the WINDOW scroll */
+  /* Keep the CMS isolated; let inner pane scroll while syncing with window */
   html, body {
     margin: 0 !important;
-    height: auto !important;
-    overscroll-behavior: none;   /* prevent rubber-band chaining */
+    height: 100% !important;
+    overscroll-behavior: none; /* prevent rubber-band chaining */
   }
   body {
-    position: static !important; /* make sure window can actually scroll */
-    overflow-y: auto !important; /* window scroll instead of inner div */
+    position: static !important;
+    overflow: hidden !important; /* inner pane owns the scroll */
+    -webkit-overflow-scrolling: auto;
   }
   /* Ensure the CMS root fills the viewport so virtualization can size correctly */
-  #nc-root, #nc-root > div {
-    min-height: 100vh;
-  }
-  /* Do NOT force inner panes to own the scroll; let window handle it */
-  #nc-root .Pane-content,
-  #nc-root [data-testid="collection-page"],
-  #nc-root main[role="main"] {
-    overflow: visible !important;
-  }
+  #nc-root, #nc-root > div { min-height: 100vh; }
 </style>
   </head>
   <body>
@@ -48,5 +41,53 @@
       document.documentElement.classList.remove('cms-ready');
       document.body.classList.remove('cms-ready');
     </script>
+<script>
+// --- Sync window scroll with Decap CMS inner scroller -----------------------
+(function () {
+  const FLAG = "__cmsScrollBound";
+
+  function getPane() {
+    const root = document.getElementById("nc-root");
+    if (!root) return null;
+    return (
+      root.querySelector('.Pane-content') ||
+      root.querySelector('[data-testid="collection-page"]') ||
+      root.querySelector('main[role="main"]')
+    );
+  }
+
+  function bind() {
+    const pane = getPane();
+    if (!pane || pane[FLAG]) return;
+    pane[FLAG] = true;
+
+    // When the inner pane scrolls, mirror it to the window (keeps address bar/UI happy)
+    pane.addEventListener(
+      'scroll',
+      () => {
+        if (window.scrollY !== pane.scrollTop) window.scrollTo(0, pane.scrollTop);
+      },
+      { passive: true }
+    );
+
+    // When the window scrolls (e.g., mouse wheel at page edges), keep pane aligned
+    window.addEventListener(
+      'scroll',
+      () => {
+        if (pane.scrollTop !== window.scrollY) pane.scrollTop = window.scrollY;
+      },
+      { passive: true }
+    );
+
+    // Initial alignment to avoid a big blank gap at the top
+    pane.scrollTop = window.scrollY;
+  }
+
+  const rootEl = document.getElementById('nc-root');
+  const mo = new MutationObserver(bind);
+  if (rootEl) mo.observe(rootEl, { childList: true, subtree: true });
+  bind();
+})();
+</script>
   </body>
 </html>
