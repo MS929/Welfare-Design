@@ -69,7 +69,7 @@ export default function SupFAQ() {
 			</div>
 
 			{/* List */}
-			<div className="mt-6 divide-y divide-gray-200 border border-gray-200 rounded-md bg-white">
+			<div className="mt-6 md:mt-8 divide-y divide-gray-200 border border-gray-200 rounded-md bg-white">
 				{filtered.map((it, idx) => (
 					<Item
 						key={idx}
@@ -91,16 +91,16 @@ function Item({ item, open, onToggle }) {
 		<div className="">
 			<button
 				onClick={onToggle}
-				className="w-full flex items-start gap-3 px-5 py-5 md:py-6 text-left hover:bg-gray-50"
+				className="w-full flex items-start gap-4 px-6 py-7 md:py-8 text-left hover:bg-gray-50"
 			>
 				<span className="text-[#ff4f8f] font-bold">Q.</span>
-				<span className="flex-1 text-gray-900">{item.title}</span>
+				<span className="flex-1 text-gray-900 leading-snug">{item.title}</span>
 				<span className="text-gray-400 text-xl leading-none">{open ? "−" : "+"}</span>
 			</button>
 			{open && (
-				<div className="px-5 md:px-6 pt-2 pb-7 text-gray-700">
+				<div className="px-6 md:px-7 pt-4 pb-8 text-gray-700">
 					<div
-						className="prose prose-sm max-w-none leading-relaxed"
+						className="max-w-none leading-relaxed space-y-3"
 						dangerouslySetInnerHTML={{ __html: mdToHtml(item.body) }}
 					/>
 				</div>
