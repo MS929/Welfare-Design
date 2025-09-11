@@ -6,29 +6,46 @@
     <title>CMS</title>
     <!-- HEAD 안 -->
 <style id="decap-cms-scroll-fix">
-/* ==== Hard reset so site-wide CSS doesn't bleed into CMS ==== */
-html, body { 
-  all: revert !important;                 /* drop any inherited site styles */
-  box-sizing: border-box !important; 
-  margin: 0 !important; 
-  padding: 0 !important; 
-  height: 100vh !important;              /* viewport height */
-  overflow: hidden !important;           /* page itself doesn't scroll */
-}
+/* ==== Reset so site-wide CSS doesn't bleed into CMS ==== */
+:root, html, body { all: revert !important; box-sizing: border-box !important; }
 *, *::before, *::after { box-sizing: inherit !important; }
-
-/* ==== Pin the CMS app to the viewport and scroll inside it ==== */
-#nc-root, #nc-root > div {
-  position: fixed !important;
-  inset: 0 !important;                   /* top:0; right:0; bottom:0; left:0 */
-  overflow: auto !important;             /* scrolling happens here */
+html, body {
+  height: 100% !important;
+  min-height: 100% !important;
   margin: 0 !important;
   padding: 0 !important;
-  transform: none !important;
+  overflow: auto !important;            /* 페이지 자체가 정상 스크롤 */
+  background: #fff !important;
 }
 
-/* Keep the in-app header at the very top */
-.AppHeader_root { position: sticky !important; top: 0 !important; }
+/* ==== CMS 루트는 화면 최상단에서 시작 & 뷰포트 채움 ==== */
+#nc-root { min-height: 100vh !important; display: block !important; }
+#nc-root > div { min-height: 100vh !important; }
+
+/* 상단 여백/패딩 강제 제거 (의도치 않은 큰 공백 제거) */
+#nc-root main,
+#nc-root [role="main"],
+#nc-root .PaneContainer_root,
+#nc-root .CMS_Scrollable,
+#nc-root [data-testid="collection-page"] {
+  margin-top: 0 !important;
+  padding-top: .25rem !important;
+}
+
+/* 헤더는 항상 맨 위에 고정 */
+#nc-root [class*="AppHeader"] { position: sticky !important; top: 0 !important; z-index: 1000 !important; }
+
+/* 콘텐츠 영역은 화면 높이를 채우고 자체 스크롤 허용 */
+#nc-root .CMS_Container,
+#nc-root .CollectionPage_root,
+#nc-root [data-testid="collection-page"] {
+  min-height: calc(100vh - 48px) !important;
+  overflow: auto !important;
+}
+
+/* 카드 리스트 간격 살짝 줄이기 */
+#nc-root [class*="CardList"] article,
+#nc-root [data-testid="collection-card"] { margin-bottom: 10px !important; }
 </style>
   </head>
   <body>
