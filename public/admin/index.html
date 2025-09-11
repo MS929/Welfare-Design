@@ -86,6 +86,27 @@ body, #nc-root, .CMS_App_root {
   align-items: flex-start !important;
   justify-content: flex-start !important;
 }
+
+/* --- EXTRA: absolutely kill any phantom top gap on some browsers --- */
+:root {
+  --safe-area-inset-top: 0 !important;
+}
+
+body, #nc-root, #nc-root > div, .CMS_App_root,
+.Pane_root, .DefaultCollectionPage_container,
+.EditorContainer_root, .AppHeader_root, .Pane_content {
+  top: 0 !important;
+  padding-top: 0 !important;
+  margin-top: 0 !important;
+  align-items: flex-start !important;
+  justify-content: flex-start !important;
+  transform: none !important;
+}
+
+/* Ensure no global wrapper applies vertical centering */
+#nc-root, #nc-root > div {
+  display: block !important;
+}
 </style>
   </head>
   <body>
@@ -130,72 +151,43 @@ body, #nc-root, .CMS_App_root {
           el.style.setProperty('overflow','auto','important');
         });
       });
-      var root = document.getElementById('nc-root');
-      if (root) {
-        root.style.removeProperty('transform');
-        root.style.removeProperty('max-width');
-        root.style.setProperty('width','100%','important');
-      }
-      document.querySelectorAll('[style*="overflow: hidden"]').forEach(function (el) {
-        el.style.setProperty('overflow','auto','important');
-      });
-    } catch(e) {}
+    } catch(e) { console.warn("fix() error", e); }
+  }
 
-    // Remove any top margin/padding that could push the UI down
-    var tops = ['html','body','#nc-root','#nc-root > div','.CMS_App_root','main',
-                '.Pane_root','.DefaultCollectionPage_container','.EditorContainer_root'];
-    tops.forEach(function(sel){
-      document.querySelectorAll(sel).forEach(function(el){
-        try{
-          el.style.setProperty('margin-top','0','important');
-          el.style.setProperty('padding-top','0','important');
-        }catch(e){}
-      });
-    });
-  }
-  function burst(){
-    var i=0, t=setInterval(function(){ fix(); if(++i>40) clearInterval(t); },500);
-  }
   function goTop(){
-    try { history.scrollRestoration = 'manual'; } catch(e){}
-    try { document.documentElement.style.scrollPaddingTop = '0px'; } catch(e){}
-    var targets = [
-      document.scrollingElement || document.documentElement,
-      document.body,
-      document.getElementById('nc-root')
-    ];
-    var sels = [
-      '.Pane_root','.Pane_content','.Pane_scrollContainer',
-      '.CollectionContainer_container','.DefaultCollectionPage_container',
-      '.DefaultControlPane_container','.EditorContainer_root',
-      '.ReactVirtualized__Grid','.ReactVirtualized__List',
-      '.ReactVirtualized__Grid__innerScrollContainer'
-    ];
-    try {
-      sels.forEach(function(sel){
-        document.querySelectorAll(sel).forEach(function(el){ targets.push(el); });
-      });
-    } catch(e){}
-    try { window.scrollTo(0,0); } catch(e) {}
-    setTimeout(function(){ window.scrollTo(0,0); }, 50);
-    targets.forEach(function(el){ try { el.scrollTop = 0; } catch(e){} });
-    // 두 번 보정: 렌더 직후 & 다음 프레임
-    try {
-      requestAnimationFrame(function(){
-        try { window.scrollTo(0,0); } catch(e) {}
-        targets.forEach(function(el){ try { el.scrollTop = 0; } catch(e){} });
-      });
-      setTimeout(function(){
-        try { window.scrollTo(0,0); } catch(e) {}
-        targets.forEach(function(el){ try { el.scrollTop = 0; } catch(e){} });
-      }, 150);
-    } catch(e){}
+    try { window.scrollTo(0,0); } catch(e){}
+    try { document.body.scrollTop = 0; } catch(e){}
+    try { document.documentElement.scrollTop = 0; } catch(e){}
   }
-  document.addEventListener('DOMContentLoaded', function(){ burst(); setTimeout(goTop, 0); });
-  window.addEventListener('load', function(){ burst(); setTimeout(goTop, 0); });
+
+  function burst(){
+    var i=0, t=setInterval(function(){ fix(); if(++i>20) clearInterval(t); },300);
+  }
+
+  document.addEventListener('DOMContentLoaded', function(){
+    burst(); goTop();
+  });
+  window.addEventListener('load', function(){
+    burst(); goTop();
+  });
   window.addEventListener('resize', fix);
-  var _p=history.pushState; history.pushState=function(){ _p.apply(this,arguments); setTimeout(function(){ burst(); goTop(); },100); };
-  var _r=history.replaceState; history.replaceState=function(){ _r.apply(this,arguments); setTimeout(function(){ burst(); goTop(); },100); };
+
+  // history API 안전하게 패치
+  try {
+    var _p=history.pushState;
+    history.pushState=function(){
+      _p.apply(this,arguments);
+      setTimeout(function(){ burst(); goTop(); },100);
+    };
+  } catch(e) {}
+
+  try {
+    var _r=history.replaceState;
+    history.replaceState=function(){
+      _r.apply(this,arguments);
+      setTimeout(function(){ burst(); goTop(); },100);
+    };
+  } catch(e) {}
 })();
 </script>
   </body>
