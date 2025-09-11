@@ -107,6 +107,27 @@ body, #nc-root, #nc-root > div, .CMS_App_root,
 #nc-root, #nc-root > div {
   display: block !important;
 }
+
+/* === HARD PIN: make the CMS fill the viewport and kill the top blank area === */
+html, body {
+  height: 100vh !important;           /* lock page height to the viewport */
+  overflow: hidden !important;         /* disable page scroll – app will scroll */
+}
+
+/* Pin the app to the viewport and scroll inside it */
+#nc-root, #nc-root > div {
+  position: fixed !important;
+  top: 0 !important; left: 0 !important; right: 0 !important; bottom: 0 !important;
+  height: auto !important;
+  min-height: 100vh !important;
+  overflow: auto !important;           /* scrolling happens here */
+  margin: 0 !important;
+  padding: 0 !important;
+  transform: none !important;
+}
+
+/* Ensure the internal app header doesn’t push content down with phantom space */
+.AppHeader_root { top: 0 !important; position: sticky !important; }
 </style>
   </head>
   <body>
