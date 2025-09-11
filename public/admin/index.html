@@ -67,6 +67,25 @@ html, body, #nc-root, .CMS_App_root, main {
 
 /* Box sizing consistency to avoid weird centering/gaps */
 *, *::before, *::after { box-sizing: border-box; }
+
+/* --- Remove any phantom top gap (margin/padding/pseudo banners) --- */
+html, body, #nc-root, #nc-root > div, .CMS_App_root, main,
+.Pane_root, .DefaultCollectionPage_container, .EditorContainer_root {
+  margin-top: 0 !important;
+  padding-top: 0 !important;
+}
+/* Some themes inject a top :before strip – disable it */
+body::before, body::after, #nc-root::before, #nc-root::after,
+.CMS_App_root::before, .CMS_App_root::after {
+  content: none !important;
+  display: none !important;
+}
+/* Ensure the page is not vertically centered leaving a big gap */
+body, #nc-root, .CMS_App_root {
+  display: block !important;
+  align-items: flex-start !important;
+  justify-content: flex-start !important;
+}
 </style>
   </head>
   <body>
@@ -121,12 +140,25 @@ html, body, #nc-root, .CMS_App_root, main {
         el.style.setProperty('overflow','auto','important');
       });
     } catch(e) {}
+
+    // Remove any top margin/padding that could push the UI down
+    var tops = ['html','body','#nc-root','#nc-root > div','.CMS_App_root','main',
+                '.Pane_root','.DefaultCollectionPage_container','.EditorContainer_root'];
+    tops.forEach(function(sel){
+      document.querySelectorAll(sel).forEach(function(el){
+        try{
+          el.style.setProperty('margin-top','0','important');
+          el.style.setProperty('padding-top','0','important');
+        }catch(e){}
+      });
+    });
   }
   function burst(){
     var i=0, t=setInterval(function(){ fix(); if(++i>40) clearInterval(t); },500);
   }
   function goTop(){
     try { history.scrollRestoration = 'manual'; } catch(e){}
+    try { document.documentElement.style.scrollPaddingTop = '0px'; } catch(e){}
     var targets = [
       document.scrollingElement || document.documentElement,
       document.body,
