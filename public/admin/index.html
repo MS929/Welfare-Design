@@ -5,27 +5,30 @@
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <title>CMS</title>
     <!-- HEAD 안 -->
-<style id="decap-cms-scroll-fix">
-/* Minimal scroll fix: keep body scrollable but don't touch inner layout */
-html, body {
-  margin: 0 !important;
-  padding: 0 !important;
-  height: auto !important;
-  min-height: 100vh !important;
-  overflow-y: auto !important;
-  overflow-x: hidden !important;
-  background: #fff !important;
-}
+<style id="cms-fixes">
+  /* 기본 높이 지정 */
+  html, body { height: 100%; }
 
-/* Decap mount point fills viewport without phantom gaps */
-#nc-root {
-  display: block !important;
-  min-height: 100vh !important;
-  margin: 0 !important;
-  padding: 0 !important;
-}
-/* NOTE: intentionally removed sticky header and overflow rules on inner elements
-   so modals (image upload, media library) are not clipped or hidden. */
+  /* 페이지(body) 스크롤은 막고, 내부 컨테이너가 스크롤을 갖도록 */
+  body { overflow: hidden !important; }
+
+  /* CMS 루트와 내부 패널을 100% 높이로 맞춤 */
+  #nc-root,
+  #nc-root > div,
+  #nc-root .Pane,
+  #nc-root main[role="main"],
+  #nc-root .Pane-content {
+    height: 100% !important;
+  }
+
+  /* 실제 스크롤은 이 컨테이너가 담당 (Decap가 여기서 스크롤 이벤트를 잡음) */
+  #nc-root .Pane-content,
+  #nc-root [data-testid="collection-page"] {
+    overflow-y: auto !important;
+    overscroll-behavior: contain;
+  }
+
+  /* 혹시 과거에 넣었던 'body 스크롤 강제' 같은 스타일이 있다면 반드시 제거 */
 </style>
   </head>
   <body>
