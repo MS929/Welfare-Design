@@ -8,30 +8,34 @@ media_folder: "public/uploads"
 public_folder: "/uploads"
 
 collections:
-  - name: "stories"
-    label: "동행이야기"
-    folder: "src/content/stories"
-    create: true
-    format: "frontmatter"
+  - name: stories
+    label: 동행이야기
+    folder: path/to/stories
+    identifier_field: title
     slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    slugify:
+      encoding: "unicode"
+      clean_accents: false
+      sanitize_replacement: "-"
     sort: "date:desc"
     view_groups:
+      - label: "분류"
+        field: "category"
       - label: "연도"
-        field: date
+        field: "date"
         pattern: "YYYY"
       - label: "월"
-        field: date
+        field: "date"
         pattern: "YYYY-MM"
     fields:
-      - { label: "제목", name: "title", widget: "string" }
-      - { label: "작성일", name: "date", widget: "datetime", format: "YYYY-MM-DDTHH:mm:ssZ" }
-      - { label: "대표 이미지(선택)", name: "thumbnail", widget: "image", choose_url: true, required: false }
-      - label: "카테고리"
+      - label: "제목"
+        name: "title"
+        widget: "string"
+      - label: "분류"
         name: "category"
         widget: "select"
-        options: ["인터뷰", "행사", "공탁", "공조동방"]
-        default: "인터뷰"
-      - { label: "본문", name: "body", widget: "markdown" }
+        options: ["소식", "활동후기", "인터뷰", "공지", "기타"]
+        default: "기타"
 
   - name: "notices"
     label: "공지/공모"
