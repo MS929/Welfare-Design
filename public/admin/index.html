@@ -79,11 +79,14 @@
   function burst(){
     var i=0, t=setInterval(function(){ fix(); if(++i>40) clearInterval(t); },500);
   }
-  document.addEventListener('DOMContentLoaded', burst);
-  window.addEventListener('load', burst);
+  function goTop(){
+    try { window.scrollTo({top: 0, left: 0, behavior: 'auto'}); } catch(e) { window.scrollTo(0,0); }
+  }
+  document.addEventListener('DOMContentLoaded', function(){ burst(); setTimeout(goTop, 0); });
+  window.addEventListener('load', function(){ burst(); setTimeout(goTop, 0); });
   window.addEventListener('resize', fix);
-  var _p=history.pushState; history.pushState=function(){ _p.apply(this,arguments); setTimeout(burst,100); };
-  var _r=history.replaceState; history.replaceState=function(){ _r.apply(this,arguments); setTimeout(burst,100); };
+  var _p=history.pushState; history.pushState=function(){ _p.apply(this,arguments); setTimeout(function(){ burst(); goTop(); },100); };
+  var _r=history.replaceState; history.replaceState=function(){ _r.apply(this,arguments); setTimeout(function(){ burst(); goTop(); },100); };
 })();
 </script>
   </body>

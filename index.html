@@ -5,29 +5,6 @@
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Vite + React</title>
-    <style id="cms-scroll-enforce">
-      html, body, #nc-root, #nc-root > div, main {
-        height: auto !important;
-    min-height: 100vh !important;
-    overflow: auto !important;
-    position: static !important;
-  }
-  .Pane_root, .Pane_content, .Pane_scrollContainer,
-  .CollectionContainer_container,
-  .DefaultCollectionPage_container,
-  .DefaultControlPane_container,
-  .EditorContainer_root,
-  .ReactVirtualized__Grid, .ReactVirtualized__List,
-  .ReactVirtualized__Grid__innerScrollContainer {
-    max-height: none !important;
-    height: auto !important;
-    min-height: 100% !important;
-    overflow: auto !important;
-  }
-  *[style*="overflow: hidden"], *[style*="overflow:hidden"] {
-    overflow: auto !important;
-  }
-</style>
   </head>
   <body>
     <div id="root"></div>
@@ -67,46 +44,5 @@
         window.netlifyIdentity.init();
       })();
     </script>
-    <script id="cms-scroll-enforce-runtime">
-  (function () {
-    function enforceOnce() {
-      try {
-        var targets = [document.documentElement, document.body, document.getElementById('nc-root')];
-        targets.forEach(function (el) {
-          if (!el) return;
-          el.style.setProperty('overflow', 'auto', 'important');
-          el.style.setProperty('height', 'auto', 'important');
-          el.style.setProperty('min-height', '100vh', 'important');
-          el.style.setProperty('position', 'static', 'important');
-        });
-        var sels = [
-          'main', '.Pane_root', '.Pane_content', '.Pane_scrollContainer',
-          '.CollectionContainer_container', '.DefaultCollectionPage_container',
-          '.DefaultControlPane_container', '.EditorContainer_root',
-          '.ReactVirtualized__Grid', '.ReactVirtualized__List', '.ReactVirtualized__Grid__innerScrollContainer'
-        ];
-        sels.forEach(function (sel) {
-          document.querySelectorAll(sel).forEach(function (el) {
-            el.style.setProperty('max-height', 'none', 'important');
-            el.style.setProperty('height', 'auto', 'important');
-            el.style.setProperty('min-height', '100%', 'important');
-            el.style.setProperty('overflow', 'auto', 'important');
-          });
-        });
-      } catch (e) {}
-    }
-    function enforceBurst() {
-      var n = 0, timer = setInterval(function(){
-        enforceOnce();
-        if (++n > 40) clearInterval(timer); // ~20s
-      }, 500);
-    }
-    document.addEventListener('DOMContentLoaded', enforceBurst);
-    window.addEventListener('load', enforceBurst);
-    window.addEventListener('resize', enforceOnce);
-    var _push = history.pushState; history.pushState = function(){ _push.apply(this, arguments); setTimeout(enforceBurst, 100); };
-    var _replace = history.replaceState; history.replaceState = function(){ _replace.apply(this, arguments); setTimeout(enforceBurst, 100); };
-  })();
-</script>
   </body>
 </html>
