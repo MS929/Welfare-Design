@@ -6,29 +6,67 @@
     <title>CMS</title>
     <!-- HEAD 안 -->
 <style id="decap-cms-scroll-fix">
-  html, body, #nc-root, #nc-root > div, main {
-    height: auto !important;
-    min-height: 100vh !important;
-    overflow: auto !important;
-    position: static !important;
-    margin-top: 0 !important;
-    padding-top: 0 !important;
-  }
-  .Pane_root, .Pane_content, .Pane_scrollContainer,
-  .CollectionContainer_container,
-  .DefaultCollectionPage_container,
-  .DefaultControlPane_container,
-  .EditorContainer_root,
-  .ReactVirtualized__Grid, .ReactVirtualized__List,
-  .ReactVirtualized__Grid__innerScrollContainer {
-    max-height: none !important;
-    height: auto !important;
-    min-height: 100% !important;
-    overflow: auto !important;
-  }
-  *[style*="overflow: hidden"], *[style*="overflow:hidden"] {
-    overflow: auto !important;
-  }
+/* --- Force Decap CMS to occupy the viewport and scroll correctly --- */
+html, body {
+  margin: 0 !important;
+  padding: 0 !important;
+  width: 100% !important;
+  height: auto !important;
+  min-height: 100vh !important;
+  overflow: auto !important;
+  position: static !important;
+  scroll-behavior: auto !important;
+  overscroll-behavior: none !important;
+}
+
+/* Prevent any accidental page-level scaling/centering */
+html, body, #nc-root, .CMS_App_root, main {
+  transform: none !important;
+  zoom: 1 !important;
+  max-width: none !important;
+  width: 100% !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+#nc-root, #nc-root > div, main {
+  height: auto !important;
+  min-height: 100vh !important;
+  overflow: auto !important;
+  position: static !important;
+}
+
+/* Make every internal pane a normal auto-height scroll container */
+.Pane_root, .Pane_content, .Pane_scrollContainer,
+.CollectionContainer_container,
+.DefaultCollectionPage_container,
+.DefaultControlPane_container,
+.EditorContainer_root,
+.ReactVirtualized__Grid, .ReactVirtualized__List,
+.ReactVirtualized__Grid__innerScrollContainer {
+  max-height: none !important;
+  height: auto !important;
+  min-height: 100% !important;
+  overflow: auto !important;
+  position: static !important;
+  transform: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+/* Kill inline overflow hidden that blocks scrolling */
+*[style*="overflow: hidden"], *[style*="overflow:hidden"] {
+  overflow: auto !important;
+}
+
+/* Ensure the list page starts at the very top-left */
+.CMS_App_root, .DefaultCollectionPage_container {
+  align-items: flex-start !important;
+  justify-content: flex-start !important;
+}
+
+/* Box sizing consistency to avoid weird centering/gaps */
+*, *::before, *::after { box-sizing: border-box; }
 </style>
   </head>
   <body>
@@ -73,7 +111,13 @@
           el.style.setProperty('overflow','auto','important');
         });
       });
-      document.querySelectorAll('[style*=\"overflow: hidden\"]').forEach(function (el) {
+      var root = document.getElementById('nc-root');
+      if (root) {
+        root.style.removeProperty('transform');
+        root.style.removeProperty('max-width');
+        root.style.setProperty('width','100%','important');
+      }
+      document.querySelectorAll('[style*="overflow: hidden"]').forEach(function (el) {
         el.style.setProperty('overflow','auto','important');
       });
     } catch(e) {}
@@ -101,6 +145,7 @@
       });
     } catch(e){}
     try { window.scrollTo(0,0); } catch(e) {}
+    setTimeout(function(){ window.scrollTo(0,0); }, 50);
     targets.forEach(function(el){ try { el.scrollTop = 0; } catch(e){} });
     // 두 번 보정: 렌더 직후 & 다음 프레임
     try {
