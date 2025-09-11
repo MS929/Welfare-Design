@@ -35,7 +35,15 @@
     overflow-y: auto !important;     /* 실제 스크롤 담당 */
     -webkit-overflow-scrolling: touch;/* iOS 관성 스크롤 */
     overscroll-behavior: contain;     /* 스크롤이 body로 새지 않게 */
-    padding-bottom: 240px;
+    padding-bottom: 640px;
+  }
+  /* extra bottom space to ensure virtual lists can hydrate more rows */
+  body.cms-ready #nc-root .Pane-content::after,
+  body.cms-ready #nc-root [data-testid="collection-page"]::after,
+  body.cms-ready #nc-root main[role="main"]::after {
+    content: "";
+    display: block;
+    height: 640px; /* extra space at the very bottom */
   }
 
   /* 혹시 다른 전역 CSS가 간섭해도 강제 적용 */
@@ -133,7 +141,7 @@
 
     // 강제로 스크롤 이벤트를 여러 번 발생시켜 가상 리스트가 끝까지 그려지도록 유도
     function kickList(target){
-      var ticks = 24; // 약 2.4초 동안 반복
+      var ticks = 60; // 약 6초 동안 반복
       var timer = setInterval(function(){
         try {
           // 살짝 흔들어 주기 (일부 브라우저에서 관성 트리거)
@@ -151,6 +159,20 @@
 
     // 초기 바인딩 시 한 번 킥
     kickList(scroller);
+
+      // add a sentinel at the very end to nudge virtualized lists when near the bottom
+      var sentinel = document.createElement('div');
+      sentinel.setAttribute('data-cms-sentinel', '');
+      sentinel.style.cssText = 'height:1px; width:100%;';
+      try { scroller.appendChild(sentinel); } catch(e) {}
+
+      var io = new IntersectionObserver(function(entries){
+        if (entries.some(function(e){ return e.isIntersecting; })) {
+          // when the sentinel is visible, nudge again so more rows mount
+          kickList(scroller);
+        }
+      }, { root: scroller, rootMargin: '800px 0px 800px 0px', threshold: 0 });
+      try { io.observe(sentinel); } catch(e) {}
 
     // --- 오버스크롤 완화: '맨 위'에서만 위로 스크롤을 막음 ---
     (function tameOverscroll(target){
