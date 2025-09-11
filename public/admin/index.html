@@ -6,26 +6,60 @@
     <title>CMS</title>
     <!-- HEAD 안 -->
 <style id="decap-cms-scroll-fix">
-/* Minimal scroll fix: keep body scrollable but don't touch inner layout */
+/* Keep scrolling on the window, not inside nested panes */
 html, body {
   margin: 0 !important;
   padding: 0 !important;
   height: auto !important;
   min-height: 100vh !important;
-  overflow-y: auto !important;
+  overflow-y: auto !important; /* window scroll */
   overflow-x: hidden !important;
   background: #fff !important;
 }
 
-/* Decap mount point fills viewport without phantom gaps */
-#nc-root {
+/* Decap mount and its first wrapper: no inner scrollbars */
+#nc-root, #nc-root > div {
   display: block !important;
+  height: auto !important;
   min-height: 100vh !important;
-  margin: 0 !important;
-  padding: 0 !important;
+  overflow: visible !important; /* DO NOT create a nested scroll area */
 }
-/* NOTE: intentionally removed sticky header and overflow rules on inner elements
-   so modals (image upload, media library) are not clipped or hidden. */
+
+/* Entries list must use the window scroll so the virtual list can keep loading */
+#nc-root main,
+#nc-root [data-testid="collection-page"],
+#nc-root [data-testid="collection-content"],
+#nc-root [data-testid="entries"]{
+  height: auto !important;
+  max-height: none !important;
+  overflow: visible !important;
+  contain: none !important; /* avoid isolation that can break observers */
+}
+
+/* Neutralize sticky headers/toolbars that can produce phantom top gaps */
+#nc-root [style*="position: sticky"],
+#nc-root header[role="banner"]{
+  position: static !important;
+  top: auto !important;
+}
+
+/* Split panes should size automatically */
+#nc-root .SplitPane,
+#nc-root .ReactSplitPane,
+#nc-root .Pane{
+  height: auto !important;
+  max-height: none !important;
+  min-height: auto !important;
+  overflow: visible !important;
+}
+
+/* Do not cap heights anywhere inside the admin */
+#nc-root *[style*="max-height"],
+#nc-root *[style*="height: calc(100vh"],
+#nc-root *[style*="overflow: hidden"]{
+  max-height: none !important;
+  overflow: visible !important;
+}
 </style>
   </head>
   <body>
