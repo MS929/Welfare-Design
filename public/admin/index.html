@@ -30,6 +30,13 @@
     display: block;
     height: 1600px;
   }
+
+  /* 👉 강제로 리스트 뷰 유지: Decap CMS의 grid 보기 막기 */
+  #nc-root [data-testid="collection-page"] .Grid,
+  #nc-root [data-testid="collection-page"] [class*="grid"],
+  #nc-root [data-testid="collection-page"] [class*="Grid"] {
+    display: block !important;
+  }
 </style>
   </head>
   <body>
