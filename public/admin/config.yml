@@ -10,7 +10,9 @@ public_folder: "/uploads"
 collections:
   - name: stories
     label: 동행이야기
-    folder: path/to/stories
+    folder: "src/content/stories"   # ← 실제 콘텐츠 폴더 경로
+    create: true
+    format: frontmatter
     identifier_field: title
     slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
     slugify:
@@ -18,6 +20,7 @@ collections:
       clean_accents: false
       sanitize_replacement: "-"
     sort: "date:desc"
+    summary: "{{title}} — {{date}}"
     view_groups:
       - label: "분류"
         field: "category"
@@ -31,11 +34,23 @@ collections:
       - label: "제목"
         name: "title"
         widget: "string"
+      - label: "작성일"
+        name: "date"
+        widget: "datetime"
+        format: "YYYY-MM-DDTHH:mm:ssZ"
       - label: "분류"
         name: "category"
         widget: "select"
         options: ["소식", "활동후기", "인터뷰", "공지", "기타"]
         default: "기타"
+      - label: "대표 이미지(선택)"
+        name: "thumbnail"
+        widget: "image"
+        choose_url: true
+        required: false
+      - label: "본문"
+        name: "body"
+        widget: "markdown"
 
   - name: "notices"
     label: "공지/공모"
