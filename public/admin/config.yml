@@ -16,8 +16,8 @@ collections:
     identifier_field: title
     slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
     slugify:
-      encoding: "unicode"
-      clean_accents: false
+      encoding: "ascii"
+      clean_accents: true
       sanitize_replacement: "-"
     sort: "date:desc"
     summary: "{{title}} — {{date}}"
