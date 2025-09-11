@@ -14,6 +14,14 @@ collections:
     create: true
     format: "frontmatter"
     slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    sort: "date:desc"
+    view_groups:
+      - label: "연도"
+        field: date
+        pattern: "YYYY"
+      - label: "월"
+        field: date
+        pattern: "YYYY-MM"
     fields:
       - { label: "제목", name: "title", widget: "string" }
       - { label: "작성일", name: "date", widget: "datetime", format: "YYYY-MM-DDTHH:mm:ssZ" }
