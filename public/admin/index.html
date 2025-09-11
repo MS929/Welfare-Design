@@ -6,128 +6,29 @@
     <title>CMS</title>
     <!-- HEAD 안 -->
 <style id="decap-cms-scroll-fix">
-/* --- Force Decap CMS to occupy the viewport and scroll correctly --- */
-html, body {
-  margin: 0 !important;
-  padding: 0 !important;
-  width: 100% !important;
-  height: auto !important;
-  min-height: 100vh !important;
-  overflow: auto !important;
-  position: static !important;
-  scroll-behavior: auto !important;
-  overscroll-behavior: none !important;
+/* ==== Hard reset so site-wide CSS doesn't bleed into CMS ==== */
+html, body { 
+  all: revert !important;                 /* drop any inherited site styles */
+  box-sizing: border-box !important; 
+  margin: 0 !important; 
+  padding: 0 !important; 
+  height: 100vh !important;              /* viewport height */
+  overflow: hidden !important;           /* page itself doesn't scroll */
 }
+*, *::before, *::after { box-sizing: inherit !important; }
 
-/* Prevent any accidental page-level scaling/centering */
-html, body, #nc-root, .CMS_App_root, main {
-  transform: none !important;
-  zoom: 1 !important;
-  max-width: none !important;
-  width: 100% !important;
-  margin: 0 !important;
-  padding: 0 !important;
-}
-
-#nc-root, #nc-root > div, main {
-  height: auto !important;
-  min-height: 100vh !important;
-  overflow: auto !important;
-  position: static !important;
-}
-
-/* Make every internal pane a normal auto-height scroll container */
-.Pane_root, .Pane_content, .Pane_scrollContainer,
-.CollectionContainer_container,
-.DefaultCollectionPage_container,
-.DefaultControlPane_container,
-.EditorContainer_root,
-.ReactVirtualized__Grid, .ReactVirtualized__List,
-.ReactVirtualized__Grid__innerScrollContainer {
-  max-height: none !important;
-  height: auto !important;
-  min-height: 100% !important;
-  overflow: auto !important;
-  position: static !important;
-  transform: none !important;
-  margin: 0 !important;
-  padding: 0 !important;
-}
-
-/* Kill inline overflow hidden that blocks scrolling */
-*[style*="overflow: hidden"], *[style*="overflow:hidden"] {
-  overflow: auto !important;
-}
-
-/* Ensure the list page starts at the very top-left */
-.CMS_App_root, .DefaultCollectionPage_container {
-  align-items: flex-start !important;
-  justify-content: flex-start !important;
-}
-
-/* Box sizing consistency to avoid weird centering/gaps */
-*, *::before, *::after { box-sizing: border-box; }
-
-/* --- Remove any phantom top gap (margin/padding/pseudo banners) --- */
-html, body, #nc-root, #nc-root > div, .CMS_App_root, main,
-.Pane_root, .DefaultCollectionPage_container, .EditorContainer_root {
-  margin-top: 0 !important;
-  padding-top: 0 !important;
-}
-/* Some themes inject a top :before strip – disable it */
-body::before, body::after, #nc-root::before, #nc-root::after,
-.CMS_App_root::before, .CMS_App_root::after {
-  content: none !important;
-  display: none !important;
-}
-/* Ensure the page is not vertically centered leaving a big gap */
-body, #nc-root, .CMS_App_root {
-  display: block !important;
-  align-items: flex-start !important;
-  justify-content: flex-start !important;
-}
-
-/* --- EXTRA: absolutely kill any phantom top gap on some browsers --- */
-:root {
-  --safe-area-inset-top: 0 !important;
-}
-
-body, #nc-root, #nc-root > div, .CMS_App_root,
-.Pane_root, .DefaultCollectionPage_container,
-.EditorContainer_root, .AppHeader_root, .Pane_content {
-  top: 0 !important;
-  padding-top: 0 !important;
-  margin-top: 0 !important;
-  align-items: flex-start !important;
-  justify-content: flex-start !important;
-  transform: none !important;
-}
-
-/* Ensure no global wrapper applies vertical centering */
-#nc-root, #nc-root > div {
-  display: block !important;
-}
-
-/* === HARD PIN: make the CMS fill the viewport and kill the top blank area === */
-html, body {
-  height: 100vh !important;           /* lock page height to the viewport */
-  overflow: hidden !important;         /* disable page scroll – app will scroll */
-}
-
-/* Pin the app to the viewport and scroll inside it */
+/* ==== Pin the CMS app to the viewport and scroll inside it ==== */
 #nc-root, #nc-root > div {
   position: fixed !important;
-  top: 0 !important; left: 0 !important; right: 0 !important; bottom: 0 !important;
-  height: auto !important;
-  min-height: 100vh !important;
-  overflow: auto !important;           /* scrolling happens here */
+  inset: 0 !important;                   /* top:0; right:0; bottom:0; left:0 */
+  overflow: auto !important;             /* scrolling happens here */
   margin: 0 !important;
   padding: 0 !important;
   transform: none !important;
 }
 
-/* Ensure the internal app header doesn’t push content down with phantom space */
-.AppHeader_root { top: 0 !important; position: sticky !important; }
+/* Keep the in-app header at the very top */
+.AppHeader_root { position: sticky !important; top: 0 !important; }
 </style>
   </head>
   <body>
@@ -146,90 +47,11 @@ html, body {
     <!-- 자동 초기화가 기본값이라 따로 CMS.init()는 보통 필요 없음 -->
      <!-- BODY 끝 직전 -->
 <script id="decap-cms-scroll-fix-runtime">
-(function () {
-  function fix() {
-    try {
-      ['html','body'].forEach(function(s){
-        var el = document.querySelector(s);
-        if (!el) return;
-        el.style.setProperty('overflow','auto','important');
-        el.style.setProperty('height','auto','important');
-        el.style.setProperty('min-height','100vh','important');
-        el.style.setProperty('position','static','important');
-        el.style.setProperty('margin-top','0','important');
-        el.style.setProperty('padding-top','0','important');
-      });
-
-      var sels = [
-        '#nc-root','main','.Pane_root','.Pane_content','.Pane_scrollContainer',
-        '.CollectionContainer_container','.DefaultCollectionPage_container',
-        '.DefaultControlPane_container','.EditorContainer_root',
-        '.ReactVirtualized__Grid','.ReactVirtualized__List',
-        '.ReactVirtualized__Grid__innerScrollContainer'
-      ];
-      sels.forEach(function (sel) {
-        document.querySelectorAll(sel).forEach(function (el) {
-          el.style.setProperty('max-height','none','important');
-          el.style.setProperty('height','auto','important');
-          el.style.setProperty('min-height','100%','important');
-          el.style.setProperty('overflow','auto','important');
-          el.style.setProperty('margin-top','0','important');
-          el.style.setProperty('padding-top','0','important');
-          el.style.setProperty('transform','none','important');
-        });
-      });
-    } catch(e) { console.warn('fix() error', e); }
-  }
-
-  // 🚑 If some phantom element is pushing the CMS down, pull the app up
-  function pullUp() {
-    try {
-      var root = document.getElementById('nc-root');
-      if (!root) return;
-      var rectTop = root.getBoundingClientRect().top;
-      // If the app starts lower than ~24px from the very top, yank it up.
-      if (rectTop > 24) {
-        var offset = Math.round(rectTop);
-        // apply once on <body>; keep it reversible
-        document.body.style.setProperty('margin-top', '-' + offset + 'px', 'important');
-      } else {
-        // if things are normal, make sure we don't keep a negative margin
-        var mt = (getComputedStyle(document.body).marginTop || '').trim();
-        if (mt && mt.indexOf('-') === 0) document.body.style.setProperty('margin-top','0','important');
-      }
-    } catch(e) { console.warn('pullUp() error', e); }
-  }
-
-  function goTop(){
-    try { window.scrollTo(0,0); } catch(e){}
-    try { document.body.scrollTop = 0; } catch(e){}
-    try { document.documentElement.scrollTop = 0; } catch(e){}
-  }
-
-  function burst(){
-    var i=0, t=setInterval(function(){ fix(); pullUp(); if(++i>20) clearInterval(t); },250);
-  }
-
-  document.addEventListener('DOMContentLoaded', function(){ burst(); goTop(); });
-  window.addEventListener('load', function(){ burst(); goTop(); });
-  window.addEventListener('resize', function(){ fix(); pullUp(); });
-
-  // React route changes inside CMS cause the issue to reappear
-  try {
-    var _p=history.pushState;
-    history.pushState=function(){ _p.apply(this,arguments); setTimeout(function(){ burst(); goTop(); },100); };
-  } catch(e) {}
-  try {
-    var _r=history.replaceState;
-    history.replaceState=function(){ _r.apply(this,arguments); setTimeout(function(){ burst(); goTop(); },100); };
-  } catch(e) {}
-
-  // Watch DOM changes and re-apply if some wrapper is injected later
-  try {
-    var mo=new MutationObserver(function(){ pullUp(); });
-    mo.observe(document.documentElement,{childList:true,subtree:true});
-  } catch(e) {}
-})();
+  (function(){
+    function toTop(){ try{ window.scrollTo(0,0); }catch(e){} }
+    document.addEventListener('DOMContentLoaded', toTop);
+    window.addEventListener('load', toTop);
+  })();
 </script>
   </body>
 </html>
