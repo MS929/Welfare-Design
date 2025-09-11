@@ -6,29 +6,31 @@
     <title>CMS</title>
     <!-- HEAD 안 -->
 <style id="cms-fixes">
-  /* 기본 높이 지정 */
-  html, body { height: 100%; }
+  /* 1) 기본값: 아무 것도 강제하지 않음 (초기 로딩, 로그인 모달 포함) */
+  html, body { height: auto; }
+  body { overflow: auto; }
 
-  /* 페이지(body) 스크롤은 막고, 내부 컨테이너가 스크롤을 갖도록 */
-  body { overflow: hidden !important; }
-
-  /* CMS 루트와 내부 패널을 100% 높이로 맞춤 */
-  #nc-root,
-  #nc-root > div,
-  #nc-root .Pane,
-  #nc-root main[role="main"],
-  #nc-root .Pane-content {
-    height: 100% !important;
+  /* 2) CMS가 렌더링된 이후에만 적용되는 레이아웃 고정 */
+  body.cms-ready {
+    height: 100vh;            /* 뷰포트 기준 */
+    overflow: hidden !important;  /* 바디 스크롤 제거 */
   }
-
-  /* 실제 스크롤은 이 컨테이너가 담당 (Decap가 여기서 스크롤 이벤트를 잡음) */
-  #nc-root .Pane-content,
-  #nc-root [data-testid="collection-page"] {
+  body.cms-ready #nc-root,
+  body.cms-ready #nc-root > div,
+  body.cms-ready #nc-root .Pane,
+  body.cms-ready #nc-root main[role="main"],
+  body.cms-ready #nc-root .Pane-content {
+    height: 100%;
+  }
+  /* 실제 스크롤 담당 컨테이너 */
+  body.cms-ready #nc-root .Pane-content,
+  body.cms-ready #nc-root [data-testid="collection-page"] {
     overflow-y: auto !important;
     overscroll-behavior: contain;
   }
 
-  /* 혹시 과거에 넣었던 'body 스크롤 강제' 같은 스타일이 있다면 반드시 제거 */
+  /* 혹시 다른 전역 CSS가 간섭해도 강제 적용 */
+  #nc-root { min-height: 100vh; position: relative; }
 </style>
   </head>
   <body>
@@ -45,5 +47,27 @@
     <script src="https://unpkg.com/decap-cms-backend-netlify@^3.0.0/dist/standalone.js"></script>
 
     <!-- 자동 초기화가 기본값이라 따로 CMS.init()는 보통 필요 없음 -->
+
+    <script>
+      // CMS가 마운트된 뒤에만 body에 cms-ready 클래스를 추가
+      (function() {
+        function ready() {
+          if (document.body.classList.contains('cms-ready')) return;
+          var root = document.getElementById('nc-root');
+          // Decap가 렌더링을 시작하면 루트 아래에 div.Pane 등이 생깁니다
+          if (root && root.querySelector('.Pane-content, [data-testid="collection-page"]')) {
+            document.body.classList.add('cms-ready');
+          } else {
+            requestAnimationFrame(ready);
+          }
+        }
+        // DOM이 준비되면 폴링 시작
+        if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', ready);
+        } else {
+          ready();
+        }
+      })();
+    </script>
   </body>
 </html>
