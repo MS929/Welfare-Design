@@ -31,6 +31,25 @@
 
   /* 혹시 다른 전역 CSS가 간섭해도 강제 적용 */
   #nc-root { min-height: 100vh; position: relative; }
+
+  /* CMS 메인 컨테이너만 스크롤 가능 */
+  body.cms-ready {
+    overflow: hidden !important;  /* 바디 스크롤 막기 */
+  }
+
+  body.cms-ready #nc-root {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  body.cms-ready #nc-root .Pane-content,
+  body.cms-ready #nc-root [data-testid="collection-page"],
+  body.cms-ready #nc-root main[role="main"] {
+    flex: 1 1 auto;
+    overflow-y: auto !important;
+    overscroll-behavior: contain; /* 휠 스크롤이 body로 새지 않게 */
+  }
 </style>
   </head>
   <body>
