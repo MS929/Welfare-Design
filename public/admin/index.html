@@ -26,52 +26,6 @@ html, body {
 }
 /* NOTE: intentionally removed sticky header and overflow rules on inner elements
    so modals (image upload, media library) are not clipped or hidden. */
-
-/* ===== Unlimited scrolling in Decap admin (override any fixed/viewport heights) ===== */
-/* Make every outer wrapper auto-sized and scrollable */
-html, body, #nc-root, #nc-root > div {
-  height: auto !important;
-  max-height: none !important;
-  min-height: 100vh !important;
-  overflow-y: auto !important;
-}
-
-/* Some Decap layouts use SplitPane with fixed heights — neutralize them */
-#nc-root .SplitPane, 
-#nc-root .ReactSplitPane, 
-#nc-root .Pane {
-  height: auto !important;
-  max-height: none !important;
-  min-height: auto !important;
-  overflow: visible !important;
-}
-
-/* Ensure the main content and collection list can grow without caps */
-#nc-root main,
-#nc-root [data-testid="collection-page"],
-#nc-root [data-testid="collection-content"],
-#nc-root [data-testid="entries"] {
-  height: auto !important;
-  max-height: none !important;
-  overflow: visible !important;
-}
-
-/* Turn off any sticky headers/toolbars that can trap the scroll area */
-#nc-root [style*="position: sticky"],
-#nc-root [class*="Toolbar"],
-#nc-root header[role="banner"] {
-  position: static !important;
-  top: auto !important;
-}
-
-/* Be generous with the admin page itself so it never clips */
-#nc-root .css-*,
-#nc-root *[style*="max-height"],
-#nc-root *[style*="height: calc(100vh"],
-#nc-root *[style*="overflow: hidden"] {
-  max-height: none !important;
-  overflow: visible !important;
-}
 </style>
   </head>
   <body>
