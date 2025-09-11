@@ -110,93 +110,77 @@
         }
       })();
     </script>
-    <script>
-      // 일부 컬렉션 뷰는 window 의 'scroll' 이벤트를 감지해 다음 항목을 불러옵니다.
-      // 우리 레이아웃에서는 내부 스크롤 컨테이너(#nc-root 내부)가 스크롤을 담당하므로
-      // 그 컨테이너의 스크롤을 window 로 중계(relay)해 줍니다.
-      (function relayWindowScroll() {
-        var BOUND_FLAG = '__relayBound';
+<!-- (기존) relayWindowScroll 내부의 락킹 부분을 이걸로 교체 -->
+<script>
+(function relayWindowScroll() {
+  var BOUND_FLAG = '__relayBound';
 
-        function getScroller() {
-          var root = document.getElementById('nc-root');
-          if (!root) return null;
-          return root.querySelector('.Pane-content, [data-testid="collection-page"], main[role="main"]');
+  function getScroller() {
+    var root = document.getElementById('nc-root');
+    if (!root) return null;
+    return root.querySelector('.Pane-content, [data-testid="collection-page"], main[role="main"]');
+  }
+
+  function bind() {
+    var scroller = getScroller();
+    if (!scroller) {
+      requestAnimationFrame(bind);
+      return;
+    }
+    if (scroller[BOUND_FLAG]) return;
+    scroller[BOUND_FLAG] = true;
+
+    // --- 오버스크롤 완화: '맨 위'에서만 위로 스크롤을 막음 ---
+    (function tameOverscroll(target){
+      try { target.scrollTop = 0; } catch(e) {}
+
+      // 데스크탑 휠
+      target.addEventListener('wheel', function(e){
+        if (e.deltaY < 0 && target.scrollTop <= 0) { // 꼭대기에서만 위로 스크롤 차단
+          e.preventDefault();
+          return false;
         }
+      }, { passive: false });
 
-        function bind() {
-          var scroller = getScroller();
-          if (!scroller) {
-            requestAnimationFrame(bind);
-            return;
-          }
-          if (scroller[BOUND_FLAG]) return; // already bound
-          scroller[BOUND_FLAG] = true;
-
-          // --- prevent upward scrolling and initial top gap ---
-          (function lockUpScroll(target){
-            try { target.scrollTop = 0; } catch(e) {}
-            var lastTop = 0;
-
-            // Wheel (desktop)
-            target.addEventListener('wheel', function(e){
-              if (e.deltaY < 0) { // trying to scroll up
-                target.scrollTop = lastTop;
-                e.preventDefault();
-                return false;
-              }ㅋ
-              lastTop = target.scrollTop;
-            }, { passive: false });
-
-            // Touch (mobile)
-            var startY = 0;
-            target.addEventListener('touchstart', function(ev){
-              if (ev.touches && ev.touches.length) startY = ev.touches[0].clientY;
-            }, { passive: true });
-            target.addEventListener('touchmove', function(ev){
-              if (!ev.touches || !ev.touches.length) return;
-              var dy = ev.touches[0].clientY - startY; // swipe down => dy>0 (scroll up)
-              if (dy > 0) {
-                target.scrollTop = lastTop;
-                ev.preventDefault();
-                return false;
-              }
-              lastTop = target.scrollTop;
-            }, { passive: false });
-
-            // Native scroll correction (keyboard/PageUp etc.)
-            target.addEventListener('scroll', function(){
-              if (target.scrollTop < lastTop) {
-                target.scrollTop = lastTop;
-              } else {
-                lastTop = target.scrollTop;
-              }
-            }, { passive: true });
-          })(scroller);
-
-          // 내부 스크롤이 발생하면 window 로도 scroll 이벤트를 발행
-          scroller.addEventListener('scroll', function () {
-            window.dispatchEvent(new Event('scroll'));
-          }, { passive: true });
-
-          // 라우팅 등으로 스크롤러 노드가 교체될 수 있으므로 감시 후 재바인딩
-          var root = document.getElementById('nc-root');
-          var mo = new MutationObserver(function () {
-            var current = getScroller();
-            if (current && current !== scroller && !current[BOUND_FLAG]) {
-              mo.disconnect();
-              // 새 노드에 다시 바인딩
-              setTimeout(relayWindowScroll, 0);
-            }
-          });
-          if (root) mo.observe(root, { childList: true, subtree: true });
+      // 터치
+      let startY = 0;
+      target.addEventListener('touchstart', function(ev){
+        if (ev.touches && ev.touches.length) startY = ev.touches[0].clientY;
+      }, { passive: true });
+      target.addEventListener('touchmove', function(ev){
+        if (!ev.touches || !ev.touches.length) return;
+        const dy = ev.touches[0].clientY - startY; // 아래로 스와이프=dy<0, 위로 스와이프=dy>0
+        if (dy > 0 && target.scrollTop <= 0) {     // 꼭대기에서 위로 스와이프만 차단
+          ev.preventDefault();
+          return false;
         }
+      }, { passive: false });
+    })(scroller);
 
-        if (document.readyState === 'loading') {
-          document.addEventListener('DOMContentLoaded', bind);
-        } else {
-          bind();
-        }
-      })();
-    </script>
+    // 내부 스크롤을 window로 중계(무한스크롤/가상리스트가 반응하도록)
+    scroller.addEventListener('scroll', function () {
+      window.dispatchEvent(new Event('scroll'));
+      window.dispatchEvent(new Event('resize')); // 가상리스트가 높이 재계산하도록 보강
+    }, { passive: true });
+
+    // 스크롤러가 교체되면 재바인딩
+    var root = document.getElementById('nc-root');
+    var mo = new MutationObserver(function () {
+      var current = getScroller();
+      if (current && current !== scroller && !current[BOUND_FLAG]) {
+        mo.disconnect();
+        setTimeout(relayWindowScroll, 0);
+      }
+    });
+    if (root) mo.observe(root, { childList: true, subtree: true });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', bind);
+  } else {
+    bind();
+  }
+})();
+</script>
   </body>
 </html>
