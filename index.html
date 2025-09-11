@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Vite + React</title>
     <style id="cms-reset">
-      /* 관리자 화면을 앱 전역 CSS로부터 보호 */
+      /* 관리자 화면을 앱 전역 CSS로부터 보호 + 스크롤 보장 */
       html, body, #nc-root {
         height: auto !important;
         min-height: 100vh !important;
@@ -15,10 +15,18 @@
       #nc-root {
         position: static !important;
       }
-      /* 혹시 프레임 내부가 고정될 때 */
-      .cms-editor-iframe, .DefaultControlPane_container {
+
+      /* 에디터/패널 강제 높이 초기화 */
+      .cms-editor-iframe,
+      .DefaultControlPane_container,
+      .Pane_content,
+      .CollectionContainer_container,
+      .DefaultCollectionPage_container,
+      .EditorContainer_root {
+        max-height: none !important;
         height: auto !important;
         min-height: 100% !important;
+        overflow: auto !important;
       }
     </style>
   </head>
