@@ -6,63 +6,25 @@
     <title>CMS</title>
     <!-- HEAD 안 -->
 <style id="cms-fixes">
-  /* 1) 기본값: 아무 것도 강제하지 않음 (초기 로딩, 로그인 모달 포함) */
-  html, body { overscroll-behavior: none; }
-  html, body { height: auto; }
-  body { overflow: auto; }
-
-  /* 2) CMS가 렌더링된 이후에만 적용되는 레이아웃 고정 */
-  body.cms-ready {
-    position: fixed;   /* 바디 스크롤 완전 고정 */
-    inset: 0;          /* top/right/bottom/left: 0 */
-    width: 100%;
-    height: 100vh;     /* 뷰포트 기준 */
-    overflow: hidden !important;  /* 바디 스크롤 제거 */
-    overscroll-behavior: none;    /* 스크롤 체이닝 방지 */
+  /* Keep the CMS isolated from site-wide styles and let the WINDOW scroll */
+  html, body {
+    margin: 0 !important;
+    height: auto !important;
+    overscroll-behavior: none;   /* prevent rubber-band chaining */
   }
-  body.cms-ready #nc-root,
-  body.cms-ready #nc-root > div,
-  body.cms-ready #nc-root .Pane,
-  body.cms-ready #nc-root main[role="main"],
-  body.cms-ready #nc-root .Pane-content {
-    height: 100%;
+  body {
+    position: static !important; /* make sure window can actually scroll */
+    overflow-y: auto !important; /* window scroll instead of inner div */
   }
-  /* 실제 스크롤 담당 컨테이너 */
-  body.cms-ready #nc-root .Pane-content,
-  body.cms-ready #nc-root [data-testid="collection-page"],
-  body.cms-ready #nc-root main[role="main"] {
-    flex: 1 1 auto;
-    overflow-y: auto !important;     /* 실제 스크롤 담당 */
-    -webkit-overflow-scrolling: touch;/* iOS 관성 스크롤 */
-    overscroll-behavior: contain;     /* 스크롤이 body로 새지 않게 */
-  }
-
-  /* 혹시 다른 전역 CSS가 간섭해도 강제 적용 */
-  #nc-root {
+  /* Ensure the CMS root fills the viewport so virtualization can size correctly */
+  #nc-root, #nc-root > div {
     min-height: 100vh;
-    position: relative;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
   }
-
-  /* CMS 메인 컨테이너만 스크롤 가능 */
-  body.cms-ready {
-    overflow: hidden !important;  /* 바디 스크롤 막기 */
-  }
-
-  body.cms-ready #nc-root {
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-  }
-
-  body.cms-ready #nc-root .Pane-content,
-  body.cms-ready #nc-root [data-testid="collection-page"],
-  body.cms-ready #nc-root main[role="main"] {
-    flex: 1 1 auto;
-    overflow-y: auto !important;
-    overscroll-behavior: contain; /* 휠 스크롤이 body로 새지 않게 */
+  /* Do NOT force inner panes to own the scroll; let window handle it */
+  #nc-root .Pane-content,
+  #nc-root [data-testid="collection-page"],
+  #nc-root main[role="main"] {
+    overflow: visible !important;
   }
 </style>
   </head>
@@ -82,72 +44,9 @@
     <!-- 자동 초기화가 기본값이라 따로 CMS.init()는 보통 필요 없음 -->
 
     <script>
-      // CMS가 마운트된 뒤에만 body에 cms-ready 클래스를 추가
-      (function() {
-        function ready() {
-          if (document.body.classList.contains('cms-ready')) return;
-          var root = document.getElementById('nc-root');
-          // Decap가 렌더링을 시작하면 루트 아래에 div.Pane 등이 생깁니다
-          if (root && root.querySelector('.Pane-content, [data-testid="collection-page"]')) {
-            document.body.classList.add('cms-ready');
-          } else {
-            requestAnimationFrame(ready);
-          }
-        }
-        // DOM이 준비되면 폴링 시작
-        if (document.readyState === 'loading') {
-          document.addEventListener('DOMContentLoaded', ready);
-        } else {
-          ready();
-        }
-      })();
-    </script>
-    <script>
-      // 일부 컬렉션 뷰는 window 의 'scroll' 이벤트를 감지해 다음 항목을 불러옵니다.
-      // 우리 레이아웃에서는 내부 스크롤 컨테이너(#nc-root 내부)가 스크롤을 담당하므로
-      // 그 컨테이너의 스크롤을 window 로 중계(relay)해 줍니다.
-      (function relayWindowScroll() {
-        var BOUND_FLAG = '__relayBound';
-
-        function getScroller() {
-          var root = document.getElementById('nc-root');
-          if (!root) return null;
-          return root.querySelector('.Pane-content, [data-testid="collection-page"], main[role="main"]');
-        }
-
-        function bind() {
-          var scroller = getScroller();
-          if (!scroller) {
-            requestAnimationFrame(bind);
-            return;
-          }
-          if (scroller[BOUND_FLAG]) return; // already bound
-          scroller[BOUND_FLAG] = true;
-
-          // 내부 스크롤이 발생하면 window 로도 scroll 이벤트를 발행
-          scroller.addEventListener('scroll', function () {
-            window.dispatchEvent(new Event('scroll'));
-          }, { passive: true });
-
-          // 라우팅 등으로 스크롤러 노드가 교체될 수 있으므로 감시 후 재바인딩
-          var root = document.getElementById('nc-root');
-          var mo = new MutationObserver(function () {
-            var current = getScroller();
-            if (current && current !== scroller && !current[BOUND_FLAG]) {
-              mo.disconnect();
-              // 새 노드에 다시 바인딩
-              relayWindowScroll();
-            }
-          });
-          if (root) mo.observe(root, { childList: true, subtree: true });
-        }
-
-        if (document.readyState === 'loading') {
-          document.addEventListener('DOMContentLoaded', bind);
-        } else {
-          bind();
-        }
-      })();
+      // Safety: if any previous version left a fixed body class behind, remove it.
+      document.documentElement.classList.remove('cms-ready');
+      document.body.classList.remove('cms-ready');
     </script>
   </body>
 </html>
