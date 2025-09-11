@@ -64,6 +64,14 @@
     overflow-y: auto !important;
     overscroll-behavior: contain; /* 휠 스크롤이 body로 새지 않게 */
   }
+
+  /* remove any top gap inside CMS content */
+  body.cms-ready #nc-root .Pane-content,
+  body.cms-ready #nc-root [data-testid="collection-page"],
+  body.cms-ready #nc-root main[role="main"] {
+    padding-top: 0 !important;
+    margin-top: 0 !important;
+  }
 </style>
   </head>
   <body>
@@ -124,6 +132,47 @@
           if (scroller[BOUND_FLAG]) return; // already bound
           scroller[BOUND_FLAG] = true;
 
+          // --- prevent upward scrolling and initial top gap ---
+          (function lockUpScroll(target){
+            try { target.scrollTop = 0; } catch(e) {}
+            var lastTop = 0;
+
+            // Wheel (desktop)
+            target.addEventListener('wheel', function(e){
+              if (e.deltaY < 0) { // trying to scroll up
+                target.scrollTop = lastTop;
+                e.preventDefault();
+                return false;
+              }ㅋ
+              lastTop = target.scrollTop;
+            }, { passive: false });
+
+            // Touch (mobile)
+            var startY = 0;
+            target.addEventListener('touchstart', function(ev){
+              if (ev.touches && ev.touches.length) startY = ev.touches[0].clientY;
+            }, { passive: true });
+            target.addEventListener('touchmove', function(ev){
+              if (!ev.touches || !ev.touches.length) return;
+              var dy = ev.touches[0].clientY - startY; // swipe down => dy>0 (scroll up)
+              if (dy > 0) {
+                target.scrollTop = lastTop;
+                ev.preventDefault();
+                return false;
+              }
+              lastTop = target.scrollTop;
+            }, { passive: false });
+
+            // Native scroll correction (keyboard/PageUp etc.)
+            target.addEventListener('scroll', function(){
+              if (target.scrollTop < lastTop) {
+                target.scrollTop = lastTop;
+              } else {
+                lastTop = target.scrollTop;
+              }
+            }, { passive: true });
+          })(scroller);
+
           // 내부 스크롤이 발생하면 window 로도 scroll 이벤트를 발행
           scroller.addEventListener('scroll', function () {
             window.dispatchEvent(new Event('scroll'));
@@ -136,7 +185,7 @@
             if (current && current !== scroller && !current[BOUND_FLAG]) {
               mo.disconnect();
               // 새 노드에 다시 바인딩
-              relayWindowScroll();
+              setTimeout(relayWindowScroll, 0);
             }
           });
           if (root) mo.observe(root, { childList: true, subtree: true });
