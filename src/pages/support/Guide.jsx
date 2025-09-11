@@ -37,7 +37,7 @@ export default function SupGuide() {
       <BankBox className="mt-10" />
 
       {/* FAQ/연락처 */}
-      <section className="grid md:grid-cols-1 gap-6 mt-10">
+      <section className="grid md:grid-cols-2 gap-6 mt-10">
         <div className="rounded-2xl border p-6 bg-white">
           <h3 className="text-lg font-semibold">자주 묻는 질문</h3>
           <ul className="mt-3 list-disc pl-5 text-gray-700 space-y-1">
