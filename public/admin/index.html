@@ -6,80 +6,30 @@
     <title>CMS</title>
     <!-- HEAD 안 -->
 <style id="cms-fixes">
-  /* 1) 기본값: 아무 것도 강제하지 않음 (초기 로딩, 로그인 모달 포함) */
-  html, body { overscroll-behavior: none; }
-  html, body { height: auto; }
-  body { overflow: auto; }
+  /* 문서 전체는 자연 스크롤 */
+  html, body { height: auto !important; }
+  body { overflow: auto !important; overscroll-behavior: none; }
 
-  /* 2) CMS가 렌더링된 이후에만 적용되는 레이아웃 고정 */
-  body.cms-ready {
-    position: fixed;   /* 바디 스크롤 완전 고정 */
-    inset: 0;          /* top/right/bottom/left: 0 */
-    width: 100%;
-    height: 100vh;     /* 뷰포트 기준 */
-    overflow: hidden !important;  /* 바디 스크롤 제거 */
-    overscroll-behavior: none;    /* 스크롤 체이닝 방지 */
+  /* CMS 루트는 화면 높이만큼 최소 확보 */
+  #nc-root { min-height: 100vh; position: relative; }
+
+  /* Decap 내부 스크롤 컨테이너들의 오버플로우를 풀고
+     바닥에 넉넉한 여유 공간을 둬서 더 로우를 붙일 수 있게 한다 */
+  #nc-root .Pane-content,
+  #nc-root [data-testid="collection-page"],
+  #nc-root main[role="main"],
+  .ReactVirtualized__Grid {
+    overflow: visible !important;
+    padding-bottom: 1600px;   /* 여유 공간 */
   }
-  body.cms-ready #nc-root,
-  body.cms-ready #nc-root > div,
-  body.cms-ready #nc-root .Pane,
-  body.cms-ready #nc-root main[role="main"],
-  body.cms-ready #nc-root .Pane-content {
-    height: 100%;
-  }
-  /* 실제 스크롤 담당 컨테이너 */
-  body.cms-ready #nc-root .Pane-content,
-  body.cms-ready #nc-root [data-testid="collection-page"],
-  body.cms-ready #nc-root main[role="main"] {
-    flex: 1 1 auto;
-    overflow-y: auto !important;     /* 실제 스크롤 담당 */
-    -webkit-overflow-scrolling: touch;/* iOS 관성 스크롤 */
-    overscroll-behavior: contain;     /* 스크롤이 body로 새지 않게 */
-    padding-bottom: 640px;
-  }
-  /* extra bottom space to ensure virtual lists can hydrate more rows */
-  body.cms-ready #nc-root .Pane-content::after,
-  body.cms-ready #nc-root [data-testid="collection-page"]::after,
-  body.cms-ready #nc-root main[role="main"]::after {
+
+  /* 아주 아래에 스페이서 추가 (센티널 역할) */
+  #nc-root .Pane-content::after,
+  #nc-root [data-testid="collection-page"]::after,
+  #nc-root main[role="main"]::after {
     content: "";
     display: block;
-    height: 640px; /* extra space at the very bottom */
-  }
-
-  /* 혹시 다른 전역 CSS가 간섭해도 강제 적용 */
-  #nc-root {
-    min-height: 100vh;
-    position: relative;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-  }
-
-  /* CMS 메인 컨테이너만 스크롤 가능 */
-  body.cms-ready {
-    overflow: hidden !important;  /* 바디 스크롤 막기 */
-  }
-
-  body.cms-ready #nc-root {
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-  }
-
-  body.cms-ready #nc-root .Pane-content,
-  body.cms-ready #nc-root [data-testid="collection-page"],
-  body.cms-ready #nc-root main[role="main"] {
-    flex: 1 1 auto;
-    overflow-y: auto !important;
-    overscroll-behavior: contain; /* 휠 스크롤이 body로 새지 않게 */
-  }
-
-  /* remove any top gap inside CMS content */
-  body.cms-ready #nc-root .Pane-content,
-  body.cms-ready #nc-root [data-testid="collection-page"],
-  body.cms-ready #nc-root main[role="main"] {
-    padding-top: 0 !important;
-    margin-top: 0 !important;
+    height: 1600px;
   }
 </style>
   </head>
@@ -99,150 +49,40 @@
     <!-- 자동 초기화가 기본값이라 따로 CMS.init()는 보통 필요 없음 -->
 
     <script>
-      // CMS가 마운트된 뒤에만 body에 cms-ready 클래스를 추가
-      (function() {
-        function ready() {
-          if (document.body.classList.contains('cms-ready')) return;
-          var root = document.getElementById('nc-root');
-          // Decap가 렌더링을 시작하면 루트 아래에 div.Pane 등이 생깁니다
-          if (root && root.querySelector('.Pane-content, [data-testid="collection-page"]')) {
-            document.body.classList.add('cms-ready');
-          } else {
-            requestAnimationFrame(ready);
-          }
+      // Decap가 화면에 올라온 뒤, 스크롤 이벤트를 여러 번 발생시켜
+      // 가상 리스트가 추가 로우를 로드하도록 유도
+      (function () {
+        function ping() {
+          try {
+            var de = document.scrollingElement || document.documentElement;
+            var t = de.scrollTop;
+            de.scrollTop = t + 300;
+            window.dispatchEvent(new Event('scroll'));
+            de.scrollTop = t;
+            window.dispatchEvent(new Event('scroll'));
+          } catch (e) {}
         }
-        // DOM이 준비되면 폴링 시작
+
+        function untilStable(maxTries) {
+          var tries = 0, lastH = -1, same = 0;
+          var timer = setInterval(function () {
+            var h = document.body.scrollHeight;
+            if (h === lastH) same++; else same = 0;
+            lastH = h;
+            ping();
+            tries++;
+            if (same > 10 || tries > (maxTries || 180)) clearInterval(timer);
+          }, 50);
+        }
+
         if (document.readyState === 'loading') {
-          document.addEventListener('DOMContentLoaded', ready);
+          document.addEventListener('DOMContentLoaded', function(){
+            setTimeout(untilStable, 150);
+          });
         } else {
-          ready();
+          setTimeout(untilStable, 150);
         }
       })();
     </script>
-<!-- (기존) relayWindowScroll 내부의 락킹 부분을 이걸로 교체 -->
-<script>
-(function relayWindowScroll() {
-  var BOUND_FLAG = '__relayBound';
-
-  function getScroller() {
-    var root = document.getElementById('nc-root');
-    if (!root) return null;
-
-    // 1) 우선 알려진 컨테이너를 시도
-    var preferred = root.querySelector('.Pane-content, [data-testid="collection-page"], main[role="main"]');
-
-    function isScrollable(el){
-      if (!el) return false;
-      var cs = getComputedStyle(el);
-      var oy = cs.overflowY;
-      return (oy === 'auto' || oy === 'scroll') && (el.scrollHeight - el.clientHeight > 20);
-    }
-
-    // 2) 알려진 컨테이너가 스크롤러가 아니면, 루트 내부에서 가장 큰 스크롤 영역을 가진 엘리먼트를 찾음
-    if (!isScrollable(preferred)) {
-      var all = root.querySelectorAll('*');
-      var best = null, bestScore = 0;
-      for (var i = 0; i < all.length; i++) {
-        var el = all[i];
-        if (isScrollable(el)) {
-          var score = el.scrollHeight;
-          if (score > bestScore) { best = el; bestScore = score; }
-        }
-      }
-      preferred = best || preferred || root;
-    }
-    return preferred;
-  }
-
-  function bind() {
-    var scroller = getScroller();
-    if (!scroller) { requestAnimationFrame(bind); return; }
-    if (scroller[BOUND_FLAG]) return;
-    scroller[BOUND_FLAG] = true;
-
-    // === 가상 리스트가 끝까지 수화되도록 강제 드라이브 ===
-    function kickList(target){
-      try {
-        var t = target.scrollTop;
-        target.scrollTop = t + 1; // 살짝 흔들기
-        target.scrollTop = t;
-      } catch(e) {}
-      target.dispatchEvent(new Event('scroll'));
-      window.dispatchEvent(new Event('scroll'));
-      window.dispatchEvent(new Event('resize'));
-    }
-
-    function autoDrive(target){
-      var lastH = -1, same = 0, steps = 0;
-      var timer = setInterval(function(){
-        // 아래로 조금씩 내리며 내부 가상리스트가 더 마운트되도록 유도
-        var max = Math.max(0, target.scrollHeight - target.clientHeight);
-        target.scrollTop = Math.min(max, target.scrollTop + 200);
-        kickList(target);
-        var h = target.scrollHeight;
-        if (h === lastH) same++; else same = 0;
-        lastH = h;
-        steps++;
-        if (same > 10 || steps > 200) clearInterval(timer); // 10*50ms ~= 0.5s 정체 또는 최대 10초
-      }, 50);
-    }
-
-    // 초기 바인딩 시 한 번 강제 드라이브
-    autoDrive(scroller);
-
-    // sentinel 으로 바닥 근처 감지 시 다시 드라이브
-    var sentinel = document.createElement('div');
-    sentinel.setAttribute('data-cms-sentinel', '');
-    sentinel.style.cssText = 'height:1px;width:100%;';
-    try { scroller.appendChild(sentinel); } catch(e) {}
-
-    var io = new IntersectionObserver(function(entries){
-      if (entries.some(function(e){ return e.isIntersecting; })) {
-        autoDrive(scroller);
-      }
-    }, { root: scroller, rootMargin: '1200px 0px 1200px 0px', threshold: 0 });
-    try { io.observe(sentinel); } catch(e) {}
-
-    // --- 오버스크롤 완화: 꼭대기에서만 위로 스크롤 차단 ---
-    (function tameOverscroll(target){
-      try { target.scrollTop = 0; } catch(e) {}
-      target.addEventListener('wheel', function(e){
-        if (e.deltaY < 0 && target.scrollTop <= 0) { e.preventDefault(); return false; }
-      }, { passive: false });
-      var startY = 0;
-      target.addEventListener('touchstart', function(ev){ if (ev.touches && ev.touches.length) startY = ev.touches[0].clientY; }, { passive: true });
-      target.addEventListener('touchmove', function(ev){
-        if (!ev.touches || !ev.touches.length) return;
-        var dy = ev.touches[0].clientY - startY;
-        if (dy > 0 && target.scrollTop <= 0) { ev.preventDefault(); return false; }
-      }, { passive: false });
-    })(scroller);
-
-    // 내부 스크롤을 window 로 중계 (가상 리스트/무한스크롤이 반응)
-    scroller.addEventListener('scroll', function(){
-      window.dispatchEvent(new Event('scroll'));
-      window.dispatchEvent(new Event('resize'));
-    }, { passive: true });
-
-    // 스크롤러가 교체되면 재바인딩 (보기 전환, 그룹 변경 등)
-    var root = document.getElementById('nc-root');
-    var mo = new MutationObserver(function(){
-      var current = getScroller();
-      if (current && current !== scroller && !current[BOUND_FLAG]) {
-        io.disconnect();
-        mo.disconnect();
-        setTimeout(relayWindowScroll, 0);
-      }
-    });
-    if (root) mo.observe(root, { childList: true, subtree: true });
-  }
-
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', bind);
-  } else {
-    bind();
-  }
-})();
-</script>
   </body>
 </html>
