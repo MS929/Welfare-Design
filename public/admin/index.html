@@ -127,93 +127,109 @@
   function getScroller() {
     var root = document.getElementById('nc-root');
     if (!root) return null;
-    return root.querySelector('.Pane-content, [data-testid="collection-page"], main[role="main"]');
+
+    // 1) 우선 알려진 컨테이너를 시도
+    var preferred = root.querySelector('.Pane-content, [data-testid="collection-page"], main[role="main"]');
+
+    function isScrollable(el){
+      if (!el) return false;
+      var cs = getComputedStyle(el);
+      var oy = cs.overflowY;
+      return (oy === 'auto' || oy === 'scroll') && (el.scrollHeight - el.clientHeight > 20);
+    }
+
+    // 2) 알려진 컨테이너가 스크롤러가 아니면, 루트 내부에서 가장 큰 스크롤 영역을 가진 엘리먼트를 찾음
+    if (!isScrollable(preferred)) {
+      var all = root.querySelectorAll('*');
+      var best = null, bestScore = 0;
+      for (var i = 0; i < all.length; i++) {
+        var el = all[i];
+        if (isScrollable(el)) {
+          var score = el.scrollHeight;
+          if (score > bestScore) { best = el; bestScore = score; }
+        }
+      }
+      preferred = best || preferred || root;
+    }
+    return preferred;
   }
 
   function bind() {
     var scroller = getScroller();
-    if (!scroller) {
-      requestAnimationFrame(bind);
-      return;
-    }
+    if (!scroller) { requestAnimationFrame(bind); return; }
     if (scroller[BOUND_FLAG]) return;
     scroller[BOUND_FLAG] = true;
 
-    // 강제로 스크롤 이벤트를 여러 번 발생시켜 가상 리스트가 끝까지 그려지도록 유도
+    // === 가상 리스트가 끝까지 수화되도록 강제 드라이브 ===
     function kickList(target){
-      var ticks = 60; // 약 6초 동안 반복
-      var timer = setInterval(function(){
-        try {
-          // 살짝 흔들어 주기 (일부 브라우저에서 관성 트리거)
-          var t = target.scrollTop;
-          target.scrollTop = t + 1;
-          target.scrollTop = t;
-          // 내부/외부 모두 스크롤 신호 전파
-          target.dispatchEvent(new Event('scroll'));
-          window.dispatchEvent(new Event('scroll'));
-          window.dispatchEvent(new Event('resize'));
-        } catch(e) {}
-        if (--ticks <= 0) clearInterval(timer);
-      }, 100);
+      try {
+        var t = target.scrollTop;
+        target.scrollTop = t + 1; // 살짝 흔들기
+        target.scrollTop = t;
+      } catch(e) {}
+      target.dispatchEvent(new Event('scroll'));
+      window.dispatchEvent(new Event('scroll'));
+      window.dispatchEvent(new Event('resize'));
     }
 
-    // 초기 바인딩 시 한 번 킥
-    kickList(scroller);
+    function autoDrive(target){
+      var lastH = -1, same = 0, steps = 0;
+      var timer = setInterval(function(){
+        // 아래로 조금씩 내리며 내부 가상리스트가 더 마운트되도록 유도
+        var max = Math.max(0, target.scrollHeight - target.clientHeight);
+        target.scrollTop = Math.min(max, target.scrollTop + 200);
+        kickList(target);
+        var h = target.scrollHeight;
+        if (h === lastH) same++; else same = 0;
+        lastH = h;
+        steps++;
+        if (same > 10 || steps > 200) clearInterval(timer); // 10*50ms ~= 0.5s 정체 또는 최대 10초
+      }, 50);
+    }
 
-      // add a sentinel at the very end to nudge virtualized lists when near the bottom
-      var sentinel = document.createElement('div');
-      sentinel.setAttribute('data-cms-sentinel', '');
-      sentinel.style.cssText = 'height:1px; width:100%;';
-      try { scroller.appendChild(sentinel); } catch(e) {}
+    // 초기 바인딩 시 한 번 강제 드라이브
+    autoDrive(scroller);
 
-      var io = new IntersectionObserver(function(entries){
-        if (entries.some(function(e){ return e.isIntersecting; })) {
-          // when the sentinel is visible, nudge again so more rows mount
-          kickList(scroller);
-        }
-      }, { root: scroller, rootMargin: '800px 0px 800px 0px', threshold: 0 });
-      try { io.observe(sentinel); } catch(e) {}
+    // sentinel 으로 바닥 근처 감지 시 다시 드라이브
+    var sentinel = document.createElement('div');
+    sentinel.setAttribute('data-cms-sentinel', '');
+    sentinel.style.cssText = 'height:1px;width:100%;';
+    try { scroller.appendChild(sentinel); } catch(e) {}
 
-    // --- 오버스크롤 완화: '맨 위'에서만 위로 스크롤을 막음 ---
+    var io = new IntersectionObserver(function(entries){
+      if (entries.some(function(e){ return e.isIntersecting; })) {
+        autoDrive(scroller);
+      }
+    }, { root: scroller, rootMargin: '1200px 0px 1200px 0px', threshold: 0 });
+    try { io.observe(sentinel); } catch(e) {}
+
+    // --- 오버스크롤 완화: 꼭대기에서만 위로 스크롤 차단 ---
     (function tameOverscroll(target){
       try { target.scrollTop = 0; } catch(e) {}
-
-      // 데스크탑 휠
       target.addEventListener('wheel', function(e){
-        if (e.deltaY < 0 && target.scrollTop <= 0) { // 꼭대기에서만 위로 스크롤 차단
-          e.preventDefault();
-          return false;
-        }
+        if (e.deltaY < 0 && target.scrollTop <= 0) { e.preventDefault(); return false; }
       }, { passive: false });
-
-      // 터치
-      let startY = 0;
-      target.addEventListener('touchstart', function(ev){
-        if (ev.touches && ev.touches.length) startY = ev.touches[0].clientY;
-      }, { passive: true });
+      var startY = 0;
+      target.addEventListener('touchstart', function(ev){ if (ev.touches && ev.touches.length) startY = ev.touches[0].clientY; }, { passive: true });
       target.addEventListener('touchmove', function(ev){
         if (!ev.touches || !ev.touches.length) return;
-        const dy = ev.touches[0].clientY - startY; // 아래로 스와이프=dy<0, 위로 스와이프=dy>0
-        if (dy > 0 && target.scrollTop <= 0) {     // 꼭대기에서 위로 스와이프만 차단
-          ev.preventDefault();
-          return false;
-        }
+        var dy = ev.touches[0].clientY - startY;
+        if (dy > 0 && target.scrollTop <= 0) { ev.preventDefault(); return false; }
       }, { passive: false });
     })(scroller);
 
-    // 내부 스크롤을 window로 중계(무한스크롤/가상리스트가 반응하도록)
-    scroller.addEventListener('scroll', function () {
+    // 내부 스크롤을 window 로 중계 (가상 리스트/무한스크롤이 반응)
+    scroller.addEventListener('scroll', function(){
       window.dispatchEvent(new Event('scroll'));
-      window.dispatchEvent(new Event('resize')); // 가상리스트가 높이 재계산하도록 보강
-      kickList(scroller);
+      window.dispatchEvent(new Event('resize'));
     }, { passive: true });
 
-    // 스크롤러가 교체되면 재바인딩
+    // 스크롤러가 교체되면 재바인딩 (보기 전환, 그룹 변경 등)
     var root = document.getElementById('nc-root');
-    var mo = new MutationObserver(function () {
+    var mo = new MutationObserver(function(){
       var current = getScroller();
       if (current && current !== scroller && !current[BOUND_FLAG]) {
-        kickList(current);
+        io.disconnect();
         mo.disconnect();
         setTimeout(relayWindowScroll, 0);
       }
