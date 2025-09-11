@@ -135,7 +135,10 @@ body, #nc-root, #nc-root > div, .CMS_App_root,
         el.style.setProperty('height','auto','important');
         el.style.setProperty('min-height','100vh','important');
         el.style.setProperty('position','static','important');
+        el.style.setProperty('margin-top','0','important');
+        el.style.setProperty('padding-top','0','important');
       });
+
       var sels = [
         '#nc-root','main','.Pane_root','.Pane_content','.Pane_scrollContainer',
         '.CollectionContainer_container','.DefaultCollectionPage_container',
@@ -149,9 +152,31 @@ body, #nc-root, #nc-root > div, .CMS_App_root,
           el.style.setProperty('height','auto','important');
           el.style.setProperty('min-height','100%','important');
           el.style.setProperty('overflow','auto','important');
+          el.style.setProperty('margin-top','0','important');
+          el.style.setProperty('padding-top','0','important');
+          el.style.setProperty('transform','none','important');
         });
       });
-    } catch(e) { console.warn("fix() error", e); }
+    } catch(e) { console.warn('fix() error', e); }
+  }
+
+  // 🚑 If some phantom element is pushing the CMS down, pull the app up
+  function pullUp() {
+    try {
+      var root = document.getElementById('nc-root');
+      if (!root) return;
+      var rectTop = root.getBoundingClientRect().top;
+      // If the app starts lower than ~24px from the very top, yank it up.
+      if (rectTop > 24) {
+        var offset = Math.round(rectTop);
+        // apply once on <body>; keep it reversible
+        document.body.style.setProperty('margin-top', '-' + offset + 'px', 'important');
+      } else {
+        // if things are normal, make sure we don't keep a negative margin
+        var mt = (getComputedStyle(document.body).marginTop || '').trim();
+        if (mt && mt.indexOf('-') === 0) document.body.style.setProperty('margin-top','0','important');
+      }
+    } catch(e) { console.warn('pullUp() error', e); }
   }
 
   function goTop(){
@@ -161,32 +186,27 @@ body, #nc-root, #nc-root > div, .CMS_App_root,
   }
 
   function burst(){
-    var i=0, t=setInterval(function(){ fix(); if(++i>20) clearInterval(t); },300);
+    var i=0, t=setInterval(function(){ fix(); pullUp(); if(++i>20) clearInterval(t); },250);
   }
 
-  document.addEventListener('DOMContentLoaded', function(){
-    burst(); goTop();
-  });
-  window.addEventListener('load', function(){
-    burst(); goTop();
-  });
-  window.addEventListener('resize', fix);
+  document.addEventListener('DOMContentLoaded', function(){ burst(); goTop(); });
+  window.addEventListener('load', function(){ burst(); goTop(); });
+  window.addEventListener('resize', function(){ fix(); pullUp(); });
 
-  // history API 안전하게 패치
+  // React route changes inside CMS cause the issue to reappear
   try {
     var _p=history.pushState;
-    history.pushState=function(){
-      _p.apply(this,arguments);
-      setTimeout(function(){ burst(); goTop(); },100);
-    };
+    history.pushState=function(){ _p.apply(this,arguments); setTimeout(function(){ burst(); goTop(); },100); };
   } catch(e) {}
-
   try {
     var _r=history.replaceState;
-    history.replaceState=function(){
-      _r.apply(this,arguments);
-      setTimeout(function(){ burst(); goTop(); },100);
-    };
+    history.replaceState=function(){ _r.apply(this,arguments); setTimeout(function(){ burst(); goTop(); },100); };
+  } catch(e) {}
+
+  // Watch DOM changes and re-apply if some wrapper is injected later
+  try {
+    var mo=new MutationObserver(function(){ pullUp(); });
+    mo.observe(document.documentElement,{childList:true,subtree:true});
   } catch(e) {}
 })();
 </script>
