@@ -11,6 +11,8 @@
     min-height: 100vh !important;
     overflow: auto !important;
     position: static !important;
+    margin-top: 0 !important;
+    padding-top: 0 !important;
   }
   .Pane_root, .Pane_content, .Pane_scrollContainer,
   .CollectionContainer_container,
@@ -80,7 +82,37 @@
     var i=0, t=setInterval(function(){ fix(); if(++i>40) clearInterval(t); },500);
   }
   function goTop(){
-    try { window.scrollTo({top: 0, left: 0, behavior: 'auto'}); } catch(e) { window.scrollTo(0,0); }
+    try { history.scrollRestoration = 'manual'; } catch(e){}
+    var targets = [
+      document.scrollingElement || document.documentElement,
+      document.body,
+      document.getElementById('nc-root')
+    ];
+    var sels = [
+      '.Pane_root','.Pane_content','.Pane_scrollContainer',
+      '.CollectionContainer_container','.DefaultCollectionPage_container',
+      '.DefaultControlPane_container','.EditorContainer_root',
+      '.ReactVirtualized__Grid','.ReactVirtualized__List',
+      '.ReactVirtualized__Grid__innerScrollContainer'
+    ];
+    try {
+      sels.forEach(function(sel){
+        document.querySelectorAll(sel).forEach(function(el){ targets.push(el); });
+      });
+    } catch(e){}
+    try { window.scrollTo(0,0); } catch(e) {}
+    targets.forEach(function(el){ try { el.scrollTop = 0; } catch(e){} });
+    // 두 번 보정: 렌더 직후 & 다음 프레임
+    try {
+      requestAnimationFrame(function(){
+        try { window.scrollTo(0,0); } catch(e) {}
+        targets.forEach(function(el){ try { el.scrollTop = 0; } catch(e){} });
+      });
+      setTimeout(function(){
+        try { window.scrollTo(0,0); } catch(e) {}
+        targets.forEach(function(el){ try { el.scrollTop = 0; } catch(e){} });
+      }, 150);
+    } catch(e){}
   }
   document.addEventListener('DOMContentLoaded', function(){ burst(); setTimeout(goTop, 0); });
   window.addEventListener('load', function(){ burst(); setTimeout(goTop, 0); });
