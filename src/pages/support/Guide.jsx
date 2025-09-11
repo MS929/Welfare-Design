@@ -9,32 +9,75 @@ export default function SupGuide() {
       <header className="mb-10">
         <p className="text-sm text-gray-500">후원 &gt; 안내</p>
         <h1 className="text-3xl sm:text-4xl font-extrabold mt-2">
-          함께하는 후원
+          복지디자인 후원 안내
         </h1>
-        <p className="text-gray-600 mt-3">
-          여러분의 후원은 이동·건강·정보 접근성이 필요한 이웃에게
-          <span className="whitespace-nowrap"> 실질적인 변화를</span> 만듭니다.
+        <p className="text-gray-600 mt-3 whitespace-pre-line">
+          “작지만 깊이 있는 변화”, 그 출발점이 바로 복지디자인입니다.
+          복지디자인 사회적협동조합은 복지를 설계하는 사람들입니다.{"\n"}
+          여러분의 작은 관심을 통하여 소외된 이웃이 스스로 삶을 회복할 수 있도록{"\n"}
+          체계적이고 지속 가능한 복지를 함께 만들어갑니다.{"\n"}
+          현장 기반의 복지연결망을 운영하며 복지 사각지대를 해소하고,{"\n"}
+          지역 안에서 누구나 복지에 접근할 수 있도록 최선을 다하겠습니다.
         </p>
       </header>
 
       {/* 3가지 방식 */}
-      <section className="grid md:grid-cols-2 gap-6 items-stretch">
+      <section className="grid md:grid-cols-3 gap-6 items-stretch">
         <SupportCard
-          title="정기 후원/일시 후원"
-          desc="매달 혹은 일시 후원으로 사업의 지속가능성을 높여주세요."
-          bullets={["계좌이체/자동이체", "기부금 영수증 발급"]}
-          cta={{ label: "후원 안내", href: "/support/faq#personal" }}
+          title="개인 후원"
+          desc="소중한 후원으로 지역사회의 변화를 함께 만들어갑니다."
+          bullets={[
+            "정기 후원 및 일시 후원 가능",
+            "기부금 영수증 발급",
+            "후원금 사용 내역 투명 공개",
+          ]}
+          cta={{ label: "개인 후원 안내", href: "/support/faq#personal" }}
         />
         <SupportCard
-          title="물품 기부"
-          desc="보조기기·복지용구·소모품 등 양질의 물품을 순환시킵니다."
-          bullets={["수거/검수/재분배","캠페인 연계 가능"]}
-          cta={{ label: "물품 기부 안내", href: "/support/faq#goods" }}
+          title="기업·단체 후원"
+          desc="사회적 책임을 다하는 기업과 단체의 후원을 환영합니다."
+          bullets={[
+            "맞춤형 후원 프로그램 제공",
+            "사회공헌 활동 연계 가능",
+            "기부금 영수증 발급",
+          ]}
+          cta={{ label: "기업·단체 후원 안내", href: "/support/faq#corporate" }}
+        />
+        <SupportCard
+          title="물품 후원"
+          desc="복지용품과 자원을 나누어 소외된 이웃에게 전달합니다."
+          bullets={[
+            "보조기기 및 복지용구 기부",
+            "수거 및 검수 후 재분배",
+            "캠페인과 연계 가능",
+          ]}
+          cta={{ label: "물품 후원 안내", href: "/support/faq#goods" }}
         />
       </section>
 
       {/* 계좌 안내 */}
       <BankBox className="mt-10" />
+
+      {/* 후원 신청서 */}
+      <section className="mt-10 rounded-2xl border p-6 bg-white">
+        <h3 className="text-lg font-semibold mb-3">후원 신청서</h3>
+        <p className="text-gray-700 mb-4">
+          후원 신청서를 작성해주시면 기부금 영수증 발급과 투명한 후원금 공개를 약속드립니다.
+        </p>
+        <a
+          href="https://forms.gle/AepMiTRFNNZs9ovu5"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-block px-5 py-3 rounded-full bg-sky-500 text-white hover:bg-sky-600"
+        >
+          후원 신청서 작성하기
+        </a>
+      </section>
+
+      {/* 법적 고지 */}
+      <p className="text-gray-500 text-xs mt-4">
+        ※ 법인세법 제18조 소득세법 제34조에 의거 기부금 영수증 발급이 가능합니다.
+      </p>
 
       {/* FAQ/연락처 */}
       <section className="grid md:grid-cols-2 gap-6 mt-10">
@@ -101,8 +144,8 @@ function BankBox({ className = "" }) {
   const [copied, setCopied] = useState(false);
 
   const bank = {
-    name: "00은행",
-    number: "000-000000-0000-00",
+    name: "하나은행",
+    number: "1230456789-1011-22",
     holder: "복지디자인사회적협동조합",
   };
 
@@ -134,8 +177,7 @@ function BankBox({ className = "" }) {
         </div>
       </div>
       <p className="text-gray-600 text-sm mt-3">
-        * 입금자명과 신청 정보가 다르면 확인이 지연될 수 있어요. 정기후원은
-        자동이체(금융기관) 또는 CMS 출금 동의를 통해 설정합니다.
+        * 입금자명 기록이 반드시 필요합니다. 입금자명과 신청 정보가 다를 경우 확인이 지연될 수 있습니다.
       </p>
     </section>
   );
