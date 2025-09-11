@@ -6,59 +6,39 @@
     <title>CMS</title>
     <!-- HEAD 안 -->
 <style id="decap-cms-scroll-fix">
-/* ===== Decap CMS scroll & top-gap hard‑fix ===== */
-/* Keep the window as the only scroll container */
+/* Minimal scroll fix: keep body scrollable but don't touch inner layout */
 html, body {
   margin: 0 !important;
   padding: 0 !important;
-  min-height: 100vh !important;
   height: auto !important;
-  overflow-y: scroll !important; /* always show scrollbar */
+  min-height: 100vh !important;
+  overflow-y: auto !important;
   overflow-x: hidden !important;
   background: #fff !important;
 }
 
-/* Decap mount and wrappers must not create their own scroll areas */
-#nc-root, #nc-root > div {
+/* Decap mount point fills viewport without phantom gaps */
+#nc-root {
   display: block !important;
-  height: auto !important;
   min-height: 100vh !important;
-  overflow: visible !important;
+  margin: 0 !important;
+  padding: 0 !important;
 }
+/* NOTE: intentionally removed sticky header and overflow rules on inner elements
+   so modals (image upload, media library) are not clipped or hidden. */
 
-/* Neutralize sticky header and its phantom spacer */
-#nc-root header[role="banner"] {
-  position: static !important;
-  top: auto !important;
-}
-/* Some builds insert an empty spacer right under the header for sticky layout */
-#nc-root header[role="banner"] + div { display: none !important; }
-/* Remove any padding added for the sticky header */
-#nc-root main,
-#nc-root [data-testid="app-container"],
-#nc-root [data-testid="collection-page"],
-#nc-root [data-testid="collection-content"],
-#nc-root [data-testid="editor-container"] {
-  padding-top: 0 !important;
-}
-
-/* Entries list: allow infinite loading with the window scroll */
-#nc-root [data-testid="entries"] {
+/* ===== Unlimited scrolling in Decap admin (override any fixed/viewport heights) ===== */
+/* Make every outer wrapper auto-sized and scrollable */
+html, body, #nc-root, #nc-root > div {
   height: auto !important;
   max-height: none !important;
-  overflow: visible !important;
-  contain: none !important; /* keep IO working */
-}
-/* Make sure there is a bottom target for the IntersectionObserver */
-#nc-root [data-testid="entries"]::after {
-  content: "";
-  display: block;
-  height: 2px; /* minimal but present */
+  min-height: 100vh !important;
+  overflow-y: auto !important;
 }
 
-/* Split panes should not clamp heights */
-#nc-root .SplitPane,
-#nc-root .ReactSplitPane,
+/* Some Decap layouts use SplitPane with fixed heights — neutralize them */
+#nc-root .SplitPane, 
+#nc-root .ReactSplitPane, 
 #nc-root .Pane {
   height: auto !important;
   max-height: none !important;
@@ -66,7 +46,26 @@ html, body {
   overflow: visible !important;
 }
 
-/* Guard against inline max-height / overflow caps sprinkled by the UI lib */
+/* Ensure the main content and collection list can grow without caps */
+#nc-root main,
+#nc-root [data-testid="collection-page"],
+#nc-root [data-testid="collection-content"],
+#nc-root [data-testid="entries"] {
+  height: auto !important;
+  max-height: none !important;
+  overflow: visible !important;
+}
+
+/* Turn off any sticky headers/toolbars that can trap the scroll area */
+#nc-root [style*="position: sticky"],
+#nc-root [class*="Toolbar"],
+#nc-root header[role="banner"] {
+  position: static !important;
+  top: auto !important;
+}
+
+/* Be generous with the admin page itself so it never clips */
+#nc-root .css-*,
 #nc-root *[style*="max-height"],
 #nc-root *[style*="height: calc(100vh"],
 #nc-root *[style*="overflow: hidden"] {
