@@ -18,7 +18,7 @@ export default function SupGuide() {
       </header>
 
       {/* 3가지 방식 */}
-      <section className="grid md:grid-cols-3 gap-6 items-stretch">
+      <section className="grid md:grid-cols-2 gap-6 items-stretch">
         <SupportCard
           title="정기 후원/일시 후원"
           desc="매달 혹은 일시 후원으로 사업의 지속가능성을 높여주세요."
@@ -37,7 +37,7 @@ export default function SupGuide() {
       <BankBox className="mt-10" />
 
       {/* FAQ/연락처 */}
-      <section className="grid md:grid-cols-2 gap-6 mt-10">
+      <section className="grid md:grid-cols-1 gap-6 mt-10">
         <div className="rounded-2xl border p-6 bg-white">
           <h3 className="text-lg font-semibold">자주 묻는 질문</h3>
           <ul className="mt-3 list-disc pl-5 text-gray-700 space-y-1">
