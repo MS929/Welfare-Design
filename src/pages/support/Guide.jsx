@@ -12,19 +12,25 @@ export default function SupGuide() {
           복지디자인 후원 안내
         </h1>
         <p className="text-gray-600 mt-3 whitespace-pre-line">
-          “작지만 깊이 있는 변화”, 그 출발점이 바로 복지디자인입니다.
-          복지디자인 사회적협동조합은 복지를 설계하는 사람들입니다.{"\n"}
+          “작지만 깊이 있는 변화”, 그 출발점이 바로 복지디자인입니다. 복지디자인
+          사회적협동조합은 복지를 설계하는 사람들입니다.{"\n"}
           여러분의 작은 관심을 통하여 소외된 이웃이 스스로 삶을 회복할 수 있도록
           체계적이고 지속 가능한 복지를 함께 만들어갑니다.{"\n"}
-          현장 기반의 복지연결망을 운영하며 복지 사각지대를 해소하고,
-          지역 안에서 누구나 복지에 접근할 수 있도록 최선을 다하겠습니다.
+          현장 기반의 복지연결망을 운영하며 복지 사각지대를 해소하고, 지역
+          안에서 누구나 복지에 접근할 수 있도록 최선을 다하겠습니다.
         </p>
       </header>
 
       {/* 3가지 방식 – PDF 레이아웃 맞춤 */}
       <section className="grid md:grid-cols-3 gap-0 mt-8">
         <SupportPanel
-          icon={<HeartHandIcon className="w-24 h-24 mx-auto" />}
+          icon={
+            <img
+              src="/images/support/donation.png"
+              alt="개인 후원 아이콘"
+              className="w-28 h-28 mx-auto object-contain"
+            />
+          }
           title="개인 후원"
           items={[
             "매월 or 일시 후원으로 사업의 지속가능성을 높여주세요.",
@@ -33,7 +39,13 @@ export default function SupGuide() {
           ]}
         />
         <SupportPanel
-          icon={<PeopleHeartIcon className="w-24 h-24 mx-auto" />}
+          icon={
+            <img
+              src="/images/support/group.png"
+              alt="기업·단체 후원 아이콘"
+              className="w-28 h-28 mx-auto object-contain"
+            />
+          }
           title="기업·단체 후원"
           items={[
             "파트너십/캠페인/지정기탁 등 다양한 방식으로 함께 할 수 있어요.",
@@ -42,7 +54,13 @@ export default function SupGuide() {
           ]}
         />
         <SupportPanel
-          icon={<BoxHeartIcon className="w-24 h-24 mx-auto" />}
+          icon={
+            <img
+              src="/images/support/present.png"
+              alt="물품 후원 아이콘"
+              className="w-28 h-28 mx-auto object-contain"
+            />
+          }
           title="물품 후원"
           items={[
             "휠체어·보장구·보조기기 등 양질의 물품을 순환시켜요.",
@@ -61,20 +79,28 @@ export default function SupGuide() {
         <div className="px-6 py-5 border-b bg-gradient-to-r from-sky-50 to-indigo-50">
           <h3 className="text-xl font-semibold">후원 신청서</h3>
           <p className="text-gray-600 mt-1">
-            후원 신청서를 작성해주시면 기부금 영수증 발급과 투명한 후원금 공개를 약속드립니다.
+            후원 신청서를 작성해주시면 기부금 영수증 발급과 투명한 후원금 공개를
+            약속드립니다.
           </p>
         </div>
 
         {/* Body */}
         <div className="p-6">
           <p className="text-sm leading-relaxed text-gray-800 whitespace-pre-line">
-            본 사회적협동조합은 기획재정부에 등록된 <strong className="font-semibold">지정기부금 단체</strong>로,기부하신 내역에 대해서는 <strong className="font-semibold">후원 신청하기</strong>를 작성해 주셔야기부금영수증을 발행해드리고 있습니다.
-            {"\n"}또한, 연간 모금액 및 사용 내역은 홈페이지와 국세청 홈택스에 투명하게 공개되고 있습니다.
+            본 사회적협동조합은 기획재정부에 등록된{" "}
+            <strong className="font-semibold">지정기부금 단체</strong>
+            로,기부하신 내역에 대해서는{" "}
+            <strong className="font-semibold">후원 신청하기</strong>를 작성해
+            주셔야기부금영수증을 발행해드리고 있습니다.
+            {"\n"}또한, 연간 모금액 및 사용 내역은 홈페이지와 국세청 홈택스에
+            투명하게 공개되고 있습니다.
             {"\n"}많은 후원과 관심 부탁드립니다.
           </p>
 
           <div className="mt-5 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-            <p className="text-xs text-gray-500">※ 기부금 영수증 발급을 위해서는 신청서 작성이 필요합니다.</p>
+            <p className="text-xs text-gray-500">
+              ※ 기부금 영수증 발급을 위해서는 신청서 작성이 필요합니다.
+            </p>
             <a
               href="https://forms.gle/AepMiTRFNNZs9ovu5"
               target="_blank"
@@ -89,7 +115,8 @@ export default function SupGuide() {
 
       {/* 법적 고지 */}
       <p className="text-gray-500 text-xs mt-4">
-        ※ 법인세법 제18조 소득세법 제34조에 의거 기부금 영수증 발급이 가능합니다.
+        ※ 법인세법 제18조 소득세법 제34조에 의거 기부금 영수증 발급이
+        가능합니다.
       </p>
 
       {/* FAQ/연락처 */}
