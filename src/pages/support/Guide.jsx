@@ -51,8 +51,7 @@ export default function SupGuide() {
             }
             title="기업·단체 후원"
             items={[
-              "파트너십/캠페인/지정기탁 등 다양한 방식으로",
-              "함께 할 수 있어요.",
+              "파트너십/캠페인/지정기탁 등 다양한 방식으로\n함께 할 수 있어요.",
               "사회공헌 파트너십",
               "기업 참여형 후원 프로그램",
             ]}
@@ -168,7 +167,7 @@ function SupportPanel({ icon, title, items = [] }) {
         <h3 className="text-center text-xl font-semibold mb-4 text-emerald-800 tracking-tight">{title}</h3>
         {items.length > 0 && (
           <>
-            <p className="text-[15px] leading-relaxed text-gray-800 break-keep">{items[0]}</p>
+            <p className="text-[15px] leading-relaxed text-gray-800 break-keep whitespace-pre-line">{items[0]}</p>
             {items.length > 1 && (
               <ul className="mt-4 list-disc pl-4 text-[15px] leading-relaxed text-gray-800 space-y-2 marker:text-emerald-600 break-keep">
                 {items.slice(1).map((t) => (
