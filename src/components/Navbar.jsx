@@ -114,18 +114,18 @@ export default function Navbar() {
 
   return (
     <header className="sticky top-0 z-50 bg-white/90 backdrop-blur shadow">
-      <nav className="max-w-[1120px] mx-auto flex items-center justify-between px-4 md:px-4 py-3">
-        <Link to="/" className="flex items-center">
-          <img
-            src="/images/main.png"
-            alt="복지 디자인 로고"
-            className="h-12 md:h-14 w-auto"
-          />
+      <nav className="max-w-[1120px] mx-auto relative px-4 md:px-4 py-3">
+        {/* Logo (mobile inline, desktop absolute so it doesn't shift the tab grid) */}
+        <Link to="/" className="flex md:hidden items-center">
+          <img src="/images/main.png" alt="복지 디자인 로고" className="h-10 w-auto" />
+        </Link>
+        <Link to="/" className="hidden md:flex items-center absolute left-4 top-2">
+          <img src="/images/main.png" alt="복지 디자인 로고" className="h-12 md:h-14 w-auto" />
         </Link>
 
         {/* 데스크톱 메뉴 + 메가메뉴 트리거 */}
         <ul
-          className="hidden md:grid grid-cols-4 gap-14 w-full max-w-[1120px] font-medium mx-auto text-[15px] leading-tight tracking-[-0.01em]"
+          className="hidden md:grid grid-cols-4 gap-14 w-full font-medium text-[15px] leading-tight tracking-[-0.01em] md:pl-[72px] md:pr-[188px]"
           onMouseEnter={() => setMegaOpen(true)}
         >
           {sections.map((s, idx) => (
@@ -154,7 +154,7 @@ export default function Navbar() {
         </ul>
 
         {/* 우측 버튼 */}
-        <div className="hidden md:flex items-center gap-3">
+        <div className="hidden md:flex items-center gap-3 absolute right-4 top-2">
           <Link
             to="/support/guide"
             className="bg-sky-400 hover:bg-sky-500 text-white px-4 py-2 rounded-full"
