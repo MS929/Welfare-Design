@@ -131,7 +131,7 @@ export default function Navbar() {
           {sections.map((s, idx) => (
             <li
               key={s.title}
-              className="relative"
+              className="relative w-[220px] flex justify-center"
               onMouseEnter={() => {
                 setHoveredIdx(idx);
                 setMegaOpen(true);
@@ -143,7 +143,7 @@ export default function Navbar() {
             >
               <button
                 type="button"
-                className="px-2.5 py-0.5 hover:text-emerald-600 focus:outline-none whitespace-nowrap break-keep"
+                className="w-full text-center px-0 py-0.5 hover:text-emerald-600 focus:outline-none whitespace-nowrap"
                 aria-haspopup="true"
                 aria-expanded={megaOpen && hoveredIdx === idx}
               >
@@ -196,11 +196,11 @@ export default function Navbar() {
           <div className="absolute inset-x-0 top-full bg-white/95 border-t border-b backdrop-blur-sm shadow-sm">
             <div className="max-w-5xl mx-auto px-0 pt-4 pb-6">
               {/* 상단 네비게이션 그리드와 동일한 간격/정렬 적용하여 칼럼 정렬 고정 */}
-              <div className="grid grid-cols-4 items-start justify-items-start mx-auto px-6 gap-10 lg:gap-12 xl:gap-14">
+              <div className="grid grid-cols-4 items-start justify-items-center mx-auto px-6 gap-10 lg:gap-12 xl:gap-14">
                 {sections.map((sec) => (
                   <ul
                     key={sec.title}
-                    className="space-y-3 text-left w-[200px] sm:w-[220px] text-sm md:text-[15px]"
+                    className="space-y-3 text-center w-[220px] text-sm md:text-[15px]"
                   >
                     {sec.items.map((it, i) => (
                       <li key={it.to}>
