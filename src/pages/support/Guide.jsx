@@ -4,7 +4,7 @@ import { useState } from "react";
 
 export default function SupGuide() {
   return (
-    <div className="max-w-screen-xl mx-auto pl-3 pr-4 sm:pl-4 sm:pr-5 lg:pl-5 lg:pr-6 pt-8 md:pt-10 pb-14">
+    <div className="max-w-screen-xl mx-auto pl-2 pr-4 sm:pl-3 sm:pr-5 lg:pl-4 lg:pr-6 pt-8 md:pt-10 pb-14">
       <header className="mb-10">
         <nav className="text-sm text-gray-400">
           <span className="text-emerald-600 font-medium">후원</span>
@@ -15,9 +15,12 @@ export default function SupGuide() {
           복지디자인 후원 안내
         </h1>
         <p className="mt-4 max-w-3xl text-gray-600 whitespace-pre-line">
-          “작지만 깊이 있는 변화”, 그 출발점이 바로 복지디자인입니다. 복지디자인 사회적협동조합은 복지를 설계하는 사람들입니다.{"\n"}
-          여러분의 작은 관심을 통하여 소외된 이웃이 스스로 삶을 회복할 수 있도록 체계적이고 지속 가능한 복지를 함께 만들어갑니다.{"\n"}
-          현장 기반의 복지연결망을 운영하며 복지 사각지대를 해소하고, 지역 안에서 누구나 복지에 접근할 수 있도록 최선을 다하겠습니다.
+          “작지만 깊이 있는 변화”, 그 출발점이 바로 복지디자인입니다. 복지디자인
+          사회적협동조합은 복지를 설계하는 사람들입니다.{"\n"}
+          여러분의 작은 관심을 통하여 소외된 이웃이 스스로 삶을 회복할 수 있도록
+          체계적이고 지속 가능한 복지를 함께 만들어갑니다.{"\n"}
+          현장 기반의 복지연결망을 운영하며 복지 사각지대를 해소하고, 지역
+          안에서 누구나 복지에 접근할 수 있도록 최선을 다하겠습니다.
         </p>
       </header>
 
@@ -26,7 +29,11 @@ export default function SupGuide() {
           {/* 개인 후원 */}
           <SupportPanel
             icon={
-              <img src="/images/support/donation.png" alt="개인 후원 아이콘" className="w-28 h-28 mx-auto object-contain" />
+              <img
+                src="/images/support/donation.png"
+                alt="개인 후원 아이콘"
+                className="w-28 h-28 mx-auto object-contain"
+              />
             }
             title="개인 후원"
             items={[
@@ -38,7 +45,11 @@ export default function SupGuide() {
           {/* 기업·단체 후원 */}
           <SupportPanel
             icon={
-              <img src="/images/support/group.png" alt="기업·단체 후원 아이콘" className="w-28 h-28 mx-auto object-contain" />
+              <img
+                src="/images/support/group.png"
+                alt="기업·단체 후원 아이콘"
+                className="w-28 h-28 mx-auto object-contain"
+              />
             }
             title="기업·단체 후원"
             items={[
@@ -50,7 +61,11 @@ export default function SupGuide() {
           {/* 물품 후원 */}
           <SupportPanel
             icon={
-              <img src="/images/support/present.png" alt="물품 후원 아이콘" className="w-28 h-28 mx-auto object-contain" />
+              <img
+                src="/images/support/present.png"
+                alt="물품 후원 아이콘"
+                className="w-28 h-28 mx-auto object-contain"
+              />
             }
             title="물품 후원"
             items={[
@@ -107,7 +122,8 @@ export default function SupGuide() {
 
       {/* 법적 고지 */}
       <p className="text-gray-500 text-xs mt-4">
-        ※ 법인세법 제18조 소득세법 제34조에 의거 기부금 영수증 발급이 가능합니다.
+        ※ 법인세법 제18조 소득세법 제34조에 의거 기부금 영수증 발급이
+        가능합니다.
       </p>
 
       {/* FAQ/연락처 */}
@@ -136,8 +152,7 @@ export default function SupGuide() {
             <br />
             전화: 02-000-0000 (평일 10:00–17:00)
           </p>
-          <p className="text-gray-500 text-sm mt-3">
-          </p>
+          <p className="text-gray-500 text-sm mt-3"></p>
         </div>
       </section>
     </div>
