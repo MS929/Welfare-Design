@@ -4,74 +4,56 @@ import { useState } from "react";
 
 export default function SupGuide() {
   return (
-    <div className="max-w-6xl mx-auto px-4 py-10">
-      {/* Hero */}
-      <header className="mb-10">
-        <section className="max-w-6xl mx-auto px-4 pt-6">
-          <nav className="mt-1 text-sm text-gray-500">
-            후원 &gt; <span className="text-gray-700">안내</span>
-          </nav>
-          <h1 className="mt-2 text-4xl md:text-5xl font-extrabold tracking-tight text-brand-800">
-            복지디자인 후원 안내
-          </h1>
-        </section>
+    <div className="max-w-6xl mx-auto px-6 pt-10 pb-14">
+      <header className="mb-8">
+        <nav className="text-sm text-gray-400">후원 &gt; <span className="text-gray-600">안내</span></nav>
+        <h1 className="mt-2 text-4xl md:text-5xl font-extrabold tracking-tight text-gray-900">복지디자인 후원 안내</h1>
         <p className="mt-4 max-w-3xl text-gray-600 whitespace-pre-line">
-          “작지만 깊이 있는 변화”, 그 출발점이 바로 복지디자인입니다. 복지디자인
-          사회적협동조합은 복지를 설계하는 사람들입니다.{"\n"}
-          여러분의 작은 관심을 통하여 소외된 이웃이 스스로 삶을 회복할 수 있도록
-          체계적이고 지속 가능한 복지를 함께 만들어갑니다.{"\n"}
-          현장 기반의 복지연결망을 운영하며 복지 사각지대를 해소하고, 지역
-          안에서 누구나 복지에 접근할 수 있도록 최선을 다하겠습니다.
+          “작지만 깊이 있는 변화”, 그 출발점이 바로 복지디자인입니다. 복지디자인 사회적협동조합은 복지를 설계하는 사람들입니다.{"\n"}
+          여러분의 작은 관심을 통하여 소외된 이웃이 스스로 삶을 회복할 수 있도록 체계적이고 지속 가능한 복지를 함께 만들어갑니다.{"\n"}
+          현장 기반의 복지연결망을 운영하며 복지 사각지대를 해소하고, 지역 안에서 누구나 복지에 접근할 수 있도록 최선을 다하겠습니다.
         </p>
       </header>
 
-      {/* 3가지 방식 – PDF 레이아웃 맞춤 */}
-      <section className="grid md:grid-cols-3 gap-0 mt-8">
-        <SupportPanel
-          icon={
-            <img
-              src="/images/support/donation.png"
-              alt="개인 후원 아이콘"
-              className="w-28 h-28 mx-auto object-contain"
-            />
-          }
-          title="개인 후원"
-          items={[
-            "매월 or 일시 후원으로 사업의 지속가능성을 높여주세요.",
-            "계좌이체/자동이체",
-            "지속적인 복지서비스 지원",
-          ]}
-        />
-        <SupportPanel
-          icon={
-            <img
-              src="/images/support/group.png"
-              alt="기업·단체 후원 아이콘"
-              className="w-28 h-28 mx-auto object-contain"
-            />
-          }
-          title="기업·단체 후원"
-          items={[
-            "파트너십/캠페인/지정기탁 등 다양한 방식으로 함께 할 수 있어요.",
-            "사회공헌 파트너십",
-            "기업 참여형 후원 프로그램",
-          ]}
-        />
-        <SupportPanel
-          icon={
-            <img
-              src="/images/support/present.png"
-              alt="물품 후원 아이콘"
-              className="w-28 h-28 mx-auto object-contain"
-            />
-          }
-          title="물품 후원"
-          items={[
-            "휠체어·보장구·보조기기 등 양질의 물품을 순환시켜요.",
-            "수거/검수/재분배",
-            "생활용품 후원 가능",
-          ]}
-        />
+      <section className="mt-8 rounded-2xl ring-1 ring-gray-200 overflow-hidden bg-white">
+        <div className="grid md:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-gray-200">
+          {/* 개인 후원 */}
+          <SupportPanel
+            icon={
+              <img src="/images/support/donation.png" alt="개인 후원 아이콘" className="w-28 h-28 mx-auto object-contain" />
+            }
+            title="개인 후원"
+            items={[
+              "매월 or 일시 후원으로 사업의 지속가능성을 높여주세요.",
+              "계좌이체/자동이체",
+              "지속적인 복지서비스 지원",
+            ]}
+          />
+          {/* 기업·단체 후원 */}
+          <SupportPanel
+            icon={
+              <img src="/images/support/group.png" alt="기업·단체 후원 아이콘" className="w-28 h-28 mx-auto object-contain" />
+            }
+            title="기업·단체 후원"
+            items={[
+              "파트너십/캠페인/지정기탁 등 다양한 방식으로 함께 할 수 있어요.",
+              "사회공헌 파트너십",
+              "기업 참여형 후원 프로그램",
+            ]}
+          />
+          {/* 물품 후원 */}
+          <SupportPanel
+            icon={
+              <img src="/images/support/present.png" alt="물품 후원 아이콘" className="w-28 h-28 mx-auto object-contain" />
+            }
+            title="물품 후원"
+            items={[
+              "휠체어·보장구·보조기기 등 양질의 물품을 순환시켜요.",
+              "수거/검수/재분배",
+              "생활용품 후원 가능",
+            ]}
+          />
+        </div>
       </section>
 
       {/* 계좌 안내 */}
@@ -162,7 +144,7 @@ export default function SupGuide() {
 
 function SupportPanel({ icon, title, items = [] }) {
   return (
-    <div className="border md:border-l-0 first:rounded-t-2xl md:first:rounded-l-2xl md:first:rounded-t-none md:last:rounded-r-2xl last:rounded-b-2xl bg-white px-6 py-8 text-center">
+    <div className="px-8 py-10 text-center">
       <div className="mb-4 text-sky-500 flex justify-center">{icon}</div>
       <h3 className="text-xl font-semibold mb-4">{title}</h3>
       <ul className="text-gray-800 space-y-2 text-left max-w-xs mx-auto list-disc list-inside">
