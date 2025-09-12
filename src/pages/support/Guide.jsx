@@ -114,7 +114,7 @@ export default function SupGuide() {
               href="https://forms.gle/AepMiTRFNNZs9ovu5"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center justify-center rounded-full bg-emerald-600 px-6 py-3 text-white shadow-sm transition focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2"
+              className="inline-flex items-center justify-center rounded-full px-6 py-3 text-white font-semibold shadow-sm transition bg-gradient-to-r from-orange-400 to-emerald-400 hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-orange-400 focus:ring-offset-2"
             >
               후원 신청서 작성하기
             </a>
