@@ -159,27 +159,11 @@ export default function Navbar() {
         }`}
         onMouseEnter={() => setMegaOpen(true)}
       >
-        {/* Row 1: tab titles */}
-        {sections.map((s, idx) => (
-          <button
-            key={s.title}
-            type="button"
-            className="w-[232px] text-center py-3 hover:text-emerald-600 focus:outline-none whitespace-nowrap text-[16px] font-medium"
-            onMouseEnter={() => setHoveredIdx(idx)}
-            onFocus={() => setHoveredIdx(idx)}
-            aria-haspopup="true"
-            aria-expanded={megaOpen && hoveredIdx === idx}
-          >
-            {s.title}
-          </button>
-        ))}
-
-        <div className="col-span-4 border-t" />
-
-        {/* Row 2: mega menu items */}
+        {/* Render each section with title above items */}
         {megaOpen &&
           sections.map((sec) => (
-            <div key={sec.title} className="w-[232px] text-center pt-3">
+            <div key={sec.title} className="w-[232px] text-left pt-3">
+              <div className="font-medium text-[15px] mb-2">{sec.title}</div>
               <ul className="space-y-1.5">
                 {sec.items.map((it) => (
                   <li key={it.to}>
