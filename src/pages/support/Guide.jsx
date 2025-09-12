@@ -61,6 +61,12 @@ export default function SupGuide() {
         <p className="text-gray-700 mb-4">
           후원 신청서를 작성해주시면 기부금 영수증 발급과 투명한 후원금 공개를 약속드립니다.
         </p>
+        <div className="mt-4 p-4 border rounded-lg bg-amber-50 text-gray-800 text-sm leading-relaxed">
+          본 사회적협동조합은 기획재정부에 등록된 지정기부금 단체로 기부하신 내용에 대해서는 <br />
+          후원 신청하기를 작성해 주셔야 기부금영수증을 발행해드리고 있습니다. <br />
+          또한, 연간 모금액 및 사용 내역은 홈페이지와 국세청 홈택스에 투명하게 공개되고 있습니다. <br />
+          많은 후원과 관심 부탁드립니다.
+        </div>
         <a
           href="https://forms.gle/AepMiTRFNNZs9ovu5"
           target="_blank"
