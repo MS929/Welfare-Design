@@ -165,11 +165,18 @@ function SupportPanel({ icon, title, items = [] }) {
       <div className="mx-auto w-full max-w-[420px] text-left">
         <div className="mb-4 flex justify-center">{icon}</div>
         <h3 className="text-center text-xl font-semibold mb-4 text-emerald-800 tracking-tight">{title}</h3>
-        <ul className="mt-4 list-disc pl-4 text-[15px] leading-relaxed text-gray-800 space-y-2 marker:text-emerald-600 break-keep">
-          {items.map((t) => (
-            <li key={t} className="break-keep">{t}</li>
-          ))}
-        </ul>
+        {items.length > 0 && (
+          <>
+            <p className="text-[15px] leading-relaxed text-gray-800 break-keep">{items[0]}</p>
+            {items.length > 1 && (
+              <ul className="mt-4 list-disc pl-4 text-[15px] leading-relaxed text-gray-800 space-y-2 marker:text-emerald-600 break-keep">
+                {items.slice(1).map((t) => (
+                  <li key={t} className="break-keep">{t}</li>
+                ))}
+              </ul>
+            )}
+          </>
+        )}
       </div>
     </div>
   );
