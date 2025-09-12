@@ -7,10 +7,14 @@ export default function SupGuide() {
     <div className="max-w-6xl mx-auto px-4 py-10">
       {/* Hero */}
       <header className="mb-10">
-        <p className="text-sm text-gray-500">후원 &gt; 안내</p>
-        <h1 className="text-3xl sm:text-4xl font-extrabold mt-2">
-          복지디자인 후원 안내
-        </h1>
+        <section className="max-w-screen-xl mx-auto px-4 pt-10">
+          <nav className="text-sm text-brand-700/80">
+            후원 &gt; <span className="text-gray-700">안내</span>
+          </nav>
+          <h1 className="mt-3 text-3xl md:text-4xl font-extrabold tracking-tight text-brand-800">
+            복지디자인 후원 안내
+          </h1>
+        </section>
         <p className="text-gray-600 mt-3 whitespace-pre-line">
           “작지만 깊이 있는 변화”, 그 출발점이 바로 복지디자인입니다. 복지디자인
           사회적협동조합은 복지를 설계하는 사람들입니다.{"\n"}
