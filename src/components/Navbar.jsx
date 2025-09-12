@@ -107,7 +107,6 @@ export default function Navbar() {
       title: "후원",
       items: [
         { to: "/support/guide", label: "후원가이드" },
-        { to: "/support/corporate", label: "기업·단체 후원" },
         { to: "/support/faq", label: "FAQ" },
       ],
     },
