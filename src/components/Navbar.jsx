@@ -127,7 +127,7 @@ export default function Navbar() {
         </Link>
 
         {/* Top tabs (desktop) inline next to logo */}
-        <ul className="hidden md:grid col-start-2 grid-cols-4 gap-16 justify-items-center items-center text-center">
+        <ul className="hidden md:grid col-start-2 grid-cols-4 gap-16 justify-items-center items-center text-center w-[750px] mx-auto">
           {sections.map((sec, idx) => (
             <li key={sec.title} className="flex items-center">
               <button
@@ -181,7 +181,7 @@ export default function Navbar() {
             setHoveredIdx(null);
           }}
         >
-          <div className="max-w-[750px] mr-auto pr-4">
+          <div className="max-w-[750px] mx-auto">
             <div className="grid grid-cols-4 gap-8 pt-5 pb-6 text-center">
               {sections.map((sec) => (
                 <div key={sec.title}>
