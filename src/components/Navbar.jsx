@@ -120,17 +120,14 @@ export default function Navbar() {
         setHoveredIdx(null);
       }}
     >
-      <nav className="max-w-[1120px] mx-auto relative px-4 md:px-4 py-3 flex items-center">
-        {/* Logo (mobile inline, desktop absolute so it doesn't shift the tab grid) */}
-        <Link to="/" className="flex md:hidden items-center">
-          <img src="/images/main.png" alt="복지 디자인 로고" className="h-10 w-auto" />
-        </Link>
-        <Link to="/" className="hidden md:flex items-center absolute left-4 top-2">
-          <img src="/images/main.png" alt="복지 디자인 로고" className="h-12 md:h-14 w-auto" />
+      <nav className="max-w-[1120px] mx-auto relative px-4 md:px-4 py-3 flex items-center justify-between">
+        {/* Logo (mobile inline, desktop inline so it doesn't shift the tab grid) */}
+        <Link to="/" className="flex items-center">
+          <img src="/images/main.png" alt="복지 디자인 로고" className="h-10 w-auto md:h-14" />
         </Link>
 
         {/* 우측 버튼 */}
-        <div className="hidden md:flex items-center gap-3 absolute right-4 top-2">
+        <div className="hidden md:flex items-center gap-3">
           <Link
             to="/support/guide"
             className="bg-sky-400 hover:bg-sky-500 text-white px-4 py-2 rounded-full"
@@ -157,7 +154,7 @@ export default function Navbar() {
 
       {/* Combined desktop nav + mega menu grid */}
       <div
-        className={`hidden md:grid max-w-[1120px] mx-auto grid-cols-4 gap-14 md:pl-[72px] md:pr-[188px] border-t border-b ${
+        className={`hidden md:grid max-w-[1120px] mx-auto grid-cols-4 gap-14 border-t border-b place-items-start ${
           megaOpen ? "bg-white/95 shadow-sm" : ""
         }`}
         onMouseEnter={() => setMegaOpen(true)}
@@ -177,16 +174,18 @@ export default function Navbar() {
           </button>
         ))}
 
+        <div className="col-span-4 border-t" />
+
         {/* Row 2: mega menu items */}
         {megaOpen &&
           sections.map((sec) => (
-            <div key={sec.title} className="w-[232px] text-center border-t pt-3">
+            <div key={sec.title} className="w-[232px] text-center pt-3">
               <ul className="space-y-1.5">
                 {sec.items.map((it) => (
                   <li key={it.to}>
                     <NavLink
                       to={it.to}
-                      className="block h-8 leading-none text-[14px] text-gray-800 hover:text-emerald-600 whitespace-nowrap"
+                      className="block h-8 leading-none text-[13.5px] md:text-[14px] text-gray-800 hover:text-emerald-600 whitespace-nowrap"
                       onClick={() => {
                         setMegaOpen(false);
                         setHoveredIdx(null);
