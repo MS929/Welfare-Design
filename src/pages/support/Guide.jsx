@@ -68,9 +68,7 @@ export default function SupGuide() {
         {/* Body */}
         <div className="p-6">
           <p className="text-sm leading-relaxed text-gray-800 whitespace-pre-line">
-            본 사회적협동조합은 기획재정부에 등록된 <strong className="font-semibold">지정기부금 단체</strong>로,
-            {"\n"}기부하신 내역에 대해서는 <strong className="font-semibold">후원 신청하기</strong>를 작성해 주셔야
-            {"\n"}기부금영수증을 발행해드리고 있습니다.
+            본 사회적협동조합은 기획재정부에 등록된 <strong className="font-semibold">지정기부금 단체</strong>로,기부하신 내역에 대해서는 <strong className="font-semibold">후원 신청하기</strong>를 작성해 주셔야기부금영수증을 발행해드리고 있습니다.
             {"\n"}또한, 연간 모금액 및 사용 내역은 홈페이지와 국세청 홈택스에 투명하게 공개되고 있습니다.
             {"\n"}많은 후원과 관심 부탁드립니다.
           </p>
