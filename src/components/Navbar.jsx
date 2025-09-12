@@ -181,10 +181,10 @@ export default function Navbar() {
             setHoveredIdx(null);
           }}
         >
-          <div className="max-w-[1120px] mx-auto">
-            <div className="flex justify-between py-3">
+          <div className="max-w-[960px] mx-auto">
+            <div className="flex justify-between py-3 gap-6">
               {sections.map((sec) => (
-                <div key={sec.title} className="flex-1 min-w-[200px] text-left">
+                <div key={sec.title} className="flex-1 min-w-[160px] text-left">
                   <ul className="space-y-1.5">
                     {sec.items.map((it) => (
                       <li key={it.to}>
