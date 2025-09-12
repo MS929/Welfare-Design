@@ -16,9 +16,12 @@ export default function SupGuide() {
         </h1>
         <div className="mt-3 h-1 w-14 rounded-full bg-emerald-600"></div>
         <p className="mt-4 text-gray-800 leading-[1.85] break-keep">
-          “작지만 깊이 있는 변화”, 그 출발점이 바로 복지디자인입니다. 복지디자인 사회적협동조합은 복지를 설계하는 사람들입니다. <br></br>
-          여러분의 작은 관심을 통하여 소외된 이웃이 스스로 삶을 회복할 수 있도록 체계적이고 지속 가능한 복지를 함께 만들어갑니다. <br></br>
-          현장 기반의 복지연결망을 운영하며 복지 사각지대를 해소하고, 지역 안에서 누구나 복지에 접근할 수 있도록 최선을 다하겠습니다.
+          “작지만 깊이 있는 변화”, 그 출발점이 바로 복지디자인입니다. 복지디자인
+          사회적협동조합은 복지를 설계하는 사람들입니다. <br></br>
+          여러분의 작은 관심을 통하여 소외된 이웃이 스스로 삶을 회복할 수 있도록
+          체계적이고 지속 가능한 복지를 함께 만들어갑니다. <br></br>
+          현장 기반의 복지연결망을 운영하며 복지 사각지대를 해소하고, 지역
+          안에서 누구나 복지에 접근할 수 있도록 최선을 다하겠습니다.
         </p>
       </header>
 
@@ -104,7 +107,8 @@ export default function SupGuide() {
 
           <div className="mt-5 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
             <p className="text-xs text-gray-500">
-              ※ 기부금 영수증 발급을 위해서는 신청서 작성이 필요합니다.
+              ※ 기부금 영수증 발급을 위해서는 신청서 작성이 필요합니다. ※
+              ※ 법인세법 제18조 소득세법 제34조에 의거 기부금 영수증 발급이 가능합니다.
             </p>
             <a
               href="https://forms.gle/AepMiTRFNNZs9ovu5"
@@ -118,15 +122,9 @@ export default function SupGuide() {
         </div>
       </section>
 
-      {/* 법적 고지 */}
-      <p className="text-gray-500 text-xs mt-4">
-        ※ 법인세법 제18조 소득세법 제34조에 의거 기부금 영수증 발급이
-        가능합니다.
-      </p>
-
       {/* FAQ/연락처 */}
-      <section className="grid md:grid-cols-2 gap-6 mt-10">
-        <div className="rounded-2xl border p-6 bg-white">
+      <section className="grid md:grid-cols-2 gap-6 mt-10 items-stretch">
+        <div className="rounded-2xl border p-6 bg-white flex flex-col h-full">
           <h3 className="text-lg font-semibold">자주 묻는 질문</h3>
           <ul className="mt-3 list-disc pl-5 text-gray-700 space-y-1">
             <li>정기후원 해지는 어디서 하나요?</li>
@@ -140,7 +138,7 @@ export default function SupGuide() {
           </Link>
         </div>
 
-        <div className="rounded-2xl border p-6 bg-white">
+        <div className="rounded-2xl border p-6 bg-white flex flex-col h-full">
           <h3 className="text-lg font-semibold">연락처</h3>
           <ul className="mt-2 list-disc pl-5 text-gray-700 space-y-1">
             <li>
@@ -151,7 +149,6 @@ export default function SupGuide() {
             </li>
             <li>전화: 02-000-0000 (평일 10:00–17:00)</li>
           </ul>
-          <p className="text-gray-500 text-sm mt-3"></p>
         </div>
       </section>
     </div>
