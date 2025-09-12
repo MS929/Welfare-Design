@@ -4,7 +4,7 @@ import { useState } from "react";
 
 export default function SupGuide() {
   return (
-    <div className="max-w-6xl mx-auto px-6 pt-10 pb-14">
+    <div className="max-w-6xl mx-auto px-4 md:px-6 pt-10 pb-14">
       <header className="mb-8">
         <nav className="text-sm text-gray-400">후원 &gt; <span className="text-gray-600">안내</span></nav>
         <h1 className="mt-2 text-4xl md:text-5xl font-extrabold tracking-tight text-gray-900">복지디자인 후원 안내</h1>
