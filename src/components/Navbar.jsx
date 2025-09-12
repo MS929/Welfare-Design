@@ -186,12 +186,7 @@ export default function Navbar() {
               }}
             >
               {sections.map((sec, sIdx) => (
-                <div key={sec.title} className="w-[232px] text-left pt-3">
-                  <div className={`font-medium text-[15px] mb-2 ${
-                    hoveredIdx === sIdx ? "text-emerald-600" : ""
-                  }`}>
-                    {sec.title}
-                  </div>
+                <div key={sec.title} className="w-[232px] text-left py-3">
                   <ul className="space-y-1.5">
                     {sec.items.map((it) => (
                       <li key={it.to}>
