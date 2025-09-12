@@ -118,7 +118,7 @@ export default function Navbar() {
       <nav className="max-w-screen-2xl mx-auto flex items-center justify-between px-6 py-4">
         <Link to="/" className="flex items-center">
           <img
-            src="/images/main.jpeg"
+            src="/images/main.png"
             alt="복지 디자인 로고"
             className="h-12 md:h-14 lg:h-16 w-auto"
           />
