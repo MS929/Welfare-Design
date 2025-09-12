@@ -126,7 +126,7 @@ export default function Navbar() {
 
         {/* 데스크톱 메뉴 + 메가메뉴 트리거 */}
         <ul
-          className="hidden md:grid grid-cols-4 place-items-center gap-12 lg:gap-16 xl:gap-20 w-full max-w-3xl font-medium mx-auto -translate-x-4"
+          className="hidden md:grid grid-cols-4 place-items-center gap-12 lg:gap-16 xl:gap-20 w-full max-w-5xl font-medium mx-auto"
           onMouseEnter={() => setMegaOpen(true)}
         >
           {sections.map((s, idx) => (
@@ -138,7 +138,7 @@ export default function Navbar() {
             >
               <button
                 type="button"
-                className="px-3 py-1 hover:text-emerald-600 focus:outline-none"
+                className="px-3 py-1 hover:text-emerald-600 focus:outline-none whitespace-nowrap break-keep"
                 aria-haspopup="true"
                 aria-expanded={megaOpen && hoveredIdx === idx}
               >
@@ -178,7 +178,7 @@ export default function Navbar() {
           <div
             className="absolute inset-x-0 top-full bg-white/95 border-t border-b backdrop-blur-sm shadow-sm"
           >
-            <div className="max-w-3xl mx-auto px-0 pt-6 pb-8 -translate-x-2">
+            <div className="max-w-5xl mx-auto px-0 pt-6 pb-8">
               {/* 상단 네비게이션 그리드와 동일한 간격/정렬 적용하여 칼럼 정렬 고정 */}
               <div className="grid grid-cols-4 items-start justify-items-center gap-12 lg:gap-16 xl:gap-20">
                 {sections.map((sec) => (
