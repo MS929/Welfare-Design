@@ -190,18 +190,17 @@ export default function Navbar() {
       >
         {megaOpen && (
           <div className="absolute inset-x-0 top-full bg-white/95 border-t border-b backdrop-blur-sm shadow-sm">
-            <div className="max-w-[1120px] mx-auto px-0 pt-6 pb-8">
-              {/* 상단 네비게이션 그리드와 동일한 간격/정렬 적용하여 칼럼 정렬 고정 */}
-              <div className="grid grid-cols-4 items-start justify-items-center mx-auto gap-14">
+            <div className="max-w-[1120px] mx-auto px-4 md:px-4 pt-5 pb-7">
+              <div className="grid grid-cols-4 items-start justify-items-center gap-14">
                 {sections.map((sec) => (
                   <div key={sec.title} className="w-[232px] text-center">
-                    <h3 className="mb-3 text-[16px] font-medium text-gray-900 tracking-tight">{sec.title}</h3>
+                    {/* 제목은 반복 표시하지 않음(정렬만 유지) */}
                     <ul className="space-y-2">
                       {sec.items.map((it) => (
                         <li key={it.to}>
                           <NavLink
                             to={it.to}
-                            className="flex items-center justify-center h-9 text-[15px] leading-none text-gray-700 hover:text-emerald-600 whitespace-nowrap"
+                            className="flex items-center justify-center h-9 text-[15px] leading-none text-gray-800 hover:text-emerald-600 whitespace-nowrap"
                             onClick={() => { setMegaOpen(false); setHoveredIdx(null); }}
                           >
                             {it.label}
