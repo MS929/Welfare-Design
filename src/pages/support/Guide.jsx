@@ -107,7 +107,7 @@ export default function SupGuide() {
 
           <div className="mt-5 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
             <p className="text-xs text-gray-500">
-              ※ 기부금 영수증 발급을 위해서는 신청서 작성이 필요합니다. ※ <br></br>
+              ※ 기부금 영수증 발급을 위해서는 신청서 작성이 필요합니다.<br></br> <br></br>
               ※ 법인세법 제18조 소득세법 제34조에 의거 기부금 영수증 발급이 가능합니다.
             </p>
             <a
