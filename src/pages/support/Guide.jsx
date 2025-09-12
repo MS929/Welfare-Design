@@ -4,7 +4,7 @@ import { useState } from "react";
 
 export default function SupGuide() {
   return (
-    <div className="max-w-screen-xl mx-auto px-5 sm:px-6 lg:px-8 pt-8 md:pt-10 pb-14">
+    <div className="max-w-screen-xl mx-auto px-4 sm:px-5 lg:px-6 pt-8 md:pt-10 pb-14">
       <header className="mb-10">
         <nav className="text-sm text-gray-400">
           <span className="text-emerald-600 font-medium">후원</span>
