@@ -67,17 +67,13 @@ export default function SupGuide() {
 
         {/* Body */}
         <div className="p-6">
-          <div className="flex items-start gap-3 rounded-xl border border-amber-200 bg-amber-50 p-4">
-            <svg className="h-6 w-6 shrink-0 text-amber-600 mt-0.5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-              <path d="M12 2a10 10 0 100 20 10 10 0 000-20zm.75 5a.75.75 0 10-1.5 0v6a.75.75 0 001.5 0V7zm0 9.5a.75.75 0 10-1.5 0 .75.75 0 001.5 0z"/>
-            </svg>
-            <div className="text-sm leading-relaxed text-gray-800">
-              본 사회적협동조합은 기획재정부에 등록된 <strong className="font-semibold">지정기부금 단체</strong>로,
-              기부하신 내역에 대해서는 <strong className="font-semibold">후원 신청하기</strong>를 작성해 주셔야
-              기부금영수증을 발행해드리고 있습니다. 또한, 연간 모금액 및 사용 내역은 홈페이지와 국세청 홈택스에
-              투명하게 공개되고 있습니다. 많은 후원과 관심 부탁드립니다.
-            </div>
-          </div>
+          <p className="text-sm leading-relaxed text-gray-800 whitespace-pre-line">
+            본 사회적협동조합은 기획재정부에 등록된 <strong className="font-semibold">지정기부금 단체</strong>로,
+            {"\n"}기부하신 내역에 대해서는 <strong className="font-semibold">후원 신청하기</strong>를 작성해 주셔야
+            {"\n"}기부금영수증을 발행해드리고 있습니다.
+            {"\n"}또한, 연간 모금액 및 사용 내역은 홈페이지와 국세청 홈택스에 투명하게 공개되고 있습니다.
+            {"\n"}많은 후원과 관심 부탁드립니다.
+          </p>
 
           <div className="mt-5 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
             <p className="text-xs text-gray-500">※ 기부금 영수증 발급을 위해서는 신청서 작성이 필요합니다.</p>
