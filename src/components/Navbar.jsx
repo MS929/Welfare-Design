@@ -120,19 +120,19 @@ export default function Navbar() {
         setHoveredIdx(null);
       }}
     >
-      <nav className="max-w-[1120px] mx-auto relative px-4 md:px-4 py-3 grid grid-cols-[auto,1fr,auto] items-center gap-6">
+      <nav className="max-w-[750px] mx-auto relative px-4 md:px-4 py-3 grid grid-cols-[auto,1fr,auto] items-center gap-6">
         {/* Logo (mobile inline, desktop inline so it doesn't shift the tab grid) */}
         <Link to="/" className="flex items-center">
           <img src="/images/main.png" alt="복지 디자인 로고" className="h-10 w-auto md:h-14" />
         </Link>
 
         {/* Top tabs (desktop) inline next to logo */}
-        <ul className="hidden md:grid col-start-2 grid-cols-4 gap-16 justify-items-center text-center">
+        <ul className="hidden md:grid col-start-2 grid-cols-4 gap-16 justify-items-center items-center text-center">
           {sections.map((sec, idx) => (
-            <li key={sec.title}>
+            <li key={sec.title} className="flex items-center">
               <button
                 type="button"
-                className={`text-left font-medium text-[15px] hover:text-emerald-600 ${
+                className={`text-left font-medium text-[15px] hover:text-emerald-600 leading-tight ${
                   hoveredIdx === idx ? "text-emerald-600" : ""
                 }`}
                 onMouseEnter={() => {
