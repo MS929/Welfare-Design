@@ -337,13 +337,6 @@ export default function Navbar() {
                 후원가이드
               </NavLink>
               <NavLink
-                to="/support/corporate"
-                className="block px-3 py-2 rounded hover:bg-gray-50"
-                onClick={() => setMobileOpen(false)}
-              >
-                기업·단체 후원
-              </NavLink>
-              <NavLink
                 to="/support/faq"
                 className="block px-3 py-2 rounded hover:bg-gray-50"
                 onClick={() => setMobileOpen(false)}
