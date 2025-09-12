@@ -182,9 +182,9 @@ export default function Navbar() {
           }}
         >
           <div className="max-w-[1120px] mx-auto">
-            <div className="grid grid-cols-4 gap-10 place-items-start py-3">
+            <div className="flex justify-between py-3">
               {sections.map((sec) => (
-                <div key={sec.title} className="w-[200px] text-left">
+                <div key={sec.title} className="flex-1 min-w-[200px] text-left">
                   <ul className="space-y-1.5">
                     {sec.items.map((it) => (
                       <li key={it.to}>
