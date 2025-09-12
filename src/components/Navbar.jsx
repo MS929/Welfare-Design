@@ -116,8 +116,8 @@ export default function Navbar() {
   return (
     <header className="sticky top-0 z-50 bg-white/90 backdrop-blur shadow">
       <nav className="max-w-screen-2xl mx-auto flex items-center justify-between px-6 py-4">
-        <Link to="/" className="text-2xl font-bold text-sky-500">
-          복지 디자인
+        <Link to="/" className="flex items-center">
+          <img src="/images/main.jpeg" alt="복지 디자인 로고" className="h-10 w-auto" />
         </Link>
 
         {/* 데스크톱 메뉴 + 메가메뉴 트리거 */}
