@@ -190,7 +190,7 @@ export default function Navbar() {
                       <li key={it.to}>
                         <NavLink
                           to={it.to}
-                          className="block h-8 leading-none text-[13.5px] md:text-[14px] text-gray-800 hover:text-emerald-600 whitespace-nowrap"
+                          className="block h-8 leading-none text-[13px] text-gray-800 hover:text-emerald-600 whitespace-nowrap"
                           onClick={() => {
                             setMegaOpen(false);
                             setHoveredIdx(null);
