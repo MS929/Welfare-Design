@@ -161,14 +161,16 @@ export default function SupGuide() {
 
 function SupportPanel({ icon, title, items = [] }) {
   return (
-    <div className="px-8 py-10 text-center transition-colors md:hover:bg-emerald-50/60">
-      <div className="mb-4 flex justify-center">{icon}</div>
-      <h3 className="text-xl font-semibold mb-4 text-emerald-800">{title}</h3>
-      <ul className="text-gray-800 space-y-2 text-left max-w-xs mx-auto list-disc list-inside marker:text-emerald-600">
-        {items.map((t) => (
-          <li key={t}>{t}</li>
-        ))}
-      </ul>
+    <div className="px-10 py-12">
+      <div className="mx-auto max-w-[360px] text-center">
+        <div className="mb-4 flex justify-center">{icon}</div>
+        <h3 className="text-xl font-semibold mb-4 text-emerald-800 tracking-tight">{title}</h3>
+        <ul className="mt-4 text-left list-disc pl-5 text-[15px] leading-[1.85] text-gray-700 space-y-2 marker:text-emerald-600">
+          {items.map((t) => (
+            <li key={t}>{t}</li>
+          ))}
+        </ul>
+      </div>
     </div>
   );
 }
