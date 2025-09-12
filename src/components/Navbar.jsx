@@ -127,7 +127,7 @@ export default function Navbar() {
         </Link>
 
         {/* Top tabs (desktop) inline next to logo */}
-        <ul className="hidden md:flex flex-1 justify-evenly gap-20">
+        <ul className="hidden md:flex flex-1 justify-evenly gap-15">
           {sections.map((sec, idx) => (
             <li key={sec.title}>
               <button
