@@ -120,14 +120,14 @@ export default function Navbar() {
         setHoveredIdx(null);
       }}
     >
-      <nav className="max-w-[1120px] mx-auto relative px-4 md:px-4 py-3 flex items-center justify-between">
+      <nav className="max-w-[1120px] mx-auto relative px-4 md:px-4 py-3 grid grid-cols-[auto,1fr,auto] items-center gap-6">
         {/* Logo (mobile inline, desktop inline so it doesn't shift the tab grid) */}
         <Link to="/" className="flex items-center">
           <img src="/images/main.png" alt="복지 디자인 로고" className="h-10 w-auto md:h-14" />
         </Link>
 
         {/* Top tabs (desktop) inline next to logo */}
-        <ul className="hidden md:flex flex-1 justify-evenly gap-13">
+        <ul className="hidden md:grid col-start-2 grid-cols-4 gap-14 justify-items-start">
           {sections.map((sec, idx) => (
             <li key={sec.title}>
               <button
@@ -147,7 +147,7 @@ export default function Navbar() {
         </ul>
 
         {/* 우측 버튼 */}
-        <div className="hidden md:flex items-center gap-3">
+        <div className="hidden md:flex items-center gap-3 col-start-3 justify-self-end">
           <Link
             to="/support/guide"
             className="bg-sky-400 hover:bg-sky-500 text-white px-4 py-2 rounded-full"
@@ -181,8 +181,8 @@ export default function Navbar() {
             setHoveredIdx(null);
           }}
         >
-          <div className="max-w-[1120px] mx-auto px-4">
-            <div className="grid grid-cols-4 gap-14 py-4">
+          <div className="max-w-[1120px] mx-auto px-4 grid grid-cols-[auto,1fr,auto] items-start">
+            <div className="col-start-2 grid grid-cols-4 gap-14 py-4">
               {sections.map((sec) => (
                 <div key={sec.title} className="text-left">
                   <ul className="space-y-1.5">
