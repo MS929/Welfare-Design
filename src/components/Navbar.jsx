@@ -125,13 +125,13 @@ export default function Navbar() {
 
         {/* 데스크톱 메뉴 + 메가메뉴 트리거 */}
         <ul
-          className="hidden md:grid grid-cols-4 place-items-center gap-14 w-full max-w-[1120px] font-medium mx-auto text-[15px] leading-tight tracking-[-0.01em]"
+          className="hidden md:grid grid-cols-4 gap-12 w-full max-w-[1120px] font-medium mx-auto text-[15px] leading-tight tracking-[-0.01em]"
           onMouseEnter={() => setMegaOpen(true)}
         >
           {sections.map((s, idx) => (
             <li
               key={s.title}
-              className="relative w-[232px] flex justify-center"
+              className="relative w-full flex justify-center"
               onMouseEnter={() => {
                 setHoveredIdx(idx);
                 setMegaOpen(true);
@@ -189,18 +189,18 @@ export default function Navbar() {
         }}
       >
         {megaOpen && (
-          <div className="absolute inset-x-0 top-full bg-white/95 border-t border-b backdrop-blur-sm shadow-sm">
+          <div className="absolute inset-x-0 top-full bg-white/95 border-t border-b backdrop-blur-sm shadow-sm pt-1">
             <div className="max-w-[1120px] mx-auto px-4 md:px-4 pt-5 pb-7">
-              <div className="grid grid-cols-4 items-start justify-items-center gap-14">
+              <div className="grid grid-cols-4 gap-12">
                 {sections.map((sec) => (
-                  <div key={sec.title} className="w-[232px] text-center">
-                    {/* 제목은 반복 표시하지 않음(정렬만 유지) */}
-                    <ul className="space-y-2">
+                  <div key={sec.title} className="w-full text-center">
+                    <div className="mb-3 text-[14px] font-semibold text-gray-900">{sec.title}</div>
+                    <ul className="space-y-1.5">
                       {sec.items.map((it) => (
                         <li key={it.to}>
                           <NavLink
                             to={it.to}
-                            className="flex items-center justify-center h-9 text-[15px] leading-none text-gray-800 hover:text-emerald-600 whitespace-nowrap"
+                            className="flex items-center justify-center h-8 text-[15px] leading-none text-gray-800 hover:text-emerald-600 whitespace-nowrap"
                             onClick={() => { setMegaOpen(false); setHoveredIdx(null); }}
                           >
                             {it.label}
