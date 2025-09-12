@@ -126,6 +126,26 @@ export default function Navbar() {
           <img src="/images/main.png" alt="복지 디자인 로고" className="h-10 w-auto md:h-14" />
         </Link>
 
+        {/* Top tabs (desktop) inline next to logo */}
+        <ul className="hidden md:flex flex-1 justify-center gap-12">
+          {sections.map((sec, idx) => (
+            <li key={sec.title}>
+              <button
+                type="button"
+                className={`text-left font-medium text-[15px] hover:text-emerald-600 ${
+                  hoveredIdx === idx ? "text-emerald-600" : ""
+                }`}
+                onMouseEnter={() => {
+                  setMegaOpen(true);
+                  setHoveredIdx(idx);
+                }}
+              >
+                {sec.title}
+              </button>
+            </li>
+          ))}
+        </ul>
+
         {/* 우측 버튼 */}
         <div className="hidden md:flex items-center gap-3">
           <Link
@@ -152,66 +172,41 @@ export default function Navbar() {
         </button>
       </nav>
 
-      {/* Desktop tabs + mega menu */}
-      <div className="hidden md:block border-t bg-white/90 relative">
-        <div className="max-w-[1120px] mx-auto">
-          {/* Top tabs row */}
-          <ul className="grid grid-cols-4 gap-14 py-3">
-            {sections.map((sec, idx) => (
-              <li key={sec.title} className="w-[232px]">
-                <button
-                  type="button"
-                  className={`text-left font-medium text-[15px] hover:text-emerald-600 ${
-                    hoveredIdx === idx ? "text-emerald-600" : ""
-                  }`}
-                  onMouseEnter={() => {
-                    setMegaOpen(true);
-                    setHoveredIdx(idx);
-                  }}
-                >
-                  {sec.title}
-                </button>
-              </li>
-            ))}
-          </ul>
-        </div>
-
-        {megaOpen && (
-          <div
-            className="absolute left-0 right-0 top-full z-40 bg-white/95 shadow-lg border-t"
-            onMouseEnter={() => setMegaOpen(true)}
-            onMouseLeave={() => {
-              setMegaOpen(false);
-              setHoveredIdx(null);
-            }}
-          >
-            <div className="max-w-[1120px] mx-auto">
-              <div className="grid grid-cols-4 gap-14 place-items-start py-3">
-                {sections.map((sec) => (
-                  <div key={sec.title} className="w-[232px] text-left">
-                    <ul className="space-y-1.5">
-                      {sec.items.map((it) => (
-                        <li key={it.to}>
-                          <NavLink
-                            to={it.to}
-                            className="block h-8 leading-none text-[13.5px] md:text-[14px] text-gray-800 hover:text-emerald-600 whitespace-nowrap"
-                            onClick={() => {
-                              setMegaOpen(false);
-                              setHoveredIdx(null);
-                            }}
-                          >
-                            {it.label}
-                          </NavLink>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                ))}
-              </div>
+      {megaOpen && (
+        <div
+          className="absolute left-0 right-0 top-full z-40 bg-white/95 shadow-lg border-t"
+          onMouseEnter={() => setMegaOpen(true)}
+          onMouseLeave={() => {
+            setMegaOpen(false);
+            setHoveredIdx(null);
+          }}
+        >
+          <div className="max-w-[1120px] mx-auto">
+            <div className="grid grid-cols-4 gap-14 place-items-start py-3">
+              {sections.map((sec) => (
+                <div key={sec.title} className="w-[232px] text-left">
+                  <ul className="space-y-1.5">
+                    {sec.items.map((it) => (
+                      <li key={it.to}>
+                        <NavLink
+                          to={it.to}
+                          className="block h-8 leading-none text-[13.5px] md:text-[14px] text-gray-800 hover:text-emerald-600 whitespace-nowrap"
+                          onClick={() => {
+                            setMegaOpen(false);
+                            setHoveredIdx(null);
+                          }}
+                        >
+                          {it.label}
+                        </NavLink>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
             </div>
           </div>
-        )}
-      </div>
+        </div>
+      )}
 
       {/* 모바일 메뉴(간단 버전) */}
       {mobileOpen && (
