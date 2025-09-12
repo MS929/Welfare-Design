@@ -4,7 +4,7 @@ import { useState } from "react";
 
 export default function SupGuide() {
   return (
-    <div className="max-w-screen-xl mx-auto pl-2 pr-4 sm:pl-3 sm:pr-5 lg:pl-4 lg:pr-6 pt-8 md:pt-10 pb-14">
+    <div className="max-w-screen-xl mx-auto pl-1.5 pr-4 sm:pl-2 sm:pr-5 lg:pl-3 lg:pr-6 pt-8 md:pt-10 pb-14">
       <header className="mb-10">
         <nav className="text-sm text-gray-400">
           <span className="text-emerald-600 font-medium">후원</span>
@@ -110,7 +110,7 @@ export default function SupGuide() {
               href="https://forms.gle/AepMiTRFNNZs9ovu5"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center justify-center rounded-full bg-emerald-600 px-6 py-3 text-white shadow-sm transition hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2"
+              className="inline-flex items-center justify-center rounded-full bg-emerald-600 px-6 py-3 text-white shadow-sm transition focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2"
             >
               후원 신청서 작성하기
             </a>
@@ -134,7 +134,7 @@ export default function SupGuide() {
           </ul>
           <Link
             to="/support/faq"
-            className="inline-block mt-4 text-emerald-700 hover:underline"
+            className="inline-block mt-4 text-emerald-700"
           >
             FAQ 전체 보기 →
           </Link>
@@ -162,12 +162,12 @@ export default function SupGuide() {
 function SupportPanel({ icon, title, items = [] }) {
   return (
     <div className="px-10 py-12">
-      <div className="mx-auto max-w-[360px] text-center">
+      <div className="mx-auto w-full max-w-[420px] text-left">
         <div className="mb-4 flex justify-center">{icon}</div>
-        <h3 className="text-xl font-semibold mb-4 text-emerald-800 tracking-tight">{title}</h3>
-        <ul className="mt-4 text-left list-disc pl-5 text-[15px] leading-[1.85] text-gray-700 space-y-2 marker:text-emerald-600">
+        <h3 className="text-center text-xl font-semibold mb-4 text-emerald-800 tracking-tight">{title}</h3>
+        <ul className="mt-4 list-disc pl-4 text-[15px] leading-relaxed text-gray-800 space-y-2 marker:text-emerald-600 break-keep">
           {items.map((t) => (
-            <li key={t}>{t}</li>
+            <li key={t} className="break-keep">{t}</li>
           ))}
         </ul>
       </div>
@@ -229,7 +229,7 @@ function BankBox({ className = "" }) {
         <div className="flex items-center gap-2">
           <button
             onClick={copy}
-            className="px-3 py-2 rounded-lg border border-emerald-300 text-emerald-700 bg-white hover:bg-emerald-50"
+            className="px-3 py-2 rounded-lg border border-emerald-300 text-emerald-700 bg-white"
           >
             {copied ? "복사됨!" : "계좌 복사"}
           </button>
