@@ -153,7 +153,7 @@ export default function Navbar() {
       </nav>
 
       {/* Desktop tabs + mega menu */}
-      <div className="hidden md:block border-t bg-white/90">
+      <div className="hidden md:block border-t bg-white/90 relative">
         <div className="max-w-[1120px] mx-auto">
           {/* Top tabs row */}
           <ul className="grid grid-cols-4 gap-14 py-3">
@@ -174,40 +174,43 @@ export default function Navbar() {
               </li>
             ))}
           </ul>
-
-          {/* Mega menu body */}
-          {megaOpen && (
-            <div
-              className="grid grid-cols-4 gap-14 border-t border-b bg-white/95 shadow-sm place-items-start"
-              onMouseEnter={() => setMegaOpen(true)}
-              onMouseLeave={() => {
-                setMegaOpen(false);
-                setHoveredIdx(null);
-              }}
-            >
-              {sections.map((sec, sIdx) => (
-                <div key={sec.title} className="w-[232px] text-left py-3">
-                  <ul className="space-y-1.5">
-                    {sec.items.map((it) => (
-                      <li key={it.to}>
-                        <NavLink
-                          to={it.to}
-                          className="block h-8 leading-none text-[13.5px] md:text-[14px] text-gray-800 hover:text-emerald-600 whitespace-nowrap"
-                          onClick={() => {
-                            setMegaOpen(false);
-                            setHoveredIdx(null);
-                          }}
-                        >
-                          {it.label}
-                        </NavLink>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              ))}
-            </div>
-          )}
         </div>
+
+        {megaOpen && (
+          <div
+            className="absolute left-0 right-0 top-full z-40 bg-white/95 shadow-lg border-t"
+            onMouseEnter={() => setMegaOpen(true)}
+            onMouseLeave={() => {
+              setMegaOpen(false);
+              setHoveredIdx(null);
+            }}
+          >
+            <div className="max-w-[1120px] mx-auto">
+              <div className="grid grid-cols-4 gap-14 place-items-start py-3">
+                {sections.map((sec) => (
+                  <div key={sec.title} className="w-[232px] text-left">
+                    <ul className="space-y-1.5">
+                      {sec.items.map((it) => (
+                        <li key={it.to}>
+                          <NavLink
+                            to={it.to}
+                            className="block h-8 leading-none text-[13.5px] md:text-[14px] text-gray-800 hover:text-emerald-600 whitespace-nowrap"
+                            onClick={() => {
+                              setMegaOpen(false);
+                              setHoveredIdx(null);
+                            }}
+                          >
+                            {it.label}
+                          </NavLink>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        )}
       </div>
 
       {/* 모바일 메뉴(간단 버전) */}
