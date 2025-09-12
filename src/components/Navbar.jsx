@@ -181,10 +181,10 @@ export default function Navbar() {
             setHoveredIdx(null);
           }}
         >
-          <div className="max-w-[750px] mx-auto">
-            <div className="grid grid-cols-4 gap-8 pt-5 pb-6 text-center">
+          <div className="w-[750px] mx-auto">
+            <div className="grid grid-cols-4 gap-16 justify-items-center pt-5 pb-6 text-center">
               {sections.map((sec) => (
-                <div key={sec.title}>
+                <div key={sec.title} className="w-full">
                   <ul className="space-y-1.5">
                     {sec.items.map((it) => (
                       <li key={it.to}>
