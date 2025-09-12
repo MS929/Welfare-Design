@@ -4,7 +4,7 @@ import { useState } from "react";
 
 export default function SupGuide() {
   return (
-    <div className="max-w-screen-xl mx-auto px-4 sm:px-5 lg:px-6 pt-8 md:pt-10 pb-14">
+    <div className="max-w-screen-xl mx-auto pl-3 pr-4 sm:pl-4 sm:pr-5 lg:pl-5 lg:pr-6 pt-8 md:pt-10 pb-14">
       <header className="mb-10">
         <nav className="text-sm text-gray-400">
           <span className="text-emerald-600 font-medium">후원</span>
@@ -107,8 +107,7 @@ export default function SupGuide() {
 
       {/* 법적 고지 */}
       <p className="text-gray-500 text-xs mt-4">
-        ※ 법인세법 제18조 소득세법 제34조에 의거 기부금 영수증 발급이
-        가능합니다.
+        ※ 법인세법 제18조 소득세법 제34조에 의거 기부금 영수증 발급이 가능합니다.
       </p>
 
       {/* FAQ/연락처 */}
@@ -138,7 +137,6 @@ export default function SupGuide() {
             전화: 02-000-0000 (평일 10:00–17:00)
           </p>
           <p className="text-gray-500 text-sm mt-3">
-            * 실제 연락처/운영시간은 나중에 확정되면 바꿔 넣으면 됩니다.
           </p>
         </div>
       </section>
