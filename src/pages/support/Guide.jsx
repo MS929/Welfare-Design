@@ -21,33 +21,33 @@ export default function SupGuide() {
         </p>
       </header>
 
-      {/* 3가지 방식 */}
-      <section className="grid md:grid-cols-3 gap-6 items-stretch">
-        <SupportCard
+      {/* 3가지 방식 – PDF 레이아웃 맞춤 */}
+      <section className="grid md:grid-cols-3 gap-0 mt-8">
+        <SupportPanel
+          icon={<HeartHandIcon className="w-24 h-24 mx-auto" />}
           title="개인 후원"
-          desc="소중한 후원으로 지역사회의 변화를 함께 만들어갑니다."
-          bullets={[
-            "정기 후원 및 일시 후원 가능",
-            "기부금 영수증 발급",
-            "후원금 사용 내역 투명 공개",
+          items={[
+            "매월 or 일시 후원으로 사업의 지속가능성을 높여주세요.",
+            "계좌이체/자동이체",
+            "지속적인 복지서비스 지원",
           ]}
         />
-        <SupportCard
+        <SupportPanel
+          icon={<PeopleHeartIcon className="w-24 h-24 mx-auto" />}
           title="기업·단체 후원"
-          desc="사회적 책임을 다하는 기업과 단체의 후원을 환영합니다."
-          bullets={[
-            "맞춤형 후원 프로그램 제공",
-            "사회공헌 활동 연계 가능",
-            "기부금 영수증 발급",
+          items={[
+            "파트너십/캠페인/지정기탁 등 다양한 방식으로 함께 할 수 있어요.",
+            "사회공헌 파트너십",
+            "기업 참여형 후원 프로그램",
           ]}
         />
-        <SupportCard
+        <SupportPanel
+          icon={<BoxHeartIcon className="w-24 h-24 mx-auto" />}
           title="물품 후원"
-          desc="복지용품과 자원을 나누어 소외된 이웃에게 전달합니다."
-          bullets={[
-            "보조기기 및 복지용구 기부",
-            "수거 및 검수 후 재분배",
-            "캠페인과 연계 가능",
+          items={[
+            "휠체어·보장구·보조기기 등 양질의 물품을 순환시켜요.",
+            "수거/검수/재분배",
+            "생활용품 후원 가능",
           ]}
         />
       </section>
@@ -113,6 +113,20 @@ export default function SupGuide() {
 
 /* ---------- 작은 컴포넌트들 ---------- */
 
+function SupportPanel({ icon, title, items = [] }) {
+  return (
+    <div className="border md:border-l-0 first:rounded-t-2xl md:first:rounded-l-2xl md:first:rounded-t-none md:last:rounded-r-2xl last:rounded-b-2xl bg-white px-6 py-8 text-center">
+      <div className="mb-4 text-sky-500 flex justify-center">{icon}</div>
+      <h3 className="text-xl font-semibold mb-4">{title}</h3>
+      <ul className="text-gray-800 space-y-2 text-left max-w-xs mx-auto list-disc list-inside">
+        {items.map((t) => (
+          <li key={t}>{t}</li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
 function SupportCard({ title, desc, bullets = [], cta, className = "" }) {
   return (
     <div className={`rounded-2xl border p-6 bg-white flex flex-col h-full ${className}`}>
@@ -177,5 +191,36 @@ function BankBox({ className = "" }) {
         * 입금자명 기록이 반드시 필요합니다. 입금자명과 신청 정보가 다를 경우 확인이 지연될 수 있습니다.
       </p>
     </section>
+  );
+}
+
+function HeartHandIcon({ className = "" }) {
+  return (
+    <svg viewBox="0 0 64 64" className={className} fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M12 36c3 0 5-2 8-2h10c2 0 3 2 1 3l-8 4" stroke="#0ea5e9" strokeWidth="3" strokeLinecap="round"/>
+      <path d="M23 46h8c6 0 10-3 12-6" stroke="#0ea5e9" strokeWidth="3" strokeLinecap="round"/>
+      <path d="M40 10c-3 0-5 2-8 5-3-3-5-5-8-5a6 6 0 0 0-6 6c0 6 7 10 14 16 7-6 14-10 14-16a6 6 0 0 0-6-6z" fill="#f43f5e"/>
+    </svg>
+  );
+}
+
+function PeopleHeartIcon({ className = "" }) {
+  return (
+    <svg viewBox="0 0 64 64" className={className} fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="20" cy="28" r="6" fill="#0ea5e9"/>
+      <circle cx="44" cy="28" r="6" fill="#0ea5e9"/>
+      <circle cx="32" cy="34" r="7" fill="#0284c7"/>
+      <path d="M32 8c-3 0-5 2-8 5 3 3 5 5 8 8 3-3 5-5 8-8-3-3-5-5-8-5z" fill="#f43f5e"/>
+    </svg>
+  );
+}
+
+function BoxHeartIcon({ className = "" }) {
+  return (
+    <svg viewBox="0 0 64 64" className={className} fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect x="12" y="22" width="40" height="26" rx="3" fill="#0ea5e9"/>
+      <path d="M12 22l20-8 20 8" stroke="#0369a1" strokeWidth="3"/>
+      <path d="M42 10c-2 0-4 1-6 4-2-3-4-4-6-4a5 5 0 0 0-5 5c0 5 6 8 11 13 5-5 11-8 11-13a5 5 0 0 0-5-5z" fill="#f43f5e"/>
+    </svg>
   );
 }
