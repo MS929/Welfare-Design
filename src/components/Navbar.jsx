@@ -127,7 +127,7 @@ export default function Navbar() {
         </Link>
 
         {/* Top tabs (desktop) inline next to logo */}
-        <ul className="hidden md:grid col-start-2 grid-cols-4 gap-14 justify-items-start">
+        <ul className="hidden md:grid col-start-2 grid-cols-4 gap-16 justify-items-center text-center">
           {sections.map((sec, idx) => (
             <li key={sec.title}>
               <button
@@ -182,7 +182,7 @@ export default function Navbar() {
           }}
         >
           <div className="max-w-[1120px] mx-auto px-4 grid grid-cols-[auto,1fr,auto] items-start">
-            <div className="col-start-2 grid grid-cols-4 gap-14 py-4">
+            <div className="col-start-2 grid grid-cols-4 gap-16 pt-5 pb-6">
               {sections.map((sec) => (
                 <div key={sec.title} className="text-left">
                   <ul className="space-y-1.5">
