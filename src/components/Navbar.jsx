@@ -181,7 +181,7 @@ export default function Navbar() {
             setHoveredIdx(null);
           }}
         >
-          <div className="max-w-[750px] mx-auto px-5">
+          <div className="max-w-[750px] ml-auto mr-0 px-4">
             <div className="grid grid-cols-4 gap-8 pt-5 pb-6 text-center">
               {sections.map((sec) => (
                 <div key={sec.title}>
