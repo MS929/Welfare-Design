@@ -7,15 +7,15 @@ export default function SupGuide() {
     <div className="max-w-6xl mx-auto px-4 py-10">
       {/* Hero */}
       <header className="mb-10">
-        <section className="max-w-screen-xl mx-auto px-4 pt-10">
-          <nav className="text-sm text-brand-700/80">
+        <section className="max-w-6xl mx-auto px-4 pt-6">
+          <nav className="mt-1 text-sm text-gray-500">
             후원 &gt; <span className="text-gray-700">안내</span>
           </nav>
-          <h1 className="mt-3 text-3xl md:text-4xl font-extrabold tracking-tight text-brand-800">
+          <h1 className="mt-2 text-4xl md:text-5xl font-extrabold tracking-tight text-brand-800">
             복지디자인 후원 안내
           </h1>
         </section>
-        <p className="text-gray-600 mt-3 whitespace-pre-line">
+        <p className="mt-4 max-w-3xl text-gray-600 whitespace-pre-line">
           “작지만 깊이 있는 변화”, 그 출발점이 바로 복지디자인입니다. 복지디자인
           사회적협동조합은 복지를 설계하는 사람들입니다.{"\n"}
           여러분의 작은 관심을 통하여 소외된 이웃이 스스로 삶을 회복할 수 있도록
@@ -93,9 +93,9 @@ export default function SupGuide() {
           <p className="text-sm leading-relaxed text-gray-800 whitespace-pre-line">
             본 사회적협동조합은 기획재정부에 등록된{" "}
             <strong className="font-semibold">지정기부금 단체</strong>
-            로,기부하신 내역에 대해서는{" "}
+            로, 기부하신 내역에 대해서는{" "}
             <strong className="font-semibold">후원 신청하기</strong>를 작성해
-            주셔야기부금영수증을 발행해드리고 있습니다.
+            주셔야 기부금영수증을 발행해드리고 있습니다.
             {"\n"}또한, 연간 모금액 및 사용 내역은 홈페이지와 국세청 홈택스에
             투명하게 공개되고 있습니다.
             {"\n"}많은 후원과 관심 부탁드립니다.
