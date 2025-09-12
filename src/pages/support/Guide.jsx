@@ -4,18 +4,18 @@ import { useState } from "react";
 
 export default function SupGuide() {
   return (
-    <div className="max-w-screen-xl mx-auto pl-1.5 pr-4 sm:pl-2 sm:pr-5 lg:pl-3 lg:pr-6 pt-8 md:pt-10 pb-14">
+    <div className="max-w-screen-xl mx-auto pl-2 pr-4 sm:pl-3 sm:pr-6 lg:pl-4 lg:pr-8 pt-8 md:pt-10 pb-14 antialiased tracking-[-0.01em]">
       <header className="mb-10">
         <nav className="text-sm text-gray-400">
           <span className="text-emerald-600 font-medium">후원</span>
           <span className="mx-1">&gt;</span>
           <span className="text-gray-600">안내</span>
         </nav>
-        <h1 className="mt-2 text-[34px] md:text-[40px] leading-tight font-extrabold tracking-tight text-gray-900">
+        <h1 className="mt-2 text-[36px] md:text-[42px] leading-[1.15] font-extrabold tracking-tight text-gray-900">
           복지디자인 후원 안내
         </h1>
         <div className="mt-3 h-1 w-14 rounded-full bg-emerald-600"></div>
-        <p className="mt-4 text-gray-700 leading-[1.9] tracking-normal break-keep">
+        <p className="mt-4 text-gray-800 leading-[1.85] break-keep">
           “작지만 깊이 있는 변화”, 그 출발점이 바로 복지디자인입니다. 복지디자인 사회적협동조합은 복지를 설계하는 사람들입니다. <br></br>
           여러분의 작은 관심을 통하여 소외된 이웃이 스스로 삶을 회복할 수 있도록 체계적이고 지속 가능한 복지를 함께 만들어갑니다. <br></br>
           현장 기반의 복지연결망을 운영하며 복지 사각지대를 해소하고, 지역 안에서 누구나 복지에 접근할 수 있도록 최선을 다하겠습니다.
@@ -30,7 +30,7 @@ export default function SupGuide() {
               <img
                 src="/images/support/donation.png"
                 alt="개인 후원 아이콘"
-                className="w-28 h-28 mx-auto object-contain"
+                className="w-24 h-24 md:w-28 md:h-28 mx-auto object-contain drop-shadow-sm"
               />
             }
             title="개인 후원"
@@ -46,7 +46,7 @@ export default function SupGuide() {
               <img
                 src="/images/support/group.png"
                 alt="기업·단체 후원 아이콘"
-                className="w-28 h-28 mx-auto object-contain"
+                className="w-24 h-24 md:w-28 md:h-28 mx-auto object-contain drop-shadow-sm"
               />
             }
             title="기업·단체 후원"
@@ -62,7 +62,7 @@ export default function SupGuide() {
               <img
                 src="/images/support/present.png"
                 alt="물품 후원 아이콘"
-                className="w-28 h-28 mx-auto object-contain"
+                className="w-24 h-24 md:w-28 md:h-28 mx-auto object-contain drop-shadow-sm"
               />
             }
             title="물품 후원"
@@ -161,15 +161,15 @@ export default function SupGuide() {
 
 function SupportPanel({ icon, title, items = [] }) {
   return (
-    <div className="px-10 py-12">
+    <div className="px-8 py-12 md:px-10">
       <div className="mx-auto w-full max-w-[420px] text-left">
         <div className="mb-4 flex justify-center">{icon}</div>
-        <h3 className="text-center text-xl font-semibold mb-4 text-emerald-800 tracking-tight">{title}</h3>
+        <h3 className="text-center text-[19px] md:text-[20px] font-semibold mb-4 text-emerald-700 tracking-tight">{title}</h3>
         {items.length > 0 && (
           <>
-            <p className="text-[15px] leading-relaxed text-gray-800 break-keep whitespace-pre-line">{items[0]}</p>
+            <p className="text-[15px] leading-[1.85] text-gray-800 break-keep whitespace-pre-line mb-2">{items[0]}</p>
             {items.length > 1 && (
-              <ul className="mt-4 list-disc pl-4 text-[15px] leading-relaxed text-gray-800 space-y-2 marker:text-emerald-600 break-keep">
+              <ul className="mt-4 list-disc pl-5 text-[15px] leading-[1.85] text-gray-800 space-y-1.5 marker:text-emerald-600 break-keep">
                 {items.slice(1).map((t) => (
                   <li key={t} className="break-keep">{t}</li>
                 ))}
