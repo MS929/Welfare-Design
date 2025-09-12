@@ -31,7 +31,6 @@ export default function SupGuide() {
             "기부금 영수증 발급",
             "후원금 사용 내역 투명 공개",
           ]}
-          cta={{ label: "개인 후원 안내", href: "/support/faq#personal" }}
         />
         <SupportCard
           title="기업·단체 후원"
@@ -41,7 +40,6 @@ export default function SupGuide() {
             "사회공헌 활동 연계 가능",
             "기부금 영수증 발급",
           ]}
-          cta={{ label: "기업·단체 후원 안내", href: "/support/faq#corporate" }}
         />
         <SupportCard
           title="물품 후원"
@@ -51,7 +49,6 @@ export default function SupGuide() {
             "수거 및 검수 후 재분배",
             "캠페인과 연계 가능",
           ]}
-          cta={{ label: "물품 후원 안내", href: "/support/faq#goods" }}
         />
       </section>
 
