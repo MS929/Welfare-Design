@@ -4,14 +4,14 @@ import { useState } from "react";
 
 export default function SupGuide() {
   return (
-    <div className="max-w-5xl mx-auto px-4 md:px-5 pt-8 md:pt-10 pb-14">
+    <div className="max-w-screen-xl mx-auto px-5 sm:px-6 lg:px-8 pt-8 md:pt-10 pb-14">
       <header className="mb-10">
         <nav className="text-sm text-gray-400">
           <span className="text-emerald-600 font-medium">후원</span>
           <span className="mx-1">&gt;</span>
           <span className="text-gray-600">안내</span>
         </nav>
-        <h1 className="mt-3 text-[34px] md:text-[40px] leading-tight font-extrabold tracking-tight text-gray-900">
+        <h1 className="mt-2 text-[34px] md:text-[40px] leading-tight font-extrabold tracking-tight text-gray-900">
           복지디자인 후원 안내
         </h1>
         <p className="mt-4 max-w-3xl text-gray-600 whitespace-pre-line">
@@ -21,7 +21,7 @@ export default function SupGuide() {
         </p>
       </header>
 
-      <section className="mt-8 rounded-2xl ring-1 ring-gray-200 overflow-hidden bg-white">
+      <section className="mt-8 -mx-0 rounded-2xl ring-1 ring-gray-200 overflow-hidden bg-white">
         <div className="grid md:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-gray-200">
           {/* 개인 후원 */}
           <SupportPanel
