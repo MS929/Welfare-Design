@@ -181,16 +181,16 @@ export default function Navbar() {
             setHoveredIdx(null);
           }}
         >
-          <div className="max-w-[620px] mx-auto px-4">
-            <div className="flex justify-between py-3 gap-6">
+          <div className="max-w-[1120px] mx-auto px-4">
+            <div className="grid grid-cols-4 gap-14 py-4">
               {sections.map((sec) => (
-                <div key={sec.title} className="flex-1 min-w-[120px] text-left">
+                <div key={sec.title} className="text-left">
                   <ul className="space-y-1.5">
                     {sec.items.map((it) => (
                       <li key={it.to}>
                         <NavLink
                           to={it.to}
-                          className="block h-8 leading-none text-[13px] text-gray-800 hover:text-emerald-600 whitespace-nowrap"
+                          className="block h-8 leading-none text-[14px] text-gray-800 hover:text-emerald-600 whitespace-nowrap"
                           onClick={() => {
                             setMegaOpen(false);
                             setHoveredIdx(null);
