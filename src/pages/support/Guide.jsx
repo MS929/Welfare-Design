@@ -14,15 +14,16 @@ export default function SupGuide() {
         <h1 className="mt-2 text-[34px] md:text-[40px] leading-tight font-extrabold tracking-tight text-gray-900">
           복지디자인 후원 안내
         </h1>
-        <p className="mt-4 text-gray-700 leading-relaxed tracking-normal break-words max-w-none">
-          “작지만 깊이 있는 변화”, 그 출발점이 바로 복지디자인입니다. <br></br>
-          복지디자인 사회적협동조합은 복지를 설계하는 사람들입니다. 여러분의 작은 관심을 통하여 소외된 이웃이 스스로 삶을 회복할 수 있도록 체계적이고 지속 가능한 복지를 함께 만들어갑니다. <br></br>
+        <div className="mt-3 h-1 w-14 rounded-full bg-emerald-600"></div>
+        <p className="mt-4 text-gray-700 leading-[1.9] tracking-normal break-keep">
+          “작지만 깊이 있는 변화”, 그 출발점이 바로 복지디자인입니다. 복지디자인 사회적협동조합은 복지를 설계하는 사람들입니다. <br></br>
+          여러분의 작은 관심을 통하여 소외된 이웃이 스스로 삶을 회복할 수 있도록 체계적이고 지속 가능한 복지를 함께 만들어갑니다. <br></br>
           현장 기반의 복지연결망을 운영하며 복지 사각지대를 해소하고, 지역 안에서 누구나 복지에 접근할 수 있도록 최선을 다하겠습니다.
         </p>
       </header>
 
-      <section className="mt-8 -mx-0 rounded-2xl ring-1 ring-gray-200 overflow-hidden bg-white">
-        <div className="grid md:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-gray-200">
+      <section className="mt-8 -mx-0 rounded-2xl ring-1 ring-emerald-100 overflow-hidden bg-white shadow-sm">
+        <div className="grid md:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-emerald-100">
           {/* 개인 후원 */}
           <SupportPanel
             icon={
@@ -80,7 +81,7 @@ export default function SupGuide() {
       {/* 후원 신청서 */}
       <section className="mt-12 overflow-hidden rounded-2xl border border-gray-200 bg-white">
         {/* Header */}
-        <div className="px-6 py-5 border-b bg-gradient-to-r from-sky-50 to-indigo-50">
+        <div className="px-6 py-5 border-b bg-gradient-to-r from-emerald-50 to-teal-50">
           <h3 className="text-xl font-semibold">후원 신청서</h3>
           <p className="text-gray-600 mt-1">
             후원 신청서를 작성해주시면 기부금 영수증 발급과 투명한 후원금 공개를
@@ -109,7 +110,7 @@ export default function SupGuide() {
               href="https://forms.gle/AepMiTRFNNZs9ovu5"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center justify-center rounded-full bg-sky-600 px-6 py-3 text-white shadow-sm transition hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2"
+              className="inline-flex items-center justify-center rounded-full bg-emerald-600 px-6 py-3 text-white shadow-sm transition hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2"
             >
               후원 신청서 작성하기
             </a>
@@ -133,7 +134,7 @@ export default function SupGuide() {
           </ul>
           <Link
             to="/support/faq"
-            className="inline-block mt-4 text-sky-600 hover:underline"
+            className="inline-block mt-4 text-emerald-700 hover:underline"
           >
             FAQ 전체 보기 →
           </Link>
@@ -144,7 +145,7 @@ export default function SupGuide() {
           <p className="text-gray-700 mt-2">
             이메일:{" "}
             <a className="text-sky-600" href="mailto:test@naver.com">
-              test.naver.com
+              test@naver.com
             </a>
             <br />
             전화: 02-000-0000 (평일 10:00–17:00)
@@ -160,10 +161,10 @@ export default function SupGuide() {
 
 function SupportPanel({ icon, title, items = [] }) {
   return (
-    <div className="px-8 py-10 text-center">
-      <div className="mb-4 text-sky-500 flex justify-center">{icon}</div>
-      <h3 className="text-xl font-semibold mb-4">{title}</h3>
-      <ul className="text-gray-800 space-y-2 text-left max-w-xs mx-auto list-disc list-inside">
+    <div className="px-8 py-10 text-center transition-colors md:hover:bg-emerald-50/60">
+      <div className="mb-4 flex justify-center">{icon}</div>
+      <h3 className="text-xl font-semibold mb-4 text-emerald-800">{title}</h3>
+      <ul className="text-gray-800 space-y-2 text-left max-w-xs mx-auto list-disc list-inside marker:text-emerald-600">
         {items.map((t) => (
           <li key={t}>{t}</li>
         ))}
@@ -214,7 +215,7 @@ function BankBox({ className = "" }) {
   };
 
   return (
-    <section className={`rounded-2xl border p-6 bg-emerald-50/60 ${className}`}>
+    <section className={`rounded-2xl border border-emerald-200 p-6 bg-emerald-50/60 ${className}`}>
       <h3 className="text-lg font-semibold">무통장 입금(계좌이체)</h3>
       <div className="mt-3 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
         <p className="text-gray-800">
@@ -226,7 +227,7 @@ function BankBox({ className = "" }) {
         <div className="flex items-center gap-2">
           <button
             onClick={copy}
-            className="px-3 py-2 rounded-lg border bg-white hover:bg-gray-50"
+            className="px-3 py-2 rounded-lg border border-emerald-300 text-emerald-700 bg-white hover:bg-emerald-50"
           >
             {copied ? "복사됨!" : "계좌 복사"}
           </button>
