@@ -120,7 +120,7 @@ export default function Navbar() {
         setHoveredIdx(null);
       }}
     >
-      <nav className="max-w-[1000px] mx-auto relative px-4 md:px-4 py-3 grid grid-cols-[auto,1fr,auto] items-center gap-6">
+      <nav className="max-w-[950px] mx-auto relative px-4 md:px-4 py-3 grid grid-cols-[auto,1fr,auto] items-center gap-6">
         {/* Logo (mobile inline, desktop inline so it doesn't shift the tab grid) */}
         <Link to="/" className="flex items-center">
           <img src="/images/main.png" alt="복지 디자인 로고" className="h-10 w-auto md:h-14" />
