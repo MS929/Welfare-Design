@@ -14,10 +14,8 @@ export default function SupGuide() {
         <h1 className="mt-2 text-[34px] md:text-[40px] leading-tight font-extrabold tracking-tight text-gray-900">
           복지디자인 후원 안내
         </h1>
-        <p className="mt-4 max-w-3xl text-gray-600">
-          “작지만 깊이 있는 변화”, 그 출발점이 바로 복지디자인입니다. 복지디자인 사회적협동조합은 복지를 설계하는 사람들입니다. <br></br>
-          여러분의 작은 관심을 통하여 소외된 이웃이 스스로 삶을 회복할 수 있도록 체계적이고 지속 가능한 복지를 함께 만들어갑니다. <br></br>
-          현장 기반의 복지연결망을 운영하며 복지 사각지대를 해소하고, 지역 안에서 누구나 복지에 접근할 수 있도록 최선을 다하겠습니다.
+        <p className="mt-4 text-gray-700 leading-relaxed tracking-normal break-words max-w-none">
+          “작지만 깊이 있는 변화”, 그 출발점이 바로 복지디자인입니다. 복지디자인 사회적협동조합은 복지를 설계하는 사람들입니다. 여러분의 작은 관심을 통하여 소외된 이웃이 스스로 삶을 회복할 수 있도록 체계적이고 지속 가능한 복지를 함께 만들어갑니다. 현장 기반의 복지연결망을 운영하며 복지 사각지대를 해소하고, 지역 안에서 누구나 복지에 접근할 수 있도록 최선을 다하겠습니다.
         </p>
       </header>
 
