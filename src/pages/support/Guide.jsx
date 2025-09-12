@@ -142,14 +142,15 @@ export default function SupGuide() {
 
         <div className="rounded-2xl border p-6 bg-white">
           <h3 className="text-lg font-semibold">연락처</h3>
-          <p className="text-gray-700 mt-2">
-            이메일:{" "}
-            <a className="text-sky-600" href="mailto:test@naver.com">
-              test@naver.com
-            </a>
-            <br />
-            전화: 02-000-0000 (평일 10:00–17:00)
-          </p>
+          <ul className="mt-2 list-disc pl-5 text-gray-700 space-y-1">
+            <li>
+              이메일:{" "}
+              <a className="text-sky-600" href="mailto:test@naver.com">
+                test@naver.com
+              </a>
+            </li>
+            <li>전화: 02-000-0000 (평일 10:00–17:00)</li>
+          </ul>
           <p className="text-gray-500 text-sm mt-3"></p>
         </div>
       </section>
