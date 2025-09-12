@@ -113,8 +113,14 @@ export default function Navbar() {
   ];
 
   return (
-    <header className="sticky top-0 z-50 bg-white/90 backdrop-blur shadow">
-      <nav className="max-w-[1120px] mx-auto relative px-4 md:px-4 py-3">
+    <header
+      className="sticky top-0 z-50 bg-white/90 backdrop-blur shadow"
+      onMouseLeave={() => {
+        setMegaOpen(false);
+        setHoveredIdx(null);
+      }}
+    >
+      <nav className="max-w-[1120px] mx-auto relative px-4 md:px-4 py-3 flex items-center">
         {/* Logo (mobile inline, desktop absolute so it doesn't shift the tab grid) */}
         <Link to="/" className="flex md:hidden items-center">
           <img src="/images/main.png" alt="복지 디자인 로고" className="h-10 w-auto" />
@@ -122,36 +128,6 @@ export default function Navbar() {
         <Link to="/" className="hidden md:flex items-center absolute left-4 top-2">
           <img src="/images/main.png" alt="복지 디자인 로고" className="h-12 md:h-14 w-auto" />
         </Link>
-
-        {/* 데스크톱 메뉴 + 메가메뉴 트리거 */}
-        <ul
-          className="hidden md:grid grid-cols-4 gap-14 w-full font-medium text-[15px] leading-tight tracking-[-0.01em] md:pl-[72px] md:pr-[188px]"
-          onMouseEnter={() => setMegaOpen(true)}
-        >
-          {sections.map((s, idx) => (
-            <li
-              key={s.title}
-              className="relative w-[232px] flex justify-center"
-              onMouseEnter={() => {
-                setHoveredIdx(idx);
-                setMegaOpen(true);
-              }}
-              onFocus={() => {
-                setHoveredIdx(idx);
-                setMegaOpen(true);
-              }}
-            >
-              <button
-                type="button"
-                className="w-full text-center px-0 py-0.5 hover:text-emerald-600 focus:outline-none whitespace-nowrap text-[16px] font-medium"
-                aria-haspopup="true"
-                aria-expanded={megaOpen && hoveredIdx === idx}
-              >
-                {s.title}
-              </button>
-            </li>
-          ))}
-        </ul>
 
         {/* 우측 버튼 */}
         <div className="hidden md:flex items-center gap-3 absolute right-4 top-2">
@@ -171,7 +147,7 @@ export default function Navbar() {
 
         {/* 모바일 햄버거 */}
         <button
-          className="md:hidden"
+          className="md:hidden ml-auto"
           onClick={() => setMobileOpen((v) => !v)}
           aria-label="toggle menu"
         >
@@ -179,40 +155,50 @@ export default function Navbar() {
         </button>
       </nav>
 
-      {/* 메가메뉴(데스크톱): 상단에 마우스 올리면 전체 하위메뉴 노출 */}
+      {/* Combined desktop nav + mega menu grid */}
       <div
-        className="hidden md:block relative"
+        className={`hidden md:grid max-w-[1120px] mx-auto grid-cols-4 gap-14 md:pl-[72px] md:pr-[188px] border-t border-b ${
+          megaOpen ? "bg-white/95 shadow-sm" : ""
+        }`}
         onMouseEnter={() => setMegaOpen(true)}
-        onMouseLeave={() => {
-          setMegaOpen(false);
-          setHoveredIdx(null);
-        }}
       >
-        {megaOpen && (
-          <div className="absolute inset-x-0 top-full bg-white/95 border-t border-b backdrop-blur-sm shadow-sm pt-1">
-            <div className="max-w-[1120px] mx-auto px-4 md:px-4 pt-5 pb-7">
-              <div className="grid grid-cols-4 gap-14 items-start">
-                {sections.map((sec) => (
-                  <div key={sec.title} className="w-[232px] text-center">
-                    <ul className="space-y-1.5">
-                      {sec.items.map((it) => (
-                        <li key={it.to}>
-                          <NavLink
-                            to={it.to}
-                            className="flex items-center justify-center h-8 text-[14px] leading-none text-gray-800 hover:text-emerald-600 whitespace-nowrap"
-                            onClick={() => { setMegaOpen(false); setHoveredIdx(null); }}
-                          >
-                            {it.label}
-                          </NavLink>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
+        {/* Row 1: tab titles */}
+        {sections.map((s, idx) => (
+          <button
+            key={s.title}
+            type="button"
+            className="w-[232px] text-center py-3 hover:text-emerald-600 focus:outline-none whitespace-nowrap text-[16px] font-medium"
+            onMouseEnter={() => setHoveredIdx(idx)}
+            onFocus={() => setHoveredIdx(idx)}
+            aria-haspopup="true"
+            aria-expanded={megaOpen && hoveredIdx === idx}
+          >
+            {s.title}
+          </button>
+        ))}
+
+        {/* Row 2: mega menu items */}
+        {megaOpen &&
+          sections.map((sec) => (
+            <div key={sec.title} className="w-[232px] text-center border-t pt-3">
+              <ul className="space-y-1.5">
+                {sec.items.map((it) => (
+                  <li key={it.to}>
+                    <NavLink
+                      to={it.to}
+                      className="block h-8 leading-none text-[14px] text-gray-800 hover:text-emerald-600 whitespace-nowrap"
+                      onClick={() => {
+                        setMegaOpen(false);
+                        setHoveredIdx(null);
+                      }}
+                    >
+                      {it.label}
+                    </NavLink>
+                  </li>
                 ))}
-              </div>
+              </ul>
             </div>
-          </div>
-        )}
+          ))}
       </div>
 
       {/* 모바일 메뉴(간단 버전) */}
