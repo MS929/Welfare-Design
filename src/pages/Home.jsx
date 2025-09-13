@@ -98,7 +98,7 @@ export default function Home() {
           id: path,
           title: data?.title || meta.titleFromFile,
           date: formatDate(data?.date) || formatDate(meta.date) || "",
-          to: meta.slug ? `/stories/${meta.slug}` : "/about",
+          to: meta.slug ? `/news` : "/news",
         };
       });
 
@@ -247,7 +247,7 @@ export default function Home() {
             <div style={{ display: "grid", gridTemplateColumns: "repeat(3, minmax(0, 1fr))", gap: 16 }}>
               {/* 소식 카드 3개 자리 – 데이터 없을 땐 플레이스홀더 링크 */}
               {[0,1,2].map((i) => (
-                <Link key={i} to="/about" style={{ border: "1px solid #e3e8e5", borderRadius: 10, background: "#fff", padding: 24, textDecoration: "none", color: "inherit" }}>
+                <Link key={i} to="/news" style={{ border: "1px solid #e3e8e5", borderRadius: 10, background: "#fff", padding: 24, textDecoration: "none", color: "inherit" }}>
                   <strong style={{ display: "block", fontSize: 15, marginBottom: 6 }}>복지디자인 이야기</strong>
                   <span style={{ fontSize: 13, color: "#6b7280" }}>우리 활동과 소식을 만나보세요.</span>
                 </Link>
