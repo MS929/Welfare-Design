@@ -94,11 +94,13 @@ export default function Home() {
       const items = Object.entries(modules).map(([path, raw]) => {
         const { data } = matter(raw);
         const meta = parseDatedSlug(path);
+        const slugPart = meta.date ? `${meta.date}-${meta.slug}` : meta.slug;
+        const to = slugPart ? `/news/stories/${slugPart}` : "/news";
         return {
           id: path,
           title: data?.title || meta.titleFromFile,
           date: formatDate(data?.date) || formatDate(meta.date) || "",
-          to: meta.slug ? `/news` : "/news",
+          to,
         };
       });
 
