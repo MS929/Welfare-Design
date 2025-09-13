@@ -1,8 +1,6 @@
 // src/pages/Home.jsx
 import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
-import ShortcutButtons from "../components/ShortcutButtons";
-import NewsSection from "../components/NewsSection";
 import matter from "gray-matter";
 
 // 유틸: 파일명 → { date: 'YYYY-MM-DD', slug: '...' }
@@ -54,6 +52,7 @@ function formatDate(v) {
 export default function Home() {
   const [noticeTab, setNoticeTab] = useState("공지");
   const [notices, setNotices] = useState([]);
+  const [stories, setStories] = useState([]);
 
   // 공지: 실제 파일 로드 (Decap CMS가 커밋한 md 기준)
   useEffect(() => {
@@ -80,6 +79,34 @@ export default function Home() {
     } catch (e) {
       console.warn("공지 로드 실패:", e);
       setNotices([]);
+    }
+  }, []);
+
+  // 스토리: 실제 파일 로드
+  useEffect(() => {
+    try {
+      const modules = import.meta.glob("/src/content/stories/*.{md,mdx}", {
+        eager: true,
+        query: "?raw",
+        import: "default",
+      });
+
+      const items = Object.entries(modules).map(([path, raw]) => {
+        const { data } = matter(raw);
+        const meta = parseDatedSlug(path);
+        return {
+          id: path,
+          title: data?.title || meta.titleFromFile,
+          date: formatDate(data?.date) || formatDate(meta.date) || "",
+          to: meta.slug ? `/stories/${meta.slug}` : "/about",
+        };
+      });
+
+      items.sort((a, b) => (a.date > b.date ? -1 : 1));
+      setStories(items);
+    } catch (e) {
+      console.warn("스토리 로드 실패:", e);
+      setStories([]);
     }
   }, []);
 
@@ -175,6 +202,30 @@ export default function Home() {
         </div>
       </section>
 
+      {/* 5) 우리 소식 섹션 */}
+      <section aria-label="우리 소식" style={{ maxWidth: 1200, margin: "0 auto", padding: "0 16px", marginBottom: 48 }}>
+        {stories.length > 0 ? (
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(3, minmax(0, 1fr))", gap: 16 }}>
+            {stories.slice(0, 3).map((item) => (
+              <article key={item.id} style={{ border: "1px solid #eee", borderRadius: 8, padding: 16 }}>
+                <h3 style={{ fontSize: 16, fontWeight: 600, marginBottom: 8 }}>
+                  <Link to={item.to} style={{ color: "inherit", textDecoration: "none" }}>
+                    {item.title}
+                  </Link>
+                </h3>
+                {item.date && typeof item.date === "string" ? (
+                  <time style={{ fontSize: 12, color: "#999" }}>{item.date}</time>
+                ) : null}
+              </article>
+            ))}
+          </div>
+        ) : (
+          <Link to="/about" style={{ display: "block", border: "1px solid #eee", borderRadius: 8, padding: 24, textDecoration: "none", color: "inherit", textAlign: "center" }}>
+            <h3 style={{ fontSize: 20, fontWeight: 700, marginBottom: 8 }}>복지디자인 이야기</h3>
+            <p style={{ fontSize: 14, color: "#666" }}>우리 활동과 소식을 만나보세요.</p>
+          </Link>
+        )}
+      </section>
 
       {/* 4) 가입/후원/문의 CTA 박스 */}
       <section aria-label="가입/후원/문의" style={{ maxWidth: 1200, margin: "0 auto", padding: "0 16px", marginBottom: 40 }}>
@@ -193,22 +244,6 @@ export default function Home() {
             <strong style={{ display: "block", marginBottom: 8 }}>이메일로 문의하기</strong>
             <span style={{ fontSize: 14, color: "#666" }}>궁금하신 사항이 있으시면 메일을 보내주세요.</span>
           </a>
-        </div>
-      </section>
-
-      {/* 5) 소식 섹션 – 기존 컴포넌트 */}
-      <section aria-label="소식" style={{ marginBottom: 48 }}>
-        <NewsSection />
-      </section>
-
-      {/* 6) 파트너 로고 스트립 */}
-      <section aria-label="파트너" style={{ background: "#fafafa", borderTop: "1px solid #f0f0f0", borderBottom: "1px solid #f0f0f0", padding: "16px 0", marginBottom: 32 }}>
-        <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 16px" }}>
-          <ul style={{ display: "grid", gridTemplateColumns: "repeat(5, minmax(0, 1fr))", gap: 16, listStyle: "none", padding: 0, margin: 0, alignItems: "center", justifyItems: "center" }}>
-            {["보건복지부", "사회적협동조합연합회", "충남사회적경제", "광주사회적경제", "복지특화"].map((name) => (
-              <li key={name} style={{ fontSize: 13, color: "#888" }}>{name}</li>
-            ))}
-          </ul>
         </div>
       </section>
     </main>
