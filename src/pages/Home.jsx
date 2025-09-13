@@ -3,6 +3,7 @@ import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import ShortcutButtons from "../components/ShortcutButtons";
 import NewsSection from "../components/NewsSection";
+import matter from "gray-matter";
 
 // 유틸: 파일명 → { date: 'YYYY-MM-DD', slug: '...' }
 function parseDatedSlug(filepath) {
@@ -36,18 +37,23 @@ export default function Home() {
   // 공지: 실제 파일 로드 (Decap CMS가 커밋한 md 기준)
   useEffect(() => {
     try {
-      const modules = import.meta.glob("/src/content/notices/*.{md,mdx}", { eager: true });
-      const items = Object.entries(modules).map(([path, mod]) => {
+      const modules = import.meta.glob("/src/content/notices/*.{md,mdx}", {
+        eager: true,
+        query: "?raw",
+        import: "default",
+      });
+
+      const items = Object.entries(modules).map(([path, raw]) => {
+        const { data } = matter(raw);
         const meta = parseDatedSlug(path);
-        const title = getTitle(mod, meta.titleFromFile);
         return {
           id: path,
-          title,
-          date: meta.date || mod?.attributes?.date || mod?.frontmatter?.date || "",
+          title: data?.title || meta.titleFromFile,
+          date: data?.date || meta.date || "",
           to: `/notices/${meta.slug}`,
         };
       });
-      // 최신순 정렬
+
       items.sort((a, b) => (a.date > b.date ? -1 : 1));
       setNotices(items);
     } catch (e) {
