@@ -202,8 +202,13 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 5) 우리 소식 섹션 */}
-      <section aria-label="우리 소식" style={{ maxWidth: 1200, margin: "0 auto", padding: "0 16px", marginBottom: 48 }}>
+      {/* 5) 복지디자인 이야기 섹션 */}
+      <section aria-labelledby="stories-heading" style={{ maxWidth: 1200, margin: "0 auto", padding: "0 16px", marginBottom: 48 }}>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16 }}>
+          <h2 id="stories-heading" style={{ fontSize: 20, fontWeight: 700 }}>복지디자인 이야기</h2>
+          <Link to="/about" style={{ fontSize: 14, color: "#2a7ae4" }}>더 보기</Link>
+        </div>
+
         {stories.length > 0 ? (
           <div style={{ display: "grid", gridTemplateColumns: "repeat(3, minmax(0, 1fr))", gap: 16 }}>
             {stories.slice(0, 3).map((item) => (
@@ -221,7 +226,7 @@ export default function Home() {
           </div>
         ) : (
           <Link to="/about" style={{ display: "block", border: "1px solid #eee", borderRadius: 8, padding: 24, textDecoration: "none", color: "inherit", textAlign: "center" }}>
-            <h3 style={{ fontSize: 20, fontWeight: 700, marginBottom: 8 }}>복지디자인 이야기</h3>
+            <h3 style={{ fontSize: 18, fontWeight: 700, marginBottom: 8 }}>복지디자인 이야기</h3>
             <p style={{ fontSize: 14, color: "#666" }}>우리 활동과 소식을 만나보세요.</p>
           </Link>
         )}
