@@ -16,6 +16,7 @@ import NewsNotices from "./pages/news/Notices";
 import NewsNewsletter from "./pages/news/Newsletter";
 import StoryDetail from "./pages/news/StoryDetail"; // 파일명/경로 꼭 확인!
 import NoticeDetail from "./pages/news/NoticeDetail";
+import NewsIndex from "./pages/news/index.jsx";
 
 
 /* 사업 */
@@ -58,6 +59,7 @@ export default function App() {
           <Route path="/about/establishment" element={<AboutEstablishment />} />
 
           {/* 소식 */}
+          <Route path="/news" element={<NewsIndex />} />
           <Route path="/news/stories" element={<NewsStories />} />
           <Route path="/news/stories/:slug" element={<StoryDetail />} />
           <Route path="/news/notices" element={<NewsNotices />} />
