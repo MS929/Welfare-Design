@@ -30,6 +30,27 @@ function getTitle(mod, fallback) {
   return fm.title || fallback || "제목 없음";
 }
 
+// 유틸: 날짜를 화면에 안전하게 표시 (Date/Object → YYYY-MM-DD string)
+function formatDate(v) {
+  if (!v) return "";
+  try {
+    if (typeof v === "string") {
+      // 이미 YYYY-MM-DD 또는 ISO라면 앞 10글자만
+      return v.slice(0, 10);
+    }
+    // gray-matter가 Date 객체로 파싱하는 경우
+    if (v instanceof Date && !isNaN(v)) {
+      return v.toISOString().slice(0, 10);
+    }
+    // YAML 파서가 객체로 줄 수 있는 경우 (예: { year: 2025, month: 9, day: 12 })
+    if (typeof v === "object") {
+      const d = new Date(v);
+      if (!isNaN(d)) return d.toISOString().slice(0, 10);
+    }
+  } catch {}
+  return "";
+}
+
 export default function Home() {
   const [noticeTab, setNoticeTab] = useState("공지");
   const [notices, setNotices] = useState([]);
@@ -49,7 +70,7 @@ export default function Home() {
         return {
           id: path,
           title: data?.title || meta.titleFromFile,
-          date: data?.date || meta.date || "",
+          date: formatDate(data?.date) || formatDate(meta.date) || "",
           to: `/notices/${meta.slug}`,
         };
       });
@@ -143,7 +164,9 @@ export default function Home() {
                   {item.title}
                 </Link>
               </h3>
-              {item.date ? <time style={{ fontSize: 12, color: "#999" }}>{item.date}</time> : null}
+              {item.date && typeof item.date === "string" ? (
+                <time style={{ fontSize: 12, color: "#999" }}>{item.date}</time>
+              ) : null}
             </article>
           ))}
           {(!tabItems[noticeTab] || tabItems[noticeTab].length === 0) && (
