@@ -130,17 +130,17 @@ export default function Home() {
         aria-label="메인 히어로"
         style={{ maxWidth: 1200, margin: "0 auto", padding: "0 16px", marginBottom: 40 }}
       >
-        <div style={{ display: "grid", gridTemplateColumns: "1.1fr 1fr", gap: 24, alignItems: "center" }}>
+        <div style={{ display: "grid", gridTemplateColumns: "1.2fr 1fr", gap: 24, alignItems: "center" }}>
           {/* 왼쪽 – 카피 + 4개 원형 바로가기 */}
           <div>
-            <p style={{ fontSize: 28, lineHeight: 1.5, margin: 0, fontWeight: 700 }}>
+            <p style={{ fontSize: 32, lineHeight: 1.45, margin: 0, fontWeight: 800 }}>
               복지 사각지대 없는 사회
               <br />
               <span style={{ color: "#0ea5e9" }}>복지디자인 사회적협동조합</span>이 함께
               <br />
               만들어갑니다.
             </p>
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 80px)", gap: 16, marginTop: 20 }}>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 96px)", gap: 16, marginTop: 20 }}>
               {[
                 { label: "조합원 지원", to: "/support" },
                 { label: "사회공헌", to: "/business" },
@@ -150,7 +150,7 @@ export default function Home() {
                 <Link
                   key={b.label}
                   to={b.to}
-                  style={{ width: 80, height: 80, borderRadius: "50%", display: "grid", placeItems: "center", textDecoration: "none", color: "#333", border: "1px solid #eee", background: "#fff" }}
+                  style={{ width: 96, height: 96, borderRadius: "50%", display: "grid", placeItems: "center", textDecoration: "none", color: "#333", border: "1px solid #eee", background: "#fff" }}
                 >
                   <span style={{ fontSize: 12, textAlign: "center" }}>{b.label}</span>
                 </Link>
@@ -167,7 +167,7 @@ export default function Home() {
 
       {/* 2) 공지사항 – 탭형 (공지 탭에 실제 데이터) */}
       <section aria-labelledby="notice-heading" style={{ maxWidth: 1200, margin: "0 auto", padding: "0 16px", marginBottom: 40 }}>
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16 }}>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 12 }}>
           <h2 id="notice-heading" style={{ fontSize: 20, fontWeight: 700 }}>공지사항</h2>
           <div style={{ display: "flex", gap: 8 }}>
             {tabs.map((t) => (
@@ -202,34 +202,59 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 5) 복지디자인 이야기 섹션 */}
-      <section aria-labelledby="stories-heading" style={{ maxWidth: 1200, margin: "0 auto", padding: "0 16px", marginBottom: 48 }}>
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16 }}>
-          <h2 id="stories-heading" style={{ fontSize: 20, fontWeight: 700 }}>복지디자인 이야기</h2>
-          <Link to="/about" style={{ fontSize: 14, color: "#2a7ae4" }}>더 보기</Link>
-        </div>
-
-        {stories.length > 0 ? (
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(3, minmax(0, 1fr))", gap: 16 }}>
-            {stories.slice(0, 3).map((item) => (
-              <article key={item.id} style={{ border: "1px solid #eee", borderRadius: 8, padding: 16 }}>
-                <h3 style={{ fontSize: 16, fontWeight: 600, marginBottom: 8 }}>
-                  <Link to={item.to} style={{ color: "inherit", textDecoration: "none" }}>
-                    {item.title}
-                  </Link>
-                </h3>
-                {item.date && typeof item.date === "string" ? (
-                  <time style={{ fontSize: 12, color: "#999" }}>{item.date}</time>
-                ) : null}
-              </article>
-            ))}
+      {/* 5) 복지디자인 소식 – 파란 패널 + 탭 풍의 보조 내비 */}
+      <section
+        aria-labelledby="stories-heading"
+        style={{
+          background: "#eaf8f4", // 파란 영역 느낌
+          borderTop: "1px solid #e6f0ed",
+          borderBottom: "1px solid #e6f0ed",
+        }}
+      >
+        <div style={{ maxWidth: 1200, margin: "0 auto", padding: "28px 16px 40px" }}>
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 12 }}>
+            <div style={{ display: "flex", alignItems: "baseline", gap: 12 }}>
+              <h2 id="stories-heading" style={{ fontSize: 20, fontWeight: 800, margin: 0 }}>복지디자인 소식</h2>
+              <small style={{ color: "#667085" }}>행복한 소식을 만들어가는 복지디자인입니다.</small>
+            </div>
+            {/* 보조 탭 (링크) */}
+            <nav aria-label="소식 분류" style={{ display: "flex", gap: 10 }}>
+              <Link to="/news" style={{ fontSize: 13, color: "#111", textDecoration: "none" }}>활동소식</Link>
+              <span style={{ color: "#c4c7ca" }}>|</span>
+              <Link to="/about" style={{ fontSize: 13, color: "#111", textDecoration: "none" }}>소식지</Link>
+              <span style={{ color: "#c4c7ca" }}>|</span>
+              <Link to="/support" style={{ fontSize: 13, color: "#111", textDecoration: "none" }}>복지알리미</Link>
+            </nav>
           </div>
-        ) : (
-          <Link to="/about" style={{ display: "block", border: "1px solid #eee", borderRadius: 8, padding: 24, textDecoration: "none", color: "inherit", textAlign: "center" }}>
-            <h3 style={{ fontSize: 18, fontWeight: 700, marginBottom: 8 }}>복지디자인 이야기</h3>
-            <p style={{ fontSize: 14, color: "#666" }}>우리 활동과 소식을 만나보세요.</p>
-          </Link>
-        )}
+
+          {stories.length > 0 ? (
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(3, minmax(0, 1fr))", gap: 16 }}>
+              {stories.slice(0, 3).map((item) => (
+                <article key={item.id} style={{ border: "1px solid #e3e8e5", borderRadius: 10, background: "#fff", overflow: "hidden" }}>
+                  {/* 썸네일이 있으면 여기에 배치할 수 있으나, 현재는 제목/날짜만 표시 */}
+                  <div style={{ padding: 16 }}>
+                    <h3 style={{ fontSize: 16, fontWeight: 700, margin: 0, marginBottom: 8 }}>
+                      <Link to={item.to} style={{ color: "inherit", textDecoration: "none" }}>{item.title}</Link>
+                    </h3>
+                    {item.date && typeof item.date === "string" ? (
+                      <time style={{ fontSize: 12, color: "#8a8f93" }}>{item.date}</time>
+                    ) : null}
+                  </div>
+                </article>
+              ))}
+            </div>
+          ) : (
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(3, minmax(0, 1fr))", gap: 16 }}>
+              {/* 소식 카드 3개 자리 – 데이터 없을 땐 플레이스홀더 링크 */}
+              {[0,1,2].map((i) => (
+                <Link key={i} to="/about" style={{ border: "1px solid #e3e8e5", borderRadius: 10, background: "#fff", padding: 24, textDecoration: "none", color: "inherit" }}>
+                  <strong style={{ display: "block", fontSize: 15, marginBottom: 6 }}>복지디자인 이야기</strong>
+                  <span style={{ fontSize: 13, color: "#6b7280" }}>우리 활동과 소식을 만나보세요.</span>
+                </Link>
+              ))}
+            </div>
+          )}
+        </div>
       </section>
 
       {/* 4) 가입/후원/문의 CTA 박스 */}
