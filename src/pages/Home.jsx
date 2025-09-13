@@ -175,10 +175,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 3) 바로가기 카드 – 유지 */}
-      <section aria-label="바로가기" style={{ marginBottom: 40 }}>
-        <ShortcutButtons />
-      </section>
 
       {/* 4) 가입/후원/문의 CTA 박스 */}
       <section aria-label="가입/후원/문의" style={{ maxWidth: 1200, margin: "0 auto", padding: "0 16px", marginBottom: 40 }}>
