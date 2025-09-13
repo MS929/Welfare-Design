@@ -1,7 +1,6 @@
 // src/pages/Home.jsx
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import Slider from "../components/Slider";
 import ShortcutButtons from "../components/ShortcutButtons";
 import NewsSection from "../components/NewsSection";
 
@@ -11,29 +10,29 @@ export default function Home() {
   const tabs = ["공지", "채용", "교육", "자료", "기타"];
   const tabItems = {
     공지: [
-      { id: 1, title: "[공지] 홈페이지 오픈 안내", date: "2025.08.01", to: "/news" },
-      { id: 2, title: "[공지] 조합 서비스 개편 사전 안내", date: "2025.07.28", to: "/news" },
-      { id: 3, title: "[공지] 여름 운영시간 공지", date: "2025.07.10", to: "/news" },
+      { id: 1, title: "2024년 정기 총회 안내", date: "2024.05.10", to: "/notices/2024-regular-meeting" },
+      { id: 2, title: "복지디자인 사회적협동조합 신규 서비스 출시", date: "2024.04.20", to: "/notices/new-service-launch" },
+      { id: 3, title: "2024년 상반기 운영 일정 공지", date: "2024.03.15", to: "/notices/first-half-schedule" },
     ],
     채용: [
-      { id: 11, title: "사회복지사 채용(상시)", date: "2025.07.20", to: "/news" },
-      { id: 12, title: "프로그램 코디네이터 채용", date: "2025.07.08", to: "/news" },
-      { id: 13, title: "홍보/디자인 인턴", date: "2025.06.30", to: "/news" },
+      { id: 11, title: "사회복지사 채용 공고", date: "2024.05.01", to: "/notices/welfare-worker-recruitment" },
+      { id: 12, title: "프로그램 코디네이터 채용", date: "2024.04.10", to: "/notices/program-coordinator-recruitment" },
+      { id: 13, title: "홍보/디자인 인턴 모집", date: "2024.03.25", to: "/notices/pr-design-internship" },
     ],
     교육: [
-      { id: 21, title: "복지디자인 교육 1기 모집", date: "2025.07.25", to: "/news" },
-      { id: 22, title: "보조기기 안전교육 안내", date: "2025.07.11", to: "/news" },
-      { id: 23, title: "케어기술 업스킬 워크숍", date: "2025.06.22", to: "/news" },
+      { id: 21, title: "복지디자인 전문가 양성 교육 1기 모집", date: "2024.05.05", to: "/stories/welfare-design-training" },
+      { id: 22, title: "보조기기 안전교육 안내", date: "2024.04.15", to: "/stories/assistive-device-safety" },
+      { id: 23, title: "케어기술 업스킬 워크숍 개최", date: "2024.03.30", to: "/stories/care-skill-workshop" },
     ],
     자료: [
-      { id: 31, title: "정관/규정 모음(샘플)", date: "2025.06.10", to: "/news" },
-      { id: 32, title: "연간 보고서(요약)", date: "2025.05.01", to: "/news" },
-      { id: 33, title: "홍보 키트", date: "2025.04.10", to: "/news" },
+      { id: 31, title: "2023년 연간 보고서 요약본", date: "2024.02.28", to: "/newsletters/2023-annual-report" },
+      { id: 32, title: "복지디자인 정관 및 규정 모음", date: "2024.01.15", to: "/newsletters/statutes-and-regulations" },
+      { id: 33, title: "홍보 키트 다운로드", date: "2023.12.10", to: "/newsletters/promo-kit" },
     ],
     기타: [
-      { id: 41, title: "여름 휴뮤 공지", date: "2025.08.12", to: "/news" },
-      { id: 42, title: "추석 운영 안내", date: "2025.09.05", to: "/news" },
-      { id: 43, title: "분실물 찾습니다", date: "2025.07.03", to: "/news" },
+      { id: 41, title: "여름 휴무 안내", date: "2024.07.01", to: "/notices/summer-holiday" },
+      { id: 42, title: "추석 명절 운영 안내", date: "2024.09.10", to: "/notices/chuseok-operation" },
+      { id: 43, title: "분실물 센터 운영 안내", date: "2024.06.20", to: "/notices/lost-and-found" },
     ],
   };
 
@@ -106,7 +105,7 @@ export default function Home() {
 
           {/* 오른쪽 – 이미지/슬라이더 자리 (기존 Slider 사용) */}
           <div style={{ borderRadius: 12, overflow: "hidden" }}>
-            <Slider />
+            <img src="/images/main-hero-1.png" alt="메인 히어로" style={{ width: "100%", height: "auto" }} />
           </div>
         </div>
       </section>
