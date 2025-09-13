@@ -58,13 +58,18 @@ export default function App() {
           <Route path="/about/people" element={<AboutPeople />} />
           <Route path="/about/establishment" element={<AboutEstablishment />} />
 
-          {/* 소식 */}
-          <Route path="/news" element={<NewsIndex />} />
-          <Route path="/news/stories" element={<NewsStories />} />
-          <Route path="/news/stories/:slug" element={<StoryDetail />} />
-          <Route path="/news/notices" element={<NewsNotices />} />
-          <Route path="/news/notices/:slug" element={<NoticeDetail />} />
-          <Route path="/news/newsletter" element={<NewsNewsletter />} />
+          {/* 소식 (중첩 라우팅으로 정리) */}
+          <Route path="/news">
+            {/* /news 또는 /news/ 를 모두 매칭 */}
+            <Route index element={<NewsIndex />} />
+            <Route path="stories" element={<NewsStories />} />
+            <Route path="stories/:slug" element={<StoryDetail />} />
+            <Route path="notices" element={<NewsNotices />} />
+            <Route path="notices/:slug" element={<NoticeDetail />} />
+            <Route path="newsletter" element={<NewsNewsletter />} />
+          </Route>
+          {/* /news/* 도 안전망으로 처리 (직접 접근 케이스) */}
+          <Route path="/news/*" element={<NewsIndex />} />
 
 
           {/* 사업 */}
