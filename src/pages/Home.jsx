@@ -70,12 +70,14 @@ export default function Home() {
         const meta = parseDatedSlug(path);
         const excerptSource = data?.description || content || "";
         const excerpt = excerptSource.replace(/\n/g, " ").slice(0, 200);
-        const toSlug = meta.date ? `${meta.date}-${meta.slug}` : meta.slug;
+        // IMPORTANT: build the link from the *raw filename* so it matches the detail route exactly
+        const base = (path.split("/").pop() || "").replace(/\.(md|mdx)$/i, "");
+        const href = `/news/notices/${encodeURIComponent(base)}`;
         return {
           id: path,
           title: data?.title || meta.titleFromFile,
           date: formatDate(data?.date) || formatDate(meta.date) || "",
-          to: `/news/notices/${toSlug}`,
+          to: href,
           excerpt,
         };
       });
@@ -100,8 +102,8 @@ export default function Home() {
       const items = Object.entries(modules).map(([path, raw]) => {
         const { data } = matter(raw);
         const meta = parseDatedSlug(path);
-        const slugPart = meta.date ? `${meta.date}-${meta.slug}` : meta.slug;
-        const to = slugPart ? `/news/stories/${slugPart}` : "/news";
+        const base = (path.split("/").pop() || "").replace(/\.(md|mdx)$/i, "");
+        const to = base ? `/news/stories/${encodeURIComponent(base)}` : "/news";
         return {
           id: path,
           title: data?.title || meta.titleFromFile,
