@@ -1,37 +1,37 @@
 // src/App.jsx
 import { Routes, Route } from "react-router-dom";
-import Navbar from "./components/Navbar";
-import Footer from "./components/Footer";
-import Home from "./pages/Home";
+import Navbar from "./components/Navbar.jsx";
+import Footer from "./components/Footer.jsx";
+import Home from "./pages/Home.jsx";
 
 /* 소개 */
-import AboutWhat from "./pages/about/WhatIs";
-import AboutHistory from "./pages/about/History";
-import AboutPeople from "./pages/about/People";
-import AboutEstablishment from "./pages/about/Establishment";
+import AboutWhat from "./pages/about/WhatIs.jsx";
+import AboutHistory from "./pages/about/History.jsx";
+import AboutPeople from "./pages/about/People.jsx";
+import AboutEstablishment from "./pages/about/Establishment.jsx";
 
 /* 소식 */
-import NewsStories from "./pages/news/Stories";
-import NewsNotices from "./pages/news/Notices";
-import NewsNewsletter from "./pages/news/Newsletter";
-import StoryDetail from "./pages/news/StoryDetail"; // 파일명/경로 꼭 확인!
-import NoticeDetail from "./pages/news/NoticeDetail";
+import NewsStories from "./pages/news/Stories.jsx";
+import NewsNotices from "./pages/news/Notices.jsx";
+import NewsNewsletter from "./pages/news/Newsletter.jsx";
+import StoryDetail from "./pages/news/StoryDetail.jsx"; // 파일명/경로 꼭 확인!
+import NoticeDetail from "./pages/news/NoticeDetail.jsx";
 import NewsIndex from "./pages/news/index.jsx";
 
 
 /* 사업 */
-import BizOverview from "./pages/business/Overview";
-import BizRental from "./pages/business/Rental";
-import BizApplyHelp from "./pages/business/ApplyHelp";
-import BizDonation from "./pages/business/DonationCampaign";
-import BizInsurance from "./pages/business/EWheelchairInsurance";
-import BizSurvey from "./pages/business/NeedsSurvey";
-import BizMemberSvc from "./pages/business/MemberServices";
+import BizOverview from "./pages/business/Overview.jsx";
+import BizRental from "./pages/business/Rental.jsx";
+import BizApplyHelp from "./pages/business/ApplyHelp.jsx";
+import BizDonation from "./pages/business/DonationCampaign.jsx";
+import BizInsurance from "./pages/business/EWheelchairInsurance.jsx";
+import BizSurvey from "./pages/business/NeedsSurvey.jsx";
+import BizMemberSvc from "./pages/business/MemberServices.jsx";
 
 /* 후원 */
-import SupGuide from "./pages/support/Guide";
-import SupCorporate from "./pages/support/Corporate";
-import SupFAQ from "./pages/support/FAQ";
+import SupGuide from "./pages/support/Guide.jsx";
+import SupCorporate from "./pages/support/Corporate.jsx";
+import SupFAQ from "./pages/support/FAQ.jsx";
 
 /* 404 */
 function NotFound() {
