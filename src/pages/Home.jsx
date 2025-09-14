@@ -64,13 +64,16 @@ export default function Home() {
       });
 
       const items = Object.entries(modules).map(([path, raw]) => {
-        const { data } = matter(raw);
+        const { data, content } = matter(raw);
         const meta = parseDatedSlug(path);
+        const excerptSource = data?.description || content || "";
+        const excerpt = excerptSource.replace(/\n/g, " ").slice(0, 100);
         return {
           id: path,
           title: data?.title || meta.titleFromFile,
           date: formatDate(data?.date) || formatDate(meta.date) || "",
           to: `/notices/${meta.slug}`,
+          excerpt,
         };
       });
 
@@ -162,12 +165,13 @@ export default function Home() {
               }}
             >
               {[
-                { label: "복지동행\n운영사업", color: "#e9f6ef", icon: "🤝" },
-                { label: "지역사회\n복지사업", color: "#eef5ff", icon: "🏙️" },
-                { label: "복지시설\n운영사업", color: "#f9e9ee", icon: "🏢" },
+                { label: "복지동행\n운영사업", color: "#e9f6ef", icon: "🤝", to: "/business" },
+                { label: "지역사회\n복지사업", color: "#eef5ff", icon: "🏙️", to: "/about" },
+                { label: "복지시설\n운영사업", color: "#f9e9ee", icon: "🏢", to: "/support" },
               ].map((b) => (
-                <div
+                <Link
                   key={b.label}
+                  to={b.to}
                   style={{
                     width: 140,
                     height: 140,
@@ -176,13 +180,15 @@ export default function Home() {
                     display: "grid",
                     placeItems: "center",
                     boxShadow: "0 1px 2px rgba(0,0,0,0.05) inset",
+                    textDecoration: "none",
+                    color: "inherit",
                   }}
                 >
-                  <div style={{ textAlign: "center", lineHeight: 1.25 }}>
+                  <div style={{ textAlign: "center", lineHeight: 1.25, whiteSpace: "pre-line" }}>
                     <div style={{ fontSize: 32, marginBottom: 6 }}>{b.icon}</div>
-                    <div style={{ fontSize: 13, color: "#374151", whiteSpace: "pre-line" }}>{b.label}</div>
+                    <div style={{ fontSize: 13, color: "#374151" }}>{b.label}</div>
                   </div>
-                </div>
+                </Link>
               ))}
             </div>
           </div>
@@ -234,6 +240,23 @@ export default function Home() {
                   {item.title}
                 </Link>
               </h3>
+              {item.excerpt && (
+                <p
+                  style={{
+                    fontSize: 13,
+                    color: "#555",
+                    marginTop: 0,
+                    marginBottom: 8,
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                    display: "-webkit-box",
+                    WebkitLineClamp: 2,
+                    WebkitBoxOrient: "vertical",
+                  }}
+                >
+                  {item.excerpt}
+                </p>
+              )}
               {item.date && typeof item.date === "string" ? (
                 <time style={{ fontSize: 12, color: "#999" }}>{item.date}</time>
               ) : null}
