@@ -54,7 +54,7 @@ export default function Home() {
   const [notices, setNotices] = useState([]);
   const [stories, setStories] = useState([]);
   // 히어로 이미지: 우선 순위 경로 → 존재하지 않으면 /public/main.png 로 폴백
-  const [heroSrc, setHeroSrc] = useState("/images/main/main1.png");
+  const [heroSrc, setHeroSrc] = useState("/images/main.png");
 
   // 공지: 실제 파일 로드 (Decap CMS가 커밋한 md 기준)
   useEffect(() => {
