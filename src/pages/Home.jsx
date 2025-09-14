@@ -228,8 +228,10 @@ export default function Home() {
 
         <div style={{ display: "grid", gridTemplateColumns: "repeat(4, minmax(0, 1fr))", gap: 20 }}>
           {(tabItems[noticeTab] || []).slice(0, 4).map((item) => (
-            <article
+            <Link
               key={item.id}
+              to={item.to}
+              role="article"
               style={{
                 border: "1px solid #ddd",
                 borderRadius: 12,
@@ -240,13 +242,13 @@ export default function Home() {
                 justifyContent: "space-between",
                 minHeight: 180,
                 backgroundColor: "#fff",
+                textDecoration: "none",
+                color: "inherit",
               }}
             >
               <div>
                 <h3 style={{ fontSize: 16, fontWeight: 700, marginBottom: 12, lineHeight: 1.3 }}>
-                  <Link to={item.to} style={{ color: "#111", textDecoration: "none" }}>
-                    {item.title}
-                  </Link>
+                  {item.title}
                 </h3>
                 {item.excerpt && (
                   <p
@@ -270,7 +272,7 @@ export default function Home() {
               {item.date && typeof item.date === "string" ? (
                 <time style={{ fontSize: 12, color: "#888" }}>{item.date}</time>
               ) : null}
-            </article>
+            </Link>
           ))}
           {(!tabItems[noticeTab] || tabItems[noticeTab].length === 0) && (
             <div style={{ gridColumn: "1 / -1", color: "#888", fontSize: 14, textAlign: "center", padding: 24 }}>표시할 항목이 없습니다.</div>
@@ -396,8 +398,9 @@ export default function Home() {
           {stories.length > 0 ? (
             <div style={{ display: "grid", gridTemplateColumns: "repeat(3, minmax(0, 1fr))", gap: 20 }}>
               {stories.slice(0, 3).map((item) => (
-                <article
+                <Link
                   key={item.id}
+                  to={item.to}
                   style={{
                     borderRadius: 12,
                     background: "#fff",
@@ -406,6 +409,8 @@ export default function Home() {
                     display: "flex",
                     flexDirection: "column",
                     minHeight: 240,
+                    textDecoration: "none",
+                    color: "inherit",
                   }}
                 >
                   {/* 썸네일 */}
@@ -433,13 +438,13 @@ export default function Home() {
                   </div>
                   <div style={{ padding: 16, flex: 1, display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
                     <h3 style={{ fontSize: 18, fontWeight: 700, margin: 0, marginBottom: 10, lineHeight: 1.3 }}>
-                      <Link to={item.to} style={{ color: "#0f5132", textDecoration: "none" }}>{item.title}</Link>
+                      {item.title}
                     </h3>
                     {item.date && typeof item.date === "string" ? (
                       <time style={{ fontSize: 13, color: "#5b7a62" }}>{item.date}</time>
                     ) : null}
                   </div>
-                </article>
+                </Link>
               ))}
             </div>
           ) : (
