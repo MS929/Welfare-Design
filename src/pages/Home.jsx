@@ -309,7 +309,7 @@ export default function Home() {
           </Link>
           {/* 후원 가입 신청하기 */}
           <Link
-            to="/support"
+            to="/support/guide"
             style={{
               display: "flex",
               flexDirection: "column",
