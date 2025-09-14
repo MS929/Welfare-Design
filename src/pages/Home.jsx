@@ -194,7 +194,7 @@ export default function Home() {
             <img
               src={heroSrc}
               alt="메인 히어로"
-              onError={() => { if (heroSrc !== "/main.png") setHeroSrc("/main.png"); }}
+              onError={() => { if (heroSrc !== "/public/images/main/main1.png") setHeroSrc("/public/images/main/main1.png"); }}
               style={{ width: "100%", height: "100%", objectFit: "cover" }}
             />
           </div>
