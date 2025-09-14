@@ -53,6 +53,8 @@ export default function Home() {
   const [noticeTab, setNoticeTab] = useState("공지");
   const [notices, setNotices] = useState([]);
   const [stories, setStories] = useState([]);
+  // 히어로 이미지: 우선 순위 경로 → 존재하지 않으면 /public/main.png 로 폴백
+  const [heroSrc, setHeroSrc] = useState("/images/hero-hands.jpg");
 
   // 공지: 실제 파일 로드 (Decap CMS가 커밋한 md 기준)
   useEffect(() => {
@@ -201,13 +203,13 @@ export default function Home() {
               height: 340,
             }}
           >
-            {/* 준비된 이미지가 없으면 main.jpeg 사용 */}
             <img
-              src={"/images/hero-hands.jpg"}
-              onError={(e) => {
-                e.currentTarget.src = "/images/main.jpeg";
-              }}
+              src={heroSrc}
               alt="메인 히어로"
+              onError={() => {
+                // 첫 로드가 실패하면 /public/main.png 로 한 번만 폴백
+                if (heroSrc !== "/main.png") setHeroSrc("/main.png");
+              }}
               style={{ width: "100%", height: "100%", objectFit: "cover" }}
             />
           </div>
