@@ -70,11 +70,12 @@ export default function Home() {
         const meta = parseDatedSlug(path);
         const excerptSource = data?.description || content || "";
         const excerpt = excerptSource.replace(/\n/g, " ").slice(0, 200);
+        const toSlug = meta.date ? `${meta.date}-${meta.slug}` : meta.slug;
         return {
           id: path,
           title: data?.title || meta.titleFromFile,
           date: formatDate(data?.date) || formatDate(meta.date) || "",
-          to: `/notices/${meta.slug}`,
+          to: `/notices/${toSlug}`,
           excerpt,
         };
       });
@@ -222,7 +223,7 @@ export default function Home() {
                 {t}
               </button>
             ))}
-            <Link to="/news" style={{ fontSize: 14, color: "#2a7ae4", marginLeft: 8, alignSelf: "center" }}>더 보기</Link>
+            <Link to="/notices" style={{ fontSize: 14, color: "#2a7ae4", marginLeft: 8, alignSelf: "center" }}>더 보기</Link>
           </div>
         </div>
 
