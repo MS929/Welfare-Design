@@ -75,7 +75,7 @@ export default function Home() {
           id: path,
           title: data?.title || meta.titleFromFile,
           date: formatDate(data?.date) || formatDate(meta.date) || "",
-          to: `/notices/${toSlug}`,
+          to: `/news/notices/${toSlug}`,
           excerpt,
         };
       });
@@ -223,7 +223,7 @@ export default function Home() {
                 {t}
               </button>
             ))}
-            <Link to="/notices" style={{ fontSize: 14, color: "#2a7ae4", marginLeft: 8, alignSelf: "center" }}>더 보기</Link>
+            <Link to="/news/notices" style={{ fontSize: 14, color: "#2a7ae4", marginLeft: 8, alignSelf: "center" }}>더 보기</Link>
           </div>
         </div>
 
