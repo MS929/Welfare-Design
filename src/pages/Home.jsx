@@ -133,84 +133,65 @@ export default function Home() {
       {/* 0) 상단 간격 */}
       <div style={{ height: 8 }} />
 
-      {/* 1) HERO – 좌 텍스트 / 중앙 원형 아이콘 3개 / 우 이미지 */}
-      <section
-        aria-label="메인 히어로"
-        style={{ maxWidth: 1200, margin: "0 auto", padding: "0 16px", marginBottom: 40 }}
-      >
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "1.8fr 1fr 1.2fr",
-            gap: 32,
-            alignItems: "center",
-          }}
-        >
-          {/* 왼쪽 – 카피 */}
+      {/* 1) HERO – 상단 배너: 좌측 텍스트/버튼, 우측 큰 이미지 */}
+      <section aria-label="메인 히어로" style={{ position: "relative", width: "100%", background: "#f4f6f7", overflow: "hidden", borderBottom: "1px solid #e5e7eb", marginBottom: 24 }}>
+        <div style={{
+          maxWidth: 1400,
+          margin: "0 auto",
+          padding: "48px 24px",
+          display: "grid",
+          gridTemplateColumns: "minmax(520px, 1fr) minmax(520px, 1fr)",
+          alignItems: "center",
+          gap: 24,
+        }}>
+          {/* 좌측 카피 + 동그라미 버튼들 */}
           <div>
-            <h1 style={{ margin: 0, fontSize: 36, lineHeight: 1.35, fontWeight: 800 }}>
+            <h1 style={{ margin: 0, fontSize: 40, lineHeight: 1.35, fontWeight: 900 }}>
               복지 사각지대 없는 사회
               <br />
               <span style={{ display: "inline-block", marginTop: 6 }}>
-                <span style={{ fontWeight: 900 }}>복지디자인 사회적협동조합</span>이 함께
-                <br />
-                만들어갑니다.
+                <strong>복지디자인 사회적협동조합</strong>이 함께 만들어갑니다
               </span>
             </h1>
+
+            {/* 원형 버튼 3개 */}
+            <div style={{ display: "flex", gap: 36, marginTop: 36, flexWrap: "wrap" }}>
+              {[
+                { label: "복지동행\n운영사업", color: "#dff0da", icon: "🤝", to: "/business" },
+                { label: "지역사회\n복지사업", color: "#e4eefc", icon: "🏙️", to: "/about" },
+                { label: "복지시설\n운영사업", color: "#f7dee5", icon: "🏢", to: "/support" },
+              ].map((b) => (
+                <Link
+                  key={b.label}
+                  to={b.to}
+                  style={{
+                    width: 160,
+                    height: 160,
+                    borderRadius: "50%",
+                    background: b.color,
+                    display: "grid",
+                    placeItems: "center",
+                    boxShadow: "0 2px 10px rgba(0,0,0,0.08)",
+                    textDecoration: "none",
+                    color: "inherit",
+                    border: "1px solid #e5e7eb",
+                  }}
+                >
+                  <div style={{ textAlign: "center", lineHeight: 1.25, whiteSpace: "pre-line" }}>
+                    <div style={{ fontSize: 34, marginBottom: 8 }}>{b.icon}</div>
+                    <div style={{ fontSize: 14, color: "#374151", fontWeight: 700 }}>{b.label}</div>
+                  </div>
+                </Link>
+              ))}
+            </div>
           </div>
 
-          {/* 중앙 – 동그라미 3개 – 원형, 아이콘/라벨 */}
-          <div
-            style={{
-              display: "flex",
-              gap: 24,
-              justifyContent: "center",
-              flexWrap: "wrap",
-            }}
-          >
-            {[
-              { label: "복지동행\n운영사업", color: "#e9f6ef", icon: "🤝", to: "/business" },
-              { label: "지역사회\n복지사업", color: "#eef5ff", icon: "🏙️", to: "/about" },
-              { label: "복지시설\n운영사업", color: "#f9e9ee", icon: "🏢", to: "/support" },
-            ].map((b) => (
-              <Link
-                key={b.label}
-                to={b.to}
-                style={{
-                  width: 140,
-                  height: 140,
-                  borderRadius: "50%",
-                  background: b.color,
-                  display: "grid",
-                  placeItems: "center",
-                  boxShadow: "0 2px 6px rgba(0,0,0,0.1)",
-                  textDecoration: "none",
-                  color: "inherit",
-                }}
-              >
-                <div style={{ textAlign: "center", lineHeight: 1.25, whiteSpace: "pre-line" }}>
-                  <div style={{ fontSize: 32, marginBottom: 6 }}>{b.icon}</div>
-                  <div style={{ fontSize: 13, color: "#374151" }}>{b.label}</div>
-                </div>
-              </Link>
-            ))}
-          </div>
-
-          {/* 오른쪽 – 고정 이미지 */}
-          <div
-            style={{
-              borderRadius: 12,
-              overflow: "hidden",
-              height: 340,
-            }}
-          >
+          {/* 우측 큰 이미지 */}
+          <div style={{ position: "relative", height: 360, borderRadius: 12, overflow: "hidden", boxShadow: "0 8px 20px rgba(0,0,0,0.08)", background: "#fff" }}>
             <img
               src={heroSrc}
               alt="메인 히어로"
-              onError={() => {
-                // 첫 로드가 실패하면 /public/main.png 로 한 번만 폴백
-                if (heroSrc !== "/main.png") setHeroSrc("/main.png");
-              }}
+              onError={() => { if (heroSrc !== "/main.png") setHeroSrc("/main.png"); }}
               style={{ width: "100%", height: "100%", objectFit: "cover" }}
             />
           </div>
