@@ -281,8 +281,9 @@ export default function Home() {
       {/* 3) 가입/후원/문의 CTA 박스 */}
       <section aria-label="가입/후원/문의" style={{ maxWidth: 1200, margin: "0 auto", padding: "0 16px", marginBottom: 40 }}>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(4, minmax(0, 1fr))", gap: 20 }}>
+          {/* 복지디자인 소개 */}
           <Link
-            to="/support"
+            to="/about/what"
             style={{
               display: "flex",
               flexDirection: "column",
@@ -291,17 +292,17 @@ export default function Home() {
               padding: 24,
               textDecoration: "none",
               color: "inherit",
-              backgroundColor: "#e9f6ef",
+              backgroundColor: "#fff6e5",
               boxShadow: "0 4px 8px rgba(0,0,0,0.05)",
               minHeight: 160,
               gap: 12,
             }}
           >
-            <div style={{ fontSize: 36, lineHeight: 1, color: "#34a853" }}>🤝</div>
-            <strong style={{ fontSize: 18, fontWeight: 700 }}>조합 가입 신청하기</strong>
-            <span style={{ fontSize: 14, color: "#3a3a3a" }}>복지디자인의 미션에 함께해주세요.</span>
+            <div style={{ fontSize: 36, lineHeight: 1, color: "#d97706" }}>📘</div>
+            <strong style={{ fontSize: 18, fontWeight: 700 }}>복지디자인 소개</strong>
+            <span style={{ fontSize: 14, color: "#3a3a3a" }}>조합의 비전과 연혁을 확인하세요.</span>
           </Link>
-
+          {/* 후원 가입 신청하기 */}
           <Link
             to="/support"
             style={{
@@ -322,7 +323,28 @@ export default function Home() {
             <strong style={{ fontSize: 18, fontWeight: 700 }}>후원 가입 신청하기</strong>
             <span style={{ fontSize: 14, color: "#3a3a3a" }}>지속적 관심과 지지를 부탁드립니다.</span>
           </Link>
-
+          {/* 조합 가입 신청하기 */}
+          <Link
+            to="/support"
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "flex-start",
+              borderRadius: 12,
+              padding: 24,
+              textDecoration: "none",
+              color: "inherit",
+              backgroundColor: "#e9f6ef",
+              boxShadow: "0 4px 8px rgba(0,0,0,0.05)",
+              minHeight: 160,
+              gap: 12,
+            }}
+          >
+            <div style={{ fontSize: 36, lineHeight: 1, color: "#34a853" }}>🤝</div>
+            <strong style={{ fontSize: 18, fontWeight: 700 }}>조합 가입 신청하기</strong>
+            <span style={{ fontSize: 14, color: "#3a3a3a" }}>복지디자인의 미션에 함께해주세요.</span>
+          </Link>
+          {/* 이메일로 문의하기 */}
           <a
             href="mailto:welfarecoop@naver.com"
             style={{
@@ -343,27 +365,6 @@ export default function Home() {
             <strong style={{ fontSize: 18, fontWeight: 700 }}>이메일로 문의하기</strong>
             <span style={{ fontSize: 14, color: "#3a3a3a" }}>궁금하신 사항이 있으시면 메일을 보내주세요.</span>
           </a>
-
-          <Link
-            to="/about"
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "flex-start",
-              borderRadius: 12,
-              padding: 24,
-              textDecoration: "none",
-              color: "inherit",
-              backgroundColor: "#fff6e5",
-              boxShadow: "0 4px 8px rgba(0,0,0,0.05)",
-              minHeight: 160,
-              gap: 12,
-            }}
-          >
-            <div style={{ fontSize: 36, lineHeight: 1, color: "#d97706" }}>📘</div>
-            <strong style={{ fontSize: 18, fontWeight: 700 }}>복지디자인 소개</strong>
-            <span style={{ fontSize: 14, color: "#3a3a3a" }}>조합의 비전과 연혁을 확인하세요.</span>
-          </Link>
         </div>
       </section>
 
