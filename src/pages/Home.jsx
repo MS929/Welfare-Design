@@ -268,6 +268,26 @@ export default function Home() {
         </div>
       </section>
 
+      {/* 4) 가입/후원/문의 CTA 박스 */}
+      <section aria-label="가입/후원/문의" style={{ maxWidth: 1200, margin: "0 auto", padding: "0 16px", marginBottom: 40 }}>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(3, minmax(0, 1fr))", gap: 16 }}>
+          <Link to="/support" style={{ display: "block", border: "1px solid #eaeaea", borderRadius: 12, padding: 20, textDecoration: "none", color: "inherit" }}>
+            <strong style={{ display: "block", marginBottom: 8 }}>조합 가입 신청하기</strong>
+            <span style={{ fontSize: 14, color: "#666" }}>복지디자인의 미션에 함께해주세요.</span>
+          </Link>
+
+          <Link to="/support" style={{ display: "block", border: "1px solid #eaeaea", borderRadius: 12, padding: 20, textDecoration: "none", color: "inherit" }}>
+            <strong style={{ display: "block", marginBottom: 8 }}>후원 가입 신청하기</strong>
+            <span style={{ fontSize: 14, color: "#666" }}>지속적 관심과 지지를 부탁드립니다.</span>
+          </Link>
+
+          <a href="mailto:welfarecoop@naver.com" style={{ display: "block", border: "1px solid #eaeaea", borderRadius: 12, padding: 20, textDecoration: "none", color: "inherit" }}>
+            <strong style={{ display: "block", marginBottom: 8 }}>이메일로 문의하기</strong>
+            <span style={{ fontSize: 14, color: "#666" }}>궁금하신 사항이 있으시면 메일을 보내주세요.</span>
+          </a>
+        </div>
+      </section>
+
       {/* 5) 복지디자인 소식 – 파란 패널 + 탭 풍의 보조 내비 */}
       <section
         aria-labelledby="stories-heading"
@@ -320,26 +340,6 @@ export default function Home() {
               ))}
             </div>
           )}
-        </div>
-      </section>
-
-      {/* 4) 가입/후원/문의 CTA 박스 */}
-      <section aria-label="가입/후원/문의" style={{ maxWidth: 1200, margin: "0 auto", padding: "0 16px", marginBottom: 40 }}>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(3, minmax(0, 1fr))", gap: 16 }}>
-          <Link to="/support" style={{ display: "block", border: "1px solid #eaeaea", borderRadius: 12, padding: 20, textDecoration: "none", color: "inherit" }}>
-            <strong style={{ display: "block", marginBottom: 8 }}>조합 가입 신청하기</strong>
-            <span style={{ fontSize: 14, color: "#666" }}>복지디자인의 미션에 함께해주세요.</span>
-          </Link>
-
-          <Link to="/support" style={{ display: "block", border: "1px solid #eaeaea", borderRadius: 12, padding: 20, textDecoration: "none", color: "inherit" }}>
-            <strong style={{ display: "block", marginBottom: 8 }}>후원 가입 신청하기</strong>
-            <span style={{ fontSize: 14, color: "#666" }}>지속적 관심과 지지를 부탁드립니다.</span>
-          </Link>
-
-          <a href="mailto:welfarecoop@naver.com" style={{ display: "block", border: "1px solid #eaeaea", borderRadius: 12, padding: 20, textDecoration: "none", color: "inherit" }}>
-            <strong style={{ display: "block", marginBottom: 8 }}>이메일로 문의하기</strong>
-            <span style={{ fontSize: 14, color: "#666" }}>궁금하신 사항이 있으시면 메일을 보내주세요.</span>
-          </a>
         </div>
       </section>
     </main>
