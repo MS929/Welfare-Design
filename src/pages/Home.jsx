@@ -132,37 +132,78 @@ export default function Home() {
         aria-label="메인 히어로"
         style={{ maxWidth: 1200, margin: "0 auto", padding: "0 16px", marginBottom: 40 }}
       >
-        <div style={{ display: "grid", gridTemplateColumns: "1.2fr 1fr", gap: 24, alignItems: "center" }}>
-          {/* 왼쪽 – 카피 + 4개 원형 바로가기 */}
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "1.6fr 1fr",
+            gap: 32,
+            alignItems: "center",
+          }}
+        >
+          {/* 왼쪽 – 카피 + 3개 원형 배지 */}
           <div>
-            <p style={{ fontSize: 32, lineHeight: 1.45, margin: 0, fontWeight: 800 }}>
+            <h1 style={{ margin: 0, fontSize: 36, lineHeight: 1.35, fontWeight: 800 }}>
               복지 사각지대 없는 사회
               <br />
-              <span style={{ color: "#0ea5e9" }}>복지디자인 사회적협동조합</span>이 함께
-              <br />
-              만들어갑니다.
-            </p>
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 96px)", gap: 16, marginTop: 20 }}>
+              <span style={{ display: "inline-block", marginTop: 6 }}>
+                <span style={{ fontWeight: 900 }}>복지디자인 사회적협동조합</span>이 함께
+                <br />
+                만들어갑니다.
+              </span>
+            </h1>
+
+            {/* 동그라미 3개 – 원형, 아이콘/라벨 */}
+            <div
+              style={{
+                display: "flex",
+                gap: 24,
+                marginTop: 28,
+                flexWrap: "wrap",
+              }}
+            >
               {[
-                { label: "조합원 지원", to: "/support" },
-                { label: "사회공헌", to: "/business" },
-                { label: "지정기탁", to: "/support" },
-                { label: "운영소식", to: "/news" },
+                { label: "복지동행\n운영사업", color: "#e9f6ef", icon: "🤝" },
+                { label: "지역사회\n복지사업", color: "#eef5ff", icon: "🏙️" },
+                { label: "복지시설\n운영사업", color: "#f9e9ee", icon: "🏢" },
               ].map((b) => (
-                <Link
+                <div
                   key={b.label}
-                  to={b.to}
-                  style={{ width: 96, height: 96, borderRadius: "50%", display: "grid", placeItems: "center", textDecoration: "none", color: "#333", border: "1px solid #eee", background: "#fff" }}
+                  style={{
+                    width: 140,
+                    height: 140,
+                    borderRadius: "50%",
+                    background: b.color,
+                    display: "grid",
+                    placeItems: "center",
+                    boxShadow: "0 1px 2px rgba(0,0,0,0.05) inset",
+                  }}
                 >
-                  <span style={{ fontSize: 12, textAlign: "center" }}>{b.label}</span>
-                </Link>
+                  <div style={{ textAlign: "center", lineHeight: 1.25 }}>
+                    <div style={{ fontSize: 32, marginBottom: 6 }}>{b.icon}</div>
+                    <div style={{ fontSize: 13, color: "#374151", whiteSpace: "pre-line" }}>{b.label}</div>
+                  </div>
+                </div>
               ))}
             </div>
           </div>
 
-          {/* 오른쪽 – 고정 이미지 (1번 사진) */}
-          <div style={{ borderRadius: 12, overflow: "hidden" }}>
-            <img src="/images/main.jpeg" alt="메인 히어로" style={{ width: "100%", height: "auto" }} />
+          {/* 오른쪽 – 고정 이미지 */}
+          <div
+            style={{
+              borderRadius: 12,
+              overflow: "hidden",
+              height: 340,
+            }}
+          >
+            {/* 준비된 이미지가 없으면 main.jpeg 사용 */}
+            <img
+              src={"/images/hero-hands.jpg"}
+              onError={(e) => {
+                e.currentTarget.src = "/images/main.jpeg";
+              }}
+              alt="메인 히어로"
+              style={{ width: "100%", height: "100%", objectFit: "cover" }}
+            />
           </div>
         </div>
       </section>
