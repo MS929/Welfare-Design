@@ -180,18 +180,18 @@ export default function Home() {
           background: "#f4f6f7",
           overflow: "hidden",
           borderBottom: "1px solid #e5e7eb",
-          marginBottom: 24,
+          marginBottom: 16,
         }}
       >
         <div
           style={{
             maxWidth: 1400,
             margin: "0 auto",
-            padding: "48px 24px",
+            padding: "32px 16px",
             display: "grid",
-            gridTemplateColumns: "minmax(520px, 1fr) minmax(520px, 1fr)",
+            gridTemplateColumns: "1fr 1fr",
             alignItems: "center",
-            gap: 24,
+            gap: 16,
           }}
         >
           {/* 좌측 카피 + 동그라미 버튼들 */}
@@ -199,8 +199,8 @@ export default function Home() {
             <h1
               style={{
                 margin: 0,
-                fontSize: 32,
-                lineHeight: 1.35,
+                fontSize: 28,
+                lineHeight: 1.3,
                 fontWeight: 900,
               }}
             >
@@ -211,73 +211,37 @@ export default function Home() {
               </span>
             </h1>
 
-            {/* 원형 버튼 3개 */}
+            {/* 바로가기 카드 (복지디자인 사업) */}
             <div
               style={{
                 display: "flex",
-                gap: 36,
-                marginTop: 36,
+                gap: 16,
+                marginTop: 28,
                 flexWrap: "wrap",
               }}
             >
-              {[
-                {
-                  label: "복지동행\n운영사업",
-                  color: "#dff0da",
-                  icon: "🤝",
-                  to: "/business",
-                },
-                {
-                  label: "지역사회\n복지사업",
-                  color: "#e4eefc",
-                  icon: "🏙️",
-                  to: "/about",
-                },
-                {
-                  label: "복지시설\n운영사업",
-                  color: "#f7dee5",
-                  icon: "🏢",
-                  to: "/support",
-                },
-              ].map((b) => (
-                <Link
-                  key={b.label}
-                  to={b.to}
-                  style={{
-                    width: 160,
-                    height: 160,
-                    borderRadius: "50%",
-                    background: b.color,
-                    display: "grid",
-                    placeItems: "center",
-                    boxShadow: "0 2px 10px rgba(0,0,0,0.08)",
-                    textDecoration: "none",
-                    color: "inherit",
-                    border: "1px solid #e5e7eb",
-                  }}
-                >
-                  <div
-                    style={{
-                      textAlign: "center",
-                      lineHeight: 1.25,
-                      whiteSpace: "pre-line",
-                    }}
-                  >
-                    <div style={{ fontSize: 34, marginBottom: 8 }}>
-                      {b.icon}
-                    </div>
-                    <div
-                      style={{
-                        fontSize: 14,
-                        color: "#374151",
-                        fontWeight: 700,
-                      }}
-                    >
-                      {b.label}
-                    </div>
+              <Link
+                to="/business"
+                style={{
+                  width: 220,
+                  height: 120,
+                  borderRadius: 16,
+                  background: "#e4eefc",
+                  display: "grid",
+                  placeItems: "center",
+                  boxShadow: "0 2px 10px rgba(0,0,0,0.08)",
+                  textDecoration: "none",
+                  color: "inherit",
+                  border: "1px solid #e5e7eb",
+                }}
+              >
+                <div style={{ textAlign: "center", lineHeight: 1.25 }}>
+                  <div style={{ fontSize: 28, marginBottom: 6 }}>📌</div>
+                  <div style={{ fontSize: 15, color: "#374151", fontWeight: 800 }}>
+                    복지디자인 사업
                   </div>
-                </Link>
-              ))}
+                </div>
+              </Link>
             </div>
           </div>
 
@@ -285,7 +249,7 @@ export default function Home() {
           <div
             style={{
               position: "relative",
-              height: 360,
+              height: 300,
               borderRadius: 12,
               overflow: "hidden",
               boxShadow: "0 8px 20px rgba(0,0,0,0.08)",
