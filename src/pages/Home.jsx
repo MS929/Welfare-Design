@@ -762,7 +762,7 @@ export default function Home() {
       <section
         aria-labelledby="stories-heading"
         style={{
-          background: `linear-gradient(180deg, #ffffff 65%, ${COLOR.primaryTint} 23%, ${COLOR.primaryTint} 100%)`,
+          background: `linear-gradient(180deg, #ffffff 0%, #ffffff 62%, ${COLOR.primaryTint} 100%)`,
           marginBottom: 56,
         }}
       >
