@@ -19,6 +19,18 @@ const COLOR = {
   yellowTint: "#FFFBEA",
 };
 
+// 디자인 토큰 (간격/라운드/그리드)
+const TOKENS = {
+  radius: 14,
+  radiusLg: 18,
+  gap: 24,
+  gapSm: 16,
+  container: 1440,
+  shadow: "0 8px 24px rgba(0,0,0,.08)",
+  shadowSm: "0 4px 12px rgba(0,0,0,.06)",
+  shadowHover: "0 10px 28px rgba(0,0,0,.12)",
+};
+
 // 유틸: 파일명 → { date: 'YYYY-MM-DD', slug: '...' }
 function parseDatedSlug(filepath) {
   // 예: /src/content/notices/2025-09-11-공지제목.md
@@ -79,6 +91,9 @@ export default function Home() {
   const [hoverSupport, setHoverSupport] = useState(false); // 후원
   const [hoverJoin, setHoverJoin] = useState(false);       // 조합 가입
   const [hoverEmail, setHoverEmail] = useState(false);     // 이메일 문의
+  // 카드 hover 상태
+  const [hoveredNotice, setHoveredNotice] = useState(null);
+  const [hoveredStory, setHoveredStory] = useState(null);
 
   const NOTICE_CARD_MIN_H = 220; // 공지/공모 카드 공통 높이
   const NOTICE_THUMB_H = 120;    // 공모 썸네일 고정 높이
@@ -202,7 +217,7 @@ export default function Home() {
         style={{
           position: "relative",
           width: "100%",
-          background: COLOR.bg,
+          background: `linear-gradient(180deg, ${COLOR.primaryTint} 0%, #ffffff 65%)`,
           overflow: "hidden",
           borderBottom: `1px solid ${COLOR.line}`,
           marginBottom: 16,
@@ -210,51 +225,40 @@ export default function Home() {
       >
         <div
           style={{
-            maxWidth: 1440,
+            maxWidth: TOKENS.container,
             margin: "0 auto",
-            padding: "28px 24px",
+            padding: "32px 24px",
             display: "grid",
-            gridTemplateColumns: "1fr 1fr",
+            gridTemplateColumns: "1.05fr 1fr",
             alignItems: "center",
-            gap: 24,
+            gap: TOKENS.gap,
           }}
         >
-          {/* 좌측 카피 + 동그라미 버튼들 */}
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              textAlign: "center",
-              color: COLOR.text,
-            }}
-          >
+          <div style={{ textAlign: "left", color: COLOR.text }}>
             <h1
               style={{
                 margin: 0,
-                fontSize: 28,
-                lineHeight: 1.3,
+                fontSize: 34,
+                lineHeight: 1.25,
                 fontWeight: 900,
-                textAlign: "center",
               }}
             >
               복지 사각지대 없는 사회
               <br />
-              <span style={{ display: "inline-block", marginTop: 6 }}>
+              <span style={{ display: "inline-block", marginTop: 8 }}>
                 <strong>복지디자인 사회적협동조합</strong>이 함께 만들어갑니다
               </span>
             </h1>
           </div>
 
-          {/* 우측 큰 이미지 */}
           <div
             style={{
               position: "relative",
-              height: 280,
-              borderRadius: 12,
+              height: 300,
+              borderRadius: TOKENS.radiusLg,
               overflow: "hidden",
-              boxShadow: "0 8px 20px rgba(0,0,0,0.08)",
-              background: "#fff",
+              boxShadow: TOKENS.shadow,
+              background: `radial-gradient(70% 100% at 100% 0%, ${COLOR.secondaryTint} 0%, #fff 70%)`,
               border: `1px solid ${COLOR.line}`,
             }}
           >
@@ -282,9 +286,9 @@ export default function Home() {
       >
         <div
           style={{
-            maxWidth: 1440,
+            maxWidth: TOKENS.container,
             margin: "0 auto",
-            padding: "24px 24px 32px",
+            padding: "20px 24px 32px",
           }}
         >
           <div
@@ -295,7 +299,7 @@ export default function Home() {
               marginBottom: 16,
             }}
           >
-            <h2 id="notice-heading" style={{ fontSize: 28, fontWeight: 700 }}>
+            <h2 id="notice-heading" style={{ fontSize: 30, fontWeight: 800 }}>
               공지사항
             </h2>
             <div style={{ display: "flex", gap: 8 }}>
@@ -349,9 +353,11 @@ export default function Home() {
                 role="article"
                 style={{
                   border: `1px solid ${COLOR.line}`,
-                  borderRadius: 12,
-                  padding: 24,
-                  boxShadow: "0 2px 8px rgba(0,0,0,0.05)",
+                  borderRadius: TOKENS.radius,
+                  padding: 22,
+                  boxShadow: hoveredNotice === item.id ? TOKENS.shadowHover : TOKENS.shadowSm,
+                  transform: hoveredNotice === item.id ? "translateY(-3px)" : "translateY(0)",
+                  transition: "all .18s ease",
                   display: "flex",
                   flexDirection: "column",
                   justifyContent: "space-between",
@@ -360,6 +366,8 @@ export default function Home() {
                   textDecoration: "none",
                   color: "inherit",
                 }}
+                onMouseEnter={() => setHoveredNotice(item.id)}
+                onMouseLeave={() => setHoveredNotice(null)}
               >
                 {noticeTab === "공모" ? (
                   <>
@@ -367,9 +375,9 @@ export default function Home() {
                       style={{
                         height: NOTICE_THUMB_H,
                         marginBottom: 12,
-                        borderRadius: 8,
+                        borderRadius: 10,
                         overflow: "hidden",
-                        background: COLOR.bg,
+                        background: COLOR.neutralTint,
                       }}
                     >
                       {item.thumbnail ? (
@@ -400,7 +408,7 @@ export default function Home() {
                     </div>
                     <h3
                       style={{
-                        fontSize: 16,
+                        fontSize: 18,
                         fontWeight: 700,
                         margin: 0,
                         lineHeight: 1.3,
@@ -421,7 +429,7 @@ export default function Home() {
                     <div>
                       <h3
                         style={{
-                          fontSize: 16,
+                          fontSize: 18,
                           fontWeight: 700,
                           marginBottom: 12,
                           lineHeight: 1.3,
@@ -486,9 +494,9 @@ export default function Home() {
       >
         <div
           style={{
-            maxWidth: 1440,
+            maxWidth: TOKENS.container,
             margin: "0 auto",
-            padding: "24px 24px 32px",
+            padding: "20px 24px 32px",
           }}
         >
           <div
@@ -505,18 +513,17 @@ export default function Home() {
                 display: "flex",
                 flexDirection: "column",
                 alignItems: "flex-start",
-                borderRadius: 12,
+                borderRadius: TOKENS.radius,
                 padding: 24,
                 textDecoration: "none",
                 color: "inherit",
                 backgroundColor: hoverIntro ? COLOR.accentTint : "#fff",
-                boxShadow: hoverIntro
-                  ? "0 6px 14px rgba(0,0,0,0.1)"
-                  : "0 4px 8px rgba(0,0,0,0.05)",
-                minHeight: 160,
+                boxShadow: hoverIntro ? TOKENS.shadowHover : TOKENS.shadowSm,
+                minHeight: 150,
                 gap: 12,
                 border: `1px solid ${COLOR.line}`,
-                transition: "all .2s ease",
+                transform: hoverIntro ? "translateY(-3px)" : "translateY(0)",
+                transition: "all .18s ease",
               }}
               onMouseEnter={() => setHoverIntro(true)}
               onMouseLeave={() => setHoverIntro(false)}
@@ -538,18 +545,17 @@ export default function Home() {
                 display: "flex",
                 flexDirection: "column",
                 alignItems: "flex-start",
-                borderRadius: 12,
+                borderRadius: TOKENS.radius,
                 padding: 24,
                 textDecoration: "none",
                 color: "inherit",
                 backgroundColor: hoverEmail ? COLOR.secondaryTint : "#fff",
-                boxShadow: hoverEmail
-                  ? "0 6px 14px rgba(0,0,0,0.1)"
-                  : "0 4px 8px rgba(0,0,0,0.05)",
-                minHeight: 160,
+                boxShadow: hoverEmail ? TOKENS.shadowHover : TOKENS.shadowSm,
+                minHeight: 150,
                 gap: 12,
                 border: `1px solid ${COLOR.line}`,
-                transition: "all .2s ease",
+                transform: hoverEmail ? "translateY(-3px)" : "translateY(0)",
+                transition: "all .18s ease",
               }}
               onMouseEnter={() => setHoverEmail(true)}
               onMouseLeave={() => setHoverEmail(false)}
@@ -573,18 +579,17 @@ export default function Home() {
                 display: "flex",
                 flexDirection: "column",
                 alignItems: "flex-start",
-                borderRadius: 12,
+                borderRadius: TOKENS.radius,
                 padding: 24,
                 textDecoration: "none",
                 color: "inherit",
                 backgroundColor: hoverSupport ? COLOR.primaryTint : "#fff",
-                boxShadow: hoverSupport
-                  ? "0 6px 14px rgba(0,0,0,0.1)"
-                  : "0 4px 8px rgba(0,0,0,0.05)",
-                minHeight: 160,
+                boxShadow: hoverSupport ? TOKENS.shadowHover : TOKENS.shadowSm,
+                minHeight: 150,
                 gap: 12,
                 border: `1px solid ${COLOR.line}`,
-                transition: "all .2s ease",
+                transform: hoverSupport ? "translateY(-3px)" : "translateY(0)",
+                transition: "all .18s ease",
               }}
               onMouseEnter={() => setHoverSupport(true)}
               onMouseLeave={() => setHoverSupport(false)}
@@ -608,18 +613,17 @@ export default function Home() {
                 display: "flex",
                 flexDirection: "column",
                 alignItems: "flex-start",
-                borderRadius: 12,
+                borderRadius: TOKENS.radius,
                 padding: 24,
                 textDecoration: "none",
                 color: "inherit",
                 backgroundColor: hoverJoin ? COLOR.secondaryTint : "#fff",
-                boxShadow: hoverJoin
-                  ? "0 6px 14px rgba(0,0,0,0.1)"
-                  : "0 4px 8px rgba(0,0,0,0.05)",
-                minHeight: 160,
+                boxShadow: hoverJoin ? TOKENS.shadowHover : TOKENS.shadowSm,
+                minHeight: 150,
                 gap: 12,
                 border: `1px solid ${COLOR.line}`,
-                transition: "all .2s ease",
+                transform: hoverJoin ? "translateY(-3px)" : "translateY(0)",
+                transition: "all .18s ease",
               }}
               onMouseEnter={() => setHoverJoin(true)}
               onMouseLeave={() => setHoverJoin(false)}
@@ -651,9 +655,9 @@ export default function Home() {
       >
         <div
           style={{
-            maxWidth: 1440,
+            maxWidth: TOKENS.container,
             margin: "0 auto",
-            padding: "24px 24px 32px",
+            padding: "20px 24px 32px",
           }}
         >
           <div
@@ -742,9 +746,11 @@ export default function Home() {
                   key={item.id}
                   to={item.to}
                   style={{
-                    borderRadius: 12,
+                    borderRadius: TOKENS.radius,
                     background: "#fff",
-                    boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
+                    boxShadow: hoveredStory === item.id ? TOKENS.shadowHover : TOKENS.shadowSm,
+                    transform: hoveredStory === item.id ? "translateY(-3px)" : "translateY(0)",
+                    transition: "all .18s ease",
                     overflow: "hidden",
                     display: "flex",
                     flexDirection: "column",
@@ -752,13 +758,16 @@ export default function Home() {
                     textDecoration: "none",
                     color: "inherit",
                   }}
+                  onMouseEnter={() => setHoveredStory(item.id)}
+                  onMouseLeave={() => setHoveredStory(null)}
                 >
                   {/* 썸네일 */}
                   <div
                     style={{
                       height: 140,
                       overflow: "hidden",
-                      backgroundColor: COLOR.bg,
+                      backgroundColor: COLOR.neutralTint,
+                      borderBottom: `1px solid ${COLOR.line}`,
                     }}
                   >
                     {item.thumbnail ? (
@@ -831,12 +840,12 @@ export default function Home() {
                   key={i}
                   to="/news/stories"
                   style={{
-                    borderRadius: 12,
+                    borderRadius: TOKENS.radius,
                     background: "#fff",
                     padding: 24,
                     textDecoration: "none",
                     color: "inherit",
-                    boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
+                    boxShadow: TOKENS.shadowSm,
                     display: "flex",
                     flexDirection: "column",
                     minHeight: 230,
@@ -845,13 +854,14 @@ export default function Home() {
                   <div
                     style={{
                       height: 140,
-                      backgroundColor: COLOR.bg,
+                      backgroundColor: COLOR.neutralTint,
                       display: "flex",
                       justifyContent: "center",
                       alignItems: "center",
                       fontSize: 48,
                       color: "#a3a3a3",
                       userSelect: "none",
+                      borderBottom: `1px solid ${COLOR.line}`,
                     }}
                   >
                     📰
