@@ -335,7 +335,7 @@ export default function Home() {
         style={{
           position: "relative",
           width: "100%",
-          background: `linear-gradient(180deg, ${COLOR.primaryTint} 0%, #ffffff 65%)`,
+          background: `linear-gradient(180deg, ${COLOR.primaryTint} 0%, #ffffff 75%)`,
           overflow: "hidden",
           borderBottom: "none",
           marginBottom: isMobile ? 12 : 16,
@@ -425,6 +425,7 @@ export default function Home() {
         aria-labelledby="notice-heading"
         style={{
           background: "#fff",
+          borderTop: `1px solid ${COLOR.line}`,
           marginBottom: sectionGap,
         }}
       >
@@ -714,6 +715,7 @@ export default function Home() {
         aria-label="가입/후원/문의"
         style={{
           background: "#fff",
+          borderTop: `1px solid ${COLOR.line}`,
           marginBottom: sectionGap,
         }}
       >
@@ -897,7 +899,8 @@ export default function Home() {
       <section
         aria-labelledby="stories-heading"
         style={{
-          background: `linear-gradient(180deg, #ffffff 0%, #ffffff 62%, ${COLOR.primaryTint} 100%)`,
+          background: "#fff",
+          borderTop: `1px solid ${COLOR.line}`,
           marginBottom: sectionGap,
         }}
       >
