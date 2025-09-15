@@ -594,7 +594,7 @@ export default function Home() {
                 iconSrc: "/images/icons/donation.png",
               },
               {
-                to: "/support",
+                to: "/support/combination",
                 title: "조합 가입 신청하기",
                 desc: "복지디자인의 미션에 함께해주세요.",
                 color: COLOR.primary, // 틸(반복)
