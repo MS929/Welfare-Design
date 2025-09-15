@@ -36,6 +36,8 @@ import BizMemberSvc from "./pages/business/MemberServices.jsx";
 import SupGuide from "./pages/support/Guide.jsx";
 import SupCorporate from "./pages/support/Corporate.jsx";
 import SupFAQ from "./pages/support/FAQ.jsx";
+import Combination from "@/pages/support/Combination.jsx";
+
 
 /* 404 */
 function NotFound() {
@@ -98,6 +100,7 @@ export default function App() {
           <Route path="/support/guide" element={<SupGuide />} />
           <Route path="/support/corporate" element={<SupCorporate />} />
           <Route path="/support/faq" element={<SupFAQ />} />
+          <Route path="/support/combination" element={<Combination />} />
 
           {/* 404 */}
           <Route path="*" element={<NotFound />} />
