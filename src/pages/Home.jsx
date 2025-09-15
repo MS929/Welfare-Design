@@ -583,7 +583,7 @@ export default function Home() {
                 desc: "복지디자인의 사업을 확인하세요.",
                 color: COLOR.primary, // 틸
                 tint: COLOR.primaryTint,
-                iconSrc: "/images/icons/apply-help.png",
+                iconSrc: "/images/icons/needs-survey.png",
               },
               {
                 to: "/support/guide",
