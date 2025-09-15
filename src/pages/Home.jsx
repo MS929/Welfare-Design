@@ -222,8 +222,35 @@ export default function Home() {
   const noticeCols = useCols();
   const storyCols = useCols();
 
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const media = window.matchMedia("(prefers-reduced-motion: reduce)");
+    if (media.matches) return;
+
+    const els = document.querySelectorAll("[data-reveal]");
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          const el = entry.target;
+          el.style.opacity = "1";
+          el.style.transform = "none";
+          io.unobserve(el);
+        }
+      });
+    }, { threshold: 0.12 });
+
+    els.forEach((el) => {
+      el.style.opacity = "0";
+      el.style.transform = "translateY(8px)";
+      el.style.transition = "opacity .4s ease, transform .4s ease";
+      io.observe(el);
+    });
+
+    return () => io.disconnect();
+  }, []);
+
   return (
-    <main>
+    <main role="main">
       {/* 0) 상단 간격 */}
       <div style={{ height: 8 }} />
 
@@ -261,7 +288,7 @@ export default function Home() {
             <h1
               style={{
                 margin: 0,
-                fontSize: "clamp(24px, 4.5vw, 48px)",
+                fontSize: "clamp(22px, 4.2vw, 46px)",
                 lineHeight: 1.18,
                 fontWeight: 900,
                 letterSpacing: "-0.5px",
@@ -270,9 +297,15 @@ export default function Home() {
                 textWrap: "balance",
               }}
             >
-              <span style={{display: "block"}}>현장과 지역을 잇는 맞춤형 복지를 설계하며</span>
-              <span style={{display: "block", marginTop: 6}}>복지디자인 <strong style={{ fontWeight: 900 }}>사회적협동조합</strong>이</span>
-              <span style={{display: "block", marginTop: 6}}>지역과 함께합니다.</span>
+              <span style={{ display: "block", fontWeight: 900 }}>
+                현장과 지역을 잇는 맞춤형 복지를 설계하며
+              </span>
+              <span style={{ display: "block", marginTop: 6, fontWeight: 800 }}>
+                복지디자인 <span style={{ fontWeight: 900 }}>사회적협동조합</span>이
+              </span>
+              <span style={{ display: "block", marginTop: 6, fontWeight: 700 }}>
+                지역과 함께합니다.
+              </span>
             </h1>
             <p
               style={{
@@ -331,6 +364,8 @@ export default function Home() {
               justifyContent: "space-between",
               alignItems: "center",
               marginBottom: 16,
+              flexWrap: "wrap",
+              gap: 12,
             }}
           >
             <h2
@@ -354,7 +389,7 @@ export default function Home() {
               />
               공지사항
             </h2>
-            <div style={{ display: "flex", gap: 8 }} role="tablist" aria-label="공지사항 구분">
+            <div style={{ display: "flex", gap: 8, whiteSpace: "nowrap" }} role="tablist" aria-label="공지사항 구분">
               {tabs.map((t, idx) => (
                 <button
                   key={t}
@@ -413,6 +448,7 @@ export default function Home() {
                 key={item.id}
                 to={item.to}
                 role="article"
+                data-reveal
                 style={{
                   border: `1px solid #EAEAEA`,
                   borderRadius: TOKENS.radius,
@@ -439,15 +475,14 @@ export default function Home() {
                       : "none",
                 }}
                 tabIndex={0}
-                onFocus={(e) =>
-                  (e.target.style.outline = `2px solid ${COLOR.primary}`)
-                }
-                onBlur={(e) =>
-                  (e.target.style.outline =
-                    hoveredNotice === item.id
-                      ? `2px solid ${COLOR.primary}`
-                      : "none")
-                }
+                onFocus={(e) => {
+                  e.currentTarget.style.outline = `2px solid ${COLOR.primary}`;
+                  e.currentTarget.style.outlineOffset = "2px";
+                }}
+                onBlur={(e) => {
+                  e.currentTarget.style.outline = hoveredNotice === item.id ? `2px solid ${COLOR.primary}` : "none";
+                  e.currentTarget.style.outlineOffset = hoveredNotice === item.id ? "2px" : "0";
+                }}
                 onMouseEnter={() => setHoveredNotice(item.id)}
                 onMouseLeave={() => setHoveredNotice(null)}
               >
@@ -625,6 +660,7 @@ export default function Home() {
               <Link
                 key={idx}
                 to={item.to}
+                data-reveal
                 style={{
                   position: "relative",
                   display: "flex",
@@ -642,20 +678,34 @@ export default function Home() {
                     "transform .16s ease, box-shadow .16s ease, background .16s ease",
                 }}
                 onMouseEnter={(e) => {
-                  e.currentTarget.style.boxShadow = TOKENS.shadowHover;
-                  e.currentTarget.style.transform = "translateY(-4px)";
-                  e.currentTarget.style.background = `${item.tint}`;
+                  const el = e.currentTarget;
+                  el.style.boxShadow = TOKENS.shadowHover;
+                  el.style.transform = "translateY(-4px)";
+                  el.style.background = `${item.tint}`;
+                  const title = el.querySelector("strong");
+                  const arrow = el.querySelector('[data-arrow]');
+                  if (title) title.style.color = item.color;
+                  if (arrow) arrow.style.color = item.color;
                 }}
                 onMouseLeave={(e) => {
-                  e.currentTarget.style.boxShadow = TOKENS.shadowSm;
-                  e.currentTarget.style.transform = "translateY(0)";
-                  e.currentTarget.style.background = item.tint;
+                  const el = e.currentTarget;
+                  el.style.boxShadow = TOKENS.shadowSm;
+                  el.style.transform = "translateY(0)";
+                  el.style.background = item.tint;
+                  const title = el.querySelector("strong");
+                  const arrow = el.querySelector('[data-arrow]');
+                  if (title) title.style.color = item.color;
+                  if (arrow) arrow.style.color = item.color;
                 }}
                 tabIndex={0}
-                onFocus={(e) =>
-                  (e.currentTarget.style.outline = `2px solid ${item.color}`)
-                }
-                onBlur={(e) => (e.currentTarget.style.outline = "none")}
+                onFocus={(e) => {
+                  e.currentTarget.style.outline = `2px solid ${item.color}`;
+                  e.currentTarget.style.outlineOffset = "2px";
+                }}
+                onBlur={(e) => {
+                  e.currentTarget.style.outline = "none";
+                  e.currentTarget.style.outlineOffset = "0";
+                }}
               >
                 {/* 아이콘 슬롯 (사용자가 교체 가능) */}
                 <div
@@ -704,6 +754,7 @@ export default function Home() {
                     </strong>
                     {/* 우측 화살표 */}
                     <span
+                      data-arrow
                       aria-hidden
                       style={{
                         color: item.color,
@@ -756,14 +807,15 @@ export default function Home() {
               gap: 12,
             }}
           >
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                gap: 6,
-                flex: 1,
-              }}
-            >
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              gap: 6,
+              flex: 1,
+              minWidth: 0,
+            }}
+          >
               <h2
                 id="stories-heading"
                 style={{
@@ -850,6 +902,7 @@ export default function Home() {
                 <Link
                   key={item.id}
                   to={item.to}
+                  data-reveal
                   style={{
                     borderRadius: TOKENS.radius,
                     background: "#fff",
@@ -875,15 +928,14 @@ export default function Home() {
                         : "none",
                   }}
                   tabIndex={0}
-                  onFocus={(e) =>
-                    (e.target.style.outline = `2px solid ${COLOR.primary}`)
-                  }
-                  onBlur={(e) =>
-                    (e.target.style.outline =
-                      hoveredStory === item.id
-                        ? `2px solid ${COLOR.primary}`
-                        : "none")
-                  }
+                  onFocus={(e) => {
+                    e.currentTarget.style.outline = `2px solid ${COLOR.primary}`;
+                    e.currentTarget.style.outlineOffset = "2px";
+                  }}
+                  onBlur={(e) => {
+                    e.currentTarget.style.outline = hoveredStory === item.id ? `2px solid ${COLOR.primary}` : "none";
+                    e.currentTarget.style.outlineOffset = hoveredStory === item.id ? "2px" : "0";
+                  }}
                   onMouseEnter={() => setHoveredStory(item.id)}
                   onMouseLeave={() => setHoveredStory(null)}
                 >
@@ -894,6 +946,7 @@ export default function Home() {
                       overflow: "hidden",
                       backgroundColor: COLOR.neutralTint,
                       borderBottom: "none",
+                      position: "relative",
                     }}
                   >
                     {item.thumbnail ? (
@@ -924,6 +977,22 @@ export default function Home() {
                         <span aria-hidden="true">📰</span>
                       </div>
                     )}
+                    <span
+                      style={{
+                        position: "absolute",
+                        top: 8,
+                        right: 8,
+                        padding: "2px 8px",
+                        fontSize: 12,
+                        borderRadius: 999,
+                        background: COLOR.primaryTint,
+                        border: `1px solid ${COLOR.primary}22`,
+                        color: COLOR.primary,
+                        boxShadow: TOKENS.shadowSm,
+                      }}
+                    >
+                      {item.category}
+                    </span>
                   </div>
                   <div
                     style={{
