@@ -177,7 +177,7 @@ export default function Navbar() {
             후원 안내
           </Link>
           <Link
-            to="/join"
+            to="/support/combination"
             className="bg-sky-400 hover:bg-sky-500 text-white px-4 py-2 rounded-full"
           >
             조합 가입
