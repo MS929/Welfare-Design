@@ -237,36 +237,28 @@ export default function Home() {
         >
           <div
             style={{
-              textAlign: "left",
+              textAlign: "center",
               color: COLOR.text,
-              maxWidth: 560,
-              margin: 0,
+              maxWidth: 760,
+              margin: "0 auto",
             }}
           >
             <h1
               style={{
                 margin: 0,
-                fontSize: 40,
+                fontSize: 44,
                 lineHeight: 1.18,
                 fontWeight: 900,
-                letterSpacing: "-0.4px",
+                letterSpacing: "-0.5px",
               }}
             >
-              현장과 지역을 잇는 맞춤형 복지를 설계하며 <br />
+              복지사각지대 없는 사회
+              <br />
+              <strong style={{ fontWeight: 900 }}>복지디자인 사회적협동조합</strong>이 함께 만들어갑니다
             </h1>
             <p
               style={{
-                margin: "10px 0 18px",
-                fontSize: 22,
-                fontWeight: 800,
-                color: COLOR.text,
-              }}
-            >
-              <strong>복지디자인 사회적협동조합</strong>이 지역과 함께합니다.
-            </p>
-            <p
-              style={{
-                margin: "8px 0 22px",
+                margin: "12px 0 22px",
                 color: COLOR.textMuted,
                 fontSize: 16,
               }}
