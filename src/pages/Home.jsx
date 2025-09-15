@@ -58,6 +58,9 @@ export default function Home() {
   // 히어로 이미지: 우선 순위 경로 → 존재하지 않으면 /public/main.png 로 폴백
   const [heroSrc, setHeroSrc] = useState("/images/main.png");
 
+  const NOTICE_CARD_MIN_H = 260; // 공지/공모 카드 공통 높이
+  const NOTICE_THUMB_H = 140;    // 공모 썸네일 고정 높이
+
   // 공지: 실제 파일 로드 (Decap CMS가 커밋한 md 기준)
   useEffect(() => {
     try {
@@ -353,7 +356,7 @@ export default function Home() {
                 display: "flex",
                 flexDirection: "column",
                 justifyContent: "space-between",
-                minHeight: 200,
+                minHeight: NOTICE_CARD_MIN_H,
                 backgroundColor: "#fff",
                 textDecoration: "none",
                 color: "inherit",
@@ -361,7 +364,7 @@ export default function Home() {
             >
               {noticeTab === "공모" ? (
                 <>
-                  <div style={{ height: 160, marginBottom: 12, borderRadius: 8, overflow: "hidden", background: "#f3f4f6" }}>
+                  <div style={{ height: NOTICE_THUMB_H, marginBottom: 12, borderRadius: 8, overflow: "hidden", background: "#f3f4f6" }}>
                     {item.thumbnail ? (
                       <img src={item.thumbnail} alt={item.title} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
                     ) : (
