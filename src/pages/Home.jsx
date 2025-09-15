@@ -185,13 +185,13 @@ export default function Home() {
       >
         <div
           style={{
-            maxWidth: 1400,
+            maxWidth: 1440,
             margin: "0 auto",
-            padding: "32px 16px",
+            padding: "40px 24px",
             display: "grid",
             gridTemplateColumns: "1fr 1fr",
             alignItems: "center",
-            gap: 16,
+            gap: 24,
           }}
         >
           {/* 좌측 카피 + 동그라미 버튼들 */}
@@ -258,7 +258,7 @@ export default function Home() {
           <div
             style={{
               position: "relative",
-              height: 300,
+              height: 340,
               borderRadius: 12,
               overflow: "hidden",
               boxShadow: "0 8px 20px rgba(0,0,0,0.08)",
@@ -281,9 +281,9 @@ export default function Home() {
       <section
         aria-labelledby="notice-heading"
         style={{
-          maxWidth: 1200,
+          maxWidth: 1440,
           margin: "0 auto",
-          padding: "0 16px",
+          padding: "0 24px",
           marginBottom: 40,
         }}
       >
@@ -292,10 +292,10 @@ export default function Home() {
             display: "flex",
             justifyContent: "space-between",
             alignItems: "center",
-            marginBottom: 12,
+            marginBottom: 16,
           }}
         >
-          <h2 id="notice-heading" style={{ fontSize: 20, fontWeight: 700 }}>
+          <h2 id="notice-heading" style={{ fontSize: 24, fontWeight: 700 }}>
             공지사항
           </h2>
           <div style={{ display: "flex", gap: 8 }}>
@@ -337,7 +337,7 @@ export default function Home() {
           style={{
             display: "grid",
             gridTemplateColumns: "repeat(4, minmax(0, 1fr))",
-            gap: 20,
+            gap: 24,
           }}
         >
           {(tabItems[noticeTab] || []).slice(0, 4).map((item) => (
@@ -348,12 +348,12 @@ export default function Home() {
               style={{
                 border: "1px solid #ddd",
                 borderRadius: 12,
-                padding: 20,
+                padding: 24,
                 boxShadow: "0 2px 8px rgba(0,0,0,0.05)",
                 display: "flex",
                 flexDirection: "column",
                 justifyContent: "space-between",
-                minHeight: 180,
+                minHeight: 200,
                 backgroundColor: "#fff",
                 textDecoration: "none",
                 color: "inherit",
@@ -361,7 +361,7 @@ export default function Home() {
             >
               {noticeTab === "공모" ? (
                 <>
-                  <div style={{ height: 140, marginBottom: 12, borderRadius: 8, overflow: "hidden", background: "#f3f4f6" }}>
+                  <div style={{ height: 160, marginBottom: 12, borderRadius: 8, overflow: "hidden", background: "#f3f4f6" }}>
                     {item.thumbnail ? (
                       <img src={item.thumbnail} alt={item.title} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
                     ) : (
@@ -410,9 +410,9 @@ export default function Home() {
       <section
         aria-label="가입/후원/문의"
         style={{
-          maxWidth: 1200,
+          maxWidth: 1440,
           margin: "0 auto",
-          padding: "0 16px",
+          padding: "0 24px",
           marginBottom: 40,
         }}
       >
@@ -420,7 +420,7 @@ export default function Home() {
           style={{
             display: "grid",
             gridTemplateColumns: "repeat(4, minmax(0, 1fr))",
-            gap: 20,
+            gap: 24,
           }}
         >
           {/* 복지디자인 소개 */}
@@ -436,7 +436,7 @@ export default function Home() {
               color: "inherit",
               backgroundColor: "#fff6e5",
               boxShadow: "0 4px 8px rgba(0,0,0,0.05)",
-              minHeight: 160,
+              minHeight: 180,
               gap: 12,
             }}
           >
@@ -463,7 +463,7 @@ export default function Home() {
               color: "inherit",
               backgroundColor: "#eef5ff",
               boxShadow: "0 4px 8px rgba(0,0,0,0.05)",
-              minHeight: 160,
+              minHeight: 180,
               gap: 12,
             }}
           >
@@ -490,7 +490,7 @@ export default function Home() {
               color: "inherit",
               backgroundColor: "#e9f6ef",
               boxShadow: "0 4px 8px rgba(0,0,0,0.05)",
-              minHeight: 160,
+              minHeight: 180,
               gap: 12,
             }}
           >
@@ -517,7 +517,7 @@ export default function Home() {
               color: "inherit",
               backgroundColor: "#f9e9ee",
               boxShadow: "0 4px 8px rgba(0,0,0,0.05)",
-              minHeight: 160,
+              minHeight: 180,
               gap: 12,
             }}
           >
@@ -546,9 +546,9 @@ export default function Home() {
       >
         <div
           style={{
-            maxWidth: 1200,
+            maxWidth: 1440,
             margin: "0 auto",
-            padding: "28px 16px 40px",
+            padding: "32px 24px 44px",
           }}
         >
           <div
@@ -572,7 +572,7 @@ export default function Home() {
               <h2
                 id="stories-heading"
                 style={{
-                  fontSize: 24,
+                  fontSize: 26,
                   fontWeight: 800,
                   margin: 0,
                   color: "#0f5132",
@@ -629,7 +629,7 @@ export default function Home() {
               style={{
                 display: "grid",
                 gridTemplateColumns: "repeat(4, minmax(0, 1fr))",
-                gap: 20,
+                gap: 24,
               }}
             >
               {filteredStories.slice(0, 4).map((item) => (
@@ -643,7 +643,7 @@ export default function Home() {
                     overflow: "hidden",
                     display: "flex",
                     flexDirection: "column",
-                    minHeight: 240,
+                    minHeight: 260,
                     textDecoration: "none",
                     color: "inherit",
                   }}
@@ -651,7 +651,7 @@ export default function Home() {
                   {/* 썸네일 */}
                   <div
                     style={{
-                      height: 140,
+                      height: 160,
                       overflow: "hidden",
                       backgroundColor: "#f0f0f0",
                     }}
@@ -717,7 +717,7 @@ export default function Home() {
               style={{
                 display: "grid",
                 gridTemplateColumns: "repeat(4, minmax(0, 1fr))",
-                gap: 20,
+                gap: 24,
               }}
             >
               {/* 소식 카드 4개 자리 – 데이터 없을 땐 플레이스홀더 링크 */}
@@ -734,12 +734,12 @@ export default function Home() {
                     boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
                     display: "flex",
                     flexDirection: "column",
-                    minHeight: 240,
+                    minHeight: 260,
                   }}
                 >
                   <div
                     style={{
-                      height: 140,
+                      height: 160,
                       backgroundColor: "#f0f0f0",
                       display: "flex",
                       justifyContent: "center",
