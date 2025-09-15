@@ -221,7 +221,7 @@ export default function Home() {
               }}
             >
               <Link
-                to="/business"
+                to="/business/overview"
                 style={{
                   width: 220,
                   height: 120,
