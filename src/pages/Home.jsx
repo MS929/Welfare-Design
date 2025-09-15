@@ -3,6 +3,22 @@ import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import matter from "gray-matter";
 
+// 브랜드 컬러 팔레트 (로고 기준)
+const COLOR = {
+  primary: "#F26C2A",     // 주황
+  secondary: "#2CB9B1",   // 청록
+  accent: "#F4C542",      // 노랑
+  text: "#111827",        // 본문 텍스트
+  textMuted: "#374151",   // 보조 텍스트
+  line: "#E5E7EB",        // 경계선
+  bg: "#F3F4F6",          // 기본 배경
+  // 연한 톤 (틴트)
+  primaryTint: "#FFE9DB",
+  secondaryTint: "#E6F7F6",
+  accentTint: "#FFF7D6",
+  neutralTint: "#F9FAFB",
+};
+
 // 유틸: 파일명 → { date: 'YYYY-MM-DD', slug: '...' }
 function parseDatedSlug(filepath) {
   // 예: /src/content/notices/2025-09-11-공지제목.md
@@ -180,9 +196,9 @@ export default function Home() {
         style={{
           position: "relative",
           width: "100%",
-          background: "#f4f6f7",
+          background: COLOR.bg,
           overflow: "hidden",
-          borderBottom: "1px solid #e5e7eb",
+          borderBottom: `1px solid ${COLOR.line}`,
           marginBottom: 16,
         }}
       >
@@ -204,6 +220,7 @@ export default function Home() {
               flexDirection: "column",
               alignItems: "center",
               textAlign: "center",
+              color: COLOR.text,
             }}
           >
             <h1
@@ -238,18 +255,18 @@ export default function Home() {
                   width: 220,
                   height: 120,
                   borderRadius: 16,
-                  background: "#e4eefc",
+                  background: COLOR.secondaryTint,
                   display: "grid",
                   placeItems: "center",
                   boxShadow: "0 2px 10px rgba(0,0,0,0.08)",
                   textDecoration: "none",
                   color: "inherit",
-                  border: "1px solid #e5e7eb",
+                  border: `1px solid ${COLOR.line}`,
                 }}
               >
                 <div style={{ textAlign: "center", lineHeight: 1.25 }}>
                   <div style={{ fontSize: 28, marginBottom: 6 }}>📌</div>
-                  <div style={{ fontSize: 15, color: "#374151", fontWeight: 800 }}>
+                  <div style={{ fontSize: 15, color: COLOR.textMuted, fontWeight: 800 }}>
                     복지디자인 사업
                   </div>
                 </div>
@@ -266,6 +283,7 @@ export default function Home() {
               overflow: "hidden",
               boxShadow: "0 8px 20px rgba(0,0,0,0.08)",
               background: "#fff",
+              border: `1px solid ${COLOR.line}`,
             }}
           >
             <img
@@ -310,9 +328,11 @@ export default function Home() {
                   padding: "6px 14px",
                   borderRadius: 999,
                   border:
-                    noticeTab === t ? "2px solid #0ea5e9" : "1px solid #e6e6e6",
-                  background: noticeTab === t ? "#e6f7ff" : "#fff",
-                  color: "#333",
+                    noticeTab === t
+                      ? `2px solid ${COLOR.secondary}`
+                      : `1px solid ${COLOR.line}`,
+                  background: noticeTab === t ? COLOR.secondaryTint : "#fff",
+                  color: noticeTab === t ? COLOR.secondary : COLOR.text,
                   cursor: "pointer",
                   fontWeight: noticeTab === t ? 700 : 400,
                   fontSize: 14,
@@ -326,7 +346,7 @@ export default function Home() {
               to="/news/notices"
               style={{
                 fontSize: 14,
-                color: "#2a7ae4",
+                color: COLOR.primary,
                 marginLeft: 8,
                 alignSelf: "center",
               }}
@@ -349,7 +369,7 @@ export default function Home() {
               to={item.to}
               role="article"
               style={{
-                border: "1px solid #ddd",
+                border: `1px solid ${COLOR.line}`,
                 borderRadius: 12,
                 padding: 24,
                 boxShadow: "0 2px 8px rgba(0,0,0,0.05)",
@@ -364,7 +384,7 @@ export default function Home() {
             >
               {noticeTab === "공모" ? (
                 <>
-                  <div style={{ height: NOTICE_THUMB_H, marginBottom: 12, borderRadius: 8, overflow: "hidden", background: "#f3f4f6" }}>
+                  <div style={{ height: NOTICE_THUMB_H, marginBottom: 12, borderRadius: 8, overflow: "hidden", background: COLOR.bg }}>
                     {item.thumbnail ? (
                       <img src={item.thumbnail} alt={item.title} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
                     ) : (
@@ -373,7 +393,7 @@ export default function Home() {
                   </div>
                   <h3 style={{ fontSize: 16, fontWeight: 700, margin: 0, lineHeight: 1.3 }}>{item.title}</h3>
                   {item.date && typeof item.date === "string" ? (
-                    <time style={{ fontSize: 12, color: "#888", marginTop: 6 }}>{item.date}</time>
+                    <time style={{ fontSize: 12, color: "#6B7280", marginTop: 6 }}>{item.date}</time>
                   ) : null}
                 </>
               ) : (
@@ -381,13 +401,13 @@ export default function Home() {
                   <div>
                     <h3 style={{ fontSize: 16, fontWeight: 700, marginBottom: 12, lineHeight: 1.3 }}>{item.title}</h3>
                     {item.excerpt && (
-                      <p style={{ fontSize: 14, color: "#555", marginTop: 0, marginBottom: 12, overflow: "hidden", textOverflow: "ellipsis", display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical", lineHeight: 1.4 }}>
+                      <p style={{ fontSize: 14, color: COLOR.textMuted, marginTop: 0, marginBottom: 12, overflow: "hidden", textOverflow: "ellipsis", display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical", lineHeight: 1.4 }}>
                         {item.excerpt}
                       </p>
                     )}
                   </div>
                   {item.date && typeof item.date === "string" ? (
-                    <time style={{ fontSize: 12, color: "#888" }}>{item.date}</time>
+                    <time style={{ fontSize: 12, color: "#6B7280" }}>{item.date}</time>
                   ) : null}
                 </>
               )}
@@ -437,13 +457,14 @@ export default function Home() {
               padding: 24,
               textDecoration: "none",
               color: "inherit",
-              backgroundColor: "#fff6e5",
+              backgroundColor: COLOR.accentTint,
               boxShadow: "0 4px 8px rgba(0,0,0,0.05)",
               minHeight: 160,
               gap: 12,
+              border: `1px solid ${COLOR.line}`,
             }}
           >
-            <div style={{ fontSize: 36, lineHeight: 1, color: "#d97706" }}>
+            <div style={{ fontSize: 36, lineHeight: 1, color: COLOR.accent }}>
               📘
             </div>
             <strong style={{ fontSize: 18, fontWeight: 700 }}>
@@ -464,13 +485,14 @@ export default function Home() {
               padding: 24,
               textDecoration: "none",
               color: "inherit",
-              backgroundColor: "#eef5ff",
+              backgroundColor: COLOR.primaryTint,
               boxShadow: "0 4px 8px rgba(0,0,0,0.05)",
               minHeight: 160,
               gap: 12,
+              border: `1px solid ${COLOR.line}`,
             }}
           >
-            <div style={{ fontSize: 36, lineHeight: 1, color: "#3b82f6" }}>
+            <div style={{ fontSize: 36, lineHeight: 1, color: COLOR.primary }}>
               💙
             </div>
             <strong style={{ fontSize: 18, fontWeight: 700 }}>
@@ -491,13 +513,14 @@ export default function Home() {
               padding: 24,
               textDecoration: "none",
               color: "inherit",
-              backgroundColor: "#e9f6ef",
+              backgroundColor: COLOR.secondaryTint,
               boxShadow: "0 4px 8px rgba(0,0,0,0.05)",
               minHeight: 160,
               gap: 12,
+              border: `1px solid ${COLOR.line}`,
             }}
           >
-            <div style={{ fontSize: 36, lineHeight: 1, color: "#34a853" }}>
+            <div style={{ fontSize: 36, lineHeight: 1, color: COLOR.secondary }}>
               🤝
             </div>
             <strong style={{ fontSize: 18, fontWeight: 700 }}>
@@ -518,13 +541,14 @@ export default function Home() {
               padding: 24,
               textDecoration: "none",
               color: "inherit",
-              backgroundColor: "#f9e9ee",
+              backgroundColor: COLOR.neutralTint,
               boxShadow: "0 4px 8px rgba(0,0,0,0.05)",
               minHeight: 160,
               gap: 12,
+              border: `1px solid ${COLOR.line}`,
             }}
           >
-            <div style={{ fontSize: 36, lineHeight: 1, color: "#ef4444" }}>
+            <div style={{ fontSize: 36, lineHeight: 1, color: COLOR.textMuted }}>
               ✉️
             </div>
             <strong style={{ fontSize: 18, fontWeight: 700 }}>
@@ -542,9 +566,9 @@ export default function Home() {
       <section
         aria-labelledby="stories-heading"
         style={{
-          background: "#d9f0e7", // 연한 파란-초록 영역 느낌
-          borderTop: "1px solid #c3e0d4",
-          borderBottom: "1px solid #c3e0d4",
+          background: COLOR.secondaryTint, // 연한 파란-초록 영역 느낌
+          borderTop: `1px solid ${COLOR.line}`,
+          borderBottom: `1px solid ${COLOR.line}`,
         }}
       >
         <div
@@ -578,12 +602,12 @@ export default function Home() {
                   fontSize: 26,
                   fontWeight: 800,
                   margin: 0,
-                  color: "#0f5132",
+                  color: COLOR.secondary,
                 }}
               >
                 복지디자인 소식
               </h2>
-              <small style={{ color: "#3a6351", fontSize: 14 }}>
+              <small style={{ color: COLOR.textMuted, fontSize: 14 }}>
                 행복한 소식을 만들어가는 복지디자인입니다.
               </small>
             </div>
@@ -598,10 +622,10 @@ export default function Home() {
                     borderRadius: 999,
                     border:
                       storiesTab === tab
-                        ? "2px solid #0f5132"
-                        : "1px solid #c3e0d4",
-                    background: storiesTab === tab ? "#e6f7ef" : "#fff",
-                    color: storiesTab === tab ? "#0f5132" : "#333",
+                        ? `2px solid ${COLOR.secondary}`
+                        : `1px solid ${COLOR.line}`,
+                    background: storiesTab === tab ? COLOR.secondaryTint : "#fff",
+                    color: storiesTab === tab ? COLOR.secondary : COLOR.text,
                     cursor: "pointer",
                     fontWeight: storiesTab === tab ? 700 : 400,
                     fontSize: 14,
@@ -615,7 +639,7 @@ export default function Home() {
                 to="/news/stories"
                 style={{
                   fontSize: 14,
-                  color: "#0f5132",
+                  color: COLOR.secondary,
                   marginLeft: 8,
                   textDecoration: "none",
                   fontWeight: 600,
@@ -656,7 +680,7 @@ export default function Home() {
                     style={{
                       height: 140,
                       overflow: "hidden",
-                      backgroundColor: "#f0f0f0",
+                      backgroundColor: COLOR.bg,
                     }}
                   >
                     {item.thumbnail ? (
@@ -707,7 +731,7 @@ export default function Home() {
                       {item.title}
                     </h3>
                     {item.date && typeof item.date === "string" ? (
-                      <time style={{ fontSize: 13, color: "#5b7a62" }}>
+                      <time style={{ fontSize: 13, color: COLOR.textMuted }}>
                         {item.date}
                       </time>
                     ) : null}
@@ -743,7 +767,7 @@ export default function Home() {
                   <div
                     style={{
                       height: 140,
-                      backgroundColor: "#f0f0f0",
+                      backgroundColor: COLOR.bg,
                       display: "flex",
                       justifyContent: "center",
                       alignItems: "center",
@@ -760,12 +784,12 @@ export default function Home() {
                       fontSize: 18,
                       marginTop: 16,
                       marginBottom: 8,
-                      color: "#0f5132",
+                      color: COLOR.secondary,
                     }}
                   >
                     복지디자인 이야기
                   </strong>
-                  <span style={{ fontSize: 14, color: "#5b7a62" }}>
+                  <span style={{ fontSize: 14, color: COLOR.textMuted }}>
                     우리 활동과 소식을 만나보세요.
                   </span>
                 </Link>
