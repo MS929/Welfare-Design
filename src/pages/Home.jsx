@@ -617,7 +617,7 @@ export default function Home() {
                 </button>
               ))}
               <Link
-                to="/news"
+                to="/news/stories"
                 style={{
                   fontSize: 14,
                   color: "#0f5132",
@@ -732,7 +732,7 @@ export default function Home() {
               {[0, 1, 2].map((i) => (
                 <Link
                   key={i}
-                  to="/news"
+                  to="/news/stories"
                   style={{
                     borderRadius: 12,
                     background: "#fff",
