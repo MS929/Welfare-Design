@@ -22,13 +22,13 @@ const COLOR = {
 // 디자인 토큰 (간격/라운드/그리드)
 const TOKENS = {
   radius: 16,
-  radiusLg: 22,
+  radiusLg: 24,
   gap: 28,
-  gapSm: 16,
-  container: 1440,
-  shadow: "0 8px 24px rgba(0,0,0,.08)",
-  shadowSm: "0 4px 12px rgba(0,0,0,.06)",
-  shadowHover: "0 12px 30px rgba(0,0,0,.14)",
+  gapSm: 14,
+  container: 1280,
+  shadow: "0 10px 28px rgba(15, 23, 42, .08)",
+  shadowSm: "0 4px 14px rgba(15, 23, 42, .06)",
+  shadowHover: "0 16px 36px rgba(15, 23, 42, .14)",
 };
 
 // 유틸: 파일명 → { date: 'YYYY-MM-DD', slug: '...' }
@@ -227,39 +227,60 @@ export default function Home() {
           style={{
             maxWidth: TOKENS.container,
             margin: "0 auto",
-            padding: "48px 24px",
+            padding: "64px 24px",
             display: "grid",
-            gridTemplateColumns: "1.05fr 1fr",
+            gridTemplateColumns: "1fr 1.1fr",
             alignItems: "center",
             gap: TOKENS.gap,
           }}
         >
-          <div style={{ textAlign: "center", color: COLOR.text, maxWidth: 720, margin: "0 auto" }}>
+          <div style={{ textAlign: "center", color: COLOR.text, maxWidth: 780, margin: "0 auto" }}>
             <h1
               style={{
                 margin: 0,
-                fontSize: 36,
-                lineHeight: 1.25,
+                fontSize: 40,
+                lineHeight: 1.18,
                 fontWeight: 900,
-                letterSpacing: "-0.3px",
+                letterSpacing: "-0.4px",
               }}
             >
               복지 사각지대 없는 사회
               <br />
-              <span style={{ display: "inline-block", marginTop: 8 }}>
+              <span style={{ display: "inline-block", marginTop: 10 }}>
                 <strong>복지디자인 사회적협동조합</strong>이 함께 만들어갑니다
               </span>
             </h1>
+            <p style={{margin: "14px 0 22px", color: COLOR.textMuted, fontSize: 16}}>
+              함께 성장하며, 모두의 행복을 위한 복지를 디자인합니다.
+            </p>
+            <Link
+              to="/business/overview"
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                gap: 10,
+                padding: "12px 18px",
+                borderRadius: 999,
+                background: COLOR.primary,
+                color: "#fff",
+                fontWeight: 700,
+                textDecoration: "none",
+                boxShadow: TOKENS.shadowSm,
+                border: `1px solid ${COLOR.primary}`,
+              }}
+            >
+              복지디자인 사업 보기 <span aria-hidden>→</span>
+            </Link>
           </div>
 
           <div
             style={{
               position: "relative",
-              height: 260,
+              height: 300,
               borderRadius: TOKENS.radiusLg,
               overflow: "hidden",
               boxShadow: TOKENS.shadow,
-              background: `radial-gradient(70% 100% at 100% 0%, ${COLOR.secondaryTint} 0%, #fff 70%)`,
+              background: `radial-gradient(75% 120% at 100% 0%, ${COLOR.secondaryTint} 0%, #fff 70%)`,
               border: `1px solid ${COLOR.line}`,
             }}
           >
@@ -279,7 +300,7 @@ export default function Home() {
       <section
         aria-labelledby="notice-heading"
         style={{
-          background: COLOR.yellowTint,
+          background: `linear-gradient(180deg, ${COLOR.yellowTint} 0%, #fff 70%)`,
           borderTop: `1px solid ${COLOR.line}`,
           borderBottom: `1px solid ${COLOR.line}`,
           marginBottom: 32,
@@ -300,7 +321,8 @@ export default function Home() {
               marginBottom: 16,
             }}
           >
-            <h2 id="notice-heading" style={{ fontSize: 30, fontWeight: 800 }}>
+            <h2 id="notice-heading" style={{ display: "flex", alignItems: "center", gap: 12, fontSize: 30, fontWeight: 800, margin: 0 }}>
+              <span style={{width: 6, height: 26, background: COLOR.secondary, borderRadius: 3}} />
               공지사항
             </h2>
             <div style={{ display: "flex", gap: 8 }}>
@@ -355,7 +377,7 @@ export default function Home() {
                 style={{
                   border: `1px solid ${COLOR.line}`,
                   borderRadius: TOKENS.radius,
-                  padding: 22,
+                  padding: 20,
                   boxShadow: hoveredNotice === item.id ? TOKENS.shadowHover : TOKENS.shadowSm,
                   transform: hoveredNotice === item.id ? "translateY(-3px)" : "translateY(0)",
                   transition: "all .18s ease",
@@ -366,6 +388,7 @@ export default function Home() {
                   backgroundColor: "#fff",
                   textDecoration: "none",
                   color: "inherit",
+                  outline: hoveredNotice === item.id ? `2px solid ${COLOR.primary}22` : "none",
                 }}
                 onMouseEnter={() => setHoveredNotice(item.id)}
                 onMouseLeave={() => setHoveredNotice(null)}
@@ -430,9 +453,9 @@ export default function Home() {
                     <div>
                       <h3
                         style={{
-                          fontSize: 17,
+                          fontSize: 18,
                           fontWeight: 700,
-                          marginBottom: 12,
+                          marginBottom: 10,
                           lineHeight: 1.3,
                         }}
                       >
@@ -487,7 +510,7 @@ export default function Home() {
       <section
         aria-label="가입/후원/문의"
         style={{
-          background: "#e28455",
+          background: "linear-gradient(180deg, #e28455 0%, #e99a73 100%)",
           borderTop: `1px solid ${COLOR.line}`,
           borderBottom: `1px solid ${COLOR.line}`,
           marginBottom: 32,
@@ -518,13 +541,14 @@ export default function Home() {
                 padding: 24,
                 textDecoration: "none",
                 color: "inherit",
-                backgroundColor: hoverIntro ? COLOR.accentTint : "#fff",
+                background: hoverIntro ? `linear-gradient(180deg, ${COLOR.accentTint}, #fff)` : "#fff",
                 boxShadow: hoverIntro ? TOKENS.shadowHover : TOKENS.shadowSm,
                 minHeight: 150,
                 gap: 12,
                 border: `1px solid ${COLOR.line}`,
                 transform: hoverIntro ? "translateY(-3px)" : "translateY(0)",
                 transition: "all .18s ease",
+                outline: "1px solid rgba(0,0,0,.02)",
               }}
               onMouseEnter={() => setHoverIntro(true)}
               onMouseLeave={() => setHoverIntro(false)}
@@ -548,13 +572,14 @@ export default function Home() {
                 padding: 24,
                 textDecoration: "none",
                 color: "inherit",
-                backgroundColor: hoverEmail ? COLOR.secondaryTint : "#fff",
+                background: hoverEmail ? `linear-gradient(180deg, ${COLOR.secondaryTint}, #fff)` : "#fff",
                 boxShadow: hoverEmail ? TOKENS.shadowHover : TOKENS.shadowSm,
                 minHeight: 150,
                 gap: 12,
                 border: `1px solid ${COLOR.line}`,
                 transform: hoverEmail ? "translateY(-3px)" : "translateY(0)",
                 transition: "all .18s ease",
+                outline: "1px solid rgba(0,0,0,.02)",
               }}
               onMouseEnter={() => setHoverEmail(true)}
               onMouseLeave={() => setHoverEmail(false)}
@@ -578,13 +603,14 @@ export default function Home() {
                 padding: 24,
                 textDecoration: "none",
                 color: "inherit",
-                backgroundColor: hoverSupport ? COLOR.primaryTint : "#fff",
+                background: hoverSupport ? `linear-gradient(180deg, ${COLOR.primaryTint}, #fff)` : "#fff",
                 boxShadow: hoverSupport ? TOKENS.shadowHover : TOKENS.shadowSm,
                 minHeight: 150,
                 gap: 12,
                 border: `1px solid ${COLOR.line}`,
                 transform: hoverSupport ? "translateY(-3px)" : "translateY(0)",
                 transition: "all .18s ease",
+                outline: "1px solid rgba(0,0,0,.02)",
               }}
               onMouseEnter={() => setHoverSupport(true)}
               onMouseLeave={() => setHoverSupport(false)}
@@ -608,13 +634,14 @@ export default function Home() {
                 padding: 24,
                 textDecoration: "none",
                 color: "inherit",
-                backgroundColor: hoverJoin ? COLOR.secondaryTint : "#fff",
+                background: hoverJoin ? `linear-gradient(180deg, ${COLOR.secondaryTint}, #fff)` : "#fff",
                 boxShadow: hoverJoin ? TOKENS.shadowHover : TOKENS.shadowSm,
                 minHeight: 150,
                 gap: 12,
                 border: `1px solid ${COLOR.line}`,
                 transform: hoverJoin ? "translateY(-3px)" : "translateY(0)",
                 transition: "all .18s ease",
+                outline: "1px solid rgba(0,0,0,.02)",
               }}
               onMouseEnter={() => setHoverJoin(true)}
               onMouseLeave={() => setHoverJoin(false)}
@@ -668,12 +695,16 @@ export default function Home() {
               <h2
                 id="stories-heading"
                 style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 12,
                   fontSize: 26,
                   fontWeight: 800,
                   margin: 0,
                   color: COLOR.primary,
                 }}
               >
+                <span style={{width: 6, height: 24, background: COLOR.primary, borderRadius: 3}} />
                 복지디자인 소식
               </h2>
               <small style={{ color: COLOR.textMuted, fontSize: 14 }}>
@@ -725,7 +756,7 @@ export default function Home() {
               style={{
                 display: "grid",
                 gridTemplateColumns: "repeat(4, minmax(0, 1fr))",
-                gap: 24,
+                gap: 22,
               }}
             >
               {filteredStories.slice(0, 4).map((item) => (
@@ -744,6 +775,7 @@ export default function Home() {
                     minHeight: 230,
                     textDecoration: "none",
                     color: "inherit",
+                    border: `1px solid ${COLOR.line}`,
                   }}
                   onMouseEnter={() => setHoveredStory(item.id)}
                   onMouseLeave={() => setHoveredStory(null)}
@@ -751,7 +783,7 @@ export default function Home() {
                   {/* 썸네일 */}
                   <div
                     style={{
-                      height: 140,
+                      height: 150,
                       overflow: "hidden",
                       backgroundColor: COLOR.neutralTint,
                       borderBottom: `1px solid ${COLOR.line}`,
@@ -818,7 +850,7 @@ export default function Home() {
               style={{
                 display: "grid",
                 gridTemplateColumns: "repeat(4, minmax(0, 1fr))",
-                gap: 24,
+                gap: 22,
               }}
             >
               {/* 소식 카드 4개 자리 – 데이터 없을 땐 플레이스홀더 링크 */}
@@ -840,7 +872,7 @@ export default function Home() {
                 >
                   <div
                     style={{
-                      height: 140,
+                      height: 150,
                       backgroundColor: COLOR.neutralTint,
                       display: "flex",
                       justifyContent: "center",
