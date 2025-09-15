@@ -25,7 +25,7 @@ function parseDatedSlug(filepath) {
 function getTitle(mod, fallback) {
   // 일부 md 로더는 `mod.attributes` 또는 `mod.frontmatter`에 제목이 실림
   const fm = mod?.attributes || mod?.frontmatter || {};
-  return fm.title || fallback || "제목 없음";
+  return fm.title || fallback || "제목 없음ㄴ";
 }
 
 // 유틸: 날짜를 화면에 안전하게 표시 (Date/Object → YYYY-MM-DD string)
