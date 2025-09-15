@@ -762,7 +762,7 @@ export default function Home() {
       <section
         aria-labelledby="stories-heading"
         style={{
-          background: COLOR.primaryTint, // 연한 청록 영역
+          background: `linear-gradient(180deg, ${COLOR.primaryTint} 0%, ${COLOR.primaryTint} 72%, #ffffff 100%)`,
           marginBottom: 56,
         }}
       >
