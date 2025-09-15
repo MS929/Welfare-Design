@@ -234,7 +234,14 @@ export default function Home() {
             gap: TOKENS.gap,
           }}
         >
-          <div style={{ textAlign: "center", color: COLOR.text, maxWidth: 780, margin: "0 auto" }}>
+          <div
+            style={{
+              textAlign: "center",
+              color: COLOR.text,
+              maxWidth: 780,
+              margin: "0 auto",
+            }}
+          >
             <h1
               style={{
                 margin: 0,
@@ -250,7 +257,13 @@ export default function Home() {
                 <strong>복지디자인 사회적협동조합</strong>이 함께 만들어갑니다
               </span>
             </h1>
-            <p style={{margin: "14px 0 22px", color: COLOR.textMuted, fontSize: 16}}>
+            <p
+              style={{
+                margin: "14px 0 22px",
+                color: COLOR.textMuted,
+                fontSize: 16,
+              }}
+            >
               함께 성장하며, 모두의 행복을 위한 복지를 디자인합니다.
             </p>
           </div>
@@ -285,7 +298,7 @@ export default function Home() {
           background: `linear-gradient(180deg, ${COLOR.yellowTint} 0%, #fff 70%)`,
           borderTop: `1px solid ${COLOR.line}`,
           borderBottom: `1px solid ${COLOR.line}`,
-          marginBottom: 32,
+          marginBottom: 40,
         }}
       >
         <div
@@ -303,8 +316,25 @@ export default function Home() {
               marginBottom: 16,
             }}
           >
-            <h2 id="notice-heading" style={{ display: "flex", alignItems: "center", gap: 12, fontSize: 30, fontWeight: 800, margin: 0 }}>
-              <span style={{width: 6, height: 26, background: COLOR.secondary, borderRadius: 3}} />
+            <h2
+              id="notice-heading"
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: 12,
+                fontSize: 30,
+                fontWeight: 800,
+                margin: 0,
+              }}
+            >
+              <span
+                style={{
+                  width: 6,
+                  height: 26,
+                  background: COLOR.secondary,
+                  borderRadius: 3,
+                }}
+              />
               공지사항
             </h2>
             <div style={{ display: "flex", gap: 8 }}>
@@ -348,7 +378,7 @@ export default function Home() {
             style={{
               display: "grid",
               gridTemplateColumns: "repeat(4, minmax(0, 1fr))",
-              gap: 24,
+              gap: 28,
             }}
           >
             {(tabItems[noticeTab] || []).slice(0, 4).map((item) => (
@@ -360,8 +390,14 @@ export default function Home() {
                   border: `1px solid ${COLOR.line}`,
                   borderRadius: TOKENS.radius,
                   padding: 20,
-                  boxShadow: hoveredNotice === item.id ? TOKENS.shadowHover : TOKENS.shadowSm,
-                  transform: hoveredNotice === item.id ? "translateY(-3px)" : "translateY(0)",
+                  boxShadow:
+                    hoveredNotice === item.id
+                      ? TOKENS.shadowHover
+                      : TOKENS.shadowSm,
+                  transform:
+                    hoveredNotice === item.id
+                      ? "translateY(-3px)"
+                      : "translateY(0)",
                   transition: "all .18s ease",
                   display: "flex",
                   flexDirection: "column",
@@ -370,7 +406,10 @@ export default function Home() {
                   backgroundColor: "#fff",
                   textDecoration: "none",
                   color: "inherit",
-                  outline: hoveredNotice === item.id ? `2px solid ${COLOR.primary}22` : "none",
+                  outline:
+                    hoveredNotice === item.id
+                      ? `2px solid ${COLOR.primary}22`
+                      : "none",
                 }}
                 onMouseEnter={() => setHoveredNotice(item.id)}
                 onMouseLeave={() => setHoveredNotice(null)}
@@ -495,7 +534,7 @@ export default function Home() {
           background: "linear-gradient(180deg, #e28455 0%, #e99a73 100%)",
           borderTop: `1px solid ${COLOR.line}`,
           borderBottom: `1px solid ${COLOR.line}`,
-          marginBottom: 32,
+          marginBottom: 40,
         }}
       >
         <div
@@ -523,19 +562,35 @@ export default function Home() {
                 padding: 24,
                 textDecoration: "none",
                 color: "inherit",
-                background: hoverIntro ? `linear-gradient(180deg, ${COLOR.accentTint}, #fff)` : "#fff",
+                background: hoverIntro
+                  ? `linear-gradient(180deg, ${COLOR.accentTint}, #fff)`
+                  : "#fff",
                 boxShadow: hoverIntro ? TOKENS.shadowHover : TOKENS.shadowSm,
                 minHeight: 150,
                 gap: 12,
                 border: `1px solid ${COLOR.line}`,
                 transform: hoverIntro ? "translateY(-3px)" : "translateY(0)",
                 transition: "all .18s ease",
-                outline: "1px solid rgba(0,0,0,.02)",
+                outline: "1px solid rgba(0,0,0,.05)",
               }}
               onMouseEnter={() => setHoverIntro(true)}
               onMouseLeave={() => setHoverIntro(false)}
             >
-              <div style={{ width: 44, height: 44, borderRadius: 999, display: "flex", alignItems: "center", justifyContent: "center", background: COLOR.accentTint, color: COLOR.accent, fontSize: 24 }}>📘</div>
+              <div
+                style={{
+                  width: 44,
+                  height: 44,
+                  borderRadius: 999,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  background: COLOR.accentTint,
+                  color: COLOR.accent,
+                  fontSize: 24,
+                }}
+              >
+                📘
+              </div>
               <strong style={{ fontSize: 18, fontWeight: 700 }}>
                 복지디자인 소개
               </strong>
@@ -554,7 +609,9 @@ export default function Home() {
                 padding: 24,
                 textDecoration: "none",
                 color: "inherit",
-                background: hoverEmail ? `linear-gradient(180deg, ${COLOR.secondaryTint}, #fff)` : "#fff",
+                background: hoverEmail
+                  ? `linear-gradient(180deg, ${COLOR.secondaryTint}, #fff)`
+                  : "#fff",
                 boxShadow: hoverEmail ? TOKENS.shadowHover : TOKENS.shadowSm,
                 minHeight: 150,
                 gap: 12,
@@ -566,7 +623,21 @@ export default function Home() {
               onMouseEnter={() => setHoverEmail(true)}
               onMouseLeave={() => setHoverEmail(false)}
             >
-              <div style={{ width: 44, height: 44, borderRadius: 999, display: "flex", alignItems: "center", justifyContent: "center", background: COLOR.secondaryTint, color: COLOR.secondary, fontSize: 24 }}>📌</div>
+              <div
+                style={{
+                  width: 44,
+                  height: 44,
+                  borderRadius: 999,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  background: COLOR.secondaryTint,
+                  color: COLOR.secondary,
+                  fontSize: 24,
+                }}
+              >
+                📌
+              </div>
               <strong style={{ fontSize: 18, fontWeight: 700 }}>
                 복지디자인 사업
               </strong>
@@ -585,7 +656,9 @@ export default function Home() {
                 padding: 24,
                 textDecoration: "none",
                 color: "inherit",
-                background: hoverSupport ? `linear-gradient(180deg, ${COLOR.primaryTint}, #fff)` : "#fff",
+                background: hoverSupport
+                  ? `linear-gradient(180deg, ${COLOR.primaryTint}, #fff)`
+                  : "#fff",
                 boxShadow: hoverSupport ? TOKENS.shadowHover : TOKENS.shadowSm,
                 minHeight: 150,
                 gap: 12,
@@ -597,7 +670,21 @@ export default function Home() {
               onMouseEnter={() => setHoverSupport(true)}
               onMouseLeave={() => setHoverSupport(false)}
             >
-              <div style={{ width: 44, height: 44, borderRadius: 999, display: "flex", alignItems: "center", justifyContent: "center", background: COLOR.primaryTint, color: COLOR.primary, fontSize: 24 }}>💙</div>
+              <div
+                style={{
+                  width: 44,
+                  height: 44,
+                  borderRadius: 999,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  background: COLOR.primaryTint,
+                  color: COLOR.primary,
+                  fontSize: 24,
+                }}
+              >
+                💙
+              </div>
               <strong style={{ fontSize: 18, fontWeight: 700 }}>
                 후원 가입 신청하기
               </strong>
@@ -616,7 +703,9 @@ export default function Home() {
                 padding: 24,
                 textDecoration: "none",
                 color: "inherit",
-                background: hoverJoin ? `linear-gradient(180deg, ${COLOR.secondaryTint}, #fff)` : "#fff",
+                background: hoverJoin
+                  ? `linear-gradient(180deg, ${COLOR.secondaryTint}, #fff)`
+                  : "#fff",
                 boxShadow: hoverJoin ? TOKENS.shadowHover : TOKENS.shadowSm,
                 minHeight: 150,
                 gap: 12,
@@ -628,7 +717,21 @@ export default function Home() {
               onMouseEnter={() => setHoverJoin(true)}
               onMouseLeave={() => setHoverJoin(false)}
             >
-              <div style={{ width: 44, height: 44, borderRadius: 999, display: "flex", alignItems: "center", justifyContent: "center", background: COLOR.secondaryTint, color: COLOR.secondary, fontSize: 24 }}>🤝</div>
+              <div
+                style={{
+                  width: 44,
+                  height: 44,
+                  borderRadius: 999,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  background: COLOR.secondaryTint,
+                  color: COLOR.secondary,
+                  fontSize: 24,
+                }}
+              >
+                🤝
+              </div>
               <strong style={{ fontSize: 18, fontWeight: 700 }}>
                 조합 가입 신청하기
               </strong>
@@ -686,7 +789,14 @@ export default function Home() {
                   color: COLOR.primary,
                 }}
               >
-                <span style={{width: 6, height: 24, background: COLOR.primary, borderRadius: 3}} />
+                <span
+                  style={{
+                    width: 6,
+                    height: 24,
+                    background: COLOR.primary,
+                    borderRadius: 3,
+                  }}
+                />
                 복지디자인 소식
               </h2>
               <small style={{ color: COLOR.textMuted, fontSize: 14 }}>
@@ -748,8 +858,14 @@ export default function Home() {
                   style={{
                     borderRadius: TOKENS.radius,
                     background: "#fff",
-                    boxShadow: hoveredStory === item.id ? TOKENS.shadowHover : TOKENS.shadowSm,
-                    transform: hoveredStory === item.id ? "translateY(-3px)" : "translateY(0)",
+                    boxShadow:
+                      hoveredStory === item.id
+                        ? TOKENS.shadowHover
+                        : TOKENS.shadowSm,
+                    transform:
+                      hoveredStory === item.id
+                        ? "translateY(-3px)"
+                        : "translateY(0)",
                     transition: "all .18s ease",
                     overflow: "hidden",
                     display: "flex",
@@ -812,7 +928,7 @@ export default function Home() {
                         fontSize: 18,
                         fontWeight: 700,
                         margin: 0,
-                        marginBottom: 10,
+                        marginBottom: 8,
                         lineHeight: 1.3,
                       }}
                     >
