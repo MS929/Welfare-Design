@@ -252,7 +252,7 @@ export default function Home() {
                 letterSpacing: "-0.4px",
               }}
             >
-              복지 사각지대 없는 사회
+              인생을 그리는 사회
               <br />
               <span style={{ display: "inline-block", marginTop: 10 }}>
                 <strong>복지디자인 사회적협동조합</strong>이 함께 만들어갑니다
@@ -572,6 +572,17 @@ export default function Home() {
               onMouseEnter={() => setHoverIntro(true)}
               onMouseLeave={() => setHoverIntro(false)}
             >
+              <div style={{
+                margin: "-24px -24px 16px",
+                height: 44,
+                background: COLOR.accent,
+                borderRadius: `${TOKENS.radius}px ${TOKENS.radius}px 10px 10px`,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                color: "#1f2937",
+                fontWeight: 800
+              }}>복지디자인 소개</div>
               <div
                 style={{
                   width: 44,
@@ -587,9 +598,6 @@ export default function Home() {
               >
                 📘
               </div>
-              <strong style={{ fontSize: 18, fontWeight: 700 }}>
-                복지디자인 소개
-              </strong>
               <span style={{ fontSize: 14, color: "#3a3a3a" }}>
                 조합의 비전과 연혁을 확인하세요.
               </span>
@@ -618,6 +626,17 @@ export default function Home() {
               onMouseEnter={() => setHoverEmail(true)}
               onMouseLeave={() => setHoverEmail(false)}
             >
+              <div style={{
+                margin: "-24px -24px 16px",
+                height: 44,
+                background: COLOR.secondary,
+                borderRadius: `${TOKENS.radius}px ${TOKENS.radius}px 10px 10px`,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                color: "#1f2937",
+                fontWeight: 800
+              }}>사업 안내</div>
               <div
                 style={{
                   width: 44,
@@ -633,9 +652,6 @@ export default function Home() {
               >
                 📊
               </div>
-              <strong style={{ fontSize: 18, fontWeight: 700 }}>
-                사업 안내
-              </strong>
               <span style={{ fontSize: 14, color: "#3a3a3a" }}>
                 복지디자인의 사업을 확인하세요.
               </span>
@@ -664,6 +680,17 @@ export default function Home() {
               onMouseEnter={() => setHoverSupport(true)}
               onMouseLeave={() => setHoverSupport(false)}
             >
+              <div style={{
+                margin: "-24px -24px 16px",
+                height: 44,
+                background: COLOR.primary,
+                borderRadius: `${TOKENS.radius}px ${TOKENS.radius}px 10px 10px`,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                color: "#1f2937",
+                fontWeight: 800
+              }}>후원 가입 신청하기</div>
               <div
                 style={{
                   width: 44,
@@ -679,9 +706,6 @@ export default function Home() {
               >
                 💙
               </div>
-              <strong style={{ fontSize: 18, fontWeight: 700 }}>
-                후원 가입 신청하기
-              </strong>
               <span style={{ fontSize: 14, color: "#3a3a3a" }}>
                 지속적 관심과 지지를 부탁드립니다.
               </span>
@@ -710,6 +734,17 @@ export default function Home() {
               onMouseEnter={() => setHoverJoin(true)}
               onMouseLeave={() => setHoverJoin(false)}
             >
+              <div style={{
+                margin: "-24px -24px 16px",
+                height: 44,
+                background: COLOR.secondary,
+                borderRadius: `${TOKENS.radius}px ${TOKENS.radius}px 10px 10px`,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                color: "#1f2937",
+                fontWeight: 800
+              }}>조합 가입 신청하기</div>
               <div
                 style={{
                   width: 44,
@@ -725,9 +760,6 @@ export default function Home() {
               >
                 🤝
               </div>
-              <strong style={{ fontSize: 18, fontWeight: 700 }}>
-                조합 가입 신청하기
-              </strong>
               <span style={{ fontSize: 14, color: "#3a3a3a" }}>
                 복지디자인의 미션에 함께해주세요.
               </span>
