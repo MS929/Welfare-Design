@@ -36,7 +36,7 @@ import BizMemberSvc from "./pages/business/MemberServices.jsx";
 import SupGuide from "./pages/support/Guide.jsx";
 import SupCorporate from "./pages/support/Corporate.jsx";
 import SupFAQ from "./pages/support/FAQ.jsx";
-import Combination from "@/pages/support/Combination.jsx";
+import Combination from "./pages/support/Combination.jsx";
 
 
 /* 404 */
