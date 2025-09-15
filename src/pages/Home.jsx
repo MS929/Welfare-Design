@@ -16,6 +16,7 @@ const COLOR = {
   secondaryTint: "#FFF7E6",
   accentTint: "#E9F9EE",
   neutralTint: "#F9FAFB",
+  yellowTint: "#FFFBEA",
 };
 
 // 유틸: 파일명 → { date: 'YYYY-MM-DD', slug: '...' }
@@ -307,12 +308,19 @@ export default function Home() {
       <section
         aria-labelledby="notice-heading"
         style={{
-          maxWidth: 1440,
-          margin: "0 auto",
-          padding: "0 24px",
-          marginBottom: 48,
+          background: COLOR.yellowTint,
+          borderTop: `1px solid ${COLOR.line}`,
+          borderBottom: `1px solid ${COLOR.line}`,
+          marginBottom: 32,
         }}
       >
+        <div
+          style={{
+            maxWidth: 1440,
+            margin: "0 auto",
+            padding: "24px 24px 32px",
+          }}
+        >
         <div
           style={{
             display: "flex",
@@ -432,13 +440,14 @@ export default function Home() {
             </div>
           )}
         </div>
+        </div>
       </section>
 
       {/* 3) 가입/후원/문의 CTA 박스 */}
       <section
         aria-label="가입/후원/문의"
         style={{
-          background: COLOR.neutralTint,
+          background: COLOR.secondaryTint,
           borderTop: `1px solid ${COLOR.line}`,
           borderBottom: `1px solid ${COLOR.line}`,
           marginBottom: 32,
