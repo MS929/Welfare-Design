@@ -1,5 +1,9 @@
 // src/App.jsx
+import { BrowserRouter } from "react-router-dom";
 import { Routes, Route } from "react-router-dom";
+import { useLocation } from "react-router-dom";
+import { useEffect } from "react";
+
 import Navbar from "./components/Navbar.jsx";
 import Footer from "./components/Footer.jsx";
 import Home from "./pages/Home.jsx";
@@ -43,10 +47,19 @@ function NotFound() {
   );
 }
 
+function ScrollToTop() {
+  const { pathname } = useLocation();
+  useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: "auto" }); // 항상 맨 위
+  }, [pathname]);
+  return null;
+}
+
 export default function App() {
   return (
     <div className="font-sans min-h-screen flex flex-col">
       <Navbar />
+      <ScrollToTop />
       <main className="flex-1">
         <Routes>
           {/* 메인 */}
