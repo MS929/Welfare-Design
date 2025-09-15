@@ -141,7 +141,7 @@ export default function Navbar() {
     >
       <nav className="max-w-[1200px] mx-auto relative px-4 md:px-4 py-3 grid grid-cols-[auto,1fr,auto] items-center gap-6">
         {/* Logo (mobile inline, desktop inline so it doesn't shift the tab grid) */}
-        <Link to="/" className="flex items-center">
+        <Link to="/" className="flex items-center ml-6">
           <img src="/images/main3.png" alt="복지 디자인 로고" className="h-16 w-auto md:h-20 object-contain block" />
         </Link>
 
