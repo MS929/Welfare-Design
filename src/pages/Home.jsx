@@ -5,17 +5,16 @@ import matter from "gray-matter";
 
 // 브랜드 컬러 팔레트 (로고 기준)
 const COLOR = {
-  primary: "#F26C2A",     // 주황
-  secondary: "#2CB9B1",   // 청록
-  accent: "#F4C542",      // 노랑
-  text: "#111827",        // 본문 텍스트
-  textMuted: "#374151",   // 보조 텍스트
-  line: "#E5E7EB",        // 경계선
-  bg: "#F3F4F6",          // 기본 배경
-  // 연한 톤 (틴트)
-  primaryTint: "#FFE9DB",
-  secondaryTint: "#E6F7F6",
-  accentTint: "#FFF7D6",
+  primary: "#0EA5A3",     // 청록(메인)
+  secondary: "#F59E0B",   // 주황(보조)
+  accent: "#16A34A",      // 초록(강조)
+  text: "#111827",
+  textMuted: "#4B5563",
+  line: "#E5E7EB",
+  bg: "#F5F7FA",
+  primaryTint: "#E6FAF9",
+  secondaryTint: "#FFF7E6",
+  accentTint: "#E9F9EE",
   neutralTint: "#F9FAFB",
 };
 
@@ -329,10 +328,10 @@ export default function Home() {
                   borderRadius: 999,
                   border:
                     noticeTab === t
-                      ? `2px solid ${COLOR.secondary}`
+                      ? `2px solid ${COLOR.primary}`
                       : `1px solid ${COLOR.line}`,
-                  background: noticeTab === t ? COLOR.secondaryTint : "#fff",
-                  color: noticeTab === t ? COLOR.secondary : COLOR.text,
+                  background: noticeTab === t ? COLOR.primaryTint : "#fff",
+                  color: noticeTab === t ? COLOR.primary : COLOR.text,
                   cursor: "pointer",
                   fontWeight: noticeTab === t ? 700 : 400,
                   fontSize: 14,
@@ -566,7 +565,7 @@ export default function Home() {
       <section
         aria-labelledby="stories-heading"
         style={{
-          background: COLOR.secondaryTint, // 연한 파란-초록 영역 느낌
+          background: COLOR.primaryTint, // 연한 청록 영역
           borderTop: `1px solid ${COLOR.line}`,
           borderBottom: `1px solid ${COLOR.line}`,
         }}
@@ -602,7 +601,7 @@ export default function Home() {
                   fontSize: 26,
                   fontWeight: 800,
                   margin: 0,
-                  color: COLOR.secondary,
+                  color: COLOR.primary,
                 }}
               >
                 복지디자인 소식
@@ -622,10 +621,10 @@ export default function Home() {
                     borderRadius: 999,
                     border:
                       storiesTab === tab
-                        ? `2px solid ${COLOR.secondary}`
+                        ? `2px solid ${COLOR.primary}`
                         : `1px solid ${COLOR.line}`,
-                    background: storiesTab === tab ? COLOR.secondaryTint : "#fff",
-                    color: storiesTab === tab ? COLOR.secondary : COLOR.text,
+                    background: storiesTab === tab ? COLOR.primaryTint : "#fff",
+                    color: storiesTab === tab ? COLOR.primary : COLOR.text,
                     cursor: "pointer",
                     fontWeight: storiesTab === tab ? 700 : 400,
                     fontSize: 14,
@@ -639,7 +638,7 @@ export default function Home() {
                 to="/news/stories"
                 style={{
                   fontSize: 14,
-                  color: COLOR.secondary,
+                  color: COLOR.primary,
                   marginLeft: 8,
                   textDecoration: "none",
                   fontWeight: 600,
@@ -784,7 +783,7 @@ export default function Home() {
                       fontSize: 18,
                       marginTop: 16,
                       marginBottom: 8,
-                      color: COLOR.secondary,
+                      color: COLOR.primary,
                     }}
                   >
                     복지디자인 이야기
