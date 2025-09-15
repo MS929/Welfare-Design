@@ -245,39 +245,6 @@ export default function Home() {
               </span>
             </h1>
 
-            {/* 바로가기 카드 (복지디자인 사업) */}
-            <div
-              style={{
-                display: "flex",
-                gap: 16,
-                marginTop: 28,
-                flexWrap: "wrap",
-                justifyContent: "center",
-              }}
-            >
-              <Link
-                to="/business/overview"
-                style={{
-                  width: 220,
-                  height: 120,
-                  borderRadius: 16,
-                  background: COLOR.secondaryTint,
-                  display: "grid",
-                  placeItems: "center",
-                  boxShadow: "0 2px 10px rgba(0,0,0,0.08)",
-                  textDecoration: "none",
-                  color: "inherit",
-                  border: `1px solid ${COLOR.line}`,
-                }}
-              >
-                <div style={{ textAlign: "center", lineHeight: 1.25 }}>
-                  <div style={{ fontSize: 28, marginBottom: 6 }}>📌</div>
-                  <div style={{ fontSize: 15, color: COLOR.textMuted, fontWeight: 800 }}>
-                    복지디자인 사업
-                  </div>
-                </div>
-              </Link>
-            </div>
           </div>
 
           {/* 우측 큰 이미지 */}
@@ -560,9 +527,9 @@ export default function Home() {
               복지디자인의 미션에 함께해주세요.
             </span>
           </Link>
-          {/* 이메일로 문의하기 */}
-          <a
-            href="mailto:welfarecoop@naver.com"
+          {/* 복지디자인 사업 바로가기 */}
+          <Link
+            to="/business/overview"
             style={{
               display: "flex",
               flexDirection: "column",
@@ -571,7 +538,7 @@ export default function Home() {
               padding: 24,
               textDecoration: "none",
               color: "inherit",
-              backgroundColor: hoverEmail ? COLOR.neutralTint : "#fff",
+              backgroundColor: hoverEmail ? COLOR.secondaryTint : "#fff",
               boxShadow: hoverEmail ? "0 6px 14px rgba(0,0,0,0.1)" : "0 4px 8px rgba(0,0,0,0.05)",
               minHeight: 160,
               gap: 12,
@@ -581,16 +548,16 @@ export default function Home() {
             onMouseEnter={() => setHoverEmail(true)}
             onMouseLeave={() => setHoverEmail(false)}
           >
-            <div style={{ fontSize: 36, lineHeight: 1, color: COLOR.textMuted }}>
-              ✉️
+            <div style={{ fontSize: 36, lineHeight: 1, color: COLOR.secondary }}>
+              📌
             </div>
             <strong style={{ fontSize: 18, fontWeight: 700 }}>
-              이메일로 문의하기
+              복지디자인 사업
             </strong>
             <span style={{ fontSize: 14, color: "#3a3a3a" }}>
-              궁금하신 사항이 있으시면 메일을 보내주세요.
+              복지디자인의 사업을 확인하세요.
             </span>
-          </a>
+          </Link>
           </div>
         </div>
       </section>
