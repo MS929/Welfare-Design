@@ -588,7 +588,7 @@ export default function Home() {
               {
                 to: "/support/guide",
                 title: "후원 가입 신청하기",
-                desc: "지속적 관심과 지지를 부탁드립니다.",
+                desc: "지속적인 관심과 지지를 부탁드립니다.",
                 color: COLOR.accent, // 노랑
                 tint: COLOR.accentTint,
                 iconSrc: "/images/icons/donation.png",
