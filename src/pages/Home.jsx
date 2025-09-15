@@ -219,7 +219,7 @@ export default function Home() {
           width: "100%",
           background: `linear-gradient(180deg, ${COLOR.primaryTint} 0%, #ffffff 65%)`,
           overflow: "hidden",
-          borderBottom: `1px solid ${COLOR.line}`,
+          borderBottom: "none",
           marginBottom: 16,
         }}
       >
@@ -530,8 +530,6 @@ export default function Home() {
         aria-label="가입/후원/문의"
         style={{
           background: "#fff",
-          borderTop: `1px solid ${COLOR.line}`,
-          borderBottom: `1px solid ${COLOR.line}`,
           marginBottom: 40,
         }}
       >
@@ -566,10 +564,9 @@ export default function Home() {
                 boxShadow: hoverIntro ? TOKENS.shadowHover : TOKENS.shadowSm,
                 minHeight: 150,
                 gap: 12,
-                border: `1px solid ${COLOR.line}`,
                 transform: hoverIntro ? "translateY(-3px)" : "translateY(0)",
                 transition: "all .18s ease",
-                outline: "1px solid rgba(0,0,0,.05)",
+                outline: "none",
               }}
               onMouseEnter={() => setHoverIntro(true)}
               onMouseLeave={() => setHoverIntro(false)}
@@ -596,6 +593,52 @@ export default function Home() {
                 조합의 비전과 연혁을 확인하세요.
               </span>
             </Link>
+            {/* 사업 안내 */}
+            <Link
+              to="/business"
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "flex-start",
+                borderRadius: TOKENS.radius,
+                padding: 24,
+                textDecoration: "none",
+                color: "inherit",
+                background: hoverEmail
+                  ? `linear-gradient(180deg, ${COLOR.secondaryTint}, #fff)`
+                  : "#fff",
+                boxShadow: hoverEmail ? TOKENS.shadowHover : TOKENS.shadowSm,
+                minHeight: 150,
+                gap: 12,
+                transform: hoverEmail ? "translateY(-3px)" : "translateY(0)",
+                transition: "all .18s ease",
+                outline: "none",
+              }}
+              onMouseEnter={() => setHoverEmail(true)}
+              onMouseLeave={() => setHoverEmail(false)}
+            >
+              <div
+                style={{
+                  width: 44,
+                  height: 44,
+                  borderRadius: 999,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  background: COLOR.secondaryTint,
+                  color: COLOR.secondary,
+                  fontSize: 24,
+                }}
+              >
+                📊
+              </div>
+              <strong style={{ fontSize: 18, fontWeight: 700 }}>
+                사업 안내
+              </strong>
+              <span style={{ fontSize: 14, color: "#3a3a3a" }}>
+                복지디자인의 사업을 확인하세요.
+              </span>
+            </Link>
             {/* 후원 가입 신청하기 */}
             <Link
               to="/support/guide"
@@ -613,10 +656,9 @@ export default function Home() {
                 boxShadow: hoverSupport ? TOKENS.shadowHover : TOKENS.shadowSm,
                 minHeight: 150,
                 gap: 12,
-                border: `1px solid ${COLOR.line}`,
                 transform: hoverSupport ? "translateY(-3px)" : "translateY(0)",
                 transition: "all .18s ease",
-                outline: "1px solid rgba(0,0,0,.02)",
+                outline: "none",
               }}
               onMouseEnter={() => setHoverSupport(true)}
               onMouseLeave={() => setHoverSupport(false)}
@@ -660,10 +702,9 @@ export default function Home() {
                 boxShadow: hoverJoin ? TOKENS.shadowHover : TOKENS.shadowSm,
                 minHeight: 150,
                 gap: 12,
-                border: `1px solid ${COLOR.line}`,
                 transform: hoverJoin ? "translateY(-3px)" : "translateY(0)",
                 transition: "all .18s ease",
-                outline: "1px solid rgba(0,0,0,.02)",
+                outline: "none",
               }}
               onMouseEnter={() => setHoverJoin(true)}
               onMouseLeave={() => setHoverJoin(false)}
@@ -690,51 +731,6 @@ export default function Home() {
                 복지디자인의 미션에 함께해주세요.
               </span>
             </Link>
-            {/* 이메일로 문의하기 */}
-            <Link
-              to="/contact/email"
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "flex-start",
-                borderRadius: TOKENS.radius,
-                padding: 24,
-                textDecoration: "none",
-                color: "inherit",
-                background: hoverEmail
-                  ? `linear-gradient(180deg, ${COLOR.primaryTint}, #fff)`
-                  : "#fff",
-                boxShadow: hoverEmail ? TOKENS.shadowHover : TOKENS.shadowSm,
-                minHeight: 150,
-                gap: 12,
-                border: `1px solid ${COLOR.line}`,
-                transform: hoverEmail ? "translateY(-3px)" : "translateY(0)",
-                transition: "all .18s ease",
-                outline: "1px solid rgba(0,0,0,.02)",
-              }}
-              onMouseEnter={() => setHoverEmail(true)}
-              onMouseLeave={() => setHoverEmail(false)}
-            >
-              <div
-                style={{
-                  width: 44,
-                  height: 44,
-                  borderRadius: 999,
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  background: COLOR.primaryTint,
-                  color: COLOR.primary,
-                  fontSize: 24,
-                }}
-              >
-                ✉️
-              </div>
-              <strong style={{ fontSize: 18, fontWeight: 700 }}>이메일로 문의하기</strong>
-              <span style={{ fontSize: 14, color: "#3a3a3a" }}>
-                궁금하신 사항이 있으시면 메일을 보내주세요.
-              </span>
-            </Link>
           </div>
         </div>
       </section>
@@ -744,8 +740,6 @@ export default function Home() {
         aria-labelledby="stories-heading"
         style={{
           background: COLOR.primaryTint, // 연한 청록 영역
-          borderTop: `1px solid ${COLOR.line}`,
-          borderBottom: `1px solid ${COLOR.line}`,
         }}
       >
         <div
@@ -869,7 +863,7 @@ export default function Home() {
                     minHeight: 230,
                     textDecoration: "none",
                     color: "inherit",
-                    border: `1px solid ${COLOR.line}`,
+                  // Remove border
                   }}
                   onMouseEnter={() => setHoveredStory(item.id)}
                   onMouseLeave={() => setHoveredStory(null)}
@@ -880,7 +874,7 @@ export default function Home() {
                       height: 150,
                       overflow: "hidden",
                       backgroundColor: COLOR.neutralTint,
-                      borderBottom: `1px solid ${COLOR.line}`,
+                    borderBottom: `1px solid ${COLOR.line}`,
                     }}
                   >
                     {item.thumbnail ? (
@@ -974,7 +968,7 @@ export default function Home() {
                       fontSize: 48,
                       color: "#a3a3a3",
                       userSelect: "none",
-                      borderBottom: `1px solid ${COLOR.line}`,
+                    borderBottom: `1px solid ${COLOR.line}`,
                     }}
                   >
                     📰
