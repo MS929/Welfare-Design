@@ -310,7 +310,7 @@ export default function Home() {
           maxWidth: 1440,
           margin: "0 auto",
           padding: "0 24px",
-          marginBottom: 28,
+          marginBottom: 48,
         }}
       >
         <div
@@ -438,19 +438,26 @@ export default function Home() {
       <section
         aria-label="가입/후원/문의"
         style={{
-          maxWidth: 1440,
-          margin: "0 auto",
-          padding: "0 24px",
-          marginBottom: 28,
+          background: COLOR.neutralTint,
+          borderTop: `1px solid ${COLOR.line}`,
+          borderBottom: `1px solid ${COLOR.line}`,
+          marginBottom: 32,
         }}
       >
         <div
           style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(4, minmax(0, 1fr))",
-            gap: 24,
+            maxWidth: 1440,
+            margin: "0 auto",
+            padding: "24px 24px 32px",
           }}
         >
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(4, minmax(0, 1fr))",
+              gap: 24,
+            }}
+          >
           {/* 복지디자인 소개 */}
           <Link
             to="/about/what"
@@ -575,6 +582,7 @@ export default function Home() {
               궁금하신 사항이 있으시면 메일을 보내주세요.
             </span>
           </a>
+          </div>
         </div>
       </section>
 
