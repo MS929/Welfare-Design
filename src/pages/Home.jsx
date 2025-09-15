@@ -3,20 +3,21 @@ import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import matter from "gray-matter";
 
-// 브랜드 컬러 팔레트 (로고 기준)
+// Brand palette (requested)
 const COLOR = {
-  primary: "#0EA5A3",     // 청록(메인)
-  secondary: "#F59E0B",   // 주황(보조)
-  accent: "#16A34A",      // 초록(강조)
-  text: "#111827",
-  textMuted: "#4B5563",
+  primary: "#3BA7A0",     // Teal
+  secondary: "#ED6A32",   // Orange
+  accent: "#F4B731",      // Yellow (used for highlights)
+  text: "#804A34",        // Brown text per brand
+  textMuted: "#6B7280",   // Muted text (kept neutral for readability)
   line: "#E5E7EB",
   bg: "#F5F7FA",
-  primaryTint: "#E6FAF9",
-  secondaryTint: "#FFF7E6",
-  accentTint: "#E9F9EE",
+  // Soft tints derived for hovers/backgrounds
+  primaryTint: "#E8F7F6",   // Teal tint
+  secondaryTint: "#FDE9E1", // Orange tint
+  accentTint: "#FFF6D5",    // Yellow tint
   neutralTint: "#F9FAFB",
-  yellowTint: "#FFFBEA",
+  yellowTint: "#FFF6D5",
 };
 
 // 디자인 토큰 (간격/라운드/그리드)
