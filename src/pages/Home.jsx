@@ -425,7 +425,6 @@ export default function Home() {
         aria-labelledby="notice-heading"
         style={{
           background: "#fff",
-          borderTop: `1px solid ${COLOR.line}`,
           marginBottom: sectionGap,
         }}
       >
@@ -715,7 +714,6 @@ export default function Home() {
         aria-label="가입/후원/문의"
         style={{
           background: "#fff",
-          borderTop: `1px solid ${COLOR.line}`,
           marginBottom: sectionGap,
         }}
       >
@@ -900,7 +898,6 @@ export default function Home() {
         aria-labelledby="stories-heading"
         style={{
           background: "#fff",
-          borderTop: `1px solid ${COLOR.line}`,
           marginBottom: sectionGap,
         }}
       >
