@@ -8,7 +8,7 @@ const COLOR = {
   primary: "#3BA7A0",     // Teal
   secondary: "#ED6A32",   // Orange
   accent: "#F4B731",      // Yellow (used for highlights)
-  text: "#804A34",        // Brown text per brand
+  text: "#000000",        // Black text per brand
   textMuted: "#6B7280",   // Muted text (kept neutral for readability)
   line: "#E5E7EB",
   bg: "#F5F7FA",
@@ -252,7 +252,7 @@ export default function Home() {
                 letterSpacing: "-0.4px",
               }}
             >
-              현장과 지역을 연결해 맞춤형 복지를 설계
+              현장과 지역을 잇는 맞춤형 복지를 설계하며 <br />
             </h1>
             <p
               style={{
@@ -262,7 +262,7 @@ export default function Home() {
                 color: COLOR.text,
               }}
             >
-              <strong>복지디자인 사회적협동조합</strong>이 지역과 함께합니다
+              <strong>복지디자인 사회적협동조합</strong>이 지역과 함께합니다.
             </p>
             <p
               style={{
@@ -271,8 +271,7 @@ export default function Home() {
                 fontSize: 16,
               }}
             >
-              주민·기관·전문가가 함께 만드는 맞춤형 복지 플랫폼을 설계하고
-              운영합니다.
+              주민·기관·전문가가 협력하는 맞춤형 복지 플랫폼을 설계·운영합니다.
             </p>
           </div>
 
