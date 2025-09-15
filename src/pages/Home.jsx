@@ -252,11 +252,9 @@ export default function Home() {
               현장과 지역을 잇는 맞춤형 복지를 설계하며
               <br />
               <strong style={{ fontWeight: 900 }}>
-                복지디자인 사회적협동조합
+                복지디자인 사회적협동조합이
               </strong>
-              이
-              <br />
-              함께 만들어갑니다
+              지역과 함께합니다.
             </h1>
             <p
               style={{
