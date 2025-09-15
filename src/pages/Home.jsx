@@ -32,6 +32,21 @@ const TOKENS = {
   shadowHover: "0 16px 36px rgba(15, 23, 42, .14)",
 };
 
+// 반응형 그리드 열 수 (모바일 1, 태블릿 2, 데스크톱 4)
+function useCols() {
+  const [cols, setCols] = useState(4);
+  useEffect(() => {
+    const update = () => {
+      const w = typeof window !== "undefined" ? window.innerWidth : 1280;
+      setCols(w < 640 ? 1 : w < 1024 ? 2 : 4);
+    };
+    update();
+    window.addEventListener("resize", update);
+    return () => window.removeEventListener("resize", update);
+  }, []);
+  return cols;
+}
+
 // 유틸: 파일명 → { date: 'YYYY-MM-DD', slug: '...' }
 function parseDatedSlug(filepath) {
   // 예: /src/content/notices/2025-09-11-공지제목.md
@@ -198,10 +213,14 @@ export default function Home() {
   // 탭 정의 (공지 외 탭은 우선 공지와 동일 목록/또는 비워 두기)
   const tabs = ["공지", "공모"];
   const tabItems = useMemo(() => {
-  const notice = notices.filter((n) => (n.category || "공지") !== "공모");
-  const contest = notices.filter((n) => (n.category || "공지") === "공모");
-  return { 공지: notice, 공모: contest };
+    const notice = notices.filter((n) => (n.category || "공지") !== "공모");
+    const contest = notices.filter((n) => (n.category || "공지") === "공모");
+    return { 공지: notice, 공모: contest };
   }, [notices]);
+
+  // 반응형 그리드 열 수
+  const noticeCols = useCols();
+  const storyCols = useCols();
 
   return (
     <main>
@@ -281,6 +300,7 @@ export default function Home() {
             <img
               src={heroSrc}
               alt="메인 히어로"
+              fetchpriority="high"
               onError={() => {
                 if (heroSrc !== "/main.png") setHeroSrc("/main.png");
               }}
@@ -334,10 +354,14 @@ export default function Home() {
               />
               공지사항
             </h2>
-            <div style={{ display: "flex", gap: 8 }}>
-              {tabs.map((t) => (
+            <div style={{ display: "flex", gap: 8 }} role="tablist" aria-label="공지사항 구분">
+              {tabs.map((t, idx) => (
                 <button
                   key={t}
+                  id={`notice-tab-${idx}`}
+                  role="tab"
+                  aria-selected={noticeTab === t}
+                  aria-controls={`notice-panel-${idx}`}
                   onClick={() => setNoticeTab(t)}
                   style={{
                     padding: "6px 14px",
@@ -352,17 +376,8 @@ export default function Home() {
                     fontWeight: noticeTab === t ? 600 : 400,
                     fontSize: 14,
                     transition: "all 0.2s",
-                    outline:
-                      noticeTab === t ? `2px solid ${COLOR.primary}` : "none",
+                    outline: "none",
                   }}
-                  tabIndex={0}
-                  onFocus={(e) =>
-                    (e.target.style.outline = `2px solid ${COLOR.primary}`)
-                  }
-                  onBlur={(e) =>
-                    (e.target.style.outline =
-                      noticeTab === t ? `2px solid ${COLOR.primary}` : "none")
-                  }
                 >
                   {t}
                 </button>
@@ -374,6 +389,8 @@ export default function Home() {
                   color: COLOR.primary,
                   marginLeft: 8,
                   alignSelf: "center",
+                  textDecoration: "none",
+                  fontWeight: 600,
                 }}
               >
                 더 보기
@@ -382,9 +399,12 @@ export default function Home() {
           </div>
 
           <div
+            role="tabpanel"
+            id={`notice-panel-${tabs.indexOf(noticeTab)}`}
+            aria-labelledby={`notice-tab-${tabs.indexOf(noticeTab)}`}
             style={{
               display: "grid",
-              gridTemplateColumns: "repeat(4, minmax(0, 1fr))",
+              gridTemplateColumns: `repeat(${noticeCols}, minmax(0, 1fr))`,
               gap: 28,
             }}
           >
@@ -446,6 +466,8 @@ export default function Home() {
                         <img
                           src={item.thumbnail}
                           alt={item.title}
+                          loading="lazy"
+                          decoding="async"
                           style={{
                             width: "100%",
                             height: "100%",
@@ -464,7 +486,7 @@ export default function Home() {
                             fontSize: 36,
                           }}
                         >
-                          🖼️
+                          <span aria-hidden="true">🖼️</span>
                         </div>
                       )}
                     </div>
@@ -769,10 +791,14 @@ export default function Home() {
               </small>
             </div>
             {/* 소식 카테고리 필터 */}
-            <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
+            <div style={{ display: "flex", gap: 8, alignItems: "center" }} role="tablist" aria-label="소식 분류">
               {storiesTabs.map((tab) => (
                 <button
                   key={tab}
+                  id={`stories-tab-${tab}`}
+                  role="tab"
+                  aria-selected={storiesTab === tab}
+                  aria-controls={`stories-panel`}
                   onClick={() => setStoriesTab(tab)}
                   style={{
                     padding: "6px 16px",
@@ -787,21 +813,8 @@ export default function Home() {
                     fontWeight: storiesTab === tab ? 600 : 400,
                     fontSize: 14,
                     transition: "all 0.2s",
-                    outline:
-                      storiesTab === tab
-                        ? `2px solid ${COLOR.primary}`
-                        : "none",
+                    outline: "none",
                   }}
-                  tabIndex={0}
-                  onFocus={(e) =>
-                    (e.target.style.outline = `2px solid ${COLOR.primary}`)
-                  }
-                  onBlur={(e) =>
-                    (e.target.style.outline =
-                      storiesTab === tab
-                        ? `2px solid ${COLOR.primary}`
-                        : "none")
-                  }
                 >
                   {tab}
                 </button>
@@ -824,9 +837,12 @@ export default function Home() {
 
           {filteredStories.length > 0 ? (
             <div
+              role="tabpanel"
+              id="stories-panel"
+              aria-labelledby={`stories-tab-${storiesTab}`}
               style={{
                 display: "grid",
-                gridTemplateColumns: "repeat(4, minmax(0, 1fr))",
+                gridTemplateColumns: `repeat(${storyCols}, minmax(0, 1fr))`,
                 gap: 22,
               }}
             >
@@ -884,6 +900,8 @@ export default function Home() {
                       <img
                         src={item.thumbnail}
                         alt={item.title}
+                        loading="lazy"
+                        decoding="async"
                         style={{
                           width: "100%",
                           height: "100%",
@@ -903,7 +921,7 @@ export default function Home() {
                           userSelect: "none",
                         }}
                       >
-                        📰
+                        <span aria-hidden="true">📰</span>
                       </div>
                     )}
                   </div>
@@ -940,7 +958,7 @@ export default function Home() {
             <div
               style={{
                 display: "grid",
-                gridTemplateColumns: "repeat(4, minmax(0, 1fr))",
+                gridTemplateColumns: `repeat(${storyCols}, minmax(0, 1fr))`,
                 gap: 22,
               }}
             >
@@ -974,7 +992,7 @@ export default function Home() {
                       borderBottom: `1px solid ${COLOR.line}`,
                     }}
                   >
-                    📰
+                    <span aria-hidden="true">📰</span>
                   </div>
                   <strong
                     style={{
