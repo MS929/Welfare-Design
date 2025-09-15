@@ -595,7 +595,7 @@ export default function Home() {
             </Link>
             {/* 사업 안내 */}
             <Link
-              to="/business"
+              to="/business/overview"
               style={{
                 display: "flex",
                 flexDirection: "column",
