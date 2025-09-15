@@ -565,7 +565,7 @@ export default function Home() {
                 padding: 24,
                 textDecoration: "none",
                 color: "inherit",
-                background: hoverIntro ? COLOR.accentTint : "#fff",
+                background: hoverIntro ? "#F4B7311A" : "#fff",
                 boxShadow: hoverIntro ? TOKENS.shadowHover : TOKENS.shadowSm,
                 minHeight: 150,
                 gap: 12,
@@ -584,8 +584,8 @@ export default function Home() {
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
-                  background: hoverIntro ? COLOR.accentTint : COLOR.neutralTint,
-                  color: COLOR.accent,
+                  background: hoverIntro ? "#F4B73126" : COLOR.neutralTint,
+                  color: "#F4B731",
                   fontSize: 24,
                 }}
               >
@@ -609,7 +609,7 @@ export default function Home() {
                 padding: 24,
                 textDecoration: "none",
                 color: "inherit",
-                background: hoverEmail ? COLOR.secondaryTint : "#fff",
+                background: hoverEmail ? "#ED6A3214" : "#fff",
                 boxShadow: hoverEmail ? TOKENS.shadowHover : TOKENS.shadowSm,
                 minHeight: 150,
                 gap: 12,
@@ -629,9 +629,9 @@ export default function Home() {
                   alignItems: "center",
                   justifyContent: "center",
                   background: hoverEmail
-                    ? COLOR.secondaryTint
+                    ? "#ED6A3222"
                     : COLOR.neutralTint,
-                  color: COLOR.secondary,
+                  color: "#ED6A32",
                   fontSize: 24,
                 }}
               >
@@ -655,7 +655,7 @@ export default function Home() {
                 padding: 24,
                 textDecoration: "none",
                 color: "inherit",
-                background: hoverSupport ? COLOR.primaryTint : "#fff",
+                background: hoverSupport ? "#3BA7A01A" : "#fff",
                 boxShadow: hoverSupport ? TOKENS.shadowHover : TOKENS.shadowSm,
                 minHeight: 150,
                 gap: 12,
@@ -675,9 +675,9 @@ export default function Home() {
                   alignItems: "center",
                   justifyContent: "center",
                   background: hoverSupport
-                    ? COLOR.primaryTint
+                    ? "#3BA7A026"
                     : COLOR.neutralTint,
-                  color: COLOR.primary,
+                  color: "#3BA7A0",
                   fontSize: 24,
                 }}
               >
@@ -701,7 +701,7 @@ export default function Home() {
                 padding: 24,
                 textDecoration: "none",
                 color: "inherit",
-                background: hoverJoin ? COLOR.secondaryTint : "#fff",
+                background: hoverJoin ? "#ED6A3214" : "#fff",
                 boxShadow: hoverJoin ? TOKENS.shadowHover : TOKENS.shadowSm,
                 minHeight: 150,
                 gap: 12,
@@ -721,9 +721,9 @@ export default function Home() {
                   alignItems: "center",
                   justifyContent: "center",
                   background: hoverJoin
-                    ? COLOR.secondaryTint
+                    ? "#ED6A3222"
                     : COLOR.neutralTint,
-                  color: COLOR.secondary,
+                  color: "#ED6A32",
                   fontSize: 24,
                 }}
               >
