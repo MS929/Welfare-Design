@@ -247,9 +247,10 @@ export default function Home() {
               style={{
                 margin: 0,
                 fontSize: 44,
-                lineHeight: 1.18,
+                lineHeight: 1.12,
                 fontWeight: 900,
                 letterSpacing: "-0.5px",
+                color: "#000000",
               }}
             >
               복지사각지대 없는 사회
@@ -297,7 +298,7 @@ export default function Home() {
         aria-labelledby="notice-heading"
         style={{
           background: "#fff",
-          marginBottom: 40,
+          marginBottom: 56,
         }}
       >
         <div
@@ -321,7 +322,7 @@ export default function Home() {
                 display: "flex",
                 alignItems: "center",
                 gap: 12,
-                fontSize: 30,
+                fontSize: 32,
                 fontWeight: 800,
                 margin: 0,
               }}
@@ -351,10 +352,14 @@ export default function Home() {
                     background: noticeTab === t ? COLOR.primaryTint : "#fff",
                     color: noticeTab === t ? COLOR.primary : COLOR.text,
                     cursor: "pointer",
-                    fontWeight: noticeTab === t ? 700 : 400,
+                    fontWeight: noticeTab === t ? 600 : 400,
                     fontSize: 14,
                     transition: "all 0.2s",
+                    outline: noticeTab === t ? `2px solid ${COLOR.primary}` : "none",
                   }}
+                  tabIndex={0}
+                  onFocus={e => (e.target.style.outline = `2px solid ${COLOR.primary}`)}
+                  onBlur={e => (e.target.style.outline = noticeTab === t ? `2px solid ${COLOR.primary}` : "none")}
                 >
                   {t}
                 </button>
@@ -386,7 +391,7 @@ export default function Home() {
                 to={item.to}
                 role="article"
                 style={{
-                  border: `1px solid ${COLOR.line}`,
+                  border: `1px solid #EAEAEA`,
                   borderRadius: TOKENS.radius,
                   padding: 20,
                   boxShadow:
@@ -395,7 +400,7 @@ export default function Home() {
                       : TOKENS.shadowSm,
                   transform:
                     hoveredNotice === item.id
-                      ? "translateY(-3px)"
+                      ? "translateY(-4px)"
                       : "translateY(0)",
                   transition: "all .18s ease",
                   display: "flex",
@@ -407,9 +412,12 @@ export default function Home() {
                   color: "inherit",
                   outline:
                     hoveredNotice === item.id
-                      ? `2px solid ${COLOR.primary}22`
+                      ? `2px solid ${COLOR.primary}`
                       : "none",
                 }}
+                tabIndex={0}
+                onFocus={e => (e.target.style.outline = `2px solid ${COLOR.primary}`)}
+                onBlur={e => (e.target.style.outline = hoveredNotice === item.id ? `2px solid ${COLOR.primary}` : "none")}
                 onMouseEnter={() => setHoveredNotice(item.id)}
                 onMouseLeave={() => setHoveredNotice(null)}
               >
@@ -531,7 +539,7 @@ export default function Home() {
         aria-label="가입/후원/문의"
         style={{
           background: "#fff",
-          marginBottom: 40,
+          marginBottom: 56,
         }}
       >
         <div
@@ -561,12 +569,16 @@ export default function Home() {
                 color: "inherit",
                 background: hoverIntro ? "#F4B7311A" : "#fff",
                 boxShadow: hoverIntro ? TOKENS.shadowHover : TOKENS.shadowSm,
-                minHeight: 150,
+                minHeight: 164,
                 gap: 12,
-                transform: hoverIntro ? "translateY(-3px)" : "translateY(0)",
+                border: "1px solid #EAEAEA",
+                transform: hoverIntro ? "translateY(-4px)" : "translateY(0)",
                 transition: "all .18s ease",
                 outline: "none",
               }}
+              tabIndex={0}
+              onFocus={e => (e.target.style.outline = `2px solid ${COLOR.primary}`)}
+              onBlur={e => (e.target.style.outline = "none")}
               onMouseEnter={() => setHoverIntro(true)}
               onMouseLeave={() => setHoverIntro(false)}
             >
@@ -580,7 +592,7 @@ export default function Home() {
                   justifyContent: "center",
                   background: hoverIntro ? "#F4B73126" : COLOR.neutralTint,
                   color: "#F4B731",
-                  fontSize: 24,
+                  fontSize: 22,
                 }}
               >
                 📘
@@ -605,12 +617,16 @@ export default function Home() {
                 color: "inherit",
                 background: hoverEmail ? "#ED6A3214" : "#fff",
                 boxShadow: hoverEmail ? TOKENS.shadowHover : TOKENS.shadowSm,
-                minHeight: 150,
+                minHeight: 164,
                 gap: 12,
-                transform: hoverEmail ? "translateY(-3px)" : "translateY(0)",
+                border: "1px solid #EAEAEA",
+                transform: hoverEmail ? "translateY(-4px)" : "translateY(0)",
                 transition: "all .18s ease",
                 outline: "none",
               }}
+              tabIndex={0}
+              onFocus={e => (e.target.style.outline = `2px solid ${COLOR.primary}`)}
+              onBlur={e => (e.target.style.outline = "none")}
               onMouseEnter={() => setHoverEmail(true)}
               onMouseLeave={() => setHoverEmail(false)}
             >
@@ -626,7 +642,7 @@ export default function Home() {
                     ? "#ED6A3222"
                     : COLOR.neutralTint,
                   color: "#ED6A32",
-                  fontSize: 24,
+                  fontSize: 22,
                 }}
               >
                 📊
@@ -651,12 +667,16 @@ export default function Home() {
                 color: "inherit",
                 background: hoverSupport ? "#3BA7A01A" : "#fff",
                 boxShadow: hoverSupport ? TOKENS.shadowHover : TOKENS.shadowSm,
-                minHeight: 150,
+                minHeight: 164,
                 gap: 12,
-                transform: hoverSupport ? "translateY(-3px)" : "translateY(0)",
+                border: "1px solid #EAEAEA",
+                transform: hoverSupport ? "translateY(-4px)" : "translateY(0)",
                 transition: "all .18s ease",
                 outline: "none",
               }}
+              tabIndex={0}
+              onFocus={e => (e.target.style.outline = `2px solid ${COLOR.primary}`)}
+              onBlur={e => (e.target.style.outline = "none")}
               onMouseEnter={() => setHoverSupport(true)}
               onMouseLeave={() => setHoverSupport(false)}
             >
@@ -672,7 +692,7 @@ export default function Home() {
                     ? "#3BA7A026"
                     : COLOR.neutralTint,
                   color: "#3BA7A0",
-                  fontSize: 24,
+                  fontSize: 22,
                 }}
               >
                 💙
@@ -697,12 +717,16 @@ export default function Home() {
                 color: "inherit",
                 background: hoverJoin ? "#ED6A3214" : "#fff",
                 boxShadow: hoverJoin ? TOKENS.shadowHover : TOKENS.shadowSm,
-                minHeight: 150,
+                minHeight: 164,
                 gap: 12,
-                transform: hoverJoin ? "translateY(-3px)" : "translateY(0)",
+                border: "1px solid #EAEAEA",
+                transform: hoverJoin ? "translateY(-4px)" : "translateY(0)",
                 transition: "all .18s ease",
                 outline: "none",
               }}
+              tabIndex={0}
+              onFocus={e => (e.target.style.outline = `2px solid ${COLOR.primary}`)}
+              onBlur={e => (e.target.style.outline = "none")}
               onMouseEnter={() => setHoverJoin(true)}
               onMouseLeave={() => setHoverJoin(false)}
             >
@@ -718,7 +742,7 @@ export default function Home() {
                     ? "#ED6A3222"
                     : COLOR.neutralTint,
                   color: "#ED6A32",
-                  fontSize: 24,
+                  fontSize: 22,
                 }}
               >
                 🤝
@@ -739,6 +763,7 @@ export default function Home() {
         aria-labelledby="stories-heading"
         style={{
           background: COLOR.primaryTint, // 연한 청록 영역
+          marginBottom: 56,
         }}
       >
         <div
@@ -808,10 +833,14 @@ export default function Home() {
                     background: storiesTab === tab ? COLOR.primaryTint : "#fff",
                     color: storiesTab === tab ? COLOR.primary : COLOR.text,
                     cursor: "pointer",
-                    fontWeight: storiesTab === tab ? 700 : 400,
+                    fontWeight: storiesTab === tab ? 600 : 400,
                     fontSize: 14,
                     transition: "all 0.2s",
+                    outline: storiesTab === tab ? `2px solid ${COLOR.primary}` : "none",
                   }}
+                  tabIndex={0}
+                  onFocus={e => (e.target.style.outline = `2px solid ${COLOR.primary}`)}
+                  onBlur={e => (e.target.style.outline = storiesTab === tab ? `2px solid ${COLOR.primary}` : "none")}
                 >
                   {tab}
                 </button>
@@ -853,7 +882,7 @@ export default function Home() {
                         : TOKENS.shadowSm,
                     transform:
                       hoveredStory === item.id
-                        ? "translateY(-3px)"
+                        ? "translateY(-4px)"
                         : "translateY(0)",
                     transition: "all .18s ease",
                     overflow: "hidden",
@@ -862,8 +891,12 @@ export default function Home() {
                     minHeight: 230,
                     textDecoration: "none",
                     color: "inherit",
-                    // Remove border
+                    border: "1px solid #EAEAEA",
+                    outline: hoveredStory === item.id ? `2px solid ${COLOR.primary}` : "none",
                   }}
+                  tabIndex={0}
+                  onFocus={e => (e.target.style.outline = `2px solid ${COLOR.primary}`)}
+                  onBlur={e => (e.target.style.outline = hoveredStory === item.id ? `2px solid ${COLOR.primary}` : "none")}
                   onMouseEnter={() => setHoveredStory(item.id)}
                   onMouseLeave={() => setHoveredStory(null)}
                 >
@@ -873,7 +906,7 @@ export default function Home() {
                       height: 150,
                       overflow: "hidden",
                       backgroundColor: COLOR.neutralTint,
-                      borderBottom: `1px solid ${COLOR.line}`,
+                      borderBottom: "none",
                     }}
                   >
                     {item.thumbnail ? (
@@ -914,11 +947,11 @@ export default function Home() {
                   >
                     <h3
                       style={{
-                        fontSize: 18,
+                        fontSize: 17,
                         fontWeight: 700,
                         margin: 0,
                         marginBottom: 8,
-                        lineHeight: 1.3,
+                        lineHeight: 1.35,
                       }}
                     >
                       {item.title}
