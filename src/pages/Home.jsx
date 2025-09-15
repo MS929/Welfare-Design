@@ -372,7 +372,7 @@ export default function Home() {
             >
               {noticeTab === "공모" ? (
                 <>
-                  <div style={{ height: 120, marginBottom: 12, borderRadius: 8, overflow: "hidden", background: "#f3f4f6" }}>
+                  <div style={{ height: 140, marginBottom: 12, borderRadius: 8, overflow: "hidden", background: "#f3f4f6" }}>
                     {item.thumbnail ? (
                       <img src={item.thumbnail} alt={item.title} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
                     ) : (
@@ -380,6 +380,9 @@ export default function Home() {
                     )}
                   </div>
                   <h3 style={{ fontSize: 16, fontWeight: 700, margin: 0, lineHeight: 1.3 }}>{item.title}</h3>
+                  {item.date && typeof item.date === "string" ? (
+                    <time style={{ fontSize: 12, color: "#888", marginTop: 6 }}>{item.date}</time>
+                  ) : null}
                 </>
               ) : (
                 <>
