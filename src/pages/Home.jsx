@@ -20,7 +20,7 @@ const COLOR = {
 };
 
 // 디자인 토큰 (간격/라운드/그리드)
-const TOKENS = {
+const TOKENS = { 
   radius: 16,
   radiusLg: 24,
   gap: 28,
