@@ -21,14 +21,14 @@ const COLOR = {
 
 // 디자인 토큰 (간격/라운드/그리드)
 const TOKENS = {
-  radius: 14,
-  radiusLg: 18,
-  gap: 24,
+  radius: 16,
+  radiusLg: 22,
+  gap: 28,
   gapSm: 16,
   container: 1440,
   shadow: "0 8px 24px rgba(0,0,0,.08)",
   shadowSm: "0 4px 12px rgba(0,0,0,.06)",
-  shadowHover: "0 10px 28px rgba(0,0,0,.12)",
+  shadowHover: "0 12px 30px rgba(0,0,0,.14)",
 };
 
 // 유틸: 파일명 → { date: 'YYYY-MM-DD', slug: '...' }
@@ -95,7 +95,7 @@ export default function Home() {
   const [hoveredNotice, setHoveredNotice] = useState(null);
   const [hoveredStory, setHoveredStory] = useState(null);
 
-  const NOTICE_CARD_MIN_H = 220; // 공지/공모 카드 공통 높이
+  const NOTICE_CARD_MIN_H = 200; // 공지/공모 카드 공통 높이
   const NOTICE_THUMB_H = 120;    // 공모 썸네일 고정 높이
 
   // 공지: 실제 파일 로드 (Decap CMS가 커밋한 md 기준)
@@ -227,20 +227,21 @@ export default function Home() {
           style={{
             maxWidth: TOKENS.container,
             margin: "0 auto",
-            padding: "32px 24px",
+            padding: "48px 24px",
             display: "grid",
             gridTemplateColumns: "1.05fr 1fr",
             alignItems: "center",
             gap: TOKENS.gap,
           }}
         >
-          <div style={{ textAlign: "left", color: COLOR.text }}>
+          <div style={{ textAlign: "center", color: COLOR.text, maxWidth: 720, margin: "0 auto" }}>
             <h1
               style={{
                 margin: 0,
-                fontSize: 34,
+                fontSize: 36,
                 lineHeight: 1.25,
                 fontWeight: 900,
+                letterSpacing: "-0.3px",
               }}
             >
               복지 사각지대 없는 사회
@@ -254,7 +255,7 @@ export default function Home() {
           <div
             style={{
               position: "relative",
-              height: 300,
+              height: 260,
               borderRadius: TOKENS.radiusLg,
               overflow: "hidden",
               boxShadow: TOKENS.shadow,
@@ -408,7 +409,7 @@ export default function Home() {
                     </div>
                     <h3
                       style={{
-                        fontSize: 18,
+                        fontSize: 17,
                         fontWeight: 700,
                         margin: 0,
                         lineHeight: 1.3,
@@ -429,7 +430,7 @@ export default function Home() {
                     <div>
                       <h3
                         style={{
-                          fontSize: 18,
+                          fontSize: 17,
                           fontWeight: 700,
                           marginBottom: 12,
                           lineHeight: 1.3,
@@ -528,9 +529,7 @@ export default function Home() {
               onMouseEnter={() => setHoverIntro(true)}
               onMouseLeave={() => setHoverIntro(false)}
             >
-              <div style={{ fontSize: 36, lineHeight: 1, color: COLOR.accent }}>
-                📘
-              </div>
+              <div style={{ width: 44, height: 44, borderRadius: 999, display: "flex", alignItems: "center", justifyContent: "center", background: COLOR.accentTint, color: COLOR.accent, fontSize: 24 }}>📘</div>
               <strong style={{ fontSize: 18, fontWeight: 700 }}>
                 복지디자인 소개
               </strong>
@@ -560,11 +559,7 @@ export default function Home() {
               onMouseEnter={() => setHoverEmail(true)}
               onMouseLeave={() => setHoverEmail(false)}
             >
-              <div
-                style={{ fontSize: 36, lineHeight: 1, color: COLOR.secondary }}
-              >
-                📌
-              </div>
+              <div style={{ width: 44, height: 44, borderRadius: 999, display: "flex", alignItems: "center", justifyContent: "center", background: COLOR.secondaryTint, color: COLOR.secondary, fontSize: 24 }}>📌</div>
               <strong style={{ fontSize: 18, fontWeight: 700 }}>
                 복지디자인 사업
               </strong>
@@ -594,11 +589,7 @@ export default function Home() {
               onMouseEnter={() => setHoverSupport(true)}
               onMouseLeave={() => setHoverSupport(false)}
             >
-              <div
-                style={{ fontSize: 36, lineHeight: 1, color: COLOR.primary }}
-              >
-                💙
-              </div>
+              <div style={{ width: 44, height: 44, borderRadius: 999, display: "flex", alignItems: "center", justifyContent: "center", background: COLOR.primaryTint, color: COLOR.primary, fontSize: 24 }}>💙</div>
               <strong style={{ fontSize: 18, fontWeight: 700 }}>
                 후원 가입 신청하기
               </strong>
@@ -628,11 +619,7 @@ export default function Home() {
               onMouseEnter={() => setHoverJoin(true)}
               onMouseLeave={() => setHoverJoin(false)}
             >
-              <div
-                style={{ fontSize: 36, lineHeight: 1, color: COLOR.secondary }}
-              >
-                🤝
-              </div>
+              <div style={{ width: 44, height: 44, borderRadius: 999, display: "flex", alignItems: "center", justifyContent: "center", background: COLOR.secondaryTint, color: COLOR.secondary, fontSize: 24 }}>🤝</div>
               <strong style={{ fontSize: 18, fontWeight: 700 }}>
                 조합 가입 신청하기
               </strong>
