@@ -253,24 +253,6 @@ export default function Home() {
             <p style={{margin: "14px 0 22px", color: COLOR.textMuted, fontSize: 16}}>
               함께 성장하며, 모두의 행복을 위한 복지를 디자인합니다.
             </p>
-            <Link
-              to="/business/overview"
-              style={{
-                display: "inline-flex",
-                alignItems: "center",
-                gap: 10,
-                padding: "12px 18px",
-                borderRadius: 999,
-                background: COLOR.primary,
-                color: "#fff",
-                fontWeight: 700,
-                textDecoration: "none",
-                boxShadow: TOKENS.shadowSm,
-                border: `1px solid ${COLOR.primary}`,
-              }}
-            >
-              복지디자인 사업 보기 <span aria-hidden>→</span>
-            </Link>
           </div>
 
           <div
