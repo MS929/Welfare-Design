@@ -110,7 +110,7 @@ export default function Home() {
         const category = (data?.category || "전체").trim();
         const meta = parseDatedSlug(path);
         const base = (path.split("/").pop() || "").replace(/\.(md|mdx)$/i, "");
-        const to = base ? `/news/stories/${encodeURIComponent(base)}` : "/news";
+        const to = base ? `/news/stories/${encodeURIComponent(base)}` : "/news/stories";
         return {
           id: path,
           title: data?.title || meta.titleFromFile,
@@ -542,64 +542,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 복지디자인 소개 행사 사진 섹션 */}
-      <section
-        aria-label="복지디자인 행사 사진"
-        style={{
-          maxWidth: 1200,
-          margin: "0 auto",
-          padding: "0 16px",
-          marginBottom: 40,
-        }}
-      >
-        <div
-          style={{
-            background: "#fff",
-            borderRadius: 16,
-            boxShadow: "0 2px 12px rgba(0,0,0,0.06)",
-            padding: 32,
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            gap: 18,
-          }}
-        >
-          <h3 style={{ fontSize: 20, fontWeight: 800, color: "#136846", margin: 0 }}>
-            복지디자인 행사 사진
-          </h3>
-          <div
-            style={{
-              display: "flex",
-              gap: 16,
-              width: "100%",
-              justifyContent: "center",
-              flexWrap: "wrap",
-              marginTop: 10,
-            }}
-          >
-            {/* 실제 사진은 src/assets나 public/images 등에서 불러올 수 있음. 예시 3장 */}
-            {["event1.jpg", "event2.jpg", "event3.jpg"].map((img, idx) => (
-              <img
-                key={img}
-                src={`/images/${img}`}
-                alt={`복지디자인 행사 사진 ${idx + 1}`}
-                style={{
-                  width: 240,
-                  height: 150,
-                  objectFit: "cover",
-                  borderRadius: 10,
-                  boxShadow: "0 2px 8px rgba(0,0,0,0.08)",
-                  background: "#f1f1f1",
-                }}
-                loading="lazy"
-              />
-            ))}
-          </div>
-          <div style={{ marginTop: 8, color: "#666", fontSize: 14 }}>
-            다양한 행사와 활동 현장을 사진으로 만나보세요.
-          </div>
-        </div>
-      </section>
 
       {/* 4) 복지디자인 소식 – 파란 패널 + 탭 풍의 보조 내비 + 필터 */}
       <section
