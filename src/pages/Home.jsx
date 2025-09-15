@@ -242,25 +242,25 @@ export default function Home() {
             <h1
               style={{
                 margin: 0,
-                fontSize: 44,
-                lineHeight: 1.12,
+                fontSize: "clamp(28px, 5.2vw, 56px)",
+                lineHeight: 1.15,
                 fontWeight: 900,
                 letterSpacing: "-0.5px",
                 color: "#000000",
+                wordBreak: "keep-all",
               }}
             >
-              현장과 지역을 잇는 맞춤형 복지를 설계하며
-              <br />
-              <strong style={{ fontWeight: 900 }}>
-                복지디자인 사회적협동조합이
-              </strong>
-              지역과 함께합니다.
+              <span style={{display: "block"}}>현장과 지역을 잇는 맞춤형 복지를 설계하며</span>
+              <span style={{display: "block", marginTop: 8}}>
+                <strong style={{ fontWeight: 900 }}>복지디자인 사회적협동조합</strong>이 지역과 함께합니다.
+              </span>
             </h1>
             <p
               style={{
-                margin: "12px 0 22px",
+                margin: "14px auto 0",
                 color: COLOR.textMuted,
                 fontSize: 16,
+                maxWidth: 720,
               }}
             >
               주민·기관·전문가가 협력하는 맞춤형 복지 플랫폼을 설계·운영합니다.
