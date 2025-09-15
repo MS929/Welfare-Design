@@ -251,7 +251,10 @@ export default function Home() {
             >
               복지사각지대 없는 사회
               <br />
-              <strong style={{ fontWeight: 900 }}>복지디자인 사회적협동조합</strong>이
+              <strong style={{ fontWeight: 900 }}>
+                복지디자인 사회적협동조합
+              </strong>
+              이
               <br />
               함께 만들어갑니다
             </h1>
@@ -351,11 +354,17 @@ export default function Home() {
                     fontWeight: noticeTab === t ? 600 : 400,
                     fontSize: 14,
                     transition: "all 0.2s",
-                    outline: noticeTab === t ? `2px solid ${COLOR.primary}` : "none",
+                    outline:
+                      noticeTab === t ? `2px solid ${COLOR.primary}` : "none",
                   }}
                   tabIndex={0}
-                  onFocus={e => (e.target.style.outline = `2px solid ${COLOR.primary}`)}
-                  onBlur={e => (e.target.style.outline = noticeTab === t ? `2px solid ${COLOR.primary}` : "none")}
+                  onFocus={(e) =>
+                    (e.target.style.outline = `2px solid ${COLOR.primary}`)
+                  }
+                  onBlur={(e) =>
+                    (e.target.style.outline =
+                      noticeTab === t ? `2px solid ${COLOR.primary}` : "none")
+                  }
                 >
                   {t}
                 </button>
@@ -412,8 +421,15 @@ export default function Home() {
                       : "none",
                 }}
                 tabIndex={0}
-                onFocus={e => (e.target.style.outline = `2px solid ${COLOR.primary}`)}
-                onBlur={e => (e.target.style.outline = hoveredNotice === item.id ? `2px solid ${COLOR.primary}` : "none")}
+                onFocus={(e) =>
+                  (e.target.style.outline = `2px solid ${COLOR.primary}`)
+                }
+                onBlur={(e) =>
+                  (e.target.style.outline =
+                    hoveredNotice === item.id
+                      ? `2px solid ${COLOR.primary}`
+                      : "none")
+                }
                 onMouseEnter={() => setHoveredNotice(item.id)}
                 onMouseLeave={() => setHoveredNotice(null)}
               >
@@ -557,29 +573,33 @@ export default function Home() {
                 to: "/about/what",
                 title: "복지디자인 소개",
                 desc: "조합의 비전과 연혁을 확인하세요.",
-                color: COLOR.secondary,          // 오렌지
+                color: COLOR.secondary, // 오렌지
                 tint: COLOR.secondaryTint,
+                iconSrc: "/images/icons/introduction.png",
               },
               {
                 to: "/business/overview",
                 title: "사업 안내",
                 desc: "복지디자인의 사업을 확인하세요.",
-                color: COLOR.primary,            // 틸
+                color: COLOR.primary, // 틸
                 tint: COLOR.primaryTint,
+                iconSrc: "/images/icons/apply-help.png",
               },
               {
                 to: "/support/guide",
                 title: "후원 가입 신청하기",
                 desc: "지속적 관심과 지지를 부탁드립니다.",
-                color: COLOR.accent,             // 노랑
+                color: COLOR.accent, // 노랑
                 tint: COLOR.accentTint,
+                iconSrc: "/images/icons/donation.png",
               },
               {
                 to: "/support",
                 title: "조합 가입 신청하기",
                 desc: "복지디자인의 미션에 함께해주세요.",
-                color: COLOR.primary,            // 틸(반복)
+                color: COLOR.primary, // 틸(반복)
                 tint: COLOR.primaryTint,
+                iconSrc: "/images/icons/member-services.png",
               },
             ].map((item, idx) => (
               <Link
@@ -598,7 +618,8 @@ export default function Home() {
                   textDecoration: "none",
                   color: "inherit",
                   minHeight: 132,
-                  transition: "transform .16s ease, box-shadow .16s ease, background .16s ease",
+                  transition:
+                    "transform .16s ease, box-shadow .16s ease, background .16s ease",
                 }}
                 onMouseEnter={(e) => {
                   e.currentTarget.style.boxShadow = TOKENS.shadowHover;
@@ -611,7 +632,9 @@ export default function Home() {
                   e.currentTarget.style.background = item.tint;
                 }}
                 tabIndex={0}
-                onFocus={(e) => (e.currentTarget.style.outline = `2px solid ${item.color}`)}
+                onFocus={(e) =>
+                  (e.currentTarget.style.outline = `2px solid ${item.color}`)
+                }
                 onBlur={(e) => (e.currentTarget.style.outline = "none")}
               >
                 {/* 아이콘 슬롯 (사용자가 교체 가능) */}
@@ -630,6 +653,11 @@ export default function Home() {
                   }}
                 >
                   {/* 아이콘은 사용자 삽입 예정 */}
+                  <img
+                    src={item.iconSrc}
+                    alt=""
+                    style={{ width: 28, height: 28 }}
+                  />
                 </div>
 
                 {/* 텍스트 영역 */}
@@ -660,7 +688,7 @@ export default function Home() {
                       style={{
                         color: item.color,
                         fontWeight: 700,
-                        opacity: .85,
+                        opacity: 0.85,
                       }}
                     >
                       ›
@@ -671,7 +699,7 @@ export default function Home() {
                       margin: "8px 0 0",
                       fontSize: 14,
                       color: COLOR.text,
-                      opacity: .9,
+                      opacity: 0.9,
                     }}
                   >
                     {item.desc}
@@ -761,11 +789,21 @@ export default function Home() {
                     fontWeight: storiesTab === tab ? 600 : 400,
                     fontSize: 14,
                     transition: "all 0.2s",
-                    outline: storiesTab === tab ? `2px solid ${COLOR.primary}` : "none",
+                    outline:
+                      storiesTab === tab
+                        ? `2px solid ${COLOR.primary}`
+                        : "none",
                   }}
                   tabIndex={0}
-                  onFocus={e => (e.target.style.outline = `2px solid ${COLOR.primary}`)}
-                  onBlur={e => (e.target.style.outline = storiesTab === tab ? `2px solid ${COLOR.primary}` : "none")}
+                  onFocus={(e) =>
+                    (e.target.style.outline = `2px solid ${COLOR.primary}`)
+                  }
+                  onBlur={(e) =>
+                    (e.target.style.outline =
+                      storiesTab === tab
+                        ? `2px solid ${COLOR.primary}`
+                        : "none")
+                  }
                 >
                   {tab}
                 </button>
@@ -817,11 +855,21 @@ export default function Home() {
                     textDecoration: "none",
                     color: "inherit",
                     border: "1px solid #EAEAEA",
-                    outline: hoveredStory === item.id ? `2px solid ${COLOR.primary}` : "none",
+                    outline:
+                      hoveredStory === item.id
+                        ? `2px solid ${COLOR.primary}`
+                        : "none",
                   }}
                   tabIndex={0}
-                  onFocus={e => (e.target.style.outline = `2px solid ${COLOR.primary}`)}
-                  onBlur={e => (e.target.style.outline = hoveredStory === item.id ? `2px solid ${COLOR.primary}` : "none")}
+                  onFocus={(e) =>
+                    (e.target.style.outline = `2px solid ${COLOR.primary}`)
+                  }
+                  onBlur={(e) =>
+                    (e.target.style.outline =
+                      hoveredStory === item.id
+                        ? `2px solid ${COLOR.primary}`
+                        : "none")
+                  }
                   onMouseEnter={() => setHoveredStory(item.id)}
                   onMouseLeave={() => setHoveredStory(null)}
                 >
