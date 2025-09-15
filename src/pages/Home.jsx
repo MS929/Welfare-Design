@@ -252,10 +252,10 @@ export default function Home() {
                 letterSpacing: "-0.4px",
               }}
             >
-              인생을 그리는 사회
+              연대와 디자인으로 채우는 복지의 빈틈
               <br />
               <span style={{ display: "inline-block", marginTop: 10 }}>
-                <strong>복지디자인 사회적협동조합</strong>이 함께 만들어갑니다
+                <strong>복지디자인 사회적협동조합</strong>이 지역과 함께합니다
               </span>
             </h1>
             <p
@@ -265,7 +265,7 @@ export default function Home() {
                 fontSize: 16,
               }}
             >
-              함께 성장하며, 모두의 행복을 위한 복지를 디자인합니다.
+              주민·기관·전문가가 함께 만드는 맞춤형 복지 플랫폼을 설계하고 운영합니다.
             </p>
           </div>
 
