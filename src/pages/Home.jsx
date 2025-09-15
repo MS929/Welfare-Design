@@ -73,6 +73,12 @@ export default function Home() {
   // 히어로 이미지: 우선 순위 경로 → 존재하지 않으면 /public/main.png 로 폴백
   const [heroSrc, setHeroSrc] = useState("/images/main.png");
 
+  // CTA hover states (기본 흰색 → 호버 시 컬러 틴트)
+  const [hoverIntro, setHoverIntro] = useState(false);     // 소개
+  const [hoverSupport, setHoverSupport] = useState(false); // 후원
+  const [hoverJoin, setHoverJoin] = useState(false);       // 조합 가입
+  const [hoverEmail, setHoverEmail] = useState(false);     // 이메일 문의
+
   const NOTICE_CARD_MIN_H = 220; // 공지/공모 카드 공통 높이
   const NOTICE_THUMB_H = 120;    // 공모 썸네일 고정 높이
 
@@ -456,12 +462,15 @@ export default function Home() {
               padding: 24,
               textDecoration: "none",
               color: "inherit",
-              backgroundColor: COLOR.accentTint,
-              boxShadow: "0 4px 8px rgba(0,0,0,0.05)",
+              backgroundColor: hoverIntro ? COLOR.accentTint : "#fff",
+              boxShadow: hoverIntro ? "0 6px 14px rgba(0,0,0,0.1)" : "0 4px 8px rgba(0,0,0,0.05)",
               minHeight: 160,
               gap: 12,
               border: `1px solid ${COLOR.line}`,
+              transition: "all .2s ease",
             }}
+            onMouseEnter={() => setHoverIntro(true)}
+            onMouseLeave={() => setHoverIntro(false)}
           >
             <div style={{ fontSize: 36, lineHeight: 1, color: COLOR.accent }}>
               📘
@@ -484,12 +493,15 @@ export default function Home() {
               padding: 24,
               textDecoration: "none",
               color: "inherit",
-              backgroundColor: COLOR.primaryTint,
-              boxShadow: "0 4px 8px rgba(0,0,0,0.05)",
+              backgroundColor: hoverSupport ? COLOR.primaryTint : "#fff",
+              boxShadow: hoverSupport ? "0 6px 14px rgba(0,0,0,0.1)" : "0 4px 8px rgba(0,0,0,0.05)",
               minHeight: 160,
               gap: 12,
               border: `1px solid ${COLOR.line}`,
+              transition: "all .2s ease",
             }}
+            onMouseEnter={() => setHoverSupport(true)}
+            onMouseLeave={() => setHoverSupport(false)}
           >
             <div style={{ fontSize: 36, lineHeight: 1, color: COLOR.primary }}>
               💙
@@ -512,12 +524,15 @@ export default function Home() {
               padding: 24,
               textDecoration: "none",
               color: "inherit",
-              backgroundColor: COLOR.secondaryTint,
-              boxShadow: "0 4px 8px rgba(0,0,0,0.05)",
+              backgroundColor: hoverJoin ? COLOR.secondaryTint : "#fff",
+              boxShadow: hoverJoin ? "0 6px 14px rgba(0,0,0,0.1)" : "0 4px 8px rgba(0,0,0,0.05)",
               minHeight: 160,
               gap: 12,
               border: `1px solid ${COLOR.line}`,
+              transition: "all .2s ease",
             }}
+            onMouseEnter={() => setHoverJoin(true)}
+            onMouseLeave={() => setHoverJoin(false)}
           >
             <div style={{ fontSize: 36, lineHeight: 1, color: COLOR.secondary }}>
               🤝
@@ -540,12 +555,15 @@ export default function Home() {
               padding: 24,
               textDecoration: "none",
               color: "inherit",
-              backgroundColor: COLOR.neutralTint,
-              boxShadow: "0 4px 8px rgba(0,0,0,0.05)",
+              backgroundColor: hoverEmail ? COLOR.neutralTint : "#fff",
+              boxShadow: hoverEmail ? "0 6px 14px rgba(0,0,0,0.1)" : "0 4px 8px rgba(0,0,0,0.05)",
               minHeight: 160,
               gap: 12,
               border: `1px solid ${COLOR.line}`,
+              transition: "all .2s ease",
             }}
+            onMouseEnter={() => setHoverEmail(true)}
+            onMouseLeave={() => setHoverEmail(false)}
           >
             <div style={{ fontSize: 36, lineHeight: 1, color: COLOR.textMuted }}>
               ✉️
