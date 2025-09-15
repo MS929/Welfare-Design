@@ -447,7 +447,7 @@ export default function Home() {
       <section
         aria-label="가입/후원/문의"
         style={{
-          background: COLOR.neutralTint,
+          background: COLOR.secondaryTint,
           borderTop: `1px solid ${COLOR.line}`,
           borderBottom: `1px solid ${COLOR.line}`,
           marginBottom: 32,
@@ -478,7 +478,7 @@ export default function Home() {
               padding: 24,
               textDecoration: "none",
               color: "inherit",
-              backgroundColor: hoverIntro ? COLOR.secondaryTint : COLOR.secondaryTint,
+              backgroundColor: hoverIntro ? COLOR.accentTint : "#e28455",
               boxShadow: hoverIntro ? "0 6px 14px rgba(0,0,0,0.1)" : "0 4px 8px rgba(0,0,0,0.05)",
               minHeight: 160,
               gap: 12,
@@ -488,7 +488,7 @@ export default function Home() {
             onMouseEnter={() => setHoverIntro(true)}
             onMouseLeave={() => setHoverIntro(false)}
           >
-            <div style={{ fontSize: 36, lineHeight: 1, color: COLOR.secondary }}>
+            <div style={{ fontSize: 36, lineHeight: 1, color: COLOR.accent }}>
               📘
             </div>
             <strong style={{ fontSize: 18, fontWeight: 700 }}>
