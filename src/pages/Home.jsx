@@ -184,92 +184,85 @@ export default function Home() {
   return { 공지: notice, 공모: contest };
   }, [notices]);
 
-return (
-    <main className="home-wrap">
-      <style>{`
-  /* ===== Home local styles (scoped-ish) ===== */
-  .home-wrap{--c-primary:#0EA5A3;--c-secondary:#F59E0B;--c-accent:#16A34A;--c-text:#111827;--c-muted:#6B7280;--c-line:#E5E7EB;--c-bg:#F5F7FA;--c-tint:#E6FAF9;}
-  .hero{background: radial-gradient(1200px 600px at 20% -10%, #E6FAF9 0, transparent 70%),
-                   radial-gradient(1200px 600px at 120% 10%, #FFF7E6 0, transparent 70%),
-                   linear-gradient(180deg, #FFFFFF, #F9FAFB);border-bottom:1px solid var(--c-line)}
-  .hero .inner{max-width:1440px;margin:0 auto;padding:32px 24px;display:grid;grid-template-columns:1.1fr 1fr;gap:28px;align-items:center}
-  .hero h1{margin:0 0 6px;font-weight:900;line-height:1.2;font-size:clamp(24px,2.6vw,36px);color:var(--c-text)}
-  .hero .subtitle{color:var(--c-muted);font-size:clamp(13px,1.4vw,16px);margin-bottom:10px}
-  .hero .img{height:300px;border-radius:16px;overflow:hidden;box-shadow:0 16px 40px rgba(0,0,0,.12);border:1px solid var(--c-line)}
-  .hero .img img{width:100%;height:100%;object-fit:cover}
-
-  .quick-grid{display:flex;gap:16px;flex-wrap:wrap;justify-content:center;margin-top:22px}
-  .quick-card{width:230px;min-height:120px;border-radius:16px;background:#FFF7E6;border:1px solid var(--c-line);
-              display:grid;place-items:center;text-decoration:none;color:inherit;box-shadow:0 6px 16px rgba(0,0,0,.08);
-              transition:transform .18s ease, box-shadow .18s ease}
-  .quick-card:hover{transform:translateY(-2px);box-shadow:0 10px 20px rgba(0,0,0,.12)}
-
-  .section{max-width:1440px;margin:0 auto;padding:0 24px}
-  .section-head{display:flex;justify-content:space-between;align-items:center;margin:8px 0 16px}
-  .section-title{font-size:28px;font-weight:800;letter-spacing:-.2px;position:relative;display:inline-block}
-  .section-title:after{content:"";position:absolute;left:0;bottom:-6px;width:42%;height:3px;background:linear-gradient(90deg,var(--c-primary),#34d399);border-radius:3px}
-
-  .tabs{display:flex;gap:8px;align-items:center}
-  .pill{padding:7px 14px;border-radius:999px;border:1px solid var(--c-line);background:#fff;color:var(--c-text);
-        font-size:14px;cursor:pointer;transition:all .2s}
-  .pill.active{border:2px solid var(--c-primary);background:#E6FAF9;color:var(--c-primary);font-weight:700}
-  .more{color:var(--c-primary);text-decoration:none;font-weight:600}
-
-  .grid-4{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:24px}
-  .card{background:#fff;border:1px solid var(--c-line);border-radius:12px;box-shadow:0 4px 14px rgba(0,0,0,.06);padding:22px;
-        display:flex;flex-direction:column;justify-content:space-between;min-height:210px;color:inherit;text-decoration:none;
-        transition:transform .18s ease, box-shadow .18s ease}
-  .card:hover{transform:translateY(-3px);box-shadow:0 10px 24px rgba(0,0,0,.10)}
-  .card h3{font-size:16px;line-height:1.3;margin:0 0 10px}
-  .card .meta{font-size:12px;color:var(--c-muted)}
-  .thumb{height:120px;border-radius:8px;overflow:hidden;background:#F5F7FA;margin-bottom:12px}
-  .thumb img{width:100%;height:100%;object-fit:cover}
-
-  .cta-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:24px}
-  .cta{display:flex;flex-direction:column;align-items:flex-start;border-radius:12px;padding:24px;text-decoration:none;color:inherit;
-       min-height:160px;gap:12px;border:1px solid var(--c-line);box-shadow:0 6px 16px rgba(0,0,0,.06);transition:transform .18s ease}
-  .cta:hover{transform:translateY(-2px)}
-
-  .stories{background:#E6FAF9;border-top:1px solid var(--c-line);border-bottom:1px solid var(--c-line)}
-  .story-card{background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 8px 18px rgba(0,0,0,.1);text-decoration:none;color:inherit;display:flex;flex-direction:column;min-height:230px;transition:transform .18s ease}
-  .story-card:hover{transform:translateY(-3px)}
-  .story-thumb{height:140px;background:#F5F7FA;overflow:hidden}
-  .story-thumb img{width:100%;height:100%;object-fit:cover}
-
-  @media (max-width: 1100px){
-    .hero .inner{grid-template-columns:1fr}
-    .hero .img{height:240px}
-    .grid-4,.cta-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
-  }
-  @media (max-width: 640px){
-    .grid-4,.cta-grid{grid-template-columns:1fr}
-  }
-`}</style>
+  return (
+    <main>
       {/* 0) 상단 간격 */}
       <div style={{ height: 8 }} />
 
       {/* 1) HERO – 상단 배너: 좌측 텍스트/버튼, 우측 큰 이미지 */}
-      <section aria-label="메인 히어로" className="hero">
-        <div className="inner">
-          {/* 좌측 카피 + 동그라미 버튼들 */}
-          <div style={{
-            display: "flex",
-            flexDirection: "column",
+      <section
+        aria-label="메인 히어로"
+        style={{
+          position: "relative",
+          width: "100%",
+          background: COLOR.bg,
+          overflow: "hidden",
+          borderBottom: `1px solid ${COLOR.line}`,
+          marginBottom: 16,
+        }}
+      >
+        <div
+          style={{
+            maxWidth: 1440,
+            margin: "0 auto",
+            padding: "28px 24px",
+            display: "grid",
+            gridTemplateColumns: "1fr 1fr",
             alignItems: "center",
-            textAlign: "center",
-            color: COLOR.text,
-          }}>
-            <div className="subtitle">지역의 이웃과 함께 성장하는 협동조합</div>
-            <h1>
+            gap: 24,
+          }}
+        >
+          {/* 좌측 카피 + 동그라미 버튼들 */}
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              textAlign: "center",
+              color: COLOR.text,
+            }}
+          >
+            <h1
+              style={{
+                margin: 0,
+                fontSize: 28,
+                lineHeight: 1.3,
+                fontWeight: 900,
+                textAlign: "center",
+              }}
+            >
               복지 사각지대 없는 사회
               <br />
               <span style={{ display: "inline-block", marginTop: 6 }}>
                 <strong>복지디자인 사회적협동조합</strong>이 함께 만들어갑니다
               </span>
             </h1>
+
             {/* 바로가기 카드 (복지디자인 사업) */}
-            <div className="quick-grid">
-              <Link to="/business/overview" className="quick-card">
+            <div
+              style={{
+                display: "flex",
+                gap: 16,
+                marginTop: 28,
+                flexWrap: "wrap",
+                justifyContent: "center",
+              }}
+            >
+              <Link
+                to="/business/overview"
+                style={{
+                  width: 220,
+                  height: 120,
+                  borderRadius: 16,
+                  background: COLOR.secondaryTint,
+                  display: "grid",
+                  placeItems: "center",
+                  boxShadow: "0 2px 10px rgba(0,0,0,0.08)",
+                  textDecoration: "none",
+                  color: "inherit",
+                  border: `1px solid ${COLOR.line}`,
+                }}
+              >
                 <div style={{ textAlign: "center", lineHeight: 1.25 }}>
                   <div style={{ fontSize: 28, marginBottom: 6 }}>📌</div>
                   <div style={{ fontSize: 15, color: COLOR.textMuted, fontWeight: 800 }}>
@@ -279,8 +272,19 @@ return (
               </Link>
             </div>
           </div>
+
           {/* 우측 큰 이미지 */}
-          <div className="img">
+          <div
+            style={{
+              position: "relative",
+              height: 280,
+              borderRadius: 12,
+              overflow: "hidden",
+              boxShadow: "0 8px 20px rgba(0,0,0,0.08)",
+              background: "#fff",
+              border: `1px solid ${COLOR.line}`,
+            }}
+          >
             <img
               src={heroSrc}
               alt="메인 히어로"
@@ -294,52 +298,107 @@ return (
       </section>
 
       {/* 2) 공지사항 – 탭형 (공지 탭에 실제 데이터) */}
-      <section aria-labelledby="notice-heading" className="section">
-        <div className="section-head">
-          <h2 id="notice-heading" className="section-title">
+      <section
+        aria-labelledby="notice-heading"
+        style={{
+          maxWidth: 1440,
+          margin: "0 auto",
+          padding: "0 24px",
+          marginBottom: 28,
+        }}
+      >
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            marginBottom: 16,
+          }}
+        >
+          <h2 id="notice-heading" style={{ fontSize: 28, fontWeight: 700 }}>
             공지사항
           </h2>
-          <div className="tabs">
+          <div style={{ display: "flex", gap: 8 }}>
             {tabs.map((t) => (
               <button
                 key={t}
                 onClick={() => setNoticeTab(t)}
-                className={"pill" + (noticeTab === t ? " active" : "")}
+                style={{
+                  padding: "6px 14px",
+                  borderRadius: 999,
+                  border:
+                    noticeTab === t
+                      ? `2px solid ${COLOR.primary}`
+                      : `1px solid ${COLOR.line}`,
+                  background: noticeTab === t ? COLOR.primaryTint : "#fff",
+                  color: noticeTab === t ? COLOR.primary : COLOR.text,
+                  cursor: "pointer",
+                  fontWeight: noticeTab === t ? 700 : 400,
+                  fontSize: 14,
+                  transition: "all 0.2s",
+                }}
               >
                 {t}
               </button>
             ))}
-            <Link to="/news/notices" className="more">
+            <Link
+              to="/news/notices"
+              style={{
+                fontSize: 14,
+                color: COLOR.primary,
+                marginLeft: 8,
+                alignSelf: "center",
+              }}
+            >
               더 보기
             </Link>
           </div>
         </div>
-        <div className="grid-4">
+
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(4, minmax(0, 1fr))",
+            gap: 24,
+          }}
+        >
           {(tabItems[noticeTab] || []).slice(0, 4).map((item) => (
             <Link
               key={item.id}
               to={item.to}
               role="article"
-              className="card"
+              style={{
+                border: `1px solid ${COLOR.line}`,
+                borderRadius: 12,
+                padding: 24,
+                boxShadow: "0 2px 8px rgba(0,0,0,0.05)",
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "space-between",
+                minHeight: NOTICE_CARD_MIN_H,
+                backgroundColor: "#fff",
+                textDecoration: "none",
+                color: "inherit",
+              }}
             >
               {noticeTab === "공모" ? (
                 <>
-                  <div className="thumb">
+                  <div style={{ height: NOTICE_THUMB_H, marginBottom: 12, borderRadius: 8, overflow: "hidden", background: COLOR.bg }}>
                     {item.thumbnail ? (
-                      <img src={item.thumbnail} alt={item.title} />
+                      <img src={item.thumbnail} alt={item.title} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
                     ) : (
                       <div style={{ width: "100%", height: "100%", display: "flex", alignItems: "center", justifyContent: "center", color: "#bbb", fontSize: 36 }}>🖼️</div>
                     )}
                   </div>
-                  <h3>{item.title}</h3>
+                  <h3 style={{ fontSize: 16, fontWeight: 700, margin: 0, lineHeight: 1.3 }}>{item.title}</h3>
                   {item.date && typeof item.date === "string" ? (
-                    <time className="meta">{item.date}</time>
+                    <time style={{ fontSize: 12, color: "#6B7280", marginTop: 6 }}>{item.date}</time>
                   ) : null}
                 </>
               ) : (
                 <>
                   <div>
-                    <h3>{item.title}</h3>
+                    <h3 style={{ fontSize: 16, fontWeight: 700, marginBottom: 12, lineHeight: 1.3 }}>{item.title}</h3>
                     {item.excerpt && (
                       <p style={{ fontSize: 14, color: COLOR.textMuted, marginTop: 0, marginBottom: 12, overflow: "hidden", textOverflow: "ellipsis", display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical", lineHeight: 1.4 }}>
                         {item.excerpt}
@@ -347,7 +406,7 @@ return (
                     )}
                   </div>
                   {item.date && typeof item.date === "string" ? (
-                    <time className="meta">{item.date}</time>
+                    <time style={{ fontSize: 12, color: "#6B7280" }}>{item.date}</time>
                   ) : null}
                 </>
               )}
@@ -370,10 +429,40 @@ return (
       </section>
 
       {/* 3) 가입/후원/문의 CTA 박스 */}
-      <section aria-label="가입/후원/문의" className="section">
-        <div className="cta-grid">
+      <section
+        aria-label="가입/후원/문의"
+        style={{
+          maxWidth: 1440,
+          margin: "0 auto",
+          padding: "0 24px",
+          marginBottom: 28,
+        }}
+      >
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(4, minmax(0, 1fr))",
+            gap: 24,
+          }}
+        >
           {/* 복지디자인 소개 */}
-          <Link to="/about/what" className="cta" style={{ backgroundColor: COLOR.accentTint }}>
+          <Link
+            to="/about/what"
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "flex-start",
+              borderRadius: 12,
+              padding: 24,
+              textDecoration: "none",
+              color: "inherit",
+              backgroundColor: COLOR.accentTint,
+              boxShadow: "0 4px 8px rgba(0,0,0,0.05)",
+              minHeight: 160,
+              gap: 12,
+              border: `1px solid ${COLOR.line}`,
+            }}
+          >
             <div style={{ fontSize: 36, lineHeight: 1, color: COLOR.accent }}>
               📘
             </div>
@@ -385,7 +474,23 @@ return (
             </span>
           </Link>
           {/* 후원 가입 신청하기 */}
-          <Link to="/support/guide" className="cta" style={{ backgroundColor: COLOR.primaryTint }}>
+          <Link
+            to="/support/guide"
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "flex-start",
+              borderRadius: 12,
+              padding: 24,
+              textDecoration: "none",
+              color: "inherit",
+              backgroundColor: COLOR.primaryTint,
+              boxShadow: "0 4px 8px rgba(0,0,0,0.05)",
+              minHeight: 160,
+              gap: 12,
+              border: `1px solid ${COLOR.line}`,
+            }}
+          >
             <div style={{ fontSize: 36, lineHeight: 1, color: COLOR.primary }}>
               💙
             </div>
@@ -397,7 +502,23 @@ return (
             </span>
           </Link>
           {/* 조합 가입 신청하기 */}
-          <Link to="/support" className="cta" style={{ backgroundColor: COLOR.secondaryTint }}>
+          <Link
+            to="/support"
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "flex-start",
+              borderRadius: 12,
+              padding: 24,
+              textDecoration: "none",
+              color: "inherit",
+              backgroundColor: COLOR.secondaryTint,
+              boxShadow: "0 4px 8px rgba(0,0,0,0.05)",
+              minHeight: 160,
+              gap: 12,
+              border: `1px solid ${COLOR.line}`,
+            }}
+          >
             <div style={{ fontSize: 36, lineHeight: 1, color: COLOR.secondary }}>
               🤝
             </div>
@@ -409,7 +530,23 @@ return (
             </span>
           </Link>
           {/* 이메일로 문의하기 */}
-          <a href="mailto:welfarecoop@naver.com" className="cta" style={{ backgroundColor: COLOR.neutralTint }}>
+          <a
+            href="mailto:welfarecoop@naver.com"
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "flex-start",
+              borderRadius: 12,
+              padding: 24,
+              textDecoration: "none",
+              color: "inherit",
+              backgroundColor: COLOR.neutralTint,
+              boxShadow: "0 4px 8px rgba(0,0,0,0.05)",
+              minHeight: 160,
+              gap: 12,
+              border: `1px solid ${COLOR.line}`,
+            }}
+          >
             <div style={{ fontSize: 36, lineHeight: 1, color: COLOR.textMuted }}>
               ✉️
             </div>
@@ -425,11 +562,48 @@ return (
 
 
       {/* 4) 복지디자인 소식 – 파란 패널 + 탭 풍의 보조 내비 + 필터 */}
-      <section aria-labelledby="stories-heading" className="stories">
-        <div className="section">
-          <div className="section-head">
-            <div style={{ display: "flex", flexDirection: "column", gap: 6, flex: 1 }}>
-              <h2 id="stories-heading" style={{ fontSize: 26, fontWeight: 800, margin: 0, color: COLOR.primary }}>
+      <section
+        aria-labelledby="stories-heading"
+        style={{
+          background: COLOR.primaryTint, // 연한 청록 영역
+          borderTop: `1px solid ${COLOR.line}`,
+          borderBottom: `1px solid ${COLOR.line}`,
+        }}
+      >
+        <div
+          style={{
+            maxWidth: 1440,
+            margin: "0 auto",
+            padding: "24px 24px 32px",
+          }}
+        >
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              marginBottom: 20,
+              flexWrap: "wrap",
+              gap: 12,
+            }}
+          >
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                gap: 6,
+                flex: 1,
+              }}
+            >
+              <h2
+                id="stories-heading"
+                style={{
+                  fontSize: 26,
+                  fontWeight: 800,
+                  margin: 0,
+                  color: COLOR.primary,
+                }}
+              >
                 복지디자인 소식
               </h2>
               <small style={{ color: COLOR.textMuted, fontSize: 14 }}>
@@ -437,35 +611,86 @@ return (
               </small>
             </div>
             {/* 소식 카테고리 필터 */}
-            <div className="tabs">
+            <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
               {storiesTabs.map((tab) => (
                 <button
                   key={tab}
                   onClick={() => setStoriesTab(tab)}
-                  className={"pill" + (storiesTab === tab ? " active" : "")}
+                  style={{
+                    padding: "6px 16px",
+                    borderRadius: 999,
+                    border:
+                      storiesTab === tab
+                        ? `2px solid ${COLOR.primary}`
+                        : `1px solid ${COLOR.line}`,
+                    background: storiesTab === tab ? COLOR.primaryTint : "#fff",
+                    color: storiesTab === tab ? COLOR.primary : COLOR.text,
+                    cursor: "pointer",
+                    fontWeight: storiesTab === tab ? 700 : 400,
+                    fontSize: 14,
+                    transition: "all 0.2s",
+                  }}
                 >
                   {tab}
                 </button>
               ))}
-              <Link to="/news/stories" className="more">
+              <Link
+                to="/news/stories"
+                style={{
+                  fontSize: 14,
+                  color: COLOR.primary,
+                  marginLeft: 8,
+                  textDecoration: "none",
+                  fontWeight: 600,
+                  alignSelf: "center",
+                }}
+              >
                 전체보기
               </Link>
             </div>
           </div>
+
           {filteredStories.length > 0 ? (
-            <div className="grid-4">
+            <div
+              style={{
+                display: "grid",
+                gridTemplateColumns: "repeat(4, minmax(0, 1fr))",
+                gap: 24,
+              }}
+            >
               {filteredStories.slice(0, 4).map((item) => (
                 <Link
                   key={item.id}
                   to={item.to}
-                  className="story-card"
+                  style={{
+                    borderRadius: 12,
+                    background: "#fff",
+                    boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
+                    overflow: "hidden",
+                    display: "flex",
+                    flexDirection: "column",
+                    minHeight: 230,
+                    textDecoration: "none",
+                    color: "inherit",
+                  }}
                 >
                   {/* 썸네일 */}
-                  <div className="story-thumb">
+                  <div
+                    style={{
+                      height: 140,
+                      overflow: "hidden",
+                      backgroundColor: COLOR.bg,
+                    }}
+                  >
                     {item.thumbnail ? (
                       <img
                         src={item.thumbnail}
                         alt={item.title}
+                        style={{
+                          width: "100%",
+                          height: "100%",
+                          objectFit: "cover",
+                        }}
                       />
                     ) : (
                       <div
@@ -484,20 +709,24 @@ return (
                       </div>
                     )}
                   </div>
-                  <div style={{
-                    padding: 16,
-                    flex: 1,
-                    display: "flex",
-                    flexDirection: "column",
-                    justifyContent: "space-between",
-                  }}>
-                    <h3 style={{
-                      fontSize: 18,
-                      fontWeight: 700,
-                      margin: 0,
-                      marginBottom: 10,
-                      lineHeight: 1.3,
-                    }}>
+                  <div
+                    style={{
+                      padding: 16,
+                      flex: 1,
+                      display: "flex",
+                      flexDirection: "column",
+                      justifyContent: "space-between",
+                    }}
+                  >
+                    <h3
+                      style={{
+                        fontSize: 18,
+                        fontWeight: 700,
+                        margin: 0,
+                        marginBottom: 10,
+                        lineHeight: 1.3,
+                      }}
+                    >
                       {item.title}
                     </h3>
                     {item.date && typeof item.date === "string" ? (
@@ -510,23 +739,34 @@ return (
               ))}
             </div>
           ) : (
-            <div className="grid-4">
+            <div
+              style={{
+                display: "grid",
+                gridTemplateColumns: "repeat(4, minmax(0, 1fr))",
+                gap: 24,
+              }}
+            >
               {/* 소식 카드 4개 자리 – 데이터 없을 땐 플레이스홀더 링크 */}
               {[0, 1, 2, 3].map((i) => (
                 <Link
                   key={i}
                   to="/news/stories"
-                  className="story-card"
                   style={{
+                    borderRadius: 12,
+                    background: "#fff",
                     padding: 24,
+                    textDecoration: "none",
+                    color: "inherit",
+                    boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
                     display: "flex",
                     flexDirection: "column",
                     minHeight: 230,
                   }}
                 >
                   <div
-                    className="story-thumb"
                     style={{
+                      height: 140,
+                      backgroundColor: COLOR.bg,
                       display: "flex",
                       justifyContent: "center",
                       alignItems: "center",
