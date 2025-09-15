@@ -244,7 +244,6 @@ export default function Home() {
                 <strong>복지디자인 사회적협동조합</strong>이 함께 만들어갑니다
               </span>
             </h1>
-
           </div>
 
           {/* 우측 큰 이미지 */}
@@ -288,125 +287,190 @@ export default function Home() {
             padding: "24px 24px 32px",
           }}
         >
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-            marginBottom: 16,
-          }}
-        >
-          <h2 id="notice-heading" style={{ fontSize: 28, fontWeight: 700 }}>
-            공지사항
-          </h2>
-          <div style={{ display: "flex", gap: 8 }}>
-            {tabs.map((t) => (
-              <button
-                key={t}
-                onClick={() => setNoticeTab(t)}
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              marginBottom: 16,
+            }}
+          >
+            <h2 id="notice-heading" style={{ fontSize: 28, fontWeight: 700 }}>
+              공지사항
+            </h2>
+            <div style={{ display: "flex", gap: 8 }}>
+              {tabs.map((t) => (
+                <button
+                  key={t}
+                  onClick={() => setNoticeTab(t)}
+                  style={{
+                    padding: "6px 14px",
+                    borderRadius: 999,
+                    border:
+                      noticeTab === t
+                        ? `2px solid ${COLOR.primary}`
+                        : `1px solid ${COLOR.line}`,
+                    background: noticeTab === t ? COLOR.primaryTint : "#fff",
+                    color: noticeTab === t ? COLOR.primary : COLOR.text,
+                    cursor: "pointer",
+                    fontWeight: noticeTab === t ? 700 : 400,
+                    fontSize: 14,
+                    transition: "all 0.2s",
+                  }}
+                >
+                  {t}
+                </button>
+              ))}
+              <Link
+                to="/news/notices"
                 style={{
-                  padding: "6px 14px",
-                  borderRadius: 999,
-                  border:
-                    noticeTab === t
-                      ? `2px solid ${COLOR.primary}`
-                      : `1px solid ${COLOR.line}`,
-                  background: noticeTab === t ? COLOR.primaryTint : "#fff",
-                  color: noticeTab === t ? COLOR.primary : COLOR.text,
-                  cursor: "pointer",
-                  fontWeight: noticeTab === t ? 700 : 400,
                   fontSize: 14,
-                  transition: "all 0.2s",
+                  color: COLOR.primary,
+                  marginLeft: 8,
+                  alignSelf: "center",
                 }}
               >
-                {t}
-              </button>
-            ))}
-            <Link
-              to="/news/notices"
-              style={{
-                fontSize: 14,
-                color: COLOR.primary,
-                marginLeft: 8,
-                alignSelf: "center",
-              }}
-            >
-              더 보기
-            </Link>
-          </div>
-        </div>
-
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(4, minmax(0, 1fr))",
-            gap: 24,
-          }}
-        >
-          {(tabItems[noticeTab] || []).slice(0, 4).map((item) => (
-            <Link
-              key={item.id}
-              to={item.to}
-              role="article"
-              style={{
-                border: `1px solid ${COLOR.line}`,
-                borderRadius: 12,
-                padding: 24,
-                boxShadow: "0 2px 8px rgba(0,0,0,0.05)",
-                display: "flex",
-                flexDirection: "column",
-                justifyContent: "space-between",
-                minHeight: NOTICE_CARD_MIN_H,
-                backgroundColor: "#fff",
-                textDecoration: "none",
-                color: "inherit",
-              }}
-            >
-              {noticeTab === "공모" ? (
-                <>
-                  <div style={{ height: NOTICE_THUMB_H, marginBottom: 12, borderRadius: 8, overflow: "hidden", background: COLOR.bg }}>
-                    {item.thumbnail ? (
-                      <img src={item.thumbnail} alt={item.title} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
-                    ) : (
-                      <div style={{ width: "100%", height: "100%", display: "flex", alignItems: "center", justifyContent: "center", color: "#bbb", fontSize: 36 }}>🖼️</div>
-                    )}
-                  </div>
-                  <h3 style={{ fontSize: 16, fontWeight: 700, margin: 0, lineHeight: 1.3 }}>{item.title}</h3>
-                  {item.date && typeof item.date === "string" ? (
-                    <time style={{ fontSize: 12, color: "#6B7280", marginTop: 6 }}>{item.date}</time>
-                  ) : null}
-                </>
-              ) : (
-                <>
-                  <div>
-                    <h3 style={{ fontSize: 16, fontWeight: 700, marginBottom: 12, lineHeight: 1.3 }}>{item.title}</h3>
-                    {item.excerpt && (
-                      <p style={{ fontSize: 14, color: COLOR.textMuted, marginTop: 0, marginBottom: 12, overflow: "hidden", textOverflow: "ellipsis", display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical", lineHeight: 1.4 }}>
-                        {item.excerpt}
-                      </p>
-                    )}
-                  </div>
-                  {item.date && typeof item.date === "string" ? (
-                    <time style={{ fontSize: 12, color: "#6B7280" }}>{item.date}</time>
-                  ) : null}
-                </>
-              )}
-            </Link>
-          ))}
-          {(!tabItems[noticeTab] || tabItems[noticeTab].length === 0) && (
-            <div
-              style={{
-                gridColumn: "1 / -1",
-                color: "#888",
-                fontSize: 14,
-                textAlign: "center",
-                padding: 24,
-              }}
-            >
-              표시할 항목이 없습니다.
+                더 보기
+              </Link>
             </div>
-          )}
-        </div>
+          </div>
+
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(4, minmax(0, 1fr))",
+              gap: 24,
+            }}
+          >
+            {(tabItems[noticeTab] || []).slice(0, 4).map((item) => (
+              <Link
+                key={item.id}
+                to={item.to}
+                role="article"
+                style={{
+                  border: `1px solid ${COLOR.line}`,
+                  borderRadius: 12,
+                  padding: 24,
+                  boxShadow: "0 2px 8px rgba(0,0,0,0.05)",
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "space-between",
+                  minHeight: NOTICE_CARD_MIN_H,
+                  backgroundColor: "#fff",
+                  textDecoration: "none",
+                  color: "inherit",
+                }}
+              >
+                {noticeTab === "공모" ? (
+                  <>
+                    <div
+                      style={{
+                        height: NOTICE_THUMB_H,
+                        marginBottom: 12,
+                        borderRadius: 8,
+                        overflow: "hidden",
+                        background: COLOR.bg,
+                      }}
+                    >
+                      {item.thumbnail ? (
+                        <img
+                          src={item.thumbnail}
+                          alt={item.title}
+                          style={{
+                            width: "100%",
+                            height: "100%",
+                            objectFit: "cover",
+                          }}
+                        />
+                      ) : (
+                        <div
+                          style={{
+                            width: "100%",
+                            height: "100%",
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            color: "#bbb",
+                            fontSize: 36,
+                          }}
+                        >
+                          🖼️
+                        </div>
+                      )}
+                    </div>
+                    <h3
+                      style={{
+                        fontSize: 16,
+                        fontWeight: 700,
+                        margin: 0,
+                        lineHeight: 1.3,
+                      }}
+                    >
+                      {item.title}
+                    </h3>
+                    {item.date && typeof item.date === "string" ? (
+                      <time
+                        style={{ fontSize: 12, color: "#6B7280", marginTop: 6 }}
+                      >
+                        {item.date}
+                      </time>
+                    ) : null}
+                  </>
+                ) : (
+                  <>
+                    <div>
+                      <h3
+                        style={{
+                          fontSize: 16,
+                          fontWeight: 700,
+                          marginBottom: 12,
+                          lineHeight: 1.3,
+                        }}
+                      >
+                        {item.title}
+                      </h3>
+                      {item.excerpt && (
+                        <p
+                          style={{
+                            fontSize: 14,
+                            color: COLOR.textMuted,
+                            marginTop: 0,
+                            marginBottom: 12,
+                            overflow: "hidden",
+                            textOverflow: "ellipsis",
+                            display: "-webkit-box",
+                            WebkitLineClamp: 2,
+                            WebkitBoxOrient: "vertical",
+                            lineHeight: 1.4,
+                          }}
+                        >
+                          {item.excerpt}
+                        </p>
+                      )}
+                    </div>
+                    {item.date && typeof item.date === "string" ? (
+                      <time style={{ fontSize: 12, color: "#6B7280" }}>
+                        {item.date}
+                      </time>
+                    ) : null}
+                  </>
+                )}
+              </Link>
+            ))}
+            {(!tabItems[noticeTab] || tabItems[noticeTab].length === 0) && (
+              <div
+                style={{
+                  gridColumn: "1 / -1",
+                  color: "#888",
+                  fontSize: 14,
+                  textAlign: "center",
+                  padding: 24,
+                }}
+              >
+                표시할 항목이 없습니다.
+              </div>
+            )}
+          </div>
         </div>
       </section>
 
@@ -434,134 +498,147 @@ export default function Home() {
               gap: 24,
             }}
           >
-          {/* 복지디자인 소개 */}
-          <Link
-            to="/about/what"
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "flex-start",
-              borderRadius: 12,
-              padding: 24,
-              textDecoration: "none",
-              color: "inherit",
-              backgroundColor: hoverIntro ? COLOR.accentTint : "#fff",
-              boxShadow: hoverIntro ? "0 6px 14px rgba(0,0,0,0.1)" : "0 4px 8px rgba(0,0,0,0.05)",
-              minHeight: 160,
-              gap: 12,
-              border: `1px solid ${COLOR.line}`,
-              transition: "all .2s ease",
-            }}
-            onMouseEnter={() => setHoverIntro(true)}
-            onMouseLeave={() => setHoverIntro(false)}
-          >
-            <div style={{ fontSize: 36, lineHeight: 1, color: COLOR.accent }}>
-              📘
-            </div>
-            <strong style={{ fontSize: 18, fontWeight: 700 }}>
-              복지디자인 소개
-            </strong>
-            <span style={{ fontSize: 14, color: "#3a3a3a" }}>
-              조합의 비전과 연혁을 확인하세요.
-            </span>
-          </Link>
-          {/* 후원 가입 신청하기 */}
-          <Link
-            to="/support/guide"
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "flex-start",
-              borderRadius: 12,
-              padding: 24,
-              textDecoration: "none",
-              color: "inherit",
-              backgroundColor: hoverSupport ? COLOR.primaryTint : "#fff",
-              boxShadow: hoverSupport ? "0 6px 14px rgba(0,0,0,0.1)" : "0 4px 8px rgba(0,0,0,0.05)",
-              minHeight: 160,
-              gap: 12,
-              border: `1px solid ${COLOR.line}`,
-              transition: "all .2s ease",
-            }}
-            onMouseEnter={() => setHoverSupport(true)}
-            onMouseLeave={() => setHoverSupport(false)}
-          >
-            <div style={{ fontSize: 36, lineHeight: 1, color: COLOR.primary }}>
-              💙
-            </div>
-            <strong style={{ fontSize: 18, fontWeight: 700 }}>
-              후원 가입 신청하기
-            </strong>
-            <span style={{ fontSize: 14, color: "#3a3a3a" }}>
-              지속적 관심과 지지를 부탁드립니다.
-            </span>
-          </Link>
-          {/* 조합 가입 신청하기 */}
-          <Link
-            to="/support"
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "flex-start",
-              borderRadius: 12,
-              padding: 24,
-              textDecoration: "none",
-              color: "inherit",
-              backgroundColor: hoverJoin ? COLOR.secondaryTint : "#fff",
-              boxShadow: hoverJoin ? "0 6px 14px rgba(0,0,0,0.1)" : "0 4px 8px rgba(0,0,0,0.05)",
-              minHeight: 160,
-              gap: 12,
-              border: `1px solid ${COLOR.line}`,
-              transition: "all .2s ease",
-            }}
-            onMouseEnter={() => setHoverJoin(true)}
-            onMouseLeave={() => setHoverJoin(false)}
-          >
-            <div style={{ fontSize: 36, lineHeight: 1, color: COLOR.secondary }}>
-              🤝
-            </div>
-            <strong style={{ fontSize: 18, fontWeight: 700 }}>
-              조합 가입 신청하기
-            </strong>
-            <span style={{ fontSize: 14, color: "#3a3a3a" }}>
-              복지디자인의 미션에 함께해주세요.
-            </span>
-          </Link>
-          {/* 복지디자인 사업 바로가기 */}
-          <Link
-            to="/business/overview"
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "flex-start",
-              borderRadius: 12,
-              padding: 24,
-              textDecoration: "none",
-              color: "inherit",
-              backgroundColor: hoverEmail ? COLOR.secondaryTint : "#fff",
-              boxShadow: hoverEmail ? "0 6px 14px rgba(0,0,0,0.1)" : "0 4px 8px rgba(0,0,0,0.05)",
-              minHeight: 160,
-              gap: 12,
-              border: `1px solid ${COLOR.line}`,
-              transition: "all .2s ease",
-            }}
-            onMouseEnter={() => setHoverEmail(true)}
-            onMouseLeave={() => setHoverEmail(false)}
-          >
-            <div style={{ fontSize: 36, lineHeight: 1, color: COLOR.secondary }}>
-              📌
-            </div>
-            <strong style={{ fontSize: 18, fontWeight: 700 }}>
-              복지디자인 사업
-            </strong>
-            <span style={{ fontSize: 14, color: "#3a3a3a" }}>
-              복지디자인의 사업을 확인하세요.
-            </span>
-          </Link>
+            {/* 복지디자인 소개 */}
+            <Link
+              to="/about/what"
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "flex-start",
+                borderRadius: 12,
+                padding: 24,
+                textDecoration: "none",
+                color: "inherit",
+                backgroundColor: hoverIntro ? COLOR.accentTint : "#fff",
+                boxShadow: hoverIntro
+                  ? "0 6px 14px rgba(0,0,0,0.1)"
+                  : "0 4px 8px rgba(0,0,0,0.05)",
+                minHeight: 160,
+                gap: 12,
+                border: `1px solid ${COLOR.line}`,
+                transition: "all .2s ease",
+              }}
+              onMouseEnter={() => setHoverIntro(true)}
+              onMouseLeave={() => setHoverIntro(false)}
+            >
+              <div style={{ fontSize: 36, lineHeight: 1, color: COLOR.accent }}>
+                📘
+              </div>
+              <strong style={{ fontSize: 18, fontWeight: 700 }}>
+                복지디자인 소개
+              </strong>
+              <span style={{ fontSize: 14, color: "#3a3a3a" }}>
+                조합의 비전과 연혁을 확인하세요.
+              </span>
+            </Link>
+            {/* 복지디자인 사업 바로가기 */}
+            <Link
+              to="/business/overview"
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "flex-start",
+                borderRadius: 12,
+                padding: 24,
+                textDecoration: "none",
+                color: "inherit",
+                backgroundColor: hoverEmail ? COLOR.secondaryTint : "#fff",
+                boxShadow: hoverEmail
+                  ? "0 6px 14px rgba(0,0,0,0.1)"
+                  : "0 4px 8px rgba(0,0,0,0.05)",
+                minHeight: 160,
+                gap: 12,
+                border: `1px solid ${COLOR.line}`,
+                transition: "all .2s ease",
+              }}
+              onMouseEnter={() => setHoverEmail(true)}
+              onMouseLeave={() => setHoverEmail(false)}
+            >
+              <div
+                style={{ fontSize: 36, lineHeight: 1, color: COLOR.secondary }}
+              >
+                📌
+              </div>
+              <strong style={{ fontSize: 18, fontWeight: 700 }}>
+                복지디자인 사업
+              </strong>
+              <span style={{ fontSize: 14, color: "#3a3a3a" }}>
+                복지디자인의 사업을 확인하세요.
+              </span>
+            </Link>
+            {/* 후원 가입 신청하기 */}
+            <Link
+              to="/support/guide"
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "flex-start",
+                borderRadius: 12,
+                padding: 24,
+                textDecoration: "none",
+                color: "inherit",
+                backgroundColor: hoverSupport ? COLOR.primaryTint : "#fff",
+                boxShadow: hoverSupport
+                  ? "0 6px 14px rgba(0,0,0,0.1)"
+                  : "0 4px 8px rgba(0,0,0,0.05)",
+                minHeight: 160,
+                gap: 12,
+                border: `1px solid ${COLOR.line}`,
+                transition: "all .2s ease",
+              }}
+              onMouseEnter={() => setHoverSupport(true)}
+              onMouseLeave={() => setHoverSupport(false)}
+            >
+              <div
+                style={{ fontSize: 36, lineHeight: 1, color: COLOR.primary }}
+              >
+                💙
+              </div>
+              <strong style={{ fontSize: 18, fontWeight: 700 }}>
+                후원 가입 신청하기
+              </strong>
+              <span style={{ fontSize: 14, color: "#3a3a3a" }}>
+                지속적 관심과 지지를 부탁드립니다.
+              </span>
+            </Link>
+            {/* 조합 가입 신청하기 */}
+            <Link
+              to="/support"
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "flex-start",
+                borderRadius: 12,
+                padding: 24,
+                textDecoration: "none",
+                color: "inherit",
+                backgroundColor: hoverJoin ? COLOR.secondaryTint : "#fff",
+                boxShadow: hoverJoin
+                  ? "0 6px 14px rgba(0,0,0,0.1)"
+                  : "0 4px 8px rgba(0,0,0,0.05)",
+                minHeight: 160,
+                gap: 12,
+                border: `1px solid ${COLOR.line}`,
+                transition: "all .2s ease",
+              }}
+              onMouseEnter={() => setHoverJoin(true)}
+              onMouseLeave={() => setHoverJoin(false)}
+            >
+              <div
+                style={{ fontSize: 36, lineHeight: 1, color: COLOR.secondary }}
+              >
+                🤝
+              </div>
+              <strong style={{ fontSize: 18, fontWeight: 700 }}>
+                조합 가입 신청하기
+              </strong>
+              <span style={{ fontSize: 14, color: "#3a3a3a" }}>
+                복지디자인의 미션에 함께해주세요.
+              </span>
+            </Link>
           </div>
         </div>
       </section>
-
 
       {/* 4) 복지디자인 소식 – 파란 패널 + 탭 풍의 보조 내비 + 필터 */}
       <section
