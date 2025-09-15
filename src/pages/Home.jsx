@@ -87,11 +87,7 @@ export default function Home() {
   // 히어로 이미지: 우선 순위 경로 → 존재하지 않으면 /public/main.png 로 폴백
   const [heroSrc, setHeroSrc] = useState("/images/main.png");
 
-  // CTA hover states (기본 흰색 → 호버 시 컬러 틴트)
-  const [hoverIntro, setHoverIntro] = useState(false);     // 소개
-  const [hoverSupport, setHoverSupport] = useState(false); // 후원
-  const [hoverJoin, setHoverJoin] = useState(false);       // 조합 가입
-  const [hoverEmail, setHoverEmail] = useState(false);     // 이메일 문의
+  // (삭제됨) CTA hover states
   // 카드 hover 상태
   const [hoveredNotice, setHoveredNotice] = useState(null);
   const [hoveredStory, setHoveredStory] = useState(null);
@@ -556,204 +552,133 @@ export default function Home() {
               gap: 24,
             }}
           >
-            {/* 복지디자인 소개 */}
-            <Link
-              to="/about/what"
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "flex-start",
-                borderRadius: TOKENS.radius,
-                padding: 24,
-                textDecoration: "none",
-                color: "inherit",
-                background: hoverIntro ? "#F4B7311A" : "#fff",
-                boxShadow: hoverIntro ? TOKENS.shadowHover : TOKENS.shadowSm,
-                minHeight: 164,
-                gap: 12,
-                border: "1px solid #EAEAEA",
-                transform: hoverIntro ? "translateY(-4px)" : "translateY(0)",
-                transition: "all .18s ease",
-                outline: "none",
-              }}
-              tabIndex={0}
-              onFocus={e => (e.target.style.outline = `2px solid ${COLOR.primary}`)}
-              onBlur={e => (e.target.style.outline = "none")}
-              onMouseEnter={() => setHoverIntro(true)}
-              onMouseLeave={() => setHoverIntro(false)}
-            >
-              <div
+            {[
+              {
+                to: "/about/what",
+                title: "복지디자인 소개",
+                desc: "조합의 비전과 연혁을 확인하세요.",
+                color: COLOR.secondary,          // 오렌지
+                tint: COLOR.secondaryTint,
+              },
+              {
+                to: "/business/overview",
+                title: "사업 안내",
+                desc: "복지디자인의 사업을 확인하세요.",
+                color: COLOR.primary,            // 틸
+                tint: COLOR.primaryTint,
+              },
+              {
+                to: "/support/guide",
+                title: "후원 가입 신청하기",
+                desc: "지속적 관심과 지지를 부탁드립니다.",
+                color: COLOR.accent,             // 노랑
+                tint: COLOR.accentTint,
+              },
+              {
+                to: "/support",
+                title: "조합 가입 신청하기",
+                desc: "복지디자인의 미션에 함께해주세요.",
+                color: COLOR.primary,            // 틸(반복)
+                tint: COLOR.primaryTint,
+              },
+            ].map((item, idx) => (
+              <Link
+                key={idx}
+                to={item.to}
                 style={{
-                  width: 44,
-                  height: 44,
-                  borderRadius: 999,
+                  position: "relative",
                   display: "flex",
                   alignItems: "center",
-                  justifyContent: "center",
-                  background: hoverIntro ? "#F4B73126" : COLOR.neutralTint,
-                  color: "#F4B731",
-                  fontSize: 22,
+                  gap: 18,
+                  padding: 24,
+                  borderRadius: TOKENS.radius,
+                  background: item.tint,
+                  border: `1px solid ${item.color}22`,
+                  boxShadow: TOKENS.shadowSm,
+                  textDecoration: "none",
+                  color: "inherit",
+                  minHeight: 132,
+                  transition: "transform .16s ease, box-shadow .16s ease, background .16s ease",
                 }}
-              >
-                📘
-              </div>
-              <strong style={{ fontSize: 18, fontWeight: 700 }}>
-                복지디자인 소개
-              </strong>
-              <span style={{ fontSize: 14, color: "#3a3a3a" }}>
-                조합의 비전과 연혁을 확인하세요.
-              </span>
-            </Link>
-            {/* 사업 안내 */}
-            <Link
-              to="/business/overview"
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "flex-start",
-                borderRadius: TOKENS.radius,
-                padding: 24,
-                textDecoration: "none",
-                color: "inherit",
-                background: hoverEmail ? "#ED6A3214" : "#fff",
-                boxShadow: hoverEmail ? TOKENS.shadowHover : TOKENS.shadowSm,
-                minHeight: 164,
-                gap: 12,
-                border: "1px solid #EAEAEA",
-                transform: hoverEmail ? "translateY(-4px)" : "translateY(0)",
-                transition: "all .18s ease",
-                outline: "none",
-              }}
-              tabIndex={0}
-              onFocus={e => (e.target.style.outline = `2px solid ${COLOR.primary}`)}
-              onBlur={e => (e.target.style.outline = "none")}
-              onMouseEnter={() => setHoverEmail(true)}
-              onMouseLeave={() => setHoverEmail(false)}
-            >
-              <div
-                style={{
-                  width: 44,
-                  height: 44,
-                  borderRadius: 999,
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  background: hoverEmail
-                    ? "#ED6A3222"
-                    : COLOR.neutralTint,
-                  color: "#ED6A32",
-                  fontSize: 22,
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.boxShadow = TOKENS.shadowHover;
+                  e.currentTarget.style.transform = "translateY(-4px)";
+                  e.currentTarget.style.background = `${item.tint}`;
                 }}
-              >
-                📊
-              </div>
-              <strong style={{ fontSize: 18, fontWeight: 700 }}>
-                사업 안내
-              </strong>
-              <span style={{ fontSize: 14, color: "#3a3a3a" }}>
-                복지디자인의 사업을 확인하세요.
-              </span>
-            </Link>
-            {/* 후원 가입 신청하기 */}
-            <Link
-              to="/support/guide"
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "flex-start",
-                borderRadius: TOKENS.radius,
-                padding: 24,
-                textDecoration: "none",
-                color: "inherit",
-                background: hoverSupport ? "#3BA7A01A" : "#fff",
-                boxShadow: hoverSupport ? TOKENS.shadowHover : TOKENS.shadowSm,
-                minHeight: 164,
-                gap: 12,
-                border: "1px solid #EAEAEA",
-                transform: hoverSupport ? "translateY(-4px)" : "translateY(0)",
-                transition: "all .18s ease",
-                outline: "none",
-              }}
-              tabIndex={0}
-              onFocus={e => (e.target.style.outline = `2px solid ${COLOR.primary}`)}
-              onBlur={e => (e.target.style.outline = "none")}
-              onMouseEnter={() => setHoverSupport(true)}
-              onMouseLeave={() => setHoverSupport(false)}
-            >
-              <div
-                style={{
-                  width: 44,
-                  height: 44,
-                  borderRadius: 999,
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  background: hoverSupport
-                    ? "#3BA7A026"
-                    : COLOR.neutralTint,
-                  color: "#3BA7A0",
-                  fontSize: 22,
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.boxShadow = TOKENS.shadowSm;
+                  e.currentTarget.style.transform = "translateY(0)";
+                  e.currentTarget.style.background = item.tint;
                 }}
+                tabIndex={0}
+                onFocus={(e) => (e.currentTarget.style.outline = `2px solid ${item.color}`)}
+                onBlur={(e) => (e.currentTarget.style.outline = "none")}
               >
-                💙
-              </div>
-              <strong style={{ fontSize: 18, fontWeight: 700 }}>
-                후원 가입 신청하기
-              </strong>
-              <span style={{ fontSize: 14, color: "#3a3a3a" }}>
-                지속적 관심과 지지를 부탁드립니다.
-              </span>
-            </Link>
-            {/* 조합 가입 신청하기 */}
-            <Link
-              to="/support"
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "flex-start",
-                borderRadius: TOKENS.radius,
-                padding: 24,
-                textDecoration: "none",
-                color: "inherit",
-                background: hoverJoin ? "#ED6A3214" : "#fff",
-                boxShadow: hoverJoin ? TOKENS.shadowHover : TOKENS.shadowSm,
-                minHeight: 164,
-                gap: 12,
-                border: "1px solid #EAEAEA",
-                transform: hoverJoin ? "translateY(-4px)" : "translateY(0)",
-                transition: "all .18s ease",
-                outline: "none",
-              }}
-              tabIndex={0}
-              onFocus={e => (e.target.style.outline = `2px solid ${COLOR.primary}`)}
-              onBlur={e => (e.target.style.outline = "none")}
-              onMouseEnter={() => setHoverJoin(true)}
-              onMouseLeave={() => setHoverJoin(false)}
-            >
-              <div
-                style={{
-                  width: 44,
-                  height: 44,
-                  borderRadius: 999,
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  background: hoverJoin
-                    ? "#ED6A3222"
-                    : COLOR.neutralTint,
-                  color: "#ED6A32",
-                  fontSize: 22,
-                }}
-              >
-                🤝
-              </div>
-              <strong style={{ fontSize: 18, fontWeight: 700 }}>
-                조합 가입 신청하기
-              </strong>
-              <span style={{ fontSize: 14, color: "#3a3a3a" }}>
-                복지디자인의 미션에 함께해주세요.
-              </span>
-            </Link>
+                {/* 아이콘 슬롯 (사용자가 교체 가능) */}
+                <div
+                  style={{
+                    width: 56,
+                    height: 56,
+                    borderRadius: 14,
+                    background: "#ffffff",
+                    border: `1px solid ${item.color}33`,
+                    boxShadow: "0 4px 12px rgba(0,0,0,.06)",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    flex: "0 0 auto",
+                  }}
+                >
+                  {/* 아이콘은 사용자 삽입 예정 */}
+                </div>
+
+                {/* 텍스트 영역 */}
+                <div style={{ flex: 1, minWidth: 0 }}>
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "space-between",
+                      gap: 12,
+                    }}
+                  >
+                    <strong
+                      style={{
+                        fontSize: 18,
+                        fontWeight: 800,
+                        color: item.color,
+                        whiteSpace: "nowrap",
+                        textOverflow: "ellipsis",
+                        overflow: "hidden",
+                      }}
+                    >
+                      {item.title}
+                    </strong>
+                    {/* 우측 화살표 */}
+                    <span
+                      aria-hidden
+                      style={{
+                        color: item.color,
+                        fontWeight: 700,
+                        opacity: .85,
+                      }}
+                    >
+                      ›
+                    </span>
+                  </div>
+                  <p
+                    style={{
+                      margin: "8px 0 0",
+                      fontSize: 14,
+                      color: COLOR.text,
+                      opacity: .9,
+                    }}
+                  >
+                    {item.desc}
+                  </p>
+                </div>
+              </Link>
+            ))}
           </div>
         </div>
       </section>
