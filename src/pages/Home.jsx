@@ -88,7 +88,15 @@ export default function Home() {
         };
       });
 
-      items.sort((a, b) => (a.date > b.date ? -1 : 1));
+      // 최신순(날짜 내림차순), 날짜가 같으면 파일명(역순)로 안정적으로 정렬
+      items.sort((a, b) => {
+        const ad = a.date ? new Date(a.date) : new Date(0);
+        const bd = b.date ? new Date(b.date) : new Date(0);
+        if (!isNaN(bd) && !isNaN(ad) && bd.getTime() !== ad.getTime()) {
+          return bd.getTime() - ad.getTime(); // 최신이 앞으로
+        }
+        return (b.id || "").localeCompare(a.id || "");
+      });
       setNotices(items);
     } catch (e) {
       console.warn("공지 로드 실패:", e);
@@ -121,7 +129,15 @@ export default function Home() {
         };
       });
 
-      items.sort((a, b) => (a.date > b.date ? -1 : 1));
+      // 최신순(날짜 내림차순), 날짜가 같으면 파일명(역순)로 안정적으로 정렬
+      items.sort((a, b) => {
+        const ad = a.date ? new Date(a.date) : new Date(0);
+        const bd = b.date ? new Date(b.date) : new Date(0);
+        if (!isNaN(bd) && !isNaN(ad) && bd.getTime() !== ad.getTime()) {
+          return bd.getTime() - ad.getTime(); // 최신이 앞으로
+        }
+        return (b.id || "").localeCompare(a.id || "");
+      });
       setStories(items);
     } catch (e) {
       console.warn("스토리 로드 실패:", e);
@@ -639,11 +655,11 @@ export default function Home() {
             <div
               style={{
                 display: "grid",
-                gridTemplateColumns: "repeat(3, minmax(0, 1fr))",
+                gridTemplateColumns: "repeat(4, minmax(0, 1fr))",
                 gap: 20,
               }}
             >
-              {filteredStories.slice(0, 3).map((item) => (
+              {filteredStories.slice(0, 4).map((item) => (
                 <Link
                   key={item.id}
                   to={item.to}
@@ -727,12 +743,12 @@ export default function Home() {
             <div
               style={{
                 display: "grid",
-                gridTemplateColumns: "repeat(3, minmax(0, 1fr))",
+                gridTemplateColumns: "repeat(4, minmax(0, 1fr))",
                 gap: 20,
               }}
             >
-              {/* 소식 카드 3개 자리 – 데이터 없을 땐 플레이스홀더 링크 */}
-              {[0, 1, 2].map((i) => (
+              {/* 소식 카드 4개 자리 – 데이터 없을 땐 플레이스홀더 링크 */}
+              {[0, 1, 2, 3].map((i) => (
                 <Link
                   key={i}
                   to="/news/stories"
