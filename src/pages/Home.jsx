@@ -261,7 +261,7 @@ export default function Home() {
             <h1
               style={{
                 margin: 0,
-                fontSize: "clamp(28px, 5.2vw, 56px)",
+                fontSize: "clamp(24px, 4.5vw, 48px)",
                 lineHeight: 1.18,
                 fontWeight: 900,
                 letterSpacing: "-0.5px",
