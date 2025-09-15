@@ -249,7 +249,7 @@ export default function Home() {
                 color: "#000000",
               }}
             >
-              복지사각지대 없는 사회
+              현장과 지역을 잇는 맞춤형 복지를 설계하며
               <br />
               <strong style={{ fontWeight: 900 }}>
                 복지디자인 사회적협동조합
