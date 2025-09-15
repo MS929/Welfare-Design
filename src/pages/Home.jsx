@@ -40,7 +40,27 @@ function useFocusVisible() {
   }, []);
   return focusVisible;
 }
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+function ClickCard({ to, children, style, ...rest }) {
+  const navigate = useNavigate();
+  return (
+    <div
+      role="link"
+      tabIndex={0}
+      onClick={() => navigate(to)}
+      onKeyDown={(e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          navigate(to);
+        }
+      }}
+      style={{ cursor: "pointer", textDecoration: "none", color: "inherit", ...style }}
+      {...rest}
+    >
+      {children}
+    </div>
+  );
+}
 import matter from "gray-matter";
 
 // Brand palette (requested)
@@ -521,7 +541,7 @@ export default function Home() {
                 </div>
               ))
             ) : (tabItems[noticeTab] || []).slice(0, 4).map((item) => (
-              <Link
+              <ClickCard
                 key={item.id}
                 to={item.to}
                 role="article"
@@ -670,7 +690,7 @@ export default function Home() {
                     ) : null}
                   </>
                 )}
-              </Link>
+              </ClickCard>
             ))}
             {!loadingNotices && (!tabItems[noticeTab] || tabItems[noticeTab].length === 0) && (
               <div
@@ -745,7 +765,7 @@ export default function Home() {
                 iconSrc: "/images/icons/member-services.png",
               },
             ].map((item, idx) => (
-              <Link
+              <ClickCard
                 key={idx}
                 to={item.to}
                 data-reveal
@@ -867,7 +887,7 @@ export default function Home() {
                     {item.desc}
                   </p>
                 </div>
-              </Link>
+              </ClickCard>
             ))}
           </div>
         </div>
@@ -1002,7 +1022,7 @@ export default function Home() {
               }}
             >
               {filteredStories.slice(0, 4).map((item) => (
-                <Link
+                <ClickCard
                   key={item.id}
                   to={item.to}
                   data-reveal
@@ -1129,7 +1149,7 @@ export default function Home() {
                       </time>
                     ) : null}
                   </div>
-                </Link>
+                </ClickCard>
               ))}
             </div>
           ) : (
@@ -1142,7 +1162,7 @@ export default function Home() {
             >
               {/* 소식 카드 4개 자리 – 데이터 없을 땐 플레이스홀더 링크 */}
               {[0, 1, 2, 3].map((i) => (
-                <Link
+                <ClickCard
                   key={i}
                   to="/news/stories"
                   style={{
@@ -1186,7 +1206,7 @@ export default function Home() {
                   <span style={{ fontSize: 14, color: COLOR.textMuted }}>
                     우리 활동과 소식을 만나보세요.
                   </span>
-                </Link>
+                </ClickCard>
               ))}
             </div>
           )}
