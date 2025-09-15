@@ -58,8 +58,8 @@ export default function Home() {
   // 히어로 이미지: 우선 순위 경로 → 존재하지 않으면 /public/main.png 로 폴백
   const [heroSrc, setHeroSrc] = useState("/images/main.png");
 
-  const NOTICE_CARD_MIN_H = 260; // 공지/공모 카드 공통 높이
-  const NOTICE_THUMB_H = 140;    // 공모 썸네일 고정 높이
+  const NOTICE_CARD_MIN_H = 220; // 공지/공모 카드 공통 높이
+  const NOTICE_THUMB_H = 120;    // 공모 썸네일 고정 높이
 
   // 공지: 실제 파일 로드 (Decap CMS가 커밋한 md 기준)
   useEffect(() => {
@@ -190,7 +190,7 @@ export default function Home() {
           style={{
             maxWidth: 1440,
             margin: "0 auto",
-            padding: "40px 24px",
+            padding: "28px 24px",
             display: "grid",
             gridTemplateColumns: "1fr 1fr",
             alignItems: "center",
@@ -261,7 +261,7 @@ export default function Home() {
           <div
             style={{
               position: "relative",
-              height: 340,
+              height: 280,
               borderRadius: 12,
               overflow: "hidden",
               boxShadow: "0 8px 20px rgba(0,0,0,0.08)",
@@ -287,7 +287,7 @@ export default function Home() {
           maxWidth: 1440,
           margin: "0 auto",
           padding: "0 24px",
-          marginBottom: 40,
+          marginBottom: 28,
         }}
       >
         <div
@@ -416,7 +416,7 @@ export default function Home() {
           maxWidth: 1440,
           margin: "0 auto",
           padding: "0 24px",
-          marginBottom: 40,
+          marginBottom: 28,
         }}
       >
         <div
@@ -439,7 +439,7 @@ export default function Home() {
               color: "inherit",
               backgroundColor: "#fff6e5",
               boxShadow: "0 4px 8px rgba(0,0,0,0.05)",
-              minHeight: 180,
+              minHeight: 160,
               gap: 12,
             }}
           >
@@ -466,7 +466,7 @@ export default function Home() {
               color: "inherit",
               backgroundColor: "#eef5ff",
               boxShadow: "0 4px 8px rgba(0,0,0,0.05)",
-              minHeight: 180,
+              minHeight: 160,
               gap: 12,
             }}
           >
@@ -493,7 +493,7 @@ export default function Home() {
               color: "inherit",
               backgroundColor: "#e9f6ef",
               boxShadow: "0 4px 8px rgba(0,0,0,0.05)",
-              minHeight: 180,
+              minHeight: 160,
               gap: 12,
             }}
           >
@@ -520,7 +520,7 @@ export default function Home() {
               color: "inherit",
               backgroundColor: "#f9e9ee",
               boxShadow: "0 4px 8px rgba(0,0,0,0.05)",
-              minHeight: 180,
+              minHeight: 160,
               gap: 12,
             }}
           >
@@ -551,7 +551,7 @@ export default function Home() {
           style={{
             maxWidth: 1440,
             margin: "0 auto",
-            padding: "32px 24px 44px",
+            padding: "24px 24px 32px",
           }}
         >
           <div
@@ -646,7 +646,7 @@ export default function Home() {
                     overflow: "hidden",
                     display: "flex",
                     flexDirection: "column",
-                    minHeight: 260,
+                    minHeight: 230,
                     textDecoration: "none",
                     color: "inherit",
                   }}
@@ -654,7 +654,7 @@ export default function Home() {
                   {/* 썸네일 */}
                   <div
                     style={{
-                      height: 160,
+                      height: 140,
                       overflow: "hidden",
                       backgroundColor: "#f0f0f0",
                     }}
@@ -737,12 +737,12 @@ export default function Home() {
                     boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
                     display: "flex",
                     flexDirection: "column",
-                    minHeight: 260,
+                    minHeight: 230,
                   }}
                 >
                   <div
                     style={{
-                      height: 160,
+                      height: 140,
                       backgroundColor: "#f0f0f0",
                       display: "flex",
                       justifyContent: "center",
