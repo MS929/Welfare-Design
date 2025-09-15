@@ -252,20 +252,27 @@ export default function Home() {
                 letterSpacing: "-0.4px",
               }}
             >
-              연대와 디자인으로 채우는 복지의 빈틈
-              <br />
-              <span style={{ display: "inline-block", marginTop: 10 }}>
-                <strong>복지디자인 사회적협동조합</strong>이 지역과 함께합니다
-              </span>
+              현장과 지역을 연결해 맞춤형 복지를 설계
             </h1>
             <p
               style={{
-                margin: "14px 0 22px",
+                margin: "10px 0 18px",
+                fontSize: 22,
+                fontWeight: 800,
+                color: COLOR.text,
+              }}
+            >
+              <strong>복지디자인 사회적협동조합</strong>이 지역과 함께합니다
+            </p>
+            <p
+              style={{
+                margin: "8px 0 22px",
                 color: COLOR.textMuted,
                 fontSize: 16,
               }}
             >
-              주민·기관·전문가가 함께 만드는 맞춤형 복지 플랫폼을 설계하고 운영합니다.
+              주민·기관·전문가가 함께 만드는 맞춤형 복지 플랫폼을 설계하고
+              운영합니다.
             </p>
           </div>
 
@@ -559,9 +566,7 @@ export default function Home() {
                 padding: 24,
                 textDecoration: "none",
                 color: "inherit",
-                background: hoverIntro
-                  ? COLOR.accentTint
-                  : "#fff",
+                background: hoverIntro ? COLOR.accentTint : "#fff",
                 boxShadow: hoverIntro ? TOKENS.shadowHover : TOKENS.shadowSm,
                 minHeight: 150,
                 gap: 12,
@@ -605,9 +610,7 @@ export default function Home() {
                 padding: 24,
                 textDecoration: "none",
                 color: "inherit",
-                background: hoverEmail
-                  ? COLOR.secondaryTint
-                  : "#fff",
+                background: hoverEmail ? COLOR.secondaryTint : "#fff",
                 boxShadow: hoverEmail ? TOKENS.shadowHover : TOKENS.shadowSm,
                 minHeight: 150,
                 gap: 12,
@@ -626,7 +629,9 @@ export default function Home() {
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
-                  background: hoverEmail ? COLOR.secondaryTint : COLOR.neutralTint,
+                  background: hoverEmail
+                    ? COLOR.secondaryTint
+                    : COLOR.neutralTint,
                   color: COLOR.secondary,
                   fontSize: 24,
                 }}
@@ -651,9 +656,7 @@ export default function Home() {
                 padding: 24,
                 textDecoration: "none",
                 color: "inherit",
-                background: hoverSupport
-                  ? COLOR.primaryTint
-                  : "#fff",
+                background: hoverSupport ? COLOR.primaryTint : "#fff",
                 boxShadow: hoverSupport ? TOKENS.shadowHover : TOKENS.shadowSm,
                 minHeight: 150,
                 gap: 12,
@@ -672,7 +675,9 @@ export default function Home() {
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
-                  background: hoverSupport ? COLOR.primaryTint : COLOR.neutralTint,
+                  background: hoverSupport
+                    ? COLOR.primaryTint
+                    : COLOR.neutralTint,
                   color: COLOR.primary,
                   fontSize: 24,
                 }}
@@ -697,9 +702,7 @@ export default function Home() {
                 padding: 24,
                 textDecoration: "none",
                 color: "inherit",
-                background: hoverJoin
-                  ? COLOR.secondaryTint
-                  : "#fff",
+                background: hoverJoin ? COLOR.secondaryTint : "#fff",
                 boxShadow: hoverJoin ? TOKENS.shadowHover : TOKENS.shadowSm,
                 minHeight: 150,
                 gap: 12,
@@ -718,7 +721,9 @@ export default function Home() {
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
-                  background: hoverJoin ? COLOR.secondaryTint : COLOR.neutralTint,
+                  background: hoverJoin
+                    ? COLOR.secondaryTint
+                    : COLOR.neutralTint,
                   color: COLOR.secondary,
                   fontSize: 24,
                 }}
@@ -864,7 +869,7 @@ export default function Home() {
                     minHeight: 230,
                     textDecoration: "none",
                     color: "inherit",
-                  // Remove border
+                    // Remove border
                   }}
                   onMouseEnter={() => setHoveredStory(item.id)}
                   onMouseLeave={() => setHoveredStory(null)}
@@ -875,7 +880,7 @@ export default function Home() {
                       height: 150,
                       overflow: "hidden",
                       backgroundColor: COLOR.neutralTint,
-                    borderBottom: `1px solid ${COLOR.line}`,
+                      borderBottom: `1px solid ${COLOR.line}`,
                     }}
                   >
                     {item.thumbnail ? (
@@ -969,7 +974,7 @@ export default function Home() {
                       fontSize: 48,
                       color: "#a3a3a3",
                       userSelect: "none",
-                    borderBottom: `1px solid ${COLOR.line}`,
+                      borderBottom: `1px solid ${COLOR.line}`,
                     }}
                   >
                     📰
