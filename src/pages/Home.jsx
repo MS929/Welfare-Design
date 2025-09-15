@@ -298,7 +298,7 @@ export default function Home() {
             marginBottom: 16,
           }}
         >
-          <h2 id="notice-heading" style={{ fontSize: 24, fontWeight: 700 }}>
+          <h2 id="notice-heading" style={{ fontSize: 28, fontWeight: 700 }}>
             공지사항
           </h2>
           <div style={{ display: "flex", gap: 8 }}>
