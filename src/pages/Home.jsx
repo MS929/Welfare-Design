@@ -254,7 +254,9 @@ export default function Home() {
             >
               복지사각지대 없는 사회
               <br />
-              <strong style={{ fontWeight: 900 }}>복지디자인 사회적협동조합</strong>이 함께 만들어갑니다
+              <strong style={{ fontWeight: 900 }}>복지디자인 사회적협동조합</strong>이
+              <br />
+              함께 만들어갑니다
             </h1>
             <p
               style={{
