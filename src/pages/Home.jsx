@@ -1,5 +1,45 @@
 // src/pages/Home.jsx
 import { useEffect, useMemo, useState } from "react";
+// Viewport & input utilities
+function useViewport() {
+  const [w, setW] = useState(typeof window !== "undefined" ? window.innerWidth : 1280);
+  useEffect(() => {
+    const onR = () => setW(window.innerWidth);
+    window.addEventListener("resize", onR);
+    return () => window.removeEventListener("resize", onR);
+  }, []);
+  return { width: w, isMobile: w < 640, isTablet: w >= 640 && w < 1024 };
+}
+
+function useHoverCapable() {
+  const [hoverCapable, setHoverCapable] = useState(true);
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const mq = window.matchMedia("(hover: hover)");
+    setHoverCapable(mq.matches);
+    const onChange = (e) => setHoverCapable(e.matches);
+    mq.addEventListener?.("change", onChange);
+    return () => mq.removeEventListener?.("change", onChange);
+  }, []);
+  return hoverCapable;
+}
+
+function useFocusVisible() {
+  const [focusVisible, setFocusVisible] = useState(false);
+  useEffect(() => {
+    const onKey = (e) => { if (e.key === "Tab") setFocusVisible(true); };
+    const onMouse = () => setFocusVisible(false);
+    window.addEventListener("keydown", onKey);
+    window.addEventListener("mousedown", onMouse);
+    window.addEventListener("touchstart", onMouse);
+    return () => {
+      window.removeEventListener("keydown", onKey);
+      window.removeEventListener("mousedown", onMouse);
+      window.removeEventListener("touchstart", onMouse);
+    };
+  }, []);
+  return focusVisible;
+}
 import { Link } from "react-router-dom";
 import matter from "gray-matter";
 
@@ -110,9 +150,19 @@ export default function Home() {
   const NOTICE_CARD_MIN_H = 200; // 공지/공모 카드 공통 높이
   const NOTICE_THUMB_H = 120;    // 공모 썸네일 고정 높이
 
+  const { width, isMobile } = useViewport();
+  const hoverCapable = useHoverCapable();
+  const focusVisible = useFocusVisible();
+  const sectionGap = isMobile ? 32 : 48;
+  const revealDuration = isMobile ? 0.28 : 0.4;
+
+  const [loadingNotices, setLoadingNotices] = useState(true);
+  const [loadingStories, setLoadingStories] = useState(true);
+
   // 공지: 실제 파일 로드 (Decap CMS가 커밋한 md 기준)
   useEffect(() => {
     try {
+      setLoadingNotices(true);
       const modules = import.meta.glob("/src/content/notices/*.{md,mdx}", {
         eager: true,
         query: "?raw",
@@ -150,15 +200,18 @@ export default function Home() {
         return (b.id || "").localeCompare(a.id || "");
       });
       setNotices(items);
+      setLoadingNotices(false);
     } catch (e) {
       console.warn("공지 로드 실패:", e);
       setNotices([]);
+      setLoadingNotices(false);
     }
   }, []);
 
   // 스토리: 실제 파일 로드
   useEffect(() => {
     try {
+      setLoadingStories(true);
       const modules = import.meta.glob("/src/content/stories/*.{md,mdx}", {
         eager: true,
         query: "?raw",
@@ -191,9 +244,11 @@ export default function Home() {
         return (b.id || "").localeCompare(a.id || "");
       });
       setStories(items);
+      setLoadingStories(false);
     } catch (e) {
       console.warn("스토리 로드 실패:", e);
       setStories([]);
+      setLoadingStories(false);
     }
   }, []);
 
@@ -242,12 +297,12 @@ export default function Home() {
     els.forEach((el) => {
       el.style.opacity = "0";
       el.style.transform = "translateY(8px)";
-      el.style.transition = "opacity .4s ease, transform .4s ease";
+      el.style.transition = `opacity ${revealDuration}s ease, transform ${revealDuration}s ease`;
       io.observe(el);
     });
 
     return () => io.disconnect();
-  }, []);
+  }, [revealDuration]);
 
   return (
     <main role="main">
@@ -263,7 +318,7 @@ export default function Home() {
           background: `linear-gradient(180deg, ${COLOR.primaryTint} 0%, #ffffff 65%)`,
           overflow: "hidden",
           borderBottom: "none",
-          marginBottom: 16,
+          marginBottom: isMobile ? 12 : 16,
         }}
       >
         <div
@@ -332,6 +387,8 @@ export default function Home() {
           >
             <img
               src={heroSrc}
+              srcSet={`${heroSrc} 1x, ${heroSrc} 2x`}
+              sizes="(max-width: 1024px) 100vw, 600px"
               alt="메인 히어로"
               fetchpriority="high"
               onError={() => {
@@ -348,7 +405,7 @@ export default function Home() {
         aria-labelledby="notice-heading"
         style={{
           background: "#fff",
-          marginBottom: 56,
+          marginBottom: sectionGap,
         }}
       >
         <div
@@ -443,7 +500,27 @@ export default function Home() {
               gap: 28,
             }}
           >
-            {(tabItems[noticeTab] || []).slice(0, 4).map((item) => (
+            {loadingNotices ? (
+              Array.from({ length: 4 }).map((_, i) => (
+                <div key={i} aria-hidden
+                  style={{
+                    border: `1px solid #EAEAEA`,
+                    borderRadius: TOKENS.radius,
+                    padding: 20,
+                    boxShadow: TOKENS.shadowSm,
+                    minHeight: NOTICE_CARD_MIN_H,
+                    background: "#fff",
+                  }}
+                >
+                  <div style={{
+                    height: 16, width: "60%", background: COLOR.neutralTint,
+                    borderRadius: 6, marginBottom: 12
+                  }} />
+                  <div style={{ height: 12, width: "90%", background: COLOR.neutralTint, borderRadius: 6, marginBottom: 8 }} />
+                  <div style={{ height: 12, width: "80%", background: COLOR.neutralTint, borderRadius: 6 }} />
+                </div>
+              ))
+            ) : (tabItems[noticeTab] || []).slice(0, 4).map((item) => (
               <Link
                 key={item.id}
                 to={item.to}
@@ -476,6 +553,7 @@ export default function Home() {
                 }}
                 tabIndex={0}
                 onFocus={(e) => {
+                  if (!focusVisible) return;
                   e.currentTarget.style.outline = `2px solid ${COLOR.primary}`;
                   e.currentTarget.style.outlineOffset = "2px";
                 }}
@@ -483,8 +561,8 @@ export default function Home() {
                   e.currentTarget.style.outline = hoveredNotice === item.id ? `2px solid ${COLOR.primary}` : "none";
                   e.currentTarget.style.outlineOffset = hoveredNotice === item.id ? "2px" : "0";
                 }}
-                onMouseEnter={() => setHoveredNotice(item.id)}
-                onMouseLeave={() => setHoveredNotice(null)}
+                onMouseEnter={() => { if (!hoverCapable) return; setHoveredNotice(item.id); }}
+                onMouseLeave={() => { if (!hoverCapable) return; setHoveredNotice(null); }}
               >
                 {noticeTab === "공모" ? (
                   <>
@@ -527,10 +605,15 @@ export default function Home() {
                     </div>
                     <h3
                       style={{
-                        fontSize: 17,
+                        fontSize: 17.5,
                         fontWeight: 700,
                         margin: 0,
                         lineHeight: 1.3,
+                        overflow: "hidden",
+                        textOverflow: "ellipsis",
+                        display: "-webkit-box",
+                        WebkitLineClamp: 2,
+                        WebkitBoxOrient: "vertical",
                       }}
                     >
                       {item.title}
@@ -548,10 +631,15 @@ export default function Home() {
                     <div>
                       <h3
                         style={{
-                          fontSize: 18,
+                          fontSize: 17.5,
                           fontWeight: 700,
                           marginBottom: 10,
                           lineHeight: 1.3,
+                          overflow: "hidden",
+                          textOverflow: "ellipsis",
+                          display: "-webkit-box",
+                          WebkitLineClamp: 2,
+                          WebkitBoxOrient: "vertical",
                         }}
                       >
                         {item.title}
@@ -584,7 +672,7 @@ export default function Home() {
                 )}
               </Link>
             ))}
-            {(!tabItems[noticeTab] || tabItems[noticeTab].length === 0) && (
+            {!loadingNotices && (!tabItems[noticeTab] || tabItems[noticeTab].length === 0) && (
               <div
                 style={{
                   gridColumn: "1 / -1",
@@ -606,7 +694,7 @@ export default function Home() {
         aria-label="가입/후원/문의"
         style={{
           background: "#fff",
-          marginBottom: 56,
+          marginBottom: sectionGap,
         }}
       >
         <div
@@ -678,6 +766,7 @@ export default function Home() {
                     "transform .16s ease, box-shadow .16s ease, background .16s ease",
                 }}
                 onMouseEnter={(e) => {
+                  if (!hoverCapable) return;
                   const el = e.currentTarget;
                   el.style.boxShadow = TOKENS.shadowHover;
                   el.style.transform = "translateY(-4px)";
@@ -688,6 +777,7 @@ export default function Home() {
                   if (arrow) arrow.style.color = item.color;
                 }}
                 onMouseLeave={(e) => {
+                  if (!hoverCapable) return;
                   const el = e.currentTarget;
                   el.style.boxShadow = TOKENS.shadowSm;
                   el.style.transform = "translateY(0)";
@@ -699,6 +789,7 @@ export default function Home() {
                 }}
                 tabIndex={0}
                 onFocus={(e) => {
+                  if (!focusVisible) return;
                   e.currentTarget.style.outline = `2px solid ${item.color}`;
                   e.currentTarget.style.outlineOffset = "2px";
                 }}
@@ -787,7 +878,7 @@ export default function Home() {
         aria-labelledby="stories-heading"
         style={{
           background: `linear-gradient(180deg, #ffffff 0%, #ffffff 62%, ${COLOR.primaryTint} 100%)`,
-          marginBottom: 56,
+          marginBottom: sectionGap,
         }}
       >
         <div
@@ -887,7 +978,19 @@ export default function Home() {
             </div>
           </div>
 
-          {filteredStories.length > 0 ? (
+          {loadingStories ? (
+            <div style={{ display: "grid", gridTemplateColumns: `repeat(${storyCols}, minmax(0, 1fr))`, gap: 22 }}>
+              {Array.from({ length: 4 }).map((_, i) => (
+                <div key={i} aria-hidden style={{ borderRadius: TOKENS.radius, background: "#fff", boxShadow: TOKENS.shadowSm, border: "1px solid #EAEAEA", minHeight: 230, overflow: "hidden" }}>
+                  <div style={{ height: 150, background: COLOR.neutralTint, borderBottom: `1px solid ${COLOR.line}` }} />
+                  <div style={{ padding: 16 }}>
+                    <div style={{ height: 16, width: "70%", background: COLOR.neutralTint, borderRadius: 6, marginBottom: 10 }} />
+                    <div style={{ height: 12, width: "40%", background: COLOR.neutralTint, borderRadius: 6 }} />
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : filteredStories.length > 0 ? (
             <div
               role="tabpanel"
               id="stories-panel"
@@ -929,6 +1032,7 @@ export default function Home() {
                   }}
                   tabIndex={0}
                   onFocus={(e) => {
+                    if (!focusVisible) return;
                     e.currentTarget.style.outline = `2px solid ${COLOR.primary}`;
                     e.currentTarget.style.outlineOffset = "2px";
                   }}
@@ -936,8 +1040,8 @@ export default function Home() {
                     e.currentTarget.style.outline = hoveredStory === item.id ? `2px solid ${COLOR.primary}` : "none";
                     e.currentTarget.style.outlineOffset = hoveredStory === item.id ? "2px" : "0";
                   }}
-                  onMouseEnter={() => setHoveredStory(item.id)}
-                  onMouseLeave={() => setHoveredStory(null)}
+                  onMouseEnter={() => { if (!hoverCapable) return; setHoveredStory(item.id); }}
+                  onMouseLeave={() => { if (!hoverCapable) return; setHoveredStory(null); }}
                 >
                   {/* 썸네일 */}
                   <div
@@ -1005,11 +1109,16 @@ export default function Home() {
                   >
                     <h3
                       style={{
-                        fontSize: 17,
+                        fontSize: 17.5,
                         fontWeight: 700,
                         margin: 0,
                         marginBottom: 8,
                         lineHeight: 1.35,
+                        overflow: "hidden",
+                        textOverflow: "ellipsis",
+                        display: "-webkit-box",
+                        WebkitLineClamp: 2,
+                        WebkitBoxOrient: "vertical",
                       }}
                     >
                       {item.title}
