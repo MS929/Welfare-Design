@@ -236,10 +236,10 @@ export default function Home() {
         >
           <div
             style={{
-              textAlign: "center",
+              textAlign: "left",
               color: COLOR.text,
-              maxWidth: 780,
-              margin: "0 auto",
+              maxWidth: 560,
+              margin: 0,
             }}
           >
             <h1
@@ -295,9 +295,7 @@ export default function Home() {
       <section
         aria-labelledby="notice-heading"
         style={{
-          background: `linear-gradient(180deg, ${COLOR.yellowTint} 0%, #fff 70%)`,
-          borderTop: `1px solid ${COLOR.line}`,
-          borderBottom: `1px solid ${COLOR.line}`,
+          background: "#fff",
           marginBottom: 40,
         }}
       >
@@ -531,7 +529,7 @@ export default function Home() {
       <section
         aria-label="가입/후원/문의"
         style={{
-          background: "linear-gradient(180deg, #e28455 0%, #e99a73 100%)",
+          background: "#fff",
           borderTop: `1px solid ${COLOR.line}`,
           borderBottom: `1px solid ${COLOR.line}`,
           marginBottom: 40,
@@ -596,53 +594,6 @@ export default function Home() {
               </strong>
               <span style={{ fontSize: 14, color: "#3a3a3a" }}>
                 조합의 비전과 연혁을 확인하세요.
-              </span>
-            </Link>
-            {/* 복지디자인 사업 바로가기 */}
-            <Link
-              to="/business/overview"
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "flex-start",
-                borderRadius: TOKENS.radius,
-                padding: 24,
-                textDecoration: "none",
-                color: "inherit",
-                background: hoverEmail
-                  ? `linear-gradient(180deg, ${COLOR.secondaryTint}, #fff)`
-                  : "#fff",
-                boxShadow: hoverEmail ? TOKENS.shadowHover : TOKENS.shadowSm,
-                minHeight: 150,
-                gap: 12,
-                border: `1px solid ${COLOR.line}`,
-                transform: hoverEmail ? "translateY(-3px)" : "translateY(0)",
-                transition: "all .18s ease",
-                outline: "1px solid rgba(0,0,0,.02)",
-              }}
-              onMouseEnter={() => setHoverEmail(true)}
-              onMouseLeave={() => setHoverEmail(false)}
-            >
-              <div
-                style={{
-                  width: 44,
-                  height: 44,
-                  borderRadius: 999,
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  background: COLOR.secondaryTint,
-                  color: COLOR.secondary,
-                  fontSize: 24,
-                }}
-              >
-                📌
-              </div>
-              <strong style={{ fontSize: 18, fontWeight: 700 }}>
-                복지디자인 사업
-              </strong>
-              <span style={{ fontSize: 14, color: "#3a3a3a" }}>
-                복지디자인의 사업을 확인하세요.
               </span>
             </Link>
             {/* 후원 가입 신청하기 */}
@@ -737,6 +688,51 @@ export default function Home() {
               </strong>
               <span style={{ fontSize: 14, color: "#3a3a3a" }}>
                 복지디자인의 미션에 함께해주세요.
+              </span>
+            </Link>
+            {/* 이메일로 문의하기 */}
+            <Link
+              to="/contact/email"
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "flex-start",
+                borderRadius: TOKENS.radius,
+                padding: 24,
+                textDecoration: "none",
+                color: "inherit",
+                background: hoverEmail
+                  ? `linear-gradient(180deg, ${COLOR.primaryTint}, #fff)`
+                  : "#fff",
+                boxShadow: hoverEmail ? TOKENS.shadowHover : TOKENS.shadowSm,
+                minHeight: 150,
+                gap: 12,
+                border: `1px solid ${COLOR.line}`,
+                transform: hoverEmail ? "translateY(-3px)" : "translateY(0)",
+                transition: "all .18s ease",
+                outline: "1px solid rgba(0,0,0,.02)",
+              }}
+              onMouseEnter={() => setHoverEmail(true)}
+              onMouseLeave={() => setHoverEmail(false)}
+            >
+              <div
+                style={{
+                  width: 44,
+                  height: 44,
+                  borderRadius: 999,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  background: COLOR.primaryTint,
+                  color: COLOR.primary,
+                  fontSize: 24,
+                }}
+              >
+                ✉️
+              </div>
+              <strong style={{ fontSize: 18, fontWeight: 700 }}>이메일로 문의하기</strong>
+              <span style={{ fontSize: 14, color: "#3a3a3a" }}>
+                궁금하신 사항이 있으시면 메일을 보내주세요.
               </span>
             </Link>
           </div>
