@@ -195,13 +195,21 @@ export default function Home() {
           }}
         >
           {/* 좌측 카피 + 동그라미 버튼들 */}
-          <div>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              textAlign: "center",
+            }}
+          >
             <h1
               style={{
                 margin: 0,
                 fontSize: 28,
                 lineHeight: 1.3,
                 fontWeight: 900,
+                textAlign: "center",
               }}
             >
               복지 사각지대 없는 사회
@@ -218,6 +226,7 @@ export default function Home() {
                 gap: 16,
                 marginTop: 28,
                 flexWrap: "wrap",
+                justifyContent: "center",
               }}
             >
               <Link
