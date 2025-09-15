@@ -226,41 +226,41 @@ export default function Home() {
             margin: "0 auto",
             padding: "64px 24px",
             display: "grid",
-            gridTemplateColumns: "1fr 1.1fr",
+            gridTemplateColumns: "1.2fr 1fr",
             alignItems: "center",
             gap: TOKENS.gap,
           }}
         >
           <div
             style={{
-              textAlign: "center",
+              textAlign: "left",
               color: COLOR.text,
-              maxWidth: 760,
-              margin: "0 auto",
+              maxWidth: 720,
+              margin: 0,
             }}
           >
             <h1
               style={{
                 margin: 0,
                 fontSize: "clamp(28px, 5.2vw, 56px)",
-                lineHeight: 1.15,
+                lineHeight: 1.18,
                 fontWeight: 900,
                 letterSpacing: "-0.5px",
                 color: "#000000",
                 wordBreak: "keep-all",
+                textWrap: "balance",
               }}
             >
               <span style={{display: "block"}}>현장과 지역을 잇는 맞춤형 복지를 설계하며</span>
-              <span style={{display: "block", marginTop: 8}}>
-                <strong style={{ fontWeight: 900 }}>복지디자인 사회적협동조합</strong>이 지역과 함께합니다.
-              </span>
+              <span style={{display: "block", marginTop: 6}}>복지디자인 <strong style={{ fontWeight: 900 }}>사회적협동조합</strong>이</span>
+              <span style={{display: "block", marginTop: 6}}>지역과 함께합니다.</span>
             </h1>
             <p
               style={{
-                margin: "14px auto 0",
+                margin: "16px 0 0",
                 color: COLOR.textMuted,
                 fontSize: 16,
-                maxWidth: 720,
+                maxWidth: 640,
               }}
             >
               주민·기관·전문가가 협력하는 맞춤형 복지 플랫폼을 설계·운영합니다.
