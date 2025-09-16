@@ -52,7 +52,7 @@ function NotFound() {
 
 function ScrollToTop() {
   const { pathname } = useLocation();
-  useEffect(() => {
+  useEffect(() => { 
     window.scrollTo({ top: 0, left: 0, behavior: "auto" }); // 항상 맨 위
   }, [pathname]);
   return null;

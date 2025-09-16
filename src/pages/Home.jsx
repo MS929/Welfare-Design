@@ -335,7 +335,7 @@ export default function Home() {
         style={{
           position: "relative",
           width: "100%",
-          background: `linear-gradient(180deg, ${COLOR.primaryTint} 0%, #ffffff 75%)`,
+          background: "#fff",
           overflow: "hidden",
           borderBottom: "none",
           marginBottom: isMobile ? 12 : 16,
@@ -401,7 +401,7 @@ export default function Home() {
               borderRadius: TOKENS.radiusLg,
               overflow: "hidden",
               boxShadow: TOKENS.shadow,
-              background: `radial-gradient(75% 120% at 100% 0%, ${COLOR.secondaryTint} 0%, #fff 70%)`,
+              background: "#fff",
               border: `1px solid ${COLOR.line}`,
             }}
           >
