@@ -171,6 +171,13 @@ export default function Home() {
   const NOTICE_THUMB_H = 120;    // 공모 썸네일 고정 높이
 
   const { width, isMobile } = useViewport();
+  // 히어로 배경 크기(오른쪽 데코를 축소)
+  const heroBgSize = useMemo(() => {
+    if (width >= 1280) return "900px auto";
+    if (width >= 1024) return "760px auto";
+    if (width >= 640) return "560px auto";
+    return "380px auto";
+  }, [width]);
   const hoverCapable = useHoverCapable();
   const focusVisible = useFocusVisible();
   const sectionGap = isMobile ? 32 : 48;
@@ -336,8 +343,8 @@ export default function Home() {
           position: "relative",
           width: "100%",
           backgroundImage: `linear-gradient(0deg, rgba(255,255,255,0.86), rgba(255,255,255,0.86)), url(${heroSrc})`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
+          backgroundSize: heroBgSize,
+          backgroundPosition: "right center",
           backgroundRepeat: "no-repeat",
           overflow: "hidden",
           borderBottom: "none",
