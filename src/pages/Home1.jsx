@@ -231,52 +231,48 @@ export default function Home1() {
           }}
         >
           {/* 좌측 고정 영역 */}
-          <div>
-            <h2 style={{ margin: "0 0 8px 0", fontSize: 22, fontWeight: 900 }}>
-              복지디자인 이야기
-            </h2>
-            <p style={{ margin: "0 0 10px 0", color: PALETTE.grayText, fontSize: 14 }}>
-              복지디자인의 최신 소식을 전해드려요
-            </p>
-            <a
-              href="/news/stories"
-              style={{
-                display: "inline-flex",
-                alignItems: "center",
-                gap: 6,
-                textDecoration: "none",
-                color: PALETTE.teal,
-                fontWeight: 800,
-              }}
-            >
-              더보기 <span aria-hidden>›</span>
-            </a>
-          </div>
-  
-          {/* 우측: 필터 + 카드 그리드 */}
-          <div>
-            {/* 로컬 필터 상태 */}
-            {(() => {
-              const [active, setActive] = useState("전체");
-              const pills = ["전체", "행사", "활동", "기타"];
-    
-              const data = [
-                { title: "인터뷰 – 222222", date: "2025-09-11", href: "/news/stories?type=인터뷰&title=222222", type: "활동" },
-                { title: "인터뷰 – 123123123", date: "2025-09-11", href: "/news/stories?type=인터뷰&title=123123123", type: "활동" },
-                { title: "공지 – ㅈㅈㅈㅈㅈ", date: "2025-09-11", href: "/news/stories?type=공지&title=ㅈㅈㅈㅈㅈ", type: "기타" },
-                { title: "공조동행 – ㅂㅂㅂㅂ", date: "2025-09-09", href: "/news/stories?type=공조동행&title=ㅂㅂㅂㅂ", type: "활동" },
-                { title: "인터뷰 – 12312312", date: "2025-09-09", href: "/news/stories?type=인터뷰&title=12312312", type: "활동" },
-                { title: "인터뷰 – 3332323", date: "2025-09-09", href: "/news/stories?type=인터뷰&title=3332323", type: "활동" },
-              ];
-    
-              const filtered = data.filter(
-                (d) => active === "전체" || d.type === active
-              );
-    
-              return (
-                <>
-                  {/* 필터 pill 한 줄 */}
-                  <div style={{ display: "flex", flexDirection: "column", gap: 10, marginBottom: 16 }}>
+          {(() => {
+            // Move filter state to the parent of both columns
+            const [active, setActive] = useState("전체");
+            const pills = ["전체", "행사", "활동", "기타"];
+
+            const data = [
+              { title: "인터뷰 – 222222", date: "2025-09-11", href: "/news/stories?type=인터뷰&title=222222", type: "활동" },
+              { title: "인터뷰 – 123123123", date: "2025-09-11", href: "/news/stories?type=인터뷰&title=123123123", type: "활동" },
+              { title: "공지 – ㅈㅈㅈㅈㅈ", date: "2025-09-11", href: "/news/stories?type=공지&title=ㅈㅈㅈㅈㅈ", type: "기타" },
+              { title: "공조동행 – ㅂㅂㅂㅂ", date: "2025-09-09", href: "/news/stories?type=공조동행&title=ㅂㅂㅂㅂ", type: "활동" },
+              { title: "인터뷰 – 12312312", date: "2025-09-09", href: "/news/stories?type=인터뷰&title=12312312", type: "활동" },
+              { title: "인터뷰 – 3332323", date: "2025-09-09", href: "/news/stories?type=인터뷰&title=3332323", type: "활동" },
+            ];
+
+            const filtered = data.filter(
+              (d) => active === "전체" || d.type === active
+            );
+
+            return (
+              <>
+                <div>
+                  <h2 style={{ margin: "0 0 8px 0", fontSize: 22, fontWeight: 900 }}>
+                    복지디자인 이야기
+                  </h2>
+                  <p style={{ margin: "0 0 10px 0", color: PALETTE.grayText, fontSize: 14 }}>
+                    복지디자인의 최신 소식을 전해드려요
+                  </p>
+                  <a
+                    href="/news/stories"
+                    style={{
+                      display: "inline-flex",
+                      alignItems: "center",
+                      gap: 6,
+                      textDecoration: "none",
+                      color: PALETTE.teal,
+                      fontWeight: 800,
+                    }}
+                  >
+                    더보기 <span aria-hidden>›</span>
+                  </a>
+                  {/* 필터 pill 블록: "더보기" 아래에 배치 */}
+                  <div style={{ display: "flex", flexDirection: "column", gap: 10, marginTop: 16 }}>
                     {pills.map((label) => {
                       const isActive = active === label;
                       return (
@@ -300,8 +296,9 @@ export default function Home1() {
                       );
                     })}
                   </div>
-    
-                  {/* 카드 그리드 */}
+                </div>
+                {/* 우측: 카드 그리드만 남김 */}
+                <div>
                   <div
                     style={{
                       display: "grid",
@@ -313,10 +310,10 @@ export default function Home1() {
                       <StoryCard key={i} title={n.title} date={n.date} href={n.href} />
                     ))}
                   </div>
-                </>
-              );
-            })()}
-          </div>
+                </div>
+              </>
+            );
+          })()}
         </div>
       </Section>
 
