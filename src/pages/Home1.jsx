@@ -70,32 +70,35 @@ const Pill = ({ label, icon, color, onClick }) => (
   </button>
 );
 
-const StoryCard = ({ title, date }) => (
-  <article
-    style={{
-      background: "#fff",
-      borderRadius: PALETTE.radiusLg,
-      border: `1px solid ${PALETTE.line}`,
-      boxShadow: PALETTE.shadowSm,
-      overflow: "hidden",
-    }}
-  >
-    <div
-      aria-hidden
+const StoryCard = ({ title, date, href = "/news/stories" }) => (
+  <a href={href} style={{ textDecoration: "none", color: "inherit" }}>
+    <article
       style={{
-        height: 160,
-        background:
-          "radial-gradient(120% 80% at 50% 20%, rgba(59,167,160,.25), rgba(237,106,50,.18))",
-        borderBottom: `1px solid ${PALETTE.line}`,
+        background: "#fff",
+        borderRadius: PALETTE.radiusLg,
+        border: `1px solid ${PALETTE.line}`,
+        boxShadow: PALETTE.shadowSm,
+        overflow: "hidden",
+        transition: "transform .12s ease, box-shadow .12s ease",
       }}
-    />
-    <div style={{ padding: 16 }}>
-      <div style={{ fontWeight: 800, lineHeight: 1.25 }}>{title}</div>
-      <div style={{ color: PALETTE.grayText, fontSize: 12, marginTop: 10 }}>
-        {date}
+    >
+      <div
+        aria-hidden
+        style={{
+          height: 160,
+          background:
+            "radial-gradient(120% 80% at 50% 20%, rgba(59,167,160,.25), rgba(237,106,50,.18))",
+          borderBottom: `1px solid ${PALETTE.line}`,
+        }}
+      />
+      <div style={{ padding: 16 }}>
+        <div style={{ fontWeight: 800, lineHeight: 1.25 }}>{title}</div>
+        <div style={{ color: PALETTE.grayText, fontSize: 12, marginTop: 10 }}>
+          {date}
+        </div>
       </div>
-    </div>
-  </article>
+    </article>
+  </a>
 );
 
 export default function Home1() {
@@ -218,7 +221,7 @@ export default function Home1() {
 
       {/* 동행이야기(=소식) 그리드 */}
       <Section>
-        <h2 style={{ margin: "0 0 16px 0", fontSize: 22 }}>복지디자인 소식</h2>
+        <h2 style={{ margin: "0 0 16px 0", fontSize: 22 }}>복지디자인 이야기</h2>
         <div
           style={{
             display: "grid",
@@ -227,14 +230,14 @@ export default function Home1() {
           }}
         >
           {[
-            "복지디자인 소개 세미나 — 우리 지역 맞춤형 복지",
-            "지역사회 복지사업 설명회(2차) 개최",
-            "복지동행 운영사업: 주민 협력 라운드테이블",
-            "복지시설 네트워크 교류회 스냅샷",
-            "데이터 기반 복지 설계 파일럿 보고",
-            "후원자 이야기 — 함께 만든 변화",
-          ].map((t, i) => (
-            <StoryCard key={i} title={t} date={`2025-09-${12 - i}`} />
+            { title: "인터뷰 – 222222", date: "2025-09-11", href: "/news/stories?type=인터뷰&title=222222" },
+            { title: "인터뷰 – 123123123", date: "2025-09-11", href: "/news/stories?type=인터뷰&title=123123123" },
+            { title: "공지 – ㅈㅈㅈㅈㅈ", date: "2025-09-11", href: "/news/stories?type=공지&title=ㅈㅈㅈㅈㅈ" },
+            { title: "공조동행 – ㅂㅂㅂㅂ", date: "2025-09-09", href: "/news/stories?type=공조동행&title=ㅂㅂㅂㅂ" },
+            { title: "인터뷰 – 12312312", date: "2025-09-09", href: "/news/stories?type=인터뷰&title=12312312" },
+            { title: "인터뷰 – 3332323", date: "2025-09-09", href: "/news/stories?type=인터뷰&title=3332323" },
+          ].map((n, i) => (
+            <StoryCard key={i} title={n.title} date={n.date} href={n.href} />
           ))}
         </div>
       </Section>
