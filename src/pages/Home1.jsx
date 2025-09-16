@@ -24,6 +24,14 @@ const PALETTE = {
 
 const CONTAINER = 1360;
 
+// Hero carousel images (rotate every ~5s)
+const HERO_IMAGES = [
+  "https://images.unsplash.com/photo-1526256262350-7da7584cf5eb?auto=format&fit=crop&w=1600&q=80",
+  "https://images.unsplash.com/photo-1515165562835-c6fb387fb620?auto=format&fit=crop&w=1600&q=80",
+  "https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?auto=format&fit=crop&w=1600&q=80",
+  "https://images.unsplash.com/photo-1519336555923-59661f61b7de?auto=format&fit=crop&w=1600&q=80",
+];
+
 // ===== Utils (match Home.jsx behavior) =====
 function parseDatedSlug(filepath) {
   const name = filepath.split("/").pop() || "";
@@ -176,6 +184,25 @@ export default function Home1() {
   const [notices, setNotices] = useState([]);
   const [loadingNotices, setLoadingNotices] = useState(true);
 
+  // --- HERO carousel state ---
+  const [heroIndex, setHeroIndex] = useState(0);
+
+  // rotate image every 5 seconds
+  useEffect(() => {
+    const id = setInterval(() => {
+      setHeroIndex((i) => (i + 1) % HERO_IMAGES.length);
+    }, 5000);
+    return () => clearInterval(id);
+  }, []);
+
+  // pre-load hero images for smoother transitions
+  useEffect(() => {
+    HERO_IMAGES.forEach((src) => {
+      const img = new Image();
+      img.src = src;
+    });
+  }, []);
+
   useEffect(() => {
     try {
       setLoadingNotices(true);
@@ -242,11 +269,12 @@ export default function Home1() {
             }}
           >
             <img
-              src="https://source.unsplash.com/800x600/?community,people"
-              alt=""
+              key={heroIndex}
+              src={HERO_IMAGES[heroIndex]}
+              alt="복지디자인 활동 이미지"
               loading="eager"
               decoding="async"
-              style={{ width: "100%", height: "100%", objectFit: "cover" }}
+              style={{ width: "100%", height: "100%", objectFit: "cover", transition: "opacity .4s ease" }}
               onError={(e) => {
                 e.currentTarget.onerror = null;
                 e.currentTarget.src = "/images/dog.png"; // 로컬 폴백
@@ -274,16 +302,16 @@ export default function Home1() {
               주민·기관·전문가가 협력하는 맞춤형 복지 플랫폼을 설계·운영합니다.
             </p>
 
-            {/* 캐러셀 도트 (모형) */}
+            {/* 캐러셀 도트 */}
             <div style={{ display: "flex", gap: 8, marginTop: 12 }}>
-              {[0, 1, 2].map((i) => (
+              {HERO_IMAGES.map((_, i) => (
                 <span
                   key={i}
                   style={{
                     width: 8,
                     height: 8,
                     borderRadius: 999,
-                    background: i === 0 ? PALETTE.teal : "#D1D5DB",
+                    background: i === heroIndex ? PALETTE.teal : "#D1D5DB",
                     boxShadow: "0 1px 2px rgba(0,0,0,.08)",
                   }}
                 />
