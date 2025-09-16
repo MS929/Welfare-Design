@@ -333,8 +333,6 @@ export default function Home() {
 
   return (
     <main role="main">
-      {/* 0) 상단 간격 */}
-      <div style={{ height: 8 }} />
 
       {/* 1) HERO – 상단 배너: 좌측 텍스트/버튼, 우측 큰 이미지 */}
       <section
@@ -365,7 +363,7 @@ export default function Home() {
           style={{
             maxWidth: TOKENS.container,
             margin: "0 auto",
-            padding: "64px 24px",
+            padding: "24px 24px",
             display: "grid",
             gridTemplateColumns: "1fr",
             alignItems: "center",
