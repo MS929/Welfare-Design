@@ -20,7 +20,7 @@ function normalizeDate(v) {
 
 export default function Notices() {
   const [items, setItems] = useState([]);
-  const [tab, setTab] = useState("전체"); // 전체 | 공지 | 공모
+  const [tab, setTab] = useState("전체"); // 전체 | 공지 | 정보공개
   const [q, setQ] = useState("");
   const [page, setPage] = useState(1);
   const PAGE_SIZE = 9;
@@ -35,13 +35,16 @@ export default function Notices() {
           // /src/content/notices/2025-09-03-foo.md -> 2025-09-03-foo
           const slug = path.split("/").pop().replace(/\.md$/, "");
 
+          const rawCategory = data.category ?? "공지";
+          const category = rawCategory === "공모" ? "정보공개" : rawCategory;
+
           return {
             slug,
             title: data.title ?? "",
             date: data.date ?? "",
             dateObj: normalizeDate(data.date),
             thumbnail: data.thumbnail ?? "",
-            category: data.category ?? "공지", // 기본값
+            category,
             excerpt:
               content
                 .replace(/\n+/g, " ")
@@ -85,11 +88,11 @@ export default function Notices() {
 
   return (
     <div className="max-w-screen-xl mx-auto px-4 py-10">
-      <h1 className="text-3xl font-extrabold mb-6">공지/공모</h1>
+      <h1 className="text-3xl font-extrabold mb-6">공지사항</h1>
 
       {/* 필터 + 검색 */}
       <div className="flex flex-wrap items-center gap-3 mb-6">
-        {["전체", "공지", "공모"].map((t) => (
+        {["전체", "공지", "정보공개"].map((t) => (
           <button
             key={t}
             onClick={() => setTab(t)}
