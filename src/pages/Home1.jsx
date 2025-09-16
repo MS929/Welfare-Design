@@ -241,23 +241,30 @@ export default function Home1() {
             useEffect(() => {
               try {
                 const modules = import.meta.glob(
-                  [
-                    "/src/content/stories/**/*.md",
-                    "/src/content/stories/**/*.mdx",
-                    "/src/posts/**/*.md",
-                    "/src/posts/**/*.mdx",
-                  ],
+                  "/src/content/stories/**/*.{md,mdx}",
                   { eager: true, query: "?raw", import: "default" }
                 );
 
-                const list = Object.values(modules)
-                  .map((raw) => {
+                const list = Object.entries(modules)
+                  .map(([path, raw]) => {
                     const { data } = matter(raw);
+                    // 파일명 기반 slug 폴백
+                    const fileSlug = path.split("/").pop().replace(/\.(md|mdx)$/i, "");
+                    const rawType = data?.type || data?.category || "";
+                    const typeMap = {
+                      행사안내: "행사",
+                      이벤트: "행사",
+                      활동소식: "활동",
+                      인터뷰: "인터뷰",
+                      공탁: "공탁",
+                      공조동행: "공조동행",
+                    };
+                    const type = typeMap[rawType] || rawType;
                     return {
                       title: data?.title || "",
                       date: data?.date || "",
-                      slug: data?.slug || data?.id || "",
-                      type: data?.type || data?.category || "",
+                      slug: data?.slug || fileSlug,
+                      type,
                     };
                   })
                   .filter((v) => v.title && v.slug);
@@ -297,12 +304,20 @@ export default function Home1() {
                       textDecoration: "none",
                       color: PALETTE.teal,
                       fontWeight: 800,
+                      marginBottom: 10,
                     }}
                   >
                     더보기 <span aria-hidden>›</span>
                   </a>
                   {/* 필터 칩 */}
-                  <div style={{ display: "flex", gap: 12, flexWrap: "wrap", marginTop: 24 }}>
+                  <div
+                    style={{
+                      display: "flex",
+                      flexDirection: "column",
+                      gap: 12,
+                      marginTop: 28,
+                    }}
+                  >
                     {pills.map((label) => {
                       const isActive = active === label;
                       return (
@@ -311,14 +326,14 @@ export default function Home1() {
                           onClick={() => setActive(label)}
                           style={{
                             cursor: "pointer",
-                            border: `1px solid ${PALETTE.line}`,
+                            width: 56,
+                            height: 56,
                             borderRadius: 999,
-                            padding: "10px 18px",
-                            fontWeight: 800,
+                            border: `1px solid ${PALETTE.line}`,
                             background: isActive ? PALETTE.teal : "#fff",
                             color: isActive ? "#fff" : PALETTE.darkText,
+                            fontWeight: 800,
                             boxShadow: "0 2px 6px rgba(0,0,0,.04)",
-                            whiteSpace: "nowrap",
                           }}
                         >
                           {label}
