@@ -29,6 +29,8 @@ const CONTAINER = 1360;
 const HERO_IMAGES = [
   "/images/hero/hero1.jpg",
   "/images/hero/hero2.jpg",
+    "https://images.unsplash.com/photo-159336555923-89661f61b7de?auto=format&fit=crop&w=1600&q=80",
+    "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1600&q=80",
 ];
 const HERO_INTERVAL = 5000; // 5초
 
