@@ -512,62 +512,67 @@ export default function Home1() {
         </div>
       </Section>
 
-      {/* 지원사업 영역 (민트 아이콘 타일) */}
-      <Section id="support" style={{ paddingTop: 0 }}>
-        <h2 style={{ margin: "0 0 16px 0", fontSize: 22, fontWeight: 900 }}>
-          지원사업 영역
-        </h2>
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(3, minmax(0,1fr))",
-            gap: 16,
-          }}
-        >
-          {[
-            { icon: "🤝", label: "휠체어 및 복지용구 무료 대여" },
-            { icon: "🏘️", label: "보조기기·복지용구 신청 안내 지원" },
-            { icon: "🏥", label: "보조기기 기증 캠페인" },
-            { icon: "🧭", label: "취약 계층 전동 휠체어 보험금 지원" },
-            { icon: "🎓", label: "취약 계층 복지욕구 실태조사" },
-            { icon: "📊", label: "조합원 지원 서비스" },
-          ].map((it, i) => (
-            <div
-              key={i}
-              style={{
-                background: PALETTE.teal,
-                color: "#fff",
-                borderRadius: PALETTE.radiusLg,
-                padding: 20,
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "space-between",
-                boxShadow: "0 8px 18px rgba(59,167,160,.25)",
-              }}
-            >
-              <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-                <div
-                  aria-hidden
-                  style={{
-                    width: 44,
-                    height: 44,
-                    borderRadius: 12,
-                    background: "rgba(255,255,255,.2)",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    fontSize: 22,
-                  }}
-                >
-                  {it.icon}
+      {/* 지원사업 영역 (민트 스트립 배경) */}
+      <div style={{ background: PALETTE.mintBar, padding: "22px 0" }}>
+        <Section id="support" style={{ paddingTop: 0 }}>
+          <h2 style={{ margin: "0 0 6px 0", fontSize: 22, fontWeight: 900 }}>
+            지원사업 영역
+          </h2>
+          <p style={{ margin: "0 0 16px 0", color: PALETTE.grayText, fontSize: 14 }}>
+            복지디자인이 수행하는 주요 지원사업을 한눈에 살펴보세요.
+          </p>
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(3, minmax(0,1fr))",
+              gap: 16,
+            }}
+          >
+            {[
+              { icon: "🤝", label: "휠체어 및 복지용구 무료 대여" },
+              { icon: "🏘️", label: "보조기기·복지용구 신청 안내 지원" },
+              { icon: "🏥", label: "보조기기 기증 캠페인" },
+              { icon: "🧭", label: "취약 계층 전동 휠체어 보험금 지원" },
+              { icon: "🎓", label: "취약 계층 복지욕구 실태조사" },
+              { icon: "📊", label: "조합원 지원 서비스" },
+            ].map((it, i) => (
+              <div
+                key={i}
+                style={{
+                  background: PALETTE.teal,
+                  color: "#fff",
+                  borderRadius: PALETTE.radiusLg,
+                  padding: 20,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                  boxShadow: "0 8px 18px rgba(59,167,160,.25)",
+                }}
+              >
+                <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+                  <div
+                    aria-hidden
+                    style={{
+                      width: 44,
+                      height: 44,
+                      borderRadius: 12,
+                      background: "rgba(255,255,255,.2)",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      fontSize: 22,
+                    }}
+                  >
+                    {it.icon}
+                  </div>
+                  <div style={{ fontWeight: 900 }}>{it.label}</div>
                 </div>
-                <div style={{ fontWeight: 900 }}>{it.label}</div>
+                <span style={{ opacity: 0.9, fontSize: 12 }}>바로가기 ›</span>
               </div>
-              <span style={{ opacity: 0.9, fontSize: 12 }}>바로가기 ›</span>
-            </div>
-          ))}
-        </div>
-      </Section>
+            ))}
+          </div>
+        </Section>
+      </div>
 
       {/* 공지/뉴스/연구 (3열 + 중앙 세로 라인) */}
       <Section style={{ paddingTop: 12 }}>
