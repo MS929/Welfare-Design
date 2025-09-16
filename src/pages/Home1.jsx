@@ -22,6 +22,8 @@ const PALETTE = {
   radiusXl: 28,
 };
 
+const CONTAINER = 1280;
+
 // ===== Utils (match Home.jsx behavior) =====
 function parseDatedSlug(filepath) {
   const name = filepath.split("/").pop() || "";
@@ -52,12 +54,13 @@ function formatDate(v) {
   return "";
 }
 
-const Section = ({ children, style }) => (
+const Section = ({ children, style, fullBleed = false }) => (
   <section
     style={{
-      maxWidth: 1180,
-      margin: "0 auto",
-      padding: "48px 20px",
+      maxWidth: CONTAINER,
+      width: fullBleed ? "100vw" : "100%",
+      margin: fullBleed ? "0 calc(50% - 50vw)" : "0 auto",
+      padding: "40px 24px",
       ...style,
     }}
   >
@@ -259,7 +262,7 @@ export default function Home1() {
       </Section>
 
       {/* 빠르게가기 (민트색 스트립 + 헤드라인 + 4개 카드 링크) */}
-      <div style={{ background: PALETTE.mintBar, padding: "28px 0" }}>
+      <div style={{ background: PALETTE.mintBar, padding: "28px 0", width: "100vw", marginLeft: "calc(50% - 50vw)", marginRight: "calc(50% - 50vw)" }}>
         <Section style={{ padding: 0 }}>
           <div
             style={{
@@ -556,7 +559,7 @@ export default function Home1() {
       </Section>
 
       {/* 지원사업 영역 (민트 스트립 배경) */}
-      <div style={{ background: PALETTE.mintBar, padding: "12px 0" }}>
+      <div style={{ background: PALETTE.mintBar, padding: "12px 0", width: "100vw", marginLeft: "calc(50% - 50vw)", marginRight: "calc(50% - 50vw)" }}>
         <Section id="support" style={{ padding: "16px 20px" }}>
           <h2 style={{ margin: "0 0 6px 0", fontSize: 22, fontWeight: 900 }}>
             지원사업 영역
