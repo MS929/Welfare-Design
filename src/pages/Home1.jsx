@@ -228,7 +228,7 @@ export default function Home1() {
               style={{ width: "100%", height: "100%", objectFit: "cover" }}
               onError={(e) => {
                 e.currentTarget.onerror = null;
-                e.currentTarget.src = "/images/main.png"; // 로컬 폴백
+                e.currentTarget.src = "/images/dog.png"; // 로컬 폴백
               }}
             />
           </div>
