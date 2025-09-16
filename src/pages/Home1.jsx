@@ -227,11 +227,13 @@ export default function Home1() {
         const { data } = matter(raw);
         const meta = parseDatedSlug(path);
         const base = (path.split("/").pop() || "").replace(/\.(md|mdx)$/i, "");
+        const category = (data?.category || "공지").trim();
         return {
           id: path,
           title: data?.title || meta.titleFromFile,
           date: formatDate(data?.date) || formatDate(meta.date) || "",
           to: `/news/notices/${encodeURIComponent(base)}`,
+          category,
         };
       });
 
@@ -253,6 +255,12 @@ export default function Home1() {
       setLoadingNotices(false);
     }
   }, []);
+
+  const noticesSplit = useMemo(() => {
+    const notice = notices.filter((n) => (n.category || "공지") === "공지");
+    const info = notices.filter((n) => (n.category || "") === "정보공개");
+    return { 공지: notice, 정보공개: info };
+  }, [notices]);
 
   return (
     <main style={{ background: "#fff" }}>
@@ -875,113 +883,148 @@ export default function Home1() {
         </Section>
       </div>
 
-      {/* 공지사항 – 최신 5개 리스트 (CMS 파일 연동) */}
+      {/* 공지/정보공개 – 두 칼럼 리스트 */}
       <Section style={{ paddingTop: 38 }}>
         <div
           style={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "baseline",
-            marginBottom: 12,
+            display: "grid",
+            gridTemplateColumns: "repeat(2, minmax(0,1fr))",
+            gap: 24,
           }}
         >
-          <h2 style={{ margin: 0, fontSize: 22, fontWeight: 900 }}>공지사항</h2>
-          <a
-            href="/news/notices"
-            style={{
-              color: PALETTE.teal,
-              fontWeight: 800,
-              textDecoration: "none",
-            }}
-          >
-            더보기 ›
-          </a>
-        </div>
-
-        <div style={{ display: "grid", gap: 18 }}>
-          {(loadingNotices
-            ? Array.from({ length: 4 })
-            : notices.slice(0, 5)
-          ).map((item, i) =>
-            loadingNotices ? (
-              <div
-                key={i}
-                aria-hidden
-                style={{
-                  background: "#fff",
-                  border: `1px solid ${PALETTE.line}`,
-                  borderRadius: 14,
-                  padding: "16px 18px",
-                  boxShadow: PALETTE.shadowSm,
-                }}
-              >
-                <div
-                  style={{
-                    height: 18,
-                    width: "70%",
-                    background: "#EEF2F7",
-                    borderRadius: 6,
-                    marginBottom: 10,
-                  }}
-                />
-                <div
-                  style={{
-                    height: 12,
-                    width: 120,
-                    background: "#EEF2F7",
-                    borderRadius: 6,
-                  }}
-                />
-              </div>
-            ) : (
-              <a
-                key={item.id}
-                href={item.to}
-                style={{
-                  display: "block",
-                  background: "#fff",
-                  border: `1px solid ${PALETTE.line}`,
-                  borderRadius: 14,
-                  padding: "16px 18px",
-                  boxShadow: PALETTE.shadowSm,
-                  textDecoration: "none",
-                  color: "inherit",
-                  transition: "transform .12s ease, box-shadow .12s ease",
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.transform = "translateY(-2px)";
-                  e.currentTarget.style.boxShadow =
-                    "0 10px 22px rgba(0,0,0,.08)";
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.transform = "none";
-                  e.currentTarget.style.boxShadow = PALETTE.shadowSm;
-                }}
-              >
-                <div
-                  style={{
-                    fontWeight: 800,
-                    fontSize: 18,
-                    lineHeight: 1.35,
-                    marginBottom: 6,
-                  }}
-                >
-                  {item.title}
-                </div>
-                {item.date && (
-                  <time style={{ color: PALETTE.grayText, fontSize: 12 }}>
-                    {item.date}
-                  </time>
-                )}
-              </a>
-            )
-          )}
-
-          {!loadingNotices && notices.length === 0 && (
-            <div style={{ color: PALETTE.grayText, fontSize: 14 }}>
-              표시할 공지가 없습니다.
+          {/* 공지 */}
+          <div>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "baseline",
+                marginBottom: 12,
+              }}
+            >
+              <h2 style={{ margin: 0, fontSize: 22, fontWeight: 900 }}>공지</h2>
+              <a href="/news/notices" style={{ color: PALETTE.teal, fontWeight: 800, textDecoration: "none" }}>더보기 ›</a>
             </div>
-          )}
+            <div style={{ display: "grid", gap: 18 }}>
+              {(loadingNotices ? Array.from({ length: 4 }) : (noticesSplit.공지 || []).slice(0, 5)).map((item, i) =>
+                loadingNotices ? (
+                  <div
+                    key={i}
+                    aria-hidden
+                    style={{
+                      background: "#fff",
+                      border: `1px solid ${PALETTE.line}`,
+                      borderRadius: 14,
+                      padding: "16px 18px",
+                      boxShadow: PALETTE.shadowSm,
+                    }}
+                  >
+                    <div style={{ height: 18, width: "70%", background: "#EEF2F7", borderRadius: 6, marginBottom: 10 }} />
+                    <div style={{ height: 12, width: 120, background: "#EEF2F7", borderRadius: 6 }} />
+                  </div>
+                ) : (
+                  <a
+                    key={item.id}
+                    href={item.to}
+                    style={{
+                      display: "block",
+                      background: "#fff",
+                      border: `1px solid ${PALETTE.line}`,
+                      borderRadius: 14,
+                      padding: "16px 18px",
+                      boxShadow: PALETTE.shadowSm,
+                      textDecoration: "none",
+                      color: "inherit",
+                      transition: "transform .12s ease, box-shadow .12s ease",
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.transform = "translateY(-2px)";
+                      e.currentTarget.style.boxShadow = "0 10px 22px rgba(0,0,0,.08)";
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.transform = "none";
+                      e.currentTarget.style.boxShadow = PALETTE.shadowSm;
+                    }}
+                  >
+                    <div style={{ fontWeight: 800, fontSize: 18, lineHeight: 1.35, marginBottom: 6 }}>{item.title}</div>
+                    {item.date && (
+                      <time style={{ color: PALETTE.grayText, fontSize: 12 }}>{item.date}</time>
+                    )}
+                  </a>
+                )
+              )}
+              {!loadingNotices && (noticesSplit.공지 || []).length === 0 && (
+                <div style={{ color: PALETTE.grayText, fontSize: 14 }}>표시할 공지가 없습니다.</div>
+              )}
+            </div>
+          </div>
+
+          {/* 정보공개 */}
+          <div>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "baseline",
+                marginBottom: 12,
+              }}
+            >
+              <h2 style={{ margin: 0, fontSize: 22, fontWeight: 900 }}>정보공개</h2>
+              <a href="/news/notices" style={{ color: PALETTE.teal, fontWeight: 800, textDecoration: "none" }}>더보기 ›</a>
+            </div>
+            <div style={{ display: "grid", gap: 18 }}>
+              {(loadingNotices ? Array.from({ length: 4 }) : (noticesSplit.정보공개 || []).slice(0, 5)).map((item, i) =>
+                loadingNotices ? (
+                  <div
+                    key={i}
+                    aria-hidden
+                    style={{
+                      background: "#fff",
+                      border: `1px solid ${PALETTE.line}`,
+                      borderRadius: 14,
+                      padding: "16px 18px",
+                      boxShadow: PALETTE.shadowSm,
+                    }}
+                  >
+                    <div style={{ height: 18, width: "70%", background: "#EEF2F7", borderRadius: 6, marginBottom: 10 }} />
+                    <div style={{ height: 12, width: 120, background: "#EEF2F7", borderRadius: 6 }} />
+                  </div>
+                ) : (
+                  <a
+                    key={item.id}
+                    href={item.to}
+                    style={{
+                      display: "block",
+                      background: "#fff",
+                      border: `1px solid ${PALETTE.line}`,
+                      borderRadius: 14,
+                      padding: "16px 18px",
+                      boxShadow: PALETTE.shadowSm,
+                      textDecoration: "none",
+                      color: "inherit",
+                      transition: "transform .12s ease, box-shadow .12s ease",
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.transform = "translateY(-2px)";
+                      e.currentTarget.style.boxShadow = "0 10px 22px rgba(0,0,0,.08)";
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.transform = "none";
+                      e.currentTarget.style.boxShadow = PALETTE.shadowSm;
+                    }}
+                  >
+                    <div style={{ fontWeight: 800, fontSize: 18, lineHeight: 1.35, marginBottom: 6 }}>{item.title}</div>
+                    {item.date && (
+                      <time style={{ color: PALETTE.grayText, fontSize: 12 }}>{item.date}</time>
+                    )}
+                  </a>
+                )
+              )}
+              {!loadingNotices && (noticesSplit.정보공개 || []).length === 0 && (
+                <div style={{ color: PALETTE.grayText, fontSize: 14 }}>표시할 정보공개가 없습니다.</div>
+              )}
+            </div>
+          </div>
         </div>
       </Section>
       {/* 바닥 간격 */}
