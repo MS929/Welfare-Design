@@ -145,6 +145,49 @@ const StoryCard = ({ title, date, href = "/news/stories", thumbnail }) => (
 );
 
 export default function Home1() {
+  const [notices, setNotices] = useState([]);
+  const [loadingNotices, setLoadingNotices] = useState(true);
+
+  useEffect(() => {
+    try {
+      setLoadingNotices(true);
+      const modules = import.meta.glob("/src/content/notices/*.{md,mdx}", {
+        eager: true,
+        query: "?raw",
+        import: "default",
+      });
+
+      const mapped = Object.entries(modules).map(([path, raw]) => {
+        const { data } = matter(raw);
+        const meta = parseDatedSlug(path);
+        const base = (path.split("/").pop() || "").replace(/\.(md|mdx)$/i, "");
+        return {
+          id: path,
+          title: data?.title || meta.titleFromFile,
+          date: formatDate(data?.date) || formatDate(meta.date) || "",
+          to: `/news/notices/${encodeURIComponent(base)}`,
+        };
+      });
+
+      // 최신순 + 파일명 역순(안정 정렬)
+      mapped.sort((a, b) => {
+        const ad = a.date ? new Date(a.date) : new Date(0);
+        const bd = b.date ? new Date(b.date) : new Date(0);
+        if (!isNaN(bd) && !isNaN(ad) && bd.getTime() !== ad.getTime()) {
+          return bd.getTime() - ad.getTime();
+        }
+        return (b.id || "").localeCompare(a.id || "");
+      });
+
+      setNotices(mapped);
+    } catch (e) {
+      console.warn("공지 로드 실패:", e);
+      setNotices([]);
+    } finally {
+      setLoadingNotices(false);
+    }
+  }, []);
+
   return (
     <main style={{ background: "#fff" }}>
       {/* HERO (레퍼런스형: 베이지 배경 + 좌측 반원 이미지 + 우측 텍스트) */}
@@ -574,85 +617,71 @@ export default function Home1() {
         </Section>
       </div>
 
-      {/* 공지/뉴스/연구 (3열 + 중앙 세로 라인) */}
+      {/* 공지사항 – 최신 5개 리스트 (CMS 파일 연동) */}
       <Section style={{ paddingTop: 12 }}>
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "2fr 2fr 1fr",
-            gap: 24,
-            alignItems: "start",
-          }}
-        >
-          {/* 공지 */}
-          <div>
-            <div style={{ fontWeight: 900, marginBottom: 12 }}>공지사항</div>
-            <div style={{ display: "grid", gap: 10 }}>
-              {[
-                "[공지] 9월 운영위원회 회의 안내",
-                "복지디자인 소개 자료 공개",
-                "후원·가입 안내 페이지 개편",
-                "지역 파트너 기관 모집 공고",
-              ].map((t, i) => (
-                <div
-                  key={i}
-                  style={{
-                    background: "#fff",
-                    border: `1px solid ${PALETTE.line}`,
-                    borderRadius: 12,
-                    padding: "14px 16px",
-                    boxShadow: PALETTE.shadowSm,
-                  }}
-                >
-                  <div style={{ fontWeight: 700 }}>{t}</div>
-                  <div
-                    style={{
-                      color: PALETTE.grayText,
-                      fontSize: 12,
-                      marginTop: 4,
-                    }}
-                  >
-                    2025-09-{28 - i}
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginBottom: 12 }}>
+          <h2 style={{ margin: 0, fontSize: 22, fontWeight: 900 }}>공지사항</h2>
+          <a href="/news/notices" style={{ color: PALETTE.teal, fontWeight: 800, textDecoration: "none" }}>
+            더보기 ›
+          </a>
+        </div>
 
-          {/* 뉴스레터 */}
-          <div style={{ position: "relative" }}>
-            <div style={{ fontWeight: 900, marginBottom: 12 }}>소식</div>
-            <div style={{ display: "grid", gap: 10 }}>
-              {[
-                "현장 리포트: 주민과 함께한 설계 워크숍",
-                "사업 안내 설명회 — 다시보기 공개",
-                "복지시설 운영사례 인터뷰",
-                "데이터 기반 복지 리서치 노트",
-              ].map((t, i) => (
-                <div
-                  key={i}
-                  style={{
-                    background: "#fff",
-                    border: `1px solid ${PALETTE.line}`,
-                    borderRadius: 12,
-                    padding: "14px 16px",
-                    boxShadow: PALETTE.shadowSm,
-                  }}
-                >
-                  <div style={{ fontWeight: 700 }}>{t}</div>
-                  <div
-                    style={{
-                      color: PALETTE.grayText,
-                      fontSize: 12,
-                      marginTop: 4,
-                    }}
-                  >
-                    2025-09-{22 - i}
-                  </div>
+        <div style={{ display: "grid", gap: 12 }}>
+          {(loadingNotices ? Array.from({ length: 4 }) : notices.slice(0, 5)).map((item, i) => (
+            loadingNotices ? (
+              <div
+                key={i}
+                aria-hidden
+                style={{
+                  background: "#fff",
+                  border: `1px solid ${PALETTE.line}`,
+                  borderRadius: 14,
+                  padding: "16px 18px",
+                  boxShadow: PALETTE.shadowSm,
+                }}
+              >
+                <div style={{ height: 18, width: "70%", background: "#EEF2F7", borderRadius: 6, marginBottom: 10 }} />
+                <div style={{ height: 12, width: 120, background: "#EEF2F7", borderRadius: 6 }} />
+              </div>
+            ) : (
+              <a
+                key={item.id}
+                href={item.to}
+                style={{
+                  display: "block",
+                  background: "#fff",
+                  border: `1px solid ${PALETTE.line}`,
+                  borderRadius: 14,
+                  padding: "16px 18px",
+                  boxShadow: PALETTE.shadowSm,
+                  textDecoration: "none",
+                  color: "inherit",
+                  transition: "transform .12s ease, box-shadow .12s ease",
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.transform = "translateY(-2px)";
+                  e.currentTarget.style.boxShadow = "0 10px 22px rgba(0,0,0,.08)";
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = "none";
+                  e.currentTarget.style.boxShadow = PALETTE.shadowSm;
+                }}
+              >
+                <div style={{ fontWeight: 800, fontSize: 18, lineHeight: 1.35, marginBottom: 6 }}>
+                  {item.title}
                 </div>
-              ))}
-            </div>
-          </div>
+                {item.date && (
+                  <time style={{ color: PALETTE.grayText, fontSize: 12 }}>
+                    {item.date}
+                  </time>
+                )}
+              </a>
+            )
+          ))}
+
+          {!loadingNotices && notices.length === 0 && (
+            <div style={{ color: PALETTE.grayText, fontSize: 14 }}>표시할 공지가 없습니다.</div>
+          )}
         </div>
       </Section>
       {/* 바닥 간격 */}
