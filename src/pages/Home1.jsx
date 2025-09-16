@@ -262,7 +262,15 @@ export default function Home1() {
       </Section>
 
       {/* 빠르게가기 (민트색 스트립 + 헤드라인 + 4개 카드 링크) */}
-      <div style={{ background: PALETTE.mintBar, padding: "28px 0", width: "100vw", marginLeft: "calc(50% - 50vw)", marginRight: "calc(50% - 50vw)" }}>
+      <div
+        style={{
+          background: PALETTE.mintBar,
+          padding: "28px 0",
+          width: "100vw",
+          marginLeft: "calc(50% - 50vw)",
+          marginRight: "calc(50% - 50vw)",
+        }}
+      >
         <Section style={{ padding: 0 }}>
           <div
             style={{
@@ -285,8 +293,15 @@ export default function Home1() {
               >
                 빠르게 가기
               </h3>
-              <p style={{ margin: "6px 0 0", color: PALETTE.grayText, lineHeight: 1.5 }}>
-                자주 찾는 메뉴를 한 번에. 소개·사업·후원·가입 페이지로 바로 이동하세요.
+              <p
+                style={{
+                  margin: "6px 0 0",
+                  color: PALETTE.grayText,
+                  lineHeight: 1.5,
+                }}
+              >
+                자주 찾는 메뉴를 한 번에. 소개·사업·후원·가입 페이지로 바로
+                이동하세요.
               </p>
             </div>
 
@@ -301,25 +316,25 @@ export default function Home1() {
               {[
                 {
                   href: "/about/what",
-                  icon: "🏢",
+                  iconsrc: "/images/icons/introduction.png",
                   label: "복지디자인 소개",
                   desc: "비전·연혁·조직",
                 },
                 {
                   href: "/business/overview",
-                  icon: "📌",
+                  iconsrc: "/images/icons/needs-survey.png",
                   label: "사업 안내",
                   desc: "운영사업 한눈에",
                 },
                 {
                   href: "/support/guide",
-                  icon: "💝",
+                  iconsrc: "/images/icons/donation.png",
                   label: "후원 안내",
                   desc: "지지와 참여 방법",
                 },
                 {
                   href: "/support/combination",
-                  icon: "🤝",
+                  iconsrc: "/images/icons/member-services.png",
                   label: "조합 가입",
                   desc: "함께하는 동료되기",
                 },
@@ -342,11 +357,13 @@ export default function Home1() {
                   }}
                   onMouseEnter={(e) => {
                     e.currentTarget.style.transform = "translateY(-3px)";
-                    e.currentTarget.style.boxShadow = "0 8px 18px rgba(0,0,0,.10)";
+                    e.currentTarget.style.boxShadow =
+                      "0 8px 18px rgba(0,0,0,.10)";
                   }}
                   onMouseLeave={(e) => {
                     e.currentTarget.style.transform = "none";
-                    e.currentTarget.style.boxShadow = "0 3px 10px rgba(0,0,0,.06)";
+                    e.currentTarget.style.boxShadow =
+                      "0 3px 10px rgba(0,0,0,.06)";
                   }}
                 >
                   <span
@@ -369,15 +386,33 @@ export default function Home1() {
                   </span>
 
                   <div style={{ flex: 1, minWidth: 0 }}>
-                    <div style={{ fontWeight: 900, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
+                    <div
+                      style={{
+                        fontWeight: 900,
+                        whiteSpace: "nowrap",
+                        overflow: "hidden",
+                        textOverflow: "ellipsis",
+                      }}
+                    >
                       {it.label}
                     </div>
-                    <div style={{ fontSize: 12, color: PALETTE.grayText, marginTop: 4 }}>
+                    <div
+                      style={{
+                        fontSize: 12,
+                        color: PALETTE.grayText,
+                        marginTop: 4,
+                      }}
+                    >
                       {it.desc}
                     </div>
                   </div>
 
-                  <span aria-hidden style={{ color: PALETTE.teal, fontWeight: 800 }}>›</span>
+                  <span
+                    aria-hidden
+                    style={{ color: PALETTE.teal, fontWeight: 800 }}
+                  >
+                    ›
+                  </span>
                 </a>
               ))}
             </div>
@@ -403,17 +438,27 @@ export default function Home1() {
 
             useEffect(() => {
               try {
-                const modules = import.meta.glob("/src/content/stories/*.{md,mdx}", {
-                  eager: true,
-                  query: "?raw",
-                  import: "default",
-                });
+                const modules = import.meta.glob(
+                  "/src/content/stories/*.{md,mdx}",
+                  {
+                    eager: true,
+                    query: "?raw",
+                    import: "default",
+                  }
+                );
 
                 const mapped = Object.entries(modules).map(([path, raw]) => {
                   const { data } = matter(raw);
                   const meta = parseDatedSlug(path);
-                  const base = (path.split("/").pop() || "").replace(/\.(md|mdx)$/i, "");
-                  const rawType = (data?.category || data?.type || "기타").trim();
+                  const base = (path.split("/").pop() || "").replace(
+                    /\.(md|mdx)$/i,
+                    ""
+                  );
+                  const rawType = (
+                    data?.category ||
+                    data?.type ||
+                    "기타"
+                  ).trim();
                   const typeMap = {
                     행사안내: "행사",
                     이벤트: "행사",
@@ -436,7 +481,11 @@ export default function Home1() {
                 mapped.sort((a, b) => {
                   const ad = a.date ? new Date(a.date) : new Date(0);
                   const bd = b.date ? new Date(b.date) : new Date(0);
-                  if (!isNaN(bd) && !isNaN(ad) && bd.getTime() !== ad.getTime()) {
+                  if (
+                    !isNaN(bd) &&
+                    !isNaN(ad) &&
+                    bd.getTime() !== ad.getTime()
+                  ) {
                     return bd.getTime() - ad.getTime();
                   }
                   return (b.id || "").localeCompare(a.id || "");
@@ -452,7 +501,9 @@ export default function Home1() {
             const pills = useMemo(() => {
               const banned = new Set(["공지", "활동후기"]);
               const cats = Array.from(
-                new Set(items.map((i) => i.type).filter((t) => t && !banned.has(t)))
+                new Set(
+                  items.map((i) => i.type).filter((t) => t && !banned.has(t))
+                )
               );
               const order = ["인터뷰", "행사", "활동", "공탁", "공조동행"]; // 선호 순서
               cats.sort((a, b) => {
@@ -466,15 +517,29 @@ export default function Home1() {
               return ["전체", ...cats];
             }, [items]);
 
-            const filtered = items.filter((d) => active === "전체" || d.type === active);
+            const filtered = items.filter(
+              (d) => active === "전체" || d.type === active
+            );
 
             return (
               <>
                 <div>
-                  <h2 style={{ margin: "0 0 8px 0", fontSize: 22, fontWeight: 900 }}>
+                  <h2
+                    style={{
+                      margin: "0 0 8px 0",
+                      fontSize: 22,
+                      fontWeight: 900,
+                    }}
+                  >
                     복지디자인 이야기
                   </h2>
-                  <p style={{ margin: "0 0 10px 0", color: PALETTE.grayText, fontSize: 14 }}>
+                  <p
+                    style={{
+                      margin: "0 0 10px 0",
+                      color: PALETTE.grayText,
+                      fontSize: 14,
+                    }}
+                  >
                     복지디자인의 최신 소식을 전해드려요
                   </p>
                   <a
@@ -559,12 +624,26 @@ export default function Home1() {
       </Section>
 
       {/* 지원사업 영역 (민트 스트립 배경) */}
-      <div style={{ background: PALETTE.mintBar, padding: "12px 0", width: "100vw", marginLeft: "calc(50% - 50vw)", marginRight: "calc(50% - 50vw)" }}>
+      <div
+        style={{
+          background: PALETTE.mintBar,
+          padding: "12px 0",
+          width: "100vw",
+          marginLeft: "calc(50% - 50vw)",
+          marginRight: "calc(50% - 50vw)",
+        }}
+      >
         <Section id="support" style={{ padding: "16px 20px" }}>
           <h2 style={{ margin: "0 0 6px 0", fontSize: 22, fontWeight: 900 }}>
             지원사업 영역
           </h2>
-          <p style={{ margin: "0 0 16px 0", color: PALETTE.grayText, fontSize: 14 }}>
+          <p
+            style={{
+              margin: "0 0 16px 0",
+              color: PALETTE.grayText,
+              fontSize: 14,
+            }}
+          >
             복지디자인이 수행하는 주요 지원사업을 한눈에 살펴보세요.
           </p>
           <div
@@ -575,12 +654,30 @@ export default function Home1() {
             }}
           >
             {[
-              { icon: "🤝", label: "휠체어 및 복지용구 무료 대여" },
-              { icon: "🏘️", label: "보조기기·복지용구 신청 안내 지원" },
-              { icon: "🏥", label: "보조기기 기증 캠페인" },
-              { icon: "🧭", label: "취약 계층 전동 휠체어 보험금 지원" },
-              { icon: "🎓", label: "취약 계층 복지욕구 실태조사" },
-              { icon: "📊", label: "조합원 지원 서비스" },
+              {
+                icon: "/images/icons/rental.png",
+                label: "휠체어 및 복지용구 무료 대여",
+              },
+              {
+                icon: "/images/icons/apply-help.png",
+                label: "보조기기·복지용구 신청 안내 지원",
+              },
+              {
+                icon: "/images/icons/donation.png",
+                label: "보조기기 기증 캠페인",
+              },
+              {
+                icon: "/images/icons/insurance.png",
+                label: "취약 계층 전동 휠체어 보험금 지원",
+              },
+              {
+                icon: "/images/icons/survey.png",
+                label: "취약 계층 복지욕구 실태조사",
+              },
+              {
+                icon: "/images/icons/member-services.png",
+                label: "조합원 지원 서비스",
+                 },
             ].map((it, i) => (
               <div
                 key={i}
@@ -622,15 +719,32 @@ export default function Home1() {
 
       {/* 공지사항 – 최신 5개 리스트 (CMS 파일 연동) */}
       <Section style={{ paddingTop: 38 }}>
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginBottom: 12 }}>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "baseline",
+            marginBottom: 12,
+          }}
+        >
           <h2 style={{ margin: 0, fontSize: 22, fontWeight: 900 }}>공지사항</h2>
-          <a href="/news/notices" style={{ color: PALETTE.teal, fontWeight: 800, textDecoration: "none" }}>
+          <a
+            href="/news/notices"
+            style={{
+              color: PALETTE.teal,
+              fontWeight: 800,
+              textDecoration: "none",
+            }}
+          >
             더보기 ›
           </a>
         </div>
 
         <div style={{ display: "grid", gap: 18 }}>
-          {(loadingNotices ? Array.from({ length: 4 }) : notices.slice(0, 5)).map((item, i) => (
+          {(loadingNotices
+            ? Array.from({ length: 4 })
+            : notices.slice(0, 5)
+          ).map((item, i) =>
             loadingNotices ? (
               <div
                 key={i}
@@ -643,8 +757,23 @@ export default function Home1() {
                   boxShadow: PALETTE.shadowSm,
                 }}
               >
-                <div style={{ height: 18, width: "70%", background: "#EEF2F7", borderRadius: 6, marginBottom: 10 }} />
-                <div style={{ height: 12, width: 120, background: "#EEF2F7", borderRadius: 6 }} />
+                <div
+                  style={{
+                    height: 18,
+                    width: "70%",
+                    background: "#EEF2F7",
+                    borderRadius: 6,
+                    marginBottom: 10,
+                  }}
+                />
+                <div
+                  style={{
+                    height: 12,
+                    width: 120,
+                    background: "#EEF2F7",
+                    borderRadius: 6,
+                  }}
+                />
               </div>
             ) : (
               <a
@@ -663,14 +792,22 @@ export default function Home1() {
                 }}
                 onMouseEnter={(e) => {
                   e.currentTarget.style.transform = "translateY(-2px)";
-                  e.currentTarget.style.boxShadow = "0 10px 22px rgba(0,0,0,.08)";
+                  e.currentTarget.style.boxShadow =
+                    "0 10px 22px rgba(0,0,0,.08)";
                 }}
                 onMouseLeave={(e) => {
                   e.currentTarget.style.transform = "none";
                   e.currentTarget.style.boxShadow = PALETTE.shadowSm;
                 }}
               >
-                <div style={{ fontWeight: 800, fontSize: 18, lineHeight: 1.35, marginBottom: 6 }}>
+                <div
+                  style={{
+                    fontWeight: 800,
+                    fontSize: 18,
+                    lineHeight: 1.35,
+                    marginBottom: 6,
+                  }}
+                >
                   {item.title}
                 </div>
                 {item.date && (
@@ -680,10 +817,12 @@ export default function Home1() {
                 )}
               </a>
             )
-          ))}
+          )}
 
           {!loadingNotices && notices.length === 0 && (
-            <div style={{ color: PALETTE.grayText, fontSize: 14 }}>표시할 공지가 없습니다.</div>
+            <div style={{ color: PALETTE.grayText, fontSize: 14 }}>
+              표시할 공지가 없습니다.
+            </div>
           )}
         </div>
       </Section>
