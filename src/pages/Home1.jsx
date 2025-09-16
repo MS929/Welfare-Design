@@ -607,20 +607,25 @@ export default function Home1() {
                     /\.(md|mdx)$/i,
                     ""
                   );
-                  const rawType = (
-                    data?.category ||
-                    data?.type ||
-                    "기타"
-                  ).trim();
-                  const typeMap = {
-                    행사안내: "행사",
-                    이벤트: "행사",
-                    활동소식: "활동",
-                    인터뷰: "인터뷰",
-                    공탁: "공탁",
-                    공조동행: "공조동행",
+                  const rawType = (data?.category || data?.type || "기타").trim();
+                  // 레거시 카테고리를 새 기준(사업/교육/회의/기타)으로 변환
+                  const legacyToNew = {
+                    인터뷰: "교육",
+                    교육: "교육",
+                    행사: "회의",
+                    행사안내: "회의",
+                    이벤트: "회의",
+                    공탁: "사업",
+                    사업: "사업",
+                    공조동행: "기타",
+                    활동: "기타",
+                    활동소식: "기타",
+                    공지: "기타",
                   };
-                  const type = typeMap[rawType] || rawType;
+                  let type = legacyToNew[rawType] || rawType;
+                  if (!["사업", "교육", "회의", "기타"].includes(type)) {
+                    type = "기타"; // 미지정 값은 기타로 수렴
+                  }
                   return {
                     id: path,
                     title: data?.title || meta.titleFromFile,
@@ -650,25 +655,8 @@ export default function Home1() {
               }
             }, []);
 
-            // 동적 탭: 데이터에 있는 카테고리로 생성 (Home.jsx와 동일 경험)
-            const pills = useMemo(() => {
-              const banned = new Set(["공지", "활동후기"]);
-              const cats = Array.from(
-                new Set(
-                  items.map((i) => i.type).filter((t) => t && !banned.has(t))
-                )
-              );
-              const order = ["사업", "교육", "회의", "기타"]; // 선호 순서
-              cats.sort((a, b) => {
-                const ia = order.indexOf(a);
-                const ib = order.indexOf(b);
-                if (ia !== -1 && ib !== -1) return ia - ib;
-                if (ia !== -1) return -1;
-                if (ib !== -1) return 1;
-                return a.localeCompare(b, "ko");
-              });
-              return ["전체", ...cats];
-            }, [items]);
+            // 카테고리 탭: 고정된 순서와 값
+            const pills = useMemo(() => ["전체", "사업", "교육", "회의", "기타"], []);
 
             const filtered = items.filter(
               (d) => active === "전체" || d.type === active
