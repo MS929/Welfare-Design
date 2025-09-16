@@ -194,18 +194,14 @@ export default function Home1() {
   return (
     <main style={{ background: "#fff" }}>
       {/* HERO (레퍼런스형: 베이지 배경 + 좌측 반원 이미지 + 우측 텍스트) */}
-      <Section style={{ paddingTop: 28, paddingBottom: 36 }}>
+      <Section fullBleed style={{ paddingTop: 28, paddingBottom: 36, background: PALETTE.beige }}>
         <div
           style={{
             display: "grid",
             gridTemplateColumns: "1.1fr 1fr",
             gap: 28,
             alignItems: "center",
-            background: PALETTE.beige,
-            borderRadius: PALETTE.radiusXl,
-            border: `1px solid ${PALETTE.line}`,
-            boxShadow: PALETTE.shadow,
-            padding: 28,
+            padding: "0 0",
           }}
         >
           {/* 좌측 이미지 프레임 (랜덤 이미지) */}
