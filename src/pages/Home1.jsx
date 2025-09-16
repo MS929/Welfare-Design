@@ -215,49 +215,126 @@ export default function Home1() {
         </div>
       </Section>
 
-      {/* 빠르게가기 (민트색 스트립 + 라운드 아이콘 버튼) */}
-      <div style={{ background: PALETTE.mintBar, padding: "18px 0" }}>
+      {/* 빠르게가기 (민트색 스트립 + 헤드라인 + 4개 카드 링크) */}
+      <div style={{ background: PALETTE.mintBar, padding: "28px 0" }}>
         <Section style={{ padding: 0 }}>
-          <div style={{ display: "flex", gap: 14, flexWrap: "wrap" }}>
-            {[
-              { icon: "🏢", label: "복지디자인 소개" },
-              { icon: "📌", label: "사업 안내" },
-              { icon: "💝", label: "후원 안내" },
-              { icon: "🤝", label: "조합 가입" },
-            ].map((it, i) => (
-              <button
-                key={i}
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "minmax(220px, 1fr) 2fr",
+              gap: 18,
+              alignItems: "center",
+            }}
+          >
+            {/* 좌측: 설명 영역 */}
+            <div>
+              <h3
                 style={{
-                  display: "inline-flex",
-                  alignItems: "center",
-                  gap: 10,
-                  padding: "10px 16px",
-                  borderRadius: 999,
-                  border: "none",
-                  background: "#fff",
-                  boxShadow: "0 2px 6px rgba(0,0,0,.06)",
-                  fontWeight: 800,
+                  margin: 0,
+                  fontSize: 20,
+                  fontWeight: 900,
+                  letterSpacing: -0.2,
+                  color: PALETTE.darkText,
                 }}
               >
-                <span
-                  aria-hidden
+                빠르게 가기
+              </h3>
+              <p style={{ margin: "6px 0 0", color: PALETTE.grayText, lineHeight: 1.5 }}>
+                자주 찾는 메뉴를 한 번에. 소개·사업·후원·가입 페이지로 바로 이동하세요.
+              </p>
+            </div>
+
+            {/* 우측: 카드 링크 4개 */}
+            <div
+              style={{
+                display: "grid",
+                gridTemplateColumns: "repeat(4, minmax(0,1fr))",
+                gap: 14,
+              }}
+            >
+              {[
+                {
+                  href: "/about/what",
+                  icon: "🏢",
+                  label: "복지디자인 소개",
+                  desc: "비전·연혁·조직",
+                },
+                {
+                  href: "/business/overview",
+                  icon: "📌",
+                  label: "사업 안내",
+                  desc: "운영사업 한눈에",
+                },
+                {
+                  href: "/support/guide",
+                  icon: "💝",
+                  label: "후원 안내",
+                  desc: "지지와 참여 방법",
+                },
+                {
+                  href: "/support/combination",
+                  icon: "🤝",
+                  label: "조합 가입",
+                  desc: "함께하는 동료되기",
+                },
+              ].map((it, i) => (
+                <a
+                  key={i}
+                  href={it.href}
                   style={{
-                    width: 28,
-                    height: 28,
-                    borderRadius: 999,
-                    background: PALETTE.teal,
-                    color: "#fff",
-                    display: "inline-flex",
+                    display: "flex",
                     alignItems: "center",
-                    justifyContent: "center",
-                    fontSize: 14,
+                    gap: 12,
+                    padding: 14,
+                    borderRadius: 16,
+                    background: "#fff",
+                    border: `1px solid ${PALETTE.line}`,
+                    boxShadow: "0 3px 10px rgba(0,0,0,.06)",
+                    textDecoration: "none",
+                    color: "inherit",
+                    transition: "transform .12s ease, box-shadow .12s ease",
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.transform = "translateY(-3px)";
+                    e.currentTarget.style.boxShadow = "0 8px 18px rgba(0,0,0,.10)";
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.transform = "none";
+                    e.currentTarget.style.boxShadow = "0 3px 10px rgba(0,0,0,.06)";
                   }}
                 >
-                  {it.icon}
-                </span>
-                {it.label}
-              </button>
-            ))}
+                  <span
+                    aria-hidden
+                    style={{
+                      width: 36,
+                      height: 36,
+                      borderRadius: 12,
+                      background: PALETTE.teal,
+                      color: "#fff",
+                      display: "inline-flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      fontSize: 18,
+                      boxShadow: "0 2px 6px rgba(0,0,0,.10)",
+                      flex: "0 0 auto",
+                    }}
+                  >
+                    {it.icon}
+                  </span>
+
+                  <div style={{ flex: 1, minWidth: 0 }}>
+                    <div style={{ fontWeight: 900, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
+                      {it.label}
+                    </div>
+                    <div style={{ fontSize: 12, color: PALETTE.grayText, marginTop: 4 }}>
+                      {it.desc}
+                    </div>
+                  </div>
+
+                  <span aria-hidden style={{ color: PALETTE.teal, fontWeight: 800 }}>›</span>
+                </a>
+              ))}
+            </div>
           </div>
         </Section>
       </div>
