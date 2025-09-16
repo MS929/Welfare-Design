@@ -180,10 +180,10 @@ export default function Home() {
   }, [width]);
   // 히어로 높이(참고 사이트와 유사 비율)
   const heroMinH = useMemo(() => {
-    if (width >= 1280) return 360;   // 데스크톱
-    if (width >= 1024) return 320;   // 랩톱/태블릿 가로
-    if (width >= 640) return 280;    // 태블릿 세로
-    return 220;                      // 모바일
+    if (width >= 1280) return 480;   // 데스크톱 더 길게
+    if (width >= 1024) return 420;   // 랩톱/태블릿 가로
+    if (width >= 640) return 360;    // 태블릿 세로
+    return 260;                      // 모바일
   }, [width]);
   const hoverCapable = useHoverCapable();
   const focusVisible = useFocusVisible();
@@ -371,7 +371,7 @@ export default function Home() {
           style={{
             maxWidth: TOKENS.container,
             margin: "0 auto",
-            padding: "48px 24px 56px",
+            padding: "64px 24px 96px",
             display: "grid",
             gridTemplateColumns: "1fr",
             alignItems: "center",
