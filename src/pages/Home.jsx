@@ -392,6 +392,81 @@ export default function Home() {
             >
               주민·기관·전문가가 협력하는 맞춤형 복지 플랫폼을 설계·운영합니다.
             </p>
+            {/* 브랜드 특징 배지 3종 */}
+            <div
+              aria-label="복지디자인 핵심 서비스"
+              style={{
+                marginTop: 18,
+                display: "grid",
+                gridTemplateColumns: "repeat(3, minmax(0, 1fr))",
+                gap: 12,
+                alignItems: "stretch",
+                maxWidth: 560,
+              }}
+            >
+              {[
+                {
+                  bg: COLOR.secondaryTint, // 오렌지 틴트
+                  fg: COLOR.secondary,
+                  icon: "🤝",
+                  title: "복지동행",
+                  desc: "운영사업",
+                },
+                {
+                  bg: COLOR.accentTint, // 노랑 틴트
+                  fg: COLOR.accent,
+                  icon: "🏘️",
+                  title: "지역사회",
+                  desc: "복지사업",
+                },
+                {
+                  bg: COLOR.primaryTint, // 틸 틴트
+                  fg: COLOR.primary,
+                  icon: "🏥",
+                  title: "복지시설",
+                  desc: "운영사업",
+                },
+              ].map((it, i) => (
+                <div
+                  key={i}
+                  role="group"
+                  aria-label={`${it.title} ${it.desc}`}
+                  style={{
+                    borderRadius: 14,
+                    background: it.bg,
+                    border: `1px solid ${it.fg}22`,
+                    padding: 12,
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 10,
+                    boxShadow: TOKENS.shadowSm,
+                    minHeight: 64,
+                  }}
+                >
+                  <div
+                    aria-hidden
+                    style={{
+                      width: 40,
+                      height: 40,
+                      borderRadius: 12,
+                      background: "#fff",
+                      border: `1px solid ${it.fg}33`,
+                      boxShadow: "0 3px 10px rgba(0,0,0,.05)",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      fontSize: 22,
+                    }}
+                  >
+                    <span>{it.icon}</span>
+                  </div>
+                  <div style={{ lineHeight: 1.15 }}>
+                    <div style={{ fontWeight: 800, color: it.fg, fontSize: 14 }}>{it.title}</div>
+                    <div style={{ color: COLOR.text, fontSize: 12, opacity: .9 }}>{it.desc}</div>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
 
           <div
