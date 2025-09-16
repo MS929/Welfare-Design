@@ -350,18 +350,15 @@ export default function Home() {
           marginLeft: "calc(50% - 50vw)",
           marginRight: "calc(50% - 50vw)",
           // 배경 레이어(위에서 아래 순서):
-          // 1) 전체 회색 배경
-          // 2) 중앙 세퍼레이터 라인 (1px)
-          // 3) 흰색 오버레이 (이미지 가독성용)
-          // 4) 우측 배경 이미지
+          // 1) separator line, 2) white overlay, 3) image, 4) gray bg
           backgroundImage: `
-            linear-gradient(0deg, #F5F7FA, #F5F7FA),
             linear-gradient(90deg, rgba(0,0,0,0) 64%, #E5E7EB 64%, rgba(0,0,0,0) 64%),
             linear-gradient(0deg, rgba(255,255,255,0.86), rgba(255,255,255,0.86)),
-            url(${heroSrc})
+            url(${heroSrc}),
+            linear-gradient(0deg, #F5F7FA, #F5F7FA)
           `,
-          backgroundSize: `100% 100%, 100% 100%, ${heroBgSize}, ${heroBgSize}`,
-          backgroundPosition: `left top, left top, right center, right center`,
+          backgroundSize: `100% 100%, ${heroBgSize}, ${heroBgSize}, 100% 100%`,
+          backgroundPosition: `left top, right center, right center, left top`,
           backgroundRepeat: `no-repeat, no-repeat, no-repeat, no-repeat`,
           overflow: "hidden",
           borderBottom: "none",
