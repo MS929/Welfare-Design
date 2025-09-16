@@ -267,84 +267,63 @@ export default function Home1() {
             padding: "0 0",
           }}
         >
-          {/* 좌측 이미지 프레임 (수동/자동 캐러셀) */}
-          <div
-            style={{
-              position: "relative",
-              height: 340,
-              borderRadius: PALETTE.radiusLg,
-              border: `1px solid ${PALETTE.line}`,
-              overflow: "hidden",
-              boxShadow: "0 6px 16px rgba(0,0,0,.08)",
-              background: "#fff",
-            }}
-          >
-            {HERO_IMAGES.map((src, i) => (
-              <img
-                key={src}
-                src={src}
-                alt="복지디자인 활동 이미지"
-                loading={i === heroIndex ? "eager" : "lazy"}
-                decoding="async"
-                style={{
-                  position: "absolute",
-                  inset: 0,
-                  width: "100%",
-                  height: "100%",
-                  objectFit: "cover",
-                  opacity: heroIndex === i ? 1 : 0,
-                  transition: "opacity 700ms ease-in-out",
-                  willChange: "opacity",
-                  pointerEvents: "none",
-                }}
-                onError={(e) => {
-                  const t = e.currentTarget;
-                  // 1차 폴백: 라이트 이미지
-                  if (!t.dataset.fallback1) {
-                    t.dataset.fallback1 = "1";
-                    t.src = "/images/hero/light.png";
-                    return;
-                  }
-                  // 2차 폴백: 도그 이미지
-                  if (!t.dataset.fallback2) {
-                    t.dataset.fallback2 = "1";
-                    t.src = "/images/hero/dog.png";
-                  } else {
-                    t.onerror = null;
-                  }
-                }}
-              />
-            ))}
-          </div>
-
-          {/* 우측 텍스트 */}
-          <div>
-            <h1
+          {/* 좌측 이미지 프레임 (수동/자동 캐러셀) + 하단 컨트롤 */}
+          <div style={{ display: "flex", flexDirection: "column", alignItems: "stretch" }}>
+            <div
               style={{
-                fontSize: 32,
-                lineHeight: 1.35,
-                margin: 0,
-                letterSpacing: -0.2,
+                position: "relative",
+                height: 340,
+                borderRadius: PALETTE.radiusLg,
+                border: `1px solid ${PALETTE.line}`,
+                overflow: "hidden",
+                boxShadow: "0 6px 16px rgba(0,0,0,.08)",
+                background: "#fff",
               }}
             >
-              현장과 지역을 잇는 <b>맞춤형 복지</b>를 설계하며
-              <br />
-              <b>복지디자인 사회적협동조합</b>이
-              <br />
-              지역과 함께합니다.
-            </h1>
-            <p style={{ color: PALETTE.grayText, marginTop: 10 }}>
-              주민·기관·전문가가 협력하는 맞춤형 복지 플랫폼을 설계·운영합니다.
-            </p>
+              {HERO_IMAGES.map((src, i) => (
+                <img
+                  key={src}
+                  src={src}
+                  alt="복지디자인 활동 이미지"
+                  loading={i === heroIndex ? "eager" : "lazy"}
+                  decoding="async"
+                  style={{
+                    position: "absolute",
+                    inset: 0,
+                    width: "100%",
+                    height: "100%",
+                    objectFit: "cover",
+                    opacity: heroIndex === i ? 1 : 0,
+                    transition: "opacity 700ms ease-in-out",
+                    willChange: "opacity",
+                    pointerEvents: "none",
+                  }}
+                  onError={(e) => {
+                    const t = e.currentTarget;
+                    if (!t.dataset.fallback1) {
+                      t.dataset.fallback1 = "1";
+                      t.src = "/images/hero/light.png";
+                      return;
+                    }
+                    if (!t.dataset.fallback2) {
+                      t.dataset.fallback2 = "1";
+                      t.src = "/images/hero/dog.png";
+                    } else {
+                      t.onerror = null;
+                    }
+                  }}
+                />
+              ))}
+            </div>
 
-            {/* 캐러셀 도트 + 이전/다음 컨트롤 (텍스트 아래) */}
+            {/* 하단 컨트롤: 도트 + 이전/다음 (이미지 아래 고정) */}
             <div
               style={{
                 display: "flex",
                 alignItems: "center",
+                justifyContent: "center",
                 gap: 12,
-                marginTop: 12,
-                flexWrap: "wrap",
+                marginTop: 10,
               }}
             >
               {/* 도트 */}
@@ -404,6 +383,28 @@ export default function Home1() {
                 </button>
               </div>
             </div>
+          </div>
+
+          {/* 우측 텍스트 */}
+          <div>
+            <h1
+              style={{
+                fontSize: 32,
+                lineHeight: 1.35,
+                margin: 0,
+                letterSpacing: -0.2,
+              }}
+            >
+              현장과 지역을 잇는 <b>맞춤형 복지</b>를 설계하며
+              <br />
+              <b>복지디자인 사회적협동조합</b>이
+              <br />
+              지역과 함께합니다.
+            </h1>
+            <p style={{ color: PALETTE.grayText, marginTop: 10 }}>
+              주민·기관·전문가가 협력하는 맞춤형 복지 플랫폼을 설계·운영합니다.
+            </p>
+
           </div>
         </div>
       </Section>
