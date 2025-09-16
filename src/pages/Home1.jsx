@@ -442,7 +442,7 @@ export default function Home1() {
           marginRight: "calc(50% - 50vw)",
         }}
       >
-        <Section style={{ padding: 0 }}>
+        <Section style={{ padding: "0 24px" }}>
           <div
             style={{
               display: "grid",
