@@ -513,8 +513,8 @@ export default function Home1() {
       </Section>
 
       {/* 지원사업 영역 (민트 스트립 배경) */}
-      <div style={{ background: PALETTE.mintBar, padding: "22px 0" }}>
-        <Section id="support" style={{ paddingTop: 0 }}>
+      <div style={{ background: PALETTE.mintBar, padding: "12px 0" }}>
+        <Section id="support" style={{ padding: "16px 20px" }}>
           <h2 style={{ margin: "0 0 6px 0", fontSize: 22, fontWeight: 900 }}>
             지원사업 영역
           </h2>
