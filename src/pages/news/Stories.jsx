@@ -4,7 +4,22 @@ import { Link } from "react-router-dom";
 import matter from "gray-matter";
 import "../../styles/global.css";
 
-const CATEGORIES = ["전체", "인터뷰", "행사", "공탁", "공조동방"];
+const CATEGORIES = ["전체", "사업", "교육", "회의", "기타"];
+
+// 구(旧) 카테고리 -> 신(新) 카테고리 매핑 + 정규화
+function normalizeCat(raw) {
+  const v = (raw || "").trim();
+  const allowed = ["사업", "교육", "회의", "기타"]; 
+  if (allowed.includes(v)) return v;
+  const map = {
+    "인터뷰": "교육",
+    "행사": "회의",
+    "공탁": "사업",
+    "공조동방": "기타",
+    "공지": "기타",
+  };
+  return map[v] || "기타";
+}
 
 // 마크다운 본문에서 첫 문장 정도만 간단 추출
 function toExcerpt(md = "", max = 80) {
@@ -88,7 +103,7 @@ export default function NewsStories() {
             title: data.title || "제목 없음",
             date: data.date || "",
             thumbnail: data.thumbnail || "",
-            category: data.category || "인터뷰",
+            category: normalizeCat(data.category),
             excerpt: toExcerpt(content),
             _sort: data.date ? new Date(data.date).getTime() : 0,
           };
@@ -105,7 +120,7 @@ export default function NewsStories() {
     const byCat =
       activeCat === "전체"
         ? rawItems
-        : rawItems.filter((it) => (it.category || "인터뷰") === activeCat);
+        : rawItems.filter((it) => (it.category || "기타") === activeCat);
 
     const keyword = q.trim().toLowerCase();
     if (!keyword) return byCat;

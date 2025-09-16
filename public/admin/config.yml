@@ -41,7 +41,7 @@ collections:
       - label: "분류"
         name: "category"
         widget: "select"
-        options: ["소식", "활동후기", "인터뷰", "공지", "기타"]
+        options: ["사업", "교육", "회의", "기타"]
         default: "기타"
         allow_add: true
       - label: "대표 이미지(선택)"
