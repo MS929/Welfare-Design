@@ -327,7 +327,10 @@ export default function Home1() {
 
             // 동적 탭: 데이터에 있는 카테고리로 생성 (Home.jsx와 동일 경험)
             const pills = useMemo(() => {
-              const cats = Array.from(new Set(items.map((i) => i.type).filter(Boolean)));
+              const banned = new Set(["공지", "활동후기"]);
+              const cats = Array.from(
+                new Set(items.map((i) => i.type).filter((t) => t && !banned.has(t)))
+              );
               const order = ["인터뷰", "행사", "활동", "공탁", "공조동행"]; // 선호 순서
               cats.sort((a, b) => {
                 const ia = order.indexOf(a);
@@ -382,14 +385,21 @@ export default function Home1() {
                           onClick={() => setActive(label)}
                           style={{
                             cursor: "pointer",
-                            width: 56,
-                            height: 56,
-                            borderRadius: 999,
+                            width: 84,
+                            height: 84,
+                            borderRadius: 16,
                             border: `1px solid ${PALETTE.line}`,
                             background: isActive ? PALETTE.teal : "#fff",
                             color: isActive ? "#fff" : PALETTE.darkText,
                             fontWeight: 800,
                             boxShadow: "0 2px 6px rgba(0,0,0,.04)",
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            textAlign: "center",
+                            lineHeight: 1.2,
+                            padding: 8,
+                            wordBreak: "keep-all",
                           }}
                         >
                           {label}
@@ -408,7 +418,7 @@ export default function Home1() {
                       gap: 18,
                     }}
                   >
-                    {(active === "전체" ? filtered.slice(0, 6) : filtered).map((n) => (
+                    {filtered.slice(0, 6).map((n) => (
                       <StoryCard
                         key={n.slug}
                         title={n.title}
