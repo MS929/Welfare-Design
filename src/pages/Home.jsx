@@ -346,7 +346,9 @@ export default function Home() {
         aria-label="메인 히어로"
         style={{
           position: "relative",
-          width: "100%",
+          width: "100vw",
+          marginLeft: "calc(50% - 50vw)",
+          marginRight: "calc(50% - 50vw)",
           // 배경 레이어(위에서 아래 순서):
           // 1) 좌측 회색 패널 (64%) - 텍스트 뒤 배경
           // 2) 중앙 세퍼레이터 라인 (1px)
