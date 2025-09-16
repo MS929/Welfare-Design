@@ -237,12 +237,12 @@ export default function Home1() {
             const pills = ["전체", "행사", "활동", "기타"];
 
             const data = [
-              { title: "인터뷰 – 222222", date: "2025-09-11", href: "/news/stories?type=인터뷰&title=222222", type: "활동" },
-              { title: "인터뷰 – 123123123", date: "2025-09-11", href: "/news/stories?type=인터뷰&title=123123123", type: "활동" },
-              { title: "공지 – ㅈㅈㅈㅈㅈ", date: "2025-09-11", href: "/news/stories?type=공지&title=ㅈㅈㅈㅈㅈ", type: "기타" },
-              { title: "공조동행 – ㅂㅂㅂㅂ", date: "2025-09-09", href: "/news/stories?type=공조동행&title=ㅂㅂㅂㅂ", type: "활동" },
-              { title: "인터뷰 – 12312312", date: "2025-09-09", href: "/news/stories?type=인터뷰&title=12312312", type: "활동" },
-              { title: "인터뷰 – 3332323", date: "2025-09-09", href: "/news/stories?type=인터뷰&title=3332323", type: "활동" },
+              { title: "인터뷰 – 222222", date: "2025-09-11", slug: "2025-09-11-222222", type: "활동" },
+              { title: "인터뷰 – 123123123", date: "2025-09-11", slug: "2025-09-11-123123123", type: "활동" },
+              { title: "공지 – ㅈㅈㅈㅈㅈ", date: "2025-09-11", slug: "2025-09-11-공지", type: "기타" },
+              { title: "공조동행 – ㅂㅂㅂㅂ", date: "2025-09-09", slug: "2025-09-09-공조동행-ㅂㅂㅂㅂ", type: "활동" },
+              { title: "인터뷰 – 12312312", date: "2025-09-09", slug: "2025-09-09-12312312", type: "활동" },
+              { title: "인터뷰 – 3332323", date: "2025-09-09", slug: "2025-09-09-3332323", type: "활동" },
             ];
 
             const filtered = data.filter(
@@ -282,13 +282,17 @@ export default function Home1() {
                           style={{
                             cursor: "pointer",
                             border: `1px solid ${PALETTE.line}`,
-                            borderRadius: 999,
-                            padding: "10px 16px",
+                            width: 64,
+                            height: 64,
+                            borderRadius: "50%",
                             fontWeight: 800,
                             background: isActive ? PALETTE.teal : "#fff",
                             color: isActive ? "#fff" : PALETTE.darkText,
                             boxShadow: "0 2px 6px rgba(0,0,0,.04)",
-                            whiteSpace: "nowrap",
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            fontSize: 16,
                           }}
                         >
                           {label}
@@ -311,7 +315,7 @@ export default function Home1() {
                         key={i}
                         title={n.title}
                         date={n.date}
-                        href={`/news/stories/${encodeURIComponent(n.title)}`}
+                        href={`/news/stories/${encodeURIComponent(n.slug)}`}
                       />
                     ))}
                   </div>
