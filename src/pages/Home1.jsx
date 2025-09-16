@@ -101,7 +101,7 @@ const Pill = ({ label, icon, color, onClick }) => (
   </button>
 );
 
-const StoryCard = ({ title, date, href = "/news/stories" }) => (
+const StoryCard = ({ title, date, href = "/news/stories", thumbnail }) => (
   <a href={href} style={{ textDecoration: "none", color: "inherit" }}>
     <article
       style={{
@@ -117,11 +117,23 @@ const StoryCard = ({ title, date, href = "/news/stories" }) => (
         aria-hidden
         style={{
           height: 160,
-          background:
-            "radial-gradient(120% 80% at 50% 20%, rgba(59,167,160,.25), rgba(237,106,50,.18))",
+          overflow: "hidden",
           borderBottom: `1px solid ${PALETTE.line}`,
+          background: thumbnail
+            ? "#fff"
+            : "radial-gradient(120% 80% at 50% 20%, rgba(59,167,160,.25), rgba(237,106,50,.18))",
         }}
-      />
+      >
+        {thumbnail ? (
+          <img
+            src={thumbnail}
+            alt=""
+            loading="lazy"
+            decoding="async"
+            style={{ width: "100%", height: "100%", objectFit: "cover" }}
+          />
+        ) : null}
+      </div>
       <div style={{ padding: 16 }}>
         <div style={{ fontWeight: 800, lineHeight: 1.25 }}>{title}</div>
         <div style={{ color: PALETTE.grayText, fontSize: 12, marginTop: 10 }}>
@@ -396,12 +408,13 @@ export default function Home1() {
                       gap: 18,
                     }}
                   >
-                    {filtered.map((n) => (
+                    {(active === "전체" ? filtered.slice(0, 6) : filtered).map((n) => (
                       <StoryCard
                         key={n.slug}
                         title={n.title}
                         date={n.date}
                         href={`/news/stories/${encodeURIComponent(n.slug)}`}
+                        thumbnail={n.thumbnail}
                       />
                     ))}
                   </div>
