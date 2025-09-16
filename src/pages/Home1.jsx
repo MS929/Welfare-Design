@@ -272,7 +272,7 @@ export default function Home1() {
                     더보기 <span aria-hidden>›</span>
                   </a>
                   {/* 필터 pill 블록: "더보기" 아래에 배치 */}
-                  <div style={{ display: "flex", flexDirection: "column", gap: 10, marginTop: 16 }}>
+                  <div style={{ display: "flex", flexDirection: "column", gap: 10, marginTop: 24 }}>
                     {pills.map((label) => {
                       const isActive = active === label;
                       return (
@@ -307,7 +307,12 @@ export default function Home1() {
                     }}
                   >
                     {filtered.map((n, i) => (
-                      <StoryCard key={i} title={n.title} date={n.date} href={n.href} />
+                      <StoryCard
+                        key={i}
+                        title={n.title}
+                        date={n.date}
+                        href={`/news/stories/${encodeURIComponent(n.title)}`}
+                      />
                     ))}
                   </div>
                 </div>
