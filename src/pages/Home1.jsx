@@ -50,6 +50,7 @@ function parseDatedSlug(filepath) {
   return { date, slug, titleFromFile: rest };
 }
 
+
 function formatDate(v) {
   if (!v) return "";
   try {
@@ -57,6 +58,18 @@ function formatDate(v) {
     if (v instanceof Date && !isNaN(v)) return v.toISOString().slice(0, 10);
   } catch {}
   return "";
+}
+
+// Normalize notice categories coming from CMS (e.g., "공모" -> "정보공개", "정보 공개" -> "정보공개")
+function normalizeNoticeCategory(v) {
+  const s = (v ?? "").toString().trim();
+  if (!s) return "공지";
+  // remove spaces/hyphens to compare variants like "정보 공개", "정보-공개"
+  const compact = s.replace(/[\s-]/g, "");
+  if (compact === "공모") return "정보공개";
+  if (compact.includes("정보") && compact.includes("공개")) return "정보공개";
+  if (s.startsWith("공지")) return "공지";
+  return s; // otherwise keep as-is
 }
 
 const Section = ({
@@ -227,7 +240,7 @@ export default function Home1() {
         const { data } = matter(raw);
         const meta = parseDatedSlug(path);
         const base = (path.split("/").pop() || "").replace(/\.(md|mdx)$/i, "");
-        const category = (data?.category || "공지").trim();
+        const category = normalizeNoticeCategory(data?.category);
         return {
           id: path,
           title: data?.title || meta.titleFromFile,
@@ -257,8 +270,9 @@ export default function Home1() {
   }, []);
 
   const noticesSplit = useMemo(() => {
-    const notice = notices.filter((n) => (n.category || "공지") === "공지");
-    const info = notices.filter((n) => (n.category || "") === "정보공개");
+    const norm = (c) => normalizeNoticeCategory(c);
+    const notice = notices.filter((n) => norm(n.category) === "공지");
+    const info = notices.filter((n) => norm(n.category) === "정보공개");
     return { 공지: notice, 정보공개: info };
   }, [notices]);
 
