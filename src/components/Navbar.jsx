@@ -106,8 +106,7 @@ export default function Navbar() {
       title: "소식",
       items: [
         { to: "/news/stories", label: "복지디자인 이야기" },
-        { to: "/news/notices", label: "공지/공모" },
-        { to: "/news/newsletter", label: "뉴스레터" },
+        { to: "/news/notices", label: "공지사항" },
       ],
     },
     {
@@ -285,14 +284,7 @@ export default function Navbar() {
                 className="block px-3 py-2 rounded hover:bg-gray-50"
                 onClick={() => setMobileOpen(false)}
               >
-                공지/공모
-              </NavLink>
-              <NavLink
-                to="/news/newsletter"
-                className="block px-3 py-2 rounded hover:bg-gray-50"
-                onClick={() => setMobileOpen(false)}
-              >
-                뉴스레터
+                공지사항
               </NavLink>
             </div>
           </details>
