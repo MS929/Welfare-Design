@@ -24,15 +24,13 @@ const PALETTE = {
 
 const CONTAINER = 1360;
 
-// Hero carousel images (2개만 사용) —
-// 이미지는 `public/images/hero/hero1.jpg`, `public/images/hero/hero2.jpg` 형태로 두시면 됩니다.
+// Hero carousel images (2개만 사용)
+// 아래 두 파일을 교체해서 쓰세요: /public/images/hero/hero1.jpg, /public/images/hero/hero2.jpg
 const HERO_IMAGES = [
-  "/images/light.png",
-    "https://images.unsplash.com/photo-159336555923-89661f61b7de?auto=format&fit=crop&w=1600&q=80",
-    "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1600&q=80",
-    "https://images.unsplash.com/photo-1518709268800-4b5c5c5c5c5c?auto=format&fit=crop&w=1600&q=80",
+  "/images/hero/hero1.jpg",
+  "/images/hero/hero2.jpg",
 ];
-const HERO_INTERVAL = 5000; // 5초
+const HERO_INTERVAL = 10000; // 10초
 
 // ===== Utils (match Home.jsx behavior) =====
 function parseDatedSlug(filepath) {
@@ -292,8 +290,16 @@ export default function Home1() {
               decoding="async"
               style={{ width: "100%", height: "100%", objectFit: "cover", transition: "opacity .4s ease" }}
               onError={(e) => {
-                e.currentTarget.onerror = null;
-                e.currentTarget.src = "/images/dog.png"; // 로컬 폴백
+                const t = e.currentTarget;
+                // 1차 폴백: 내가 올린 첫 번째 히어로 이미지
+                if (!t.dataset.fallback1) {
+                  t.dataset.fallback1 = "1";
+                  t.src = "/images/dog.png";
+                  return;
+                }
+                // 2차 폴백: 기본 라이트 이미지
+                t.onerror = null;
+                t.src = "/images/light.png";
               }}
             />
           </div>
