@@ -335,7 +335,10 @@ export default function Home() {
         style={{
           position: "relative",
           width: "100%",
-          background: "#fff",
+          backgroundImage: `linear-gradient(0deg, rgba(255,255,255,0.86), rgba(255,255,255,0.86)), url(${heroSrc})`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          backgroundRepeat: "no-repeat",
           overflow: "hidden",
           borderBottom: "none",
           marginBottom: isMobile ? 12 : 16,
@@ -347,7 +350,7 @@ export default function Home() {
             margin: "0 auto",
             padding: "64px 24px",
             display: "grid",
-            gridTemplateColumns: "1.2fr 1fr",
+            gridTemplateColumns: "1fr",
             alignItems: "center",
             gap: TOKENS.gap,
           }}
@@ -467,30 +470,6 @@ export default function Home() {
                 </div>
               ))}
             </div>
-          </div>
-
-          <div
-            style={{
-              position: "relative",
-              height: 300,
-              borderRadius: TOKENS.radiusLg,
-              overflow: "hidden",
-              boxShadow: TOKENS.shadow,
-              background: "#fff",
-              border: `1px solid ${COLOR.line}`,
-            }}
-          >
-            <img
-              src={heroSrc}
-              srcSet={`${heroSrc} 1x, ${heroSrc} 2x`}
-              sizes="(max-width: 1024px) 100vw, 600px"
-              alt="메인 히어로"
-              fetchpriority="high"
-              onError={() => {
-                if (heroSrc !== "/main.png") setHeroSrc("/main.png");
-              }}
-              style={{ width: "100%", height: "100%", objectFit: "cover" }}
-            />
           </div>
         </div>
       </section>
