@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, useRef } from "react";
 import matter from "gray-matter";
 // src/pages/Home1.jsx
 // 팔레트 (우리 브랜드 컬러로, 레퍼런스 톤을 흉내냄)
@@ -24,13 +24,13 @@ const PALETTE = {
 
 const CONTAINER = 1360;
 
-// Hero carousel images (rotate every ~5s)
+// Hero carousel images (2개만 사용) —
+// 이미지는 `public/images/hero/hero1.jpg`, `public/images/hero/hero2.jpg` 형태로 두시면 됩니다.
 const HERO_IMAGES = [
-  "https://images.unsplash.com/photo-1526256262350-7da7584cf5eb?auto=format&fit=crop&w=1600&q=80",
-  "https://images.unsplash.com/photo-1515165562835-c6fb387fb620?auto=format&fit=crop&w=1600&q=80",
-  "https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?auto=format&fit=crop&w=1600&q=80",
-  "https://images.unsplash.com/photo-1519336555923-59661f61b7de?auto=format&fit=crop&w=1600&q=80",
+  "/images/hero/hero1.jpg",
+  "/images/hero/hero2.jpg",
 ];
+const HERO_INTERVAL = 5000; // 5초
 
 // ===== Utils (match Home.jsx behavior) =====
 function parseDatedSlug(filepath) {
@@ -186,13 +186,27 @@ export default function Home1() {
 
   // --- HERO carousel state ---
   const [heroIndex, setHeroIndex] = useState(0);
+  const timerRef = useRef(null);
 
-  // rotate image every 5 seconds
-  useEffect(() => {
-    const id = setInterval(() => {
+  const restartTimer = () => {
+    if (timerRef.current) clearInterval(timerRef.current);
+    timerRef.current = setInterval(() => {
       setHeroIndex((i) => (i + 1) % HERO_IMAGES.length);
-    }, 5000);
-    return () => clearInterval(id);
+    }, HERO_INTERVAL);
+  };
+
+  const goTo = (i) => {
+    const len = HERO_IMAGES.length || 1;
+    const next = ((i % len) + len) % len;
+    setHeroIndex(next);
+    restartTimer();
+  };
+  const nextHero = () => goTo(heroIndex + 1);
+  const prevHero = () => goTo(heroIndex - 1);
+
+  useEffect(() => {
+    restartTimer();
+    return () => { if (timerRef.current) clearInterval(timerRef.current); };
   }, []);
 
   // pre-load hero images for smoother transitions
@@ -256,10 +270,10 @@ export default function Home1() {
             padding: "0 0",
           }}
         >
-          {/* 좌측 이미지 프레임 (랜덤 이미지) */}
+          {/* 좌측 이미지 프레임 (수동/자동 캐러셀) */}
           <div
-            aria-hidden
             style={{
+              position: "relative",
               height: 340,
               borderRadius: PALETTE.radiusLg,
               border: `1px solid ${PALETTE.line}`,
@@ -280,6 +294,51 @@ export default function Home1() {
                 e.currentTarget.src = "/images/dog.png"; // 로컬 폴백
               }}
             />
+            {/* Prev/Next buttons */}
+            <button
+              type="button"
+              aria-label="이전 이미지"
+              onClick={prevHero}
+              style={{
+                position: "absolute",
+                top: "50%",
+                left: 8,
+                transform: "translateY(-50%)",
+                width: 36,
+                height: 36,
+                borderRadius: 10,
+                border: `1px solid ${PALETTE.line}`,
+                background: "rgba(255,255,255,.92)",
+                boxShadow: "0 2px 6px rgba(0,0,0,.12)",
+                fontSize: 18,
+                fontWeight: 900,
+                cursor: "pointer",
+              }}
+            >
+              ‹
+            </button>
+            <button
+              type="button"
+              aria-label="다음 이미지"
+              onClick={nextHero}
+              style={{
+                position: "absolute",
+                top: "50%",
+                right: 8,
+                transform: "translateY(-50%)",
+                width: 36,
+                height: 36,
+                borderRadius: 10,
+                border: `1px solid ${PALETTE.line}`,
+                background: "rgba(255,255,255,.92)",
+                boxShadow: "0 2px 6px rgba(0,0,0,.12)",
+                fontSize: 18,
+                fontWeight: 900,
+                cursor: "pointer",
+              }}
+            >
+              ›
+            </button>
           </div>
 
           {/* 우측 텍스트 */}
@@ -305,14 +364,19 @@ export default function Home1() {
             {/* 캐러셀 도트 */}
             <div style={{ display: "flex", gap: 8, marginTop: 12 }}>
               {HERO_IMAGES.map((_, i) => (
-                <span
+                <button
                   key={i}
+                  type="button"
+                  aria-label={`이미지 ${i + 1} 보기`}
+                  onClick={() => goTo(i)}
                   style={{
-                    width: 8,
-                    height: 8,
+                    width: 10,
+                    height: 10,
                     borderRadius: 999,
+                    border: "none",
                     background: i === heroIndex ? PALETTE.teal : "#D1D5DB",
                     boxShadow: "0 1px 2px rgba(0,0,0,.08)",
+                    cursor: "pointer",
                   }}
                 />
               ))}
