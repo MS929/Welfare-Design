@@ -219,7 +219,7 @@ export default function Home1() {
   return (
     <main style={{ background: "#fff" }}>
       {/* HERO (레퍼런스형: 베이지 배경 + 좌측 반원 이미지 + 우측 텍스트) */}
-      <Section fullBleed innerMaxWidth={1500} style={{ paddingTop: 28, paddingBottom: 36, background: PALETTE.beige }}>
+      <Section fullBleed innerMaxWidth={1500} style={{ paddingTop: 72, paddingBottom: 88, background: PALETTE.beige }}>
         <div
           style={{
             display: "grid",
@@ -233,7 +233,7 @@ export default function Home1() {
           <div
             aria-hidden
             style={{
-              height: 280,
+              height: 340,
               borderRadius: PALETTE.radiusLg,
               border: `1px solid ${PALETTE.line}`,
               overflow: "hidden",
