@@ -234,13 +234,12 @@ export default function Home1() {
           {(() => {
             // Move filter state to the parent of both columns
             const [active, setActive] = useState("전체");
-            const pills = ["전체", "인터뷰", "행사", "공탁", "공조동방"];
+            const pills = ["전체", "인터뷰", "행사", "공탁", "공조동행"];
 
             const data = [
               { title: "인터뷰 – 222222", date: "2025-09-11", slug: "2025-09-11-222222", type: "인터뷰" },
               { title: "인터뷰 – 123123123", date: "2025-09-11", slug: "2025-09-11-123123123", type: "인터뷰" },
-              { title: "공지 – ㅈㅈㅈㅈㅈ", date: "2025-09-11", slug: "2025-09-11-공지", type: "공탁" },
-              { title: "공조동행 – ㅂㅂㅂㅂ", date: "2025-09-09", slug: "2025-09-09-공조동행-ㅂㅂㅂㅂ", type: "공조동방" },
+              { title: "공조동행 – ㅂㅂㅂㅂ", date: "2025-09-09", slug: "2025-09-09-ㅂㅂㅂㅂ", type: "공조동행" },
               { title: "인터뷰 – 12312312", date: "2025-09-09", slug: "2025-09-09-12312312", type: "인터뷰" },
               { title: "인터뷰 – 3332323", date: "2025-09-09", slug: "2025-09-09-3332323", type: "인터뷰" },
             ];
