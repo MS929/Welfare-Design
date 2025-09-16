@@ -28,9 +28,9 @@ const CONTAINER = 1360;
 // 이미지는 `public/images/hero/hero1.jpg`, `public/images/hero/hero2.jpg` 형태로 두시면 됩니다.
 const HERO_IMAGES = [
   "/images/light.png",
-  "/images/hero/hero2.jpg",
     "https://images.unsplash.com/photo-159336555923-89661f61b7de?auto=format&fit=crop&w=1600&q=80",
     "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1600&q=80",
+    "https://images.unsplash.com/photo-1518709268800-4b5c5c5c5c5c?auto=format&fit=crop&w=1600&q=80",
 ];
 const HERO_INTERVAL = 5000; // 5초
 
