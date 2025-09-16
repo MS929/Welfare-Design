@@ -178,7 +178,6 @@ export default function Home1() {
               { icon: "📌", label: "사업 안내" },
               { icon: "💝", label: "후원 안내" },
               { icon: "🤝", label: "조합 가입" },
-              { icon: "💬", label: "문의" },
             ].map((it, i) => (
               <button
                 key={i}
@@ -256,7 +255,8 @@ export default function Home1() {
             지역과 함께 만드는 맞춤형 복지, 복지디자인이 앞장섭니다
           </div>
           <p style={{ color: PALETTE.grayText, margin: 0 }}>
-            주민·기관·전문가가 함께 설계하는 프로그램으로 돌봄·연계·교육을 지원합니다.
+            주민·기관·전문가가 함께 설계하는 프로그램으로 돌봄·연계·교육을
+            지원합니다.
           </p>
           <div style={{ marginTop: 14 }}>
             <a
@@ -272,7 +272,7 @@ export default function Home1() {
                 boxShadow: "0 8px 18px rgba(59,167,160,.28)",
               }}
             >
-              후원·가입 안내 보기
+              후원 안내 보기
             </a>
           </div>
         </div>
@@ -291,12 +291,12 @@ export default function Home1() {
           }}
         >
           {[
-            { icon: "🤝", label: "복지동행 운영사업" },
-            { icon: "🏘️", label: "지역사회 복지사업" },
-            { icon: "🏥", label: "복지시설 운영사업" },
-            { icon: "🧭", label: "상담·연계" },
-            { icon: "🎓", label: "교육·아카데미" },
-            { icon: "📊", label: "데이터 기반 복지" },
+            { icon: "🤝", label: "휠체어 및 복지용구 무료 대여" },
+            { icon: "🏘️", label: "보조기기·복지용구 신청 안내 지원" },
+            { icon: "🏥", label: "보조기기 기증 캠페인" },
+            { icon: "🧭", label: "취약 계층 전동 휠체어 보험금 지원" },
+            { icon: "🎓", label: "취약 계층 복지욕구 실태조사" },
+            { icon: "📊", label: "조합원 지원 서비스" },
           ].map((it, i) => (
             <div
               key={i}
@@ -366,7 +366,13 @@ export default function Home1() {
                   }}
                 >
                   <div style={{ fontWeight: 700 }}>{t}</div>
-                  <div style={{ color: PALETTE.grayText, fontSize: 12, marginTop: 4 }}>
+                  <div
+                    style={{
+                      color: PALETTE.grayText,
+                      fontSize: 12,
+                      marginTop: 4,
+                    }}
+                  >
                     2025-09-{28 - i}
                   </div>
                 </div>
@@ -395,82 +401,21 @@ export default function Home1() {
                   }}
                 >
                   <div style={{ fontWeight: 700 }}>{t}</div>
-                  <div style={{ color: PALETTE.grayText, fontSize: 12, marginTop: 4 }}>
+                  <div
+                    style={{
+                      color: PALETTE.grayText,
+                      fontSize: 12,
+                      marginTop: 4,
+                    }}
+                  >
                     2025-09-{22 - i}
                   </div>
                 </div>
               ))}
             </div>
           </div>
-
-          {/* 연구 */}
-          <div>
-            <div style={{ fontWeight: 900, marginBottom: 12 }}>연구</div>
-            <div
-              style={{
-                background: "#fff",
-                border: `1px solid ${PALETTE.lineStrong}`,
-                borderRadius: 16,
-                padding: 16,
-                boxShadow: PALETTE.shadowSm,
-              }}
-            >
-              <div
-                aria-hidden
-                style={{
-                  height: 160,
-                  borderRadius: 12,
-                  background:
-                    "conic-gradient(from 180deg at 50% 50%, rgba(237,106,50,.25), rgba(244,183,49,.25), rgba(59,167,160,.25))",
-                  marginBottom: 12,
-                }}
-              />
-              <div style={{ fontWeight: 800 }}>
-                연구: 지역 맞춤형 복지 설계 모델 제안
-              </div>
-              <div style={{ color: PALETTE.grayText, fontSize: 12, marginTop: 6 }}>
-                2025-09-18
-              </div>
-            </div>
-          </div>
         </div>
       </Section>
-
-      {/* 구독 안내 스트립 */}
-      <div style={{ background: PALETTE.mintBar, padding: "18px 0" }}>
-        <Section style={{ padding: 0 }}>
-          <div
-            style={{
-              background: "#fff",
-              borderRadius: 999,
-              padding: "12px 18px",
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-              border: `1px solid ${PALETTE.line}`,
-              boxShadow: "0 4px 10px rgba(0,0,0,.06)",
-            }}
-          >
-            <span style={{ fontWeight: 800, color: PALETTE.darkText }}>
-              동행형 활동과 지원소식! 뉴스레터를 받아보세요.
-            </span>
-            <a
-              href="#newsletter"
-              style={{
-                background: PALETTE.teal,
-                color: "#fff",
-                padding: "10px 16px",
-                borderRadius: 10,
-                textDecoration: "none",
-                fontWeight: 900,
-              }}
-            >
-              구독 신청하기
-            </a>
-          </div>
-        </Section>
-      </div>
-
       {/* 바닥 간격 */}
       <div style={{ height: 36 }} />
     </main>
