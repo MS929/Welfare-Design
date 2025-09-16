@@ -435,45 +435,6 @@ export default function Home1() {
         </div>
       </Section>
 
-      {/* 중앙 CTA (베이지 톤) */}
-      <Section>
-        <div
-          style={{
-            background: PALETTE.beige,
-            border: `1px solid ${PALETTE.line}`,
-            borderRadius: PALETTE.radiusXl,
-            boxShadow: PALETTE.shadow,
-            padding: "32px 24px",
-            textAlign: "center",
-          }}
-        >
-          <div style={{ fontWeight: 900, fontSize: 22, marginBottom: 6 }}>
-            지역과 함께 만드는 맞춤형 복지, 복지디자인이 앞장섭니다
-          </div>
-          <p style={{ color: PALETTE.grayText, margin: 0 }}>
-            주민·기관·전문가가 함께 설계하는 프로그램으로 돌봄·연계·교육을
-            지원합니다.
-          </p>
-          <div style={{ marginTop: 14 }}>
-            <a
-              href="#support"
-              style={{
-                display: "inline-block",
-                padding: "12px 18px",
-                borderRadius: 999,
-                background: PALETTE.teal,
-                color: "#fff",
-                fontWeight: 900,
-                textDecoration: "none",
-                boxShadow: "0 8px 18px rgba(59,167,160,.28)",
-              }}
-            >
-              후원 안내 보기
-            </a>
-          </div>
-        </div>
-      </Section>
-
       {/* 지원사업 영역 (민트 아이콘 타일) */}
       <Section id="support" style={{ paddingTop: 0 }}>
         <h2 style={{ margin: "0 0 16px 0", fontSize: 22, fontWeight: 900 }}>
