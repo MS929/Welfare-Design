@@ -140,14 +140,14 @@ export default function Home1() {
                 letterSpacing: -0.2,
               }}
             >
-              공익활동가 긴급의료비 지원사업
+              현장과 지역을 잇는 <b>맞춤형 복지</b>를 설계하며
               <br />
-              <b>(상시공모)</b>
+              <b>복지디자인 사회적협동조합</b>이
+              <br />
+              지역과 함께합니다.
             </h1>
             <p style={{ color: PALETTE.grayText, marginTop: 10 }}>
-              갑작스러운 의료비로 인한 경제적 부담을 줄일 수 있도록
-              <br />
-              상시 접수합니다. 신청 대상 및 절차를 확인하세요.
+              주민·기관·전문가가 협력하는 맞춤형 복지 플랫폼을 설계·운영합니다.
             </p>
 
             {/* 캐러셀 도트 (모형) */}
@@ -174,11 +174,11 @@ export default function Home1() {
         <Section style={{ padding: 0 }}>
           <div style={{ display: "flex", gap: 14, flexWrap: "wrap" }}>
             {[
-              { icon: "📄", label: "사업안내" },
-              { icon: "❤️", label: "후원" },
-              { icon: "🤝", label: "조합가입" },
-              { icon: "🏢", label: "협력기관" },
-              { icon: "ℹ️", label: "문의" },
+              { icon: "🏢", label: "복지디자인 소개" },
+              { icon: "📌", label: "사업 안내" },
+              { icon: "💝", label: "후원 안내" },
+              { icon: "🤝", label: "조합 가입" },
+              { icon: "💬", label: "문의" },
             ].map((it, i) => (
               <button
                 key={i}
@@ -228,12 +228,12 @@ export default function Home1() {
           }}
         >
           {[
-            "나와 동행 우리동네, 함께 만든 2025년 상반기 복지지도",
-            "내 2025 라면한그릇 자리 ‘일명복’ 3회차 — 생활 속의 연대",
-            "복지연계 처리량을 한 번에! 오픈 워크플로 발표",
-            "공동체 회복 프로젝트 – 카드뉴스 2편",
-            "현장 리더가 말하는 ‘업무와 삶’ 밸런스",
-            "데이터로 보는 지역 복지 격차",
+            "복지디자인 소개 세미나 — 우리 지역 맞춤형 복지",
+            "지역사회 복지사업 설명회(2차) 개최",
+            "복지동행 운영사업: 주민 협력 라운드테이블",
+            "복지시설 네트워크 교류회 스냅샷",
+            "데이터 기반 복지 설계 파일럿 보고",
+            "후원자 이야기 — 함께 만든 변화",
           ].map((t, i) => (
             <StoryCard key={i} title={t} date={`2025-09-${12 - i}`} />
           ))}
@@ -253,10 +253,10 @@ export default function Home1() {
           }}
         >
           <div style={{ fontWeight: 900, fontSize: 22, marginBottom: 6 }}>
-            공익활동가의 지속가능한 활동과 존중받는 삶을 위한 안전망
+            지역과 함께 만드는 맞춤형 복지, 복지디자인이 앞장섭니다
           </div>
           <p style={{ color: PALETTE.grayText, margin: 0 }}>
-            의료·상담·주거 등 실질적 지원으로 지역 공동체의 회복탄력성을 키웁니다.
+            주민·기관·전문가가 함께 설계하는 프로그램으로 돌봄·연계·교육을 지원합니다.
           </p>
           <div style={{ marginTop: 14 }}>
             <a
@@ -291,12 +291,12 @@ export default function Home1() {
           }}
         >
           {[
-            { icon: "🧰", label: "상생부조" },
-            { icon: "💳", label: "대출지원" },
-            { icon: "🏥", label: "건강의료 지원" },
-            { icon: "📦", label: "재충전 지원" },
-            { icon: "🧑‍🏫", label: "전문역량 지원" },
-            { icon: "🎯", label: "대상별 맞춤 지원" },
+            { icon: "🤝", label: "복지동행 운영사업" },
+            { icon: "🏘️", label: "지역사회 복지사업" },
+            { icon: "🏥", label: "복지시설 운영사업" },
+            { icon: "🧭", label: "상담·연계" },
+            { icon: "🎓", label: "교육·아카데미" },
+            { icon: "📊", label: "데이터 기반 복지" },
           ].map((it, i) => (
             <div
               key={i}
@@ -347,13 +347,13 @@ export default function Home1() {
         >
           {/* 공지 */}
           <div>
-            <div style={{ fontWeight: 900, marginBottom: 12 }}>공지/공모</div>
+            <div style={{ fontWeight: 900, marginBottom: 12 }}>공지사항</div>
             <div style={{ display: "grid", gap: 10 }}>
               {[
-                "2025 하반기 소액대출사업(∼9/14) 안내",
-                "2025 활동가 리더십 커뮤니티 모집",
-                "기부자 감사 행사 안내(∼9/10)",
-                "신규기관 라운드테이블 참가 안내(∼9/7)",
+                "[공지] 9월 운영위원회 회의 안내",
+                "복지디자인 소개 자료 공개",
+                "후원·가입 안내 페이지 개편",
+                "지역 파트너 기관 모집 공고",
               ].map((t, i) => (
                 <div
                   key={i}
@@ -376,13 +376,13 @@ export default function Home1() {
 
           {/* 뉴스레터 */}
           <div style={{ position: "relative" }}>
-            <div style={{ fontWeight: 900, marginBottom: 12 }}>뉴스레터</div>
+            <div style={{ fontWeight: 900, marginBottom: 12 }}>소식</div>
             <div style={{ display: "grid", gap: 10 }}>
               {[
-                "상반기 협력 성과, 함께 만든 2025년",
-                "가까운 거리의 복지: 활동가 스토리",
-                "데이터로 설계하는 복지",
-                "조합원 인터뷰 – 일과 삶의 조화",
+                "현장 리포트: 주민과 함께한 설계 워크숍",
+                "사업 안내 설명회 — 다시보기 공개",
+                "복지시설 운영사례 인터뷰",
+                "데이터 기반 복지 리서치 노트",
               ].map((t, i) => (
                 <div
                   key={i}
@@ -426,7 +426,7 @@ export default function Home1() {
                 }}
               />
               <div style={{ fontWeight: 800 }}>
-                연구: 복지디자인 발전 2025 – 지역 자원 연계 분석
+                연구: 지역 맞춤형 복지 설계 모델 제안
               </div>
               <div style={{ color: PALETTE.grayText, fontSize: 12, marginTop: 6 }}>
                 2025-09-18
