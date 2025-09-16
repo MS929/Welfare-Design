@@ -658,7 +658,7 @@ export default function Home1() {
                   items.map((i) => i.type).filter((t) => t && !banned.has(t))
                 )
               );
-              const order = ["인터뷰", "행사", "활동", "공탁", "공조동행"]; // 선호 순서
+              const order = ["사업", "교육", "회의", "기타"]; // 선호 순서
               cats.sort((a, b) => {
                 const ia = order.indexOf(a);
                 const ib = order.indexOf(b);
