@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import matter from "gray-matter";
 // src/pages/Home1.jsx
 // 팔레트 (우리 브랜드 컬러로, 레퍼런스 톤을 흉내냄)
 const PALETTE = {
@@ -232,21 +233,51 @@ export default function Home1() {
         >
           {/* 좌측 고정 영역 */}
           {(() => {
-            // Move filter state to the parent of both columns
             const [active, setActive] = useState("전체");
             const pills = ["전체", "인터뷰", "행사", "공탁", "공조동행"];
+            const [items, setItems] = useState([]);
 
-            const data = [
-              { title: "인터뷰 – 222222", date: "2025-09-11", slug: "2025-09-11-222222", type: "인터뷰" },
-              { title: "인터뷰 – 123123123", date: "2025-09-11", slug: "2025-09-11-123123123", type: "인터뷰" },
-              { title: "공조동행 – ㅂㅂㅂㅂ", date: "2025-09-09", slug: "2025-09-09-ㅂㅂㅂㅂ", type: "공조동행" },
-              { title: "인터뷰 – 12312312", date: "2025-09-09", slug: "2025-09-09-12312312", type: "인터뷰" },
-              { title: "인터뷰 – 3332323", date: "2025-09-09", slug: "2025-09-09-3332323", type: "인터뷰" },
-            ];
+            // 빌드타임에 CMS가 생성한 MD/MDX 파일에서 최신 글을 수집
+            useEffect(() => {
+              try {
+                const modules = import.meta.glob(
+                  [
+                    "/src/content/stories/**/*.md",
+                    "/src/content/stories/**/*.mdx",
+                    "/src/posts/**/*.md",
+                    "/src/posts/**/*.mdx",
+                  ],
+                  { eager: true, query: "?raw", import: "default" }
+                );
 
-            const filtered = data.filter(
-              (d) => active === "전체" || d.type === active
-            );
+                const list = Object.values(modules)
+                  .map((raw) => {
+                    const { data } = matter(raw);
+                    return {
+                      title: data?.title || "",
+                      date: data?.date || "",
+                      slug: data?.slug || data?.id || "",
+                      type: data?.type || data?.category || "",
+                    };
+                  })
+                  .filter((v) => v.title && v.slug);
+
+                // 최신순 정렬 후 상위 12개만
+                list.sort((a, b) => (b.date || "").localeCompare(a.date || ""));
+                setItems(list.slice(0, 12));
+              } catch (e) {
+                // 폴백: 최소한 하드코딩  몇 개 (빌드 실패 대비)
+                setItems([
+                  { title: "인터뷰 – 222222", date: "2025-09-11", slug: "2025-09-11-222222", type: "인터뷰" },
+                  { title: "인터뷰 – 123123123", date: "2025-09-11", slug: "2025-09-11-123123123", type: "인터뷰" },
+                  { title: "공조동행 – ㅂㅂㅂㅂ", date: "2025-09-09", slug: "2025-09-09-ㅂㅂㅂㅂ", type: "공조동행" },
+                  { title: "인터뷰 – 12312312", date: "2025-09-09", slug: "2025-09-09-12312312", type: "인터뷰" },
+                  { title: "인터뷰 – 3332323", date: "2025-09-09", slug: "2025-09-09-3332323", type: "인터뷰" },
+                ]);
+              }
+            }, []);
+
+            const filtered = items.filter((d) => active === "전체" || d.type === active);
 
             return (
               <>
@@ -270,8 +301,8 @@ export default function Home1() {
                   >
                     더보기 <span aria-hidden>›</span>
                   </a>
-                  {/* 필터 pill 블록: "더보기" 아래에 배치 */}
-                  <div style={{ display: "flex", gap: 12, flexWrap: "wrap", marginTop: 16 }}>
+                  {/* 필터 칩 */}
+                  <div style={{ display: "flex", gap: 12, flexWrap: "wrap", marginTop: 24 }}>
                     {pills.map((label) => {
                       const isActive = active === label;
                       return (
@@ -296,7 +327,8 @@ export default function Home1() {
                     })}
                   </div>
                 </div>
-                {/* 우측: 카드 그리드만 남김 */}
+
+                {/* 우측: 카드 그리드 */}
                 <div>
                   <div
                     style={{
@@ -316,7 +348,7 @@ export default function Home1() {
                   </div>
                 </div>
               </>
-            );  
+            );
           })()}
         </div>
       </Section>
