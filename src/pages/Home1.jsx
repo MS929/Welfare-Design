@@ -672,7 +672,7 @@ export default function Home1() {
                 label: "보조기기 기증 캠페인",
               },
               {
-                icon: "/images/icons/insurance.png",
+                icon: "/images/icons/ewc-insurance.png",
                 label: "취약 계층 전동 휠체어 보험금 지원",
               },
               {
@@ -710,15 +710,23 @@ export default function Home1() {
                       justifyContent: "center",
                     }}
                   >
-                    {typeof it.icon === "string" ? (
-                      <img
-                        src={it.icon}
-                        alt=""
-                        loading="lazy"
-                        decoding="async"
-                        style={{ width: 24, height: 24, objectFit: "contain" }}
-                      />
-                    ) : (
+                    {typeof it.icon === "string" ? (() => {
+                      const base = it.icon.replace(/\.(png|svg)$/i, "");
+                      return (
+                        <img
+                          src={`${base}.svg`}
+                          onError={(e) => {
+                            // If SVG is missing, fall back to PNG once
+                            e.currentTarget.onerror = null;
+                            e.currentTarget.src = `${base}.png`;
+                          }}
+                          alt=""
+                          loading="lazy"
+                          decoding="async"
+                          style={{ width: 24, height: 24, objectFit: "contain" }}
+                        />
+                      );
+                    })() : (
                       it.icon
                     )}
                   </div>
