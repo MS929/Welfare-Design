@@ -342,10 +342,15 @@ export default function Home() {
         style={{
           position: "relative",
           width: "100%",
-          backgroundImage: `linear-gradient(0deg, rgba(255,255,255,0.86), rgba(255,255,255,0.86)), url(${heroSrc})`,
-          backgroundSize: heroBgSize,
-          backgroundPosition: "right center",
-          backgroundRepeat: "no-repeat",
+          // 배경 레이어: [흰 오버레이] + [우측 이미지] + [좌측 회색 패널]
+          backgroundImage: `
+            linear-gradient(0deg, rgba(255,255,255,0.86), rgba(255,255,255,0.86)),
+            url(${heroSrc}),
+            linear-gradient(90deg, #F5F7FA 0%, #F5F7FA 52%, rgba(0,0,0,0) 52%)
+          `,
+          backgroundSize: `${heroBgSize}, ${heroBgSize}, 100% 100%`,
+          backgroundPosition: `right center, right center, left top`,
+          backgroundRepeat: `no-repeat, no-repeat, no-repeat`,
           overflow: "hidden",
           borderBottom: "none",
           marginBottom: isMobile ? 12 : 16,
