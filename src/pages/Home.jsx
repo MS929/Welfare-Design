@@ -173,10 +173,10 @@ export default function Home() {
   const { width, isMobile } = useViewport();
   // 히어로 배경 크기(오른쪽 데코를 축소)
   const heroBgSize = useMemo(() => {
-    if (width >= 1280) return "760px auto";
-    if (width >= 1024) return "640px auto";
-    if (width >= 640) return "480px auto";
-    return "340px auto";
+    if (width >= 1280) return "900px auto";
+    if (width >= 1024) return "760px auto";
+    if (width >= 640) return "560px auto";
+    return "380px auto";
   }, [width]);
   const hoverCapable = useHoverCapable();
   const focusVisible = useFocusVisible();
@@ -349,7 +349,7 @@ export default function Home() {
           // 4) 우측 배경 이미지
           backgroundImage: `
             linear-gradient(90deg, #F5F7FA 0%, #F5F7FA 52%, rgba(0,0,0,0) 52%),
-            linear-gradient(90deg, rgba(0,0,0,0) 52%, #EFF1F5 52%, rgba(0,0,0,0) 52%),
+            linear-gradient(90deg, rgba(0,0,0,0) 52%, #E5E7EB 52%, rgba(0,0,0,0) 52%),
             linear-gradient(0deg, rgba(255,255,255,0.86), rgba(255,255,255,0.86)),
             url(${heroSrc})
           `,
