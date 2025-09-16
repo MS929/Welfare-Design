@@ -341,13 +341,13 @@ export default function Home() {
           position: "relative",
           width: "100%",
           // 배경 레이어(위에서 아래 순서):
-          // 1) 좌측 회색 패널 (52%) - 텍스트 뒤 배경
+          // 1) 좌측 회색 패널 (60%) - 텍스트 뒤 배경
           // 2) 중앙 세퍼레이터 라인 (1px)
           // 3) 흰색 오버레이 (이미지 가독성용)
           // 4) 우측 배경 이미지
           backgroundImage: `
-            linear-gradient(90deg, #F5F7FA 0%, #F5F7FA 52%, rgba(0,0,0,0) 52%),
-            linear-gradient(90deg, rgba(0,0,0,0) 52%, #E5E7EB 52%, rgba(0,0,0,0) 52%),
+            linear-gradient(90deg, #F5F7FA 0%, #F5F7FA 60%, rgba(0,0,0,0) 60%),
+            linear-gradient(90deg, rgba(0,0,0,0) 60%, #E5E7EB 60%, rgba(0,0,0,0) 60%),
             linear-gradient(0deg, rgba(255,255,255,0.86), rgba(255,255,255,0.86)),
             url(${heroSrc})
           `,
