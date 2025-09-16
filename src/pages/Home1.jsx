@@ -54,7 +54,12 @@ function formatDate(v) {
   return "";
 }
 
-const Section = ({ children, style, fullBleed = false }) => {
+const Section = ({
+  children,
+  style,
+  fullBleed = false,
+  innerMaxWidth = CONTAINER,
+}) => {
   if (fullBleed) {
     // full-bleed background stripe, with an inner centered container
     return (
@@ -66,7 +71,7 @@ const Section = ({ children, style, fullBleed = false }) => {
           ...style,
         }}
       >
-        <div style={{ maxWidth: CONTAINER, margin: "0 auto", padding: "0 24px" }}>
+        <div style={{ maxWidth: innerMaxWidth, margin: "0 auto", padding: "0 24px" }}>
           {children}
         </div>
       </section>
@@ -214,7 +219,7 @@ export default function Home1() {
   return (
     <main style={{ background: "#fff" }}>
       {/* HERO (레퍼런스형: 베이지 배경 + 좌측 반원 이미지 + 우측 텍스트) */}
-      <Section fullBleed style={{ paddingTop: 28, paddingBottom: 36, background: PALETTE.beige }}>
+      <Section fullBleed innerMaxWidth={1500} style={{ paddingTop: 28, paddingBottom: 36, background: PALETTE.beige }}>
         <div
           style={{
             display: "grid",
