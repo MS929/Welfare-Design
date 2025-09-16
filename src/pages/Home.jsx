@@ -352,14 +352,10 @@ export default function Home() {
           // 배경 레이어(위에서 아래 순서):
           // 1) separator line, 2) white overlay, 3) image
           backgroundColor: COLOR.bg,
-          backgroundImage: `
-            linear-gradient(90deg, rgba(0,0,0,0) 64%, #E5E7EB 64%, rgba(0,0,0,0) 64%),
-            linear-gradient(0deg, rgba(255,255,255,0.86), rgba(255,255,255,0.86)),
-            url(${heroSrc})
-          `,
-          backgroundSize: `100% 100%, ${heroBgSize}, ${heroBgSize}`,
-          backgroundPosition: `left top, right center, right center`,
-          backgroundRepeat: `no-repeat, no-repeat, no-repeat`,
+          backgroundImage: `url(${heroSrc})`,
+          backgroundSize: `${heroBgSize}`,
+          backgroundPosition: `right center`,
+          backgroundRepeat: `no-repeat`,
           overflow: "hidden",
           borderBottom: "none",
           marginBottom: isMobile ? 12 : 16,
