@@ -360,7 +360,7 @@ export default function Home() {
             linear-gradient(0deg, rgba(255,255,255,0.86), rgba(255,255,255,0.86)),
             url(${heroSrc})
           `,
-          backgroundSize: `100% 100%, 100% 100%, cover, cover`,
+          backgroundSize: `100% 100%, 100% 100%, ${heroBgSize}, ${heroBgSize}`,
           backgroundPosition: `left top, left top, right center, right center`,
           backgroundRepeat: `no-repeat, no-repeat, no-repeat, no-repeat`,
           overflow: "hidden",
