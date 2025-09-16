@@ -366,24 +366,29 @@ export default function Home1() {
                       "0 3px 10px rgba(0,0,0,.06)";
                   }}
                 >
-                  <span
+                  <div
                     aria-hidden
                     style={{
                       width: 36,
                       height: 36,
                       borderRadius: 12,
-                      background: PALETTE.teal,
-                      color: "#fff",
+                      background: "#ffffff",
+                      border: `1px solid ${PALETTE.teal}33`,
+                      boxShadow: "0 2px 6px rgba(0,0,0,.06)",
                       display: "inline-flex",
                       alignItems: "center",
                       justifyContent: "center",
-                      fontSize: 18,
-                      boxShadow: "0 2px 6px rgba(0,0,0,.10)",
                       flex: "0 0 auto",
                     }}
                   >
-                    {it.icon}
-                  </span>
+                    <img
+                      src={it.iconsrc}
+                      alt=""
+                      loading="lazy"
+                      decoding="async"
+                      style={{ width: 22, height: 22, objectFit: "contain" }}
+                    />
+                  </div>
 
                   <div style={{ flex: 1, minWidth: 0 }}>
                     <div
@@ -703,10 +708,19 @@ export default function Home1() {
                       display: "flex",
                       alignItems: "center",
                       justifyContent: "center",
-                      fontSize: 22,
                     }}
                   >
-                    {it.icon}
+                    {typeof it.icon === "string" ? (
+                      <img
+                        src={it.icon}
+                        alt=""
+                        loading="lazy"
+                        decoding="async"
+                        style={{ width: 24, height: 24, objectFit: "contain" }}
+                      />
+                    ) : (
+                      it.icon
+                    )}
                   </div>
                   <div style={{ fontWeight: 900 }}>{it.label}</div>
                 </div>
