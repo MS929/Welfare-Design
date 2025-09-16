@@ -676,7 +676,7 @@ export default function Home1() {
                 label: "취약 계층 전동 휠체어 보험금 지원",
               },
               {
-                icon: "/images/icons/survey.png",
+                icon: "/images/icons/needs-survey.png",
                 label: "취약 계층 복지욕구 실태조사",
               },
               {
