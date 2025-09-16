@@ -7,6 +7,7 @@ import { useEffect } from "react";
 import Navbar from "./components/Navbar.jsx";
 import Footer from "./components/Footer.jsx";
 import Home from "./pages/Home.jsx";
+import Home1 from "./pages/Home1.jsx";
 
 /* 소개 */
 import AboutWhat from "./pages/about/WhatIs.jsx";
@@ -66,6 +67,7 @@ export default function App() {
         <Routes>
           {/* 메인 */}
           <Route path="/" element={<Home />} />
+          <Route path="/home1" element={<Home1 />} />
 
           {/* 소개 */}
           <Route path="/about/what" element={<AboutWhat />} />
