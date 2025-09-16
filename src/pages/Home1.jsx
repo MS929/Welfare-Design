@@ -22,7 +22,7 @@ const PALETTE = {
   radiusXl: 28,
 };
 
-const CONTAINER = 1280;
+const CONTAINER = 1360;
 
 // ===== Utils (match Home.jsx behavior) =====
 function parseDatedSlug(filepath) {
