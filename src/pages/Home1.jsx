@@ -234,15 +234,15 @@ export default function Home1() {
           {(() => {
             // Move filter state to the parent of both columns
             const [active, setActive] = useState("전체");
-            const pills = ["전체", "행사", "활동", "기타"];
+            const pills = ["전체", "인터뷰", "행사", "공탁", "공조동방"];
 
             const data = [
-              { title: "인터뷰 – 222222", date: "2025-09-11", slug: "2025-09-11-222222", type: "활동" },
-              { title: "인터뷰 – 123123123", date: "2025-09-11", slug: "2025-09-11-123123123", type: "활동" },
-              { title: "공지 – ㅈㅈㅈㅈㅈ", date: "2025-09-11", slug: "2025-09-11-공지", type: "기타" },
-              { title: "공조동행 – ㅂㅂㅂㅂ", date: "2025-09-09", slug: "2025-09-09-공조동행-ㅂㅂㅂㅂ", type: "활동" },
-              { title: "인터뷰 – 12312312", date: "2025-09-09", slug: "2025-09-09-12312312", type: "활동" },
-              { title: "인터뷰 – 3332323", date: "2025-09-09", slug: "2025-09-09-3332323", type: "활동" },
+              { title: "인터뷰 – 222222", date: "2025-09-11", slug: "2025-09-11-222222", type: "인터뷰" },
+              { title: "인터뷰 – 123123123", date: "2025-09-11", slug: "2025-09-11-123123123", type: "인터뷰" },
+              { title: "공지 – ㅈㅈㅈㅈㅈ", date: "2025-09-11", slug: "2025-09-11-공지", type: "공탁" },
+              { title: "공조동행 – ㅂㅂㅂㅂ", date: "2025-09-09", slug: "2025-09-09-공조동행-ㅂㅂㅂㅂ", type: "공조동방" },
+              { title: "인터뷰 – 12312312", date: "2025-09-09", slug: "2025-09-09-12312312", type: "인터뷰" },
+              { title: "인터뷰 – 3332323", date: "2025-09-09", slug: "2025-09-09-3332323", type: "인터뷰" },
             ];
 
             const filtered = data.filter(
@@ -272,7 +272,7 @@ export default function Home1() {
                     더보기 <span aria-hidden>›</span>
                   </a>
                   {/* 필터 pill 블록: "더보기" 아래에 배치 */}
-                  <div style={{ display: "flex", flexDirection: "column", gap: 10, marginTop: 24 }}>
+                  <div style={{ display: "flex", gap: 12, flexWrap: "wrap", marginTop: 16 }}>
                     {pills.map((label) => {
                       const isActive = active === label;
                       return (
@@ -282,17 +282,13 @@ export default function Home1() {
                           style={{
                             cursor: "pointer",
                             border: `1px solid ${PALETTE.line}`,
-                            width: 64,
-                            height: 64,
-                            borderRadius: "50%",
+                            borderRadius: 999,
+                            padding: "10px 18px",
                             fontWeight: 800,
                             background: isActive ? PALETTE.teal : "#fff",
                             color: isActive ? "#fff" : PALETTE.darkText,
                             boxShadow: "0 2px 6px rgba(0,0,0,.04)",
-                            display: "flex",
-                            alignItems: "center",
-                            justifyContent: "center",
-                            fontSize: 16,
+                            whiteSpace: "nowrap",
                           }}
                         >
                           {label}
