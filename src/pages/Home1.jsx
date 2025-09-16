@@ -208,19 +208,30 @@ export default function Home1() {
             padding: 28,
           }}
         >
-          {/* 좌측 반원 이미지 프레임 */}
+          {/* 좌측 이미지 프레임 (랜덤 이미지) */}
           <div
             aria-hidden
             style={{
               height: 280,
-              background:
-                "linear-gradient(180deg, rgba(59,167,160,.35), rgba(244,183,49,.25))",
-              borderRadius: "240px 240px 0 0",
+              borderRadius: PALETTE.radiusLg,
               border: `1px solid ${PALETTE.line}`,
-              boxShadow: "0 10px 24px rgba(0,0,0,.08) inset",
               overflow: "hidden",
+              boxShadow: "0 6px 16px rgba(0,0,0,.08)",
+              background: "#fff",
             }}
-          />
+          >
+            <img
+              src="https://source.unsplash.com/800x600/?community,people"
+              alt=""
+              loading="eager"
+              decoding="async"
+              style={{ width: "100%", height: "100%", objectFit: "cover" }}
+              onError={(e) => {
+                e.currentTarget.onerror = null;
+                e.currentTarget.src = "/images/main.png"; // 로컬 폴백
+              }}
+            />
+          </div>
 
           {/* 우측 텍스트 */}
           <div>
