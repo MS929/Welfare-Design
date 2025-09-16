@@ -279,26 +279,42 @@ export default function Home1() {
               background: "#fff",
             }}
           >
-            <img
-              key={heroIndex}
-              src={HERO_IMAGES[heroIndex]}
-              alt="복지디자인 활동 이미지"
-              loading="eager"
-              decoding="async"
-              style={{ width: "100%", height: "100%", objectFit: "cover", transition: "opacity .4s ease" }}
-              onError={(e) => {
-                const t = e.currentTarget;
-                // 1차 폴백: 내가 올린 첫 번째 히어로 이미지
-                if (!t.dataset.fallback1) {
-                  t.dataset.fallback1 = "1";
-                  t.src = "/images/hero/dog.png";
-                  return;
-                }
-                // 2차 폴백: 기본 라이트 이미지
-                t.onerror = null;
-                t.src = "/images/hero/light.png";
-              }}
-            />
+            {HERO_IMAGES.map((src, i) => (
+              <img
+                key={src}
+                src={src}
+                alt="복지디자인 활동 이미지"
+                loading={i === heroIndex ? "eager" : "lazy"}
+                decoding="async"
+                style={{
+                  position: "absolute",
+                  inset: 0,
+                  width: "100%",
+                  height: "100%",
+                  objectFit: "cover",
+                  opacity: heroIndex === i ? 1 : 0,
+                  transition: "opacity 700ms ease-in-out",
+                  willChange: "opacity",
+                  pointerEvents: "none",
+                }}
+                onError={(e) => {
+                  const t = e.currentTarget;
+                  // 1차 폴백: 라이트 이미지
+                  if (!t.dataset.fallback1) {
+                    t.dataset.fallback1 = "1";
+                    t.src = "/images/hero/light.png";
+                    return;
+                  }
+                  // 2차 폴백: 도그 이미지
+                  if (!t.dataset.fallback2) {
+                    t.dataset.fallback2 = "1";
+                    t.src = "/images/hero/dog.png";
+                  } else {
+                    t.onerror = null;
+                  }
+                }}
+              />
+            ))}
           </div>
 
           {/* 우측 텍스트 */}
