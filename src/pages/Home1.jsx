@@ -553,8 +553,8 @@ export default function Home1() {
                   <div
                     aria-hidden
                     style={{
-                      width: 44,
-                      height: 44,
+                      width: 40,
+                      height: 40,
                       borderRadius: 12,
                       background: "rgba(255,255,255,.2)",
                       display: "flex",
