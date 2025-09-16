@@ -294,51 +294,6 @@ export default function Home1() {
                 e.currentTarget.src = "/images/dog.png"; // 로컬 폴백
               }}
             />
-            {/* Prev/Next buttons */}
-            <button
-              type="button"
-              aria-label="이전 이미지"
-              onClick={prevHero}
-              style={{
-                position: "absolute",
-                top: "50%",
-                left: 8,
-                transform: "translateY(-50%)",
-                width: 36,
-                height: 36,
-                borderRadius: 10,
-                border: `1px solid ${PALETTE.line}`,
-                background: "rgba(255,255,255,.92)",
-                boxShadow: "0 2px 6px rgba(0,0,0,.12)",
-                fontSize: 18,
-                fontWeight: 900,
-                cursor: "pointer",
-              }}
-            >
-              ‹
-            </button>
-            <button
-              type="button"
-              aria-label="다음 이미지"
-              onClick={nextHero}
-              style={{
-                position: "absolute",
-                top: "50%",
-                right: 8,
-                transform: "translateY(-50%)",
-                width: 36,
-                height: 36,
-                borderRadius: 10,
-                border: `1px solid ${PALETTE.line}`,
-                background: "rgba(255,255,255,.92)",
-                boxShadow: "0 2px 6px rgba(0,0,0,.12)",
-                fontSize: 18,
-                fontWeight: 900,
-                cursor: "pointer",
-              }}
-            >
-              ›
-            </button>
           </div>
 
           {/* 우측 텍스트 */}
@@ -361,25 +316,72 @@ export default function Home1() {
               주민·기관·전문가가 협력하는 맞춤형 복지 플랫폼을 설계·운영합니다.
             </p>
 
-            {/* 캐러셀 도트 */}
-            <div style={{ display: "flex", gap: 8, marginTop: 12 }}>
-              {HERO_IMAGES.map((_, i) => (
+            {/* 캐러셀 도트 + 이전/다음 컨트롤 (텍스트 아래) */}
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: 12,
+                marginTop: 12,
+                flexWrap: "wrap",
+              }}
+            >
+              {/* 도트 */}
+              <div style={{ display: "flex", gap: 8 }}>
+                {HERO_IMAGES.map((_, i) => (
+                  <button
+                    key={i}
+                    type="button"
+                    aria-label={`이미지 ${i + 1} 보기`}
+                    onClick={() => goTo(i)}
+                    style={{
+                      width: 10,
+                      height: 10,
+                      borderRadius: 999,
+                      border: "none",
+                      background: i === heroIndex ? PALETTE.teal : "#D1D5DB",
+                      boxShadow: "0 1px 2px rgba(0,0,0,.08)",
+                      cursor: "pointer",
+                    }}
+                  />
+                ))}
+              </div>
+
+              {/* 이전/다음 버튼 */}
+              <div style={{ display: "flex", gap: 8, marginLeft: 4 }}>
                 <button
-                  key={i}
                   type="button"
-                  aria-label={`이미지 ${i + 1} 보기`}
-                  onClick={() => goTo(i)}
+                  aria-label="이전 이미지"
+                  onClick={prevHero}
                   style={{
-                    width: 10,
-                    height: 10,
-                    borderRadius: 999,
-                    border: "none",
-                    background: i === heroIndex ? PALETTE.teal : "#D1D5DB",
-                    boxShadow: "0 1px 2px rgba(0,0,0,.08)",
+                    padding: "6px 10px",
+                    borderRadius: 10,
+                    border: `1px solid ${PALETTE.line}`,
+                    background: "#fff",
+                    boxShadow: "0 2px 6px rgba(0,0,0,.08)",
+                    fontWeight: 700,
                     cursor: "pointer",
                   }}
-                />
-              ))}
+                >
+                  이전
+                </button>
+                <button
+                  type="button"
+                  aria-label="다음 이미지"
+                  onClick={nextHero}
+                  style={{
+                    padding: "6px 10px",
+                    borderRadius: 10,
+                    border: `1px solid ${PALETTE.line}`,
+                    background: "#fff",
+                    boxShadow: "0 2px 6px rgba(0,0,0,.08)",
+                    fontWeight: 700,
+                    cursor: "pointer",
+                  }}
+                >
+                  다음
+                </button>
+              </div>
             </div>
           </div>
         </div>
