@@ -193,6 +193,7 @@ const StoryCard = ({ title, date, href = "/news/stories", thumbnail }) => (
 export default function Home1() {
   const [notices, setNotices] = useState([]);
   const [loadingNotices, setLoadingNotices] = useState(true);
+  const [noticeScope, setNoticeScope] = useState("전체");
 
   // --- HERO carousel state ---
   const [heroIndex, setHeroIndex] = useState(0);
@@ -899,146 +900,183 @@ export default function Home1() {
 
       {/* 공지/정보공개 – 두 칼럼 리스트 */}
       <Section style={{ paddingTop: 38 }}>
+        {/* 상단 타이틀 + 필터 탭 */}
+        <div style={{
+          display: "flex",
+          alignItems: "center",
+          gap: 12,
+          justifyContent: "space-between",
+          marginBottom: 12,
+        }}>
+          <h2 style={{ margin: 0, fontSize: 28, fontWeight: 900 }}>공지사항</h2>
+          <div style={{ display: "flex", gap: 10 }}>
+            {(["전체", "공지", "정보공개"]).map((tab) => {
+              const active = noticeScope === tab;
+              return (
+                <button
+                  key={tab}
+                  type="button"
+                  onClick={() => setNoticeScope(tab)}
+                  style={{
+                    padding: "10px 16px",
+                    borderRadius: 999,
+                    border: active ? `1px solid ${PALETTE.darkText}` : `1px solid ${PALETTE.line}`,
+                    background: active ? "#000" : "#fff",
+                    color: active ? "#fff" : PALETTE.darkText,
+                    fontWeight: 800,
+                    cursor: "pointer",
+                  }}
+                >
+                  {tab}
+                </button>
+              );
+            })}
+          </div>
+        </div>
         <div
           style={{
             display: "grid",
-            gridTemplateColumns: "repeat(2, minmax(0,1fr))",
+            gridTemplateColumns: noticeScope === "전체" ? "repeat(2, minmax(0,1fr))" : "1fr",
             gap: 24,
           }}
         >
           {/* 공지 */}
-          <div>
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "baseline",
-                marginBottom: 12,
-              }}
-            >
-              <h2 style={{ margin: 0, fontSize: 22, fontWeight: 900 }}>공지</h2>
-              <a href="/news/notices" style={{ color: PALETTE.teal, fontWeight: 800, textDecoration: "none" }}>더보기 ›</a>
+          {(noticeScope === "전체" || noticeScope === "공지") && (
+            <div>
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "baseline",
+                  marginBottom: 12,
+                }}
+              >
+                <h2 style={{ margin: 0, fontSize: 22, fontWeight: 900 }}>공지</h2>
+                <a href="/news/notices" style={{ color: PALETTE.teal, fontWeight: 800, textDecoration: "none" }}>더보기 ›</a>
+              </div>
+              <div style={{ display: "grid", gap: 18 }}>
+                {(loadingNotices ? Array.from({ length: 4 }) : (noticesSplit.공지 || []).slice(0, 5)).map((item, i) =>
+                  loadingNotices ? (
+                    <div
+                      key={i}
+                      aria-hidden
+                      style={{
+                        background: "#fff",
+                        border: `1px solid ${PALETTE.line}`,
+                        borderRadius: 14,
+                        padding: "16px 18px",
+                        boxShadow: PALETTE.shadowSm,
+                      }}
+                    >
+                      <div style={{ height: 18, width: "70%", background: "#EEF2F7", borderRadius: 6, marginBottom: 10 }} />
+                      <div style={{ height: 12, width: 120, background: "#EEF2F7", borderRadius: 6 }} />
+                    </div>
+                  ) : (
+                    <a
+                      key={item.id}
+                      href={item.to}
+                      style={{
+                        display: "block",
+                        background: "#fff",
+                        border: `1px solid ${PALETTE.line}`,
+                        borderRadius: 14,
+                        padding: "16px 18px",
+                        boxShadow: PALETTE.shadowSm,
+                        textDecoration: "none",
+                        color: "inherit",
+                        transition: "transform .12s ease, box-shadow .12s ease",
+                      }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.transform = "translateY(-2px)";
+                        e.currentTarget.style.boxShadow = "0 10px 22px rgba(0,0,0,.08)";
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.transform = "none";
+                        e.currentTarget.style.boxShadow = PALETTE.shadowSm;
+                      }}
+                    >
+                      <div style={{ fontWeight: 800, fontSize: 18, lineHeight: 1.35, marginBottom: 6 }}>{item.title}</div>
+                      {item.date && (
+                        <time style={{ color: PALETTE.grayText, fontSize: 12 }}>{item.date}</time>
+                      )}
+                    </a>
+                  )
+                )}
+                {!loadingNotices && (noticesSplit.공지 || []).length === 0 && (
+                  <div style={{ color: PALETTE.grayText, fontSize: 14 }}>표시할 공지가 없습니다.</div>
+                )}
+              </div>
             </div>
-            <div style={{ display: "grid", gap: 18 }}>
-              {(loadingNotices ? Array.from({ length: 4 }) : (noticesSplit.공지 || []).slice(0, 5)).map((item, i) =>
-                loadingNotices ? (
-                  <div
-                    key={i}
-                    aria-hidden
-                    style={{
-                      background: "#fff",
-                      border: `1px solid ${PALETTE.line}`,
-                      borderRadius: 14,
-                      padding: "16px 18px",
-                      boxShadow: PALETTE.shadowSm,
-                    }}
-                  >
-                    <div style={{ height: 18, width: "70%", background: "#EEF2F7", borderRadius: 6, marginBottom: 10 }} />
-                    <div style={{ height: 12, width: 120, background: "#EEF2F7", borderRadius: 6 }} />
-                  </div>
-                ) : (
-                  <a
-                    key={item.id}
-                    href={item.to}
-                    style={{
-                      display: "block",
-                      background: "#fff",
-                      border: `1px solid ${PALETTE.line}`,
-                      borderRadius: 14,
-                      padding: "16px 18px",
-                      boxShadow: PALETTE.shadowSm,
-                      textDecoration: "none",
-                      color: "inherit",
-                      transition: "transform .12s ease, box-shadow .12s ease",
-                    }}
-                    onMouseEnter={(e) => {
-                      e.currentTarget.style.transform = "translateY(-2px)";
-                      e.currentTarget.style.boxShadow = "0 10px 22px rgba(0,0,0,.08)";
-                    }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.transform = "none";
-                      e.currentTarget.style.boxShadow = PALETTE.shadowSm;
-                    }}
-                  >
-                    <div style={{ fontWeight: 800, fontSize: 18, lineHeight: 1.35, marginBottom: 6 }}>{item.title}</div>
-                    {item.date && (
-                      <time style={{ color: PALETTE.grayText, fontSize: 12 }}>{item.date}</time>
-                    )}
-                  </a>
-                )
-              )}
-              {!loadingNotices && (noticesSplit.공지 || []).length === 0 && (
-                <div style={{ color: PALETTE.grayText, fontSize: 14 }}>표시할 공지가 없습니다.</div>
-              )}
-            </div>
-          </div>
+          )}
 
           {/* 정보공개 */}
-          <div>
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "baseline",
-                marginBottom: 12,
-              }}
-            >
-              <h2 style={{ margin: 0, fontSize: 22, fontWeight: 900 }}>정보공개</h2>
-              <a href="/news/notices" style={{ color: PALETTE.teal, fontWeight: 800, textDecoration: "none" }}>더보기 ›</a>
+          {(noticeScope === "전체" || noticeScope === "정보공개") && (
+            <div>
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "baseline",
+                  marginBottom: 12,
+                }}
+              >
+                <h2 style={{ margin: 0, fontSize: 22, fontWeight: 900 }}>정보공개</h2>
+                <a href="/news/notices" style={{ color: PALETTE.teal, fontWeight: 800, textDecoration: "none" }}>더보기 ›</a>
+              </div>
+              <div style={{ display: "grid", gap: 18 }}>
+                {(loadingNotices ? Array.from({ length: 4 }) : (noticesSplit.정보공개 || []).slice(0, 5)).map((item, i) =>
+                  loadingNotices ? (
+                    <div
+                      key={i}
+                      aria-hidden
+                      style={{
+                        background: "#fff",
+                        border: `1px solid ${PALETTE.line}`,
+                        borderRadius: 14,
+                        padding: "16px 18px",
+                        boxShadow: PALETTE.shadowSm,
+                      }}
+                    >
+                      <div style={{ height: 18, width: "70%", background: "#EEF2F7", borderRadius: 6, marginBottom: 10 }} />
+                      <div style={{ height: 12, width: 120, background: "#EEF2F7", borderRadius: 6 }} />
+                    </div>
+                  ) : (
+                    <a
+                      key={item.id}
+                      href={item.to}
+                      style={{
+                        display: "block",
+                        background: "#fff",
+                        border: `1px solid ${PALETTE.line}`,
+                        borderRadius: 14,
+                        padding: "16px 18px",
+                        boxShadow: PALETTE.shadowSm,
+                        textDecoration: "none",
+                        color: "inherit",
+                        transition: "transform .12s ease, box-shadow .12s ease",
+                      }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.transform = "translateY(-2px)";
+                        e.currentTarget.style.boxShadow = "0 10px 22px rgba(0,0,0,.08)";
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.transform = "none";
+                        e.currentTarget.style.boxShadow = PALETTE.shadowSm;
+                      }}
+                    >
+                      <div style={{ fontWeight: 800, fontSize: 18, lineHeight: 1.35, marginBottom: 6 }}>{item.title}</div>
+                      {item.date && (
+                        <time style={{ color: PALETTE.grayText, fontSize: 12 }}>{item.date}</time>
+                      )}
+                    </a>
+                  )
+                )}
+                {!loadingNotices && (noticesSplit.정보공개 || []).length === 0 && (
+                  <div style={{ color: PALETTE.grayText, fontSize: 14 }}>표시할 정보공개가 없습니다.</div>
+                )}
+              </div>
             </div>
-            <div style={{ display: "grid", gap: 18 }}>
-              {(loadingNotices ? Array.from({ length: 4 }) : (noticesSplit.정보공개 || []).slice(0, 5)).map((item, i) =>
-                loadingNotices ? (
-                  <div
-                    key={i}
-                    aria-hidden
-                    style={{
-                      background: "#fff",
-                      border: `1px solid ${PALETTE.line}`,
-                      borderRadius: 14,
-                      padding: "16px 18px",
-                      boxShadow: PALETTE.shadowSm,
-                    }}
-                  >
-                    <div style={{ height: 18, width: "70%", background: "#EEF2F7", borderRadius: 6, marginBottom: 10 }} />
-                    <div style={{ height: 12, width: 120, background: "#EEF2F7", borderRadius: 6 }} />
-                  </div>
-                ) : (
-                  <a
-                    key={item.id}
-                    href={item.to}
-                    style={{
-                      display: "block",
-                      background: "#fff",
-                      border: `1px solid ${PALETTE.line}`,
-                      borderRadius: 14,
-                      padding: "16px 18px",
-                      boxShadow: PALETTE.shadowSm,
-                      textDecoration: "none",
-                      color: "inherit",
-                      transition: "transform .12s ease, box-shadow .12s ease",
-                    }}
-                    onMouseEnter={(e) => {
-                      e.currentTarget.style.transform = "translateY(-2px)";
-                      e.currentTarget.style.boxShadow = "0 10px 22px rgba(0,0,0,.08)";
-                    }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.transform = "none";
-                      e.currentTarget.style.boxShadow = PALETTE.shadowSm;
-                    }}
-                  >
-                    <div style={{ fontWeight: 800, fontSize: 18, lineHeight: 1.35, marginBottom: 6 }}>{item.title}</div>
-                    {item.date && (
-                      <time style={{ color: PALETTE.grayText, fontSize: 12 }}>{item.date}</time>
-                    )}
-                  </a>
-                )
-              )}
-              {!loadingNotices && (noticesSplit.정보공개 || []).length === 0 && (
-                <div style={{ color: PALETTE.grayText, fontSize: 14 }}>표시할 정보공개가 없습니다.</div>
-              )}
-            </div>
-          </div>
+          )}
         </div>
       </Section>
       {/* 바닥 간격 */}
