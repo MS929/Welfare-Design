@@ -54,7 +54,7 @@ collections:
         widget: "markdown"
 
   - name: "notices"
-    label: "공지/공모"
+    label: "공지사항"
     folder: "src/content/notices"
     create: true
     format: "frontmatter"
@@ -66,7 +66,7 @@ collections:
       - label: "카테고리"              # ✅ 추가
         name: "category"
         widget: "select"
-        options: ["공지", "공모"]
+        options: ["공지", "정보공개"]
         default: "공지"
       - { label: "본문", name: "body", widget: "markdown" }
 
