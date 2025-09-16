@@ -26,10 +26,7 @@ const CONTAINER = 1360;
 
 // Hero carousel images (2개만 사용)
 // 아래 두 파일을 교체해서 쓰세요: /public/images/hero/hero1.jpg, /public/images/hero/hero2.jpg
-const HERO_IMAGES = [
-  "/images/hero/hero1.jpg",
-  "/images/hero/hero2.jpg",
-];
+const HERO_IMAGES = ["/images/dog.png", "/images/light.png"];
 const HERO_INTERVAL = 10000; // 10초
 
 // ===== Utils (match Home.jsx behavior) =====
