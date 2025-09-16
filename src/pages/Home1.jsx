@@ -54,19 +54,39 @@ function formatDate(v) {
   return "";
 }
 
-const Section = ({ children, style, fullBleed = false }) => (
-  <section
-    style={{
-      maxWidth: CONTAINER,
-      width: fullBleed ? "100vw" : "100%",
-      margin: fullBleed ? "0 calc(50% - 50vw)" : "0 auto",
-      padding: "40px 24px",
-      ...style,
-    }}
-  >
-    {children}
-  </section>
-);
+const Section = ({ children, style, fullBleed = false }) => {
+  if (fullBleed) {
+    // full-bleed background stripe, with an inner centered container
+    return (
+      <section
+        style={{
+          width: "100vw",
+          margin: "0 calc(50% - 50vw)",
+          padding: "40px 0",
+          ...style,
+        }}
+      >
+        <div style={{ maxWidth: CONTAINER, margin: "0 auto", padding: "0 24px" }}>
+          {children}
+        </div>
+      </section>
+    );
+  }
+  // normal constrained section
+  return (
+    <section
+      style={{
+        maxWidth: CONTAINER,
+        width: "100%",
+        margin: "0 auto",
+        padding: "40px 24px",
+        ...style,
+      }}
+    >
+      {children}
+    </section>
+  );
+};
 
 const Pill = ({ label, icon, color, onClick }) => (
   <button
