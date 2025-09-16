@@ -618,7 +618,7 @@ export default function Home1() {
       </div>
 
       {/* 공지사항 – 최신 5개 리스트 (CMS 파일 연동) */}
-      <Section style={{ paddingTop: 32 }}>
+      <Section style={{ paddingTop: 38 }}>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginBottom: 12 }}>
           <h2 style={{ margin: 0, fontSize: 22, fontWeight: 900 }}>공지사항</h2>
           <a href="/news/notices" style={{ color: PALETTE.teal, fontWeight: 800, textDecoration: "none" }}>
