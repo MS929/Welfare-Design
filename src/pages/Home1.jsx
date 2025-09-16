@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import matter from "gray-matter";
 // src/pages/Home1.jsx
 // 팔레트 (우리 브랜드 컬러로, 레퍼런스 톤을 흉내냄)
@@ -21,6 +21,36 @@ const PALETTE = {
   radiusLg: 22,
   radiusXl: 28,
 };
+
+// ===== Utils (match Home.jsx behavior) =====
+function parseDatedSlug(filepath) {
+  const name = filepath.split("/").pop() || "";
+  const m = name.match(/^(\d{4}-\d{2}-\d{2})-(.+)\.(md|mdx)$/);
+  if (!m) {
+    return {
+      date: null,
+      slug: name.replace(/\.(md|mdx)$/i, ""),
+      titleFromFile: name.replace(/\.(md|mdx)$/i, ""),
+    };
+  }
+  const [, date, rest] = m;
+  const slug = rest
+    .normalize("NFKD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^a-zA-Z0-9가-힣-]+/g, "-")
+    .replace(/^-+|-+$/g, "")
+    .toLowerCase();
+  return { date, slug, titleFromFile: rest };
+}
+
+function formatDate(v) {
+  if (!v) return "";
+  try {
+    if (typeof v === "string") return v.slice(0, 10);
+    if (v instanceof Date && !isNaN(v)) return v.toISOString().slice(0, 10);
+  } catch {}
+  return "";
+}
 
 const Section = ({ children, style }) => (
   <section
@@ -234,55 +264,69 @@ export default function Home1() {
           {/* 좌측 고정 영역 */}
           {(() => {
             const [active, setActive] = useState("전체");
-            const pills = ["전체", "인터뷰", "행사", "공탁", "공조동행"];
             const [items, setItems] = useState([]);
 
-            // 빌드타임에 CMS가 생성한 MD/MDX 파일에서 최신 글을 수집
             useEffect(() => {
               try {
-                const modules = import.meta.glob(
-                  "/src/content/stories/**/*.{md,mdx}",
-                  { eager: true, query: "?raw", import: "default" }
-                );
+                const modules = import.meta.glob("/src/content/stories/*.{md,mdx}", {
+                  eager: true,
+                  query: "?raw",
+                  import: "default",
+                });
 
-                const list = Object.entries(modules)
-                  .map(([path, raw]) => {
-                    const { data } = matter(raw);
-                    // 파일명 기반 slug 폴백
-                    const fileSlug = path.split("/").pop().replace(/\.(md|mdx)$/i, "");
-                    const rawType = data?.type || data?.category || "";
-                    const typeMap = {
-                      행사안내: "행사",
-                      이벤트: "행사",
-                      활동소식: "활동",
-                      인터뷰: "인터뷰",
-                      공탁: "공탁",
-                      공조동행: "공조동행",
-                    };
-                    const type = typeMap[rawType] || rawType;
-                    return {
-                      title: data?.title || "",
-                      date: data?.date || "",
-                      slug: data?.slug || fileSlug,
-                      type,
-                    };
-                  })
-                  .filter((v) => v.title && v.slug);
+                const mapped = Object.entries(modules).map(([path, raw]) => {
+                  const { data } = matter(raw);
+                  const meta = parseDatedSlug(path);
+                  const base = (path.split("/").pop() || "").replace(/\.(md|mdx)$/i, "");
+                  const rawType = (data?.category || data?.type || "기타").trim();
+                  const typeMap = {
+                    행사안내: "행사",
+                    이벤트: "행사",
+                    활동소식: "활동",
+                    인터뷰: "인터뷰",
+                    공탁: "공탁",
+                    공조동행: "공조동행",
+                  };
+                  const type = typeMap[rawType] || rawType;
+                  return {
+                    id: path,
+                    title: data?.title || meta.titleFromFile,
+                    date: formatDate(data?.date) || formatDate(meta.date),
+                    slug: base,
+                    type,
+                    thumbnail: data?.thumbnail || null,
+                  };
+                });
 
-                // 최신순 정렬 후 상위 12개만
-                list.sort((a, b) => (b.date || "").localeCompare(a.date || ""));
-                setItems(list.slice(0, 12));
+                mapped.sort((a, b) => {
+                  const ad = a.date ? new Date(a.date) : new Date(0);
+                  const bd = b.date ? new Date(b.date) : new Date(0);
+                  if (!isNaN(bd) && !isNaN(ad) && bd.getTime() !== ad.getTime()) {
+                    return bd.getTime() - ad.getTime();
+                  }
+                  return (b.id || "").localeCompare(a.id || "");
+                });
+                setItems(mapped);
               } catch (e) {
-                // 폴백: 최소한 하드코딩  몇 개 (빌드 실패 대비)
-                setItems([
-                  { title: "인터뷰 – 222222", date: "2025-09-11", slug: "2025-09-11-222222", type: "인터뷰" },
-                  { title: "인터뷰 – 123123123", date: "2025-09-11", slug: "2025-09-11-123123123", type: "인터뷰" },
-                  { title: "공조동행 – ㅂㅂㅂㅂ", date: "2025-09-09", slug: "2025-09-09-ㅂㅂㅂㅂ", type: "공조동행" },
-                  { title: "인터뷰 – 12312312", date: "2025-09-09", slug: "2025-09-09-12312312", type: "인터뷰" },
-                  { title: "인터뷰 – 3332323", date: "2025-09-09", slug: "2025-09-09-3332323", type: "인터뷰" },
-                ]);
+                console.warn("스토리 로드 실패:", e);
+                setItems([]);
               }
             }, []);
+
+            // 동적 탭: 데이터에 있는 카테고리로 생성 (Home.jsx와 동일 경험)
+            const pills = useMemo(() => {
+              const cats = Array.from(new Set(items.map((i) => i.type).filter(Boolean)));
+              const order = ["인터뷰", "행사", "활동", "공탁", "공조동행"]; // 선호 순서
+              cats.sort((a, b) => {
+                const ia = order.indexOf(a);
+                const ib = order.indexOf(b);
+                if (ia !== -1 && ib !== -1) return ia - ib;
+                if (ia !== -1) return -1;
+                if (ib !== -1) return 1;
+                return a.localeCompare(b, "ko");
+              });
+              return ["전체", ...cats];
+            }, [items]);
 
             const filtered = items.filter((d) => active === "전체" || d.type === active);
 
@@ -309,7 +353,7 @@ export default function Home1() {
                   >
                     더보기 <span aria-hidden>›</span>
                   </a>
-                  {/* 필터 칩 */}
+                  {/* 필터 탭: 더보기 아래 세로 동그라미 */}
                   <div
                     style={{
                       display: "flex",
@@ -352,9 +396,9 @@ export default function Home1() {
                       gap: 18,
                     }}
                   >
-                    {filtered.map((n, i) => (
+                    {filtered.map((n) => (
                       <StoryCard
-                        key={i}
+                        key={n.slug}
                         title={n.title}
                         date={n.date}
                         href={`/news/stories/${encodeURIComponent(n.slug)}`}
