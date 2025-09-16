@@ -317,7 +317,7 @@ export default function Home1() {
                   </div>
                 </div>
               </>
-            );
+            );  
           })()}
         </div>
       </Section>
