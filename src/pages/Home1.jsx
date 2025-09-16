@@ -102,17 +102,6 @@ const StoryCard = ({ title, date, href = "/news/stories" }) => (
 );
 
 export default function Home1() {
-  const [active, setActive] = useState("전체");
-  const pills = ["전체", "행사", "활동", "기타"];
-  const dataStories = [
-    { title: "인터뷰 – 222222", date: "2025-09-11", href: "/news/stories?type=인터뷰&title=222222", type: "활동" },
-    { title: "인터뷰 – 123123123", date: "2025-09-11", href: "/news/stories?type=인터뷰&title=123123123", type: "활동" },
-    { title: "공지 – ㅈㅈㅈㅈㅈ", date: "2025-09-11", href: "/news/stories?type=공지&title=ㅈㅈㅈㅈㅈ", type: "기타" },
-    { title: "공조동행 – ㅂㅂㅂㅂ", date: "2025-09-09", href: "/news/stories?type=공조동행&title=ㅂㅂㅂㅂ", type: "활동" },
-    { title: "인터뷰 – 12312312", date: "2025-09-09", href: "/news/stories?type=인터뷰&title=12312312", type: "활동" },
-    { title: "인터뷰 – 3332323", date: "2025-09-09", href: "/news/stories?type=인터뷰&title=3332323", type: "활동" },
-  ];
-  const filteredStories = dataStories.filter((d) => active === "전체" || d.type === active);
   return (
     <main style={{ background: "#fff" }}>
       {/* HERO (레퍼런스형: 베이지 배경 + 좌측 반원 이미지 + 우측 텍스트) */}
@@ -232,7 +221,7 @@ export default function Home1() {
 
       {/* 동행이야기(=소식) 그리드 */}
       <Section>
-        {/* 상단: 좌측 설명 + 우측 비워둠 (참고 레이아웃과 동일) */}
+        {/* 좌측 설명 + 우측 리스트 레이아웃 */}
         <div
           style={{
             display: "grid",
@@ -241,6 +230,7 @@ export default function Home1() {
             alignItems: "start",
           }}
         >
+          {/* 좌측 고정 영역 */}
           <div>
             <h2 style={{ margin: "0 0 8px 0", fontSize: 22, fontWeight: 900 }}>
               복지디자인 이야기
@@ -262,47 +252,71 @@ export default function Home1() {
               더보기 <span aria-hidden>›</span>
             </a>
           </div>
-          {/* 우측은 비워두어 카드가 아래에서 전체 폭을 사용하도록 함 */}
-          <div />
-        </div>
-
-        {/* 더보기 아래 한 줄 pill 필터 */}
-        <div style={{ display: "flex", gap: 10, flexWrap: "nowrap", margin: "12px 0 16px 0" }}>
-          {pills.map((label) => {
-            const isActive = active === label;
-            return (
-              <button
-                key={label}
-                onClick={() => setActive(label)}
-                style={{
-                  cursor: "pointer",
-                  border: `1px solid ${PALETTE.line}`,
-                  borderRadius: 999,
-                  padding: "10px 16px",
-                  fontWeight: 800,
-                  background: isActive ? PALETTE.teal : "#fff",
-                  color: isActive ? "#fff" : PALETTE.darkText,
-                  boxShadow: "0 2px 6px rgba(0,0,0,.04)",
-                  whiteSpace: "nowrap",
-                }}
-              >
-                {label}
-              </button>
-            );
-          })}
-        </div>
-
-        {/* 카드 그리드 */}
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(3, minmax(0,1fr))",
-            gap: 18,
-          }}
-        >
-          {filteredStories.map((n, i) => (
-            <StoryCard key={i} title={n.title} date={n.date} href={n.href} />
-          ))}
+  
+          {/* 우측: 필터 + 카드 그리드 */}
+          <div>
+            {/* 로컬 필터 상태 */}
+            {(() => {
+              const [active, setActive] = useState("전체");
+              const pills = ["전체", "행사", "활동", "기타"];
+    
+              const data = [
+                { title: "인터뷰 – 222222", date: "2025-09-11", href: "/news/stories?type=인터뷰&title=222222", type: "활동" },
+                { title: "인터뷰 – 123123123", date: "2025-09-11", href: "/news/stories?type=인터뷰&title=123123123", type: "활동" },
+                { title: "공지 – ㅈㅈㅈㅈㅈ", date: "2025-09-11", href: "/news/stories?type=공지&title=ㅈㅈㅈㅈㅈ", type: "기타" },
+                { title: "공조동행 – ㅂㅂㅂㅂ", date: "2025-09-09", href: "/news/stories?type=공조동행&title=ㅂㅂㅂㅂ", type: "활동" },
+                { title: "인터뷰 – 12312312", date: "2025-09-09", href: "/news/stories?type=인터뷰&title=12312312", type: "활동" },
+                { title: "인터뷰 – 3332323", date: "2025-09-09", href: "/news/stories?type=인터뷰&title=3332323", type: "활동" },
+              ];
+    
+              const filtered = data.filter(
+                (d) => active === "전체" || d.type === active
+              );
+    
+              return (
+                <>
+                  {/* 필터 pill 한 줄 */}
+                  <div style={{ display: "flex", flexDirection: "column", gap: 10, marginBottom: 16 }}>
+                    {pills.map((label) => {
+                      const isActive = active === label;
+                      return (
+                        <button
+                          key={label}
+                          onClick={() => setActive(label)}
+                          style={{
+                            cursor: "pointer",
+                            border: `1px solid ${PALETTE.line}`,
+                            borderRadius: 999,
+                            padding: "10px 16px",
+                            fontWeight: 800,
+                            background: isActive ? PALETTE.teal : "#fff",
+                            color: isActive ? "#fff" : PALETTE.darkText,
+                            boxShadow: "0 2px 6px rgba(0,0,0,.04)",
+                            whiteSpace: "nowrap",
+                          }}
+                        >
+                          {label}
+                        </button>
+                      );
+                    })}
+                  </div>
+    
+                  {/* 카드 그리드 */}
+                  <div
+                    style={{
+                      display: "grid",
+                      gridTemplateColumns: "repeat(3, minmax(0,1fr))",
+                      gap: 18,
+                    }}
+                  >
+                    {filtered.map((n, i) => (
+                      <StoryCard key={i} title={n.title} date={n.date} href={n.href} />
+                    ))}
+                  </div>
+                </>
+              );
+            })()}
+          </div>
         </div>
       </Section>
 
