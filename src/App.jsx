@@ -7,7 +7,8 @@ import { useEffect } from "react";
 import Navbar from "./components/Navbar.jsx";
 import Footer from "./components/Footer.jsx";
 import Home from "./pages/Home.jsx";
-import Home1 from "./pages/Home1.jsx";
+import * as Home1Module from "./pages/Home1.jsx";
+const Home1 = Home1Module.default ?? Home1Module.Home1 ?? (() => null);
 
 /* 소개 */
 import AboutWhat from "./pages/about/WhatIs.jsx";
@@ -60,7 +61,7 @@ function ScrollToTop() {
 
 export default function App() {
   return (
-    <div className="font-sans min-h-screen flex flex-col">
+    <div className="font-sans min-h-screen flex flex-col bg-white">
       <Navbar />
       <ScrollToTop />
       <main className="flex-1">
