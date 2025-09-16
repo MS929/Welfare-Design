@@ -337,91 +337,7 @@ export default function Home1() {
                   }}
                 />
               ))}
-              {/* === Overlay controls on image === */}
-              {/* Left arrow */}
-              <button
-                type="button"
-                aria-label="이전 이미지"
-                onClick={prevHero}
-                style={{
-                  position: "absolute",
-                  top: "50%",
-                  left: 10,
-                  transform: "translateY(-50%)",
-                  width: 36,
-                  height: 36,
-                  borderRadius: "50%",
-                  border: `1px solid ${PALETTE.line}`,
-                  background: "rgba(255,255,255,.92)",
-                  boxShadow: "0 2px 8px rgba(0,0,0,.12)",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  fontWeight: 800,
-                  fontSize: 16,
-                  cursor: "pointer",
-                }}
-              >
-                {"<"}
-              </button>
-              {/* Right arrow */}
-              <button
-                type="button"
-                aria-label="다음 이미지"
-                onClick={nextHero}
-                style={{
-                  position: "absolute",
-                  top: "50%",
-                  right: 10,
-                  transform: "translateY(-50%)",
-                  width: 36,
-                  height: 36,
-                  borderRadius: "50%",
-                  border: `1px solid ${PALETTE.line}`,
-                  background: "rgba(255,255,255,.92)",
-                  boxShadow: "0 2px 8px rgba(0,0,0,.12)",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  fontWeight: 800,
-                  fontSize: 16,
-                  cursor: "pointer",
-                }}
-              >
-                {">"}
-              </button>
-              {/* Bottom-centered dots */}
-              <div
-                style={{
-                  position: "absolute",
-                  left: 0,
-                  right: 0,
-                  bottom: 12,
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  gap: 10,
-                }}
-              >
-                {HERO_IMAGES.map((_, i) => (
-                  <button
-                    key={i}
-                    type="button"
-                    aria-label={`이미지 ${i + 1} 보기`}
-                    onClick={() => goTo(i)}
-                    style={{
-                      width: 10,
-                      height: 10,
-                      borderRadius: 999,
-                      border: "1px solid rgba(0,0,0,.1)",
-                      background: i === heroIndex ? PALETTE.teal : "rgba(255,255,255,.9)",
-                      boxShadow: "0 1px 2px rgba(0,0,0,.12)",
-                      cursor: "pointer",
-                    }}
-                  />
-                ))}
-              </div>
-              {/* === /Overlay controls on image === */}
+            
             </div>
           </div>
 
@@ -1122,3 +1038,79 @@ export default function Home1() {
     </main>
   );
 }
+
+            {/* Outside controls under the image */}
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                gap: 12,
+                marginTop: 10,
+              }}
+            >
+              <button
+                type="button"
+                aria-label="이전 이미지"
+                onClick={prevHero}
+                style={{
+                  width: 36,
+                  height: 36,
+                  borderRadius: "50%",
+                  border: `1px solid ${PALETTE.line}`,
+                  background: "#fff",
+                  boxShadow: "0 2px 8px rgba(0,0,0,.08)",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  fontWeight: 800,
+                  fontSize: 16,
+                  cursor: "pointer",
+                }}
+              >
+                {"<"}
+              </button>
+
+              {/* dots */}
+              <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+                {HERO_IMAGES.map((_, i) => (
+                  <button
+                    key={i}
+                    type="button"
+                    aria-label={`이미지 ${i + 1} 보기`}
+                    onClick={() => goTo(i)}
+                    style={{
+                      width: 10,
+                      height: 10,
+                      borderRadius: 999,
+                      border: "1px solid rgba(0,0,0,.1)",
+                      background: i === heroIndex ? PALETTE.teal : "#fff",
+                      boxShadow: "0 1px 2px rgba(0,0,0,.12)",
+                      cursor: "pointer",
+                    }}
+                  />
+                ))}
+              </div>
+
+              <button
+                type="button"
+                aria-label="다음 이미지"
+                onClick={nextHero}
+                style={{
+                  width: 36,
+                  height: 36,
+                  borderRadius: "50%",
+                  border: `1px solid ${PALETTE.line}`,
+                  background: "#fff",
+                  boxShadow: "0 2px 8px rgba(0,0,0,.08)",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  fontWeight: 800,
+                  fontSize: 16,
+                  cursor: "pointer",
+                }}
+              >
+                {">"}
+              </button>
+            </div>
