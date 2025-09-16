@@ -410,7 +410,7 @@ export default function Home1() {
                 </div>
 
                 {/* 우측: 카드 그리드 */}
-                <div>
+                <div style={{ marginTop: 96 }}>
                   <div
                     style={{
                       display: "grid",
