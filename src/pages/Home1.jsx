@@ -626,7 +626,7 @@ export default function Home1() {
           </a>
         </div>
 
-        <div style={{ display: "grid", gap: 12 }}>
+        <div style={{ display: "grid", gap: 18 }}>
           {(loadingNotices ? Array.from({ length: 4 }) : notices.slice(0, 5)).map((item, i) => (
             loadingNotices ? (
               <div
