@@ -361,11 +361,6 @@ export default function Home() {
         >
           {/* 좌측: 타이틀/설명/CTA */}
           <div style={{ textAlign: "left", color: COLOR.text, maxWidth: 720 }}>
-            {/* 작은 라벨 */}
-            <div style={{ display: "inline-flex", alignItems: "center", gap: 10, marginBottom: 12 }}>
-              <span aria-hidden style={{ width: 8, height: 8, background: COLOR.secondary, borderRadius: 999 }} />
-              <span style={{ fontWeight: 800, letterSpacing: ".12em", fontSize: 12, color: COLOR.textMuted }}>WELFARE DESIGN</span>
-            </div>
 
             <h1
               style={{
@@ -387,38 +382,6 @@ export default function Home() {
             <p style={{ margin: "16px 0 0", color: COLOR.textMuted, fontSize: 16, maxWidth: 640 }}>
               주민·기관·전문가가 협력하는 맞춤형 복지 플랫폼을 설계·운영합니다.
             </p>
-
-            {/* CTA */}
-            <div style={{ display: "flex", gap: 10, marginTop: 18, flexWrap: "wrap" }}>
-              <Link
-                to="/support/guide"
-                style={{
-                  padding: "10px 16px",
-                  borderRadius: 999,
-                  background: COLOR.primary,
-                  color: "#fff",
-                  textDecoration: "none",
-                  fontWeight: 700,
-                  boxShadow: TOKENS.shadowSm,
-                }}
-              >
-                후원 안내
-              </Link>
-              <Link
-                to="/support/combination"
-                style={{
-                  padding: "10px 16px",
-                  borderRadius: 999,
-                  border: `1px solid ${COLOR.primary}`,
-                  background: "#fff",
-                  color: COLOR.primary,
-                  textDecoration: "none",
-                  fontWeight: 700,
-                }}
-              >
-                조합 가입
-              </Link>
-            </div>
           </div>
 
           {/* 우측: 이미지 카드 */}
