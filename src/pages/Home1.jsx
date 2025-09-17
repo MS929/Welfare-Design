@@ -7,6 +7,8 @@ const PALETTE = {
   orange: "#ED6A32",
   yellow: "#F4B731",
   teal: "#3BA7A0",
+  grayBg: "#F5F7FA",
+  mintPeachBg: "linear-gradient(180deg, #E8F4F2 0%, #FCE9E2 100%)",
   grayCard: "#FFFFFF",
   grayText: "#64748B",
   darkText: "#111827",
@@ -470,7 +472,7 @@ export default function Home1() {
       {/* 빠르게가기 (민트색 스트립 + 헤드라인 + 4개 카드 링크) */}
       <div
         style={{
-          background: `linear-gradient(180deg, ${PALETTE.grayBg} 0%, #FFFFFF 100%)`,
+          background: PALETTE.mintPeachBg,
           padding: "28px 0",
           width: "100vw",
           marginLeft: "calc(50% - 50vw)",
@@ -832,7 +834,7 @@ export default function Home1() {
       {/* 지원사업 영역 (민트 스트립 배경) */}
       <div
         style={{
-          background: "linear-gradient(180deg, rgba(244,183,49,0.06) 0%, rgba(0,0,0,0) 100%)",
+          background: PALETTE.mintPeachBg,
           padding: "12px 0",
           width: "100vw",
           marginLeft: "calc(50% - 50vw)",
@@ -911,12 +913,12 @@ export default function Home1() {
                 onMouseEnter={(e) => {
                   e.currentTarget.style.transform = "translateY(-3px)";
                   e.currentTarget.style.boxShadow = "0 10px 22px rgba(0,0,0,.10)";
-                  e.currentTarget.style.borderColor = "${PALETTE.teal}";
+                  e.currentTarget.style.borderColor = PALETTE.teal;
                 }}
                 onMouseLeave={(e) => {
                   e.currentTarget.style.transform = "none";
                   e.currentTarget.style.boxShadow = "0 6px 16px rgba(0,0,0,.06)";
-                  e.currentTarget.style.borderColor = "${PALETTE.line}";
+                  e.currentTarget.style.borderColor = PALETTE.line;
                 }}
               >
                 <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
