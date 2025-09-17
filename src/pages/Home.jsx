@@ -343,7 +343,7 @@ export default function Home() {
           width: "100vw",
           marginLeft: "calc(50% - 50vw)",
           marginRight: "calc(50% - 50vw)",
-          background: "#FFFFFF",
+          background: "linear-gradient(90deg, #FFF9E8 0%, #FFFFFF 55%)",
           borderBottom: "none",
           marginBottom: isMobile ? 12 : 16,
         }}
