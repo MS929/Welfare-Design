@@ -803,6 +803,7 @@ export default function Home1() {
                       color: PALETTE.teal,
                       fontWeight: 800,
                       marginBottom: 16,
+                      marginLeft: 8,
                     }}
                   >
                     더보기 <span aria-hidden>›</span>
