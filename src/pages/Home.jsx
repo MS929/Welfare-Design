@@ -160,7 +160,7 @@ export default function Home() {
   // 스토리 탭 필터: 전체, 행사, 활동, 기타
   const [storiesTab, setStoriesTab] = useState("전체");
   // 히어로 이미지: 우선 순위 경로 → 존재하지 않으면 /public/main.png 로 폴백
-  const [heroSrc, setHeroSrc] = useState("/images/main.png");
+  const [heroSrc, setHeroSrc] = useState("/images/hero/dog.png");
 
   // (삭제됨) CTA hover states
   // 카드 hover 상태
