@@ -844,7 +844,7 @@ export default function Home1() {
                 </div>
 
                 {/* 우측: 카드 그리드 (상단을 좌측 필터의 상단과 맞춤) */}
-                <div style={{ marginTop: 18 }}>
+                <div style={{ marginTop: 32 }}>
                   <div
                     style={{
                       display: "grid",
