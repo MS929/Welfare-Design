@@ -1,18 +1,13 @@
 import { useState, useEffect, useMemo, useRef } from "react";
 import matter from "gray-matter";
 import { Link } from "react-router-dom";
+
 // src/pages/Home1.jsx
-// 팔레트 (우리 브랜드 컬러로, 레퍼런스 톤을 흉내냄)
+// 팔레트 (브랜드 3색 + 중립계열만 사용)
 const PALETTE = {
   orange: "#ED6A32",
   yellow: "#F4B731",
   teal: "#3BA7A0",
-  tealDark: "#2D7E79",
-  tealLight: "#E6F5F2",
-  mintBar: "#D8F3EC",
-  beige: "#FBF6EF",
-  beigeSoft: "#F7EFE5",
-  grayBg: "#F5F7FA",
   grayCard: "#FFFFFF",
   grayText: "#64748B",
   darkText: "#111827",
@@ -27,12 +22,11 @@ const PALETTE = {
 
 const CONTAINER = 1360;
 
-// Hero carousel images (2개만 사용)
-// 아래 두 파일을 교체해서 쓰세요: /public/images/hero/hero1.jpg, /public/images/hero/hero2.jpg
+// Hero carousel images (2개만 사용) — /public/images/hero/ 폴더에 넣어 사용
 const HERO_IMAGES = ["/images/hero/dog.png", "/images/hero/light.png"];
 const HERO_INTERVAL = 10000; // 10초
 
-// ===== Utils (match Home.jsx behavior) =====
+// ===== Utils =====
 function parseDatedSlug(filepath) {
   const name = filepath.split("/").pop() || "";
   const m = name.match(/^(\d{4}-\d{2}-\d{2})-(.+)\.(md|mdx)$/);
@@ -53,7 +47,6 @@ function parseDatedSlug(filepath) {
   return { date, slug, titleFromFile: rest };
 }
 
-
 function formatDate(v) {
   if (!v) return "";
   try {
@@ -63,16 +56,15 @@ function formatDate(v) {
   return "";
 }
 
-// Normalize notice categories coming from CMS (e.g., "공모" -> "정보공개", "정보 공개" -> "정보공개")
+// CMS 카테고리 정규화 ("공모" 등 → "정보공개")
 function normalizeNoticeCategory(v) {
   const s = (v ?? "").toString().trim();
   if (!s) return "공지";
-  // remove spaces/hyphens to compare variants like "정보 공개", "정보-공개"
   const compact = s.replace(/[\s-]/g, "");
   if (compact === "공모") return "정보공개";
   if (compact.includes("정보") && compact.includes("공개")) return "정보공개";
   if (s.startsWith("공지")) return "공지";
-  return s; // otherwise keep as-is
+  return s;
 }
 
 const Section = ({
@@ -82,7 +74,6 @@ const Section = ({
   innerMaxWidth = CONTAINER,
 }) => {
   if (fullBleed) {
-    // full-bleed background stripe, with an inner centered container
     return (
       <section
         style={{
@@ -92,13 +83,18 @@ const Section = ({
           ...style,
         }}
       >
-        <div style={{ maxWidth: innerMaxWidth, margin: "0 auto", padding: "0 24px" }}>
+        <div
+          style={{
+            maxWidth: innerMaxWidth,
+            margin: "0 auto",
+            padding: "0 24px",
+          }}
+        >
           {children}
         </div>
       </section>
     );
   }
-  // normal constrained section
   return (
     <section
       style={{
@@ -161,8 +157,14 @@ const StoryCard = ({ title, date, href = "/news/stories", thumbnail }) => (
         overflow: "hidden",
         transition: "transform .12s ease, box-shadow .12s ease",
       }}
-      onMouseEnter={(e)=>{ e.currentTarget.style.transform="translateY(-4px)"; e.currentTarget.style.boxShadow="0 14px 28px rgba(15,23,42,.12)"; }}
-      onMouseLeave={(e)=>{ e.currentTarget.style.transform="none"; e.currentTarget.style.boxShadow=PALETTE.shadowSm; }}
+      onMouseEnter={(e) => {
+        e.currentTarget.style.transform = "translateY(-4px)";
+        e.currentTarget.style.boxShadow = "0 14px 28px rgba(15,23,42,.12)";
+      }}
+      onMouseLeave={(e) => {
+        e.currentTarget.style.transform = "none";
+        e.currentTarget.style.boxShadow = PALETTE.shadowSm;
+      }}
     >
       <div
         aria-hidden
@@ -198,7 +200,6 @@ const StoryCard = ({ title, date, href = "/news/stories", thumbnail }) => (
 export default function Home1() {
   const [notices, setNotices] = useState([]);
   const [loadingNotices, setLoadingNotices] = useState(true);
-  // Removed noticeScope filter UI; always show both columns
 
   // --- HERO carousel state ---
   const [heroIndex, setHeroIndex] = useState(0);
@@ -222,10 +223,12 @@ export default function Home1() {
 
   useEffect(() => {
     restartTimer();
-    return () => { if (timerRef.current) clearInterval(timerRef.current); };
+    return () => {
+      if (timerRef.current) clearInterval(timerRef.current);
+    };
   }, []);
 
-  // pre-load hero images for smoother transitions
+  // pre-load hero images
   useEffect(() => {
     HERO_IMAGES.forEach((src) => {
       const img = new Image();
@@ -233,6 +236,7 @@ export default function Home1() {
     });
   }, []);
 
+  // 공지 로드
   useEffect(() => {
     try {
       setLoadingNotices(true);
@@ -256,7 +260,6 @@ export default function Home1() {
         };
       });
 
-      // 최신순 + 파일명 역순(안정 정렬)
       mapped.sort((a, b) => {
         const ad = a.date ? new Date(a.date) : new Date(0);
         const bd = b.date ? new Date(b.date) : new Date(0);
@@ -284,14 +287,15 @@ export default function Home1() {
 
   return (
     <main style={{ background: "#fff" }}>
-      {/* HERO (레퍼런스형: 베이지 배경 + 좌측 반원 이미지 + 우측 텍스트) */}
+      {/* HERO (흰 → 연틸 그라데이션) */}
       <Section
         fullBleed
         innerMaxWidth={1500}
         style={{
           paddingTop: 80,
           paddingBottom: 96,
-          background: `linear-gradient(180deg, #FFFFFF 0%, ${PALETTE.tealLight} 100%)`,
+          background:
+            "linear-gradient(180deg, #FFFFFF 0%, rgba(59,167,160,0.12) 100%)",
         }}
       >
         <div
@@ -303,7 +307,7 @@ export default function Home1() {
             padding: "0 0",
           }}
         >
-          {/* 좌측 이미지 프레임 (수동/자동 캐러셀) + 하단 컨트롤 */}
+          {/* 좌측 이미지 + 컨트롤 */}
           <div
             style={{
               display: "flex",
@@ -357,7 +361,7 @@ export default function Home1() {
                 />
               ))}
             </div>
-            {/* 캐러셀 외부 컨트롤 (이미지 아래) */}
+            {/* 캐러셀 컨트롤 (이미지 아래) */}
             <div
               style={{
                 display: "flex",
@@ -386,17 +390,16 @@ export default function Home1() {
                   cursor: "pointer",
                   color: PALETTE.darkText,
                 }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.background = "#FAFAFA";
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.background = "#fff";
-                }}
+                onMouseEnter={(e) =>
+                  (e.currentTarget.style.background = "#FAFAFA")
+                }
+                onMouseLeave={(e) =>
+                  (e.currentTarget.style.background = "#fff")
+                }
               >
                 {"‹"}
               </button>
 
-              {/* dots */}
               <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
                 {HERO_IMAGES.map((_, i) => (
                   <button
@@ -438,12 +441,12 @@ export default function Home1() {
                   cursor: "pointer",
                   color: PALETTE.darkText,
                 }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.background = "#FAFAFA";
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.background = "#fff";
-                }}
+                onMouseEnter={(e) =>
+                  (e.currentTarget.style.background = "#FAFAFA")
+                }
+                onMouseLeave={(e) =>
+                  (e.currentTarget.style.background = "#fff")
+                }
               >
                 {"›"}
               </button>
@@ -473,10 +476,10 @@ export default function Home1() {
         </div>
       </Section>
 
-      {/* 빠르게가기 (민트색 스트립 + 헤드라인 + 4개 카드 링크) */}
+      {/* 빠르게가기 (연틸 스트립) */}
       <div
         style={{
-          background: PALETTE.tealLight,
+          background: "rgba(59,167,160,0.08)",
           padding: "28px 0",
           width: "100vw",
           marginLeft: "calc(50% - 50vw)",
@@ -492,7 +495,6 @@ export default function Home1() {
               alignItems: "center",
             }}
           >
-            {/* 좌측: 설명 영역 */}
             <div>
               <h3
                 style={{
@@ -517,7 +519,6 @@ export default function Home1() {
               </p>
             </div>
 
-            {/* 우측: 카드 링크 4개 */}
             <div
               style={{
                 display: "grid",
@@ -585,7 +586,7 @@ export default function Home1() {
                       height: 36,
                       borderRadius: 12,
                       background:
-                        `linear-gradient(180deg, #FFFFFF 0%, ${PALETTE.tealLight} 100%)`,
+                        "linear-gradient(180deg, #FFFFFF 0%, rgba(59,167,160,0.12) 100%)",
                       border: `1px solid ${PALETTE.teal}33`,
                       boxShadow: "0 2px 6px rgba(0,0,0,.06)",
                       display: "inline-flex",
@@ -638,9 +639,8 @@ export default function Home1() {
         </Section>
       </div>
 
-      {/* 동행이야기(=소식) 그리드 */}
+      {/* 복지디자인 이야기 */}
       <Section>
-        {/* 좌측 설명 + 우측 리스트 레이아웃 */}
         <div
           style={{
             display: "grid",
@@ -649,7 +649,6 @@ export default function Home1() {
             alignItems: "start",
           }}
         >
-          {/* 좌측 고정 영역 */}
           {(() => {
             const [active, setActive] = useState("전체");
             const [items, setItems] = useState([]);
@@ -658,13 +657,8 @@ export default function Home1() {
               try {
                 const modules = import.meta.glob(
                   "/src/content/stories/*.{md,mdx}",
-                  {
-                    eager: true,
-                    query: "?raw",
-                    import: "default",
-                  }
+                  { eager: true, query: "?raw", import: "default" }
                 );
-
                 const mapped = Object.entries(modules).map(([path, raw]) => {
                   const { data } = matter(raw);
                   const meta = parseDatedSlug(path);
@@ -677,7 +671,6 @@ export default function Home1() {
                     data?.type ||
                     "기타"
                   ).trim();
-                  // 레거시 카테고리를 새 기준(사업/교육/회의/기타)으로 변환
                   const legacyToNew = {
                     인터뷰: "교육",
                     교육: "교육",
@@ -692,9 +685,8 @@ export default function Home1() {
                     공지: "기타",
                   };
                   let type = legacyToNew[rawType] || rawType;
-                  if (!["사업", "교육", "회의", "기타"].includes(type)) {
-                    type = "기타"; // 미지정 값은 기타로 수렴
-                  }
+                  if (!["사업", "교육", "회의", "기타"].includes(type))
+                    type = "기타";
                   return {
                     id: path,
                     title: data?.title || meta.titleFromFile,
@@ -704,17 +696,11 @@ export default function Home1() {
                     thumbnail: data?.thumbnail || null,
                   };
                 });
-
                 mapped.sort((a, b) => {
                   const ad = a.date ? new Date(a.date) : new Date(0);
                   const bd = b.date ? new Date(b.date) : new Date(0);
-                  if (
-                    !isNaN(bd) &&
-                    !isNaN(ad) &&
-                    bd.getTime() !== ad.getTime()
-                  ) {
+                  if (!isNaN(bd) && !isNaN(ad) && bd.getTime() !== ad.getTime())
                     return bd.getTime() - ad.getTime();
-                  }
                   return (b.id || "").localeCompare(a.id || "");
                 });
                 setItems(mapped);
@@ -724,12 +710,10 @@ export default function Home1() {
               }
             }, []);
 
-            // 카테고리 탭: 고정된 순서와 값
             const pills = useMemo(
               () => ["전체", "사업", "교육", "회의", "기타"],
               []
             );
-
             const filtered = items.filter(
               (d) => active === "전체" || d.type === active
             );
@@ -769,7 +753,7 @@ export default function Home1() {
                   >
                     더보기 <span aria-hidden>›</span>
                   </a>
-                  {/* 필터 탭: 더보기 아래 세로 동그라미 */}
+                  {/* 더보기 아래 세로 정사각 버튼 */}
                   <div
                     style={{
                       display: "flex",
@@ -790,9 +774,7 @@ export default function Home1() {
                             height: 88,
                             borderRadius: 16,
                             border: `1px solid ${PALETTE.line}`,
-                            background: isActive
-                              ? `linear-gradient(180deg, ${PALETTE.teal} 0%, ${PALETTE.tealDark} 100%)`
-                              : "#fff",
+                            background: isActive ? PALETTE.teal : "#fff",
                             color: isActive ? "#fff" : PALETTE.darkText,
                             fontWeight: 800,
                             boxShadow: "0 2px 6px rgba(0,0,0,.04)",
@@ -812,7 +794,7 @@ export default function Home1() {
                   </div>
                 </div>
 
-                {/* 우측: 카드 그리드 */}
+                {/* 우측: 카드 3x2 (6개) */}
                 <div style={{ marginTop: 96 }}>
                   <div
                     style={{
@@ -838,10 +820,10 @@ export default function Home1() {
         </div>
       </Section>
 
-      {/* 지원사업 영역 (민트 스트립 배경) */}
+      {/* 지원사업 영역 (연틸 스트립) */}
       <div
         style={{
-          background: PALETTE.tealLight,
+          background: "rgba(59,167,160,0.08)",
           padding: "12px 0",
           width: "100vw",
           marginLeft: "calc(50% - 50vw)",
@@ -907,7 +889,7 @@ export default function Home1() {
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "space-between",
-                  background: `linear-gradient(180deg, ${PALETTE.teal} 0%, ${PALETTE.tealDark} 100%)`,
+                  background: PALETTE.teal,
                   border: "1px solid #FFFFFF1A",
                   color: "#fff",
                   borderRadius: PALETTE.radiusLg,
@@ -947,7 +929,6 @@ export default function Home1() {
                             <img
                               src={`${base}.svg`}
                               onError={(e) => {
-                                // If SVG is missing, fall back to PNG once
                                 e.currentTarget.onerror = null;
                                 e.currentTarget.src = `${base}.png`;
                               }}
@@ -975,7 +956,6 @@ export default function Home1() {
 
       {/* 공지/정보공개 – 두 칼럼 리스트 */}
       <Section style={{ paddingTop: 38 }}>
-        {/* 상단 타이틀 */}
         <div
           style={{
             display: "flex",
@@ -1009,7 +989,6 @@ export default function Home1() {
           </h2>
         </div>
 
-        {/* 두 칼럼 그리드 */}
         <div
           style={{
             display: "grid",
@@ -1103,11 +1082,30 @@ export default function Home1() {
                       e.currentTarget.style.boxShadow = PALETTE.shadowSm;
                     }}
                   >
-                    <div style={{ display:"flex", alignItems:"center", justifyContent:"space-between", gap:12, marginBottom:6 }}>
-                      <div style={{ fontWeight: 800, fontSize: 18, lineHeight: 1.35, overflow:"hidden", textOverflow:"ellipsis", whiteSpace:"nowrap" }}>
+                    <div
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "space-between",
+                        gap: 12,
+                        marginBottom: 6,
+                      }}
+                    >
+                      <div
+                        style={{
+                          fontWeight: 800,
+                          fontSize: 18,
+                          lineHeight: 1.35,
+                          overflow: "hidden",
+                          textOverflow: "ellipsis",
+                          whiteSpace: "nowrap",
+                        }}
+                      >
                         {item.title}
                       </div>
-                      <span aria-hidden style={{ color: PALETTE.grayText }}>›</span>
+                      <span aria-hidden style={{ color: PALETTE.grayText }}>
+                        ›
+                      </span>
                     </div>
                     {item.date && (
                       <time style={{ color: PALETTE.grayText, fontSize: 12 }}>
@@ -1213,11 +1211,30 @@ export default function Home1() {
                       e.currentTarget.style.boxShadow = PALETTE.shadowSm;
                     }}
                   >
-                    <div style={{ display:"flex", alignItems:"center", justifyContent:"space-between", gap:12, marginBottom:6 }}>
-                      <div style={{ fontWeight: 800, fontSize: 18, lineHeight: 1.35, overflow:"hidden", textOverflow:"ellipsis", whiteSpace:"nowrap" }}>
+                    <div
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "space-between",
+                        gap: 12,
+                        marginBottom: 6,
+                      }}
+                    >
+                      <div
+                        style={{
+                          fontWeight: 800,
+                          fontSize: 18,
+                          lineHeight: 1.35,
+                          overflow: "hidden",
+                          textOverflow: "ellipsis",
+                          whiteSpace: "nowrap",
+                        }}
+                      >
                         {item.title}
                       </div>
-                      <span aria-hidden style={{ color: PALETTE.grayText }}>›</span>
+                      <span aria-hidden style={{ color: PALETTE.grayText }}>
+                        ›
+                      </span>
                     </div>
                     {item.date && (
                       <time style={{ color: PALETTE.grayText, fontSize: 12 }}>
@@ -1237,7 +1254,7 @@ export default function Home1() {
           </div>
         </div>
       </Section>
-      {/* 바닥 간격 */}
+
       <div style={{ height: 36 }} />
     </main>
   );
