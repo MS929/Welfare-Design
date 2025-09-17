@@ -707,6 +707,24 @@ export default function Home1() {
             const [active, setActive] = useState("전체");
             const [items, setItems] = useState([]);
 
+            // align right grid top to the bottom of the left pills (기타)
+            const leftColRef = useRef(null);
+            const pillsWrapRef = useRef(null);
+            const [gridOffset, setGridOffset] = useState(0);
+
+            useEffect(() => {
+              const recalc = () => {
+                if (!leftColRef.current || !pillsWrapRef.current) return;
+                const leftTop = leftColRef.current.getBoundingClientRect().top;
+                const pillsBottom = pillsWrapRef.current.getBoundingClientRect().bottom;
+                const offset = Math.max(0, Math.round(pillsBottom - leftTop));
+                setGridOffset(offset);
+              };
+              recalc();
+              window.addEventListener("resize", recalc);
+              return () => window.removeEventListener("resize", recalc);
+            }, []);
+
             useEffect(() => {
               try {
                 const modules = import.meta.glob(
@@ -789,7 +807,7 @@ export default function Home1() {
 
             return (
               <>
-                <div>
+                <div ref={leftColRef}>
                   <h2
                     style={{
                       margin: "0 0 8px 0",
@@ -837,6 +855,7 @@ export default function Home1() {
                   </a>
                   {/* 필터 탭: 더보기 아래 세로 동그라미 */}
                   <div
+                    ref={pillsWrapRef}
                     style={{
                       display: "flex",
                       flexDirection: "column",
@@ -877,7 +896,7 @@ export default function Home1() {
                 </div>
 
                 {/* 우측: 카드 그리드 */}
-                <div style={{ marginTop: 0 }}>
+                <div style={{ marginTop: gridOffset }}>
                   <div
                     style={{
                       display: "grid",
