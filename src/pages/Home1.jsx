@@ -791,26 +791,59 @@ export default function Home1() {
 
             return (
               <>
-                {/* 좌측: 카테고리 필터만 세로 배치 */}
+                {/* 좌측: 필터와 더보기 링크 */}
                 <div>
-                  <a
-                    href="/news/stories"
-                    style={{
-                      display: "inline-flex",
-                      alignItems: "center",
-                      gap: 6,
-                      textDecoration: "none",
-                      color: PALETTE.teal,
-                      fontWeight: 800,
-                      marginBottom: 16,
-                    }}
-                  >
-                    더보기 <span aria-hidden>›</span>
-                  </a>
-                  <div
-                    style={{ display: "flex", flexDirection: "column", gap: 12 }}
-                  >
-                    {pills.map((label) => {
+                  {/* 상단: '전체' 필터와 더보기 링크를 같은 행에 배치 */}
+                  <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 12 }}>
+                    {(() => {
+                      const label = "전체";
+                      const isActive = active === label;
+                      return (
+                        <button
+                          key={label}
+                          onClick={() => setActive(label)}
+                          style={{
+                            cursor: "pointer",
+                            width: 88,
+                            height: 88,
+                            borderRadius: 16,
+                            border: isActive ? `2px solid ${PALETTE.teal}` : `1px solid ${PALETTE.line}`,
+                            background: "#fff",
+                            color: isActive ? PALETTE.teal : PALETTE.darkText,
+                            fontWeight: 800,
+                            boxShadow: "0 2px 6px rgba(0,0,0,.04)",
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            textAlign: "center",
+                            lineHeight: 1.2,
+                            padding: 8,
+                            wordBreak: "keep-all",
+                          }}
+                        >
+                          {label}
+                        </button>
+                      );
+                    })()}
+
+                    <a
+                      href="/news/stories"
+                      style={{
+                        display: "inline-flex",
+                        alignItems: "center",
+                        gap: 6,
+                        textDecoration: "none",
+                        color: PALETTE.teal,
+                        fontWeight: 800,
+                      }}
+                    >
+                      더보기 <span aria-hidden>›</span>
+                    </a>
+                  </div>
+
+                  {/* 하단: 나머지 필터(사업/교육/회의/기타) 세로 배치 */}
+                  <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+                    {["사업", "교육", "회의", "기타"].map((label) => {
                       const isActive = active === label;
                       return (
                         <button
