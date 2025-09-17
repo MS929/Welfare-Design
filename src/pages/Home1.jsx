@@ -925,18 +925,6 @@ export default function Home1() {
                     "0 12px 28px rgba(59,167,160,.10), 0 6px 14px rgba(237,106,50,.06)";
                 }}
               >
-                <div
-                  aria-hidden
-                  style={{
-                    position: "absolute",
-                    left: 10,
-                    top: 12,
-                    bottom: 12,
-                    width: 4,
-                    borderRadius: 4,
-                    background: `linear-gradient(180deg, ${PALETTE.teal} 0%, ${PALETTE.orange} 100%)`,
-                  }}
-                />
                 <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
                   <div
                     aria-hidden
