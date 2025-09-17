@@ -7,9 +7,11 @@ const PALETTE = {
   orange: "#ED6A32",
   yellow: "#F4B731",
   teal: "#3BA7A0",
+  tealDark: "#2D7E79",
   tealLight: "#E6F5F2",
   mintBar: "#D8F3EC",
   beige: "#FBF6EF",
+  beigeSoft: "#F7EFE5",
   grayBg: "#F5F7FA",
   grayCard: "#FFFFFF",
   grayText: "#64748B",
@@ -154,11 +156,13 @@ const StoryCard = ({ title, date, href = "/news/stories", thumbnail }) => (
       style={{
         background: "#fff",
         borderRadius: PALETTE.radiusLg,
-        border: `1px solid ${PALETTE.line}`,
+        border: "1px solid rgba(17,24,39,.06)",
         boxShadow: PALETTE.shadowSm,
         overflow: "hidden",
         transition: "transform .12s ease, box-shadow .12s ease",
       }}
+      onMouseEnter={(e)=>{ e.currentTarget.style.transform="translateY(-4px)"; e.currentTarget.style.boxShadow="0 14px 28px rgba(15,23,42,.12)"; }}
+      onMouseLeave={(e)=>{ e.currentTarget.style.transform="none"; e.currentTarget.style.boxShadow=PALETTE.shadowSm; }}
     >
       <div
         aria-hidden
@@ -284,13 +288,17 @@ export default function Home1() {
       <Section
         fullBleed
         innerMaxWidth={1500}
-        style={{ paddingTop: 72, paddingBottom: 88, background: PALETTE.beige }}
+        style={{
+          paddingTop: 80,
+          paddingBottom: 96,
+          background: `linear-gradient(180deg, ${PALETTE.beige} 0%, ${PALETTE.beigeSoft} 100%)`,
+        }}
       >
         <div
           style={{
             display: "grid",
             gridTemplateColumns: "1.1fr 1fr",
-            gap: 28,
+            gap: 36,
             alignItems: "center",
             padding: "0 0",
           }}
@@ -306,11 +314,11 @@ export default function Home1() {
             <div
               style={{
                 position: "relative",
-                height: 340,
+                height: 360,
                 borderRadius: PALETTE.radiusLg,
                 border: `1px solid ${PALETTE.line}`,
                 overflow: "hidden",
-                boxShadow: "0 6px 16px rgba(0,0,0,.08)",
+                boxShadow: "0 10px 24px rgba(0,0,0,.10)",
                 background: "#fff",
               }}
             >
@@ -376,9 +384,16 @@ export default function Home1() {
                   fontWeight: 800,
                   fontSize: 16,
                   cursor: "pointer",
+                  color: PALETTE.darkText,
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.background = "#FAFAFA";
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.background = "#fff";
                 }}
               >
-                {"<"}
+                {"‹"}
               </button>
 
               {/* dots */}
@@ -390,13 +405,15 @@ export default function Home1() {
                     aria-label={`이미지 ${i + 1} 보기`}
                     onClick={() => goTo(i)}
                     style={{
-                      width: 10,
-                      height: 10,
+                      width: 12,
+                      height: 12,
                       borderRadius: 999,
-                      border: "1px solid rgba(0,0,0,.1)",
+                      border: "1px solid rgba(0,0,0,.15)",
                       background: i === heroIndex ? PALETTE.teal : "#fff",
                       boxShadow: "0 1px 2px rgba(0,0,0,.12)",
                       cursor: "pointer",
+                      transform: i === heroIndex ? "scale(1.1)" : "none",
+                      transition: "transform .2s ease, background .2s ease",
                     }}
                   />
                 ))}
@@ -419,9 +436,16 @@ export default function Home1() {
                   fontWeight: 800,
                   fontSize: 16,
                   cursor: "pointer",
+                  color: PALETTE.darkText,
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.background = "#FAFAFA";
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.background = "#fff";
                 }}
               >
-                {">"}
+                {"›"}
               </button>
             </div>
           </div>
@@ -560,7 +584,8 @@ export default function Home1() {
                       width: 36,
                       height: 36,
                       borderRadius: 12,
-                      background: "#ffffff",
+                      background:
+                        "linear-gradient(180deg,#ffffff 0%, #F1FBF8 100%)",
                       border: `1px solid ${PALETTE.teal}33`,
                       boxShadow: "0 2px 6px rgba(0,0,0,.06)",
                       display: "inline-flex",
@@ -761,11 +786,13 @@ export default function Home1() {
                           onClick={() => setActive(label)}
                           style={{
                             cursor: "pointer",
-                            width: 84,
-                            height: 84,
+                            width: 88,
+                            height: 88,
                             borderRadius: 16,
                             border: `1px solid ${PALETTE.line}`,
-                            background: isActive ? PALETTE.teal : "#fff",
+                            background: isActive
+                              ? `linear-gradient(180deg, ${PALETTE.teal} 0%, ${PALETTE.tealDark} 100%)`
+                              : "#fff",
                             color: isActive ? "#fff" : PALETTE.darkText,
                             fontWeight: 800,
                             boxShadow: "0 2px 6px rgba(0,0,0,.04)",
@@ -880,13 +907,13 @@ export default function Home1() {
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "space-between",
-                  background: PALETTE.teal,
+                  background: `linear-gradient(180deg, ${PALETTE.teal} 0%, ${PALETTE.tealDark} 100%)`,
+                  border: "1px solid #FFFFFF1A",
                   color: "#fff",
                   borderRadius: PALETTE.radiusLg,
                   padding: 20,
                   boxShadow: "0 8px 18px rgba(59,167,160,.25)",
                   textDecoration: "none",
-                  color: "inherit",
                   transition: "transform .12s ease, box-shadow .12s ease",
                 }}
                 onMouseEnter={(e) => {
@@ -958,7 +985,28 @@ export default function Home1() {
             marginBottom: 12,
           }}
         >
-          <h2 style={{ margin: 0, fontSize: 28, fontWeight: 900 }}>공지사항</h2>
+          <h2
+            style={{
+              margin: 0,
+              fontSize: 28,
+              fontWeight: 900,
+              display: "flex",
+              alignItems: "center",
+              gap: 10,
+            }}
+          >
+            <span
+              aria-hidden
+              style={{
+                width: 8,
+                height: 24,
+                background: PALETTE.orange,
+                borderRadius: 3,
+                display: "inline-block",
+              }}
+            />
+            공지사항
+          </h2>
         </div>
 
         {/* 두 칼럼 그리드 */}
@@ -986,6 +1034,10 @@ export default function Home1() {
                   color: PALETTE.teal,
                   fontWeight: 800,
                   textDecoration: "none",
+                  border: `1px solid ${PALETTE.teal}33`,
+                  borderRadius: 999,
+                  padding: "6px 10px",
+                  background: "#fff",
                 }}
               >
                 더보기 ›
@@ -1051,15 +1103,11 @@ export default function Home1() {
                       e.currentTarget.style.boxShadow = PALETTE.shadowSm;
                     }}
                   >
-                    <div
-                      style={{
-                        fontWeight: 800,
-                        fontSize: 18,
-                        lineHeight: 1.35,
-                        marginBottom: 6,
-                      }}
-                    >
-                      {item.title}
+                    <div style={{ display:"flex", alignItems:"center", justifyContent:"space-between", gap:12, marginBottom:6 }}>
+                      <div style={{ fontWeight: 800, fontSize: 18, lineHeight: 1.35, overflow:"hidden", textOverflow:"ellipsis", whiteSpace:"nowrap" }}>
+                        {item.title}
+                      </div>
+                      <span aria-hidden style={{ color: PALETTE.grayText }}>›</span>
                     </div>
                     {item.date && (
                       <time style={{ color: PALETTE.grayText, fontSize: 12 }}>
@@ -1096,6 +1144,10 @@ export default function Home1() {
                   color: PALETTE.teal,
                   fontWeight: 800,
                   textDecoration: "none",
+                  border: `1px solid ${PALETTE.teal}33`,
+                  borderRadius: 999,
+                  padding: "6px 10px",
+                  background: "#fff",
                 }}
               >
                 더보기 ›
@@ -1161,15 +1213,11 @@ export default function Home1() {
                       e.currentTarget.style.boxShadow = PALETTE.shadowSm;
                     }}
                   >
-                    <div
-                      style={{
-                        fontWeight: 800,
-                        fontSize: 18,
-                        lineHeight: 1.35,
-                        marginBottom: 6,
-                      }}
-                    >
-                      {item.title}
+                    <div style={{ display:"flex", alignItems:"center", justifyContent:"space-between", gap:12, marginBottom:6 }}>
+                      <div style={{ fontWeight: 800, fontSize: 18, lineHeight: 1.35, overflow:"hidden", textOverflow:"ellipsis", whiteSpace:"nowrap" }}>
+                        {item.title}
+                      </div>
+                      <span aria-hidden style={{ color: PALETTE.grayText }}>›</span>
                     </div>
                     {item.date && (
                       <time style={{ color: PALETTE.grayText, fontSize: 12 }}>
