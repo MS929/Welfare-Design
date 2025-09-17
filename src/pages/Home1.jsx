@@ -522,48 +522,8 @@ export default function Home1() {
             <p style={{ color: PALETTE.grayText, marginTop: 10 }}>
               주민·기관·전문가가 협력하는 맞춤형 복지 플랫폼을 설계·운영합니다.
             </p>
-
-            {/* CTA 버튼 */}
-            <div style={{ display: "flex", gap: 10, marginTop: 18 }}>
-              <a
-                href="/about/what"
-                style={{
-                  display: "inline-flex",
-                  alignItems: "center",
-                  gap: 8,
-                  background: PALETTE.teal,
-                  color: "#fff",
-                  padding: "10px 14px",
-                  borderRadius: 10,
-                  textDecoration: "none",
-                  fontWeight: 800,
-                  boxShadow: "0 6px 16px rgba(59,167,160,.25)",
-                }}
-              >
-                소개 보기
-                <span aria-hidden style={{ opacity: 0.9 }}>›</span>
-              </a>
-              <a
-                href="/support/guide"
-                style={{
-                  display: "inline-flex",
-                  alignItems: "center",
-                  gap: 8,
-                  background: "#fff",
-                  border: `1px solid ${PALETTE.teal}`,
-                  color: PALETTE.teal,
-                  padding: "10px 14px",
-                  borderRadius: 10,
-                  textDecoration: "none",
-                  fontWeight: 800,
-                }}
-              >
-                후원/문의
-                <span aria-hidden style={{ opacity: 0.9 }}>›</span>
-              </a>
             </div>
           </div>
-        </div>
       </Section>
 
       {/* 빠르게가기 (민트색 스트립 + 헤드라인 + 4개 카드 링크) */}
