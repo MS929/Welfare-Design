@@ -706,6 +706,19 @@ export default function Home1() {
           {(() => {
             const [active, setActive] = useState("전체");
             const [items, setItems] = useState([]);
+            const pillsWrapRef = useRef(null);
+            const [rightOffset, setRightOffset] = useState(96);
+            useEffect(() => {
+              const measure = () => {
+                const p = pillsWrapRef.current;
+                if (!p) return;
+                const v = (p.offsetTop || 0) + (p.offsetHeight || 0);
+                setRightOffset(Math.max(24, v));
+              };
+              measure();
+              window.addEventListener("resize", measure);
+              return () => window.removeEventListener("resize", measure);
+            }, []);
 
             useEffect(() => {
               try {
@@ -795,8 +808,21 @@ export default function Home1() {
                       margin: "0 0 8px 0",
                       fontSize: 22,
                       fontWeight: 900,
+                      display: "flex",
+                      alignItems: "center",
+                      gap: 10,
                     }}
                   >
+                    <span
+                      aria-hidden
+                      style={{
+                        width: 8,
+                        height: 24,
+                        background: PALETTE.yellow,
+                        borderRadius: 3,
+                        display: "inline-block",
+                      }}
+                    />
                     복지디자인 이야기
                   </h2>
                   <p
@@ -824,6 +850,7 @@ export default function Home1() {
                   </a>
                   {/* 필터 탭: 더보기 아래 세로 동그라미 */}
                   <div
+                    ref={pillsWrapRef}
                     style={{
                       display: "flex",
                       flexDirection: "column",
@@ -864,7 +891,7 @@ export default function Home1() {
                 </div>
 
                 {/* 우측: 카드 그리드 */}
-                <div style={{ marginTop: 96 }}>
+                <div style={{ marginTop: rightOffset }}>
                   <div
                     style={{
                       display: "grid",
