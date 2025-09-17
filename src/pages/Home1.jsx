@@ -693,7 +693,49 @@ export default function Home1() {
 
       {/* 동행이야기(=소식) 그리드 */}
       <Section>
-        {/* 좌측 설명 + 우측 리스트 레이아웃 */}
+        {/* 상단 제목/설명/더보기 : 두 컬럼 전체 폭으로 먼저 배치 */}
+        <div style={{ marginBottom: 18 }}>
+          <h2
+            style={{
+              margin: "0 0 8px 0",
+              fontSize: 22,
+              fontWeight: 900,
+              display: "flex",
+              alignItems: "center",
+              gap: 10,
+            }}
+          >
+            <span
+              aria-hidden
+              style={{
+                width: 8,
+                height: 24,
+                background: PALETTE.yellow,
+                borderRadius: 3,
+                display: "inline-block",
+              }}
+            />
+            복지디자인 이야기
+          </h2>
+          <p style={{ margin: "0 0 10px 0", color: PALETTE.grayText, fontSize: 14 }}>
+            복지디자인의 최신 소식을 전해드려요
+          </p>
+          <a
+            href="/news/stories"
+            style={{
+              display: "inline-flex",
+              alignItems: "center",
+              gap: 6,
+              textDecoration: "none",
+              color: PALETTE.teal,
+              fontWeight: 800,
+            }}
+          >
+            더보기 <span aria-hidden>›</span>
+          </a>
+        </div>
+
+        {/* 아래에 두 컬럼 그리드: 좌측 필터, 우측 카드 */}
         <div
           style={{
             display: "grid",
@@ -702,53 +744,22 @@ export default function Home1() {
             alignItems: "start",
           }}
         >
-          {/* 좌측 고정 영역 */}
           {(() => {
             const [active, setActive] = useState("전체");
             const [items, setItems] = useState([]);
 
-            // align right grid top to the bottom of the left pills (기타)
-            const leftColRef = useRef(null);
-            const pillsWrapRef = useRef(null);
-            const [gridOffset, setGridOffset] = useState(0);
-
-            useEffect(() => {
-              const recalc = () => {
-                if (!leftColRef.current || !pillsWrapRef.current) return;
-                const leftTop = leftColRef.current.getBoundingClientRect().top;
-                const pillsBottom = pillsWrapRef.current.getBoundingClientRect().bottom;
-                const offset = Math.max(0, Math.round(pillsBottom - leftTop));
-                setGridOffset(offset);
-              };
-              recalc();
-              window.addEventListener("resize", recalc);
-              return () => window.removeEventListener("resize", recalc);
-            }, []);
-
             useEffect(() => {
               try {
-                const modules = import.meta.glob(
-                  "/src/content/stories/*.{md,mdx}",
-                  {
-                    eager: true,
-                    query: "?raw",
-                    import: "default",
-                  }
-                );
-
+                const modules = import.meta.glob("/src/content/stories/*.{md,mdx}", {
+                  eager: true,
+                  query: "?raw",
+                  import: "default",
+                });
                 const mapped = Object.entries(modules).map(([path, raw]) => {
                   const { data } = matter(raw);
                   const meta = parseDatedSlug(path);
-                  const base = (path.split("/").pop() || "").replace(
-                    /\.(md|mdx)$/i,
-                    ""
-                  );
-                  const rawType = (
-                    data?.category ||
-                    data?.type ||
-                    "기타"
-                  ).trim();
-                  // 레거시 카테고리를 새 기준(사업/교육/회의/기타)으로 변환
+                  const base = (path.split("/").pop() || "").replace(/\.(md|mdx)$/i, "");
+                  const rawType = (data?.category || data?.type || "기타").trim();
                   const legacyToNew = {
                     인터뷰: "교육",
                     교육: "교육",
@@ -763,9 +774,7 @@ export default function Home1() {
                     공지: "기타",
                   };
                   let type = legacyToNew[rawType] || rawType;
-                  if (!["사업", "교육", "회의", "기타"].includes(type)) {
-                    type = "기타"; // 미지정 값은 기타로 수렴
-                  }
+                  if (!["사업", "교육", "회의", "기타"].includes(type)) type = "기타";
                   return {
                     id: path,
                     title: data?.title || meta.titleFromFile,
@@ -775,15 +784,10 @@ export default function Home1() {
                     thumbnail: data?.thumbnail || null,
                   };
                 });
-
                 mapped.sort((a, b) => {
                   const ad = a.date ? new Date(a.date) : new Date(0);
                   const bd = b.date ? new Date(b.date) : new Date(0);
-                  if (
-                    !isNaN(bd) &&
-                    !isNaN(ad) &&
-                    bd.getTime() !== ad.getTime()
-                  ) {
+                  if (!isNaN(bd) && !isNaN(ad) && bd.getTime() !== ad.getTime()) {
                     return bd.getTime() - ad.getTime();
                   }
                   return (b.id || "").localeCompare(a.id || "");
@@ -795,73 +799,15 @@ export default function Home1() {
               }
             }, []);
 
-            // 카테고리 탭: 고정된 순서와 값
-            const pills = useMemo(
-              () => ["전체", "사업", "교육", "회의", "기타"],
-              []
-            );
-
-            const filtered = items.filter(
-              (d) => active === "전체" || d.type === active
-            );
+            const pills = useMemo(() => ["전체", "사업", "교육", "회의", "기타"], []);
+            const filtered = items.filter((d) => active === "전체" || d.type === active);
 
             return (
               <>
-                <div ref={leftColRef}>
-                  <h2
-                    style={{
-                      margin: "0 0 8px 0",
-                      fontSize: 22,
-                      fontWeight: 900,
-                      display: "flex",
-                      alignItems: "center",
-                      gap: 10,
-                    }}
-                  >
-                    <span
-                      aria-hidden
-                      style={{
-                        width: 8,
-                        height: 24,
-                        background: PALETTE.yellow,
-                        borderRadius: 3,
-                        display: "inline-block",
-                      }}
-                    />
-                    복지디자인 이야기
-                  </h2>
-                  <p
-                    style={{
-                      margin: "0 0 10px 0",
-                      color: PALETTE.grayText,
-                      fontSize: 14,
-                    }}
-                  >
-                    복지디자인의 최신 소식을 전해드려요
-                  </p>
-                  <a
-                    href="/news/stories"
-                    style={{
-                      display: "inline-flex",
-                      alignItems: "center",
-                      gap: 6,
-                      textDecoration: "none",
-                      color: PALETTE.teal,
-                      fontWeight: 800,
-                      marginBottom: 10,
-                    }}
-                  >
-                    더보기 <span aria-hidden>›</span>
-                  </a>
-                  {/* 필터 탭: 더보기 아래 세로 동그라미 */}
+                {/* 좌측: 카테고리 필터만 세로 배치 */}
+                <div>
                   <div
-                    ref={pillsWrapRef}
-                    style={{
-                      display: "flex",
-                      flexDirection: "column",
-                      gap: 12,
-                      marginTop: 28,
-                    }}
+                    style={{ display: "flex", flexDirection: "column", gap: 12 }}
                   >
                     {pills.map((label) => {
                       const isActive = active === label;
@@ -895,8 +841,8 @@ export default function Home1() {
                   </div>
                 </div>
 
-                {/* 우측: 카드 그리드 */}
-                <div style={{ marginTop: gridOffset }}>
+                {/* 우측: 카드 그리드 (상단을 좌측 필터의 상단과 맞춤) */}
+                <div>
                   <div
                     style={{
                       display: "grid",
