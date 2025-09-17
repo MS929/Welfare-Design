@@ -470,7 +470,7 @@ export default function Home1() {
       {/* 빠르게가기 (민트색 스트립 + 헤드라인 + 4개 카드 링크) */}
       <div
         style={{
-          background: "linear-gradient(180deg, rgba(244,183,49,0.06) 0%, rgba(0,0,0,0) 100%)",
+          background: `linear-gradient(180deg, ${PALETTE.grayBg} 0%, #FFFFFF 100%)`,
           padding: "28px 0",
           width: "100vw",
           marginLeft: "calc(50% - 50vw)",
@@ -578,8 +578,8 @@ export default function Home1() {
                       width: 36,
                       height: 36,
                       borderRadius: 12,
-                      background: "linear-gradient(180deg, #FFFFFF 0%, rgba(244,183,49,0.16) 100%)",
-                      border: `1px solid ${PALETTE.yellow}33`,
+                      background: `linear-gradient(180deg, #FFFFFF 0%, ${PALETTE.grayBg} 100%)`,
+                      border: `1px solid ${PALETTE.line}`,
                       boxShadow: "0 2px 6px rgba(0,0,0,.06)",
                       display: "inline-flex",
                       alignItems: "center",
