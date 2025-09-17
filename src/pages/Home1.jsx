@@ -798,7 +798,7 @@ export default function Home1() {
                     style={{
                       display: "inline-flex",
                       alignItems: "center",
-                      gap: 6,
+                      gap: 4,
                       textDecoration: "none",
                       color: PALETTE.teal,
                       fontWeight: 800,
