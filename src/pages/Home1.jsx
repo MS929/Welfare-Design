@@ -280,7 +280,11 @@ export default function Home1() {
   return (
     <main style={{ background: "#fff" }}>
       {/* HERO (레퍼런스형: 베이지 배경 + 좌측 반원 이미지 + 우측 텍스트) */}
-      <Section fullBleed innerMaxWidth={1500} style={{ paddingTop: 72, paddingBottom: 88, background: PALETTE.beige }}>
+      <Section
+        fullBleed
+        innerMaxWidth={1500}
+        style={{ paddingTop: 72, paddingBottom: 88, background: PALETTE.beige }}
+      >
         <div
           style={{
             display: "grid",
@@ -291,7 +295,13 @@ export default function Home1() {
           }}
         >
           {/* 좌측 이미지 프레임 (수동/자동 캐러셀) + 하단 컨트롤 */}
-          <div style={{ display: "flex", flexDirection: "column", alignItems: "stretch" }}>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "stretch",
+            }}
+          >
             <div
               style={{
                 position: "relative",
@@ -434,7 +444,6 @@ export default function Home1() {
             <p style={{ color: PALETTE.grayText, marginTop: 10 }}>
               주민·기관·전문가가 협력하는 맞춤형 복지 플랫폼을 설계·운영합니다.
             </p>
-
           </div>
         </div>
       </Section>
@@ -637,7 +646,11 @@ export default function Home1() {
                     /\.(md|mdx)$/i,
                     ""
                   );
-                  const rawType = (data?.category || data?.type || "기타").trim();
+                  const rawType = (
+                    data?.category ||
+                    data?.type ||
+                    "기타"
+                  ).trim();
                   // 레거시 카테고리를 새 기준(사업/교육/회의/기타)으로 변환
                   const legacyToNew = {
                     인터뷰: "교육",
@@ -686,7 +699,10 @@ export default function Home1() {
             }, []);
 
             // 카테고리 탭: 고정된 순서와 값
-            const pills = useMemo(() => ["전체", "사업", "교육", "회의", "기타"], []);
+            const pills = useMemo(
+              () => ["전체", "사업", "교육", "회의", "기타"],
+              []
+            );
 
             const filtered = items.filter(
               (d) => active === "전체" || d.type === active
@@ -828,32 +844,32 @@ export default function Home1() {
               {
                 icon: "/images/icons/rental.png",
                 label: "휠체어 및 복지용구 무료 대여",
-                href: "/support/rental",
+                href: "/business/Rental",
               },
               {
                 icon: "/images/icons/apply-help.png",
                 label: "보조기기·복지용구 신청 안내 지원",
-                href: "/support/apply-help",
+                href: "/business/ApplyHelp",
               },
               {
                 icon: "/images/icons/donation.png",
                 label: "보조기기 기증 캠페인",
-                href: "/support/device-donation",
+                href: "/business/DonationCampaign",
               },
               {
                 icon: "/images/icons/ewc-insurance.png",
                 label: "취약 계층 전동 휠체어 보험금 지원",
-                href: "/support/wheelchair-insurance",
+                href: "/business/EWheelchairInsurance",
               },
               {
                 icon: "/images/icons/needs-survey.png",
                 label: "취약 계층 복지욕구 실태조사",
-                href: "/support/needs-survey",
+                href: "/business/NeedsSurvey",
               },
               {
                 icon: "/images/icons/member-services.png",
                 label: "조합원 지원 서비스",
-                href: "/support/member-services",
+                href: "/business/MemberServices",
               },
             ].map((it, i) => (
               <a
@@ -872,13 +888,15 @@ export default function Home1() {
                   color: "inherit",
                   transition: "transform .12s ease, box-shadow .12s ease",
                 }}
-                onMouseEnter={e => {
+                onMouseEnter={(e) => {
                   e.currentTarget.style.transform = "translateY(-3px)";
-                  e.currentTarget.style.boxShadow = "0 14px 28px rgba(59,167,160,.32)";
+                  e.currentTarget.style.boxShadow =
+                    "0 14px 28px rgba(59,167,160,.32)";
                 }}
-                onMouseLeave={e => {
+                onMouseLeave={(e) => {
                   e.currentTarget.style.transform = "none";
-                  e.currentTarget.style.boxShadow = "0 8px 18px rgba(59,167,160,.25)";
+                  e.currentTarget.style.boxShadow =
+                    "0 8px 18px rgba(59,167,160,.25)";
                 }}
               >
                 <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
@@ -894,25 +912,29 @@ export default function Home1() {
                       justifyContent: "center",
                     }}
                   >
-                    {typeof it.icon === "string" ? (() => {
-                      const base = it.icon.replace(/\.(png|svg)$/i, "");
-                      return (
-                        <img
-                          src={`${base}.svg`}
-                          onError={(e) => {
-                            // If SVG is missing, fall back to PNG once
-                            e.currentTarget.onerror = null;
-                            e.currentTarget.src = `${base}.png`;
-                          }}
-                          alt=""
-                          loading="lazy"
-                          decoding="async"
-                          style={{ width: 24, height: 24, objectFit: "contain" }}
-                        />
-                      );
-                    })() : (
-                      it.icon
-                    )}
+                    {typeof it.icon === "string"
+                      ? (() => {
+                          const base = it.icon.replace(/\.(png|svg)$/i, "");
+                          return (
+                            <img
+                              src={`${base}.svg`}
+                              onError={(e) => {
+                                // If SVG is missing, fall back to PNG once
+                                e.currentTarget.onerror = null;
+                                e.currentTarget.src = `${base}.png`;
+                              }}
+                              alt=""
+                              loading="lazy"
+                              decoding="async"
+                              style={{
+                                width: 24,
+                                height: 24,
+                                objectFit: "contain",
+                              }}
+                            />
+                          );
+                        })()
+                      : it.icon}
                   </div>
                   <div style={{ fontWeight: 900 }}>{it.label}</div>
                 </div>
@@ -959,7 +981,11 @@ export default function Home1() {
               <h2 style={{ margin: 0, fontSize: 22, fontWeight: 900 }}>공지</h2>
               <a
                 href="/news/notices"
-                style={{ color: PALETTE.teal, fontWeight: 800, textDecoration: "none" }}
+                style={{
+                  color: PALETTE.teal,
+                  fontWeight: 800,
+                  textDecoration: "none",
+                }}
               >
                 더보기 ›
               </a>
@@ -991,7 +1017,12 @@ export default function Home1() {
                       }}
                     />
                     <div
-                      style={{ height: 12, width: 120, background: "#EEF2F7", borderRadius: 6 }}
+                      style={{
+                        height: 12,
+                        width: 120,
+                        background: "#EEF2F7",
+                        borderRadius: 6,
+                      }}
                     />
                   </div>
                 ) : (
@@ -1011,7 +1042,8 @@ export default function Home1() {
                     }}
                     onMouseEnter={(e) => {
                       e.currentTarget.style.transform = "translateY(-2px)";
-                      e.currentTarget.style.boxShadow = "0 10px 22px rgba(0,0,0,.08)";
+                      e.currentTarget.style.boxShadow =
+                        "0 10px 22px rgba(0,0,0,.08)";
                     }}
                     onMouseLeave={(e) => {
                       e.currentTarget.style.transform = "none";
@@ -1019,18 +1051,27 @@ export default function Home1() {
                     }}
                   >
                     <div
-                      style={{ fontWeight: 800, fontSize: 18, lineHeight: 1.35, marginBottom: 6 }}
+                      style={{
+                        fontWeight: 800,
+                        fontSize: 18,
+                        lineHeight: 1.35,
+                        marginBottom: 6,
+                      }}
                     >
                       {item.title}
                     </div>
                     {item.date && (
-                      <time style={{ color: PALETTE.grayText, fontSize: 12 }}>{item.date}</time>
+                      <time style={{ color: PALETTE.grayText, fontSize: 12 }}>
+                        {item.date}
+                      </time>
                     )}
                   </a>
                 )
               )}
               {!loadingNotices && (noticesSplit.공지 || []).length === 0 && (
-                <div style={{ color: PALETTE.grayText, fontSize: 14 }}>표시할 공지가 없습니다.</div>
+                <div style={{ color: PALETTE.grayText, fontSize: 14 }}>
+                  표시할 공지가 없습니다.
+                </div>
               )}
             </div>
           </div>
@@ -1045,10 +1086,16 @@ export default function Home1() {
                 marginBottom: 12,
               }}
             >
-              <h2 style={{ margin: 0, fontSize: 22, fontWeight: 900 }}>정보공개</h2>
+              <h2 style={{ margin: 0, fontSize: 22, fontWeight: 900 }}>
+                정보공개
+              </h2>
               <a
                 href="/news/notices"
-                style={{ color: PALETTE.teal, fontWeight: 800, textDecoration: "none" }}
+                style={{
+                  color: PALETTE.teal,
+                  fontWeight: 800,
+                  textDecoration: "none",
+                }}
               >
                 더보기 ›
               </a>
@@ -1080,7 +1127,12 @@ export default function Home1() {
                       }}
                     />
                     <div
-                      style={{ height: 12, width: 120, background: "#EEF2F7", borderRadius: 6 }}
+                      style={{
+                        height: 12,
+                        width: 120,
+                        background: "#EEF2F7",
+                        borderRadius: 6,
+                      }}
                     />
                   </div>
                 ) : (
@@ -1100,7 +1152,8 @@ export default function Home1() {
                     }}
                     onMouseEnter={(e) => {
                       e.currentTarget.style.transform = "translateY(-2px)";
-                      e.currentTarget.style.boxShadow = "0 10px 22px rgba(0,0,0,.08)";
+                      e.currentTarget.style.boxShadow =
+                        "0 10px 22px rgba(0,0,0,.08)";
                     }}
                     onMouseLeave={(e) => {
                       e.currentTarget.style.transform = "none";
@@ -1108,19 +1161,29 @@ export default function Home1() {
                     }}
                   >
                     <div
-                      style={{ fontWeight: 800, fontSize: 18, lineHeight: 1.35, marginBottom: 6 }}
+                      style={{
+                        fontWeight: 800,
+                        fontSize: 18,
+                        lineHeight: 1.35,
+                        marginBottom: 6,
+                      }}
                     >
                       {item.title}
                     </div>
                     {item.date && (
-                      <time style={{ color: PALETTE.grayText, fontSize: 12 }}>{item.date}</time>
+                      <time style={{ color: PALETTE.grayText, fontSize: 12 }}>
+                        {item.date}
+                      </time>
                     )}
                   </a>
                 )
               )}
-              {!loadingNotices && (noticesSplit.정보공개 || []).length === 0 && (
-                <div style={{ color: PALETTE.grayText, fontSize: 14 }}>표시할 정보공개가 없습니다.</div>
-              )}
+              {!loadingNotices &&
+                (noticesSplit.정보공개 || []).length === 0 && (
+                  <div style={{ color: PALETTE.grayText, fontSize: 14 }}>
+                    표시할 정보공개가 없습니다.
+                  </div>
+                )}
             </div>
           </div>
         </div>
