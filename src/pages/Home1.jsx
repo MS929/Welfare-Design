@@ -285,7 +285,7 @@ export default function Home1() {
         style={{
           paddingTop: 80,
           paddingBottom: 96,
-          background: "linear-gradient(180deg, #FFFFFF 0%, rgba(59,167,160,0.12) 100%)",
+          background: "linear-gradient(180deg, #FFFFFF 0%, rgba(244,183,49,0.08) 100%)",
         }}
       >
         <div
@@ -470,7 +470,7 @@ export default function Home1() {
       {/* 빠르게가기 (민트색 스트립 + 헤드라인 + 4개 카드 링크) */}
       <div
         style={{
-          background: "rgba(59,167,160,0.08)",
+          background: "linear-gradient(180deg, rgba(244,183,49,0.06) 0%, rgba(0,0,0,0) 100%)",
           padding: "28px 0",
           width: "100vw",
           marginLeft: "calc(50% - 50vw)",
@@ -578,8 +578,8 @@ export default function Home1() {
                       width: 36,
                       height: 36,
                       borderRadius: 12,
-                      background: "linear-gradient(180deg, #FFFFFF 0%, rgba(59,167,160,0.12) 100%)",
-                      border: `1px solid ${PALETTE.teal}33`,
+                      background: "linear-gradient(180deg, #FFFFFF 0%, rgba(244,183,49,0.16) 100%)",
+                      border: `1px solid ${PALETTE.yellow}33`,
                       boxShadow: "0 2px 6px rgba(0,0,0,.06)",
                       display: "inline-flex",
                       alignItems: "center",
@@ -782,9 +782,9 @@ export default function Home1() {
                             width: 88,
                             height: 88,
                             borderRadius: 16,
-                            border: `1px solid ${PALETTE.line}`,
-                            background: isActive ? PALETTE.teal : "#fff",
-                            color: isActive ? "#fff" : PALETTE.darkText,
+                            border: isActive ? `2px solid ${PALETTE.teal}` : `1px solid ${PALETTE.line}`,
+                            background: "#fff",
+                            color: isActive ? PALETTE.teal : PALETTE.darkText,
                             fontWeight: 800,
                             boxShadow: "0 2px 6px rgba(0,0,0,.04)",
                             display: "flex",
@@ -832,7 +832,7 @@ export default function Home1() {
       {/* 지원사업 영역 (민트 스트립 배경) */}
       <div
         style={{
-          background: "rgba(59,167,160,0.08)",
+          background: "linear-gradient(180deg, rgba(244,183,49,0.06) 0%, rgba(0,0,0,0) 100%)",
           padding: "12px 0",
           width: "100vw",
           marginLeft: "calc(50% - 50vw)",
@@ -898,24 +898,25 @@ export default function Home1() {
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "space-between",
-                  background: PALETTE.teal,
-                  border: "1px solid #FFFFFF1A",
-                  color: "#fff",
+                  background: "#fff",
+                  border: `1px solid ${PALETTE.line}`,
+                  borderLeft: `4px solid ${PALETTE.teal}`,
+                  color: PALETTE.darkText,
                   borderRadius: PALETTE.radiusLg,
                   padding: 20,
-                  boxShadow: "0 8px 18px rgba(59,167,160,.25)",
+                  boxShadow: "0 6px 16px rgba(0,0,0,.06)",
                   textDecoration: "none",
-                  transition: "transform .12s ease, box-shadow .12s ease",
+                  transition: "transform .12s ease, box-shadow .12s ease, border-color .12s ease",
                 }}
                 onMouseEnter={(e) => {
                   e.currentTarget.style.transform = "translateY(-3px)";
-                  e.currentTarget.style.boxShadow =
-                    "0 14px 28px rgba(59,167,160,.32)";
+                  e.currentTarget.style.boxShadow = "0 10px 22px rgba(0,0,0,.10)";
+                  e.currentTarget.style.borderColor = "${PALETTE.teal}";
                 }}
                 onMouseLeave={(e) => {
                   e.currentTarget.style.transform = "none";
-                  e.currentTarget.style.boxShadow =
-                    "0 8px 18px rgba(59,167,160,.25)";
+                  e.currentTarget.style.boxShadow = "0 6px 16px rgba(0,0,0,.06)";
+                  e.currentTarget.style.borderColor = "${PALETTE.line}";
                 }}
               >
                 <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
