@@ -1,5 +1,6 @@
 import { useState, useEffect, useMemo, useRef } from "react";
 import matter from "gray-matter";
+import { Link } from "react-router-dom";
 // src/pages/Home1.jsx
 // 팔레트 (우리 브랜드 컬러로, 레퍼런스 톤을 흉내냄)
 const PALETTE = {
@@ -526,9 +527,9 @@ export default function Home1() {
                   desc: "함께하는 동료되기",
                 },
               ].map((it, i) => (
-                <a
+                <Link
                   key={i}
-                  href={it.href}
+                  to={it.href}
                   style={{
                     display: "flex",
                     alignItems: "center",
@@ -605,7 +606,7 @@ export default function Home1() {
                   >
                     ›
                   </span>
-                </a>
+                </Link>
               ))}
             </div>
           </div>
@@ -872,9 +873,9 @@ export default function Home1() {
                 href: "/business/MemberServices",
               },
             ].map((it, i) => (
-              <a
+              <Link
                 key={i}
-                href={it.href}
+                to={it.href}
                 style={{
                   display: "flex",
                   alignItems: "center",
@@ -939,7 +940,7 @@ export default function Home1() {
                   <div style={{ fontWeight: 900 }}>{it.label}</div>
                 </div>
                 <span style={{ opacity: 0.9, fontSize: 12 }}>바로가기 ›</span>
-              </a>
+              </Link>
             ))}
           </div>
         </Section>
