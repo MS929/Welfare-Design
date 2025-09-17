@@ -448,6 +448,41 @@ export default function Home1() {
 
           {/* 우측 텍스트 */}
           <div>
+            {/* Eyebrow / 작은 포인트 배지 */}
+            <div
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                gap: 8,
+                padding: "6px 10px",
+                borderRadius: 999,
+                border: `1px solid ${PALETTE.line}`,
+                background: "#fff",
+                boxShadow: PALETTE.shadowSm,
+                marginBottom: 10,
+              }}
+            >
+              <span
+                aria-hidden
+                style={{
+                  width: 8,
+                  height: 8,
+                  borderRadius: "50%",
+                  background: PALETTE.orange,
+                }}
+              />
+              <span
+                style={{
+                  fontWeight: 800,
+                  fontSize: 12,
+                  letterSpacing: 0.4,
+                  color: PALETTE.darkText,
+                }}
+              >
+                WELFARE&nbsp;DESIGN
+              </span>
+            </div>
+
             <h1
               style={{
                 fontSize: 32,
@@ -456,15 +491,77 @@ export default function Home1() {
                 letterSpacing: -0.2,
               }}
             >
-              현장과 지역을 잇는 <b>맞춤형 복지</b>를 설계하며
+              현장과 지역을 잇는{" "}
+              <span
+                style={{
+                  boxDecorationBreak: "clone",
+                  WebkitBoxDecorationBreak: "clone",
+                  backgroundImage:
+                    "linear-gradient(transparent 70%, rgba(59,167,160,.28) 0)",
+                }}
+              >
+                맞춤형 복지
+              </span>
+              를 설계하며
               <br />
-              <b>복지디자인 사회적협동조합</b>이
+              <span
+                style={{
+                  boxDecorationBreak: "clone",
+                  WebkitBoxDecorationBreak: "clone",
+                  backgroundImage:
+                    "linear-gradient(transparent 70%, rgba(237,106,50,.22) 0)",
+                }}
+              >
+                복지디자인 사회적협동조합
+              </span>
+              이
               <br />
               지역과 함께합니다.
             </h1>
+
             <p style={{ color: PALETTE.grayText, marginTop: 10 }}>
               주민·기관·전문가가 협력하는 맞춤형 복지 플랫폼을 설계·운영합니다.
             </p>
+
+            {/* CTA 버튼 */}
+            <div style={{ display: "flex", gap: 10, marginTop: 18 }}>
+              <a
+                href="/about/what"
+                style={{
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: 8,
+                  background: PALETTE.teal,
+                  color: "#fff",
+                  padding: "10px 14px",
+                  borderRadius: 10,
+                  textDecoration: "none",
+                  fontWeight: 800,
+                  boxShadow: "0 6px 16px rgba(59,167,160,.25)",
+                }}
+              >
+                소개 보기
+                <span aria-hidden style={{ opacity: 0.9 }}>›</span>
+              </a>
+              <a
+                href="/support/guide"
+                style={{
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: 8,
+                  background: "#fff",
+                  border: `1px solid ${PALETTE.teal}`,
+                  color: PALETTE.teal,
+                  padding: "10px 14px",
+                  borderRadius: 10,
+                  textDecoration: "none",
+                  fontWeight: 800,
+                }}
+              >
+                후원/문의
+                <span aria-hidden style={{ opacity: 0.9 }}>›</span>
+              </a>
+            </div>
           </div>
         </div>
       </Section>
