@@ -374,8 +374,8 @@ export default function Home() {
                 textWrap: "balance",
               }}
             >
-              <span style={{ display: "block" }}>현장과 지역을 잇는 <span style={{ boxShadow: `0 -10px 0 ${COLOR.accentTint} inset` }}>맞춤형 복지</span>를 설계하며</span>
-              <span style={{ display: "block", marginTop: 6 }}>복지디자인 <span style={{ boxShadow: `0 -10px 0 ${COLOR.primaryTint} inset` }}>사회적협동조합</span>이</span>
+              <span style={{ display: "block" }}>현장과 지역을 잇는 <br />맞춤형 복지를 설계하며</span>
+              <span style={{ display: "block", marginTop: 6 }}>복지디자인 사회적협동조합</span>이<br />
               <span style={{ display: "block", marginTop: 6 }}>지역과 함께합니다.</span>
             </h1>
 
