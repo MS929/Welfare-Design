@@ -708,12 +708,18 @@ export default function Home1() {
             const [items, setItems] = useState([]);
             const pillsWrapRef = useRef(null);
             const [rightOffset, setRightOffset] = useState(96);
+            const [leftNudge, setLeftNudge] = useState(0);
             useEffect(() => {
               const measure = () => {
                 const p = pillsWrapRef.current;
                 if (!p) return;
                 const v = (p.offsetTop || 0) + (p.offsetHeight || 0);
                 setRightOffset(Math.max(24, v));
+
+                // Align the cards grid with the right edge of the last ("기타") square.
+                // Our grid left column is fixed at 260px; subtract the actual pills column width.
+                const w = p.offsetWidth || (p.getBoundingClientRect ? p.getBoundingClientRect().width : 0) || 0;
+                setLeftNudge(Math.max(0, 260 - w));
               };
               measure();
               window.addEventListener("resize", measure);
@@ -891,7 +897,7 @@ export default function Home1() {
                 </div>
 
                 {/* 우측: 카드 그리드 */}
-                <div style={{ marginTop: rightOffset }}>
+                <div style={{ marginTop: rightOffset, marginLeft: -leftNudge }}>
                   <div
                     style={{
                       display: "grid",
