@@ -474,6 +474,7 @@ export default function Home1() {
         style={{
           background: PALETTE.mintPeachBg,
           padding: "28px 0",
+          borderTop: `1px solid ${PALETTE.line}`,
           width: "100vw",
           marginLeft: "calc(50% - 50vw)",
           marginRight: "calc(50% - 50vw)",
