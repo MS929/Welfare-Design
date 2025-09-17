@@ -698,7 +698,7 @@ export default function Home1() {
           <h2
             style={{
               margin: "0 0 8px 0",
-              fontSize: 22,
+              fontSize: 28,
               fontWeight: 900,
               display: "flex",
               alignItems: "center",
