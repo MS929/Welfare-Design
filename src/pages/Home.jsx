@@ -82,14 +82,14 @@ const COLOR = {
 
 // 디자인 토큰 (간격/라운드/그리드)
 const TOKENS = { 
-  radius: 16,
-  radiusLg: 24,
+  radius: 12,
+  radiusLg: 18,
   gap: 28,
   gapSm: 14,
   container: 1280,
-  shadow: "0 10px 28px rgba(15, 23, 42, .08)",
-  shadowSm: "0 4px 14px rgba(15, 23, 42, .06)",
-  shadowHover: "0 16px 36px rgba(15, 23, 42, .14)",
+  shadow: "0 8px 22px rgba(15,23,42,.08)",
+  shadowSm: "0 6px 18px rgba(15,23,42,.06)",
+  shadowHover: "0 12px 26px rgba(15,23,42,.12)",
 };
 
 // 반응형 그리드 열 수 (모바일 1, 태블릿 2, 데스크톱 4)
@@ -546,7 +546,7 @@ export default function Home() {
                 style={{
                   border: `1px solid #EAEAEA`,
                   borderRadius: TOKENS.radius,
-                  padding: 20,
+                  padding: 16,
                   boxShadow:
                     hoveredNotice === item.id
                       ? TOKENS.shadowHover
@@ -559,7 +559,7 @@ export default function Home() {
                   display: "flex",
                   flexDirection: "column",
                   justifyContent: "space-between",
-                  minHeight: NOTICE_CARD_MIN_H,
+                  minHeight: noticeTab === "공모" ? NOTICE_CARD_MIN_H : 120,
                   backgroundColor: "#fff",
                   textDecoration: "none",
                   color: "inherit",
@@ -648,37 +648,17 @@ export default function Home() {
                     <div>
                       <h3
                         style={{
-                          fontSize: 17.5,
+                          fontSize: 16,
                           fontWeight: 700,
-                          marginBottom: 10,
+                          marginBottom: 6,
                           lineHeight: 1.3,
+                          whiteSpace: "nowrap",
                           overflow: "hidden",
                           textOverflow: "ellipsis",
-                          display: "-webkit-box",
-                          WebkitLineClamp: 2,
-                          WebkitBoxOrient: "vertical",
                         }}
                       >
                         {item.title}
                       </h3>
-                      {item.excerpt && (
-                        <p
-                          style={{
-                            fontSize: 14,
-                            color: COLOR.textMuted,
-                            marginTop: 0,
-                            marginBottom: 12,
-                            overflow: "hidden",
-                            textOverflow: "ellipsis",
-                            display: "-webkit-box",
-                            WebkitLineClamp: 2,
-                            WebkitBoxOrient: "vertical",
-                            lineHeight: 1.4,
-                          }}
-                        >
-                          {item.excerpt}
-                        </p>
-                      )}
                     </div>
                     {item.date && typeof item.date === "string" ? (
                       <time style={{ fontSize: 12, color: "#6B7280" }}>
@@ -946,7 +926,7 @@ export default function Home() {
                 />
                 복지디자인 소식
               </h2>
-              <small style={{ color: COLOR.textMuted, fontSize: 14 }}>
+              <small style={{ color: COLOR.textMuted, fontSize: 14, marginLeft: 6 }}>
                 행복한 소식을 만들어가는 복지디자인입니다.
               </small>
             </div>
