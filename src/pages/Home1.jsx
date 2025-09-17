@@ -717,7 +717,7 @@ export default function Home1() {
             />
             복지디자인 이야기
           </h2>
-          <p style={{ margin: "0 0 10px 0", color: PALETTE.grayText, fontSize: 14, marginLeft: 12 }}>
+          <p style={{ margin: "0 0 10px 0", color: PALETTE.grayText, fontSize: 14, marginLeft: 16 }}>
             복지디자인의 최신 소식을 전해드려요
           </p>
         </div>
