@@ -173,17 +173,17 @@ export default function Home() {
   const { width, isMobile } = useViewport();
   // 히어로 배경 크기(오른쪽 데코를 축소)
   const heroBgSize = useMemo(() => {
-    if (width >= 1280) return "900px auto";
-    if (width >= 1024) return "760px auto";
-    if (width >= 640) return "560px auto";
-    return "380px auto";
+    if (width >= 1280) return "760px auto";  // desktop
+    if (width >= 1024) return "620px auto";  // laptop/tablet landscape
+    if (width >= 640)  return "520px auto";  // tablet portrait
+    return "340px auto";                      // mobile
   }, [width]);
   // 히어로 높이(참고 사이트와 유사 비율)
   const heroMinH = useMemo(() => {
-    if (width >= 1280) return 420;   // 데스크톱 살짝 축소
-    if (width >= 1024) return 380;   // 랩톱/태블릿 가로
-    if (width >= 640) return 320;    // 태블릿 세로
-    return 240;                      // 모바일
+    if (width >= 1280) return 360;   // desktop
+    if (width >= 1024) return 320;   // laptop/tablet landscape
+    if (width >= 640)  return 280;   // tablet portrait
+    return 220;                      // mobile
   }, [width]);
   const hoverCapable = useHoverCapable();
   const focusVisible = useFocusVisible();
