@@ -375,7 +375,7 @@ export default function Home() {
               }}
             >
               <span style={{ display: "block" }}>현장과 지역을 잇는 <br />맞춤형 복지를 설계하며</span>
-              <span style={{ display: "block", marginTop: 6 }}>복지디자인 사회적협동조합</span>이
+              <span style={{ display: "block", marginTop: 6 }}>복지디자인 사회적협동조합이</span>
               <span style={{ display: "block", marginTop: 6 }}>지역과 함께합니다.</span>
             </h1>
 
