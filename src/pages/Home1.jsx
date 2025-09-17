@@ -287,7 +287,7 @@ export default function Home1() {
         style={{
           paddingTop: 80,
           paddingBottom: 96,
-          background: "linear-gradient(180deg, #FFFFFF 0%, rgba(244,183,49,0.08) 100%)",
+          background: "#fff",
         }}
       >
         <div
