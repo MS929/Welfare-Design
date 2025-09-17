@@ -67,12 +67,7 @@ function normalizeNoticeCategory(v) {
   return s;
 }
 
-const Section = ({
-  children,
-  style,
-  fullBleed = false,
-  innerMaxWidth = CONTAINER,
-}) => {
+const Section = ({ children, style, fullBleed = false, innerMaxWidth = CONTAINER }) => {
   if (fullBleed) {
     return (
       <section
@@ -83,13 +78,7 @@ const Section = ({
           ...style,
         }}
       >
-        <div
-          style={{
-            maxWidth: innerMaxWidth,
-            margin: "0 auto",
-            padding: "0 24px",
-          }}
-        >
+        <div style={{ maxWidth: innerMaxWidth, margin: "0 auto", padding: "0 24px" }}>
           {children}
         </div>
       </section>
@@ -157,14 +146,8 @@ const StoryCard = ({ title, date, href = "/news/stories", thumbnail }) => (
         overflow: "hidden",
         transition: "transform .12s ease, box-shadow .12s ease",
       }}
-      onMouseEnter={(e) => {
-        e.currentTarget.style.transform = "translateY(-4px)";
-        e.currentTarget.style.boxShadow = "0 14px 28px rgba(15,23,42,.12)";
-      }}
-      onMouseLeave={(e) => {
-        e.currentTarget.style.transform = "none";
-        e.currentTarget.style.boxShadow = PALETTE.shadowSm;
-      }}
+      onMouseEnter={(e)=>{ e.currentTarget.style.transform="translateY(-4px)"; e.currentTarget.style.boxShadow="0 14px 28px rgba(15,23,42,.12)"; }}
+      onMouseLeave={(e)=>{ e.currentTarget.style.transform="none"; e.currentTarget.style.boxShadow=PALETTE.shadowSm; }}
     >
       <div
         aria-hidden
@@ -223,9 +206,7 @@ export default function Home1() {
 
   useEffect(() => {
     restartTimer();
-    return () => {
-      if (timerRef.current) clearInterval(timerRef.current);
-    };
+    return () => { if (timerRef.current) clearInterval(timerRef.current); };
   }, []);
 
   // pre-load hero images
@@ -294,8 +275,7 @@ export default function Home1() {
         style={{
           paddingTop: 80,
           paddingBottom: 96,
-          background:
-            "linear-gradient(180deg, #FFFFFF 0%, rgba(59,167,160,0.12) 100%)",
+          background: "linear-gradient(180deg, #FFFFFF 0%, rgba(59,167,160,0.12) 100%)",
         }}
       >
         <div
@@ -308,13 +288,7 @@ export default function Home1() {
           }}
         >
           {/* 좌측 이미지 + 컨트롤 */}
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "stretch",
-            }}
-          >
+          <div style={{ display: "flex", flexDirection: "column", alignItems: "stretch" }}>
             <div
               style={{
                 position: "relative",
@@ -390,12 +364,8 @@ export default function Home1() {
                   cursor: "pointer",
                   color: PALETTE.darkText,
                 }}
-                onMouseEnter={(e) =>
-                  (e.currentTarget.style.background = "#FAFAFA")
-                }
-                onMouseLeave={(e) =>
-                  (e.currentTarget.style.background = "#fff")
-                }
+                onMouseEnter={(e) => (e.currentTarget.style.background = "#FAFAFA")}
+                onMouseLeave={(e) => (e.currentTarget.style.background = "#fff")}
               >
                 {"‹"}
               </button>
@@ -441,12 +411,8 @@ export default function Home1() {
                   cursor: "pointer",
                   color: PALETTE.darkText,
                 }}
-                onMouseEnter={(e) =>
-                  (e.currentTarget.style.background = "#FAFAFA")
-                }
-                onMouseLeave={(e) =>
-                  (e.currentTarget.style.background = "#fff")
-                }
+                onMouseEnter={(e) => (e.currentTarget.style.background = "#FAFAFA")}
+                onMouseLeave={(e) => (e.currentTarget.style.background = "#fff")}
               >
                 {"›"}
               </button>
@@ -527,30 +493,10 @@ export default function Home1() {
               }}
             >
               {[
-                {
-                  href: "/about/what",
-                  iconsrc: "/images/icons/introduction.png",
-                  label: "복지디자인 소개",
-                  desc: "설립·비전·연혁",
-                },
-                {
-                  href: "/business/overview",
-                  iconsrc: "/images/icons/needs-survey.png",
-                  label: "사업 안내",
-                  desc: "운영사업 한눈에",
-                },
-                {
-                  href: "/support/guide",
-                  iconsrc: "/images/icons/donation.png",
-                  label: "후원 안내",
-                  desc: "지지와 참여 방법",
-                },
-                {
-                  href: "/support/combination",
-                  iconsrc: "/images/icons/member-services.png",
-                  label: "조합 가입",
-                  desc: "함께하는 동료되기",
-                },
+                { href: "/about/what", iconsrc: "/images/icons/introduction.png", label: "복지디자인 소개", desc: "설립·비전·연혁" },
+                { href: "/business/overview", iconsrc: "/images/icons/needs-survey.png", label: "사업 안내", desc: "운영사업 한눈에" },
+                { href: "/support/guide", iconsrc: "/images/icons/donation.png", label: "후원 안내", desc: "지지와 참여 방법" },
+                { href: "/support/combination", iconsrc: "/images/icons/member-services.png", label: "조합 가입", desc: "함께하는 동료되기" },
               ].map((it, i) => (
                 <Link
                   key={i}
@@ -570,13 +516,11 @@ export default function Home1() {
                   }}
                   onMouseEnter={(e) => {
                     e.currentTarget.style.transform = "translateY(-3px)";
-                    e.currentTarget.style.boxShadow =
-                      "0 8px 18px rgba(0,0,0,.10)";
+                    e.currentTarget.style.boxShadow = "0 8px 18px rgba(0,0,0,.10)";
                   }}
                   onMouseLeave={(e) => {
                     e.currentTarget.style.transform = "none";
-                    e.currentTarget.style.boxShadow =
-                      "0 3px 10px rgba(0,0,0,.06)";
+                    e.currentTarget.style.boxShadow = "0 3px 10px rgba(0,0,0,.06)";
                   }}
                 >
                   <div
@@ -585,8 +529,7 @@ export default function Home1() {
                       width: 36,
                       height: 36,
                       borderRadius: 12,
-                      background:
-                        "linear-gradient(180deg, #FFFFFF 0%, rgba(59,167,160,0.12) 100%)",
+                      background: "linear-gradient(180deg, #FFFFFF 0%, rgba(59,167,160,0.12) 100%)",
                       border: `1px solid ${PALETTE.teal}33`,
                       boxShadow: "0 2px 6px rgba(0,0,0,.06)",
                       display: "inline-flex",
@@ -595,43 +538,19 @@ export default function Home1() {
                       flex: "0 0 auto",
                     }}
                   >
-                    <img
-                      src={it.iconsrc}
-                      alt=""
-                      loading="lazy"
-                      decoding="async"
-                      style={{ width: 22, height: 22, objectFit: "contain" }}
-                    />
+                    <img src={it.iconsrc} alt="" loading="lazy" decoding="async" style={{ width: 22, height: 22, objectFit: "contain" }} />
                   </div>
 
                   <div style={{ flex: 1, minWidth: 0 }}>
-                    <div
-                      style={{
-                        fontWeight: 900,
-                        whiteSpace: "nowrap",
-                        overflow: "hidden",
-                        textOverflow: "ellipsis",
-                      }}
-                    >
+                    <div style={{ fontWeight: 900, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
                       {it.label}
                     </div>
-                    <div
-                      style={{
-                        fontSize: 12,
-                        color: PALETTE.grayText,
-                        marginTop: 4,
-                      }}
-                    >
+                    <div style={{ fontSize: 12, color: PALETTE.grayText, marginTop: 4 }}>
                       {it.desc}
                     </div>
                   </div>
 
-                  <span
-                    aria-hidden
-                    style={{ color: PALETTE.teal, fontWeight: 800 }}
-                  >
-                    ›
-                  </span>
+                  <span aria-hidden style={{ color: PALETTE.teal, fontWeight: 800 }}>›</span>
                 </Link>
               ))}
             </div>
@@ -641,66 +560,28 @@ export default function Home1() {
 
       {/* 복지디자인 이야기 */}
       <Section>
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "260px 1fr",
-            gap: 24,
-            alignItems: "start",
-          }}
-        >
+        <div style={{ display: "grid", gridTemplateColumns: "260px 1fr", gap: 24, alignItems: "start" }}>
           {(() => {
             const [active, setActive] = useState("전체");
             const [items, setItems] = useState([]);
 
             useEffect(() => {
               try {
-                const modules = import.meta.glob(
-                  "/src/content/stories/*.{md,mdx}",
-                  { eager: true, query: "?raw", import: "default" }
-                );
+                const modules = import.meta.glob("/src/content/stories/*.{md,mdx}", { eager: true, query: "?raw", import: "default" });
                 const mapped = Object.entries(modules).map(([path, raw]) => {
                   const { data } = matter(raw);
                   const meta = parseDatedSlug(path);
-                  const base = (path.split("/").pop() || "").replace(
-                    /\.(md|mdx)$/i,
-                    ""
-                  );
-                  const rawType = (
-                    data?.category ||
-                    data?.type ||
-                    "기타"
-                  ).trim();
-                  const legacyToNew = {
-                    인터뷰: "교육",
-                    교육: "교육",
-                    행사: "회의",
-                    행사안내: "회의",
-                    이벤트: "회의",
-                    공탁: "사업",
-                    사업: "사업",
-                    공조동행: "기타",
-                    활동: "기타",
-                    활동소식: "기타",
-                    공지: "기타",
-                  };
+                  const base = (path.split("/").pop() || "").replace(/\.(md|mdx)$/i, "");
+                  const rawType = (data?.category || data?.type || "기타").trim();
+                  const legacyToNew = { 인터뷰: "교육", 교육: "교육", 행사: "회의", 행사안내: "회의", 이벤트: "회의", 공탁: "사업", 사업: "사업", 공조동행: "기타", 활동: "기타", 활동소식: "기타", 공지: "기타" };
                   let type = legacyToNew[rawType] || rawType;
-                  if (!["사업", "교육", "회의", "기타"].includes(type))
-                    type = "기타";
-                  return {
-                    id: path,
-                    title: data?.title || meta.titleFromFile,
-                    date: formatDate(data?.date) || formatDate(meta.date),
-                    slug: base,
-                    type,
-                    thumbnail: data?.thumbnail || null,
-                  };
+                  if (!["사업", "교육", "회의", "기타"].includes(type)) type = "기타";
+                  return { id: path, title: data?.title || meta.titleFromFile, date: formatDate(data?.date) || formatDate(meta.date), slug: base, type, thumbnail: data?.thumbnail || null };
                 });
                 mapped.sort((a, b) => {
                   const ad = a.date ? new Date(a.date) : new Date(0);
                   const bd = b.date ? new Date(b.date) : new Date(0);
-                  if (!isNaN(bd) && !isNaN(ad) && bd.getTime() !== ad.getTime())
-                    return bd.getTime() - ad.getTime();
+                  if (!isNaN(bd) && !isNaN(ad) && bd.getTime() !== ad.getTime()) return bd.getTime() - ad.getTime();
                   return (b.id || "").localeCompare(a.id || "");
                 });
                 setItems(mapped);
@@ -710,58 +591,19 @@ export default function Home1() {
               }
             }, []);
 
-            const pills = useMemo(
-              () => ["전체", "사업", "교육", "회의", "기타"],
-              []
-            );
-            const filtered = items.filter(
-              (d) => active === "전체" || d.type === active
-            );
+            const pills = useMemo(() => ["전체", "사업", "교육", "회의", "기타"], []);
+            const filtered = items.filter((d) => active === "전체" || d.type === active);
 
             return (
               <>
                 <div>
-                  <h2
-                    style={{
-                      margin: "0 0 8px 0",
-                      fontSize: 22,
-                      fontWeight: 900,
-                    }}
-                  >
-                    복지디자인 이야기
-                  </h2>
-                  <p
-                    style={{
-                      margin: "0 0 10px 0",
-                      color: PALETTE.grayText,
-                      fontSize: 14,
-                    }}
-                  >
-                    복지디자인의 최신 소식을 전해드려요
-                  </p>
-                  <a
-                    href="/news/stories"
-                    style={{
-                      display: "inline-flex",
-                      alignItems: "center",
-                      gap: 6,
-                      textDecoration: "none",
-                      color: PALETTE.teal,
-                      fontWeight: 800,
-                      marginBottom: 10,
-                    }}
-                  >
+                  <h2 style={{ margin: "0 0 8px 0", fontSize: 22, fontWeight: 900 }}>복지디자인 이야기</h2>
+                  <p style={{ margin: "0 0 10px 0", color: PALETTE.grayText, fontSize: 14 }}>복지디자인의 최신 소식을 전해드려요</p>
+                  <a href="/news/stories" style={{ display: "inline-flex", alignItems: "center", gap: 6, textDecoration: "none", color: PALETTE.teal, fontWeight: 800, marginBottom: 10 }}>
                     더보기 <span aria-hidden>›</span>
                   </a>
                   {/* 더보기 아래 세로 정사각 버튼 */}
-                  <div
-                    style={{
-                      display: "flex",
-                      flexDirection: "column",
-                      gap: 12,
-                      marginTop: 28,
-                    }}
-                  >
+                  <div style={{ display: "flex", flexDirection: "column", gap: 12, marginTop: 28 }}>
                     {pills.map((label) => {
                       const isActive = active === label;
                       return (
@@ -796,13 +638,7 @@ export default function Home1() {
 
                 {/* 우측: 카드 3x2 (6개) */}
                 <div style={{ marginTop: 96 }}>
-                  <div
-                    style={{
-                      display: "grid",
-                      gridTemplateColumns: "repeat(3, minmax(0,1fr))",
-                      gap: 18,
-                    }}
-                  >
+                  <div style={{ display: "grid", gridTemplateColumns: "repeat(3, minmax(0,1fr))", gap: 18 }}>
                     {filtered.slice(0, 6).map((n) => (
                       <StoryCard
                         key={n.slug}
@@ -831,56 +667,18 @@ export default function Home1() {
         }}
       >
         <Section id="support" style={{ padding: "16px 20px" }}>
-          <h2 style={{ margin: "0 0 6px 0", fontSize: 22, fontWeight: 900 }}>
-            지원사업 영역
-          </h2>
-          <p
-            style={{
-              margin: "0 0 16px 0",
-              color: PALETTE.grayText,
-              fontSize: 14,
-            }}
-          >
+          <h2 style={{ margin: "0 0 6px 0", fontSize: 22, fontWeight: 900 }}>지원사업 영역</h2>
+          <p style={{ margin: "0 0 16px 0", color: PALETTE.grayText, fontSize: 14 }}>
             복지디자인이 수행하는 주요 지원사업을 한눈에 살펴보세요.
           </p>
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(3, minmax(0,1fr))",
-              gap: 16,
-            }}
-          >
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(3, minmax(0,1fr))", gap: 16 }}>
             {[
-              {
-                icon: "/images/icons/rental.png",
-                label: "휠체어 및 복지용구 무료 대여",
-                href: "/business/Rental",
-              },
-              {
-                icon: "/images/icons/apply-help.png",
-                label: "보조기기·복지용구 신청 안내 지원",
-                href: "/business/apply-help",
-              },
-              {
-                icon: "/images/icons/donation.png",
-                label: "보조기기 기증 캠페인",
-                href: "/business/donation",
-              },
-              {
-                icon: "/images/icons/ewc-insurance.png",
-                label: "취약 계층 전동 휠체어 보험금 지원",
-                href: "/business/ewc-insurance",
-              },
-              {
-                icon: "/images/icons/needs-survey.png",
-                label: "취약 계층 복지욕구 실태조사",
-                href: "/business/needs-survey",
-              },
-              {
-                icon: "/images/icons/member-services.png",
-                label: "조합원 지원 서비스",
-                href: "/business/member-services",
-              },
+              { icon: "/images/icons/rental.png", label: "휠체어 및 복지용구 무료 대여", href: "/business/Rental" },
+              { icon: "/images/icons/apply-help.png", label: "보조기기·복지용구 신청 안내 지원", href: "/business/apply-help" },
+              { icon: "/images/icons/donation.png", label: "보조기기 기증 캠페인", href: "/business/donation" },
+              { icon: "/images/icons/ewc-insurance.png", label: "취약 계층 전동 휠체어 보험금 지원", href: "/business/ewc-insurance" },
+              { icon: "/images/icons/needs-survey.png", label: "취약 계층 복지욕구 실태조사", href: "/business/needs-survey" },
+              { icon: "/images/icons/member-services.png", label: "조합원 지원 서비스", href: "/business/member-services" },
             ].map((it, i) => (
               <Link
                 key={i}
@@ -900,13 +698,11 @@ export default function Home1() {
                 }}
                 onMouseEnter={(e) => {
                   e.currentTarget.style.transform = "translateY(-3px)";
-                  e.currentTarget.style.boxShadow =
-                    "0 14px 28px rgba(59,167,160,.32)";
+                  e.currentTarget.style.boxShadow = "0 14px 28px rgba(59,167,160,.32)";
                 }}
                 onMouseLeave={(e) => {
                   e.currentTarget.style.transform = "none";
-                  e.currentTarget.style.boxShadow =
-                    "0 8px 18px rgba(59,167,160,.25)";
+                  e.currentTarget.style.boxShadow = "0 8px 18px rgba(59,167,160,.25)";
                 }}
               >
                 <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
@@ -922,28 +718,24 @@ export default function Home1() {
                       justifyContent: "center",
                     }}
                   >
-                    {typeof it.icon === "string"
-                      ? (() => {
-                          const base = it.icon.replace(/\.(png|svg)$/i, "");
-                          return (
-                            <img
-                              src={`${base}.svg`}
-                              onError={(e) => {
-                                e.currentTarget.onerror = null;
-                                e.currentTarget.src = `${base}.png`;
-                              }}
-                              alt=""
-                              loading="lazy"
-                              decoding="async"
-                              style={{
-                                width: 24,
-                                height: 24,
-                                objectFit: "contain",
-                              }}
-                            />
-                          );
-                        })()
-                      : it.icon}
+                    {typeof it.icon === "string" ? (
+                      (() => {
+                        const base = it.icon.replace(/\.(png|svg)$/i, "");
+                        return (
+                          <img
+                            src={`${base}.svg`}
+                            onError={(e) => {
+                              e.currentTarget.onerror = null;
+                              e.currentTarget.src = `${base}.png`;
+                            }}
+                            alt=""
+                            loading="lazy"
+                            decoding="async"
+                            style={{ width: 24, height: 24, objectFit: "contain" }}
+                          />
+                        );
+                      })()
+                    ) : it.icon}
                   </div>
                   <div style={{ fontWeight: 900 }}>{it.label}</div>
                 </div>
@@ -956,106 +748,28 @@ export default function Home1() {
 
       {/* 공지/정보공개 – 두 칼럼 리스트 */}
       <Section style={{ paddingTop: 38 }}>
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            gap: 12,
-            justifyContent: "space-between",
-            marginBottom: 12,
-          }}
-        >
-          <h2
-            style={{
-              margin: 0,
-              fontSize: 28,
-              fontWeight: 900,
-              display: "flex",
-              alignItems: "center",
-              gap: 10,
-            }}
-          >
-            <span
-              aria-hidden
-              style={{
-                width: 8,
-                height: 24,
-                background: PALETTE.orange,
-                borderRadius: 3,
-                display: "inline-block",
-              }}
-            />
+        <div style={{ display: "flex", alignItems: "center", gap: 12, justifyContent: "space-between", marginBottom: 12 }}>
+          <h2 style={{ margin: 0, fontSize: 28, fontWeight: 900, display: "flex", alignItems: "center", gap: 10 }}>
+            <span aria-hidden style={{ width: 8, height: 24, background: PALETTE.orange, borderRadius: 3, display: "inline-block" }} />
             공지사항
           </h2>
         </div>
 
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(2, minmax(0,1fr))",
-            gap: 24,
-          }}
-        >
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(2, minmax(0,1fr))", gap: 24 }}>
           {/* 공지 */}
           <div>
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "baseline",
-                marginBottom: 12,
-              }}
-            >
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginBottom: 12 }}>
               <h2 style={{ margin: 0, fontSize: 22, fontWeight: 900 }}>공지</h2>
-              <a
-                href="/news/notices"
-                style={{
-                  color: PALETTE.teal,
-                  fontWeight: 800,
-                  textDecoration: "none",
-                  border: `1px solid ${PALETTE.teal}33`,
-                  borderRadius: 999,
-                  padding: "6px 10px",
-                  background: "#fff",
-                }}
-              >
+              <a href="/news/notices" style={{ color: PALETTE.teal, fontWeight: 800, textDecoration: "none", border: `1px solid ${PALETTE.teal}33`, borderRadius: 999, padding: "6px 10px", background: "#fff" }}>
                 더보기 ›
               </a>
             </div>
             <div style={{ display: "grid", gap: 18 }}>
-              {(loadingNotices
-                ? Array.from({ length: 4 })
-                : (noticesSplit.공지 || []).slice(0, 5)
-              ).map((item, i) =>
+              {(loadingNotices ? Array.from({ length: 4 }) : (noticesSplit.공지 || []).slice(0, 5)).map((item, i) =>
                 loadingNotices ? (
-                  <div
-                    key={i}
-                    aria-hidden
-                    style={{
-                      background: "#fff",
-                      border: `1px solid ${PALETTE.line}`,
-                      borderRadius: 14,
-                      padding: "16px 18px",
-                      boxShadow: PALETTE.shadowSm,
-                    }}
-                  >
-                    <div
-                      style={{
-                        height: 18,
-                        width: "70%",
-                        background: "#EEF2F7",
-                        borderRadius: 6,
-                        marginBottom: 10,
-                      }}
-                    />
-                    <div
-                      style={{
-                        height: 12,
-                        width: 120,
-                        background: "#EEF2F7",
-                        borderRadius: 6,
-                      }}
-                    />
+                  <div key={i} aria-hidden style={{ background: "#fff", border: `1px solid ${PALETTE.line}`, borderRadius: 14, padding: "16px 18px", boxShadow: PALETTE.shadowSm }}>
+                    <div style={{ height: 18, width: "70%", background: "#EEF2F7", borderRadius: 6, marginBottom: 10 }} />
+                    <div style={{ height: 12, width: 120, background: "#EEF2F7", borderRadius: 6 }} />
                   </div>
                 ) : (
                   <a
@@ -1072,119 +786,37 @@ export default function Home1() {
                       color: "inherit",
                       transition: "transform .12s ease, box-shadow .12s ease",
                     }}
-                    onMouseEnter={(e) => {
-                      e.currentTarget.style.transform = "translateY(-2px)";
-                      e.currentTarget.style.boxShadow =
-                        "0 10px 22px rgba(0,0,0,.08)";
-                    }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.transform = "none";
-                      e.currentTarget.style.boxShadow = PALETTE.shadowSm;
-                    }}
+                    onMouseEnter={(e) => { e.currentTarget.style.transform = "translateY(-2px)"; e.currentTarget.style.boxShadow = "0 10px 22px rgba(0,0,0,.08)"; }}
+                    onMouseLeave={(e) => { e.currentTarget.style.transform = "none"; e.currentTarget.style.boxShadow = PALETTE.shadowSm; }}
                   >
-                    <div
-                      style={{
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "space-between",
-                        gap: 12,
-                        marginBottom: 6,
-                      }}
-                    >
-                      <div
-                        style={{
-                          fontWeight: 800,
-                          fontSize: 18,
-                          lineHeight: 1.35,
-                          overflow: "hidden",
-                          textOverflow: "ellipsis",
-                          whiteSpace: "nowrap",
-                        }}
-                      >
-                        {item.title}
-                      </div>
-                      <span aria-hidden style={{ color: PALETTE.grayText }}>
-                        ›
-                      </span>
+                    <div style={{ display:"flex", alignItems:"center", justifyContent:"space-between", gap:12, marginBottom:6 }}>
+                      <div style={{ fontWeight: 800, fontSize: 18, lineHeight: 1.35, overflow:"hidden", textOverflow:"ellipsis", whiteSpace:"nowrap" }}>{item.title}</div>
+                      <span aria-hidden style={{ color: PALETTE.grayText }}>›</span>
                     </div>
-                    {item.date && (
-                      <time style={{ color: PALETTE.grayText, fontSize: 12 }}>
-                        {item.date}
-                      </time>
-                    )}
+                    {item.date && <time style={{ color: PALETTE.grayText, fontSize: 12 }}>{item.date}</time>}
                   </a>
                 )
               )}
               {!loadingNotices && (noticesSplit.공지 || []).length === 0 && (
-                <div style={{ color: PALETTE.grayText, fontSize: 14 }}>
-                  표시할 공지가 없습니다.
-                </div>
+                <div style={{ color: PALETTE.grayText, fontSize: 14 }}>표시할 공지가 없습니다.</div>
               )}
             </div>
           </div>
 
           {/* 정보공개 */}
           <div>
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "baseline",
-                marginBottom: 12,
-              }}
-            >
-              <h2 style={{ margin: 0, fontSize: 22, fontWeight: 900 }}>
-                정보공개
-              </h2>
-              <a
-                href="/news/notices"
-                style={{
-                  color: PALETTE.teal,
-                  fontWeight: 800,
-                  textDecoration: "none",
-                  border: `1px solid ${PALETTE.teal}33`,
-                  borderRadius: 999,
-                  padding: "6px 10px",
-                  background: "#fff",
-                }}
-              >
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginBottom: 12 }}>
+              <h2 style={{ margin: 0, fontSize: 22, fontWeight: 900 }}>정보공개</h2>
+              <a href="/news/notices" style={{ color: PALETTE.teal, fontWeight: 800, textDecoration: "none", border: `1px solid ${PALETTE.teal}33`, borderRadius: 999, padding: "6px 10px", background: "#fff" }}>
                 더보기 ›
               </a>
             </div>
             <div style={{ display: "grid", gap: 18 }}>
-              {(loadingNotices
-                ? Array.from({ length: 4 })
-                : (noticesSplit.정보공개 || []).slice(0, 5)
-              ).map((item, i) =>
+              {(loadingNotices ? Array.from({ length: 4 }) : (noticesSplit.정보공개 || []).slice(0, 5)).map((item, i) =>
                 loadingNotices ? (
-                  <div
-                    key={i}
-                    aria-hidden
-                    style={{
-                      background: "#fff",
-                      border: `1px solid ${PALETTE.line}`,
-                      borderRadius: 14,
-                      padding: "16px 18px",
-                      boxShadow: PALETTE.shadowSm,
-                    }}
-                  >
-                    <div
-                      style={{
-                        height: 18,
-                        width: "70%",
-                        background: "#EEF2F7",
-                        borderRadius: 6,
-                        marginBottom: 10,
-                      }}
-                    />
-                    <div
-                      style={{
-                        height: 12,
-                        width: 120,
-                        background: "#EEF2F7",
-                        borderRadius: 6,
-                      }}
-                    />
+                  <div key={i} aria-hidden style={{ background: "#fff", border: `1px solid ${PALETTE.line}`, borderRadius: 14, padding: "16px 18px", boxShadow: PALETTE.shadowSm }}>
+                    <div style={{ height: 18, width: "70%", background: "#EEF2F7", borderRadius: 6, marginBottom: 10 }} />
+                    <div style={{ height: 12, width: 120, background: "#EEF2F7", borderRadius: 6 }} />
                   </div>
                 ) : (
                   <a
@@ -1201,55 +833,20 @@ export default function Home1() {
                       color: "inherit",
                       transition: "transform .12s ease, box-shadow .12s ease",
                     }}
-                    onMouseEnter={(e) => {
-                      e.currentTarget.style.transform = "translateY(-2px)";
-                      e.currentTarget.style.boxShadow =
-                        "0 10px 22px rgba(0,0,0,.08)";
-                    }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.transform = "none";
-                      e.currentTarget.style.boxShadow = PALETTE.shadowSm;
-                    }}
+                    onMouseEnter={(e) => { e.currentTarget.style.transform = "translateY(-2px)"; e.currentTarget.style.boxShadow = "0 10px 22px rgba(0,0,0,.08)"; }}
+                    onMouseLeave={(e) => { e.currentTarget.style.transform = "none"; e.currentTarget.style.boxShadow = PALETTE.shadowSm; }}
                   >
-                    <div
-                      style={{
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "space-between",
-                        gap: 12,
-                        marginBottom: 6,
-                      }}
-                    >
-                      <div
-                        style={{
-                          fontWeight: 800,
-                          fontSize: 18,
-                          lineHeight: 1.35,
-                          overflow: "hidden",
-                          textOverflow: "ellipsis",
-                          whiteSpace: "nowrap",
-                        }}
-                      >
-                        {item.title}
-                      </div>
-                      <span aria-hidden style={{ color: PALETTE.grayText }}>
-                        ›
-                      </span>
+                    <div style={{ display:"flex", alignItems:"center", justifyContent:"space-between", gap:12, marginBottom:6 }}>
+                      <div style={{ fontWeight: 800, fontSize: 18, lineHeight: 1.35, overflow:"hidden", textOverflow:"ellipsis", whiteSpace:"nowrap" }}>{item.title}</div>
+                      <span aria-hidden style={{ color: PALETTE.grayText }}>›</span>
                     </div>
-                    {item.date && (
-                      <time style={{ color: PALETTE.grayText, fontSize: 12 }}>
-                        {item.date}
-                      </time>
-                    )}
+                    {item.date && <time style={{ color: PALETTE.grayText, fontSize: 12 }}>{item.date}</time>}
                   </a>
                 )
               )}
-              {!loadingNotices &&
-                (noticesSplit.정보공개 || []).length === 0 && (
-                  <div style={{ color: PALETTE.grayText, fontSize: 14 }}>
-                    표시할 정보공개가 없습니다.
-                  </div>
-                )}
+              {!loadingNotices && (noticesSplit.정보공개 || []).length === 0 && (
+                <div style={{ color: PALETTE.grayText, fontSize: 14 }}>표시할 정보공개가 없습니다.</div>
+              )}
             </div>
           </div>
         </div>
