@@ -797,7 +797,7 @@ export default function Home1() {
                     href="/news/stories"
                     style={{
                       display: "inline-flex",
-                      alignItems: "left",
+                      alignItems: "center",
                       gap: 6,
                       textDecoration: "none",
                       color: PALETTE.teal,
