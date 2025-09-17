@@ -828,39 +828,57 @@ export default function Home1() {
               {
                 icon: "/images/icons/rental.png",
                 label: "휠체어 및 복지용구 무료 대여",
+                href: "/support/rental",
               },
               {
                 icon: "/images/icons/apply-help.png",
                 label: "보조기기·복지용구 신청 안내 지원",
+                href: "/support/apply-help",
               },
               {
                 icon: "/images/icons/donation.png",
                 label: "보조기기 기증 캠페인",
+                href: "/support/device-donation",
               },
               {
                 icon: "/images/icons/ewc-insurance.png",
                 label: "취약 계층 전동 휠체어 보험금 지원",
+                href: "/support/wheelchair-insurance",
               },
               {
                 icon: "/images/icons/needs-survey.png",
                 label: "취약 계층 복지욕구 실태조사",
+                href: "/support/needs-survey",
               },
               {
                 icon: "/images/icons/member-services.png",
                 label: "조합원 지원 서비스",
-                 },
+                href: "/support/member-services",
+              },
             ].map((it, i) => (
-              <div
+              <a
                 key={i}
+                href={it.href}
                 style={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between",
                   background: PALETTE.teal,
                   color: "#fff",
                   borderRadius: PALETTE.radiusLg,
                   padding: 20,
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "space-between",
                   boxShadow: "0 8px 18px rgba(59,167,160,.25)",
+                  textDecoration: "none",
+                  color: "inherit",
+                  transition: "transform .12s ease, box-shadow .12s ease",
+                }}
+                onMouseEnter={e => {
+                  e.currentTarget.style.transform = "translateY(-3px)";
+                  e.currentTarget.style.boxShadow = "0 14px 28px rgba(59,167,160,.32)";
+                }}
+                onMouseLeave={e => {
+                  e.currentTarget.style.transform = "none";
+                  e.currentTarget.style.boxShadow = "0 8px 18px rgba(59,167,160,.25)";
                 }}
               >
                 <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
@@ -899,7 +917,7 @@ export default function Home1() {
                   <div style={{ fontWeight: 900 }}>{it.label}</div>
                 </div>
                 <span style={{ opacity: 0.9, fontSize: 12 }}>바로가기 ›</span>
-              </div>
+              </a>
             ))}
           </div>
         </Section>
