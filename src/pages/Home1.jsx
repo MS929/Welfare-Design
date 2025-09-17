@@ -506,7 +506,7 @@ export default function Home1() {
                   href: "/about/what",
                   iconsrc: "/images/icons/introduction.png",
                   label: "복지디자인 소개",
-                  desc: "비전·연혁·조직",
+                  desc: "설립·비전·연혁",
                 },
                 {
                   href: "/business/overview",
