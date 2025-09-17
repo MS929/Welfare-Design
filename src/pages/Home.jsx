@@ -170,25 +170,19 @@ export default function Home() {
   const NOTICE_CARD_MIN_H = 200; // 공지/공모 카드 공통 높이
   const NOTICE_THUMB_H = 120;    // 공모 썸네일 고정 높이
 
-  const { width, isMobile } = useViewport();
+  const { width, isMobile, isTablet } = useViewport();
   // 히어로 배경 크기(오른쪽 데코를 축소)
-  const heroBgSize = useMemo(() => {
-    if (width >= 1280) return "760px auto";  // desktop
-    if (width >= 1024) return "620px auto";  // laptop/tablet landscape
-    if (width >= 640)  return "520px auto";  // tablet portrait
-    return "340px auto";                      // mobile
-  }, [width]);
-  // 히어로 높이(참고 사이트와 유사 비율)
-  const heroMinH = useMemo(() => {
-    if (width >= 1280) return 360;   // desktop
-    if (width >= 1024) return 320;   // laptop/tablet landscape
-    if (width >= 640)  return 280;   // tablet portrait
-    return 220;                      // mobile
-  }, [width]);
   const hoverCapable = useHoverCapable();
   const focusVisible = useFocusVisible();
   const sectionGap = isMobile ? 32 : 48;
   const revealDuration = isMobile ? 0.28 : 0.4;
+
+  const heroImgH = useMemo(() => {
+    if (width >= 1280) return 340; // desktop
+    if (width >= 1024) return 300; // laptop/tablet landscape
+    if (width >= 640)  return 260; // tablet portrait
+    return 200;                     // mobile
+  }, [width]);
 
   const [loadingNotices, setLoadingNotices] = useState(true);
   const [loadingStories, setLoadingStories] = useState(true);
@@ -341,7 +335,7 @@ export default function Home() {
   return (
     <main role="main">
 
-      {/* 1) HERO – 상단 배너: 좌측 텍스트/버튼, 우측 큰 이미지 */}
+      {/* 1) HERO – 좌 텍스트 / 우 이미지 카드 */}
       <section
         aria-label="메인 히어로"
         style={{
@@ -349,70 +343,102 @@ export default function Home() {
           width: "100vw",
           marginLeft: "calc(50% - 50vw)",
           marginRight: "calc(50% - 50vw)",
-          // 배경 레이어(위에서 아래 순서):
-          // 1) separator line, 2) white overlay, 3) image
-          backgroundColor: COLOR.bg,
-          backgroundImage: `url(${heroSrc})`,
-          backgroundSize: `${heroBgSize}`,
-          backgroundPosition: `right center`,
-          backgroundRepeat: `no-repeat`,
-          overflow: "hidden",
+          background: "#FFFFFF",
           borderBottom: "none",
           marginBottom: isMobile ? 12 : 16,
-          minHeight: heroMinH,
         }}
       >
         <div
           style={{
             maxWidth: TOKENS.container,
             margin: "0 auto",
-            padding: "56px 24px 72px",
+            padding: isMobile ? "36px 20px 40px" : "56px 24px 64px",
             display: "grid",
-            gridTemplateColumns: "1fr",
+            gridTemplateColumns: isMobile ? "1fr" : "1.05fr 1fr",
             alignItems: "center",
             gap: TOKENS.gap,
           }}
         >
-          <div
-            style={{
-              textAlign: "left",
-              color: COLOR.text,
-              maxWidth: 720,
-              margin: 0,
-            }}
-          >
+          {/* 좌측: 타이틀/설명/CTA */}
+          <div style={{ textAlign: "left", color: COLOR.text, maxWidth: 720 }}>
+            {/* 작은 라벨 */}
+            <div style={{ display: "inline-flex", alignItems: "center", gap: 10, marginBottom: 12 }}>
+              <span aria-hidden style={{ width: 8, height: 8, background: COLOR.secondary, borderRadius: 999 }} />
+              <span style={{ fontWeight: 800, letterSpacing: ".12em", fontSize: 12, color: COLOR.textMuted }}>WELFARE DESIGN</span>
+            </div>
+
             <h1
               style={{
                 margin: 0,
-                fontSize: "clamp(22px, 4.2vw, 46px)",
+                fontSize: "clamp(24px, 4.6vw, 48px)",
                 lineHeight: 1.18,
                 fontWeight: 900,
                 letterSpacing: "-0.5px",
-                color: "#000000",
+                color: "#000",
                 wordBreak: "keep-all",
                 textWrap: "balance",
               }}
             >
-              <span style={{ display: "block", fontWeight: 900 }}>
-                현장과 지역을 잇는 맞춤형 복지를 설계하며
-              </span>
-              <span style={{ display: "block", marginTop: 6, fontWeight: 800 }}>
-                복지디자인 <span style={{ fontWeight: 900 }}>사회적협동조합</span>이
-              </span>
-              <span style={{ display: "block", marginTop: 6, fontWeight: 700 }}>
-                지역과 함께합니다.
-              </span>
+              <span style={{ display: "block" }}>현장과 지역을 잇는 <span style={{ boxShadow: `0 -10px 0 ${COLOR.accentTint} inset` }}>맞춤형 복지</span>를 설계하며</span>
+              <span style={{ display: "block", marginTop: 6 }}>복지디자인 <span style={{ boxShadow: `0 -10px 0 ${COLOR.primaryTint} inset` }}>사회적협동조합</span>이</span>
+              <span style={{ display: "block", marginTop: 6 }}>지역과 함께합니다.</span>
             </h1>
-            <p
-              style={{
-                margin: "16px 0 0",
-                color: COLOR.textMuted,
-                fontSize: 16,
-                maxWidth: 640,
-              }}
-            >
+
+            <p style={{ margin: "16px 0 0", color: COLOR.textMuted, fontSize: 16, maxWidth: 640 }}>
               주민·기관·전문가가 협력하는 맞춤형 복지 플랫폼을 설계·운영합니다.
             </p>
+
+            {/* CTA */}
+            <div style={{ display: "flex", gap: 10, marginTop: 18, flexWrap: "wrap" }}>
+              <Link
+                to="/support/guide"
+                style={{
+                  padding: "10px 16px",
+                  borderRadius: 999,
+                  background: COLOR.primary,
+                  color: "#fff",
+                  textDecoration: "none",
+                  fontWeight: 700,
+                  boxShadow: TOKENS.shadowSm,
+                }}
+              >
+                후원 안내
+              </Link>
+              <Link
+                to="/support/combination"
+                style={{
+                  padding: "10px 16px",
+                  borderRadius: 999,
+                  border: `1px solid ${COLOR.primary}`,
+                  background: "#fff",
+                  color: COLOR.primary,
+                  textDecoration: "none",
+                  fontWeight: 700,
+                }}
+              >
+                조합 가입
+              </Link>
+            </div>
+          </div>
+
+          {/* 우측: 이미지 카드 */}
+          <div
+            style={{
+              borderRadius: TOKENS.radiusLg,
+              overflow: "hidden",
+              boxShadow: TOKENS.shadow,
+              border: `1px solid ${COLOR.line}`,
+              height: heroImgH,
+              background: COLOR.neutralTint,
+            }}
+          >
+            <img
+              src={heroSrc}
+              alt="복지디자인 활동 이미지"
+              style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
+              loading="eager"
+              decoding="async"
+            />
           </div>
         </div>
       </section>
