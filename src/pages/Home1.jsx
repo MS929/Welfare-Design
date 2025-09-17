@@ -802,7 +802,7 @@ export default function Home1() {
                       textDecoration: "none",
                       color: PALETTE.teal,
                       fontWeight: 800,
-                      marginBottom: 10,
+                      marginBottom: 18,
                       marginLeft: 20,
                     }}
                   >
