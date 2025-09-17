@@ -335,7 +335,7 @@ export default function Home() {
   return (
     <main role="main">
 
-      {/* 1) HERO – 좌 텍스트 / 우 이미지 카드 */}
+      {/* 1) HERO – 배너형(그라데이션 패널 + 원형 이미지) */}
       <section
         aria-label="메인 히어로"
         style={{
@@ -345,61 +345,70 @@ export default function Home() {
           marginRight: "calc(50% - 50vw)",
           background: "#FFFFFF",
           borderBottom: "none",
-          marginBottom: isMobile ? 12 : 16,
+          marginBottom: isMobile ? 8 : 12,
         }}
       >
         <div
           style={{
             maxWidth: TOKENS.container,
             margin: "0 auto",
-            padding: isMobile ? "36px 20px 40px" : "56px 24px 64px",
-            display: "grid",
-            gridTemplateColumns: isMobile ? "1fr" : "1.05fr 1fr",
-            alignItems: "center",
-            gap: TOKENS.gap,
+            padding: isMobile ? "28px 20px 44px" : "44px 24px 64px",
           }}
         >
-          {/* 좌측: 타이틀/설명/CTA */}
-          <div style={{ textAlign: "left", color: COLOR.text, maxWidth: 720 }}>
-            {/* 작은 라벨 */}
-            <div style={{ display: "inline-flex", alignItems: "center", gap: 10, marginBottom: 12 }}>
-              <span aria-hidden style={{ width: 8, height: 8, background: COLOR.secondary, borderRadius: 999 }} />
-              <span style={{ fontWeight: 800, letterSpacing: ".12em", fontSize: 12, color: COLOR.textMuted }}>WELFARE DESIGN</span>
+          <div
+            style={{
+              position: "relative",
+              borderRadius: 24,
+              overflow: "hidden",
+              background: `linear-gradient(135deg, ${COLOR.primaryTint} 0%, ${COLOR.yellowTint} 100%)`,
+              border: `1px solid ${COLOR.line}`,
+              boxShadow: TOKENS.shadow,
+              padding: isMobile ? "28px 22px 88px" : "48px 56px 92px",
+              minHeight: isMobile ? 220 : 280,
+            }}
+          >
+            {/* 라벨 */}
+            <div style={{ fontWeight: 800, letterSpacing: ".14em", fontSize: 12, color: COLOR.textMuted, marginBottom: 10 }}>
+              WELFARE DESIGN
             </div>
 
+            {/* 타이틀 */}
             <h1
               style={{
                 margin: 0,
-                fontSize: "clamp(24px, 4.6vw, 48px)",
+                fontSize: "clamp(22px, 4.2vw, 42px)",
                 lineHeight: 1.18,
                 fontWeight: 900,
-                letterSpacing: "-0.5px",
-                color: "#000",
+                letterSpacing: "-0.4px",
+                color: COLOR.text,
+                maxWidth: 720,
                 wordBreak: "keep-all",
                 textWrap: "balance",
               }}
             >
-              <span style={{ display: "block" }}>현장과 지역을 잇는 <span style={{ boxShadow: `0 -10px 0 ${COLOR.accentTint} inset` }}>맞춤형 복지</span>를 설계하며</span>
-              <span style={{ display: "block", marginTop: 6 }}>복지디자인 <span style={{ boxShadow: `0 -10px 0 ${COLOR.primaryTint} inset` }}>사회적협동조합</span>이</span>
-              <span style={{ display: "block", marginTop: 6 }}>지역과 함께합니다.</span>
+              현장과 지역을 잇는 맞춤형 복지를 설계하며
+              <br />
+              복지디자인 사회적협동조합이 지역과 함께합니다.
             </h1>
 
-            <p style={{ margin: "16px 0 0", color: COLOR.textMuted, fontSize: 16, maxWidth: 640 }}>
+            {/* 설명 */}
+            <p style={{ margin: "14px 0 0", color: COLOR.textMuted, fontSize: 15.5, maxWidth: 640 }}>
               주민·기관·전문가가 협력하는 맞춤형 복지 플랫폼을 설계·운영합니다.
             </p>
 
-            {/* CTA */}
-            <div style={{ display: "flex", gap: 10, marginTop: 18, flexWrap: "wrap" }}>
+            {/* CTA (고스트 버튼) */}
+            <div style={{ display: "flex", gap: 10, marginTop: 16, flexWrap: "wrap" }}>
               <Link
                 to="/support/guide"
                 style={{
                   padding: "10px 16px",
                   borderRadius: 999,
-                  background: COLOR.primary,
-                  color: "#fff",
+                  border: `1px solid ${COLOR.text}`,
+                  background: "#ffffffAA",
+                  color: COLOR.text,
                   textDecoration: "none",
                   fontWeight: 700,
-                  boxShadow: TOKENS.shadowSm,
+                  backdropFilter: "saturate(120%) blur(2px)",
                 }}
               >
                 후원 안내
@@ -409,33 +418,33 @@ export default function Home() {
                 style={{
                   padding: "10px 16px",
                   borderRadius: 999,
-                  border: `1px solid ${COLOR.primary}`,
-                  background: "#fff",
-                  color: COLOR.primary,
+                  border: `1px solid ${COLOR.text}`,
+                  background: "#ffffffAA",
+                  color: COLOR.text,
                   textDecoration: "none",
                   fontWeight: 700,
+                  backdropFilter: "saturate(120%) blur(2px)",
                 }}
               >
                 조합 가입
               </Link>
             </div>
-          </div>
 
-          {/* 우측: 이미지 카드 */}
-          <div
-            style={{
-              borderRadius: TOKENS.radiusLg,
-              overflow: "hidden",
-              boxShadow: TOKENS.shadow,
-              border: `1px solid ${COLOR.line}`,
-              height: heroImgH,
-              background: COLOR.neutralTint,
-            }}
-          >
+            {/* 우측 원형 이미지 (오버랩) */}
             <img
               src={heroSrc}
               alt="복지디자인 활동 이미지"
-              style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
+              style={{
+                position: "absolute",
+                right: isMobile ? 16 : 40,
+                bottom: isMobile ? -28 : -32,
+                width: isMobile ? 180 : 260,
+                height: isMobile ? 180 : 260,
+                objectFit: "cover",
+                borderRadius: "50%",
+                border: `6px solid #fff`,
+                boxShadow: "0 16px 40px rgba(0,0,0,.18)",
+              }}
               loading="eager"
               decoding="async"
             />
@@ -483,7 +492,7 @@ export default function Home() {
                 style={{
                   width: 6,
                   height: 26,
-                  background: COLOR.secondary,
+                  background: COLOR.accent,
                   borderRadius: 3,
                 }}
               />
@@ -538,359 +547,104 @@ export default function Home() {
             id={`notice-panel-${tabs.indexOf(noticeTab)}`}
             aria-labelledby={`notice-tab-${tabs.indexOf(noticeTab)}`}
             style={{
-              display: "grid",
-              gridTemplateColumns: `repeat(${noticeCols}, minmax(0, 1fr))`,
-              gap: 28,
+              display: "flex",
+              gap: 16,
+              overflowX: "auto",
+              paddingBottom: 8,
+              scrollSnapType: "x mandatory",
             }}
           >
             {loadingNotices ? (
-              Array.from({ length: 4 }).map((_, i) => (
+              Array.from({ length: 6 }).map((_, i) => (
                 <div key={i} aria-hidden
                   style={{
+                    minWidth: 300,
+                    maxWidth: 340,
+                    scrollSnapAlign: "start",
                     border: `1px solid #EAEAEA`,
                     borderRadius: TOKENS.radius,
                     padding: 20,
                     boxShadow: TOKENS.shadowSm,
-                    minHeight: NOTICE_CARD_MIN_H,
                     background: "#fff",
                   }}
                 >
-                  <div style={{
-                    height: 16, width: "60%", background: COLOR.neutralTint,
-                    borderRadius: 6, marginBottom: 12
-                  }} />
+                  <div style={{ height: 16, width: "70%", background: COLOR.neutralTint, borderRadius: 6, marginBottom: 12 }} />
                   <div style={{ height: 12, width: "90%", background: COLOR.neutralTint, borderRadius: 6, marginBottom: 8 }} />
-                  <div style={{ height: 12, width: "80%", background: COLOR.neutralTint, borderRadius: 6 }} />
+                  <div style={{ height: 12, width: "60%", background: COLOR.neutralTint, borderRadius: 6 }} />
                 </div>
               ))
-            ) : (tabItems[noticeTab] || []).slice(0, 4).map((item) => (
+            ) : (tabItems[noticeTab] || []).slice(0, 12).map((item) => (
               <ClickCard
                 key={item.id}
                 to={item.to}
                 role="article"
                 data-reveal
                 style={{
+                  minWidth: 300,
+                  maxWidth: 340,
+                  scrollSnapAlign: "start",
                   border: `1px solid #EAEAEA`,
                   borderRadius: TOKENS.radius,
-                  padding: 16,
-                  boxShadow:
-                    hoveredNotice === item.id
-                      ? TOKENS.shadowHover
-                      : TOKENS.shadowSm,
-                  transform:
-                    hoveredNotice === item.id
-                      ? "translateY(-4px)"
-                      : "translateY(0)",
-                  transition: "all .18s ease",
-                  display: "flex",
-                  flexDirection: "column",
-                  justifyContent: "space-between",
-                  minHeight: noticeTab === "공모" ? NOTICE_CARD_MIN_H : 120,
+                  padding: 18,
+                  boxShadow: TOKENS.shadowSm,
                   backgroundColor: "#fff",
                   textDecoration: "none",
                   color: "inherit",
-                  outline:
-                    hoveredNotice === item.id
-                      ? `2px solid ${COLOR.primary}`
-                      : "none",
+                  transition: "transform .18s ease, box-shadow .18s ease",
                 }}
-                tabIndex={0}
-                onFocus={(e) => {
-                  if (!focusVisible) return;
-                  e.currentTarget.style.outline = `2px solid ${COLOR.primary}`;
-                  e.currentTarget.style.outlineOffset = "2px";
-                }}
-                onBlur={(e) => {
-                  e.currentTarget.style.outline = hoveredNotice === item.id ? `2px solid ${COLOR.primary}` : "none";
-                  e.currentTarget.style.outlineOffset = hoveredNotice === item.id ? "2px" : "0";
-                }}
-                onMouseEnter={() => { if (!hoverCapable) return; setHoveredNotice(item.id); }}
-                onMouseLeave={() => { if (!hoverCapable) return; setHoveredNotice(null); }}
               >
-                {noticeTab === "공모" ? (
-                  <>
-                    <div
-                      style={{
-                        height: NOTICE_THUMB_H,
-                        marginBottom: 12,
-                        borderRadius: 10,
-                        overflow: "hidden",
-                        background: COLOR.neutralTint,
-                      }}
-                    >
-                      {item.thumbnail ? (
-                        <img
-                          src={item.thumbnail}
-                          alt={item.title}
-                          loading="lazy"
-                          decoding="async"
-                          style={{
-                            width: "100%",
-                            height: "100%",
-                            objectFit: "cover",
-                          }}
-                        />
-                      ) : (
-                        <div
-                          style={{
-                            width: "100%",
-                            height: "100%",
-                            display: "flex",
-                            alignItems: "center",
-                            justifyContent: "center",
-                            color: "#bbb",
-                            fontSize: 36,
-                          }}
-                        >
-                          <span aria-hidden="true">🖼️</span>
-                        </div>
-                      )}
-                    </div>
-                    <h3
-                      style={{
-                        fontSize: 17.5,
-                        fontWeight: 700,
-                        margin: 0,
-                        lineHeight: 1.3,
-                        overflow: "hidden",
-                        textOverflow: "ellipsis",
-                        display: "-webkit-box",
-                        WebkitLineClamp: 2,
-                        WebkitBoxOrient: "vertical",
-                      }}
-                    >
-                      {item.title}
-                    </h3>
-                    {item.date && typeof item.date === "string" ? (
-                      <time
-                        style={{ fontSize: 12, color: "#6B7280", marginTop: 6 }}
-                      >
-                        {item.date}
-                      </time>
-                    ) : null}
-                  </>
-                ) : (
-                  <>
-                    <div>
-                      <h3
-                        style={{
-                          fontSize: 16,
-                          fontWeight: 700,
-                          marginBottom: 6,
-                          lineHeight: 1.3,
-                          whiteSpace: "nowrap",
-                          overflow: "hidden",
-                          textOverflow: "ellipsis",
-                        }}
-                      >
-                        {item.title}
-                      </h3>
-                    </div>
-                    {item.date && typeof item.date === "string" ? (
-                      <time style={{ fontSize: 12, color: "#6B7280" }}>
-                        {item.date}
-                      </time>
-                    ) : null}
-                  </>
-                )}
+                <h3
+                  style={{
+                    fontSize: 16,
+                    fontWeight: 800,
+                    margin: 0,
+                    marginBottom: 8,
+                    lineHeight: 1.3,
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                    whiteSpace: "nowrap",
+                  }}
+                >
+                  {item.title}
+                </h3>
+                {item.date && typeof item.date === "string" ? (
+                  <time style={{ fontSize: 12, color: "#6B7280" }}>{item.date}</time>
+                ) : null}
               </ClickCard>
             ))}
             {!loadingNotices && (!tabItems[noticeTab] || tabItems[noticeTab].length === 0) && (
-              <div
-                style={{
-                  gridColumn: "1 / -1",
-                  color: "#888",
-                  fontSize: 14,
-                  textAlign: "center",
-                  padding: 24,
-                }}
-              >
-                표시할 항목이 없습니다.
-              </div>
+              <div style={{ color: "#888", fontSize: 14, padding: 24 }}>표시할 항목이 없습니다.</div>
             )}
           </div>
         </div>
       </section>
 
-      {/* 3) 가입/후원/문의 CTA 박스 */}
-      <section
-        aria-label="가입/후원/문의"
-        style={{
-          background: "#fff",
-          marginBottom: sectionGap,
-        }}
-      >
-        <div
-          style={{
-            maxWidth: TOKENS.container,
-            margin: "0 auto",
-            padding: "20px 24px 32px",
-          }}
-        >
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(4, minmax(0, 1fr))",
-              gap: 24,
-            }}
-          >
+      {/* 3) 빠른 이동 – 미니 필 버튼 */}
+      <section aria-label="빠른 이동" style={{ background: "#fff", marginBottom: sectionGap }}>
+        <div style={{ maxWidth: TOKENS.container, margin: "0 auto", padding: "0 24px 8px" }}>
+          <div style={{ display: "flex", gap: 10, flexWrap: "wrap", justifyContent: "center" }}>
             {[
-              {
-                to: "/about/what",
-                title: "복지디자인 소개",
-                desc: "조합의 비전과 연혁을 확인하세요.",
-                color: COLOR.secondary, // 오렌지
-                tint: COLOR.secondaryTint,
-                iconSrc: "/images/icons/introduction.png",
-              },
-              {
-                to: "/business/overview",
-                title: "사업 안내",
-                desc: "복지디자인의 사업을 확인하세요.",
-                color: COLOR.primary, // 틸
-                tint: COLOR.primaryTint,
-                iconSrc: "/images/icons/needs-survey.png",
-              },
-              {
-                to: "/support/guide",
-                title: "후원 가입 신청하기",
-                desc: "지속적인 관심과 지지를 부탁드립니다.",
-                color: COLOR.accent, // 노랑
-                tint: COLOR.accentTint,
-                iconSrc: "/images/icons/donation.png",
-              },
-              {
-                to: "/support/combination",
-                title: "조합 가입 신청하기",
-                desc: "복지디자인의 미션에 함께해주세요.",
-                color: COLOR.primary, // 틸(반복)
-                tint: COLOR.primaryTint,
-                iconSrc: "/images/icons/member-services.png",
-              },
-            ].map((item, idx) => (
-              <ClickCard
-                key={idx}
-                to={item.to}
-                data-reveal
+              { to: "/about/what", label: "복지디자인 소개" },
+              { to: "/business/overview", label: "사업 안내" },
+              { to: "/support/guide", label: "후원 안내" },
+              { to: "/support/combination", label: "조합 가입" },
+            ].map((b) => (
+              <Link
+                key={b.to}
+                to={b.to}
                 style={{
-                  position: "relative",
-                  display: "flex",
-                  alignItems: "center",
-                  gap: 18,
-                  padding: 24,
-                  borderRadius: TOKENS.radius,
-                  background: item.tint,
-                  border: `1px solid ${item.color}22`,
-                  boxShadow: TOKENS.shadowSm,
+                  padding: "10px 16px",
+                  borderRadius: 999,
+                  border: `1px solid ${COLOR.line}`,
+                  background: "#fff",
+                  color: COLOR.text,
                   textDecoration: "none",
-                  color: "inherit",
-                  minHeight: 132,
-                  transition:
-                    "transform .16s ease, box-shadow .16s ease, background .16s ease",
-                }}
-                onMouseEnter={(e) => {
-                  if (!hoverCapable) return;
-                  const el = e.currentTarget;
-                  el.style.boxShadow = TOKENS.shadowHover;
-                  el.style.transform = "translateY(-4px)";
-                  el.style.background = `${item.tint}`;
-                  const title = el.querySelector("strong");
-                  const arrow = el.querySelector('[data-arrow]');
-                  if (title) title.style.color = item.color;
-                  if (arrow) arrow.style.color = item.color;
-                }}
-                onMouseLeave={(e) => {
-                  if (!hoverCapable) return;
-                  const el = e.currentTarget;
-                  el.style.boxShadow = TOKENS.shadowSm;
-                  el.style.transform = "translateY(0)";
-                  el.style.background = item.tint;
-                  const title = el.querySelector("strong");
-                  const arrow = el.querySelector('[data-arrow]');
-                  if (title) title.style.color = item.color;
-                  if (arrow) arrow.style.color = item.color;
-                }}
-                tabIndex={0}
-                onFocus={(e) => {
-                  if (!focusVisible) return;
-                  e.currentTarget.style.outline = `2px solid ${item.color}`;
-                  e.currentTarget.style.outlineOffset = "2px";
-                }}
-                onBlur={(e) => {
-                  e.currentTarget.style.outline = "none";
-                  e.currentTarget.style.outlineOffset = "0";
+                  fontWeight: 700,
+                  boxShadow: TOKENS.shadowSm,
                 }}
               >
-                {/* 아이콘 슬롯 (사용자가 교체 가능) */}
-                <div
-                  style={{
-                    width: 56,
-                    height: 56,
-                    borderRadius: 14,
-                    background: "#ffffff",
-                    border: `1px solid ${item.color}33`,
-                    boxShadow: "0 4px 12px rgba(0,0,0,.06)",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    flex: "0 0 auto",
-                  }}
-                >
-                  {/* 아이콘은 사용자 삽입 예정 */}
-                  <img
-                    src={item.iconSrc}
-                    alt=""
-                    style={{ width: 28, height: 28 }}
-                  />
-                </div>
-
-                {/* 텍스트 영역 */}
-                <div style={{ flex: 1, minWidth: 0 }}>
-                  <div
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "space-between",
-                      gap: 12,
-                    }}
-                  >
-                    <strong
-                      style={{
-                        fontSize: 18,
-                        fontWeight: 800,
-                        color: item.color,
-                        whiteSpace: "nowrap",
-                        textOverflow: "ellipsis",
-                        overflow: "hidden",
-                      }}
-                    >
-                      {item.title}
-                    </strong>
-                    {/* 우측 화살표 */}
-                    <span
-                      data-arrow
-                      aria-hidden
-                      style={{
-                        color: item.color,
-                        fontWeight: 700,
-                        opacity: 0.85,
-                      }}
-                    >
-                      ›
-                    </span>
-                  </div>
-                  <p
-                    style={{
-                      margin: "8px 0 0",
-                      fontSize: 14,
-                      color: COLOR.text,
-                      opacity: 0.9,
-                    }}
-                  >
-                    {item.desc}
-                  </p>
-                </div>
-              </ClickCard>
+                {b.label}
+              </Link>
             ))}
           </div>
         </div>
@@ -939,14 +693,14 @@ export default function Home() {
                   fontSize: 26,
                   fontWeight: 800,
                   margin: 0,
-                  color: COLOR.primary,
+                  color: COLOR.text,
                 }}
               >
                 <span
                   style={{
                     width: 6,
                     height: 24,
-                    background: COLOR.primary,
+                    background: COLOR.accent,
                     borderRadius: 3,
                   }}
                 />
@@ -1002,11 +756,22 @@ export default function Home() {
           </div>
 
           {loadingStories ? (
-            <div style={{ display: "grid", gridTemplateColumns: `repeat(${storyCols}, minmax(0, 1fr))`, gap: 22 }}>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(2, minmax(0, 1fr))", gap: 18 }}>
               {Array.from({ length: 4 }).map((_, i) => (
-                <div key={i} aria-hidden style={{ borderRadius: TOKENS.radius, background: "#fff", boxShadow: TOKENS.shadowSm, border: "1px solid #EAEAEA", minHeight: 230, overflow: "hidden" }}>
-                  <div style={{ height: 150, background: COLOR.neutralTint, borderBottom: `1px solid ${COLOR.line}` }} />
-                  <div style={{ padding: 16 }}>
+                <div key={i} aria-hidden
+                  style={{
+                    display: "flex",
+                    gap: 14,
+                    borderRadius: TOKENS.radius,
+                    background: "#fff",
+                    boxShadow: TOKENS.shadowSm,
+                    border: "1px solid #EAEAEA",
+                    padding: 14,
+                    minHeight: 120,
+                  }}
+                >
+                  <div style={{ width: 140, height: 96, background: COLOR.neutralTint, borderRadius: 12 }} />
+                  <div style={{ flex: 1 }}>
                     <div style={{ height: 16, width: "70%", background: COLOR.neutralTint, borderRadius: 6, marginBottom: 10 }} />
                     <div style={{ height: 12, width: "40%", background: COLOR.neutralTint, borderRadius: 6 }} />
                   </div>
@@ -1014,66 +779,35 @@ export default function Home() {
               ))}
             </div>
           ) : filteredStories.length > 0 ? (
-            <div
-              role="tabpanel"
-              id="stories-panel"
-              aria-labelledby={`stories-tab-${storiesTab}`}
-              style={{
-                display: "grid",
-                gridTemplateColumns: `repeat(${storyCols}, minmax(0, 1fr))`,
-                gap: 22,
-              }}
+            <div role="tabpanel" id="stories-panel" aria-labelledby={`stories-tab-${storiesTab}`}
+              style={{ display: "grid", gridTemplateColumns: "repeat(2, minmax(0, 1fr))", gap: 18 }}
             >
-              {filteredStories.slice(0, 4).map((item) => (
+              {filteredStories.slice(0, 6).map((item) => (
                 <ClickCard
                   key={item.id}
                   to={item.to}
                   data-reveal
                   style={{
+                    display: "flex",
+                    gap: 14,
                     borderRadius: TOKENS.radius,
                     background: "#fff",
-                    boxShadow:
-                      hoveredStory === item.id
-                        ? TOKENS.shadowHover
-                        : TOKENS.shadowSm,
-                    transform:
-                      hoveredStory === item.id
-                        ? "translateY(-4px)"
-                        : "translateY(0)",
-                    transition: "all .18s ease",
-                    overflow: "hidden",
-                    display: "flex",
-                    flexDirection: "column",
-                    minHeight: 230,
+                    boxShadow: TOKENS.shadowSm,
+                    border: "1px solid #EAEAEA",
+                    padding: 14,
+                    minHeight: 120,
                     textDecoration: "none",
                     color: "inherit",
-                    border: "1px solid #EAEAEA",
-                    outline:
-                      hoveredStory === item.id
-                        ? `2px solid ${COLOR.primary}`
-                        : "none",
                   }}
-                  tabIndex={0}
-                  onFocus={(e) => {
-                    if (!focusVisible) return;
-                    e.currentTarget.style.outline = `2px solid ${COLOR.primary}`;
-                    e.currentTarget.style.outlineOffset = "2px";
-                  }}
-                  onBlur={(e) => {
-                    e.currentTarget.style.outline = hoveredStory === item.id ? `2px solid ${COLOR.primary}` : "none";
-                    e.currentTarget.style.outlineOffset = hoveredStory === item.id ? "2px" : "0";
-                  }}
-                  onMouseEnter={() => { if (!hoverCapable) return; setHoveredStory(item.id); }}
-                  onMouseLeave={() => { if (!hoverCapable) return; setHoveredStory(null); }}
                 >
-                  {/* 썸네일 */}
                   <div
                     style={{
-                      height: 150,
+                      width: 140,
+                      height: 96,
                       overflow: "hidden",
-                      backgroundColor: COLOR.neutralTint,
-                      borderBottom: "none",
-                      position: "relative",
+                      borderRadius: 12,
+                      background: COLOR.neutralTint,
+                      flex: "0 0 auto",
                     }}
                   >
                     {item.thumbnail ? (
@@ -1082,60 +816,16 @@ export default function Home() {
                         alt={item.title}
                         loading="lazy"
                         decoding="async"
-                        style={{
-                          width: "100%",
-                          height: "100%",
-                          objectFit: "cover",
-                        }}
+                        style={{ width: "100%", height: "100%", objectFit: "cover" }}
                       />
-                    ) : (
-                      <div
-                        style={{
-                          width: "100%",
-                          height: "100%",
-                          display: "flex",
-                          justifyContent: "center",
-                          alignItems: "center",
-                          color: "#a3a3a3",
-                          fontSize: 48,
-                          userSelect: "none",
-                        }}
-                      >
-                        <span aria-hidden="true">📰</span>
-                      </div>
-                    )}
-                    <span
-                      style={{
-                        position: "absolute",
-                        top: 8,
-                        right: 8,
-                        padding: "2px 8px",
-                        fontSize: 12,
-                        borderRadius: 999,
-                        background: COLOR.primaryTint,
-                        border: `1px solid ${COLOR.primary}22`,
-                        color: COLOR.primary,
-                        boxShadow: TOKENS.shadowSm,
-                      }}
-                    >
-                      {item.category}
-                    </span>
+                    ) : null}
                   </div>
-                  <div
-                    style={{
-                      padding: 16,
-                      flex: 1,
-                      display: "flex",
-                      flexDirection: "column",
-                      justifyContent: "space-between",
-                    }}
-                  >
+                  <div style={{ flex: 1, minWidth: 0, display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
                     <h3
                       style={{
-                        fontSize: 17.5,
-                        fontWeight: 700,
+                        fontSize: 17,
+                        fontWeight: 800,
                         margin: 0,
-                        marginBottom: 8,
                         lineHeight: 1.35,
                         overflow: "hidden",
                         textOverflow: "ellipsis",
@@ -1147,68 +837,21 @@ export default function Home() {
                       {item.title}
                     </h3>
                     {item.date && typeof item.date === "string" ? (
-                      <time style={{ fontSize: 13, color: COLOR.textMuted }}>
-                        {item.date}
-                      </time>
+                      <time style={{ fontSize: 13, color: COLOR.textMuted }}>{item.date}</time>
                     ) : null}
                   </div>
                 </ClickCard>
               ))}
             </div>
           ) : (
-            <div
-              style={{
-                display: "grid",
-                gridTemplateColumns: `repeat(${storyCols}, minmax(0, 1fr))`,
-                gap: 22,
-              }}
-            >
-              {/* 소식 카드 4개 자리 – 데이터 없을 땐 플레이스홀더 링크 */}
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(2, minmax(0, 1fr))", gap: 18 }}>
               {[0, 1, 2, 3].map((i) => (
-                <ClickCard
-                  key={i}
-                  to="/news/stories"
-                  style={{
-                    borderRadius: TOKENS.radius,
-                    background: "#fff",
-                    padding: 24,
-                    textDecoration: "none",
-                    color: "inherit",
-                    boxShadow: TOKENS.shadowSm,
-                    display: "flex",
-                    flexDirection: "column",
-                    minHeight: 230,
-                  }}
-                >
-                  <div
-                    style={{
-                      height: 150,
-                      backgroundColor: COLOR.neutralTint,
-                      display: "flex",
-                      justifyContent: "center",
-                      alignItems: "center",
-                      fontSize: 48,
-                      color: "#a3a3a3",
-                      userSelect: "none",
-                      borderBottom: `1px solid ${COLOR.line}`,
-                    }}
-                  >
-                    <span aria-hidden="true">📰</span>
+                <ClickCard key={i} to="/news/stories" style={{ display: "flex", gap: 14, borderRadius: TOKENS.radius, background: "#fff", padding: 14, boxShadow: TOKENS.shadowSm, border: "1px solid #EAEAEA", minHeight: 120 }}>
+                  <div style={{ width: 140, height: 96, background: COLOR.neutralTint, borderRadius: 12 }} />
+                  <div>
+                    <strong style={{ display: "block", fontSize: 18, marginBottom: 6, color: COLOR.primary }}>복지디자인 이야기</strong>
+                    <span style={{ fontSize: 14, color: COLOR.textMuted }}>우리 활동과 소식을 만나보세요.</span>
                   </div>
-                  <strong
-                    style={{
-                      display: "block",
-                      fontSize: 18,
-                      marginTop: 16,
-                      marginBottom: 8,
-                      color: COLOR.primary,
-                    }}
-                  >
-                    복지디자인 이야기
-                  </strong>
-                  <span style={{ fontSize: 14, color: COLOR.textMuted }}>
-                    우리 활동과 소식을 만나보세요.
-                  </span>
                 </ClickCard>
               ))}
             </div>
