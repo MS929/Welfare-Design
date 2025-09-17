@@ -720,19 +720,6 @@ export default function Home1() {
           <p style={{ margin: "0 0 10px 0", color: PALETTE.grayText, fontSize: 14 }}>
             복지디자인의 최신 소식을 전해드려요
           </p>
-          <a
-            href="/news/stories"
-            style={{
-              display: "inline-flex",
-              alignItems: "center",
-              gap: 6,
-              textDecoration: "none",
-              color: PALETTE.teal,
-              fontWeight: 800,
-            }}
-          >
-            더보기 <span aria-hidden>›</span>
-          </a>
         </div>
 
         {/* 아래에 두 컬럼 그리드: 좌측 필터, 우측 카드 */}
@@ -806,6 +793,20 @@ export default function Home1() {
               <>
                 {/* 좌측: 카테고리 필터만 세로 배치 */}
                 <div>
+                  <a
+                    href="/news/stories"
+                    style={{
+                      display: "inline-flex",
+                      alignItems: "center",
+                      gap: 6,
+                      textDecoration: "none",
+                      color: PALETTE.teal,
+                      fontWeight: 800,
+                      marginBottom: 16,
+                    }}
+                  >
+                    더보기 <span aria-hidden>›</span>
+                  </a>
                   <div
                     style={{ display: "flex", flexDirection: "column", gap: 12 }}
                   >
