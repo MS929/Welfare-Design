@@ -7,12 +7,6 @@ const PALETTE = {
   orange: "#ED6A32",
   yellow: "#F4B731",
   teal: "#3BA7A0",
-  tealDark: "#2D7E79",
-  tealLight: "#E6F5F2",
-  mintBar: "#D8F3EC",
-  beige: "#FBF6EF",
-  beigeSoft: "#F7EFE5",
-  grayBg: "#F5F7FA",
   grayCard: "#FFFFFF",
   grayText: "#64748B",
   darkText: "#111827",
@@ -291,7 +285,7 @@ export default function Home1() {
         style={{
           paddingTop: 80,
           paddingBottom: 96,
-          background: `linear-gradient(180deg, #FFFFFF 0%, ${PALETTE.tealLight} 100%)`,
+          background: "linear-gradient(180deg, #FFFFFF 0%, rgba(59,167,160,0.12) 100%)",
         }}
       >
         <div
@@ -476,7 +470,7 @@ export default function Home1() {
       {/* 빠르게가기 (민트색 스트립 + 헤드라인 + 4개 카드 링크) */}
       <div
         style={{
-          background: PALETTE.tealLight,
+          background: "rgba(59,167,160,0.08)",
           padding: "28px 0",
           width: "100vw",
           marginLeft: "calc(50% - 50vw)",
@@ -584,8 +578,7 @@ export default function Home1() {
                       width: 36,
                       height: 36,
                       borderRadius: 12,
-                      background:
-                        `linear-gradient(180deg, #FFFFFF 0%, ${PALETTE.tealLight} 100%)`,
+                      background: "linear-gradient(180deg, #FFFFFF 0%, rgba(59,167,160,0.12) 100%)",
                       border: `1px solid ${PALETTE.teal}33`,
                       boxShadow: "0 2px 6px rgba(0,0,0,.06)",
                       display: "inline-flex",
@@ -790,9 +783,7 @@ export default function Home1() {
                             height: 88,
                             borderRadius: 16,
                             border: `1px solid ${PALETTE.line}`,
-                            background: isActive
-                              ? `linear-gradient(180deg, ${PALETTE.teal} 0%, ${PALETTE.tealDark} 100%)`
-                              : "#fff",
+                            background: isActive ? PALETTE.teal : "#fff",
                             color: isActive ? "#fff" : PALETTE.darkText,
                             fontWeight: 800,
                             boxShadow: "0 2px 6px rgba(0,0,0,.04)",
@@ -841,7 +832,7 @@ export default function Home1() {
       {/* 지원사업 영역 (민트 스트립 배경) */}
       <div
         style={{
-          background: PALETTE.tealLight,
+          background: "rgba(59,167,160,0.08)",
           padding: "12px 0",
           width: "100vw",
           marginLeft: "calc(50% - 50vw)",
@@ -907,7 +898,7 @@ export default function Home1() {
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "space-between",
-                  background: `linear-gradient(180deg, ${PALETTE.teal} 0%, ${PALETTE.tealDark} 100%)`,
+                  background: PALETTE.teal,
                   border: "1px solid #FFFFFF1A",
                   color: "#fff",
                   borderRadius: PALETTE.radiusLg,
@@ -982,7 +973,7 @@ export default function Home1() {
             alignItems: "center",
             gap: 12,
             justifyContent: "space-between",
-            marginBottom: 12,
+            marginBottom: 20,
           }}
         >
           <h2
