@@ -850,27 +850,27 @@ export default function Home1() {
               {
                 icon: "/images/icons/apply-help.png",
                 label: "보조기기·복지용구 신청 안내 지원",
-                href: "/business/ApplyHelp",
+                href: "/business/apply-help",
               },
               {
                 icon: "/images/icons/donation.png",
                 label: "보조기기 기증 캠페인",
-                href: "/business/DonationCampaign",
+                href: "/business/donation",
               },
               {
                 icon: "/images/icons/ewc-insurance.png",
                 label: "취약 계층 전동 휠체어 보험금 지원",
-                href: "/business/EWheelchairInsurance",
+                href: "/business/ewc-insurance",
               },
               {
                 icon: "/images/icons/needs-survey.png",
                 label: "취약 계층 복지욕구 실태조사",
-                href: "/business/NeedsSurvey",
+                href: "/business/needs-survey",
               },
               {
                 icon: "/images/icons/member-services.png",
                 label: "조합원 지원 서비스",
-                href: "/business/MemberServices",
+                href: "/business/member-services",
               },
             ].map((it, i) => (
               <Link
