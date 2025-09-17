@@ -897,38 +897,57 @@ export default function Home1() {
                 key={i}
                 to={it.href}
                 style={{
+                  position: "relative",
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "space-between",
-                  background: "#fff",
-                  border: `1px solid ${PALETTE.line}`,
-                  borderLeft: `4px solid ${PALETTE.teal}`,
+                  background:
+                    "linear-gradient(180deg, rgba(255,255,255,0.88) 0%, rgba(255,255,255,0.76) 100%)",
+                  border: "1px solid rgba(255,255,255,0.6)",
                   color: PALETTE.darkText,
                   borderRadius: PALETTE.radiusLg,
                   padding: 20,
-                  boxShadow: "0 6px 16px rgba(0,0,0,.06)",
+                  boxShadow:
+                    "0 12px 28px rgba(59,167,160,.10), 0 6px 14px rgba(237,106,50,.06)",
                   textDecoration: "none",
-                  transition: "transform .12s ease, box-shadow .12s ease, border-color .12s ease",
+                  transition: "transform .18s ease, box-shadow .18s ease",
+                  backdropFilter: "saturate(150%) blur(8px)",
+                  WebkitBackdropFilter: "saturate(150%) blur(8px)",
                 }}
                 onMouseEnter={(e) => {
-                  e.currentTarget.style.transform = "translateY(-3px)";
-                  e.currentTarget.style.boxShadow = "0 10px 22px rgba(0,0,0,.10)";
-                  e.currentTarget.style.borderColor = PALETTE.teal;
+                  e.currentTarget.style.transform = "translateY(-4px)";
+                  e.currentTarget.style.boxShadow =
+                    "0 18px 36px rgba(59,167,160,.16), 0 10px 22px rgba(237,106,50,.10)";
                 }}
                 onMouseLeave={(e) => {
                   e.currentTarget.style.transform = "none";
-                  e.currentTarget.style.boxShadow = "0 6px 16px rgba(0,0,0,.06)";
-                  e.currentTarget.style.borderColor = PALETTE.line;
+                  e.currentTarget.style.boxShadow =
+                    "0 12px 28px rgba(59,167,160,.10), 0 6px 14px rgba(237,106,50,.06)";
                 }}
               >
+                <div
+                  aria-hidden
+                  style={{
+                    position: "absolute",
+                    left: 10,
+                    top: 12,
+                    bottom: 12,
+                    width: 4,
+                    borderRadius: 4,
+                    background: `linear-gradient(180deg, ${PALETTE.teal} 0%, ${PALETTE.orange} 100%)`,
+                  }}
+                />
                 <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
                   <div
                     aria-hidden
                     style={{
-                      width: 40,
-                      height: 40,
-                      borderRadius: 12,
-                      background: "rgba(255,255,255,.2)",
+                      width: 44,
+                      height: 44,
+                      borderRadius: 14,
+                      background: `linear-gradient(180deg, ${PALETTE.grayCard} 0%, rgba(255,255,255,.85) 100%)`,
+                      border: `1px solid ${PALETTE.line}`,
+                      boxShadow:
+                        "inset 0 1px 0 rgba(255,255,255,.6), 0 6px 14px rgba(0,0,0,.06)",
                       display: "flex",
                       alignItems: "center",
                       justifyContent: "center",
