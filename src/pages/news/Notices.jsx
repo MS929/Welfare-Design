@@ -125,8 +125,8 @@ export default function Notices() {
             <thead className="bg-gray-50 text-gray-600">
               <tr>
                 <th className="w-16 py-3 pl-4 pr-2 text-left font-medium">번호</th>
-                <th className="py-3 px-2 text-left font-medium">제목</th>
-                <th className="w-36 py-3 px-2 text-left font-medium">작성일</th>
+                <th className="py-3 pl-6 pr-2 text-left font-medium">제목</th>
+                <th className="w-44 py-3 pl-0 pr-3 text-left font-medium">작성일</th>
               </tr>
             </thead>
             <tbody>
@@ -138,6 +138,18 @@ export default function Notices() {
                   ? "border-sky-200 text-sky-700 bg-sky-50"
                   : "border-emerald-200 text-emerald-700 bg-emerald-50";
                 const dotClasses = isNotice ? "bg-sky-500" : "bg-emerald-500";
+                const circleClasses = isNotice
+                  ? "border-sky-200 bg-sky-50/60 text-sky-700"
+                  : "border-emerald-200 bg-emerald-50/60 text-emerald-700";
+                const circleChip = (
+                  <span
+                    className={`relative inline-flex items-center justify-center rounded-full border ${circleClasses}`}
+                    style={{ width: 40, height: 40 }}
+                  >
+                    <span className={`absolute left-2 top-1.5 h-2 w-2 rounded-full ${dotClasses}`}></span>
+                    <span className="text-[12px] leading-tight font-semibold">{it.category}</span>
+                  </span>
+                );
                 return (
                   <tr key={it.slug} className="border-t hover:bg-gray-50">
                     <td className="py-3 pl-4 pr-2 text-gray-500 align-top">{number}</td>
@@ -149,13 +161,10 @@ export default function Notices() {
                         <span className="text-gray-900 font-medium">{it.title || "제목 없음"}</span>
                       </Link>
                     </td>
-                    <td className="py-3 px-2 text-gray-600 align-top">
-                      <div className="flex items-center gap-2 justify-start">
-                        <span className={`inline-flex items-center gap-1 rounded-full border px-2 py-0.5 text-[11px] font-medium ${chipClasses}`}>
-                          <span className={`h-1.5 w-1.5 rounded-full ${dotClasses}`}></span>
-                          {it.category}
-                        </span>
-                        <span>{dateStr}</span>
+                    <td className="py-3 pl-0 pr-2 text-gray-600 align-top">
+                      <div className="flex items-center gap-3">
+                        {circleChip}
+                        <span className="whitespace-nowrap">{dateStr}</span>
                       </div>
                     </td>
                   </tr>
