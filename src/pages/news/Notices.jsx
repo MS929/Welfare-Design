@@ -133,17 +133,25 @@ export default function Notices() {
               {paginatedItems.map((it, idx) => {
                 const number = filtered.length - ((page - 1) * PAGE_SIZE + idx);
                 const dateStr = (it.dateObj && it.dateObj.toISOString().slice(0, 10)) || it.date || "";
+                const isNotice = it.category === "공지";
+                const chipClasses = isNotice
+                  ? "border-sky-200 text-sky-700 bg-sky-50"
+                  : "border-emerald-200 text-emerald-700 bg-emerald-50";
+                const dotClasses = isNotice ? "bg-sky-500" : "bg-emerald-500";
                 return (
                   <tr key={it.slug} className="border-t hover:bg-gray-50">
                     <td className="py-3 pl-4 pr-2 text-gray-500 align-top">{number}</td>
                     <td className="py-3 px-2 align-top">
-                      <Link to={`/news/notices/${encodeURIComponent(it.slug)}`} className="inline-flex items-start gap-2 hover:underline">
-                        <span className="inline-flex shrink-0 items-center rounded-full bg-emerald-600/90 text-white text-[11px] font-semibold px-2 py-0.5 mt-0.5">{it.category}</span>
+                      <Link
+                        to={`/news/notices/${encodeURIComponent(it.slug)}`}
+                        className="inline-flex items-center gap-2 hover:underline"
+                      >
+                        <span className={`inline-flex items-center gap-1 rounded-full border px-2 py-0.5 text-[11px] font-medium ${chipClasses}`}>
+                          <span className={`h-1.5 w-1.5 rounded-full ${dotClasses}`}></span>
+                          {it.category}
+                        </span>
                         <span className="text-gray-900 font-medium">{it.title || "제목 없음"}</span>
                       </Link>
-                      {it.excerpt && (
-                        <p className="mt-1 text-gray-500 line-clamp-1">{it.excerpt}</p>
-                      )}
                     </td>
                     <td className="py-3 px-2 text-gray-600 align-top">{dateStr}</td>
                   </tr>
