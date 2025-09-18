@@ -142,7 +142,9 @@ export default function Notices() {
                 );
                 return (
                   <tr key={it.slug} className="border-t border-gray-100 odd:bg-white even:bg-gray-50/40 hover:bg-gray-100/60 transition-colors">
-                    <td className="py-4 pl-4 pr-12 text-gray-400 text-center align-middle">{number}</td>
+                    <td className="py-4 pl-4 pr-12 text-gray-400 text-center align-middle">
+                      <span className="flex items-center justify-center h-full">{number}</span>
+                    </td>
                     <td className="py-4 pl-8 pr-2 align-middle">
                       <Link
                         to={`/news/notices/${encodeURIComponent(it.slug)}`}
