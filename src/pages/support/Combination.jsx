@@ -19,17 +19,6 @@ export default function Combination() {
           복지디자인의 미션에 공감하신다면 지금 함께해요. 지역과 현장을 잇는 맞춤형 복지에
           조합원으로 참여할 수 있습니다.
         </p>
-        <div style={styles.btnRow}>
-          <a href="https://forms.gle/your-form" target="_blank" rel="noreferrer" style={styles.primaryBtn}>
-            온라인 신청하기
-          </a>
-          <a href="/uploads/join_application.pdf" style={styles.secondaryBtn} download>
-            신청서 다운로드
-          </a>
-          <a href="mailto:songkangbokji@songkang.or.kr" style={styles.secondaryBtn}>
-            이메일 문의
-          </a>
-        </div>
       </section>
 
       {/* 문의 */}
