@@ -116,52 +116,41 @@ export default function Notices() {
         </div>
       </div>
 
-      {/* 카드 그리드 */}
+      {/* 리스트(글) 형식 */}
       {paginatedItems.length === 0 ? (
         <p className="text-gray-500">등록된 글이 없습니다.</p>
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
-          {paginatedItems.map((it) => (
-            <Link
-              key={it.slug}
-              to={`/news/notices/${encodeURIComponent(it.slug)}`}
-              className="group block rounded-xl border overflow-hidden shadow-sm hover:shadow-md transition"
-            >
-              {/* 썸네일 + 카테고리 배지 오버레이 */}
-              <div className="relative">
-                {it.thumbnail ? (
-                  <img
-                    src={it.thumbnail}
-                    alt={it.title}
-                    className="w-full h-48 object-cover"
-                    loading="lazy"
-                  />
-                ) : (
-                  <div className="w-full h-48 bg-gray-100" />
-                )}
-                <span className="absolute top-2 left-2 inline-flex items-center rounded-full bg-emerald-600/90 text-white text-xs font-semibold px-2 py-1 shadow">
-                  {it.category}
-                </span>
-              </div>
-
-              <div className="p-4">
-                <h3 className="text-lg font-semibold group-hover:underline mt-0">
-                  {it.title || "제목 없음"}
-                </h3>
-
-                <p className="text-sm text-gray-500 mt-1">
-                  {(it.dateObj && it.dateObj.toISOString().slice(0, 10)) ||
-                    it.date ||
-                    ""}
-                </p>
-
-                {/* 간단 요약 (2줄) */}
-                <p className="mt-2 text-sm text-gray-700 overflow-hidden text-ellipsis line-clamp-2">
-                  {it.excerpt}
-                </p>
-              </div>
-            </Link>
-          ))}
+        <div className="overflow-hidden rounded-2xl border border-gray-200 bg-white">
+          <table className="w-full text-sm">
+            <thead className="bg-gray-50 text-gray-600">
+              <tr>
+                <th className="w-16 py-3 pl-4 pr-2 text-left font-medium">번호</th>
+                <th className="py-3 px-2 text-left font-medium">제목</th>
+                <th className="w-36 py-3 px-2 text-left font-medium">작성일</th>
+              </tr>
+            </thead>
+            <tbody>
+              {paginatedItems.map((it, idx) => {
+                const number = filtered.length - ((page - 1) * PAGE_SIZE + idx);
+                const dateStr = (it.dateObj && it.dateObj.toISOString().slice(0, 10)) || it.date || "";
+                return (
+                  <tr key={it.slug} className="border-t hover:bg-gray-50">
+                    <td className="py-3 pl-4 pr-2 text-gray-500 align-top">{number}</td>
+                    <td className="py-3 px-2 align-top">
+                      <Link to={`/news/notices/${encodeURIComponent(it.slug)}`} className="inline-flex items-start gap-2 hover:underline">
+                        <span className="inline-flex shrink-0 items-center rounded-full bg-emerald-600/90 text-white text-[11px] font-semibold px-2 py-0.5 mt-0.5">{it.category}</span>
+                        <span className="text-gray-900 font-medium">{it.title || "제목 없음"}</span>
+                      </Link>
+                      {it.excerpt && (
+                        <p className="mt-1 text-gray-500 line-clamp-1">{it.excerpt}</p>
+                      )}
+                    </td>
+                    <td className="py-3 px-2 text-gray-600 align-top">{dateStr}</td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
         </div>
       )}
 
