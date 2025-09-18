@@ -124,7 +124,7 @@ export default function Notices() {
           <table className="w-full text-sm">
             <thead className="bg-gray-50/90 backdrop-blur supports-[backdrop-filter]:bg-gray-50/75 text-gray-600 sticky top-0 z-10 border-b border-gray-100">
               <tr>
-                <th className="w-24 py-3.5 pl-4 pr-2 text-center font-medium text-gray-600">번호</th>
+                <th className="w-24 py-3.5 pl-6 pr-2 text-left font-medium text-gray-600">번호</th>
                 <th className="py-3.5 px-4 text-center font-medium text-gray-600">제목</th>
                 <th className="w-32 py-3.5 px-2 text-center font-medium text-gray-600">구분</th>
                 <th className="w-44 py-3.5 px-4 text-left font-medium text-gray-600">작성일</th>
@@ -142,8 +142,8 @@ export default function Notices() {
                 );
                 return (
                   <tr key={it.slug} className="border-t border-gray-100 odd:bg-white even:bg-gray-50/40 hover:bg-gray-100/60 transition-colors">
-                    <td className="py-4 pl-4 pr-16 text-gray-400 text-center align-middle">
-                      <span className="flex items-center justify-center h-full">{number}</span>
+                    <td className="py-4 pl-6 pr-16 text-gray-400 text-left align-middle">
+                      <span className="flex items-center justify-start h-full">{number}</span>
                     </td>
                     <td className="py-4 pl-10 pr-2 align-middle">
                       <Link
