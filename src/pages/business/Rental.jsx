@@ -12,7 +12,6 @@ export default function Rental() {
             <img
               src="/images/business/rental.png"
               alt="휠체어 및 복지용구 무료 대여"
-              className="w-auto max-w-full max-h-[380px] lg:max-h-[440px] object-contain"
             />
           </div>
 
