@@ -126,7 +126,8 @@ export default function Notices() {
               <tr>
                 <th className="w-16 py-3 pl-4 pr-2 text-left font-medium">번호</th>
                 <th className="py-3 pl-6 pr-2 text-left font-medium">제목</th>
-                <th className="w-44 py-3 pl-0 pr-3 text-left font-medium">작성일</th>
+                <th className="w-24 py-3 px-2 text-center font-medium">구분</th>
+                <th className="w-44 py-3 px-3 text-left font-medium">작성일</th>
               </tr>
             </thead>
             <tbody>
@@ -154,17 +155,17 @@ export default function Notices() {
                   <tr key={it.slug} className="border-t hover:bg-gray-50">
                     <td className="py-3 pl-4 pr-2 text-gray-500 align-top">{number}</td>
                     <td className="py-3 pl-6 pr-2 align-top">
-                      <div className="flex items-center gap-3">
-                        {circleChip}
-                        <Link
-                          to={`/news/notices/${encodeURIComponent(it.slug)}`}
-                          className="inline-flex items-center hover:underline"
-                        >
-                          <span className="text-gray-900 font-medium">{it.title || "제목 없음"}</span>
-                        </Link>
-                      </div>
+                      <Link
+                        to={`/news/notices/${encodeURIComponent(it.slug)}`}
+                        className="inline-flex items-center hover:underline"
+                      >
+                        <span className="text-gray-900 font-medium">{it.title || "제목 없음"}</span>
+                      </Link>
                     </td>
-                    <td className="py-3 px-2 text-gray-600 align-top whitespace-nowrap">{dateStr}</td>
+                    <td className="py-3 px-2 align-top text-center">
+                      {circleChip}
+                    </td>
+                    <td className="py-3 px-3 text-gray-600 align-top whitespace-nowrap">{dateStr}</td>
                   </tr>
                 );
               })}
