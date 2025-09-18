@@ -10,7 +10,6 @@ export default function Combination() {
         <h3 className="mt-6 font-extrabold text-lg text-[#111827]">문의</h3>
         <div className="mt-3 rounded-2xl border border-gray-200 bg-white p-4 text-gray-700 shadow-sm">
           <div>전화: 042-000-0000</div>
-          <div>팩스: 042-000-0000</div>
           <div>이메일: ------------------------</div>
         </div>
       </section>
