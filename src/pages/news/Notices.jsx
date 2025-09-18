@@ -126,7 +126,7 @@ export default function Notices() {
               <tr>
                 <th className="w-16 py-3.5 pl-4 pr-2 text-center font-medium text-gray-600">번호</th>
                 <th className="py-3.5 pl-6 pr-2 text-left font-medium text-gray-600">제목</th>
-                <th className="w-24 py-3.5 px-2 text-center font-medium text-gray-600">구분</th>
+                <th className="w-28 py-3.5 px-2 text-center font-medium text-gray-600">구분</th>
                 <th className="w-44 py-3.5 px-4 text-left font-medium text-gray-600">작성일</th>
               </tr>
             </thead>
@@ -145,10 +145,10 @@ export default function Notices() {
                 const circleChip = (
                   <span
                     className={`relative inline-flex items-center justify-center rounded-full border ${circleClasses}`}
-                    style={{ width: 28, height: 28 }}
+                    style={{ width: 36, height: 36 }}
                   >
-                    <span className={`absolute left-1 top-1 h-1.5 w-1.5 rounded-full ${dotClasses} opacity-90`}></span>
-                    <span className="text-[11px] leading-tight font-semibold tracking-tight">{it.category}</span>
+                    <span className={`absolute left-1.5 top-1.5 h-2 w-2 rounded-full ${dotClasses} opacity-90`}></span>
+                    <span className="text-[12px] leading-tight font-semibold tracking-tight">{it.category}</span>
                   </span>
                 );
                 return (
