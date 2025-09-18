@@ -1,8 +1,7 @@
-import BizLayout from "../business/_Layout";
 
 export default function Combination() {
   return (
-    <BizLayout noBreadcrumb>
+    <div className="max-w-5xl mx-auto px-4 py-10">
       <section>
         <h1 className="font-extrabold text-3xl text-[#111827] mb-4">조합 가입</h1>
         <p className="text-gray-700 leading-relaxed">
@@ -18,6 +17,6 @@ export default function Combination() {
           <div>주소: 대전광역시 유성구 봉산로 45</div>
         </div>
       </section>
-    </BizLayout>
+    </div>
   );
 }
