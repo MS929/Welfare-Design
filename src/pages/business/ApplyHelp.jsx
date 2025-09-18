@@ -8,7 +8,7 @@ export default function ApplyHelp() {
         {/* 상단: 좌측 이미지 / 우측 안내 박스 */}
         <div className="grid gap-8 md:grid-cols-2 items-stretch">
           {/* 이미지 */}
-          <div className="rounded-3xl bg-white p-5 ring-1 ring-[#2CB9B1]/30 shadow-md flex items-center justify-center overflow-hidden h-[440px] lg:h-[470px]">
+          <div className="flex items-center justify-center overflow-hidden h-[440px] lg:h-[470px]">
             <img
               src="/images/business/apply-help.png"
               alt="복지용구 신청 안내 지원"
