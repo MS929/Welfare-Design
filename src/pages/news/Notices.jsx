@@ -87,8 +87,8 @@ export default function Notices() {
   const paginatedItems = filtered.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
 
   return (
-    <div className="max-w-screen-xl mx-auto px-4 py-10">
-      <h1 className="text-3xl font-extrabold mb-6">공지사항</h1>
+    <div className="max-w-screen-xl mx-auto pl-2 pr-4 sm:pl-3 sm:pr-6 lg:pl-4 lg:pr-8 pt-8 md:pt-10 pb-14 antialiased tracking-[-0.01em]">
+      <h1 className="text-[28px] md:text-[34px] leading-[1.2] font-extrabold tracking-tight text-gray-900 mb-6">공지사항</h1>
 
       {/* 필터 + 검색 */}
       <div className="flex flex-wrap items-center gap-3 mb-6">
@@ -96,10 +96,10 @@ export default function Notices() {
           <button
             key={t}
             onClick={() => setTab(t)}
-            className={`px-4 py-2 rounded-full border ${
+            className={`px-4 py-2 rounded-full border transition ${
               tab === t
-                ? "bg-black text-white border-black"
-                : "bg-white text-gray-700 hover:bg-gray-50"
+                ? "bg-gray-900 text-white border-gray-900 shadow-sm"
+                : "bg-white text-gray-700 border-gray-300 hover:bg-gray-50"
             }`}
           >
             {t}
@@ -111,7 +111,7 @@ export default function Notices() {
             value={q}
             onChange={(e) => setQ(e.target.value)}
             placeholder="Search"
-            className="w-full rounded-full border px-4 py-2 outline-none focus:ring-2 focus:ring-sky-300"
+            className="w-full rounded-full border border-gray-300 px-4 py-2 outline-none focus:ring-2 focus:ring-sky-300 focus:border-sky-300 shadow-sm"
           />
         </div>
       </div>
@@ -120,14 +120,14 @@ export default function Notices() {
       {paginatedItems.length === 0 ? (
         <p className="text-gray-500">등록된 글이 없습니다.</p>
       ) : (
-        <div className="overflow-hidden rounded-2xl border border-gray-200 bg-white">
+        <div className="overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm">
           <table className="w-full text-sm">
             <thead className="bg-gray-50 text-gray-600">
               <tr>
-                <th className="w-16 py-3 pl-4 pr-2 text-left font-medium">번호</th>
-                <th className="py-3 pl-6 pr-2 text-left font-medium">제목</th>
-                <th className="w-24 py-3 px-2 text-center font-medium">구분</th>
-                <th className="w-44 py-3 px-3 text-left font-medium">작성일</th>
+                <th className="w-16 py-3 pl-4 pr-2 text-left font-medium text-gray-600">번호</th>
+                <th className="py-3 pl-6 pr-2 text-left font-medium text-gray-600">제목</th>
+                <th className="w-24 py-3 px-2 text-center font-medium text-gray-600">구분</th>
+                <th className="w-44 py-3 px-3 text-left font-medium text-gray-600">작성일</th>
               </tr>
             </thead>
             <tbody>
@@ -140,24 +140,24 @@ export default function Notices() {
                   : "border-emerald-200 text-emerald-700 bg-emerald-50";
                 const dotClasses = isNotice ? "bg-sky-500" : "bg-emerald-500";
                 const circleClasses = isNotice
-                  ? "border-sky-200 bg-sky-50/60 text-sky-700"
-                  : "border-emerald-200 bg-emerald-50/60 text-emerald-700";
+                  ? "border-sky-200 bg-sky-50/70 text-sky-700 shadow-sm"
+                  : "border-emerald-200 bg-emerald-50/70 text-emerald-700 shadow-sm";
                 const circleChip = (
                   <span
                     className={`relative inline-flex items-center justify-center rounded-full border ${circleClasses}`}
-                    style={{ width: 40, height: 40 }}
+                    style={{ width: 36, height: 36 }}
                   >
-                    <span className={`absolute left-2 top-1.5 h-2 w-2 rounded-full ${dotClasses}`}></span>
+                    <span className={`absolute left-1.5 top-1.5 h-1.5 w-1.5 rounded-full ${dotClasses}`}></span>
                     <span className="text-[12px] leading-tight font-semibold">{it.category}</span>
                   </span>
                 );
                 return (
-                  <tr key={it.slug} className="border-t hover:bg-gray-50">
-                    <td className="py-3 pl-4 pr-2 text-gray-500 align-top">{number}</td>
+                  <tr key={it.slug} className="border-t hover:bg-gray-50 transition-colors">
+                    <td className="py-3 pl-4 pr-2 text-gray-400 align-top">{number}</td>
                     <td className="py-3 pl-6 pr-2 align-top">
                       <Link
                         to={`/news/notices/${encodeURIComponent(it.slug)}`}
-                        className="inline-flex items-center hover:underline"
+                        className="inline-flex items-center hover:underline decoration-2 decoration-sky-300 underline-offset-2"
                       >
                         <span className="text-gray-900 font-medium">{it.title || "제목 없음"}</span>
                       </Link>
