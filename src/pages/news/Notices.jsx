@@ -145,9 +145,9 @@ export default function Notices() {
                 const circleChip = (
                   <span
                     className={`relative inline-flex items-center justify-center rounded-full border ${circleClasses}`}
-                    style={{ width: 40, height: 40 }}
+                    style={{ width: 52, height: 52 }}
                   >
-                    <span className="text-[12px] font-semibold tracking-tight">{it.category}</span>
+                    <span className="text-[14px] font-semibold tracking-tight">{it.category}</span>
                   </span>
                 );
                 return (
