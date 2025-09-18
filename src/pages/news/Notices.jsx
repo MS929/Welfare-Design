@@ -125,7 +125,7 @@ export default function Notices() {
             <thead className="bg-gray-50/90 backdrop-blur supports-[backdrop-filter]:bg-gray-50/75 text-gray-600 sticky top-0 z-10 border-b border-gray-100">
               <tr>
                 <th className="w-16 py-3.5 pl-4 pr-2 text-center font-medium text-gray-600">번호</th>
-                <th className="py-3.5 pl-6 pr-2 text-left font-medium text-gray-600">제목</th>
+                <th className="py-3.5 px-4 text-center font-medium text-gray-600">제목</th>
                 <th className="w-32 py-3.5 px-2 text-center font-medium text-gray-600">구분</th>
                 <th className="w-44 py-3.5 px-4 text-left font-medium text-gray-600">작성일</th>
               </tr>
@@ -143,10 +143,10 @@ export default function Notices() {
                 return (
                   <tr key={it.slug} className="border-t border-gray-100 odd:bg-white even:bg-gray-50/40 hover:bg-gray-100/60 transition-colors">
                     <td className="py-4 pl-4 pr-2 text-gray-400 align-top text-center">{number}</td>
-                    <td className="py-4 pl-6 pr-2 align-top">
+                    <td className="py-4 px-4 align-top text-center">
                       <Link
                         to={`/news/notices/${encodeURIComponent(it.slug)}`}
-                        className="inline-flex items-center hover:underline decoration-2 decoration-sky-300 underline-offset-2 max-w-[720px] truncate"
+                        className="inline-block text-center hover:underline decoration-2 decoration-sky-300 underline-offset-2 max-w-[720px] truncate"
                       >
                         <span className="text-gray-900 font-medium truncate">{it.title || "제목 없음"}</span>
                       </Link>
