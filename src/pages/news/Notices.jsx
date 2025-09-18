@@ -148,7 +148,7 @@ export default function Notices() {
                     <td className="py-4 pl-10 pr-2 align-middle">
                       <Link
                         to={`/news/notices/${encodeURIComponent(it.slug)}`}
-                        className="inline-flex items-center hover:underline decoration-2 decoration-sky-300 underline-offset-2 max-w-[900px] truncate"
+                        className="block w-full -mx-2 px-2 -my-1 py-1 hover:underline decoration-2 decoration-sky-300 underline-offset-2 max-w-full truncate"
                       >
                         <span className="text-gray-900 font-medium truncate">{it.title || "제목 없음"}</span>
                       </Link>
