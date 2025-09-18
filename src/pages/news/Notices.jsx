@@ -143,7 +143,7 @@ export default function Notices() {
                 return (
                   <tr key={it.slug} className="border-t border-gray-100 odd:bg-white even:bg-gray-50/40 hover:bg-gray-100/60 transition-colors">
                     <td className="py-4 pl-6 pr-16 text-gray-400 text-left align-middle">
-                      <span className="flex items-center justify-start h-full">{number}</span>
+                      <span className="flex items-center justify-start h-full ml-2">{number}</span>
                     </td>
                     <td className="py-4 pl-10 pr-2 align-middle">
                       <Link
