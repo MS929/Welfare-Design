@@ -2,8 +2,9 @@ import BizLayout from "../business/_Layout";
 
 export default function Combination() {
   return (
-    <BizLayout title="조합 가입">
+    <BizLayout>
       <section>
+        <h1 className="font-extrabold text-3xl text-[#111827] mb-4">조합 가입</h1>
         <p className="text-gray-700 leading-relaxed">
           복지디자인의 미션에 공감하신다면 지금 함께해요. 지역과 현장을 잇는 맞춤형 복지에
           조합원으로 참여할 수 있습니다.
