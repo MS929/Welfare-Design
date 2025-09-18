@@ -120,13 +120,13 @@ export default function Notices() {
       {paginatedItems.length === 0 ? (
         <p className="text-gray-500">등록된 글이 없습니다.</p>
       ) : (
-        <div className="overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-md">
+        <div className="overflow-hidden rounded-3xl border border-gray-100 bg-white shadow-lg">
           <table className="w-full text-sm">
-            <thead className="bg-gray-50/90 backdrop-blur supports-[backdrop-filter]:bg-gray-50/75 text-gray-600 sticky top-0 z-10 border-b border-gray-200">
+            <thead className="bg-gray-50/90 backdrop-blur supports-[backdrop-filter]:bg-gray-50/75 text-gray-600 sticky top-0 z-10 border-b border-gray-100">
               <tr>
                 <th className="w-16 py-3.5 pl-4 pr-2 text-center font-medium text-gray-600">번호</th>
                 <th className="py-3.5 pl-6 pr-2 text-left font-medium text-gray-600">제목</th>
-                <th className="w-28 py-3.5 px-2 text-center font-medium text-gray-600">구분</th>
+                <th className="w-32 py-3.5 px-2 text-center font-medium text-gray-600">구분</th>
                 <th className="w-44 py-3.5 px-4 text-left font-medium text-gray-600">작성일</th>
               </tr>
             </thead>
@@ -140,21 +140,20 @@ export default function Notices() {
                   : "border-emerald-200 text-emerald-700 bg-emerald-50";
                 const dotClasses = isNotice ? "bg-sky-500" : "bg-emerald-500";
                 const circleClasses = isNotice
-                  ? "border-sky-200 bg-white text-sky-700 shadow-sm ring-1 ring-inset ring-sky-100"
-                  : "border-emerald-200 bg-white text-emerald-700 shadow-sm ring-1 ring-inset ring-emerald-100";
+                  ? "border-sky-300 bg-gradient-to-b from-white to-sky-50 text-sky-700 shadow-sm ring-1 ring-inset ring-sky-100"
+                  : "border-emerald-300 bg-gradient-to-b from-white to-emerald-50 text-emerald-700 shadow-sm ring-1 ring-inset ring-emerald-100";
                 const circleChip = (
                   <span
                     className={`relative inline-flex items-center justify-center rounded-full border ${circleClasses}`}
-                    style={{ width: 36, height: 36 }}
+                    style={{ width: 40, height: 40 }}
                   >
-                    <span className={`absolute left-1.5 top-1.5 h-2 w-2 rounded-full ${dotClasses} opacity-90`}></span>
-                    <span className="text-[12px] leading-tight font-semibold tracking-tight">{it.category}</span>
+                    <span className="text-[12px] font-semibold tracking-tight">{it.category}</span>
                   </span>
                 );
                 return (
-                  <tr key={it.slug} className="border-t odd:bg-white even:bg-gray-50/40 hover:bg-gray-100/60 transition-colors">
-                    <td className="py-3.5 pl-4 pr-2 text-gray-400 align-top text-center">{number}</td>
-                    <td className="py-3.5 pl-6 pr-2 align-top">
+                  <tr key={it.slug} className="border-t border-gray-100 odd:bg-white even:bg-gray-50/40 hover:bg-gray-100/60 transition-colors">
+                    <td className="py-4 pl-4 pr-2 text-gray-400 align-top text-center">{number}</td>
+                    <td className="py-4 pl-6 pr-2 align-top">
                       <Link
                         to={`/news/notices/${encodeURIComponent(it.slug)}`}
                         className="inline-flex items-center hover:underline decoration-2 decoration-sky-300 underline-offset-2 max-w-[720px] truncate"
@@ -162,10 +161,10 @@ export default function Notices() {
                         <span className="text-gray-900 font-medium truncate">{it.title || "제목 없음"}</span>
                       </Link>
                     </td>
-                    <td className="py-3.5 px-2 align-top text-center">
+                    <td className="py-4 px-2 align-top text-center">
                       {circleChip}
                     </td>
-                    <td className="py-3.5 px-4 text-gray-600 align-top whitespace-nowrap">{dateStr}</td>
+                    <td className="py-4 px-4 text-gray-600 align-top whitespace-nowrap">{dateStr}</td>
                   </tr>
                 );
               })}
