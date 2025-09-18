@@ -141,19 +141,23 @@ export default function Notices() {
                 return (
                   <tr key={it.slug} className="border-t hover:bg-gray-50">
                     <td className="py-3 pl-4 pr-2 text-gray-500 align-top">{number}</td>
-                    <td className="py-3 px-2 align-top">
+                    <td className="py-3 pl-6 pr-2 align-top">
                       <Link
                         to={`/news/notices/${encodeURIComponent(it.slug)}`}
-                        className="inline-flex items-center gap-2 hover:underline"
+                        className="inline-flex items-center hover:underline"
                       >
+                        <span className="text-gray-900 font-medium">{it.title || "제목 없음"}</span>
+                      </Link>
+                    </td>
+                    <td className="py-3 px-2 text-gray-600 align-top">
+                      <div className="flex items-center gap-2 justify-start">
                         <span className={`inline-flex items-center gap-1 rounded-full border px-2 py-0.5 text-[11px] font-medium ${chipClasses}`}>
                           <span className={`h-1.5 w-1.5 rounded-full ${dotClasses}`}></span>
                           {it.category}
                         </span>
-                        <span className="text-gray-900 font-medium">{it.title || "제목 없음"}</span>
-                      </Link>
+                        <span>{dateStr}</span>
+                      </div>
                     </td>
-                    <td className="py-3 px-2 text-gray-600 align-top">{dateStr}</td>
                   </tr>
                 );
               })}
