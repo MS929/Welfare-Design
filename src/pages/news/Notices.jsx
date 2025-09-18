@@ -135,18 +135,9 @@ export default function Notices() {
                 const number = filtered.length - ((page - 1) * PAGE_SIZE + idx);
                 const dateStr = (it.dateObj && it.dateObj.toISOString().slice(0, 10)) || it.date || "";
                 const isNotice = it.category === "공지";
-                const chipClasses = isNotice
-                  ? "border-sky-200 text-sky-700 bg-sky-50"
-                  : "border-emerald-200 text-emerald-700 bg-emerald-50";
-                const dotClasses = isNotice ? "bg-sky-500" : "bg-emerald-500";
-                const circleClasses = isNotice
-                  ? "border-sky-300 bg-gradient-to-b from-white to-sky-50 text-sky-700 shadow-sm ring-1 ring-inset ring-sky-100"
-                  : "border-emerald-300 bg-gradient-to-b from-white to-emerald-50 text-emerald-700 shadow-sm ring-1 ring-inset ring-emerald-100";
                 const circleChip = (
-                  <span
-                    className={`inline-flex items-center rounded-lg px-4 py-2 border ${circleClasses} shadow-sm`}
-                  >
-                    <span className="text-lg font-semibold tracking-tight">{it.category}</span>
+                  <span className="inline-flex items-center rounded-full border border-gray-300 bg-white text-gray-700 px-5 py-1.5 shadow-sm">
+                    <span className="text-[15px] font-medium tracking-tight">{it.category}</span>
                   </span>
                 );
                 return (
