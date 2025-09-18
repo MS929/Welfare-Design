@@ -124,7 +124,7 @@ export default function Notices() {
           <table className="w-full text-sm">
             <thead className="bg-gray-50/90 backdrop-blur supports-[backdrop-filter]:bg-gray-50/75 text-gray-600 sticky top-0 z-10 border-b border-gray-200">
               <tr>
-                <th className="w-16 py-3.5 pl-4 pr-2 text-left font-medium text-gray-600">번호</th>
+                <th className="w-16 py-3.5 pl-4 pr-2 text-center font-medium text-gray-600">번호</th>
                 <th className="py-3.5 pl-6 pr-2 text-left font-medium text-gray-600">제목</th>
                 <th className="w-24 py-3.5 px-2 text-center font-medium text-gray-600">구분</th>
                 <th className="w-44 py-3.5 px-4 text-left font-medium text-gray-600">작성일</th>
@@ -145,15 +145,15 @@ export default function Notices() {
                 const circleChip = (
                   <span
                     className={`relative inline-flex items-center justify-center rounded-full border ${circleClasses}`}
-                    style={{ width: 34, height: 34 }}
+                    style={{ width: 28, height: 28 }}
                   >
-                    <span className={`absolute left-1.5 top-1.5 h-1.5 w-1.5 rounded-full ${dotClasses} opacity-90`}></span>
-                    <span className="text-[12px] leading-tight font-semibold tracking-tight">{it.category}</span>
+                    <span className={`absolute left-1 top-1 h-1.5 w-1.5 rounded-full ${dotClasses} opacity-90`}></span>
+                    <span className="text-[11px] leading-tight font-semibold tracking-tight">{it.category}</span>
                   </span>
                 );
                 return (
                   <tr key={it.slug} className="border-t odd:bg-white even:bg-gray-50/40 hover:bg-gray-100/60 transition-colors">
-                    <td className="py-3.5 pl-4 pr-2 text-gray-400 align-top">{number}</td>
+                    <td className="py-3.5 pl-4 pr-2 text-gray-400 align-top text-center">{number}</td>
                     <td className="py-3.5 pl-6 pr-2 align-top">
                       <Link
                         to={`/news/notices/${encodeURIComponent(it.slug)}`}
