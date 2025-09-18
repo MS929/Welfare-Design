@@ -8,9 +8,17 @@ export default function Combination() {
         </header>
 
         <h3 className="mt-6 font-extrabold text-lg text-[#111827]">문의</h3>
-        <div className="mt-3 rounded-2xl border border-gray-200 bg-white p-4 text-gray-700 shadow-sm">
-          <div>전화: 042-000-0000</div>
-          <div>이메일: ------------------------</div>
+        <div className="mt-3 rounded-2xl border border-gray-200 bg-gradient-to-r from-emerald-50 to-teal-50 p-6 text-gray-800 shadow-md">
+          <ul className="space-y-2">
+            <li className="flex items-center">
+              <span className="mr-2 text-emerald-600">📞</span>
+              <span>전화: 042-000-0000</span>
+            </li>
+            <li className="flex items-center">
+              <span className="mr-2 text-sky-600">✉️</span>
+              <span>이메일: ------------------------</span>
+            </li>
+          </ul>
         </div>
       </section>
     </div>
