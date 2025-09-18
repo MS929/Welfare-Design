@@ -12,7 +12,6 @@ export default function EwcInsurance() {
             <img
               src="/images/business/ewc-insurance.png"
               alt="취약 계층 전동휠체어 보험금 지원"
-              className="h-full w-auto max-w-full object-contain"
             />
           </div>
 
