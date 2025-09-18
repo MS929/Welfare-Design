@@ -9,6 +9,11 @@ export default function Combination() {
     <main style={styles.page}>
       {/* Hero (very simple) */}
       <section>
+          <nav style={styles.breadcrumb}>
+            <span>사업</span>
+            <span style={styles.breadcrumbSep}> &gt; </span>
+            <span>조합 가입</span>
+          </nav>
         <h1 style={styles.heroTitle}>조합 가입</h1>
         <p style={styles.lead}>
           복지디자인의 미션에 공감하신다면 지금 함께해요. 지역과 현장을 잇는 맞춤형 복지에
@@ -102,9 +107,12 @@ export default function Combination() {
 const styles = {
   page: { maxWidth: 880, margin: '0 auto', padding: '40px 20px 80px' },
 
-  heroTitle: { fontSize: 28, fontWeight: 800, margin: '0 0 12px', textAlign: 'left' },
+  heroTitle: { fontSize: 40, fontWeight: 800, margin: '8px 0 16px', textAlign: 'left' },
   title: { fontSize: 36, fontWeight: 800, margin: '0 0 10px' },
-  lead: { color: '#4b5563', margin: '0 0 20px', textAlign: 'left' },
+  lead: { color: '#4b5563', margin: '0 0 24px', textAlign: 'left', lineHeight: 1.8, maxWidth: 760 },
+
+  breadcrumb: { color: '#9CA3AF', fontSize: 13, marginBottom: 8 },
+  breadcrumbSep: { color: '#9CA3AF', margin: '0 6px' },
 
   btnRow: { display: 'flex', gap: 10, flexWrap: 'wrap', marginBottom: 28 },
   primaryBtn: {
