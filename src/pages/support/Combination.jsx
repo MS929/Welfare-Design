@@ -2,7 +2,7 @@ import BizLayout from "../business/_Layout";
 
 export default function Combination() {
   return (
-    <BizLayout>
+    <BizLayout noBreadcrumb>
       <section>
         <h1 className="font-extrabold text-3xl text-[#111827] mb-4">조합 가입</h1>
         <p className="text-gray-700 leading-relaxed">
