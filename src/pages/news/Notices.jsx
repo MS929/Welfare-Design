@@ -144,10 +144,9 @@ export default function Notices() {
                   : "border-emerald-300 bg-gradient-to-b from-white to-emerald-50 text-emerald-700 shadow-sm ring-1 ring-inset ring-emerald-100";
                 const circleChip = (
                   <span
-                    className={`relative inline-flex items-center justify-center rounded-full border ${circleClasses}`}
-                    style={{ width: 52, height: 52 }}
+                    className={`inline-flex items-center rounded-lg px-4 py-2 border ${circleClasses} shadow-sm`}
                   >
-                    <span className="text-[14px] font-semibold tracking-tight">{it.category}</span>
+                    <span className="text-lg font-semibold tracking-tight">{it.category}</span>
                   </span>
                 );
                 return (
