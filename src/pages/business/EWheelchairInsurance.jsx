@@ -8,7 +8,7 @@ export default function EwcInsurance() {
         {/* 이미지 + 우측 정보 박스(대여 안내) + 기대효과(대여 안내 박스 아래) */}
         <div className="grid gap-8 md:grid-cols-2 items-stretch">
           {/* 좌측 이미지: JS 동기화 제거, 순수 CSS로 동일 높이 */}
-          <div className="flex items-center justify-center overflow-hidden h-[440px] lg:h-[470px]">
+          <div className="flex items-center justify-center overflow-hidden">
             <img
               src="/images/business/ewc-insurance.png"
               alt="취약 계층 전동휠체어 보험금 지원"
