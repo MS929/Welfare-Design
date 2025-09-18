@@ -124,16 +124,17 @@ export default function Notices() {
           <table className="w-full text-sm">
             <thead className="bg-gray-50/90 backdrop-blur supports-[backdrop-filter]:bg-gray-50/75 text-gray-600 sticky top-0 z-10 border-b border-gray-100">
               <tr>
-                <th className="w-20 py-3.5 text-center font-medium text-gray-600">번호</th>
-                <th className="py-3.5 pl-4 pr-2 text-left font-medium text-gray-600">제목</th>
-                <th className="w-28 py-3.5 text-center font-medium text-gray-600">구분</th>
-                <th className="w-40 py-3.5 text-center font-medium text-gray-600">작성일</th>
+                <th className="w-16 py-3.5 pl-4 pr-2 text-center font-medium text-gray-600">번호</th>
+                <th className="py-3.5 pl-6 pr-2 text-left font-medium text-gray-600">제목</th>
+                <th className="w-32 py-3.5 px-2 text-center font-medium text-gray-600">구분</th>
+                <th className="w-44 py-3.5 px-4 text-left font-medium text-gray-600">작성일</th>
               </tr>
             </thead>
             <tbody>
               {paginatedItems.map((it, idx) => {
                 const number = filtered.length - ((page - 1) * PAGE_SIZE + idx);
                 const dateStr = (it.dateObj && it.dateObj.toISOString().slice(0, 10)) || it.date || "";
+                const isNotice = it.category === "공지";
                 const circleChip = (
                   <span className="inline-flex items-center rounded-full border border-gray-300 bg-white text-gray-700 px-5 py-1.5 shadow-sm">
                     <span className="text-[15px] font-medium tracking-tight">{it.category}</span>
@@ -141,17 +142,19 @@ export default function Notices() {
                 );
                 return (
                   <tr key={it.slug} className="border-t border-gray-100 odd:bg-white even:bg-gray-50/40 hover:bg-gray-100/60 transition-colors">
-                    <td className="py-4 text-center text-gray-400 align-top">{number}</td>
-                    <td className="py-4 pl-4 pr-2 align-top w-full">
+                    <td className="py-4 pl-4 pr-2 text-gray-400 align-top text-center">{number}</td>
+                    <td className="py-4 pl-6 pr-2 align-top">
                       <Link
                         to={`/news/notices/${encodeURIComponent(it.slug)}`}
-                        className="inline-flex items-center hover:underline decoration-2 decoration-sky-300 underline-offset-2 max-w-full truncate"
+                        className="inline-flex items-center hover:underline decoration-2 decoration-sky-300 underline-offset-2 max-w-[720px] truncate"
                       >
                         <span className="text-gray-900 font-medium truncate">{it.title || "제목 없음"}</span>
                       </Link>
                     </td>
-                    <td className="py-4 text-center align-top">{circleChip}</td>
-                    <td className="py-4 text-center text-gray-600 align-top whitespace-nowrap">{dateStr}</td>
+                    <td className="py-4 px-2 align-top text-center">
+                      {circleChip}
+                    </td>
+                    <td className="py-4 px-4 text-gray-600 align-top whitespace-nowrap">{dateStr}</td>
                   </tr>
                 );
               })}
