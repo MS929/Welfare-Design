@@ -8,7 +8,7 @@ export default function Combination() {
   return (
     <main style={styles.page}>
       {/* Hero (very simple) */}
-      <section>
+      <section style={styles.hero}>
           <nav style={styles.breadcrumb}>
             <span>사업</span>
             <span style={styles.breadcrumbSep}> &gt; </span>
@@ -107,14 +107,15 @@ export default function Combination() {
 const styles = {
   page: { maxWidth: 880, margin: '0 auto', padding: '40px 20px 80px' },
 
-  heroTitle: { fontSize: 40, fontWeight: 800, margin: '8px 0 16px', textAlign: 'left' },
+  hero: { marginTop: 8, marginBottom: 16 },
+  heroTitle: { fontSize: 28, fontWeight: 800, margin: '4px 0 12px', textAlign: 'left' },
   title: { fontSize: 36, fontWeight: 800, margin: '0 0 10px' },
-  lead: { color: '#4b5563', margin: '0 0 24px', textAlign: 'left', lineHeight: 1.8, maxWidth: 760 },
+  lead: { color: '#4b5563', margin: '0 0 16px', textAlign: 'left', lineHeight: 1.7, maxWidth: 760 },
 
-  breadcrumb: { color: '#9CA3AF', fontSize: 13, marginBottom: 8 },
+  breadcrumb: { color: '#9CA3AF', fontSize: 13, marginBottom: 6 },
   breadcrumbSep: { color: '#9CA3AF', margin: '0 6px' },
 
-  btnRow: { display: 'flex', gap: 10, flexWrap: 'wrap', marginBottom: 28 },
+  btnRow: { display: 'flex', gap: 10, flexWrap: 'wrap', marginTop: 4, marginBottom: 20 },
   primaryBtn: {
     padding: '12px 16px',
     background: '#ED6A32',
