@@ -32,64 +32,6 @@ export default function Combination() {
         </div>
       </section>
 
-      {/* 자격 */}
-      <section>
-        <h2 style={styles.sectionTitle}>가입 자격</h2>
-        <div style={styles.box}>
-          <ul style={styles.list}>
-            <li>조합의 목적과 규약에 동의하시는 분</li>
-            <li>복지 실천·연구·연대 활동에 관심이 있는 개인/단체</li>
-            <li>지역 사회 문제 해결과 상호협력에 참여하고자 하는 분</li>
-          </ul>
-        </div>
-      </section>
-
-      {/* 절차 */}
-      <section>
-        <h2 style={styles.sectionTitle}>절차</h2>
-        <div style={styles.box}>
-          <ol style={styles.list}>
-            <li>조합 소개와 규약 확인</li>
-            <li>온라인 신청 또는 신청서 작성</li>
-            <li>필요 서류 제출(이메일)</li>
-            <li>심사 및 승인 안내</li>
-            <li>가입비·회비 납부로 최종 확정</li>
-          </ol>
-          <p style={styles.small}>보통 영업일 기준 3~7일 내 처리됩니다.</p>
-        </div>
-      </section>
-
-      {/* 회비 */}
-      <section>
-        <h2 style={styles.sectionTitle}>회비 안내</h2>
-        <div style={styles.box}>
-          <ul style={styles.list}>
-            <li><b>가입비(1회)</b>: ₩ 10,000</li>
-            <li><b>월 회비</b>: ₩ 5,000 (자동이체/계좌이체 가능)</li>
-          </ul>
-        </div>
-      </section>
-
-      {/* 서류 */}
-      <section>
-        <h2 style={styles.sectionTitle}>필요 서류</h2>
-        <div style={styles.box}>
-          <ul style={styles.list}>
-            <li>가입 신청서</li>
-            <li>신분증 사본(개인) / 사업자등록증(단체)</li>
-            <li>기타 조합이 요청하는 서류</li>
-          </ul>
-          <div style={styles.btnRow}>
-            <a href="/uploads/join_application.pdf" style={styles.primaryBtn} download>
-              신청서 다운로드
-            </a>
-            <a href="https://forms.gle/your-form" target="_blank" rel="noreferrer" style={styles.secondaryBtn}>
-              온라인 신청하기
-            </a>
-          </div>
-        </div>
-      </section>
-
       {/* 문의 */}
       <section>
         <h2 style={styles.sectionTitle}>문의</h2>
