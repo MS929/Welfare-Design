@@ -186,9 +186,7 @@ const StoryCard = ({ title, date, href = "/news/stories", thumbnail }) => (
           height: 160,
           overflow: "hidden",
           borderBottom: `1px solid ${PALETTE.line}`,
-          background: thumbnail
-            ? "#fff"
-            : "radial-gradient(120% 80% at 50% 20%, rgba(59,167,160,.25), rgba(237,106,50,.18))",
+          background: thumbnail ? "#fff" : PALETTE.grayBg,
         }}
       >
         {thumbnail ? (
