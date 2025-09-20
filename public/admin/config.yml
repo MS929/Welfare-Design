@@ -2,7 +2,14 @@ backend:
   name: git-gateway
   branch: main
 
-publish_mode: simple
+publish_mode: editorial_workflow
+
+commit_messages:
+  create: "Create {{collection}} “{{slug}}” [skip ci]"
+  update: "Update {{collection}} “{{slug}}” [skip ci]"
+  delete: "Delete {{collection}} “{{slug}}” [skip ci]"
+  uploadMedia: "Upload “{{path}}” [skip ci]"
+  deleteMedia: "Delete “{{path}}” [skip ci]"
 
 media_folder: "public/uploads"
 public_folder: "/uploads"

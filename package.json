@@ -7,7 +7,9 @@
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "deploy": "npm run build && netlify deploy --prod --dir=dist",
+    "push-deploy": "git add . && git commit -m \"update\" && git push && npm run deploy"
   },
   "dependencies": {
     "buffer": "^6.0.3",

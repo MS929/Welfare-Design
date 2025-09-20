@@ -1,0 +1,6 @@
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+  # CMS에서 글/이미지 저장만 바뀌면 빌드 스킵
+  ignore = "git diff --quiet $CACHED_COMMIT_REF $COMMIT_REF -- src/content/ public/uploads/"
