@@ -1,5 +1,5 @@
 // src/pages/Home.jsx
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, useRef } from "react";
 // Viewport & input utilities
 function useViewport() {
   const [w, setW] = useState(typeof window !== "undefined" ? window.innerWidth : 1280);
@@ -92,6 +92,47 @@ const TOKENS = {
   shadowHover: "0 12px 26px rgba(15,23,42,.12)",
 };
 
+// ---- Home1 helpers moved here ----
+const PALETTE = {
+  orange: "#ED6A32",
+  yellow: "#F4B731",
+  teal: "#3BA7A0",
+  grayBg: "#F5F7FA",
+  mintPeachBg: "linear-gradient(180deg, #E8F4F2 0%, #FCE9E2 100%)",
+  grayText: "#64748B",
+  darkText: "#111827",
+  line: "rgba(17,24,39,.10)",
+};
+
+function Section({ children, style, fullBleed = false, innerMaxWidth = TOKENS.container }) {
+  if (fullBleed) {
+    return (
+      <section style={{ width: "100vw", margin: "0 calc(50% - 50vw)", padding: "40px 0", ...style }}>
+        <div style={{ maxWidth: innerMaxWidth, margin: "0 auto", padding: "0 24px" }}>{children}</div>
+      </section>
+    );
+  }
+  return (
+    <section style={{ maxWidth: TOKENS.container, width: "100%", margin: "0 auto", padding: "40px 24px", ...style }}>
+      {children}
+    </section>
+  );
+}
+
+function normalizeNoticeCategory(v) {
+  const s = (v ?? "").toString().trim();
+  if (!s) return "공지";
+  const compact = s.replace(/[\s-]/g, "");
+  if (compact === "공모") return "정보공개";
+  if (compact.includes("정보") && compact.includes("공개")) return "정보공개";
+  if (s.startsWith("공지")) return "공지";
+  return s;
+}
+
+// Hero carousel assets
+const HERO_IMAGES = ["/images/hero/dog.png", "/images/hero/light.png"];
+const HERO_INTERVAL = 10000; // ms
+
 // 반응형 그리드 열 수 (모바일 1, 태블릿 2, 데스크톱 4)
 function useCols() {
   const [cols, setCols] = useState(4);
@@ -159,8 +200,6 @@ export default function Home() {
   const [stories, setStories] = useState([]);
   // 스토리 탭 필터: 전체, 행사, 활동, 기타
   const [storiesTab, setStoriesTab] = useState("전체");
-  // 히어로 이미지: 우선 순위 경로 → 존재하지 않으면 /public/main.png 로 폴백
-  const [heroSrc, setHeroSrc] = useState("/images/hero/dog.png");
 
   // (삭제됨) CTA hover states
   // 카드 hover 상태
@@ -177,15 +216,35 @@ export default function Home() {
   const sectionGap = isMobile ? 32 : 48;
   const revealDuration = isMobile ? 0.28 : 0.4;
 
-  const heroImgH = useMemo(() => {
-    if (width >= 1280) return 340; // desktop
-    if (width >= 1024) return 300; // laptop/tablet landscape
-    if (width >= 640)  return 260; // tablet portrait
-    return 200;                     // mobile
-  }, [width]);
-
   const [loadingNotices, setLoadingNotices] = useState(true);
   const [loadingStories, setLoadingStories] = useState(true);
+
+  // --- HERO carousel state (moved from Home1) ---
+  const [heroIndex, setHeroIndex] = useState(0);
+  const timerRef = useRef(null);
+  const restartTimer = () => {
+    if (timerRef.current) clearInterval(timerRef.current);
+    timerRef.current = setInterval(() => {
+      setHeroIndex((i) => (i + 1) % HERO_IMAGES.length);
+    }, HERO_INTERVAL);
+  };
+  const goTo = (i) => {
+    const len = HERO_IMAGES.length || 1;
+    const next = ((i % len) + len) % len;
+    setHeroIndex(next);
+    restartTimer();
+  };
+  const nextHero = () => goTo(heroIndex + 1);
+  const prevHero = () => goTo(heroIndex - 1);
+
+  useEffect(() => {
+    restartTimer();
+    return () => { if (timerRef.current) clearInterval(timerRef.current); };
+  }, []);
+
+  useEffect(() => {
+    HERO_IMAGES.forEach((src) => { const img = new Image(); img.src = src; });
+  }, []);
 
   // 공지: 실제 파일 로드 (Decap CMS가 커밋한 md 기준)
   useEffect(() => {
@@ -301,6 +360,13 @@ export default function Home() {
     return { 공지: notice, 공모: contest };
   }, [notices]);
 
+  // Two-column lists for notice types (Home1 style)
+  const noticesSplit = useMemo(() => {
+    const notice = notices.filter((n) => normalizeNoticeCategory(n.category) === "공지");
+    const info = notices.filter((n) => normalizeNoticeCategory(n.category) === "정보공개");
+    return { 공지: notice, 정보공개: info };
+  }, [notices]);
+
   // 반응형 그리드 열 수
   const noticeCols = useCols();
   const storyCols = useCols();
@@ -335,529 +401,167 @@ export default function Home() {
   return (
     <main role="main">
 
-      {/* 1) HERO – 좌 텍스트 / 우 이미지 카드 */}
-      <section
-        aria-label="메인 히어로"
-        style={{
-          position: "relative",
-          width: "100vw",
-          marginLeft: "calc(50% - 50vw)",
-          marginRight: "calc(50% - 50vw)",
-          background: "linear-gradient(90deg, #FFF9E8 0%, #FFFFFF 55%)",
-          borderBottom: "none",
-          marginBottom: isMobile ? 12 : 16,
-        }}
-      >
-        <div
-          style={{
-            maxWidth: TOKENS.container,
-            margin: "0 auto",
-            padding: isMobile ? "36px 20px 40px" : "56px 24px 64px",
-            display: "grid",
-            gridTemplateColumns: isMobile ? "1fr" : "1.05fr 1fr",
-            alignItems: "center",
-            gap: TOKENS.gap,
-          }}
-        >
-          {/* 좌측: 타이틀/설명/CTA */}
-          <div style={{ textAlign: "left", color: COLOR.text, maxWidth: 720 }}>
-
-            <h1
-              style={{
-                margin: 0,
-                fontSize: "clamp(24px, 4.6vw, 48px)",
-                lineHeight: 1.18,
-                fontWeight: 900,
-                letterSpacing: "-0.5px",
-                color: "#000",
-                wordBreak: "keep-all",
-                textWrap: "balance",
-              }}
-            >
-              <span style={{ display: "block" }}>현장과 지역을 잇는 <br />맞춤형 복지를 설계하며</span>
-              <span style={{ display: "block", marginTop: 6 }}>복지디자인 사회적협동조합이</span>
-              <span style={{ display: "block", marginTop: 6 }}>지역과 함께합니다.</span>
-            </h1>
-
-            <p style={{ margin: "16px 0 0", color: COLOR.textMuted, fontSize: 16, maxWidth: 640 }}>
-              주민·기관·전문가가 협력하는 맞춤형 복지 플랫폼을 설계·운영합니다.
-            </p>
-          </div>
-
-          {/* 우측: 이미지 카드 */}
-          <div
-            style={{
-              borderRadius: TOKENS.radiusLg,
-              overflow: "hidden",
-              boxShadow: TOKENS.shadow,
-              border: `1px solid ${COLOR.line}`,
-              height: heroImgH,
-              background: COLOR.neutralTint,
-            }}
-          >
-            <img
-              src={heroSrc}
-              alt="복지디자인 활동 이미지"
-              style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
-              loading="eager"
-              decoding="async"
-            />
-          </div>
-        </div>
-      </section>
-
-      {/* 2) 공지사항 – 탭형 (공지 탭에 실제 데이터) */}
-      <section
-        aria-labelledby="notice-heading"
-        style={{
-          background: "#fff",
-          marginBottom: sectionGap,
-        }}
-      >
-        <div
-          style={{
-            maxWidth: TOKENS.container,
-            margin: "0 auto",
-            padding: "20px 24px 32px",
-          }}
-        >
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-              marginBottom: 16,
-              flexWrap: "wrap",
-              gap: 12,
-            }}
-          >
-            <h2
-              id="notice-heading"
-              style={{
-                display: "flex",
-                alignItems: "center",
-                gap: 12,
-                fontSize: 32,
-                fontWeight: 800,
-                margin: 0,
-              }}
-            >
-              <span
-                style={{
-                  width: 6,
-                  height: 26,
-                  background: COLOR.secondary,
-                  borderRadius: 3,
-                }}
-              />
-              공지사항
-            </h2>
-            <div style={{ display: "flex", gap: 8, whiteSpace: "nowrap" }} role="tablist" aria-label="공지사항 구분">
-              {tabs.map((t, idx) => (
-                <button
-                  key={t}
-                  id={`notice-tab-${idx}`}
-                  role="tab"
-                  aria-selected={noticeTab === t}
-                  aria-controls={`notice-panel-${idx}`}
-                  onClick={() => setNoticeTab(t)}
-                  style={{
-                    padding: "6px 14px",
-                    borderRadius: 999,
-                    border:
-                      noticeTab === t
-                        ? `2px solid ${COLOR.primary}`
-                        : `1px solid ${COLOR.line}`,
-                    background: noticeTab === t ? COLOR.primaryTint : "#fff",
-                    color: noticeTab === t ? COLOR.primary : COLOR.text,
-                    cursor: "pointer",
-                    fontWeight: noticeTab === t ? 600 : 400,
-                    fontSize: 14,
-                    transition: "all 0.2s",
-                    outline: "none",
-                  }}
-                >
-                  {t}
-                </button>
+      {/* 1) HERO – 이미지 캐러셀 + 우측 텍스트 (Home1 스타일) */}
+      <Section fullBleed innerMaxWidth={1500} style={{ paddingTop: 80, paddingBottom: 96, background: "#fff" }}>
+        <div style={{ display: "grid", gridTemplateColumns: "1.1fr 1fr", gap: 36, alignItems: "center" }}>
+          {/* 좌측: 캐러셀 */}
+          <div style={{ display: "flex", flexDirection: "column", alignItems: "stretch" }}>
+            <div style={{ position: "relative", height: 360, borderRadius: TOKENS.radiusLg, border: `1px solid ${PALETTE.line}`, overflow: "hidden", boxShadow: "0 10px 24px rgba(0,0,0,.10)", background: "#fff" }}>
+              {HERO_IMAGES.map((src, i) => (
+                <img key={src} src={src} alt="복지디자인 활동 이미지" loading={i === heroIndex ? "eager" : "lazy"} decoding="async" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", opacity: heroIndex === i ? 1 : 0, transition: "opacity 700ms ease-in-out", pointerEvents: "none" }} />
               ))}
-              <Link
-                to="/news/notices"
-                style={{
-                  fontSize: 14,
-                  color: COLOR.primary,
-                  marginLeft: 8,
-                  alignSelf: "center",
-                  textDecoration: "none",
-                  fontWeight: 600,
-                }}
-              >
-                더 보기
-              </Link>
+            </div>
+            <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 12, marginTop: 10 }}>
+              <button type="button" aria-label="이전 이미지" onClick={prevHero} style={{ width: 36, height: 36, borderRadius: "50%", border: `1px solid ${PALETTE.line}`, background: "#fff", boxShadow: "0 2px 8px rgba(0,0,0,.08)", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 800, fontSize: 16, cursor: "pointer", color: PALETTE.darkText }}>‹</button>
+              <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+                {HERO_IMAGES.map((_, i) => (
+                  <button key={i} type="button" aria-label={`이미지 ${i + 1} 보기`} onClick={() => goTo(i)} style={{ width: 12, height: 12, borderRadius: 999, border: "1px solid rgba(0,0,0,.15)", background: i === heroIndex ? PALETTE.teal : "#fff", boxShadow: "0 1px 2px rgba(0,0,0,.12)", cursor: "pointer", transform: i === heroIndex ? "scale(1.1)" : "none", transition: "transform .2s ease, background .2s ease" }} />
+                ))}
+              </div>
+              <button type="button" aria-label="다음 이미지" onClick={nextHero} style={{ width: 36, height: 36, borderRadius: "50%", border: `1px solid ${PALETTE.line}`, background: "#fff", boxShadow: "0 2px 8px rgba(0,0,0,.08)", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 800, fontSize: 16, cursor: "pointer", color: PALETTE.darkText }}>›</button>
             </div>
           </div>
 
-          <div
-            role="tabpanel"
-            id={`notice-panel-${tabs.indexOf(noticeTab)}`}
-            aria-labelledby={`notice-tab-${tabs.indexOf(noticeTab)}`}
-            style={{
-              display: "grid",
-              gridTemplateColumns: `repeat(${noticeCols}, minmax(0, 1fr))`,
-              gap: 28,
-            }}
-          >
-            {loadingNotices ? (
-              Array.from({ length: 4 }).map((_, i) => (
-                <div key={i} aria-hidden
-                  style={{
-                    border: `1px solid #EAEAEA`,
-                    borderRadius: TOKENS.radius,
-                    padding: 20,
-                    boxShadow: TOKENS.shadowSm,
-                    minHeight: NOTICE_CARD_MIN_H,
-                    background: "#fff",
-                  }}
-                >
-                  <div style={{
-                    height: 16, width: "60%", background: COLOR.neutralTint,
-                    borderRadius: 6, marginBottom: 12
-                  }} />
-                  <div style={{ height: 12, width: "90%", background: COLOR.neutralTint, borderRadius: 6, marginBottom: 8 }} />
-                  <div style={{ height: 12, width: "80%", background: COLOR.neutralTint, borderRadius: 6 }} />
-                </div>
-              ))
-            ) : (tabItems[noticeTab] || []).slice(0, 4).map((item) => (
-              <ClickCard
-                key={item.id}
-                to={item.to}
-                role="article"
-                data-reveal
-                style={{
-                  border: `1px solid #EAEAEA`,
-                  borderRadius: TOKENS.radius,
-                  padding: 16,
-                  boxShadow:
-                    hoveredNotice === item.id
-                      ? TOKENS.shadowHover
-                      : TOKENS.shadowSm,
-                  transform:
-                    hoveredNotice === item.id
-                      ? "translateY(-4px)"
-                      : "translateY(0)",
-                  transition: "all .18s ease",
-                  display: "flex",
-                  flexDirection: "column",
-                  justifyContent: "space-between",
-                  minHeight: noticeTab === "공모" ? NOTICE_CARD_MIN_H : 120,
-                  backgroundColor: "#fff",
-                  textDecoration: "none",
-                  color: "inherit",
-                  outline:
-                    hoveredNotice === item.id
-                      ? `2px solid ${COLOR.primary}`
-                      : "none",
-                }}
-                tabIndex={0}
-                onFocus={(e) => {
-                  if (!focusVisible) return;
-                  e.currentTarget.style.outline = `2px solid ${COLOR.primary}`;
-                  e.currentTarget.style.outlineOffset = "2px";
-                }}
-                onBlur={(e) => {
-                  e.currentTarget.style.outline = hoveredNotice === item.id ? `2px solid ${COLOR.primary}` : "none";
-                  e.currentTarget.style.outlineOffset = hoveredNotice === item.id ? "2px" : "0";
-                }}
-                onMouseEnter={() => { if (!hoverCapable) return; setHoveredNotice(item.id); }}
-                onMouseLeave={() => { if (!hoverCapable) return; setHoveredNotice(null); }}
-              >
-                {noticeTab === "공모" ? (
-                  <>
-                    <div
-                      style={{
-                        height: NOTICE_THUMB_H,
-                        marginBottom: 12,
-                        borderRadius: 10,
-                        overflow: "hidden",
-                        background: COLOR.neutralTint,
-                      }}
-                    >
-                      {item.thumbnail ? (
-                        <img
-                          src={item.thumbnail}
-                          alt={item.title}
-                          loading="lazy"
-                          decoding="async"
-                          style={{
-                            width: "100%",
-                            height: "100%",
-                            objectFit: "cover",
-                          }}
-                        />
-                      ) : (
-                        <div
-                          style={{
-                            width: "100%",
-                            height: "100%",
-                            display: "flex",
-                            alignItems: "center",
-                            justifyContent: "center",
-                            color: "#bbb",
-                            fontSize: 36,
-                          }}
-                        >
-                          <span aria-hidden="true">🖼️</span>
-                        </div>
-                      )}
-                    </div>
-                    <h3
-                      style={{
-                        fontSize: 17.5,
-                        fontWeight: 700,
-                        margin: 0,
-                        lineHeight: 1.3,
-                        overflow: "hidden",
-                        textOverflow: "ellipsis",
-                        display: "-webkit-box",
-                        WebkitLineClamp: 2,
-                        WebkitBoxOrient: "vertical",
-                      }}
-                    >
-                      {item.title}
-                    </h3>
-                    {item.date && typeof item.date === "string" ? (
-                      <time
-                        style={{ fontSize: 12, color: "#6B7280", marginTop: 6 }}
-                      >
-                        {item.date}
-                      </time>
-                    ) : null}
-                  </>
-                ) : (
-                  <>
-                    <div>
-                      <h3
-                        style={{
-                          fontSize: 16,
-                          fontWeight: 700,
-                          marginBottom: 6,
-                          lineHeight: 1.3,
-                          whiteSpace: "nowrap",
-                          overflow: "hidden",
-                          textOverflow: "ellipsis",
-                        }}
-                      >
-                        {item.title}
-                      </h3>
-                    </div>
-                    {item.date && typeof item.date === "string" ? (
-                      <time style={{ fontSize: 12, color: "#6B7280" }}>
-                        {item.date}
-                      </time>
-                    ) : null}
-                  </>
-                )}
-              </ClickCard>
-            ))}
-            {!loadingNotices && (!tabItems[noticeTab] || tabItems[noticeTab].length === 0) && (
-              <div
-                style={{
-                  gridColumn: "1 / -1",
-                  color: "#888",
-                  fontSize: 14,
-                  textAlign: "center",
-                  padding: 24,
-                }}
-              >
-                표시할 항목이 없습니다.
-              </div>
-            )}
+          {/* 우측: 텍스트 */}
+          <div>
+            <div style={{ display: "inline-flex", alignItems: "center", gap: 8, padding: "6px 10px", borderRadius: 999, border: `1px solid ${PALETTE.line}`, background: "#fff", boxShadow: TOKENS.shadowSm, marginBottom: 10 }}>
+              <span aria-hidden style={{ width: 8, height: 8, borderRadius: "50%", background: COLOR.secondary }} />
+              <span style={{ fontWeight: 800, fontSize: 12, letterSpacing: 0.4, color: "#111827" }}>WELFARE&nbsp;DESIGN</span>
+            </div>
+            <h1 style={{ fontSize: 32, lineHeight: 1.35, margin: 0, letterSpacing: -0.2 }}>
+              현장과 지역을 잇는 <span style={{ boxDecorationBreak: "clone", WebkitBoxDecorationBreak: "clone", backgroundImage: "linear-gradient(transparent 70%, rgba(59,167,160,.28) 0)" }}>맞춤형 복지</span>를 설계하며<br />
+              <span style={{ boxDecorationBreak: "clone", WebkitBoxDecorationBreak: "clone", backgroundImage: "linear-gradient(transparent 70%, rgba(237,106,50,.22) 0)" }}>복지디자인 사회적협동조합</span>이<br />지역과 함께합니다.
+            </h1>
+            <p style={{ color: PALETTE.grayText, marginTop: 10 }}>주민·기관·전문가가 협력하는 맞춤형 복지 플랫폼을 설계·운영합니다.</p>
           </div>
         </div>
-      </section>
+      </Section>
 
-      {/* 3) 가입/후원/문의 CTA 박스 */}
-      <section
-        aria-label="가입/후원/문의"
-        style={{
-          background: "#fff",
-          marginBottom: sectionGap,
-        }}
-      >
-        <div
-          style={{
-            maxWidth: TOKENS.container,
-            margin: "0 auto",
-            padding: "20px 24px 32px",
-          }}
-        >
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(4, minmax(0, 1fr))",
-              gap: 24,
-            }}
-          >
-            {[
-              {
-                to: "/about/what",
-                title: "복지디자인 소개",
-                desc: "조합의 비전과 연혁을 확인하세요.",
-                color: COLOR.secondary, // 오렌지
-                tint: COLOR.secondaryTint,
-                iconSrc: "/images/icons/introduction.png",
-              },
-              {
-                to: "/business/overview",
-                title: "사업 안내",
-                desc: "복지디자인의 사업을 확인하세요.",
-                color: COLOR.primary, // 틸
-                tint: COLOR.primaryTint,
-                iconSrc: "/images/icons/needs-survey.png",
-              },
-              {
-                to: "/support/guide",
-                title: "후원 가입 신청하기",
-                desc: "지속적인 관심과 지지를 부탁드립니다.",
-                color: COLOR.accent, // 노랑
-                tint: COLOR.accentTint,
-                iconSrc: "/images/icons/donation.png",
-              },
-              {
-                to: "/support/combination",
-                title: "조합 가입 신청하기",
-                desc: "복지디자인의 미션에 함께해주세요.",
-                color: COLOR.primary, // 틸(반복)
-                tint: COLOR.primaryTint,
-                iconSrc: "/images/icons/member-services.png",
-              },
-            ].map((item, idx) => (
-              <ClickCard
-                key={idx}
-                to={item.to}
-                data-reveal
-                style={{
-                  position: "relative",
-                  display: "flex",
-                  alignItems: "center",
-                  gap: 18,
-                  padding: 24,
-                  borderRadius: TOKENS.radius,
-                  background: item.tint,
-                  border: `1px solid ${item.color}22`,
-                  boxShadow: TOKENS.shadowSm,
-                  textDecoration: "none",
-                  color: "inherit",
-                  minHeight: 132,
-                  transition:
-                    "transform .16s ease, box-shadow .16s ease, background .16s ease",
-                }}
-                onMouseEnter={(e) => {
-                  if (!hoverCapable) return;
-                  const el = e.currentTarget;
-                  el.style.boxShadow = TOKENS.shadowHover;
-                  el.style.transform = "translateY(-4px)";
-                  el.style.background = `${item.tint}`;
-                  const title = el.querySelector("strong");
-                  const arrow = el.querySelector('[data-arrow]');
-                  if (title) title.style.color = item.color;
-                  if (arrow) arrow.style.color = item.color;
-                }}
-                onMouseLeave={(e) => {
-                  if (!hoverCapable) return;
-                  const el = e.currentTarget;
-                  el.style.boxShadow = TOKENS.shadowSm;
-                  el.style.transform = "translateY(0)";
-                  el.style.background = item.tint;
-                  const title = el.querySelector("strong");
-                  const arrow = el.querySelector('[data-arrow]');
-                  if (title) title.style.color = item.color;
-                  if (arrow) arrow.style.color = item.color;
-                }}
-                tabIndex={0}
-                onFocus={(e) => {
-                  if (!focusVisible) return;
-                  e.currentTarget.style.outline = `2px solid ${item.color}`;
-                  e.currentTarget.style.outlineOffset = "2px";
-                }}
-                onBlur={(e) => {
-                  e.currentTarget.style.outline = "none";
-                  e.currentTarget.style.outlineOffset = "0";
-                }}
-              >
-                {/* 아이콘 슬롯 (사용자가 교체 가능) */}
-                <div
-                  style={{
-                    width: 56,
-                    height: 56,
-                    borderRadius: 14,
-                    background: "#ffffff",
-                    border: `1px solid ${item.color}33`,
-                    boxShadow: "0 4px 12px rgba(0,0,0,.06)",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    flex: "0 0 auto",
-                  }}
-                >
-                  {/* 아이콘은 사용자 삽입 예정 */}
-                  <img
-                    src={item.iconSrc}
-                    alt=""
-                    style={{ width: 28, height: 28 }}
-                  />
-                </div>
-
-                {/* 텍스트 영역 */}
-                <div style={{ flex: 1, minWidth: 0 }}>
-                  <div
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "space-between",
-                      gap: 12,
-                    }}
-                  >
-                    <strong
-                      style={{
-                        fontSize: 18,
-                        fontWeight: 800,
-                        color: item.color,
-                        whiteSpace: "nowrap",
-                        textOverflow: "ellipsis",
-                        overflow: "hidden",
-                      }}
-                    >
-                      {item.title}
-                    </strong>
-                    {/* 우측 화살표 */}
-                    <span
-                      data-arrow
-                      aria-hidden
-                      style={{
-                        color: item.color,
-                        fontWeight: 700,
-                        opacity: 0.85,
-                      }}
-                    >
-                      ›
-                    </span>
+      {/* 빠르게 가기 (Home1) */}
+      <div style={{ background: PALETTE.mintPeachBg, padding: "28px 0", borderTop: `1px solid ${PALETTE.line}`, width: "100vw", marginLeft: "calc(50% - 50vw)", marginRight: "calc(50% - 50vw)" }}>
+        <Section style={{ padding: "0 24px" }}>
+          <div style={{ display: "grid", gridTemplateColumns: "minmax(220px, 1fr) 2fr", gap: 18, alignItems: "center" }}>
+            <div>
+              <h3 style={{ margin: 0, fontSize: 20, fontWeight: 900, letterSpacing: -0.2, color: "#111827" }}>빠르게 가기</h3>
+              <p style={{ margin: "6px 0 0", color: PALETTE.grayText, lineHeight: 1.5 }}>자주 찾는 메뉴를 한 번에 <br />소개·사업·후원·가입 페이지로 바로 이동하세요.</p>
+            </div>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(4, minmax(0,1fr))", gap: 14 }}>
+              {[{href:"/about/what",iconsrc:"/images/icons/introduction.png",label:"복지디자인 소개",desc:"설립·비전·연혁"},{href:"/business/overview",iconsrc:"/images/icons/needs-survey.png",label:"사업 안내",desc:"운영사업 한눈에"},{href:"/support/guide",iconsrc:"/images/icons/donation.png",label:"후원 안내",desc:"지지와 참여 방법"},{href:"/support/combination",iconsrc:"/images/icons/member-services.png",label:"조합 가입",desc:"함께하는 동료되기"}].map((it,i)=> (
+                <Link key={i} to={it.href} style={{ display:"flex", alignItems:"center", gap:12, padding:14, borderRadius:16, background:"#fff", border: `1px solid ${PALETTE.line}`, boxShadow:"0 3px 10px rgba(0,0,0,.06)", textDecoration:"none", color:"inherit", transition:"transform .12s ease, box-shadow .12s ease" }}
+                  onMouseEnter={(e)=>{ e.currentTarget.style.transform='translateY(-3px)'; e.currentTarget.style.boxShadow='0 8px 18px rgba(0,0,0,.10)'; }}
+                  onMouseLeave={(e)=>{ e.currentTarget.style.transform='none'; e.currentTarget.style.boxShadow='0 3px 10px rgba(0,0,0,.06)'; }}>
+                  <div aria-hidden style={{ width:36, height:36, borderRadius:12, background:`linear-gradient(180deg,#FFFFFF 0%, ${PALETTE.grayBg} 100%)`, border: `1px solid ${PALETTE.line}`, boxShadow:"0 2px 6px rgba(0,0,0,.06)", display:"inline-flex", alignItems:"center", justifyContent:"center", flex:"0 0 auto" }}>
+                    <img src={it.iconsrc} alt="" loading="lazy" decoding="async" style={{ width:22, height:22, objectFit:"contain" }} />
                   </div>
-                  <p
-                    style={{
-                      margin: "8px 0 0",
-                      fontSize: 14,
-                      color: COLOR.text,
-                      opacity: 0.9,
-                    }}
-                  >
-                    {item.desc}
-                  </p>
+                  <div style={{ flex:1, minWidth:0 }}>
+                    <div style={{ fontWeight:900, whiteSpace:"nowrap", overflow:"hidden", textOverflow:"ellipsis" }}>{it.label}</div>
+                    <div style={{ fontSize:12, color:PALETTE.grayText, marginTop:4 }}>{it.desc}</div>
+                  </div>
+                  <span aria-hidden style={{ color: PALETTE.teal, fontWeight: 800 }}>›</span>
+                </Link>
+              ))}
+            </div>
+          </div>
+        </Section>
+      </div>
+
+      {/* 지원사업 영역 (Home1) */}
+      <div style={{ background: PALETTE.mintPeachBg, padding: "12px 0", width: "100vw", marginLeft: "calc(50% - 50vw)", marginRight: "calc(50% - 50vw)" }}>
+        <Section id="support" style={{ padding: "16px 20px" }}>
+          <h2 style={{ margin: "0 0 6px 0", fontSize: 22, fontWeight: 900 }}>지원사업 영역</h2>
+          <p style={{ margin: "0 0 16px 0", color: PALETTE.grayText, fontSize: 14 }}>복지디자인이 수행하는 주요 지원사업을 한눈에 살펴보세요.</p>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(3, minmax(0,1fr))", gap: 16 }}>
+            {[
+              { icon: "/images/icons/rental.png", label: "휠체어 및 복지용구 무료 대여", href: "/business/rental" },
+              { icon: "/images/icons/apply-help.png", label: "보조기기·복지용구 신청 안내 지원", href: "/business/apply-help" },
+              { icon: "/images/icons/donation.png", label: "보조기기 기증 캠페인", href: "/business/donation" },
+              { icon: "/images/icons/ewc-insurance.png", label: "취약 계층 전동 휠체어 보험금 지원", href: "/business/ewc-insurance" },
+              { icon: "/images/icons/needs-survey.png", label: "취약 계층 복지욕구 실태조사", href: "/business/needs-survey" },
+              { icon: "/images/icons/member-services.png", label: "조합원 지원 서비스", href: "/business/member-services" },
+            ].map((it, i) => (
+              <Link key={i} to={it.href} style={{ position: "relative", display: "flex", alignItems: "center", justifyContent: "space-between", background: "linear-gradient(180deg, rgba(255,255,255,0.88) 0%, rgba(255,255,255,0.76) 100%)", border: "1px solid rgba(255,255,255,0.6)", color: "#111827", borderRadius: TOKENS.radiusLg, padding: 20, boxShadow: "0 12px 28px rgba(59,167,160,.10), 0 6px 14px rgba(237,106,50,.06)", textDecoration: "none", transition: "transform .18s ease, box-shadow .18s ease", backdropFilter: "saturate(150%) blur(8px)", WebkitBackdropFilter: "saturate(150%) blur(8px)" }}
+                onMouseEnter={(e) => { e.currentTarget.style.transform = "translateY(-4px)"; e.currentTarget.style.boxShadow = "0 18px 36px rgba(59,167,160,.16), 0 10px 22px rgba(237,106,50,.10)"; }}
+                onMouseLeave={(e) => { e.currentTarget.style.transform = "none"; e.currentTarget.style.boxShadow = "0 12px 28px rgba(59,167,160,.10), 0 6px 14px rgba(237,106,50,.06)"; }}>
+                <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+                  <div aria-hidden style={{ width: 44, height: 44, borderRadius: 14, background: `linear-gradient(180deg, #FFFFFF 0%, rgba(255,255,255,.85) 100%)`, border: `1px solid ${PALETTE.line}`, boxShadow: "inset 0 1px 0 rgba(255,255,255,.6), 0 6px 14px rgba(0,0,0,.06)", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                    <img src={it.icon.replace(/\.(png|svg)$/i, ".svg")} onError={(e)=>{ e.currentTarget.onerror=null; e.currentTarget.src=it.icon; }} alt="" loading="lazy" decoding="async" style={{ width: 24, height: 24, objectFit: "contain" }} />
+                  </div>
+                  <div style={{ fontWeight: 900 }}>{it.label}</div>
                 </div>
-              </ClickCard>
+                <span style={{ opacity: 0.9, fontSize: 12 }}>바로가기 ›</span>
+              </Link>
             ))}
           </div>
+        </Section>
+      </div>
+
+      {/* 공지/정보공개 – 두 칼럼 리스트 (Home1 스타일) */}
+      <Section style={{ paddingTop: 38 }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 12, justifyContent: "space-between", marginBottom: 20 }}>
+          <h2 style={{ margin: 0, fontSize: 28, fontWeight: 900, display: "flex", alignItems: "center", gap: 10 }}>
+            <span aria-hidden style={{ width: 8, height: 24, background: PALETTE.orange, borderRadius: 3, display: "inline-block" }} />
+            공지사항
+          </h2>
         </div>
-      </section>
+
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(2, minmax(0,1fr))", gap: 24 }}>
+          {/* 공지 */}
+          <div>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginBottom: 12 }}>
+              <h2 style={{ margin: 0, fontSize: 22, fontWeight: 900 }}>공지</h2>
+              <Link to="/news/notices" style={{ color: PALETTE.teal, fontWeight: 800, textDecoration: "none", border: `1px solid ${PALETTE.teal}33`, borderRadius: 999, padding: "6px 10px", background: "#fff" }}>더보기 ›</Link>
+            </div>
+            <div style={{ display: "grid", gap: 18 }}>
+              {(loadingNotices ? Array.from({ length: 4 }) : (noticesSplit.공지 || []).slice(0, 5)).map((item, i) => (
+                loadingNotices ? (
+                  <div key={i} aria-hidden style={{ background: "#fff", border: `1px solid ${PALETTE.line}`, borderRadius: 14, padding: "16px 18px", boxShadow: TOKENS.shadowSm }}>
+                    <div style={{ height: 18, width: "70%", background: "#EEF2F7", borderRadius: 6, marginBottom: 10 }} />
+                    <div style={{ height: 12, width: 120, background: "#EEF2F7", borderRadius: 6 }} />
+                  </div>
+                ) : (
+                  <Link key={item.id} to={item.to} style={{ display: "block", background: "#fff", border: `1px solid ${PALETTE.line}`, borderRadius: 14, padding: "16px 18px", boxShadow: TOKENS.shadowSm, textDecoration: "none", color: "inherit", transition: "transform .12s ease, box-shadow .12s ease" }}
+                    onMouseEnter={(e)=>{ e.currentTarget.style.transform='translateY(-2px)'; e.currentTarget.style.boxShadow='0 10px 22px rgba(0,0,0,.08)'; }}
+                    onMouseLeave={(e)=>{ e.currentTarget.style.transform='none'; e.currentTarget.style.boxShadow=TOKENS.shadowSm; }}>
+                    <div style={{ display:"flex", alignItems:"center", justifyContent:"space-between", gap:12, marginBottom:6 }}>
+                      <div style={{ fontWeight:800, fontSize:18, lineHeight:1.35, overflow:"hidden", textOverflow:"ellipsis", whiteSpace:"nowrap" }}>{item.title}</div>
+                      <span aria-hidden style={{ color: PALETTE.grayText }}>›</span>
+                    </div>
+                    {item.date && (<time style={{ color: PALETTE.grayText, fontSize: 12 }}>{item.date}</time>)}
+                  </Link>
+                )
+              ))}
+            </div>
+          </div>
+
+          {/* 정보공개 */}
+          <div>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginBottom: 12 }}>
+              <h2 style={{ margin: 0, fontSize: 22, fontWeight: 900 }}>정보공개</h2>
+              <Link to="/news/notices" style={{ color: PALETTE.teal, fontWeight: 800, textDecoration: "none", border: `1px solid ${PALETTE.teal}33`, borderRadius: 999, padding: "6px 10px", background: "#fff" }}>더보기 ›</Link>
+            </div>
+            <div style={{ display: "grid", gap: 18 }}>
+              {(loadingNotices ? Array.from({ length: 4 }) : (noticesSplit.정보공개 || []).slice(0, 5)).map((item, i) => (
+                loadingNotices ? (
+                  <div key={i} aria-hidden style={{ background: "#fff", border: `1px solid ${PALETTE.line}`, borderRadius: 14, padding: "16px 18px", boxShadow: TOKENS.shadowSm }}>
+                    <div style={{ height: 18, width: "70%", background: "#EEF2F7", borderRadius: 6, marginBottom: 10 }} />
+                    <div style={{ height: 12, width: 120, background: "#EEF2F7", borderRadius: 6 }} />
+                  </div>
+                ) : (
+                  <Link key={item.id} to={item.to} style={{ display: "block", background: "#fff", border: `1px solid ${PALETTE.line}`, borderRadius: 14, padding: "16px 18px", boxShadow: TOKENS.shadowSm, textDecoration: "none", color: "inherit", transition: "transform .12s ease, box-shadow .12s ease" }}
+                    onMouseEnter={(e)=>{ e.currentTarget.style.transform='translateY(-2px)'; e.currentTarget.style.boxShadow='0 10px 22px rgba(0,0,0,.08)'; }}
+                    onMouseLeave={(e)=>{ e.currentTarget.style.transform='none'; e.currentTarget.style.boxShadow=TOKENS.shadowSm; }}>
+                    <div style={{ display:"flex", alignItems:"center", justifyContent:"space-between", gap:12, marginBottom:6 }}>
+                      <div style={{ fontWeight:800, fontSize:18, lineHeight:1.35, overflow:"hidden", textOverflow:"ellipsis", whiteSpace:"nowrap" }}>{item.title}</div>
+                      <span aria-hidden style={{ color: PALETTE.grayText }}>›</span>
+                    </div>
+                    {item.date && (<time style={{ color: PALETTE.grayText, fontSize: 12 }}>{item.date}</time>)}
+                  </Link>
+                )
+              ))}
+            </div>
+          </div>
+        </div>
+      </Section>
 
       {/* 4) 복지디자인 소식 – 파란 패널 + 탭 풍의 보조 내비 + 필터 */}
       <section
