@@ -173,8 +173,8 @@ const StoryCard = ({ title, date, href = "/news/stories", thumbnail }) => (
       }}
       onMouseEnter={(e) => {
         e.currentTarget.style.transform = "translateY(-4px)";
-        e.currentTarget.style.boxShadow = `0 14px 28px rgba(15,23,42,.12), 0 0 0 3px ${PALETTE.orange}22`;
-        e.currentTarget.style.borderColor = PALETTE.orange;
+        e.currentTarget.style.boxShadow = `0 14px 28px rgba(15,23,42,.12), 0 0 0 3px ${PALETTE.teal}22`;
+        e.currentTarget.style.borderColor = PALETTE.teal;
       }}
       onMouseLeave={(e) => {
         e.currentTarget.style.transform = "none";
