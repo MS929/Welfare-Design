@@ -17,6 +17,12 @@ const PALETTE = {
   shadowSm: "0 4px 12px rgba(0,0,0,.05)",
   shadow: "0 8px 24px rgba(0,0,0,.06)",
   heroBg: "#FFF6EE",
+  heroTop: "#FFF3E6", // 상단 크림색
+  heroBottom: "#FFFFFF", // 하단 화이트
+  heroVignette: "rgba(0,0,0,0.04)",
+  heroCreamTop: "#FFF5E9",
+  heroCreamMid: "#FFF9F2",
+  heroCreamEdge: "#FFEEDC",
   radius: 16,
   radiusLg: 22,
   radiusXl: 28,
@@ -288,7 +294,14 @@ export default function Home1() {
         style={{
           paddingTop: 80,
           paddingBottom: 96,
-          background: PALETTE.heroBg,
+          background: [
+            // base vertical cream → white
+            `linear-gradient(180deg, ${PALETTE.heroCreamTop} 0%, ${PALETTE.heroCreamMid} 46%, #FFFFFF 100%)`,
+            // soft warm edge vignettes (left / right)
+            `radial-gradient(90% 70% at 0% 50%, ${PALETTE.heroCreamEdge}80 0%, ${PALETTE.heroCreamEdge}00 60%)`,
+            `radial-gradient(90% 70% at 100% 50%, ${PALETTE.heroCreamEdge}80 0%, ${PALETTE.heroCreamEdge}00 60%)`
+          ].join(", "),
+          boxShadow: "inset 0 24px 60px rgba(255, 201, 150, 0.12), inset 0 -24px 60px rgba(255, 201, 150, 0.10)",
         }}
       >
         <div
