@@ -522,7 +522,7 @@ export default function Home1() {
                   width: 8,
                   height: 8,
                   borderRadius: "50%",
-                  background: COLOR.secondary,
+                  background: PALETTE.orange,
                 }}
               />
               <span style={{ fontWeight: 800, fontSize: 12, letterSpacing: 0.4, color: "#111827" }}>
