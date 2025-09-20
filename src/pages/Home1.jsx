@@ -621,28 +621,28 @@ export default function Home1() {
                 href: "/about/what",
                 iconsrc: "/images/icons/introduction.png",
                 label: "복지디자인 소개",
-                desc: "조합의 비전과 연혁을 확인하세요.",
+                desc: "설립·비전·연혁",
                 theme: { bg: "linear-gradient(180deg, #F06E2E 0%, #E35D23 100%)", border: "#D9541F", text: "#111827" },
               },
               {
                 href: "/business/overview",
                 iconsrc: "/images/icons/needs-survey.png",
                 label: "사업 안내",
-                desc: "복지디자인의 사업을 확인하세요.",
+                desc: "운영사업 한눈에",
                 theme: { bg: "linear-gradient(180deg, #36A7A0 0%, #2E9C96 100%)", border: "#2A8D8A", text: "#111827" },
               },
               {
                 href: "/support/guide",
                 iconsrc: "/images/icons/donation.png",
                 label: "후원 안내",
-                desc: "지속적인 관심과 지지를 부탁드립니다.",
+                desc: "지지와 참여 방법",
                 theme: { bg: "#FEF3D6", border: "#F5E3A6", text: "#D6A216" },
               },
               {
                 href: "/support/combination",
                 iconsrc: "/images/icons/member-services.png",
                 label: "조합 가입 신청하기",
-                desc: "복지디자인의 미션에 함께해주세요.",
+                desc: "함께하는 동료되기",
                 theme: { bg: "#E9F5FA", border: "#D1EAF4", text: "#2196C8" },
               },
             ];
@@ -651,15 +651,46 @@ export default function Home1() {
               <div
                 style={{
                   display: "grid",
-                  gridTemplateColumns: "repeat(4, minmax(0,1fr))",
-                  gap: 24,
+                  gridTemplateColumns: "minmax(220px, 1fr) 2fr",
+                  gap: 18,
+                  alignItems: "center",
                 }}
               >
-                {quickLinks.map((it, i) => (
-                  <Link
-                    key={i}
-                    to={it.href}
+                {/* Left: heading + description */}
+                <div>
+                  <h3
                     style={{
+                      margin: 0,
+                      fontSize: 20,
+                      fontWeight: 900,
+                      letterSpacing: -0.2,
+                      color: PALETTE.darkText,
+                    }}
+                  >
+                    빠르게 가기
+                  </h3>
+                  <p
+                    style={{
+                      margin: "6px 0 0",
+                      color: PALETTE.grayText,
+                      lineHeight: 1.5,
+                    }}
+                  >
+                    자주 찾는 메뉴를 한 번에 <br />
+                    소개·사업·후원·가입 페이지로 바로 이동하세요.
+                  </p>
+                </div>
+
+                {/* Right: 4 cards unchanged */}
+                <div
+                  style={{
+                    display: "grid",
+                    gridTemplateColumns: "repeat(4, minmax(0,1fr))",
+                    gap: 14,
+                  }}
+                >
+                  {quickLinks.map((it, i) => (
+                    <Link key={i} to={it.href} style={{
                       display: "flex",
                       alignItems: "center",
                       gap: 14,
@@ -682,35 +713,23 @@ export default function Home1() {
                       e.currentTarget.style.boxShadow =
                         "0 6px 18px rgba(0,0,0,.06)";
                     }}
-                  >
-                    <div
-                      aria-hidden
-                      style={{
+                    >
+                      <div aria-hidden style={{
                         width: 48,
                         height: 48,
                         borderRadius: 12,
                         background: "#fff",
                         border: `2px solid ${it.theme.text}44`,
-                        boxShadow:
-                          "inset 0 0 0 4px #ffffff, 0 2px 8px rgba(0,0,0,.06)",
+                        boxShadow: "inset 0 0 0 4px #ffffff, 0 2px 8px rgba(0,0,0,.06)",
                         display: "inline-flex",
                         alignItems: "center",
                         justifyContent: "center",
                         flex: "0 0 auto",
-                      }}
-                    >
-                      <img
-                        src={it.iconsrc}
-                        alt=""
-                        loading="lazy"
-                        decoding="async"
-                        style={{ width: 24, height: 24, objectFit: "contain" }}
-                      />
-                    </div>
-
-                    <div style={{ flex: 1, minWidth: 0 }}>
-                      <div
-                        style={{
+                      }}>
+                        <img src={it.iconsrc} alt="" loading="lazy" decoding="async" style={{ width: 24, height: 24, objectFit: "contain" }} />
+                      </div>
+                      <div style={{ flex: 1, minWidth: 0 }}>
+                        <div style={{
                           fontWeight: 900,
                           color: it.theme.text,
                           display: "flex",
@@ -719,24 +738,17 @@ export default function Home1() {
                           whiteSpace: "nowrap",
                           overflow: "hidden",
                           textOverflow: "ellipsis",
-                        }}
-                      >
-                        {it.label}
-                        <span aria-hidden style={{ opacity: 0.9 }}>›</span>
+                        }}>
+                          {it.label}
+                          <span aria-hidden style={{ opacity: 0.9 }}>›</span>
+                        </div>
+                        <div style={{ fontSize: 12, color: PALETTE.grayText, marginTop: 6, lineHeight: 1.45 }}>
+                          {it.desc}
+                        </div>
                       </div>
-                      <div
-                        style={{
-                          fontSize: 12,
-                          color: PALETTE.grayText,
-                          marginTop: 6,
-                          lineHeight: 1.45,
-                        }}
-                      >
-                        {it.desc}
-                      </div>
-                    </div>
-                  </Link>
-                ))}
+                    </Link>
+                  ))}
+                </div>
               </div>
             );
           })()}
