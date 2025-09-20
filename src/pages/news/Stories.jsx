@@ -160,7 +160,7 @@ export default function NewsStories() {
         <span className="mx-1 align-middle">›</span>
         <span className="text-gray-700">복지디자인 이야기</span>
       </div>
-      <h1 className="mt-2 text-[44px] leading-tight font-extrabold tracking-tight mb-8">복지디자인 이야기</h1>
+      <h1 className="mt-2 text-3xl md:text-4xl font-extrabold tracking-tight mb-8">복지디자인 이야기</h1>
 
       {/* 탭 */}
       <div className="flex flex-wrap items-center gap-2 sm:gap-3 mb-6">
