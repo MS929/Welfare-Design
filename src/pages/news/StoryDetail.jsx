@@ -1,6 +1,6 @@
 // src/pages/news/StoryDetail.jsx
 import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, useLocation } from "react-router-dom";
 import matter from "gray-matter";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
@@ -13,6 +13,8 @@ import remarkGfm from "remark-gfm";
 export default function StoryDetail() {
   const { slug } = useParams();
   const nav = useNavigate();
+  const location = useLocation();
+  const backTo = location.state?.backTo || "/news/stories";
   const [post, setPost] = useState(null); // null: 로딩, undefined: not found
 
   useEffect(() => {
@@ -50,7 +52,7 @@ export default function StoryDetail() {
     return (
       <div className="max-w-screen-md mx-auto px-4 py-16 text-center">
         <h1 className="text-2xl font-bold mb-3">글을 찾을 수 없습니다</h1>
-        <button className="text-sky-600 underline" onClick={() => nav(-1)}>
+        <button className="text-sky-600 underline" onClick={() => nav(backTo)}>
           목록으로
         </button>
       </div>
@@ -69,7 +71,7 @@ export default function StoryDetail() {
     <div className="max-w-screen-md mx-auto px-4 py-10">
       <button
         className="text-sky-600 text-sm mb-4 hover:underline"
-        onClick={() => nav(-1)}
+        onClick={() => nav(backTo)}
       >
         ← 목록으로
       </button>
