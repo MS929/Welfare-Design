@@ -386,7 +386,7 @@ export default function Home1() {
             <div
               style={{
                 position: "relative",
-                height: 320,
+                height: 280,
                 borderRadius: PALETTE.radiusLg,
                 border: `1px solid ${PALETTE.line}`,
                 overflow: "hidden",
@@ -611,7 +611,7 @@ export default function Home1() {
           width: "100vw",
           marginLeft: "calc(50% - 50vw)",
           marginRight: "calc(50% - 50vw)",
-          padding: "26px 0",
+          padding: "36px 0",
         }}
       >
         <Section style={{ paddingTop: 6, paddingBottom: 6 }}>
@@ -685,24 +685,24 @@ export default function Home1() {
                 <div
                   style={{
                     display: "grid",
-                    gridTemplateColumns: "repeat(4, minmax(340px, 1fr))",
-                    gap: 18,
+                    gridTemplateColumns: "repeat(4, minmax(260px, 1fr))",
+                    gap: 12,
                   }}
                 >
                   {quickLinks.map((it, i) => (
                     <Link key={i} to={it.href} style={{
                       display: "flex",
                       alignItems: "center",
-                      gap: 14,
-                      padding: 28,
-                      borderRadius: 16,
+                      gap: 10,
+                      padding: 16,
+                      borderRadius: 12,
                       background: it.theme.bg,
                       border: `1px solid ${it.theme.border}`,
-                      boxShadow: "0 6px 18px rgba(0,0,0,.06)",
+                      boxShadow: "0 4px 12px rgba(0,0,0,.05)",
                       textDecoration: "none",
                       color: "inherit",
                       transition: "transform .14s ease, box-shadow .14s ease",
-                      minHeight: 140,
+                      minHeight: 110,
                     }}
                     onMouseEnter={(e) => {
                       e.currentTarget.style.transform = "translateY(-3px)";
@@ -712,22 +712,22 @@ export default function Home1() {
                     onMouseLeave={(e) => {
                       e.currentTarget.style.transform = "none";
                       e.currentTarget.style.boxShadow =
-                        "0 6px 18px rgba(0,0,0,.06)";
+                        "0 4px 12px rgba(0,0,0,.05)";
                     }}
                     >
                       <div aria-hidden style={{
-                        width: 64,
-                        height: 64,
-                        borderRadius: 18,
+                        width: 40,
+                        height: 40,
+                        borderRadius: 12,
                         background: "#fff",
-                        border: `2px solid ${it.theme.text}44`,
+                        border: `1px solid ${it.theme.text}33`,
                         boxShadow: "inset 0 0 0 4px #ffffff, 0 2px 8px rgba(0,0,0,.06)",
                         display: "inline-flex",
                         alignItems: "center",
                         justifyContent: "center",
                         flex: "0 0 auto",
                       }}>
-                        <img src={it.iconsrc} alt="" loading="lazy" decoding="async" style={{ width: 30, height: 30, objectFit: "contain" }} />
+                        <img src={it.iconsrc} alt="" loading="lazy" decoding="async" style={{ width: 22, height: 22, objectFit: "contain" }} />
                       </div>
                       <div style={{ flex: 1, minWidth: 0 }}>
                         <div style={{
@@ -738,12 +738,12 @@ export default function Home1() {
                           gap: 8,
                           flexWrap: "wrap",
                           lineHeight: 1.2,
-                          fontSize: 22,
+                          fontSize: 18,
                         }}>
                           {it.label}
                           <span aria-hidden style={{ opacity: 0.9 }}>›</span>
                         </div>
-                        <div style={{ fontSize: 13, color: PALETTE.grayText, marginTop: 8, lineHeight: 1.45 }}>
+                        <div style={{ fontSize: 12, color: PALETTE.grayText, marginTop: 6, lineHeight: 1.45 }}>
                           {it.desc}
                         </div>
                       </div>
