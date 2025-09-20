@@ -569,8 +569,8 @@ export default function Home1() {
       {/* 2) 빠르게 가기 */}
       <div
         style={{
-          // full-bleed soft background behind the quick links
-          background: PALETTE.mintPeachBg,
+          // full-bleed soft background behind the quick links (match photo 1)
+          background: PALETTE.pageBg,                  // was PALETTE.mintPeachBg
           borderTop: `1px solid ${PALETTE.line}`,
           borderBottom: `1px solid ${PALETTE.line}`,
           boxShadow: "inset 0 1px 0 rgba(255,255,255,.6)",
