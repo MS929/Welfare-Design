@@ -100,7 +100,7 @@ const Section = ({
           style={{
             maxWidth: innerMaxWidth,
             margin: "0 auto",
-            padding: "0 24px 0 40px",
+            padding: "0 24px",
           }}
         >
           {children}
@@ -115,7 +115,7 @@ const Section = ({
         maxWidth: CONTAINER,
         width: "100%",
         margin: "0 auto",
-        padding: "40px 24px 40px 40px",
+        padding: "40px 24px",
         ...style,
       }}
     >
@@ -369,7 +369,7 @@ export default function Home1() {
       {/* 1) HERO – 이미지 캐러셀 + 우측 텍스트 (Home1 스타일) */}
       <Section
         fullBleed
-        innerMaxWidth={1500}
+        innerMaxWidth={CONTAINER}
         style={{
           paddingTop: 80,
           paddingBottom: 96,
