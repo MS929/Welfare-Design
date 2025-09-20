@@ -518,7 +518,7 @@ export default function Home1() {
           </div>
 
           {/* 우측 텍스트 */}
-          <div style={{ marginTop: -12 }}>
+          <div style={{ marginTop: -20 }}>
             {/* Eyebrow / 작은 포인트 배지 */}
             <div
               style={{
