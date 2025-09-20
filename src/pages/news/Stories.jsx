@@ -1,6 +1,6 @@
 // src/pages/news/Stories.jsx
 import { useEffect, useMemo, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import matter from "gray-matter";
 import "../../styles/global.css";
 
@@ -40,11 +40,11 @@ function Tag({ children }) {
   );
 }
 
-function StoryCard({ item }) {
+function StoryCard({ item, activeCat }) {
   const date = item.date ? new Date(item.date).toISOString().slice(0, 10) : "";
   return (
     <Link
-      to={`/news/stories/${item.slug}`}
+      to={`/news/stories/${item.slug}${activeCat && activeCat !== "전체" ? `?type=${encodeURIComponent(activeCat)}` : ""}`}
       className="group block overflow-hidden rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition-shadow bg-white"
     >
         <div className="mt-6 w-full aspect-[16/9] bg-gray-50 overflow-hidden rounded-xl">
@@ -84,6 +84,9 @@ export default function NewsStories() {
   const [page, setPage] = useState(1);
   const PAGE_SIZE = 9;
 
+  const location = useLocation();
+  const navigate = useNavigate();
+
   useEffect(() => {
     (async () => {
       // vite glob – 파일 내용(raw)까지 읽어서 frontmatter 파싱
@@ -115,6 +118,17 @@ export default function NewsStories() {
       setRawItems(entries);
     })();
   }, []);
+
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const type = params.get("type");
+    if (type && CATEGORIES.includes(type)) {
+      setActiveCat(type);
+    } else if (!type) {
+      // default when no param
+      setActiveCat("전체");
+    }
+  }, [location.search]);
 
   const filtered = useMemo(() => {
     const byCat =
@@ -151,7 +165,11 @@ export default function NewsStories() {
         {CATEGORIES.map((c) => (
           <button
             key={c}
-            onClick={() => setActiveCat(c)}
+            onClick={() => {
+              setActiveCat(c);
+              const search = c && c !== "전체" ? `?type=${encodeURIComponent(c)}` : "";
+              navigate({ pathname: "/news/stories", search }, { replace: false });
+            }}
             className={`px-3 py-1.5 rounded-full border text-sm font-medium transition
               ${
                 activeCat === c
@@ -182,7 +200,7 @@ export default function NewsStories() {
         <>
           <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {pagedItems.map((it) => (
-              <StoryCard key={it.slug} item={it} />
+              <StoryCard key={it.slug} item={it} activeCat={activeCat} />
             ))}
           </div>
           {/* Pagination controls */}

@@ -886,7 +886,7 @@ export default function Home1() {
               );
             })}
             <a
-              href="/news/stories"
+              href={storyActive === "전체" ? "/news/stories" : `/news/stories?type=${encodeURIComponent(storyActive)}`}
               style={{
                 textDecoration: "none",
                 color: PALETTE.teal,
@@ -913,7 +913,7 @@ export default function Home1() {
               key={n.slug}
               title={n.title}
               date={n.date}
-              href={`/news/stories/${encodeURIComponent(n.slug)}`}
+              href={`/news/stories/${encodeURIComponent(n.slug)}${n.type ? `?type=${encodeURIComponent(n.type)}` : ""}`}
               thumbnail={n.thumbnail}
             />
           ))}
