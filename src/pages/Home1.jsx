@@ -685,7 +685,7 @@ export default function Home1() {
                 <div
                   style={{
                     display: "grid",
-                    gridTemplateColumns: "repeat(4, minmax(0,1fr))",
+                    gridTemplateColumns: "repeat(4, minmax(240px, 1fr))",
                     gap: 14,
                   }}
                 >
@@ -702,6 +702,7 @@ export default function Home1() {
                       textDecoration: "none",
                       color: "inherit",
                       transition: "transform .14s ease, box-shadow .14s ease",
+                      minHeight: 92,
                     }}
                     onMouseEnter={(e) => {
                       e.currentTarget.style.transform = "translateY(-3px)";
@@ -735,9 +736,8 @@ export default function Home1() {
                           display: "flex",
                           alignItems: "center",
                           gap: 8,
-                          whiteSpace: "nowrap",
-                          overflow: "hidden",
-                          textOverflow: "ellipsis",
+                          flexWrap: "wrap",
+                          lineHeight: 1.2,
                         }}>
                           {it.label}
                           <span aria-hidden style={{ opacity: 0.9 }}>›</span>
