@@ -16,6 +16,7 @@ const PALETTE = {
   lineStrong: "rgba(17, 24, 39, 0.12)",
   shadowSm: "0 4px 12px rgba(0,0,0,.05)",
   shadow: "0 8px 24px rgba(0,0,0,.06)",
+  heroBg: "#FFF6EE",
   radius: 16,
   radiusLg: 22,
   radiusXl: 28,
@@ -287,7 +288,7 @@ export default function Home1() {
         style={{
           paddingTop: 80,
           paddingBottom: 96,
-          background: "#fff",
+          background: PALETTE.heroBg,
         }}
       >
         <div
