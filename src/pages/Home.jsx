@@ -402,7 +402,7 @@ export default function Home() {
     <main role="main">
 
       {/* 1) HERO – 이미지 캐러셀 + 우측 텍스트 (Home1 스타일) */}
-      <Section fullBleed innerMaxWidth={1500} style={{ paddingTop: 80, paddingBottom: 96, background: "#fff" }}>
+      <Section fullBleed innerMaxWidth={1500} style={{ paddingTop: 80, paddingBottom: 96, background: "linear-gradient(180deg, #FBF6ED 0%, #FFFFFF 70%)" }}>
         <div style={{ display: "grid", gridTemplateColumns: "1.1fr 1fr", gap: 36, alignItems: "center" }}>
           {/* 좌측: 캐러셀 */}
           <div style={{ display: "flex", flexDirection: "column", alignItems: "stretch" }}>
