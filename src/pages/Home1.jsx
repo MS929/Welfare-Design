@@ -678,8 +678,10 @@ export default function Home1() {
                       height: 48,
                       borderRadius: 12,
                       background: "#fff",
-                      border: "1px solid rgba(17,24,39,.08)",
-                      boxShadow: "0 2px 8px rgba(0,0,0,.06)",
+                      // themed ring that matches each card's accent text color
+                      border: `2px solid ${it.theme.text}44`,
+                      // soft inner white ring + subtle outer shadow
+                      boxShadow: "inset 0 0 0 4px #ffffff, 0 2px 8px rgba(0,0,0,.06)",
                       display: "inline-flex",
                       alignItems: "center",
                       justifyContent: "center",
