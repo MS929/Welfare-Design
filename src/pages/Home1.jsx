@@ -685,8 +685,8 @@ export default function Home1() {
                 <div
                   style={{
                     display: "grid",
-                    gridTemplateColumns: "repeat(4, minmax(240px, 1fr))",
-                    gap: 14,
+                    gridTemplateColumns: "repeat(4, minmax(280px, 1fr))",
+                    gap: 18,
                   }}
                 >
                   {quickLinks.map((it, i) => (
@@ -694,7 +694,7 @@ export default function Home1() {
                       display: "flex",
                       alignItems: "center",
                       gap: 14,
-                      padding: 22,
+                      padding: 26,
                       borderRadius: 16,
                       background: it.theme.bg,
                       border: `1px solid ${it.theme.border}`,
@@ -702,7 +702,7 @@ export default function Home1() {
                       textDecoration: "none",
                       color: "inherit",
                       transition: "transform .14s ease, box-shadow .14s ease",
-                      minHeight: 92,
+                      minHeight: 120,
                     }}
                     onMouseEnter={(e) => {
                       e.currentTarget.style.transform = "translateY(-3px)";
@@ -716,9 +716,9 @@ export default function Home1() {
                     }}
                     >
                       <div aria-hidden style={{
-                        width: 48,
-                        height: 48,
-                        borderRadius: 12,
+                        width: 56,
+                        height: 56,
+                        borderRadius: 16,
                         background: "#fff",
                         border: `2px solid ${it.theme.text}44`,
                         boxShadow: "inset 0 0 0 4px #ffffff, 0 2px 8px rgba(0,0,0,.06)",
@@ -727,7 +727,7 @@ export default function Home1() {
                         justifyContent: "center",
                         flex: "0 0 auto",
                       }}>
-                        <img src={it.iconsrc} alt="" loading="lazy" decoding="async" style={{ width: 24, height: 24, objectFit: "contain" }} />
+                        <img src={it.iconsrc} alt="" loading="lazy" decoding="async" style={{ width: 28, height: 28, objectFit: "contain" }} />
                       </div>
                       <div style={{ flex: 1, minWidth: 0 }}>
                         <div style={{
@@ -738,11 +738,12 @@ export default function Home1() {
                           gap: 8,
                           flexWrap: "wrap",
                           lineHeight: 1.2,
+                          fontSize: 20,
                         }}>
                           {it.label}
                           <span aria-hidden style={{ opacity: 0.9 }}>›</span>
                         </div>
-                        <div style={{ fontSize: 12, color: PALETTE.grayText, marginTop: 6, lineHeight: 1.45 }}>
+                        <div style={{ fontSize: 13, color: PALETTE.grayText, marginTop: 8, lineHeight: 1.45 }}>
                           {it.desc}
                         </div>
                       </div>
