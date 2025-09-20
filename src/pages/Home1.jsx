@@ -201,6 +201,14 @@ const StoryCard = ({ title, date, href = "/news/stories", thumbnail }) => (
 export default function Home1() {
   const [notices, setNotices] = useState([]);
   const [loadingNotices, setLoadingNotices] = useState(true);
+  // --- Stories (복지디자인 소식) state ---
+  const [storyActive, setStoryActive] = useState("전체");
+  const [storyItems, setStoryItems] = useState([]);
+  const storyPills = useMemo(() => ["전체", "사업", "교육", "회의", "기타"], []);
+  const storyFiltered = useMemo(
+    () => storyItems.filter((d) => storyActive === "전체" || d.type === storyActive),
+    [storyItems, storyActive]
+  );
   // Removed noticeScope filter UI; always show both columns
 
   // --- HERO carousel state ---
@@ -275,6 +283,58 @@ export default function Home1() {
       setNotices([]);
     } finally {
       setLoadingNotices(false);
+    }
+  }, []);
+
+  // Load stories list (for 복지디자인 소식)
+  useEffect(() => {
+    try {
+      const modules = import.meta.glob("/src/content/stories/*.{md,mdx}", {
+        eager: true,
+        query: "?raw",
+        import: "default",
+      });
+      const mapped = Object.entries(modules).map(([path, raw]) => {
+        const { data } = matter(raw);
+        const meta = parseDatedSlug(path);
+        const base = (path.split("/").pop() || "").replace(/\.(md|mdx)$/i, "");
+        const rawType = (data?.category || data?.type || "기타").trim();
+        const legacyToNew = {
+          인터뷰: "교육",
+          교육: "교육",
+          행사: "회의",
+          행사안내: "회의",
+          이벤트: "회의",
+          공탁: "사업",
+          사업: "사업",
+          공조동행: "기타",
+          활동: "기타",
+          활동소식: "기타",
+          공지: "기타",
+        };
+        let type = legacyToNew[rawType] || rawType;
+        if (!["사업", "교육", "회의", "기타"].includes(type)) type = "기타";
+        return {
+          id: path,
+          title: data?.title || meta.titleFromFile,
+          date: formatDate(data?.date) || formatDate(meta.date),
+          slug: base,
+          type,
+          thumbnail: data?.thumbnail || null,
+        };
+      });
+      mapped.sort((a, b) => {
+        const ad = a.date ? new Date(a.date) : new Date(0);
+        const bd = b.date ? new Date(b.date) : new Date(0);
+        if (!isNaN(bd) && !isNaN(ad) && bd.getTime() !== ad.getTime()) {
+          return bd.getTime() - ad.getTime();
+        }
+        return (b.id || "").localeCompare(a.id || "");
+      });
+      setStoryItems(mapped);
+    } catch (e) {
+      console.warn("스토리 로드 실패:", e);
+      setStoryItems([]);
     }
   }, []);
 
@@ -705,181 +765,107 @@ export default function Home1() {
         </Section>
       </div>
 
-      {/* 동행이야기(=소식) 그리드 */}
+      {/* 복지디자인 소식 */}
       <Section>
-        {/* 상단 제목/설명/더보기 : 두 컬럼 전체 폭으로 먼저 배치 */}
-        <div style={{ marginBottom: 18 }}>
-          <h2
-            style={{
-              margin: "0 0 8px 0",
-              fontSize: 28,
-              fontWeight: 900,
-              display: "flex",
-              alignItems: "center",
-              gap: 10,
-            }}
-          >
-            <span
-              aria-hidden
+        {/* 헤더: 좌측 제목/설명, 우측 필터 + 전체보기 */}
+        <div
+          style={{
+            display: "flex",
+            alignItems: "flex-end",
+            justifyContent: "space-between",
+            gap: 16,
+            marginBottom: 16,
+          }}
+        >
+          <div>
+            <h2
               style={{
-                width: 8,
-                height: 24,
-                background: PALETTE.yellow,
-                borderRadius: 3,
-                display: "inline-block",
+                margin: 0,
+                fontSize: 28,
+                fontWeight: 900,
+                display: "flex",
+                alignItems: "center",
+                gap: 10,
               }}
-            />
-            복지디자인 이야기
-          </h2>
-          <p style={{ margin: "0 0 10px 0", color: PALETTE.grayText, fontSize: 14, marginLeft: 20 }}>
-            복지디자인의 최신 소식을 전해드려요
-          </p>
+            >
+              <span
+                aria-hidden
+                style={{
+                  width: 8,
+                  height: 24,
+                  background: PALETTE.teal,
+                  borderRadius: 3,
+                  display: "inline-block",
+                }}
+              />
+              복지디자인 소식
+            </h2>
+            <p style={{ margin: "6px 0 0", color: PALETTE.grayText, fontSize: 14 }}>
+              행복한 소식을 만들어가는 복지디자인입니다.
+            </p>
+          </div>
+
+          {/* 우측: 가로 필터 + 전체보기 */}
+          <div style={{ display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap" }}>
+            {storyPills.map((label) => {
+              const active = storyActive === label;
+              return (
+                <button
+                  key={label}
+                  onClick={() => setStoryActive(label)}
+                  style={{
+                    cursor: "pointer",
+                    height: 36,
+                    padding: "0 16px",
+                    borderRadius: 999,
+                    border: active ? `2px solid ${PALETTE.teal}` : `1px solid ${PALETTE.line}`,
+                    background: active ? "#fff" : "#fff",
+                    color: active ? PALETTE.teal : PALETTE.darkText,
+                    fontWeight: 800,
+                    boxShadow: "0 2px 6px rgba(0,0,0,.04)",
+                  }}
+                >
+                  {label}
+                </button>
+              );
+            })}
+            <a
+              href="/news/stories"
+              style={{
+                textDecoration: "none",
+                color: PALETTE.teal,
+                fontWeight: 800,
+                marginLeft: 6,
+                whiteSpace: "nowrap",
+              }}
+            >
+              전체보기 ›
+            </a>
+          </div>
         </div>
 
-        {/* 아래에 두 컬럼 그리드: 좌측 필터, 우측 카드 */}
+        {/* 카드 그리드 */}
         <div
           style={{
             display: "grid",
-            gridTemplateColumns: "260px 1fr",
-            gap: 24,
-            alignItems: "start",
+            gridTemplateColumns: "repeat(3, minmax(0,1fr))",
+            gap: 18,
           }}
         >
-          {(() => {
-            const [active, setActive] = useState("전체");
-            const [items, setItems] = useState([]);
-
-            useEffect(() => {
-              try {
-                const modules = import.meta.glob("/src/content/stories/*.{md,mdx}", {
-                  eager: true,
-                  query: "?raw",
-                  import: "default",
-                });
-                const mapped = Object.entries(modules).map(([path, raw]) => {
-                  const { data } = matter(raw);
-                  const meta = parseDatedSlug(path);
-                  const base = (path.split("/").pop() || "").replace(/\.(md|mdx)$/i, "");
-                  const rawType = (data?.category || data?.type || "기타").trim();
-                  const legacyToNew = {
-                    인터뷰: "교육",
-                    교육: "교육",
-                    행사: "회의",
-                    행사안내: "회의",
-                    이벤트: "회의",
-                    공탁: "사업",
-                    사업: "사업",
-                    공조동행: "기타",
-                    활동: "기타",
-                    활동소식: "기타",
-                    공지: "기타",
-                  };
-                  let type = legacyToNew[rawType] || rawType;
-                  if (!["사업", "교육", "회의", "기타"].includes(type)) type = "기타";
-                  return {
-                    id: path,
-                    title: data?.title || meta.titleFromFile,
-                    date: formatDate(data?.date) || formatDate(meta.date),
-                    slug: base,
-                    type,
-                    thumbnail: data?.thumbnail || null,
-                  };
-                });
-                mapped.sort((a, b) => {
-                  const ad = a.date ? new Date(a.date) : new Date(0);
-                  const bd = b.date ? new Date(b.date) : new Date(0);
-                  if (!isNaN(bd) && !isNaN(ad) && bd.getTime() !== ad.getTime()) {
-                    return bd.getTime() - ad.getTime();
-                  }
-                  return (b.id || "").localeCompare(a.id || "");
-                });
-                setItems(mapped);
-              } catch (e) {
-                console.warn("스토리 로드 실패:", e);
-                setItems([]);
-              }
-            }, []);
-
-            const pills = useMemo(() => ["전체", "사업", "교육", "회의", "기타"], []);
-            const filtered = items.filter((d) => active === "전체" || d.type === active);
-
-            return (
-              <>
-                {/* 좌측: 카테고리 필터만 세로 배치 */}
-                <div>
-                  <a
-                    href="/news/stories"
-                    style={{
-                      display: "inline-flex",
-                      alignItems: "center",
-                      gap: 4,
-                      textDecoration: "none",
-                      color: PALETTE.teal,
-                      fontWeight: 800,
-                      marginBottom: 18,
-                      marginLeft: 20,
-                    }}
-                  >
-                    더보기 <span aria-hidden>›</span>
-                  </a>
-                  <div
-                    style={{ display: "flex", flexDirection: "column", gap: 12 }}
-                  >
-                    {pills.map((label) => {
-                      const isActive = active === label;
-                      return (
-                        <button
-                          key={label}
-                          onClick={() => setActive(label)}
-                          style={{
-                            cursor: "pointer",
-                            width: 88,
-                            height: 88,
-                            borderRadius: 16,
-                            border: isActive ? `2px solid ${PALETTE.teal}` : `1px solid ${PALETTE.line}`,
-                            background: "#fff",
-                            color: isActive ? PALETTE.teal : PALETTE.darkText,
-                            fontWeight: 800,
-                            boxShadow: "0 2px 6px rgba(0,0,0,.04)",
-                            display: "flex",
-                            alignItems: "center",
-                            justifyContent: "center",
-                            textAlign: "center",
-                            lineHeight: 1.2,
-                            padding: 8,
-                            wordBreak: "keep-all",
-                          }}
-                        >
-                          {label}
-                        </button>
-                      );
-                    })}
-                  </div>
-                </div>
-
-                {/* 우측: 카드 그리드 (상단을 좌측 필터의 상단과 맞춤) */}
-                <div style={{ marginTop: 32 }}>
-                  <div
-                    style={{
-                      display: "grid",
-                      gridTemplateColumns: "repeat(3, minmax(0,1fr))",
-                      gap: 18,
-                    }}
-                  >
-                    {filtered.slice(0, 6).map((n) => (
-                      <StoryCard
-                        key={n.slug}
-                        title={n.title}
-                        date={n.date}
-                        href={`/news/stories/${encodeURIComponent(n.slug)}`}
-                        thumbnail={n.thumbnail}
-                      />
-                    ))}
-                  </div>
-                </div>
-              </>
-            );
-          })()}
+          {storyFiltered.slice(0, 6).map((n) => (
+            <StoryCard
+              key={n.slug}
+              title={n.title}
+              date={n.date}
+              href={`/news/stories/${encodeURIComponent(n.slug)}`}
+              thumbnail={n.thumbnail}
+            />
+          ))}
+          {storyFiltered.length === 0 && (
+            <div style={{ color: PALETTE.grayText, gridColumn: "1/-1" }}>
+              표시할 소식이 없습니다.
+            </div>
+          )}
         </div>
       </Section>
 
