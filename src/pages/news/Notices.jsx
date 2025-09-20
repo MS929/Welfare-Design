@@ -1,6 +1,6 @@
 // src/pages/news/Notices.jsx
 import { useEffect, useMemo, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import matter from "gray-matter";
 
 // Vite 최신 권장: as:'raw' 대신 query:'?raw'
@@ -19,8 +19,16 @@ function normalizeDate(v) {
 }
 
 export default function Notices() {
+  const location = useLocation();
   const [items, setItems] = useState([]);
-  const [tab, setTab] = useState("전체"); // 전체 | 공지 | 정보공개
+  const [tab, setTab] = useState(() => {
+    const qs = new URLSearchParams(location.search);
+    const c = (qs.get("category") || "").replace(/\s+/g, "");
+    if (!c) return "전체";
+    if (c.includes("공지")) return "공지";
+    if (c.includes("정보") && c.includes("공개")) return "정보공개";
+    return "전체";
+  }); // 전체 | 공지 | 정보공개
   const [q, setQ] = useState("");
   const [page, setPage] = useState(1);
   const PAGE_SIZE = 9;
@@ -64,6 +72,16 @@ export default function Notices() {
       setItems(entries);
     })();
   }, []);
+
+  // Sync tab with ?category= query param when URL changes (e.g., from "더보기" links)
+  useEffect(() => {
+    const qs = new URLSearchParams(location.search);
+    const c = (qs.get("category") || "").replace(/\s+/g, "");
+    if (!c) return setTab("전체");
+    if (c.includes("공지")) return setTab("공지");
+    if (c.includes("정보") && c.includes("공개")) return setTab("정보공개");
+    setTab("전체");
+  }, [location.search]);
 
   const filtered = useMemo(() => {
     return items.filter((it) => {
