@@ -382,7 +382,7 @@ export default function Home1() {
             gridTemplateColumns: "1fr 1.1fr",
             gap: 36,
             alignItems: "center",
-            padding: "0 0",
+            padding: "0 24px 0 48px", // 좌우 여백: 오른쪽으로 24px 더 이동
           }}
         >
           {/* 좌측 이미지 프레임 (수동/자동 캐러셀) + 하단 컨트롤 */}
