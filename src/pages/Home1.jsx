@@ -26,6 +26,8 @@ const PALETTE = {
   radius: 16,
   radiusLg: 22,
   radiusXl: 28,
+  pageBg: "#F8FAFC",
+  tealTint: "rgba(59,167,160,.10)",
 };
 
 const CONTAINER = 1360;
@@ -384,11 +386,11 @@ export default function Home1() {
             <div
               style={{
                 position: "relative",
-                height: 360,
+                height: 400,
                 borderRadius: PALETTE.radiusLg,
                 border: `1px solid ${PALETTE.line}`,
                 overflow: "hidden",
-                boxShadow: "0 10px 24px rgba(0,0,0,.10)",
+                boxShadow: "0 14px 34px rgba(0,0,0,.12)",
                 background: "#fff",
               }}
             >
@@ -786,10 +788,11 @@ export default function Home1() {
                     padding: "0 16px",
                     borderRadius: 999,
                     border: active ? `2px solid ${PALETTE.teal}` : `1px solid ${PALETTE.line}`,
-                    background: active ? "#fff" : "#fff",
+                    background: active ? PALETTE.tealTint : "#fff",
                     color: active ? PALETTE.teal : PALETTE.darkText,
                     fontWeight: 800,
                     boxShadow: "0 2px 6px rgba(0,0,0,.04)",
+                    transition: "background .15s ease, border-color .15s ease, color .15s ease",
                   }}
                 >
                   {label}
@@ -839,22 +842,24 @@ export default function Home1() {
       {/* 지원사업 영역 (민트 스트립 배경) */}
       <div
         style={{
-          background: PALETTE.mintPeachBg,
-          padding: "12px 0",
+          background: PALETTE.pageBg,
+          borderTop: `1px solid ${PALETTE.line}`,
+          padding: "16px 0",
           width: "100vw",
           marginLeft: "calc(50% - 50vw)",
           marginRight: "calc(50% - 50vw)",
         }}
       >
         <Section id="support" style={{ padding: "16px 20px" }}>
-          <h2 style={{ margin: "0 0 6px 0", fontSize: 22, fontWeight: 900 }}>
+          <h2 style={{ margin: "0 0 6px 0", fontSize: 24, fontWeight: 900 }}>
             지원사업 영역
           </h2>
           <p
             style={{
               margin: "0 0 16px 0",
               color: PALETTE.grayText,
-              fontSize: 14,
+              fontSize: 13,
+              opacity: 0.9,
             }}
           >
             복지디자인이 수행하는 주요 지원사업을 한눈에 살펴보세요.
