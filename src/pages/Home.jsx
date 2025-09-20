@@ -232,8 +232,19 @@ export default function Home1() {
   const [heroIndex, setHeroIndex] = useState(0);
   const timerRef = useRef(null);
 
+  // 저감 모션 환경설정 시 자동재생 비활성화
+  const prefersReducedMotion = useMemo(() => {
+    if (typeof window === "undefined" || !window.matchMedia) return false;
+    try {
+      return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    } catch {
+      return false;
+    }
+  }, []);
+
   const restartTimer = () => {
     if (timerRef.current) clearInterval(timerRef.current);
+    if (prefersReducedMotion) return; // reduce motion이면 자동재생 건너뜀
     timerRef.current = setInterval(() => {
       setHeroIndex((i) => (i + 1) % HERO_IMAGES.length);
     }, HERO_INTERVAL);
@@ -253,7 +264,7 @@ export default function Home1() {
     return () => {
       if (timerRef.current) clearInterval(timerRef.current);
     };
-  }, []);
+  }, [prefersReducedMotion]);
 
   // pre-load hero images for smoother transitions
   useEffect(() => {
