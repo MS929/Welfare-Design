@@ -354,8 +354,8 @@ export default function Home1() {
         fullBleed
         innerMaxWidth={1500}
         style={{
-          paddingTop: 80,
-          paddingBottom: 96,
+          paddingTop: 110,
+          paddingBottom: 120,
           background: [
             // base vertical cream → white
             `linear-gradient(180deg, ${PALETTE.heroCreamTop} 0%, ${PALETTE.heroCreamMid} 46%, #FFFFFF 100%)`,
@@ -370,7 +370,7 @@ export default function Home1() {
           style={{
             display: "grid",
             gridTemplateColumns: "1.1fr 1fr",
-            gap: 36,
+            gap: 48,
             alignItems: "center",
             padding: "0 0",
           }}
@@ -436,7 +436,7 @@ export default function Home1() {
                 alignItems: "center",
                 justifyContent: "center",
                 gap: 12,
-                marginTop: 10,
+                marginTop: 14,
               }}
             >
               <button
@@ -603,7 +603,7 @@ export default function Home1() {
       </Section>
 
       {/* 빠르게가기 - 배경 제거 & 카드형 4개 (이미지1 스타일) */}
-      <Section style={{ paddingTop: 12, paddingBottom: 12 }}>
+      <Section style={{ paddingTop: 28, paddingBottom: 28 }}>
         {(() => {
           const quickLinks = [
             {
@@ -641,7 +641,7 @@ export default function Home1() {
               style={{
                 display: "grid",
                 gridTemplateColumns: "repeat(4, minmax(0,1fr))",
-                gap: 20,
+                gap: 24,
               }}
             >
               {quickLinks.map((it, i) => (
@@ -652,7 +652,7 @@ export default function Home1() {
                     display: "flex",
                     alignItems: "center",
                     gap: 14,
-                    padding: 18,
+                    padding: 22,
                     borderRadius: 16,
                     background: it.theme.bg,
                     border: `1px solid ${it.theme.border}`,
@@ -743,7 +743,7 @@ export default function Home1() {
             alignItems: "flex-end",
             justifyContent: "space-between",
             gap: 16,
-            marginBottom: 16,
+            marginBottom: 24,
           }}
         >
           <div>
@@ -819,7 +819,7 @@ export default function Home1() {
           style={{
             display: "grid",
             gridTemplateColumns: "repeat(3, minmax(0,1fr))",
-            gap: 18,
+            gap: 24,
           }}
         >
           {storyFiltered.slice(0, 6).map((n) => (
@@ -844,13 +844,13 @@ export default function Home1() {
         style={{
           background: PALETTE.pageBg,
           borderTop: `1px solid ${PALETTE.line}`,
-          padding: "16px 0",
+          padding: "28px 0",
           width: "100vw",
           marginLeft: "calc(50% - 50vw)",
           marginRight: "calc(50% - 50vw)",
         }}
       >
-        <Section id="support" style={{ padding: "16px 20px" }}>
+        <Section id="support" style={{ padding: "24px 20px" }}>
           <h2 style={{ margin: "0 0 6px 0", fontSize: 24, fontWeight: 900 }}>
             지원사업 영역
           </h2>
@@ -868,7 +868,7 @@ export default function Home1() {
             style={{
               display: "grid",
               gridTemplateColumns: "repeat(3, minmax(0,1fr))",
-              gap: 16,
+              gap: 20,
             }}
           >
             {[
@@ -916,7 +916,7 @@ export default function Home1() {
                   border: "1px solid rgba(255,255,255,0.6)",
                   color: PALETTE.darkText,
                   borderRadius: PALETTE.radiusLg,
-                  padding: 20,
+                  padding: 22,
                   boxShadow:
                     "0 12px 28px rgba(59,167,160,.10), 0 6px 14px rgba(237,106,50,.06)",
                   textDecoration: "none",
@@ -985,7 +985,7 @@ export default function Home1() {
       </div>
 
       {/* 공지/정보공개 – 두 칼럼 리스트 */}
-      <Section style={{ paddingTop: 38 }}>
+      <Section style={{ paddingTop: 52 }}>
         {/* 상단 타이틀 */}
         <div
           style={{
@@ -1025,7 +1025,7 @@ export default function Home1() {
           style={{
             display: "grid",
             gridTemplateColumns: "repeat(2, minmax(0,1fr))",
-            gap: 24,
+            gap: 28,
           }}
         >
           {/* 공지 */}
@@ -1054,7 +1054,7 @@ export default function Home1() {
                 더보기 ›
               </a>
             </div>
-            <div style={{ display: "grid", gap: 18 }}>
+            <div style={{ display: "grid", gap: 22 }}>
               {(loadingNotices
                 ? Array.from({ length: 4 })
                 : (noticesSplit.공지 || []).slice(0, 5)
@@ -1067,7 +1067,7 @@ export default function Home1() {
                       background: "#fff",
                       border: `1px solid ${PALETTE.line}`,
                       borderRadius: 14,
-                      padding: "16px 18px",
+                      padding: "18px 20px",
                       boxShadow: PALETTE.shadowSm,
                     }}
                   >
@@ -1098,7 +1098,7 @@ export default function Home1() {
                       background: "#fff",
                       border: `1px solid ${PALETTE.line}`,
                       borderRadius: 14,
-                      padding: "16px 18px",
+                      padding: "18px 20px",
                       boxShadow: PALETTE.shadowSm,
                       textDecoration: "none",
                       color: "inherit",
@@ -1164,7 +1164,7 @@ export default function Home1() {
                 더보기 ›
               </a>
             </div>
-            <div style={{ display: "grid", gap: 18 }}>
+            <div style={{ display: "grid", gap: 22 }}>
               {(loadingNotices
                 ? Array.from({ length: 4 })
                 : (noticesSplit.정보공개 || []).slice(0, 5)
@@ -1177,7 +1177,7 @@ export default function Home1() {
                       background: "#fff",
                       border: `1px solid ${PALETTE.line}`,
                       borderRadius: 14,
-                      padding: "16px 18px",
+                      padding: "18px 20px",
                       boxShadow: PALETTE.shadowSm,
                     }}
                   >
@@ -1208,7 +1208,7 @@ export default function Home1() {
                       background: "#fff",
                       border: `1px solid ${PALETTE.line}`,
                       borderRadius: 14,
-                      padding: "16px 18px",
+                      padding: "18px 20px",
                       boxShadow: PALETTE.shadowSm,
                       textDecoration: "none",
                       color: "inherit",
