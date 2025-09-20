@@ -15,7 +15,7 @@ function normalizeCat(raw) {
     "인터뷰": "교육",
     "행사": "회의",
     "공탁": "사업",
-    "공조동방": "기타",
+    "공조동행": "기타",
     "공지": "기타",
   };
   return map[v] || "기타";
@@ -122,11 +122,10 @@ export default function NewsStories() {
 
   useEffect(() => {
     const params = new URLSearchParams(location.search);
-    const type = params.get("type");
-    if (type && CATEGORIES.includes(type)) {
-      setActiveCat(type);
-    } else if (!type) {
-      // default when no param
+    const typeParam = params.get("type") || params.get("tab"); // support both keys
+    if (typeParam && CATEGORIES.includes(typeParam)) {
+      setActiveCat(typeParam);
+    } else if (!typeParam) {
       setActiveCat("전체");
     }
   }, [location.search]);
