@@ -201,8 +201,8 @@ const StoryCard = ({ title, date, href = "/news/stories", thumbnail }) => (
           />
         ) : null}
       </div>
-      <div style={{ padding: 16 }}>
-        <div style={{ fontWeight: 800, lineHeight: 1.25 }}>{title}</div>
+      <div style={{ padding: 16, display: "flex", flexDirection: "column", alignItems: "center", textAlign: "center" }}>
+        <div style={{ fontWeight: 800, lineHeight: 1.25, textOverflow: "ellipsis", whiteSpace: "nowrap", overflow: "hidden" }}>{title}</div>
         <div style={{ color: PALETTE.grayText, fontSize: 12, marginTop: 10 }}>
           {date}
         </div>
