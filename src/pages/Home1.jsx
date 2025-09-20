@@ -569,13 +569,15 @@ export default function Home1() {
       {/* 2) 빠르게 가기 */}
       <div
         style={{
-          background: "transparent",
-          borderTop: "none",
-          borderBottom: "none",
+          // full-bleed soft background behind the quick links
+          background: PALETTE.mintPeachBg,
+          borderTop: `1px solid ${PALETTE.line}`,
+          borderBottom: `1px solid ${PALETTE.line}`,
+          boxShadow: "inset 0 1px 0 rgba(255,255,255,.6)",
           width: "100vw",
           marginLeft: "calc(50% - 50vw)",
           marginRight: "calc(50% - 50vw)",
-          padding: "24px 0",
+          padding: "28px 0",
         }}
       >
         <Section style={{ paddingTop: 6, paddingBottom: 6 }}>
