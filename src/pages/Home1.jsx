@@ -602,137 +602,146 @@ export default function Home1() {
           </div>
       </Section>
 
-      {/* 빠르게가기 - 배경 제거 & 카드형 4개 (이미지1 스타일) */}
-      <Section style={{ paddingTop: 60, paddingBottom: 28 }}>
-        {(() => {
-          const quickLinks = [
-            {
-              href: "/about/what",
-              iconsrc: "/images/icons/introduction.png",
-              label: "복지디자인 소개",
-              desc: "조합의 비전과 연혁을 확인하세요.",
-              theme: { bg: "linear-gradient(180deg, #F06E2E 0%, #E35D23 100%)", border: "#D9541F", text: "#111827" },
-            },
-            {
-              href: "/business/overview",
-              iconsrc: "/images/icons/needs-survey.png",
-              label: "사업 안내",
-              desc: "복지디자인의 사업을 확인하세요.",
-              theme: { bg: "linear-gradient(180deg, #36A7A0 0%, #2E9C96 100%)", border: "#2A8D8A", text: "#111827" }, // 틸(진하게) + 글자 검정
-            },
-            {
-              href: "/support/guide",
-              iconsrc: "/images/icons/donation.png",
-              label: "후원 안내",
-              desc: "지속적인 관심과 지지를 부탁드립니다.",
-              theme: { bg: "#FEF3D6", border: "#F5E3A6", text: "#D6A216" }, // 옐로우
-            },
-            {
-              href: "/support/combination",
-              iconsrc: "/images/icons/member-services.png",
-              label: "조합 가입 신청하기",
-              desc: "복지디자인의 미션에 함께해주세요.",
-              theme: { bg: "#E9F5FA", border: "#D1EAF4", text: "#2196C8" }, // 하늘
-            },
-          ];
+      {/* 빠르게가기 – 라이트 패널 배경 추가 (이미지1 느낌) */}
+      <div
+        style={{
+          background: PALETTE.pageBg,
+          borderTop: `1px solid ${PALETTE.line}`,
+          borderBottom: `1px solid ${PALETTE.line}`,
+          width: "100vw",
+          marginLeft: "calc(50% - 50vw)",
+          marginRight: "calc(50% - 50vw)",
+          padding: "26px 0",
+        }}
+      >
+        <Section style={{ paddingTop: 6, paddingBottom: 6 }}>
+          {(() => {
+            const quickLinks = [
+              {
+                href: "/about/what",
+                iconsrc: "/images/icons/introduction.png",
+                label: "복지디자인 소개",
+                desc: "조합의 비전과 연혁을 확인하세요.",
+                theme: { bg: "linear-gradient(180deg, #F06E2E 0%, #E35D23 100%)", border: "#D9541F", text: "#111827" },
+              },
+              {
+                href: "/business/overview",
+                iconsrc: "/images/icons/needs-survey.png",
+                label: "사업 안내",
+                desc: "복지디자인의 사업을 확인하세요.",
+                theme: { bg: "linear-gradient(180deg, #36A7A0 0%, #2E9C96 100%)", border: "#2A8D8A", text: "#111827" },
+              },
+              {
+                href: "/support/guide",
+                iconsrc: "/images/icons/donation.png",
+                label: "후원 안내",
+                desc: "지속적인 관심과 지지를 부탁드립니다.",
+                theme: { bg: "#FEF3D6", border: "#F5E3A6", text: "#D6A216" },
+              },
+              {
+                href: "/support/combination",
+                iconsrc: "/images/icons/member-services.png",
+                label: "조합 가입 신청하기",
+                desc: "복지디자인의 미션에 함께해주세요.",
+                theme: { bg: "#E9F5FA", border: "#D1EAF4", text: "#2196C8" },
+              },
+            ];
 
-          return (
-            <div
-              style={{
-                display: "grid",
-                gridTemplateColumns: "repeat(4, minmax(0,1fr))",
-                gap: 24,
-              }}
-            >
-              {quickLinks.map((it, i) => (
-                <Link
-                  key={i}
-                  to={it.href}
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    gap: 14,
-                    padding: 22,
-                    borderRadius: 16,
-                    background: it.theme.bg,
-                    border: `1px solid ${it.theme.border}`,
-                    boxShadow: "0 6px 18px rgba(0,0,0,.06)",
-                    textDecoration: "none",
-                    color: "inherit",
-                    transition: "transform .14s ease, box-shadow .14s ease",
-                  }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.transform = "translateY(-3px)";
-                    e.currentTarget.style.boxShadow =
-                      "0 12px 26px rgba(0,0,0,.10)";
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.transform = "none";
-                    e.currentTarget.style.boxShadow =
-                      "0 6px 18px rgba(0,0,0,.06)";
-                  }}
-                >
-                  {/* 아이콘 */}
-                  <div
-                    aria-hidden
+            return (
+              <div
+                style={{
+                  display: "grid",
+                  gridTemplateColumns: "repeat(4, minmax(0,1fr))",
+                  gap: 24,
+                }}
+              >
+                {quickLinks.map((it, i) => (
+                  <Link
+                    key={i}
+                    to={it.href}
                     style={{
-                      width: 48,
-                      height: 48,
-                      borderRadius: 12,
-                      background: "#fff",
-                      // themed ring that matches each card's accent text color
-                      border: `2px solid ${it.theme.text}44`,
-                      // soft inner white ring + subtle outer shadow
-                      boxShadow: "inset 0 0 0 4px #ffffff, 0 2px 8px rgba(0,0,0,.06)",
-                      display: "inline-flex",
+                      display: "flex",
                       alignItems: "center",
-                      justifyContent: "center",
-                      flex: "0 0 auto",
+                      gap: 14,
+                      padding: 22,
+                      borderRadius: 16,
+                      background: it.theme.bg,
+                      border: `1px solid ${it.theme.border}`,
+                      boxShadow: "0 6px 18px rgba(0,0,0,.06)",
+                      textDecoration: "none",
+                      color: "inherit",
+                      transition: "transform .14s ease, box-shadow .14s ease",
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.transform = "translateY(-3px)";
+                      e.currentTarget.style.boxShadow =
+                        "0 12px 26px rgba(0,0,0,.10)";
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.transform = "none";
+                      e.currentTarget.style.boxShadow =
+                        "0 6px 18px rgba(0,0,0,.06)";
                     }}
                   >
-                    <img
-                      src={it.iconsrc}
-                      alt=""
-                      loading="lazy"
-                      decoding="async"
-                      style={{ width: 24, height: 24, objectFit: "contain" }}
-                    />
-                  </div>
-
-                  {/* 텍스트 */}
-                  <div style={{ flex: 1, minWidth: 0 }}>
                     <div
+                      aria-hidden
                       style={{
-                        fontWeight: 900,
-                        color: it.theme.text,
-                        display: "flex",
+                        width: 48,
+                        height: 48,
+                        borderRadius: 12,
+                        background: "#fff",
+                        border: `2px solid ${it.theme.text}44`,
+                        boxShadow:
+                          "inset 0 0 0 4px #ffffff, 0 2px 8px rgba(0,0,0,.06)",
+                        display: "inline-flex",
                         alignItems: "center",
-                        gap: 8,
-                        whiteSpace: "nowrap",
-                        overflow: "hidden",
-                        textOverflow: "ellipsis",
+                        justifyContent: "center",
+                        flex: "0 0 auto",
                       }}
                     >
-                      {it.label}
-                      <span aria-hidden style={{ opacity: 0.9 }}>›</span>
+                      <img
+                        src={it.iconsrc}
+                        alt=""
+                        loading="lazy"
+                        decoding="async"
+                        style={{ width: 24, height: 24, objectFit: "contain" }}
+                      />
                     </div>
-                    <div
-                      style={{
-                        fontSize: 12,
-                        color: PALETTE.grayText,
-                        marginTop: 6,
-                        lineHeight: 1.45,
-                      }}
-                    >
-                      {it.desc}
+
+                    <div style={{ flex: 1, minWidth: 0 }}>
+                      <div
+                        style={{
+                          fontWeight: 900,
+                          color: it.theme.text,
+                          display: "flex",
+                          alignItems: "center",
+                          gap: 8,
+                          whiteSpace: "nowrap",
+                          overflow: "hidden",
+                          textOverflow: "ellipsis",
+                        }}
+                      >
+                        {it.label}
+                        <span aria-hidden style={{ opacity: 0.9 }}>›</span>
+                      </div>
+                      <div
+                        style={{
+                          fontSize: 12,
+                          color: PALETTE.grayText,
+                          marginTop: 6,
+                          lineHeight: 1.45,
+                        }}
+                      >
+                        {it.desc}
+                      </div>
                     </div>
-                  </div>
-                </Link>
-              ))}
-            </div>
-          );
-        })()}
-      </Section>
+                  </Link>
+                ))}
+              </div>
+            );
+          })()}
+        </Section>
+      </div>
 
       {/* 복지디자인 소식 */}
       <Section>
