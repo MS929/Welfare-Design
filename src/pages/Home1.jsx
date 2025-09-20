@@ -690,63 +690,73 @@ export default function Home1() {
                   }}
                 >
                   {quickLinks.map((it, i) => (
-                    <Link key={i} to={it.href} style={{
-                      display: "flex",
-                      alignItems: "center",
-                      gap: 10,
-                      padding: 16,
-                      borderRadius: 12,
-                      background: it.theme.bg,
-                      border: `1px solid ${it.theme.border}`,
-                      boxShadow: "0 4px 12px rgba(0,0,0,.05)",
-                      textDecoration: "none",
-                      color: "inherit",
-                      transition: "transform .14s ease, box-shadow .14s ease",
-                      minHeight: 110,
-                    }}
-                    onMouseEnter={(e) => {
-                      e.currentTarget.style.transform = "translateY(-3px)";
-                      e.currentTarget.style.boxShadow =
-                        "0 12px 26px rgba(0,0,0,.10)";
-                    }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.transform = "none";
-                      e.currentTarget.style.boxShadow =
-                        "0 4px 12px rgba(0,0,0,.05)";
-                    }}
-                    >
-                      <div aria-hidden style={{
-                        width: 40,
-                        height: 40,
-                        borderRadius: 12,
-                        background: "#fff",
-                        border: `1px solid ${it.theme.text}33`,
-                        boxShadow: "inset 0 0 0 4px #ffffff, 0 2px 8px rgba(0,0,0,.06)",
-                        display: "inline-flex",
+                    <Link
+                      key={i}
+                      to={it.href}
+                      style={{
+                        display: "flex",
                         alignItems: "center",
-                        justifyContent: "center",
-                        flex: "0 0 auto",
-                      }}>
-                        <img src={it.iconsrc} alt="" loading="lazy" decoding="async" style={{ width: 22, height: 22, objectFit: "contain" }} />
+                        gap: 12,
+                        padding: 14,
+                        borderRadius: 16,
+                        background: "#fff",
+                        border: `1px solid ${PALETTE.line}`,
+                        boxShadow: "0 3px 10px rgba(0,0,0,.06)",
+                        textDecoration: "none",
+                        color: "inherit",
+                        transition: "transform .12s ease, box-shadow .12s ease",
+                        width: "100%",
+                        height: "auto",
+                        minHeight: 80,
+                      }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.transform = "translateY(-3px)";
+                        e.currentTarget.style.boxShadow = "0 8px 18px rgba(0,0,0,.10)";
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.transform = "none";
+                        e.currentTarget.style.boxShadow = "0 3px 10px rgba(0,0,0,.06)";
+                      }}
+                    >
+                      <div
+                        aria-hidden
+                        style={{
+                          width: 36,
+                          height: 36,
+                          borderRadius: 12,
+                          background: `linear-gradient(180deg,#FFFFFF 0%, ${PALETTE.grayBg} 100%)`,
+                          border: `1px solid ${PALETTE.line}`,
+                          boxShadow: "0 2px 6px rgba(0,0,0,.06)",
+                          display: "inline-flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          flex: "0 0 auto",
+                        }}
+                      >
+                        <img
+                          src={it.iconsrc}
+                          alt=""
+                          loading="lazy"
+                          decoding="async"
+                          style={{ width: 22, height: 22, objectFit: "contain" }}
+                        />
                       </div>
                       <div style={{ flex: 1, minWidth: 0 }}>
-                        <div style={{
-                          fontWeight: 900,
-                          color: it.theme.text,
-                          display: "flex",
-                          alignItems: "center",
-                          gap: 8,
-                          flexWrap: "wrap",
-                          lineHeight: 1.2,
-                          fontSize: 18,
-                        }}>
+                        <div
+                          style={{
+                            fontWeight: 900,
+                            whiteSpace: "nowrap",
+                            overflow: "hidden",
+                            textOverflow: "ellipsis",
+                          }}
+                        >
                           {it.label}
-                          <span aria-hidden style={{ opacity: 0.9 }}>›</span>
                         </div>
-                        <div style={{ fontSize: 12, color: PALETTE.grayText, marginTop: 6, lineHeight: 1.45 }}>
+                        <div style={{ fontSize: 12, color: PALETTE.grayText, marginTop: 4 }}>
                           {it.desc}
                         </div>
                       </div>
+                      <span aria-hidden style={{ color: PALETTE.teal, fontWeight: 800 }}>›</span>
                     </Link>
                   ))}
                 </div>
