@@ -354,8 +354,8 @@ export default function Home1() {
         fullBleed
         innerMaxWidth={1500}
         style={{
-          paddingTop: 110,
-          paddingBottom: 120,
+          paddingTop: 80,
+          paddingBottom: 90,
           background: [
             // base vertical cream → white
             `linear-gradient(180deg, ${PALETTE.heroCreamTop} 0%, ${PALETTE.heroCreamMid} 46%, #FFFFFF 100%)`,
@@ -370,7 +370,7 @@ export default function Home1() {
           style={{
             display: "grid",
             gridTemplateColumns: "1.1fr 1fr",
-            gap: 48,
+            gap: 36,
             alignItems: "center",
             padding: "0 0",
           }}
@@ -386,7 +386,7 @@ export default function Home1() {
             <div
               style={{
                 position: "relative",
-                height: 400,
+                height: 320,
                 borderRadius: PALETTE.radiusLg,
                 border: `1px solid ${PALETTE.line}`,
                 overflow: "hidden",
@@ -436,7 +436,7 @@ export default function Home1() {
                 alignItems: "center",
                 justifyContent: "center",
                 gap: 12,
-                marginTop: 14,
+                marginTop: 10,
               }}
             >
               <button
@@ -561,7 +561,7 @@ export default function Home1() {
 
             <h1
               style={{
-                fontSize: 32,
+                fontSize: 28,
                 lineHeight: 1.35,
                 margin: 0,
                 letterSpacing: -0.2,
