@@ -600,121 +600,86 @@ export default function Home1() {
           </div>
       </Section>
 
-      {/* 빠르게가기 (민트색 스트립 + 헤드라인 + 4개 카드 링크) */}
-      <div
-        style={{
-          background: PALETTE.mintPeachBg,
-          padding: "28px 0",
-          borderTop: `1px solid ${PALETTE.line}`,
-          width: "100vw",
-          marginLeft: "calc(50% - 50vw)",
-          marginRight: "calc(50% - 50vw)",
-        }}
-      >
-        <Section style={{ padding: "0 24px" }}>
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "minmax(220px, 1fr) 2fr",
-              gap: 18,
-              alignItems: "center",
-            }}
-          >
-            {/* 좌측: 설명 영역 */}
-            <div>
-              <h3
-                style={{
-                  margin: 0,
-                  fontSize: 20,
-                  fontWeight: 900,
-                  letterSpacing: -0.2,
-                  color: PALETTE.darkText,
-                }}
-              >
-                빠르게 가기
-              </h3>
-              <p
-                style={{
-                  margin: "6px 0 0",
-                  color: PALETTE.grayText,
-                  lineHeight: 1.5,
-                }}
-              >
-                자주 찾는 메뉴를 한 번에 <br />소개·사업·후원·가입 페이지로 바로
-                이동하세요.
-              </p>
-            </div>
+      {/* 빠르게가기 - 배경 제거 & 카드형 4개 (이미지1 스타일) */}
+      <Section style={{ paddingTop: 12, paddingBottom: 12 }}>
+        {(() => {
+          const quickLinks = [
+            {
+              href: "/about/what",
+              iconsrc: "/images/icons/introduction.png",
+              label: "복지디자인 소개",
+              desc: "조합의 비전과 연혁을 확인하세요.",
+              theme: { bg: "#FEEDE4", border: "#F8D1C2", text: "#ED6A32" }, // 살구
+            },
+            {
+              href: "/business/overview",
+              iconsrc: "/images/icons/needs-survey.png",
+              label: "사업 안내",
+              desc: "복지디자인의 사업을 확인하세요.",
+              theme: { bg: "#E7F4F2", border: "#CBE7E3", text: "#3BA7A0" }, // 틸
+            },
+            {
+              href: "/support/guide",
+              iconsrc: "/images/icons/donation.png",
+              label: "후원 안내",
+              desc: "지속적인 관심과 지지를 부탁드립니다.",
+              theme: { bg: "#FEF3D6", border: "#F5E3A6", text: "#D6A216" }, // 옐로우
+            },
+            {
+              href: "/support/combination",
+              iconsrc: "/images/icons/member-services.png",
+              label: "조합 가입 신청하기",
+              desc: "복지디자인의 미션에 함께해주세요.",
+              theme: { bg: "#E9F5FA", border: "#D1EAF4", text: "#2196C8" }, // 하늘
+            },
+          ];
 
-            {/* 우측: 카드 링크 4개 */}
+          return (
             <div
               style={{
                 display: "grid",
                 gridTemplateColumns: "repeat(4, minmax(0,1fr))",
-                gap: 14,
+                gap: 20,
               }}
             >
-              {[
-                {
-                  href: "/about/what",
-                  iconsrc: "/images/icons/introduction.png",
-                  label: "복지디자인 소개",
-                  desc: "설립·비전·연혁",
-                },
-                {
-                  href: "/business/overview",
-                  iconsrc: "/images/icons/needs-survey.png",
-                  label: "사업 안내",
-                  desc: "운영사업 한눈에",
-                },
-                {
-                  href: "/support/guide",
-                  iconsrc: "/images/icons/donation.png",
-                  label: "후원 안내",
-                  desc: "지지와 참여 방법",
-                },
-                {
-                  href: "/support/combination",
-                  iconsrc: "/images/icons/member-services.png",
-                  label: "조합 가입",
-                  desc: "함께하는 동료되기",
-                },
-              ].map((it, i) => (
+              {quickLinks.map((it, i) => (
                 <Link
                   key={i}
                   to={it.href}
                   style={{
                     display: "flex",
                     alignItems: "center",
-                    gap: 12,
-                    padding: 14,
+                    gap: 14,
+                    padding: 18,
                     borderRadius: 16,
-                    background: "#fff",
-                    border: `1px solid ${PALETTE.line}`,
-                    boxShadow: "0 3px 10px rgba(0,0,0,.06)",
+                    background: it.theme.bg,
+                    border: `1px solid ${it.theme.border}`,
+                    boxShadow: "0 6px 18px rgba(0,0,0,.06)",
                     textDecoration: "none",
                     color: "inherit",
-                    transition: "transform .12s ease, box-shadow .12s ease",
+                    transition: "transform .14s ease, box-shadow .14s ease",
                   }}
                   onMouseEnter={(e) => {
                     e.currentTarget.style.transform = "translateY(-3px)";
                     e.currentTarget.style.boxShadow =
-                      "0 8px 18px rgba(0,0,0,.10)";
+                      "0 12px 26px rgba(0,0,0,.10)";
                   }}
                   onMouseLeave={(e) => {
                     e.currentTarget.style.transform = "none";
                     e.currentTarget.style.boxShadow =
-                      "0 3px 10px rgba(0,0,0,.06)";
+                      "0 6px 18px rgba(0,0,0,.06)";
                   }}
                 >
+                  {/* 아이콘 */}
                   <div
                     aria-hidden
                     style={{
-                      width: 36,
-                      height: 36,
+                      width: 48,
+                      height: 48,
                       borderRadius: 12,
-                      background: `linear-gradient(180deg, #FFFFFF 0%, ${PALETTE.grayBg} 100%)`,
-                      border: `1px solid ${PALETTE.line}`,
-                      boxShadow: "0 2px 6px rgba(0,0,0,.06)",
+                      background: "#fff",
+                      border: "1px solid rgba(17,24,39,.08)",
+                      boxShadow: "0 2px 8px rgba(0,0,0,.06)",
                       display: "inline-flex",
                       alignItems: "center",
                       justifyContent: "center",
@@ -726,44 +691,44 @@ export default function Home1() {
                       alt=""
                       loading="lazy"
                       decoding="async"
-                      style={{ width: 22, height: 22, objectFit: "contain" }}
+                      style={{ width: 24, height: 24, objectFit: "contain" }}
                     />
                   </div>
 
+                  {/* 텍스트 */}
                   <div style={{ flex: 1, minWidth: 0 }}>
                     <div
                       style={{
                         fontWeight: 900,
+                        color: it.theme.text,
+                        display: "flex",
+                        alignItems: "center",
+                        gap: 8,
                         whiteSpace: "nowrap",
                         overflow: "hidden",
                         textOverflow: "ellipsis",
                       }}
                     >
                       {it.label}
+                      <span aria-hidden style={{ opacity: 0.9 }}>›</span>
                     </div>
                     <div
                       style={{
                         fontSize: 12,
                         color: PALETTE.grayText,
-                        marginTop: 4,
+                        marginTop: 6,
+                        lineHeight: 1.45,
                       }}
                     >
                       {it.desc}
                     </div>
                   </div>
-
-                  <span
-                    aria-hidden
-                    style={{ color: PALETTE.teal, fontWeight: 800 }}
-                  >
-                    ›
-                  </span>
                 </Link>
               ))}
             </div>
-          </div>
-        </Section>
-      </div>
+          );
+        })()}
+      </Section>
 
       {/* 복지디자인 소식 */}
       <Section>
