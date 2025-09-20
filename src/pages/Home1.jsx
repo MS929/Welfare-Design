@@ -685,7 +685,7 @@ export default function Home1() {
                 <div
                   style={{
                     display: "grid",
-                    gridTemplateColumns: "repeat(4, minmax(280px, 1fr))",
+                    gridTemplateColumns: "repeat(4, minmax(340px, 1fr))",
                     gap: 18,
                   }}
                 >
@@ -694,7 +694,7 @@ export default function Home1() {
                       display: "flex",
                       alignItems: "center",
                       gap: 14,
-                      padding: 26,
+                      padding: 28,
                       borderRadius: 16,
                       background: it.theme.bg,
                       border: `1px solid ${it.theme.border}`,
@@ -702,7 +702,7 @@ export default function Home1() {
                       textDecoration: "none",
                       color: "inherit",
                       transition: "transform .14s ease, box-shadow .14s ease",
-                      minHeight: 120,
+                      minHeight: 140,
                     }}
                     onMouseEnter={(e) => {
                       e.currentTarget.style.transform = "translateY(-3px)";
@@ -716,9 +716,9 @@ export default function Home1() {
                     }}
                     >
                       <div aria-hidden style={{
-                        width: 56,
-                        height: 56,
-                        borderRadius: 16,
+                        width: 64,
+                        height: 64,
+                        borderRadius: 18,
                         background: "#fff",
                         border: `2px solid ${it.theme.text}44`,
                         boxShadow: "inset 0 0 0 4px #ffffff, 0 2px 8px rgba(0,0,0,.06)",
@@ -727,7 +727,7 @@ export default function Home1() {
                         justifyContent: "center",
                         flex: "0 0 auto",
                       }}>
-                        <img src={it.iconsrc} alt="" loading="lazy" decoding="async" style={{ width: 28, height: 28, objectFit: "contain" }} />
+                        <img src={it.iconsrc} alt="" loading="lazy" decoding="async" style={{ width: 30, height: 30, objectFit: "contain" }} />
                       </div>
                       <div style={{ flex: 1, minWidth: 0 }}>
                         <div style={{
@@ -738,7 +738,7 @@ export default function Home1() {
                           gap: 8,
                           flexWrap: "wrap",
                           lineHeight: 1.2,
-                          fontSize: 20,
+                          fontSize: 22,
                         }}>
                           {it.label}
                           <span aria-hidden style={{ opacity: 0.9 }}>›</span>
