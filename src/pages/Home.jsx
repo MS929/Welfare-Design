@@ -1097,7 +1097,7 @@ export default function Home1() {
               style={{
                 width: 8,
                 height: 24,
-                background: PALETTE.orange,
+                background: PALETTE.teal,
                 borderRadius: 3,
                 display: "inline-block",
               }}
