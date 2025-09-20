@@ -160,7 +160,8 @@ const Pill = ({ label, icon, color, onClick }) => (
   </button>
 );
 
-const StoryCard = ({ title, date, href = "/news/stories", thumbnail }) => (
+// OptimizedImg 컴포넌트가 import되어 있다고 가정합니다.
+const StoryCard = ({ title, date, href = "/news/stories", thumbnail, priority = false }) => (
   <a href={href} style={{ textDecoration: "none", color: "inherit" }}>
     <article
       style={{
@@ -170,6 +171,8 @@ const StoryCard = ({ title, date, href = "/news/stories", thumbnail }) => (
         boxShadow: PALETTE.shadowSm,
         overflow: "hidden",
         transition: "transform .12s ease, box-shadow .12s ease, border-color .12s ease",
+        contentVisibility: "auto",
+        containIntrinsicSize: "268px 220px",
       }}
       onMouseEnter={(e) => {
         e.currentTarget.style.transform = "translateY(-4px)";
@@ -192,11 +195,13 @@ const StoryCard = ({ title, date, href = "/news/stories", thumbnail }) => (
         }}
       >
         {thumbnail ? (
-          <img
+          <OptimizedImg
             src={thumbnail}
             alt=""
-            loading="lazy"
+            loading={priority ? "eager" : "lazy"}
             decoding="async"
+            fetchpriority={priority ? "high" : "low"}
+            sizes="(min-width: 1024px) 33vw, 100vw"
             style={{ width: "100%", height: "100%", objectFit: "cover" }}
           />
         ) : null}
@@ -908,13 +913,14 @@ export default function Home1() {
             gap: 24,
           }}
         >
-          {storyFiltered.slice(0, 6).map((n) => (
+          {storyFiltered.slice(0, 6).map((n, idx) => (
             <StoryCard
               key={n.slug}
               title={n.title}
               date={n.date}
               href={`/news/stories/${encodeURIComponent(n.slug)}${n.type ? `?type=${encodeURIComponent(n.type)}` : ""}`}
               thumbnail={n.thumbnail}
+              priority={idx < 3}
             />
           ))}
           {storyFiltered.length === 0 && (
