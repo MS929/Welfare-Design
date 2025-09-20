@@ -1188,16 +1188,18 @@ export default function Home1() {
                       boxShadow: PALETTE.shadowSm,
                       textDecoration: "none",
                       color: "inherit",
-                      transition: "transform .12s ease, box-shadow .12s ease",
+                      transition: "transform .12s ease, box-shadow .12s ease, border-color .12s ease",
                     }}
                     onMouseEnter={(e) => {
                       e.currentTarget.style.transform = "translateY(-2px)";
                       e.currentTarget.style.boxShadow =
-                        "0 10px 22px rgba(0,0,0,.08)";
+                        `0 10px 22px rgba(0,0,0,.08), 0 0 0 3px ${PALETTE.teal}22`;
+                      e.currentTarget.style.borderColor = PALETTE.teal;
                     }}
                     onMouseLeave={(e) => {
                       e.currentTarget.style.transform = "none";
                       e.currentTarget.style.boxShadow = PALETTE.shadowSm;
+                      e.currentTarget.style.borderColor = PALETTE.line;
                     }}
                   >
                     <div
@@ -1317,16 +1319,18 @@ export default function Home1() {
                       boxShadow: PALETTE.shadowSm,
                       textDecoration: "none",
                       color: "inherit",
-                      transition: "transform .12s ease, box-shadow .12s ease",
+                      transition: "transform .12s ease, box-shadow .12s ease, border-color .12s ease",
                     }}
                     onMouseEnter={(e) => {
                       e.currentTarget.style.transform = "translateY(-2px)";
                       e.currentTarget.style.boxShadow =
-                        "0 10px 22px rgba(0,0,0,.08)";
+                        `0 10px 22px rgba(0,0,0,.08), 0 0 0 3px ${PALETTE.teal}22`;
+                      e.currentTarget.style.borderColor = PALETTE.teal;
                     }}
                     onMouseLeave={(e) => {
                       e.currentTarget.style.transform = "none";
                       e.currentTarget.style.boxShadow = PALETTE.shadowSm;
+                      e.currentTarget.style.borderColor = PALETTE.line;
                     }}
                   >
                     <div
