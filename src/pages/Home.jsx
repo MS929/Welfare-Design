@@ -166,18 +166,20 @@ const StoryCard = ({ title, date, href = "/news/stories", thumbnail }) => (
       style={{
         background: "#fff",
         borderRadius: PALETTE.radiusLg,
-        border: "1px solid rgba(17,24,39,.06)",
+        border: `1px solid ${PALETTE.line}`,
         boxShadow: PALETTE.shadowSm,
         overflow: "hidden",
-        transition: "transform .12s ease, box-shadow .12s ease",
+        transition: "transform .12s ease, box-shadow .12s ease, border-color .12s ease",
       }}
       onMouseEnter={(e) => {
         e.currentTarget.style.transform = "translateY(-4px)";
-        e.currentTarget.style.boxShadow = "0 14px 28px rgba(15,23,42,.12)";
+        e.currentTarget.style.boxShadow = `0 14px 28px rgba(15,23,42,.12), 0 0 0 3px ${PALETTE.teal}22`;
+        e.currentTarget.style.borderColor = PALETTE.teal;
       }}
       onMouseLeave={(e) => {
         e.currentTarget.style.transform = "none";
         e.currentTarget.style.boxShadow = PALETTE.shadowSm;
+        e.currentTarget.style.borderColor = PALETTE.line;
       }}
     >
       <div
