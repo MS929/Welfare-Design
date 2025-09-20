@@ -605,13 +605,13 @@ export default function Home1() {
       {/* 빠르게가기 – 라이트 패널 배경 추가 (이미지1 느낌) */}
       <div
         style={{
-          background: PALETTE.pageBg,
-          borderTop: `1px solid ${PALETTE.line}`,
-          borderBottom: `1px solid ${PALETTE.line}`,
+          background: "transparent",
+          borderTop: "none",
+          borderBottom: "none",
           width: "100vw",
           marginLeft: "calc(50% - 50vw)",
           marginRight: "calc(50% - 50vw)",
-          padding: "36px 0",
+          padding: "24px 0",
         }}
       >
         <Section style={{ paddingTop: 6, paddingBottom: 6 }}>
@@ -685,8 +685,8 @@ export default function Home1() {
                 <div
                   style={{
                     display: "grid",
-                    gridTemplateColumns: "repeat(4, minmax(260px, 1fr))",
-                    gap: 12,
+                    gridTemplateColumns: "repeat(4, minmax(0, 1fr))",
+                    gap: 10,
                   }}
                 >
                   {quickLinks.map((it, i) => (
@@ -697,25 +697,25 @@ export default function Home1() {
                         display: "flex",
                         alignItems: "center",
                         gap: 12,
-                        padding: 14,
+                        padding: "12px 14px",
                         borderRadius: 16,
                         background: "#fff",
                         border: `1px solid ${PALETTE.line}`,
-                        boxShadow: "0 3px 10px rgba(0,0,0,.06)",
+                        boxShadow: "0 2px 8px rgba(0,0,0,.04)",
                         textDecoration: "none",
                         color: "inherit",
                         transition: "transform .12s ease, box-shadow .12s ease",
                         width: "100%",
-                        height: "auto",
-                        minHeight: 80,
+                        minHeight: 64,
+                        alignItems: "center",
                       }}
                       onMouseEnter={(e) => {
-                        e.currentTarget.style.transform = "translateY(-3px)";
-                        e.currentTarget.style.boxShadow = "0 8px 18px rgba(0,0,0,.10)";
+                        e.currentTarget.style.transform = "translateY(-2px)";
+                        e.currentTarget.style.boxShadow = "0 6px 14px rgba(0,0,0,.08)";
                       }}
                       onMouseLeave={(e) => {
                         e.currentTarget.style.transform = "none";
-                        e.currentTarget.style.boxShadow = "0 3px 10px rgba(0,0,0,.06)";
+                        e.currentTarget.style.boxShadow = "0 2px 8px rgba(0,0,0,.04)";
                       }}
                     >
                       <div
@@ -725,7 +725,7 @@ export default function Home1() {
                           height: 36,
                           borderRadius: 12,
                           background: `linear-gradient(180deg,#FFFFFF 0%, ${PALETTE.grayBg} 100%)`,
-                          border: `1px solid ${PALETTE.line}`,
+                          border: `1px solid ${PALETTE.lineStrong}`,
                           boxShadow: "0 2px 6px rgba(0,0,0,.06)",
                           display: "inline-flex",
                           alignItems: "center",
@@ -752,7 +752,7 @@ export default function Home1() {
                         >
                           {it.label}
                         </div>
-                        <div style={{ fontSize: 12, color: PALETTE.grayText, marginTop: 4 }}>
+                        <div style={{ fontSize: 12, color: PALETTE.grayText, marginTop: 2 }}>
                           {it.desc}
                         </div>
                       </div>
