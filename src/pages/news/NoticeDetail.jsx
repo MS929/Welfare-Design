@@ -36,7 +36,7 @@ export default function NoticeDetail() {
     return (
       <div className="max-w-screen-md mx-auto px-4 py-16 text-center">
         <h1 className="text-2xl font-bold mb-3">글을 찾을 수 없습니다</h1>
-        <button className="text-sky-600 underline" onClick={() => nav(-1)}>
+        <button className="text-sky-600 underline" onClick={() => nav('/news/notices')}>
           목록으로
         </button>
       </div>
@@ -47,7 +47,7 @@ export default function NoticeDetail() {
 
   return (
     <div className="max-w-screen-md mx-auto px-4 py-10">
-      <button className="text-sky-600 text-sm mb-4" onClick={() => nav(-1)}>
+      <button className="text-sky-600 text-sm mb-4" onClick={() => nav('/news/notices')}>
         ← 목록으로
       </button>
 
