@@ -1,6 +1,7 @@
 import { useState, useEffect, useMemo, useRef } from "react";
 import matter from "gray-matter";
 import { Link } from "react-router-dom";
+import OptimizedImg from "../components/OptimizedImg";
 // src/pages/Home.jsx
 // 팔레트 (우리 브랜드 컬러로, 레퍼런스 톤을 흉내냄)
 const PALETTE = {
