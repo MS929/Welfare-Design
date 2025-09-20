@@ -373,16 +373,16 @@ export default function Home1() {
         style={{
           paddingTop: 80,
           paddingBottom: 96,
-          background: "linear-gradient(180deg, #FBF6ED 0%, #FFFFFF 70%)",
+          background: "linear-gradient(180deg, #FAEEE0 0%, #FFFFFF 72%)",
         }}
       >
         <div
           style={{
             display: "grid",
-            gridTemplateColumns: "1fr 1.1fr",
+            gridTemplateColumns: "1fr 1.15fr",
             gap: 36,
             alignItems: "center",
-            padding: "0 24px 0 48px", // 좌우 여백: 오른쪽으로 24px 더 이동
+            padding: "0 32px",
           }}
         >
           {/* 좌측 이미지 프레임 (수동/자동 캐러셀) + 하단 컨트롤 */}
@@ -518,7 +518,7 @@ export default function Home1() {
           </div>
 
           {/* 우측 텍스트 */}
-          <div style={{ marginTop: -50 }}>
+          <div style={{ marginTop: -36 }}>
             {/* Eyebrow / 작은 포인트 배지 */}
             <div
               style={{
@@ -556,10 +556,11 @@ export default function Home1() {
 
             <h1
               style={{
-                fontSize: 32,
+                fontSize: 38,
                 lineHeight: 1.35,
                 margin: 0,
                 letterSpacing: -0.2,
+                fontWeight: 800,
               }}
             >
               현장과 지역을 잇는{" "}
@@ -569,6 +570,7 @@ export default function Home1() {
                   WebkitBoxDecorationBreak: "clone",
                   backgroundImage:
                     "linear-gradient(transparent 70%, rgba(59,167,160,.28) 0)",
+                  fontWeight: 800,
                 }}
               >
                 맞춤형 복지
@@ -581,6 +583,7 @@ export default function Home1() {
                   WebkitBoxDecorationBreak: "clone",
                   backgroundImage:
                     "linear-gradient(transparent 70%, rgba(237,106,50,.22) 0)",
+                  fontWeight: 800,
                 }}
               >
                 복지디자인 사회적협동조합
@@ -590,7 +593,7 @@ export default function Home1() {
               지역과 함께합니다.
             </h1>
 
-            <p style={{ color: PALETTE.grayText, marginTop: 12 }}>
+            <p style={{ color: PALETTE.grayText, marginTop: 12, fontSize: 16 }}>
               주민·기관·전문가가 협력하는 맞춤형 복지 플랫폼을 설계·운영합니다.
             </p>
           </div>
