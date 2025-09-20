@@ -609,7 +609,7 @@ export default function Home1() {
               iconsrc: "/images/icons/introduction.png",
               label: "복지디자인 소개",
               desc: "조합의 비전과 연혁을 확인하세요.",
-              theme: { bg: "#FEEDE4", border: "#F8D1C2", text: "#ED6A32" }, // 살구
+              theme: { bg: "linear-gradient(180deg, #F06E2E 0%, #E35D23 100%)", border: "#D9541F", text: "#111827" },
             },
             {
               href: "/business/overview",
