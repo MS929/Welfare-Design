@@ -603,7 +603,7 @@ export default function Home1() {
       </Section>
 
       {/* 빠르게가기 - 배경 제거 & 카드형 4개 (이미지1 스타일) */}
-      <Section style={{ paddingTop: 28, paddingBottom: 28 }}>
+      <Section style={{ paddingTop: 60, paddingBottom: 28 }}>
         {(() => {
           const quickLinks = [
             {
