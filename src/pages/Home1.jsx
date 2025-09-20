@@ -605,7 +605,7 @@ export default function Home1() {
               {
                 href: "/support/combination",
                 iconsrc: "/images/icons/member-services.png",
-                label: "조합 가입 신청하기",
+                label: "조합 가입",
                 desc: "함께하는 동료되기",
                 theme: { bg: "#E9F5FA", border: "#D1EAF4", text: "#2196C8" },
               },
