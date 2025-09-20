@@ -355,21 +355,14 @@ export default function Home1() {
         innerMaxWidth={1500}
         style={{
           paddingTop: 80,
-          paddingBottom: 90,
-          background: [
-            // base vertical cream → white
-            `linear-gradient(180deg, ${PALETTE.heroCreamTop} 0%, ${PALETTE.heroCreamMid} 46%, #FFFFFF 100%)`,
-            // soft warm edge vignettes (left / right)
-            `radial-gradient(90% 70% at 0% 50%, ${PALETTE.heroCreamEdge}80 0%, ${PALETTE.heroCreamEdge}00 60%)`,
-            `radial-gradient(90% 70% at 100% 50%, ${PALETTE.heroCreamEdge}80 0%, ${PALETTE.heroCreamEdge}00 60%)`
-          ].join(", "),
-          boxShadow: "inset 0 24px 60px rgba(255, 201, 150, 0.12), inset 0 -24px 60px rgba(255, 201, 150, 0.10)",
+          paddingBottom: 96,
+          background: "linear-gradient(180deg, #FBF6ED 0%, #FFFFFF 70%)",
         }}
       >
         <div
           style={{
             display: "grid",
-            gridTemplateColumns: "1.1fr 1fr",
+            gridTemplateColumns: "1fr 1.1fr",
             gap: 36,
             alignItems: "center",
             padding: "0 0",
@@ -386,11 +379,10 @@ export default function Home1() {
             <div
               style={{
                 position: "relative",
-                height: 280,
+                height: 320,
                 borderRadius: PALETTE.radiusLg,
-                border: `1px solid ${PALETTE.line}`,
                 overflow: "hidden",
-                boxShadow: "0 14px 34px rgba(0,0,0,.12)",
+                boxShadow: "0 12px 28px rgba(0,0,0,.10)",
                 background: "#fff",
               }}
             >
@@ -444,8 +436,8 @@ export default function Home1() {
                 aria-label="이전 이미지"
                 onClick={prevHero}
                 style={{
-                  width: 36,
-                  height: 36,
+                  width: 30,
+                  height: 30,
                   borderRadius: "50%",
                   border: `1px solid ${PALETTE.line}`,
                   background: "#fff",
@@ -496,8 +488,8 @@ export default function Home1() {
                 aria-label="다음 이미지"
                 onClick={nextHero}
                 style={{
-                  width: 36,
-                  height: 36,
+                  width: 30,
+                  height: 30,
                   borderRadius: "50%",
                   border: `1px solid ${PALETTE.line}`,
                   background: "#fff",
@@ -561,10 +553,11 @@ export default function Home1() {
 
             <h1
               style={{
-                fontSize: 28,
+                fontSize: 34,
+                fontWeight: 900,
                 lineHeight: 1.35,
                 margin: 0,
-                letterSpacing: -0.2,
+                letterSpacing: -0.3,
               }}
             >
               현장과 지역을 잇는{" "}
@@ -595,7 +588,7 @@ export default function Home1() {
               지역과 함께합니다.
             </h1>
 
-            <p style={{ color: PALETTE.grayText, marginTop: 10 }}>
+            <p style={{ color: PALETTE.grayText, marginTop: 12 }}>
               주민·기관·전문가가 협력하는 맞춤형 복지 플랫폼을 설계·운영합니다.
             </p>
             </div>
