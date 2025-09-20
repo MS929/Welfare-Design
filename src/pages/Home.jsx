@@ -100,7 +100,7 @@ const Section = ({
           style={{
             maxWidth: innerMaxWidth,
             margin: "0 auto",
-            padding: "0 24px",
+            padding: "0 24px 0 40px",
           }}
         >
           {children}
@@ -115,7 +115,7 @@ const Section = ({
         maxWidth: CONTAINER,
         width: "100%",
         margin: "0 auto",
-        padding: "40px 24px",
+        padding: "40px 24px 40px 40px",
         ...style,
       }}
     >
