@@ -437,133 +437,33 @@ export default function Home() {
         </div>
       </Section>
 
-      {/* 빠르게 가기 (Home1) */}
-      <div style={{ background: PALETTE.mintPeachBg, padding: "28px 0", borderTop: `1px solid ${PALETTE.line}`, width: "100vw", marginLeft: "calc(50% - 50vw)", marginRight: "calc(50% - 50vw)" }}>
-        <Section style={{ padding: "0 24px" }}>
-          <div style={{ display: "grid", gridTemplateColumns: "minmax(220px, 1fr) 2fr", gap: 18, alignItems: "center" }}>
-            <div>
-              <h3 style={{ margin: 0, fontSize: 20, fontWeight: 900, letterSpacing: -0.2, color: "#111827" }}>빠르게 가기</h3>
-              <p style={{ margin: "6px 0 0", color: PALETTE.grayText, lineHeight: 1.5 }}>자주 찾는 메뉴를 한 번에 <br />소개·사업·후원·가입 페이지로 바로 이동하세요.</p>
-            </div>
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(4, minmax(0,1fr))", gap: 14 }}>
-              {[{href:"/about/what",iconsrc:"/images/icons/introduction.png",label:"복지디자인 소개",desc:"설립·비전·연혁"},{href:"/business/overview",iconsrc:"/images/icons/needs-survey.png",label:"사업 안내",desc:"운영사업 한눈에"},{href:"/support/guide",iconsrc:"/images/icons/donation.png",label:"후원 안내",desc:"지지와 참여 방법"},{href:"/support/combination",iconsrc:"/images/icons/member-services.png",label:"조합 가입",desc:"함께하는 동료되기"}].map((it,i)=> (
-                <Link key={i} to={it.href} style={{ display:"flex", alignItems:"center", gap:12, padding:14, borderRadius:16, background:"#fff", border: `1px solid ${PALETTE.line}`, boxShadow:"0 3px 10px rgba(0,0,0,.06)", textDecoration:"none", color:"inherit", transition:"transform .12s ease, box-shadow .12s ease" }}
-                  onMouseEnter={(e)=>{ e.currentTarget.style.transform='translateY(-3px)'; e.currentTarget.style.boxShadow='0 8px 18px rgba(0,0,0,.10)'; }}
-                  onMouseLeave={(e)=>{ e.currentTarget.style.transform='none'; e.currentTarget.style.boxShadow='0 3px 10px rgba(0,0,0,.06)'; }}>
-                  <div aria-hidden style={{ width:36, height:36, borderRadius:12, background:`linear-gradient(180deg,#FFFFFF 0%, ${PALETTE.grayBg} 100%)`, border: `1px solid ${PALETTE.line}`, boxShadow:"0 2px 6px rgba(0,0,0,.06)", display:"inline-flex", alignItems:"center", justifyContent:"center", flex:"0 0 auto" }}>
-                    <img src={it.iconsrc} alt="" loading="lazy" decoding="async" style={{ width:22, height:22, objectFit:"contain" }} />
-                  </div>
-                  <div style={{ flex:1, minWidth:0 }}>
-                    <div style={{ fontWeight:900, whiteSpace:"nowrap", overflow:"hidden", textOverflow:"ellipsis" }}>{it.label}</div>
-                    <div style={{ fontSize:12, color:PALETTE.grayText, marginTop:4 }}>{it.desc}</div>
-                  </div>
-                  <span aria-hidden style={{ color: PALETTE.teal, fontWeight: 800 }}>›</span>
-                </Link>
-              ))}
-            </div>
+      {/* 2) 빠르게 가기 */}
+      <Section style={{ padding: "24px" }}>
+        <div style={{ display: "grid", gridTemplateColumns: "minmax(220px, 1fr) 2fr", gap: 18, alignItems: "center" }}>
+          <div>
+            <h3 style={{ margin: 0, fontSize: 20, fontWeight: 900, letterSpacing: -0.2, color: "#111827" }}>빠르게 가기</h3>
+            <p style={{ margin: "6px 0 0", color: PALETTE.grayText, lineHeight: 1.5 }}>자주 찾는 메뉴를 한 번에 <br />소개·사업·후원·가입 페이지로 바로 이동하세요.</p>
           </div>
-        </Section>
-      </div>
-
-      {/* 지원사업 영역 (Home1) */}
-      <div style={{ background: PALETTE.mintPeachBg, padding: "12px 0", width: "100vw", marginLeft: "calc(50% - 50vw)", marginRight: "calc(50% - 50vw)" }}>
-        <Section id="support" style={{ padding: "16px 20px" }}>
-          <h2 style={{ margin: "0 0 6px 0", fontSize: 22, fontWeight: 900 }}>지원사업 영역</h2>
-          <p style={{ margin: "0 0 16px 0", color: PALETTE.grayText, fontSize: 14 }}>복지디자인이 수행하는 주요 지원사업을 한눈에 살펴보세요.</p>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(3, minmax(0,1fr))", gap: 16 }}>
-            {[
-              { icon: "/images/icons/rental.png", label: "휠체어 및 복지용구 무료 대여", href: "/business/rental" },
-              { icon: "/images/icons/apply-help.png", label: "보조기기·복지용구 신청 안내 지원", href: "/business/apply-help" },
-              { icon: "/images/icons/donation.png", label: "보조기기 기증 캠페인", href: "/business/donation" },
-              { icon: "/images/icons/ewc-insurance.png", label: "취약 계층 전동 휠체어 보험금 지원", href: "/business/ewc-insurance" },
-              { icon: "/images/icons/needs-survey.png", label: "취약 계층 복지욕구 실태조사", href: "/business/needs-survey" },
-              { icon: "/images/icons/member-services.png", label: "조합원 지원 서비스", href: "/business/member-services" },
-            ].map((it, i) => (
-              <Link key={i} to={it.href} style={{ position: "relative", display: "flex", alignItems: "center", justifyContent: "space-between", background: "linear-gradient(180deg, rgba(255,255,255,0.88) 0%, rgba(255,255,255,0.76) 100%)", border: "1px solid rgba(255,255,255,0.6)", color: "#111827", borderRadius: TOKENS.radiusLg, padding: 20, boxShadow: "0 12px 28px rgba(59,167,160,.10), 0 6px 14px rgba(237,106,50,.06)", textDecoration: "none", transition: "transform .18s ease, box-shadow .18s ease", backdropFilter: "saturate(150%) blur(8px)", WebkitBackdropFilter: "saturate(150%) blur(8px)" }}
-                onMouseEnter={(e) => { e.currentTarget.style.transform = "translateY(-4px)"; e.currentTarget.style.boxShadow = "0 18px 36px rgba(59,167,160,.16), 0 10px 22px rgba(237,106,50,.10)"; }}
-                onMouseLeave={(e) => { e.currentTarget.style.transform = "none"; e.currentTarget.style.boxShadow = "0 12px 28px rgba(59,167,160,.10), 0 6px 14px rgba(237,106,50,.06)"; }}>
-                <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-                  <div aria-hidden style={{ width: 44, height: 44, borderRadius: 14, background: `linear-gradient(180deg, #FFFFFF 0%, rgba(255,255,255,.85) 100%)`, border: `1px solid ${PALETTE.line}`, boxShadow: "inset 0 1px 0 rgba(255,255,255,.6), 0 6px 14px rgba(0,0,0,.06)", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                    <img src={it.icon.replace(/\.(png|svg)$/i, ".svg")} onError={(e)=>{ e.currentTarget.onerror=null; e.currentTarget.src=it.icon; }} alt="" loading="lazy" decoding="async" style={{ width: 24, height: 24, objectFit: "contain" }} />
-                  </div>
-                  <div style={{ fontWeight: 900 }}>{it.label}</div>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(4, minmax(0,1fr))", gap: 14 }}>
+            {[{href:"/about/what",iconsrc:"/images/icons/introduction.png",label:"복지디자인 소개",desc:"설립·비전·연혁"},{href:"/business/overview",iconsrc:"/images/icons/needs-survey.png",label:"사업 안내",desc:"운영사업 한눈에"},{href:"/support/guide",iconsrc:"/images/icons/donation.png",label:"후원 안내",desc:"지지와 참여 방법"},{href:"/support/combination",iconsrc:"/images/icons/member-services.png",label:"조합 가입",desc:"함께하는 동료되기"}].map((it,i)=> (
+              <Link key={i} to={it.href} style={{ display:"flex", alignItems:"center", gap:12, padding:14, borderRadius:16, background:"#fff", border: `1px solid ${PALETTE.line}`, boxShadow:"0 3px 10px rgba(0,0,0,.06)", textDecoration:"none", color:"inherit", transition:"transform .12s ease, box-shadow .12s ease" }}
+                onMouseEnter={(e)=>{ e.currentTarget.style.transform='translateY(-3px)'; e.currentTarget.style.boxShadow='0 8px 18px rgba(0,0,0,.10)'; }}
+                onMouseLeave={(e)=>{ e.currentTarget.style.transform='none'; e.currentTarget.style.boxShadow='0 3px 10px rgba(0,0,0,.06)'; }}>
+                <div aria-hidden style={{ width:36, height:36, borderRadius:12, background:`linear-gradient(180deg,#FFFFFF 0%, ${PALETTE.grayBg} 100%)`, border: `1px solid ${PALETTE.line}`, boxShadow:"0 2px 6px rgba(0,0,0,.06)", display:"inline-flex", alignItems:"center", justifyContent:"center", flex:"0 0 auto" }}>
+                  <img src={it.iconsrc} alt="" loading="lazy" decoding="async" style={{ width:22, height:22, objectFit:"contain" }} />
                 </div>
-                <span style={{ opacity: 0.9, fontSize: 12 }}>바로가기 ›</span>
+                <div style={{ flex:1, minWidth:0 }}>
+                  <div style={{ fontWeight:900, whiteSpace:"nowrap", overflow:"hidden", textOverflow:"ellipsis" }}>{it.label}</div>
+                  <div style={{ fontSize:12, color:PALETTE.grayText, marginTop:4 }}>{it.desc}</div>
+                </div>
+                <span aria-hidden style={{ color: PALETTE.teal, fontWeight: 800 }}>›</span>
               </Link>
             ))}
-          </div>
-        </Section>
-      </div>
-
-      {/* 공지/정보공개 – 두 칼럼 리스트 (Home1 스타일) */}
-      <Section style={{ paddingTop: 38 }}>
-        <div style={{ display: "flex", alignItems: "center", gap: 12, justifyContent: "space-between", marginBottom: 20 }}>
-          <h2 style={{ margin: 0, fontSize: 28, fontWeight: 900, display: "flex", alignItems: "center", gap: 10 }}>
-            <span aria-hidden style={{ width: 8, height: 24, background: PALETTE.orange, borderRadius: 3, display: "inline-block" }} />
-            공지사항
-          </h2>
-        </div>
-
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(2, minmax(0,1fr))", gap: 24 }}>
-          {/* 공지 */}
-          <div>
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginBottom: 12 }}>
-              <h2 style={{ margin: 0, fontSize: 22, fontWeight: 900 }}>공지</h2>
-              <Link to="/news/notices" style={{ color: PALETTE.teal, fontWeight: 800, textDecoration: "none", border: `1px solid ${PALETTE.teal}33`, borderRadius: 999, padding: "6px 10px", background: "#fff" }}>더보기 ›</Link>
-            </div>
-            <div style={{ display: "grid", gap: 18 }}>
-              {(loadingNotices ? Array.from({ length: 4 }) : (noticesSplit.공지 || []).slice(0, 5)).map((item, i) => (
-                loadingNotices ? (
-                  <div key={i} aria-hidden style={{ background: "#fff", border: `1px solid ${PALETTE.line}`, borderRadius: 14, padding: "16px 18px", boxShadow: TOKENS.shadowSm }}>
-                    <div style={{ height: 18, width: "70%", background: "#EEF2F7", borderRadius: 6, marginBottom: 10 }} />
-                    <div style={{ height: 12, width: 120, background: "#EEF2F7", borderRadius: 6 }} />
-                  </div>
-                ) : (
-                  <Link key={item.id} to={item.to} style={{ display: "block", background: "#fff", border: `1px solid ${PALETTE.line}`, borderRadius: 14, padding: "16px 18px", boxShadow: TOKENS.shadowSm, textDecoration: "none", color: "inherit", transition: "transform .12s ease, box-shadow .12s ease" }}
-                    onMouseEnter={(e)=>{ e.currentTarget.style.transform='translateY(-2px)'; e.currentTarget.style.boxShadow='0 10px 22px rgba(0,0,0,.08)'; }}
-                    onMouseLeave={(e)=>{ e.currentTarget.style.transform='none'; e.currentTarget.style.boxShadow=TOKENS.shadowSm; }}>
-                    <div style={{ display:"flex", alignItems:"center", justifyContent:"space-between", gap:12, marginBottom:6 }}>
-                      <div style={{ fontWeight:800, fontSize:18, lineHeight:1.35, overflow:"hidden", textOverflow:"ellipsis", whiteSpace:"nowrap" }}>{item.title}</div>
-                      <span aria-hidden style={{ color: PALETTE.grayText }}>›</span>
-                    </div>
-                    {item.date && (<time style={{ color: PALETTE.grayText, fontSize: 12 }}>{item.date}</time>)}
-                  </Link>
-                )
-              ))}
-            </div>
-          </div>
-
-          {/* 정보공개 */}
-          <div>
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginBottom: 12 }}>
-              <h2 style={{ margin: 0, fontSize: 22, fontWeight: 900 }}>정보공개</h2>
-              <Link to="/news/notices" style={{ color: PALETTE.teal, fontWeight: 800, textDecoration: "none", border: `1px solid ${PALETTE.teal}33`, borderRadius: 999, padding: "6px 10px", background: "#fff" }}>더보기 ›</Link>
-            </div>
-            <div style={{ display: "grid", gap: 18 }}>
-              {(loadingNotices ? Array.from({ length: 4 }) : (noticesSplit.정보공개 || []).slice(0, 5)).map((item, i) => (
-                loadingNotices ? (
-                  <div key={i} aria-hidden style={{ background: "#fff", border: `1px solid ${PALETTE.line}`, borderRadius: 14, padding: "16px 18px", boxShadow: TOKENS.shadowSm }}>
-                    <div style={{ height: 18, width: "70%", background: "#EEF2F7", borderRadius: 6, marginBottom: 10 }} />
-                    <div style={{ height: 12, width: 120, background: "#EEF2F7", borderRadius: 6 }} />
-                  </div>
-                ) : (
-                  <Link key={item.id} to={item.to} style={{ display: "block", background: "#fff", border: `1px solid ${PALETTE.line}`, borderRadius: 14, padding: "16px 18px", boxShadow: TOKENS.shadowSm, textDecoration: "none", color: "inherit", transition: "transform .12s ease, box-shadow .12s ease" }}
-                    onMouseEnter={(e)=>{ e.currentTarget.style.transform='translateY(-2px)'; e.currentTarget.style.boxShadow='0 10px 22px rgba(0,0,0,.08)'; }}
-                    onMouseLeave={(e)=>{ e.currentTarget.style.transform='none'; e.currentTarget.style.boxShadow=TOKENS.shadowSm; }}>
-                    <div style={{ display:"flex", alignItems:"center", justifyContent:"space-between", gap:12, marginBottom:6 }}>
-                      <div style={{ fontWeight:800, fontSize:18, lineHeight:1.35, overflow:"hidden", textOverflow:"ellipsis", whiteSpace:"nowrap" }}>{item.title}</div>
-                      <span aria-hidden style={{ color: PALETTE.grayText }}>›</span>
-                    </div>
-                    {item.date && (<time style={{ color: PALETTE.grayText, fontSize: 12 }}>{item.date}</time>)}
-                  </Link>
-                )
-              ))}
-            </div>
           </div>
         </div>
       </Section>
 
-      {/* 4) 복지디자인 소식 – 파란 패널 + 탭 풍의 보조 내비 + 필터 */}
+      {/* 3) 복지디자인 소식 – 파란 패널 + 탭 풍의 보조 내비 + 필터 */}
       <section
         aria-labelledby="stories-heading"
         style={{
@@ -882,6 +782,103 @@ export default function Home() {
           )}
         </div>
       </section>
+
+      {/* 4) 지원 사업 */}
+      <Section id="support" style={{ padding: "16px 20px" }}>
+        <h2 style={{ margin: "0 0 6px 0", fontSize: 22, fontWeight: 900 }}>지원 사업</h2>
+        <p style={{ margin: "0 0 16px 0", color: PALETTE.grayText, fontSize: 14 }}>복지디자인이 수행하는 주요 지원사업을 한눈에 살펴보세요.</p>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(3, minmax(0,1fr))", gap: 16 }}>
+          {[
+            { icon: "/images/icons/rental.png", label: "휠체어 및 복지용구 무료 대여", href: "/business/rental" },
+            { icon: "/images/icons/apply-help.png", label: "보조기기·복지용구 신청 안내 지원", href: "/business/apply-help" },
+            { icon: "/images/icons/donation.png", label: "보조기기 기증 캠페인", href: "/business/donation" },
+            { icon: "/images/icons/ewc-insurance.png", label: "취약 계층 전동 휠체어 보험금 지원", href: "/business/ewc-insurance" },
+            { icon: "/images/icons/needs-survey.png", label: "취약 계층 복지욕구 실태조사", href: "/business/needs-survey" },
+            { icon: "/images/icons/member-services.png", label: "조합원 지원 서비스", href: "/business/member-services" },
+          ].map((it, i) => (
+            <Link key={i} to={it.href} style={{ position: "relative", display: "flex", alignItems: "center", justifyContent: "space-between", background: "#fff", border: `1px solid ${PALETTE.line}`, color: "#111827", borderRadius: TOKENS.radiusLg, padding: 20, boxShadow: "0 12px 28px rgba(59,167,160,.10), 0 6px 14px rgba(237,106,50,.06)", textDecoration: "none", transition: "transform .18s ease, box-shadow .18s ease" }}
+              onMouseEnter={(e) => { e.currentTarget.style.transform = "translateY(-4px)"; e.currentTarget.style.boxShadow = "0 18px 36px rgba(59,167,160,.16), 0 10px 22px rgba(237,106,50,.10)"; }}
+              onMouseLeave={(e) => { e.currentTarget.style.transform = "none"; e.currentTarget.style.boxShadow = "0 12px 28px rgba(59,167,160,.10), 0 6px 14px rgba(237,106,50,.06)"; }}>
+              <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+                <div aria-hidden style={{ width: 44, height: 44, borderRadius: 14, background: `linear-gradient(180deg, #FFFFFF 0%, rgba(255,255,255,.85) 100%)`, border: `1px solid ${PALETTE.line}`, boxShadow: "inset 0 1px 0 rgba(255,255,255,.6), 0 6px 14px rgba(0,0,0,.06)", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                  <img src={it.icon.replace(/\.(png|svg)$/i, ".svg")} onError={(e)=>{ e.currentTarget.onerror=null; e.currentTarget.src=it.icon; }} alt="" loading="lazy" decoding="async" style={{ width: 24, height: 24, objectFit: "contain" }} />
+                </div>
+                <div style={{ fontWeight: 900 }}>{it.label}</div>
+              </div>
+              <span style={{ opacity: 0.9, fontSize: 12 }}>바로가기 ›</span>
+            </Link>
+          ))}
+        </div>
+      </Section>
+
+      {/* 5) 공지/정보공개 – 두 칼럼 리스트 (Home1 스타일) */}
+      <Section style={{ paddingTop: 38 }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 12, justifyContent: "space-between", marginBottom: 20 }}>
+          <h2 style={{ margin: 0, fontSize: 28, fontWeight: 900, display: "flex", alignItems: "center", gap: 10 }}>
+            <span aria-hidden style={{ width: 8, height: 24, background: PALETTE.orange, borderRadius: 3, display: "inline-block" }} />
+            공지사항
+          </h2>
+        </div>
+
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(2, minmax(0,1fr))", gap: 24 }}>
+          {/* 공지 */}
+          <div>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginBottom: 12 }}>
+              <h2 style={{ margin: 0, fontSize: 22, fontWeight: 900 }}>공지</h2>
+              <Link to="/news/notices" style={{ color: PALETTE.teal, fontWeight: 800, textDecoration: "none", border: `1px solid ${PALETTE.teal}33`, borderRadius: 999, padding: "6px 10px", background: "#fff" }}>더보기 ›</Link>
+            </div>
+            <div style={{ display: "grid", gap: 18 }}>
+              {(loadingNotices ? Array.from({ length: 4 }) : (noticesSplit.공지 || []).slice(0, 5)).map((item, i) => (
+                loadingNotices ? (
+                  <div key={i} aria-hidden style={{ background: "#fff", border: `1px solid ${PALETTE.line}`, borderRadius: 14, padding: "16px 18px", boxShadow: TOKENS.shadowSm }}>
+                    <div style={{ height: 18, width: "70%", background: "#EEF2F7", borderRadius: 6, marginBottom: 10 }} />
+                    <div style={{ height: 12, width: 120, background: "#EEF2F7", borderRadius: 6 }} />
+                  </div>
+                ) : (
+                  <Link key={item.id} to={item.to} style={{ display: "block", background: "#fff", border: `1px solid ${PALETTE.line}`, borderRadius: 14, padding: "16px 18px", boxShadow: TOKENS.shadowSm, textDecoration: "none", color: "inherit", transition: "transform .12s ease, box-shadow .12s ease" }}
+                    onMouseEnter={(e)=>{ e.currentTarget.style.transform='translateY(-2px)'; e.currentTarget.style.boxShadow='0 10px 22px rgba(0,0,0,.08)'; }}
+                    onMouseLeave={(e)=>{ e.currentTarget.style.transform='none'; e.currentTarget.style.boxShadow=TOKENS.shadowSm; }}>
+                    <div style={{ display:"flex", alignItems:"center", justifyContent:"space-between", gap:12, marginBottom:6 }}>
+                      <div style={{ fontWeight:800, fontSize:18, lineHeight:1.35, overflow:"hidden", textOverflow:"ellipsis", whiteSpace:"nowrap" }}>{item.title}</div>
+                      <span aria-hidden style={{ color: PALETTE.grayText }}>›</span>
+                    </div>
+                    {item.date && (<time style={{ color: PALETTE.grayText, fontSize: 12 }}>{item.date}</time>)}
+                  </Link>
+                )
+              ))}
+            </div>
+          </div>
+
+          {/* 정보공개 */}
+          <div>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginBottom: 12 }}>
+              <h2 style={{ margin: 0, fontSize: 22, fontWeight: 900 }}>정보공개</h2>
+              <Link to="/news/notices" style={{ color: PALETTE.teal, fontWeight: 800, textDecoration: "none", border: `1px solid ${PALETTE.teal}33`, borderRadius: 999, padding: "6px 10px", background: "#fff" }}>더보기 ›</Link>
+            </div>
+            <div style={{ display: "grid", gap: 18 }}>
+              {(loadingNotices ? Array.from({ length: 4 }) : (noticesSplit.정보공개 || []).slice(0, 5)).map((item, i) => (
+                loadingNotices ? (
+                  <div key={i} aria-hidden style={{ background: "#fff", border: `1px solid ${PALETTE.line}`, borderRadius: 14, padding: "16px 18px", boxShadow: TOKENS.shadowSm }}>
+                    <div style={{ height: 18, width: "70%", background: "#EEF2F7", borderRadius: 6, marginBottom: 10 }} />
+                    <div style={{ height: 12, width: 120, background: "#EEF2F7", borderRadius: 6 }} />
+                  </div>
+                ) : (
+                  <Link key={item.id} to={item.to} style={{ display: "block", background: "#fff", border: `1px solid ${PALETTE.line}`, borderRadius: 14, padding: "16px 18px", boxShadow: TOKENS.shadowSm, textDecoration: "none", color: "inherit", transition: "transform .12s ease, box-shadow .12s ease" }}
+                    onMouseEnter={(e)=>{ e.currentTarget.style.transform='translateY(-2px)'; e.currentTarget.style.boxShadow='0 10px 22px rgba(0,0,0,.08)'; }}
+                    onMouseLeave={(e)=>{ e.currentTarget.style.transform='none'; e.currentTarget.style.boxShadow=TOKENS.shadowSm; }}>
+                    <div style={{ display:"flex", alignItems:"center", justifyContent:"space-between", gap:12, marginBottom:6 }}>
+                      <div style={{ fontWeight:800, fontSize:18, lineHeight:1.35, overflow:"hidden", textOverflow:"ellipsis", whiteSpace:"nowrap" }}>{item.title}</div>
+                      <span aria-hidden style={{ color: PALETTE.grayText }}>›</span>
+                    </div>
+                    {item.date && (<time style={{ color: PALETTE.grayText, fontSize: 12 }}>{item.date}</time>)}
+                  </Link>
+                )
+              ))}
+            </div>
+          </div>
+        </div>
+      </Section>
+
     </main>
   );
 }
