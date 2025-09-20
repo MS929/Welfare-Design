@@ -379,8 +379,8 @@ export default function Home1() {
             <div
               style={{
                 position: "relative",
-                height: 320,
-                borderRadius: TOKENS.radiusLg,
+                height: 360,
+                borderRadius: PALETTE.radiusLg,
                 overflow: "hidden",
                 boxShadow: "0 12px 28px rgba(0,0,0,.10)",
                 background: "#fff",
@@ -422,8 +422,8 @@ export default function Home1() {
                 aria-label="이전 이미지"
                 onClick={prevHero}
                 style={{
-                  width: 30,
-                  height: 30,
+                  width: 36,
+                  height: 36,
                   borderRadius: "50%",
                   border: `1px solid ${PALETTE.line}`,
                   background: "#fff",
@@ -474,8 +474,8 @@ export default function Home1() {
                 aria-label="다음 이미지"
                 onClick={nextHero}
                 style={{
-                  width: 30,
-                  height: 30,
+                  width: 36,
+                  height: 36,
                   borderRadius: "50%",
                   border: `1px solid ${PALETTE.line}`,
                   background: "#fff",
@@ -512,7 +512,7 @@ export default function Home1() {
                 borderRadius: 999,
                 border: `1px solid ${PALETTE.line}`,
                 background: "#fff",
-                boxShadow: TOKENS.shadowSm,
+                boxShadow: PALETTE.shadowSm,
                 marginBottom: 10,
               }}
             >
