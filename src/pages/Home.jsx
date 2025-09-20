@@ -571,7 +571,7 @@ export default function Home1() {
                 lineHeight: 1.35,
                 margin: 0,
                 letterSpacing: -0.2,
-                fontWeight: 800,
+                fontWeight: 600,
               }}
             >
               현장과 지역을 잇는{" "}
@@ -581,7 +581,7 @@ export default function Home1() {
                   WebkitBoxDecorationBreak: "clone",
                   backgroundImage:
                     "linear-gradient(transparent 70%, rgba(59,167,160,.28) 0)",
-                  fontWeight: 800,
+                  fontWeight: 600,
                 }}
               >
                 맞춤형 복지
@@ -594,7 +594,7 @@ export default function Home1() {
                   WebkitBoxDecorationBreak: "clone",
                   backgroundImage:
                     "linear-gradient(transparent 70%, rgba(237,106,50,.22) 0)",
-                  fontWeight: 800,
+                  fontWeight: 600,
                 }}
               >
                 복지디자인 사회적협동조합
