@@ -616,7 +616,7 @@ export default function Home1() {
               iconsrc: "/images/icons/needs-survey.png",
               label: "사업 안내",
               desc: "복지디자인의 사업을 확인하세요.",
-              theme: { bg: "#E7F4F2", border: "#CBE7E3", text: "#3BA7A0" }, // 틸
+              theme: { bg: "linear-gradient(180deg, #36A7A0 0%, #2E9C96 100%)", border: "#2A8D8A", text: "#111827" }, // 틸(진하게) + 글자 검정
             },
             {
               href: "/support/guide",
