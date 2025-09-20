@@ -404,9 +404,22 @@ export default function Home() {
       {/* 1) HERO – 이미지 캐러셀 + 우측 텍스트 (Home1 스타일) */}
       <Section fullBleed innerMaxWidth={1500} style={{ paddingTop: 80, paddingBottom: 96, background: "linear-gradient(180deg, #FBF6ED 0%, #FFFFFF 70%)" }}>
         <div style={{ display: "grid", gridTemplateColumns: "1.1fr 1fr", gap: 36, alignItems: "center" }}>
-          {/* 좌측: 캐러셀 */}
+          {/* 우측: 텍스트 (이제 첫 번째 칼럼) */}
+          <div>
+            <div style={{ display: "inline-flex", alignItems: "center", gap: 8, padding: "6px 10px", borderRadius: 999, border: `1px solid ${PALETTE.line}`, background: "#fff", boxShadow: TOKENS.shadowSm, marginBottom: 10 }}>
+              <span aria-hidden style={{ width: 8, height: 8, borderRadius: "50%", background: COLOR.secondary }} />
+              <span style={{ fontWeight: 800, fontSize: 12, letterSpacing: 0.4, color: "#111827" }}>WELFARE&nbsp;DESIGN</span>
+            </div>
+            <h1 style={{ fontSize: 32, lineHeight: 1.35, margin: 0, letterSpacing: -0.2 }}>
+              현장과 지역을 잇는 <span style={{ boxDecorationBreak: "clone", WebkitBoxDecorationBreak: "clone", backgroundImage: "linear-gradient(transparent 70%, rgba(59,167,160,.28) 0)" }}>맞춤형 복지</span>를 설계하며<br />
+              <span style={{ boxDecorationBreak: "clone", WebkitBoxDecorationBreak: "clone", backgroundImage: "linear-gradient(transparent 70%, rgba(237,106,50,.22) 0)" }}>복지디자인 사회적협동조합</span>이<br />지역과 함께합니다.
+            </h1>
+            <p style={{ color: PALETTE.grayText, marginTop: 10 }}>주민·기관·전문가가 협력하는 맞춤형 복지 플랫폼을 설계·운영합니다.</p>
+          </div>
+
+          {/* 좌측: 캐러셀 (이제 두 번째 칼럼) */}
           <div style={{ display: "flex", flexDirection: "column", alignItems: "stretch" }}>
-            <div style={{ position: "relative", height: 360, borderRadius: TOKENS.radiusLg, border: `1px solid ${PALETTE.line}`, overflow: "hidden", boxShadow: "0 10px 24px rgba(0,0,0,.10)", background: "#fff" }}>
+            <div style={{ position: "relative", height: 360, borderRadius: TOKENS.radiusLg, /* border removed */ overflow: "hidden", boxShadow: "0 10px 24px rgba(0,0,0,.10)", background: "#fff" }}>
               {HERO_IMAGES.map((src, i) => (
                 <img key={src} src={src} alt="복지디자인 활동 이미지" loading={i === heroIndex ? "eager" : "lazy"} decoding="async" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", opacity: heroIndex === i ? 1 : 0, transition: "opacity 700ms ease-in-out", pointerEvents: "none" }} />
               ))}
@@ -420,19 +433,6 @@ export default function Home() {
               </div>
               <button type="button" aria-label="다음 이미지" onClick={nextHero} style={{ width: 36, height: 36, borderRadius: "50%", border: `1px solid ${PALETTE.line}`, background: "#fff", boxShadow: "0 2px 8px rgba(0,0,0,.08)", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 800, fontSize: 16, cursor: "pointer", color: PALETTE.darkText }}>›</button>
             </div>
-          </div>
-
-          {/* 우측: 텍스트 */}
-          <div>
-            <div style={{ display: "inline-flex", alignItems: "center", gap: 8, padding: "6px 10px", borderRadius: 999, border: `1px solid ${PALETTE.line}`, background: "#fff", boxShadow: TOKENS.shadowSm, marginBottom: 10 }}>
-              <span aria-hidden style={{ width: 8, height: 8, borderRadius: "50%", background: COLOR.secondary }} />
-              <span style={{ fontWeight: 800, fontSize: 12, letterSpacing: 0.4, color: "#111827" }}>WELFARE&nbsp;DESIGN</span>
-            </div>
-            <h1 style={{ fontSize: 32, lineHeight: 1.35, margin: 0, letterSpacing: -0.2 }}>
-              현장과 지역을 잇는 <span style={{ boxDecorationBreak: "clone", WebkitBoxDecorationBreak: "clone", backgroundImage: "linear-gradient(transparent 70%, rgba(59,167,160,.28) 0)" }}>맞춤형 복지</span>를 설계하며<br />
-              <span style={{ boxDecorationBreak: "clone", WebkitBoxDecorationBreak: "clone", backgroundImage: "linear-gradient(transparent 70%, rgba(237,106,50,.22) 0)" }}>복지디자인 사회적협동조합</span>이<br />지역과 함께합니다.
-            </h1>
-            <p style={{ color: PALETTE.grayText, marginTop: 10 }}>주민·기관·전문가가 협력하는 맞춤형 복지 플랫폼을 설계·운영합니다.</p>
           </div>
         </div>
       </Section>
