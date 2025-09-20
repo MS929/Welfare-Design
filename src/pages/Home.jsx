@@ -1126,7 +1126,7 @@ export default function Home1() {
             >
               <h2 style={{ margin: 0, fontSize: 22, fontWeight: 900 }}>공지</h2>
               <a
-                href="/news/notices"
+                href="/news/notices?category=공지"
                 style={{
                   color: PALETTE.teal,
                   fontWeight: 800,
@@ -1257,7 +1257,7 @@ export default function Home1() {
                 정보공개
               </h2>
               <a
-                href="/news/notices"
+                href="/news/notices?category=정보공개"
                 style={{
                   color: PALETTE.teal,
                   fontWeight: 800,
