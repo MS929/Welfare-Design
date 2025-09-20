@@ -63,16 +63,10 @@ function StoryCard({ item, activeCat, backTo }) {
         </div>
 
       <div className="p-4 sm:p-5">
-        <div className="mb-2">
-          <Tag>{item.category}</Tag>
-        </div>
         <h3 className="line-clamp-1 text-lg font-bold text-gray-900">
           {item.title}
         </h3>
         <p className="mt-1 text-sm text-gray-500">{date}</p>
-        <p className="mt-2 line-clamp-2 text-sm text-gray-700">
-          {item.excerpt}
-        </p>
       </div>
     </Link>
   );
@@ -160,6 +154,12 @@ export default function NewsStories() {
 
   return (
     <div className="max-w-screen-xl mx-auto px-4 py-10">
+      {/* breadcrumb */}
+      <div className="text-sm text-gray-500 mb-2">
+        <Link to="/news" className="text-emerald-600 hover:underline">소식</Link>
+        <span className="mx-1">›</span>
+        <span className="font-medium text-gray-700">복지디자인 이야기</span>
+      </div>
       <h1 className="text-3xl font-extrabold mb-6">복지디자인 이야기</h1>
 
       {/* 탭 */}
