@@ -173,8 +173,8 @@ const StoryCard = ({ title, date, href = "/news/stories", thumbnail }) => (
       }}
       onMouseEnter={(e) => {
         e.currentTarget.style.transform = "translateY(-4px)";
-        e.currentTarget.style.boxShadow = `0 14px 28px rgba(15,23,42,.12), 0 0 0 3px ${PALETTE.teal}22`;
-        e.currentTarget.style.borderColor = PALETTE.teal;
+        e.currentTarget.style.boxShadow = `0 14px 28px rgba(15,23,42,.12), 0 0 0 3px ${PALETTE.orange}22`;
+        e.currentTarget.style.borderColor = PALETTE.orange;
       }}
       onMouseLeave={(e) => {
         e.currentTarget.style.transform = "none";
@@ -1097,7 +1097,7 @@ export default function Home1() {
               style={{
                 width: 8,
                 height: 24,
-                background: PALETTE.orange,
+                background: PALETTE.teal,
                 borderRadius: 3,
                 display: "inline-block",
               }}
@@ -1193,8 +1193,8 @@ export default function Home1() {
                     onMouseEnter={(e) => {
                       e.currentTarget.style.transform = "translateY(-2px)";
                       e.currentTarget.style.boxShadow =
-                        `0 10px 22px rgba(0,0,0,.08), 0 0 0 3px ${PALETTE.teal}22`;
-                      e.currentTarget.style.borderColor = PALETTE.teal;
+                        `0 10px 22px rgba(0,0,0,.08), 0 0 0 3px ${PALETTE.orange}22`;
+                      e.currentTarget.style.borderColor = PALETTE.orange;
                     }}
                     onMouseLeave={(e) => {
                       e.currentTarget.style.transform = "none";
@@ -1324,8 +1324,8 @@ export default function Home1() {
                     onMouseEnter={(e) => {
                       e.currentTarget.style.transform = "translateY(-2px)";
                       e.currentTarget.style.boxShadow =
-                        `0 10px 22px rgba(0,0,0,.08), 0 0 0 3px ${PALETTE.teal}22`;
-                      e.currentTarget.style.borderColor = PALETTE.teal;
+                        `0 10px 22px rgba(0,0,0,.08), 0 0 0 3px ${PALETTE.orange}22`;
+                      e.currentTarget.style.borderColor = PALETTE.orange;
                     }}
                     onMouseLeave={(e) => {
                       e.currentTarget.style.transform = "none";
