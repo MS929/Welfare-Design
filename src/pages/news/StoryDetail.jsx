@@ -14,7 +14,16 @@ export default function StoryDetail() {
   const { slug } = useParams();
   const nav = useNavigate();
   const location = useLocation();
-  const backTo = location.state?.backTo || "/news/stories";
+  // prefer explicit state from the list, but also accept ?tab=... on the URL
+  const qs = new URLSearchParams(location.search);
+  const stateTab = location.state?.tab || location.state?.activeTab || null;
+  const urlTab = qs.get("tab");
+  const effectiveTab = stateTab || urlTab || null;
+  const backTo =
+    location.state?.backTo ||
+    (effectiveTab
+      ? `/news/stories?tab=${encodeURIComponent(effectiveTab)}`
+      : "/news/stories");
   const [post, setPost] = useState(null); // null: 로딩, undefined: not found
 
   useEffect(() => {
