@@ -349,7 +349,7 @@ export default function Home1() {
 
   return (
     <main style={{ background: "#fff" }}>
-      {/* HERO (레퍼런스형: 베이지 배경 + 좌측 반원 이미지 + 우측 텍스트) */}
+      {/* 1) HERO – 이미지 캐러셀 + 우측 텍스트 (Home1 스타일) */}
       <Section
         fullBleed
         innerMaxWidth={1500}
@@ -380,7 +380,7 @@ export default function Home1() {
               style={{
                 position: "relative",
                 height: 320,
-                borderRadius: PALETTE.radiusLg,
+                borderRadius: TOKENS.radiusLg,
                 overflow: "hidden",
                 boxShadow: "0 12px 28px rgba(0,0,0,.10)",
                 background: "#fff",
@@ -403,20 +403,6 @@ export default function Home1() {
                     transition: "opacity 700ms ease-in-out",
                     willChange: "opacity",
                     pointerEvents: "none",
-                  }}
-                  onError={(e) => {
-                    const t = e.currentTarget;
-                    if (!t.dataset.fallback1) {
-                      t.dataset.fallback1 = "1";
-                      t.src = "/images/hero/light.png";
-                      return;
-                    }
-                    if (!t.dataset.fallback2) {
-                      t.dataset.fallback2 = "1";
-                      t.src = "/images/hero/dog.png";
-                    } else {
-                      t.onerror = null;
-                    }
                   }}
                 />
               ))}
@@ -526,7 +512,7 @@ export default function Home1() {
                 borderRadius: 999,
                 border: `1px solid ${PALETTE.line}`,
                 background: "#fff",
-                boxShadow: PALETTE.shadowSm,
+                boxShadow: TOKENS.shadowSm,
                 marginBottom: 10,
               }}
             >
@@ -536,31 +522,16 @@ export default function Home1() {
                   width: 8,
                   height: 8,
                   borderRadius: "50%",
-                  background: PALETTE.orange,
+                  background: COLOR.secondary,
                 }}
               />
-              <span
-                style={{
-                  fontWeight: 800,
-                  fontSize: 12,
-                  letterSpacing: 0.4,
-                  color: PALETTE.darkText,
-                }}
-              >
+              <span style={{ fontWeight: 800, fontSize: 12, letterSpacing: 0.4, color: "#111827" }}>
                 WELFARE&nbsp;DESIGN
               </span>
             </div>
 
-            <h1
-              style={{
-                fontSize: 34,
-                fontWeight: 900,
-                lineHeight: 1.35,
-                margin: 0,
-                letterSpacing: -0.3,
-              }}
-            >
-              현장과 지역을 잇는{" "}
+            <h1 style={{ fontSize: 32, lineHeight: 1.35, margin: 0, letterSpacing: -0.2 }}>
+              현장과 지역을 잇는 {" "}
               <span
                 style={{
                   boxDecorationBreak: "clone",
@@ -591,11 +562,11 @@ export default function Home1() {
             <p style={{ color: PALETTE.grayText, marginTop: 12 }}>
               주민·기관·전문가가 협력하는 맞춤형 복지 플랫폼을 설계·운영합니다.
             </p>
-            </div>
           </div>
+        </div>
       </Section>
 
-      {/* 빠르게가기 – 라이트 패널 배경 추가 (이미지1 느낌) */}
+      {/* 2) 빠르게 가기 */}
       <div
         style={{
           background: "transparent",
