@@ -40,11 +40,12 @@ function Tag({ children }) {
   );
 }
 
-function StoryCard({ item, activeCat }) {
+function StoryCard({ item, activeCat, backTo }) {
   const date = item.date ? new Date(item.date).toISOString().slice(0, 10) : "";
   return (
     <Link
       to={`/news/stories/${item.slug}${activeCat && activeCat !== "전체" ? `?type=${encodeURIComponent(activeCat)}` : ""}`}
+      state={{ backTo }}
       className="group block overflow-hidden rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition-shadow bg-white"
     >
         <div className="mt-6 w-full aspect-[16/9] bg-gray-50 overflow-hidden rounded-xl">
@@ -156,6 +157,8 @@ export default function NewsStories() {
   const pagedItems = filtered.slice(startIdx, endIdx);
   const totalPages = Math.ceil(filtered.length / PAGE_SIZE);
 
+  const backTo = `/news/stories${activeCat && activeCat !== "전체" ? `?type=${encodeURIComponent(activeCat)}` : ""}`;
+
   return (
     <div className="max-w-screen-xl mx-auto px-4 py-10">
       <h1 className="text-3xl font-extrabold mb-6">복지디자인 이야기</h1>
@@ -200,7 +203,7 @@ export default function NewsStories() {
         <>
           <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {pagedItems.map((it) => (
-              <StoryCard key={it.slug} item={it} activeCat={activeCat} />
+              <StoryCard key={it.slug} item={it} activeCat={activeCat} backTo={backTo} />
             ))}
           </div>
           {/* Pagination controls */}
