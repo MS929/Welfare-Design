@@ -26,10 +26,10 @@ export default function SupFAQ() {
 	}, [all, cat, q]);
 
 	return (
-		<section className="max-w-screen-xl mx-auto px-4 py-10">
+		<section className="max-w-screen-xl mx-auto pl-2 pr-4 sm:pl-3 sm:pr-6 lg:pl-4 lg:pr-8 pb-10">
 			<div className="bg-white">
 			  {/* ===== 브레드크럼 + 제목 (whatIs.jsx 스타일) ===== */}
-			  <section className="max-w-screen-xl mx-auto px-4 pt-8 md:pt-10">
+			  <section className="pt-8 md:pt-10 mb-6 md:mb-8">
 			    <nav className="text-sm text-black">
 			      후원 &gt; <span className="text-black">FAQ</span>
 			    </nav>
