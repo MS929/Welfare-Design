@@ -14,7 +14,7 @@ export default function ApplyHelp() {
             className="w-full h-auto"
           />
           {/* 안내 박스 (불릿) + 기대 효과 + 상담 문의 배너 */}
-          <div className="grid h-[440px] lg:h-[470px] grid-rows-[auto,1fr,auto] gap-6">
+          <div className="grid h-[440px] lg:h-[470px] grid-rows-[auto,1fr,auto] gap-6 mt-6">
             {/* 안내 박스 */}
             <div className="rounded-2xl border border-[#2CB9B1]/40 bg-white/90 backdrop-blur-[1px] shadow-md p-7 md:p-8">
               <ul className="space-y-4 text-gray-800 leading-relaxed">
