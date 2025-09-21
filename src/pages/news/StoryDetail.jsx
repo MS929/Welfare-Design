@@ -5,6 +5,61 @@ import matter from "gray-matter";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 
+function SmartImage({ src, alt, className, priority = false, placeholderMin = 220 }) {
+  const [shouldLoad, setShouldLoad] = useState(priority);
+  const [loaded, setLoaded] = useState(false);
+  const [size, setSize] = useState({ width: undefined, height: undefined });
+  const ref = useRef(null);
+
+  useEffect(() => {
+    if (priority) {
+      setShouldLoad(true);
+      return;
+    }
+    if (!ref.current) return;
+
+    let observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setShouldLoad(true);
+          observer.disconnect();
+        }
+      },
+      { rootMargin: "1000px" }
+    );
+    observer.observe(ref.current);
+
+    return () => observer && observer.disconnect();
+  }, [priority]);
+
+  const currentSrc = shouldLoad ? src : "";
+
+  return (
+    <div
+      ref={ref}
+      className={`${className} rounded-xl bg-gray-100`}
+      style={{ minHeight: loaded ? undefined : placeholderMin }}
+    >
+      {currentSrc && (
+        <img
+          src={currentSrc}
+          alt={alt}
+          decoding="async"
+          className={`${className} transition-opacity duration-300 ${loaded ? "opacity-100" : "opacity-0"}`}
+          width={size.width}
+          height={size.height}
+          onLoad={(e) => {
+            setLoaded(true);
+            if (!size.width || !size.height) {
+              setSize({ width: e.target.naturalWidth, height: e.target.naturalHeight });
+            }
+          }}
+        />
+      )}
+    </div>
+  );
+}
+
 /**
  * 동행이야기 상세 페이지
  * - CMS가 생성한 /src/content/stories/*.md 를 읽어서 렌더링
@@ -156,14 +211,8 @@ export default function StoryDetail() {
         </div>
 
         {post.thumbnail ? (
-          <figure className="mt-6 rounded-2xl ring-1 ring-gray-100 bg-white shadow-sm">
-            <img
-              src={post.thumbnail}
-              alt=""
-              className="w-full h-auto object-contain"
-              decoding="async"
-              loading="lazy"
-            />
+          <figure className="mt-6">
+            <SmartImage src={post.thumbnail} alt="" className="block w-full h-auto rounded-2xl" priority />
           </figure>
         ) : null}
 
@@ -175,12 +224,7 @@ export default function StoryDetail() {
               remarkPlugins={[remarkGfm]}
               components={{
                 img: ({ node, ...props }) => (
-                  <img
-                    {...props}
-                    loading="lazy"
-                    decoding="async"
-                    className="block w-full h-auto rounded-xl my-6"
-                  />
+                  <SmartImage {...props} className="block w-full h-auto rounded-xl my-6" />
                 ),
                 a: ({ node, ...props }) => {
                   const href = String(props.href || "");
