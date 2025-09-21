@@ -40,9 +40,10 @@ function Tag({ children }) {
   );
 }
 
-function OptimizedImg({ src, alt = "", className = "", priority = false }) {
+function OptimizedImg({ src, alt = "", className = "", priority = false, sizes = "(min-width:1024px) 33vw, (min-width:640px) 50vw, 100vw" }) {
   const imgRef = useRef(null);
   const [realSrc, setRealSrc] = useState(priority ? src : "");
+  const [loaded, setLoaded] = useState(false);
   useEffect(() => {
     if (priority || !imgRef.current) {
       setRealSrc(src || "");
@@ -59,7 +60,7 @@ function OptimizedImg({ src, alt = "", className = "", priority = false }) {
             }
           });
         },
-        { rootMargin: "200px" }
+        { rootMargin: "800px" }
       );
       observer.observe(imgRef.current);
     } else {
@@ -78,7 +79,9 @@ function OptimizedImg({ src, alt = "", className = "", priority = false }) {
       fetchpriority={priority ? "high" : "low"}
       width="1280"
       height="720"
-      className={className}
+      sizes={sizes}
+      onLoad={() => setLoaded(true)}
+      className={`${className} transition-opacity duration-300 ${loaded ? 'opacity-100' : 'opacity-0'}`}
       style={{ background: "#F6F8FA" }}
     />
   );
@@ -98,6 +101,7 @@ const StoryCard = memo(function StoryCard({ item, activeCat, backTo, priority = 
             src={item.thumbnail}
             alt=""
             priority={priority}
+            sizes="(min-width:1024px) 33vw, (min-width:640px) 50vw, 100vw"
             className="h-full w-full object-cover"
           />
         ) : (
@@ -256,7 +260,7 @@ export default function NewsStories() {
           <>
             <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
               {pagedItems.map((it, idx) => (
-                <StoryCard key={it.slug} item={it} activeCat={activeCat} backTo={backTo} priority={idx < 3} />
+                <StoryCard key={it.slug} item={it} activeCat={activeCat} backTo={backTo} priority={idx < 6} />
               ))}
             </div>
             {/* Pagination controls */}
