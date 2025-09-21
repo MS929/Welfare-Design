@@ -116,10 +116,6 @@ export default function StoryDetail() {
     );
   }
 
-  const readingMinutes = post?.content
-    ? Math.max(1, Math.round((post.content.split(/\s+/).length || 0) / 200))
-    : null;
-
   return (
     <>
       <div className="fixed left-0 right-0 top-0 h-0.5 z-40">
@@ -156,34 +152,16 @@ export default function StoryDetail() {
               {post.author}
             </span>
           ) : null}
-          {readingMinutes ? (
-            <span className="inline-flex items-center gap-1 rounded-full bg-gray-50 px-3 py-1 text-gray-600 ring-1 ring-gray-200">
-              {readingMinutes}분 읽기
-            </span>
-          ) : null}
           <span className="grow" />
-          <button
-            onClick={async () => {
-              try {
-                await navigator.clipboard.writeText(window.location.href);
-                setCopied(true);
-                setTimeout(() => setCopied(false), 1500);
-              } catch (e) {
-                console.error(e);
-              }
-            }}
-            className="inline-flex items-center gap-1 rounded-full px-3 py-1.5 text-sm font-medium text-emerald-700 bg-emerald-50 hover:bg-emerald-100 ring-1 ring-emerald-200"
-          >
-            링크 복사{copied ? "됨" : ""}
-          </button>
         </div>
 
         {post.thumbnail ? (
-          <figure className="mt-6 overflow-hidden rounded-2xl ring-1 ring-gray-100 bg-white shadow-sm">
+          <figure className="mt-6 rounded-2xl ring-1 ring-gray-100 bg-white shadow-sm">
             <img
               src={post.thumbnail}
               alt=""
-              className="w-full h-auto max-h-[520px] object-cover"
+              className="w-full h-auto object-contain"
+              decoding="async"
               loading="lazy"
             />
           </figure>
@@ -200,7 +178,8 @@ export default function StoryDetail() {
                   <img
                     {...props}
                     loading="lazy"
-                    className="w-full h-auto rounded-xl my-6 shadow-sm ring-1 ring-gray-200"
+                    decoding="async"
+                    className="block w-full h-auto rounded-xl my-6"
                   />
                 ),
                 a: ({ node, ...props }) => {
