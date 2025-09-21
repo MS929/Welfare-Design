@@ -153,7 +153,7 @@ export default function Notices() {
       {paginatedItems.length === 0 ? (
         <p className="text-gray-500">등록된 글이 없습니다.</p>
       ) : (
-        <div className="overflow-hidden rounded-3xl border border-gray-100 bg-white shadow-lg">
+        <div className="overflow-hidden rounded-none border border-gray-100 bg-white shadow-lg">
           <table className="w-full text-sm">
             <thead className="bg-gray-50/90 backdrop-blur supports-[backdrop-filter]:bg-gray-50/75 text-gray-600 sticky top-0 z-10 border-b border-gray-100">
               <tr>
@@ -189,7 +189,7 @@ export default function Notices() {
                         to={`/news/notices/${encodeURIComponent(it.slug)}`}
                         className="block w-full -mx-2 px-2 -my-1 py-1 max-w-full truncate transition-colors hover:text-[#1E9E8F]"
                       >
-                        <span className="text-gray-900 font-semibold truncate">{it.title || "제목 없음"}</span>
+                        <span className="text-gray-900 font-medium truncate">{it.title || "제목 없음"}</span>
                       </Link>
                     </td>
                     <td className="py-4 px-2 align-top text-center">
