@@ -38,10 +38,11 @@ export default function SupFAQ() {
 			    </h1>
 			  </section>
 			</div>
+
 			<h1 className="sr-only">자주 묻는 질문</h1>
 
 			{/* Tabs */}
-			<div className="grid grid-cols-3 gap-4">
+			<div className="grid grid-cols-3 gap-4 mt-8">
 				{CATEGORIES.map((c) => (
 					<button
 						key={c}
