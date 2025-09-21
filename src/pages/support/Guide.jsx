@@ -86,7 +86,7 @@ export default function SupGuide() {
       {/* 후원 신청서 */}
       <section className="max-w-screen-xl mx-auto px-4 mt-10 rounded-2xl border border-slate-200 overflow-hidden">
         {/* Colored header strip */}
-        <div className="bg-teal-50 px-6 py-5 md:py-6 border-b border-slate-200/70">
+        <div className="bg-teal-50 px-6 py-5 md:py-6 border-b border-slate-200/70 -mx-4 rounded-t-2xl">
           <h3 className="text-xl font-semibold">후원 신청서</h3>
           <p className="text-gray-800 mt-1">
             후원 신청서를 작성해주시면 기부금 영수증 발급과 투명한 후원금 공개를 약속드립니다.
