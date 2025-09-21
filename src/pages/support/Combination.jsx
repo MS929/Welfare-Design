@@ -1,17 +1,17 @@
 export default function Combination() {
   return (
     <div className="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8 pb-16 antialiased tracking-[-0.01em]">
-      {/* ===== Hero Header ===== */}
-      <section className="max-w-screen-xl mx-auto px-4 pt-0 md:pt-2 pb-8">
-        <nav className="flex items-center text-sm text-gray-500 space-x-2">
-          <span>조합</span>
-          <span>&gt;</span>
-          <span className="text-black">가입 안내</span>
-        </nav>
-        <h1 className="mt-3 text-3xl md:text-4xl font-extrabold tracking-tight text-black">
-          조합 가입
-        </h1>
-      </section>
+      <div className="bg-white">
+        {/* ===== 브레드크럼 + 제목 (필요 시 수정) ===== */}
+        <section className="max-w-screen-xl mx-auto px-4 pt-10">
+          <nav className="text-sm text-black">
+            조합 &gt; <span className="text-black">가입 안내</span>
+          </nav>
+          <h1 className="mt-3 text-3xl md:text-4xl font-extrabold tracking-tight text-black">
+            조합 가입
+          </h1>
+        </section>
+      </div>
 
       {/* 문의 섹션 */}
       <div className="max-w-md mx-auto border border-gray-300 rounded-lg p-6 shadow-sm">
