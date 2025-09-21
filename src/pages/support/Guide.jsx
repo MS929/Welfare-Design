@@ -25,8 +25,8 @@ export default function SupGuide() {
         </p>
       </header>
 
-      <section className="mt-8 -mx-0 rounded-2xl ring-1 ring-emerald-100 overflow-hidden bg-white shadow-sm">
-        <div className="grid md:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-emerald-100">
+      <section className="mt-8 -mx-0 rounded-2xl ring-1 ring-teal-500/40 overflow-hidden bg-white shadow-sm">
+        <div className="grid md:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-teal-500/40">
           {/* 개인 후원 */}
           <SupportPanel
             icon={
