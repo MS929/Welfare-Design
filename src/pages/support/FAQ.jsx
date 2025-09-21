@@ -27,6 +27,17 @@ export default function SupFAQ() {
 
 	return (
 		<section className="max-w-screen-xl mx-auto px-4 py-10">
+			<div className="bg-white">
+			  {/* ===== 브레드크럼 + 제목 (whatIs.jsx 스타일) ===== */}
+			  <section className="max-w-screen-xl mx-auto px-4 pt-8 md:pt-10">
+			    <nav className="text-sm text-black">
+			      후원 &gt; <span className="text-black">후원 안내</span>
+			    </nav>
+			    <h1 className="mt-3 text-3xl md:text-4xl font-extrabold tracking-tight text-black">
+			      복지디자인 후원 안내
+			    </h1>
+			  </section>
+			</div>
 			<h1 className="sr-only">자주 묻는 질문</h1>
 
 			{/* Tabs */}
