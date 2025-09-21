@@ -6,7 +6,7 @@ export default function SupGuide() {
   return (
     <div className="bg-white">
       {/* ===== 브레드크럼 + 제목 (whatIs.jsx 스타일) ===== */}
-      <section className="max-w-screen-xl mx-auto px-4 pt-10">
+      <section className="max-w-screen-xl mx-auto px-4 pt-8 md:pt-10">
         <nav className="text-sm text-black">
           후원 &gt; <span className="text-black">후원 안내</span>
         </nav>
@@ -30,7 +30,7 @@ export default function SupGuide() {
       <section className="max-w-screen-xl mx-auto px-4 mt-8">
         <div className="rounded-2xl bg-slate-50 p-6 md:p-8">
           <div className="grid md:grid-cols-3 gap-6">
-            <div className="rounded-xl border border-slate-200 bg-white shadow-sm hover:shadow-md transition">
+            <div className="rounded-xl border border-slate-200/80 bg-white shadow-sm hover:shadow-md transition h-full flex">
               <SupportPanel
                 icon={
                   <img
@@ -50,7 +50,7 @@ export default function SupGuide() {
                 ]}
               />
             </div>
-            <div className="rounded-xl border border-slate-200 bg-white shadow-sm hover:shadow-md transition">
+            <div className="rounded-xl border border-slate-200/80 bg-white shadow-sm hover:shadow-md transition h-full flex">
               <SupportPanel
                 icon={
                   <img
@@ -70,7 +70,7 @@ export default function SupGuide() {
                 ]}
               />
             </div>
-            <div className="rounded-xl border border-slate-200 bg-white shadow-sm hover:shadow-md transition">
+            <div className="rounded-xl border border-slate-200/80 bg-white shadow-sm hover:shadow-md transition h-full flex">
               <SupportPanel
                 icon={
                   <img
@@ -100,7 +100,7 @@ export default function SupGuide() {
       {/* 후원 신청서 */}
       <section className="max-w-screen-xl mx-auto mt-10 overflow-hidden bg-white rounded-2xl border border-slate-200">
         {/* Colored header strip */}
-        <div className="bg-slate-50 px-6 py-5 md:py-6 border-b border-slate-200/70 rounded-t-2xl">
+        <div className="bg-slate-50 px-6 md:px-8 py-5 md:py-6 border-b border-slate-200/70">
           <h3 className="text-xl font-semibold">후원 신청서</h3>
           <p className="text-gray-800 mt-1">
             후원 신청서를 작성해주시면 기부금 영수증 발급과 투명한 후원금 공개를 약속드립니다.
@@ -108,7 +108,7 @@ export default function SupGuide() {
         </div>
 
         {/* Body */}
-        <div className="p-6">
+        <div className="px-6 md:px-8 py-6">
           <p className="text-sm leading-relaxed text-gray-800 whitespace-pre-line">
             본 사회적협동조합은 기획재정부에 등록된 <strong className="font-semibold">지정기부금 단체</strong>로, 기부하신 내역에 대해서는 <strong className="font-semibold">후원 신청하기</strong>를 작성해 주셔야 기부금영수증을 발행해드리고 있습니다.
             {"\n"}또한, 연간 모금액 및 사용 내역은 홈페이지와 국세청 홈택스에 투명하게 공개되고 있습니다.
@@ -136,7 +136,7 @@ export default function SupGuide() {
       </section>
 
       {/* FAQ/연락처 */}
-      <section className="max-w-screen-xl mx-auto px-4 mt-10 grid md:grid-cols-2 gap-6 rounded-2xl border bg-white divide-y md:divide-y-0 md:divide-x divide-slate-200">
+      <section className="max-w-screen-xl mx-auto px-4 mt-10 grid md:grid-cols-2 gap-6 rounded-2xl border border-slate-200 bg-white divide-y md:divide-y-0 md:divide-x divide-slate-200">
         <div className="p-6 flex flex-col h-full">
           <h3 className="text-lg font-semibold">자주 묻는 질문</h3>
           <ul className="mt-3 list-disc pl-5 text-gray-700 space-y-1">
@@ -172,9 +172,9 @@ export default function SupGuide() {
 
 function SupportPanel({ icon, title, items = [] }) {
   return (
-    <div className="px-8 py-12 md:px-10">
-      <div className="mx-auto w-full max-w-[420px] text-left">
-        <div className="mb-4 flex justify-center">{icon}</div>
+    <div className="px-8 py-10 md:px-10 flex flex-col h-full">
+      <div className="mx-auto w-full max-w-[420px] text-left flex-1">
+        <div className="mb-4 h-28 md:h-32 flex items-center justify-center">{icon}</div>
         <h3 className="text-center text-[19px] md:text-[20px] font-semibold mb-4 text-teal-700 tracking-tight">{title}</h3>
         {items.length > 0 && (
           <>
@@ -248,7 +248,7 @@ function BankBox({ className = "" }) {
           <button
             onClick={copy}
             aria-label="계좌번호 복사"
-            className="px-6 py-3 rounded-full bg-gradient-to-r from-teal-500 to-emerald-500 text-white font-medium shadow-md hover:from-teal-600 hover:to-emerald-600 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2"
+            className="px-7 py-3.5 rounded-full bg-gradient-to-r from-teal-500 to-emerald-500 text-white font-semibold shadow-md hover:from-teal-600 hover:to-emerald-600 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2"
           >
             {copied ? "복사됨!" : "계좌 복사"}
           </button>
