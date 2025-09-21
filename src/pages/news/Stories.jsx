@@ -204,90 +204,92 @@ export default function NewsStories() {
   }, [page, activeCat]);
 
   return (
-    <div className="max-w-screen-xl mx-auto px-4 py-10">
-      {/* breadcrumb (whatIs.jsx와 동일 스타일) */}
-      <div className="mb-3 text-sm text-black/80">
-        <Link to="/news" className="text-black">소식</Link>
-        <span className="mx-1 text-gray-400">›</span>
-        <span className="text-black">복지디자인 이야기</span>
-      </div>
-      {/* page title (whatIs.jsx와 동일 크기/두께) */}
-      <h1 className="mt-2 text-4xl md:text-5xl font-extrabold tracking-tight mb-8">복지디자인 이야기</h1>
+    <div className="bg-white">
+      {/* ===== 브레드크럼 + 제목 (whatIs.jsx 동일 규격) ===== */}
+      <section className="max-w-screen-xl mx-auto px-4 pt-10">
+        <nav className="text-sm text-black">
+          <Link to="/news" className="text-black">소식</Link> <span className="mx-1 text-gray-400">›</span> <span className="text-black">복지디자인 이야기</span>
+        </nav>
+        <h1 className="mt-3 text-3xl md:text-4xl font-extrabold tracking-tight text-black">복지디자인 이야기</h1>
+      </section>
 
-      {/* 탭 */}
-      <div className="flex flex-wrap items-center gap-2 sm:gap-3 mb-6">
-        {CATEGORIES.map((c) => (
-          <button
-            key={c}
-            onClick={() => {
-              setActiveCat(c);
-              const search = c && c !== "전체" ? `?type=${encodeURIComponent(c)}` : "";
-              navigate({ pathname: "/news/stories", search }, { replace: false });
-              window.scrollTo({ top: 0, behavior: "smooth" });
-            }}
-            className={`px-3 py-1.5 rounded-full border text-sm font-medium transition
-              ${
-                activeCat === c
-                  ? "bg-[#33A49C] border-[#33A49C] text-white"
-                  : "bg-white border-gray-300 text-gray-700 hover:border-emerald-400"
-              }`}
-          >
-            {c}
-          </button>
-        ))}
+      {/* 아래부터 본문 컨테이너 */}
+      <div className="max-w-screen-xl mx-auto px-4 py-10">
+        {/* 탭 */}
+        <div className="flex flex-wrap items-center gap-2 sm:gap-3 mb-6">
+          {CATEGORIES.map((c) => (
+            <button
+              key={c}
+              onClick={() => {
+                setActiveCat(c);
+                const search = c && c !== "전체" ? `?type=${encodeURIComponent(c)}` : "";
+                navigate({ pathname: "/news/stories", search }, { replace: false });
+                window.scrollTo({ top: 0, behavior: "smooth" });
+              }}
+              className={`px-3 py-1.5 rounded-full border text-sm font-medium transition
+                ${
+                  activeCat === c
+                    ? "bg-[#33A49C] border-[#33A49C] text-white"
+                    : "bg-white border-gray-300 text-gray-700 hover:border-emerald-400"
+                }`}
+            >
+              {c}
+            </button>
+          ))}
 
-        {/* 검색 */}
-        <div className="ml-auto w-full sm:w-72">
-          <input
-            type="search"
-            value={q}
-            onChange={(e) => setQ(e.target.value)}
-            placeholder="Search"
-            className="w-full rounded-full border border-gray-300 px-4 py-2 text-sm outline-none focus:border-emerald-500"
-          />
+          {/* 검색 */}
+          <div className="ml-auto w-full sm:w-72">
+            <input
+              type="search"
+              value={q}
+              onChange={(e) => setQ(e.target.value)}
+              placeholder="Search"
+              className="w-full rounded-full border border-gray-300 px-4 py-2 text-sm outline-none focus:border-emerald-500"
+            />
+          </div>
         </div>
-      </div>
 
-      {/* 카드 그리드 */}
-      {filtered.length === 0 ? (
-        <p className="text-gray-500">등록된 글이 없습니다.</p>
-      ) : (
-        <>
-          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-            {pagedItems.map((it, idx) => (
-              <StoryCard key={it.slug} item={it} activeCat={activeCat} backTo={backTo} priority={idx < 3} />
-            ))}
-          </div>
-          {/* Pagination controls */}
-          <div className="flex justify-center items-center gap-3 mt-8">
-            <button
-              onClick={() => { setPage((p) => Math.max(p - 1, 1)); window.scrollTo({ top: 0, behavior: "smooth" }); }}
-              disabled={page <= 1}
-              className={`px-4 py-2 rounded border text-sm font-medium ${
-                page <= 1
-                  ? "bg-gray-100 text-gray-400 cursor-not-allowed"
-                  : "bg-white border-gray-300 text-gray-700 hover:border-emerald-400"
-              }`}
-            >
-              이전
-            </button>
-            <span className="text-sm font-semibold">
-              {page} / {totalPages}
-            </span>
-            <button
-              onClick={() => { setPage((p) => Math.min(p + 1, totalPages)); window.scrollTo({ top: 0, behavior: "smooth" }); }}
-              disabled={page >= totalPages}
-              className={`px-4 py-2 rounded border text-sm font-medium ${
-                page >= totalPages
-                  ? "bg-gray-100 text-gray-400 cursor-not-allowed"
-                  : "bg-white border-gray-300 text-gray-700 hover:border-emerald-400"
-              }`}
-            >
-              다음
-            </button>
-          </div>
-        </>
-      )}
+        {/* 카드 그리드 */}
+        {filtered.length === 0 ? (
+          <p className="text-gray-500">등록된 글이 없습니다.</p>
+        ) : (
+          <>
+            <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+              {pagedItems.map((it, idx) => (
+                <StoryCard key={it.slug} item={it} activeCat={activeCat} backTo={backTo} priority={idx < 3} />
+              ))}
+            </div>
+            {/* Pagination controls */}
+            <div className="flex justify-center items-center gap-3 mt-8">
+              <button
+                onClick={() => { setPage((p) => Math.max(p - 1, 1)); window.scrollTo({ top: 0, behavior: "smooth" }); }}
+                disabled={page <= 1}
+                className={`px-4 py-2 rounded border text-sm font-medium ${
+                  page <= 1
+                    ? "bg-gray-100 text-gray-400 cursor-not-allowed"
+                    : "bg-white border-gray-300 text-gray-700 hover:border-emerald-400"
+                }`}
+              >
+                이전
+              </button>
+              <span className="text-sm font-semibold">
+                {page} / {totalPages}
+              </span>
+              <button
+                onClick={() => { setPage((p) => Math.min(p + 1, totalPages)); window.scrollTo({ top: 0, behavior: "smooth" }); }}
+                disabled={page >= totalPages}
+                className={`px-4 py-2 rounded border text-sm font-medium ${
+                  page >= totalPages
+                    ? "bg-gray-100 text-gray-400 cursor-not-allowed"
+                    : "bg-white border-gray-300 text-gray-700 hover:border-emerald-400"
+                }`}
+              >
+                다음
+              </button>
+            </div>
+          </>
+        )}
+      </div>
     </div>
   );
 }
