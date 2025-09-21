@@ -28,71 +28,69 @@ export default function SupGuide() {
       </section>
 
       <section className="max-w-screen-xl mx-auto px-4 mt-8">
-        <div className="rounded-2xl bg-slate-50 p-6 md:p-8">
-          <div className="grid md:grid-cols-3 gap-6">
-            <div className="rounded-xl ring-1 ring-slate-200 bg-gradient-to-b from-white to-slate-50 shadow-[0_1px_0_rgba(15,23,42,0.04)] hover:shadow-md transition h-full flex flex-col">
-              <SupportPanel
-                icon={
-                  <img
-                    src="/images/support/donation.png"
-                    alt="개인 후원 아이콘"
-                    loading="lazy"
-                    width={112}
-                    height={112}
-                    className="w-24 h-24 md:w-28 md:h-28 mx-auto object-contain drop-shadow-sm"
-                  />
-                }
-                title="개인 후원"
-                items={[
-                  "매월 or 일시 후원으로 사업의 지속가능성을 높여주세요.",
-                  "계좌이체/자동이체",
-                  "지속적인 복지서비스 지원",
-                ]}
-                accent="teal"
-              />
-            </div>
-            <div className="rounded-xl ring-1 ring-slate-200 bg-gradient-to-b from-white to-slate-50 shadow-[0_1px_0_rgba(15,23,42,0.04)] hover:shadow-md transition h-full flex flex-col">
-              <SupportPanel
-                icon={
-                  <img
-                    src="/images/support/group.png"
-                    alt="기업·단체 후원 아이콘"
-                    loading="lazy"
-                    width={112}
-                    height={112}
-                    className="w-24 h-24 md:w-28 md:h-28 mx-auto object-contain drop-shadow-sm"
-                  />
-                }
-                title="기업·단체 후원"
-                items={[
-                  "파트너십/캠페인/지정기탁 등 다양한 방식으로\n함께 할 수 있어요.",
-                  "사회공헌 파트너십",
-                  "기업 참여형 후원 프로그램",
-                ]}
-                accent="sky"
-              />
-            </div>
-            <div className="rounded-xl ring-1 ring-slate-200 bg-gradient-to-b from-white to-slate-50 shadow-[0_1px_0_rgba(15,23,42,0.04)] hover:shadow-md transition h-full flex flex-col">
-              <SupportPanel
-                icon={
-                  <img
-                    src="/images/support/present.png"
-                    alt="물품 후원 아이콘"
-                    loading="lazy"
-                    width={112}
-                    height={112}
-                    className="w-24 h-24 md:w-28 md:h-28 mx-auto object-contain drop-shadow-sm"
-                  />
-                }
-                title="물품 후원"
-                items={[
-                  "휠체어·보장구·보조기기 등 양질의 물품을 순환시켜요.",
-                  "수거/검수/재분배",
-                  "생활용품 후원 가능",
-                ]}
-                accent="emerald"
-              />
-            </div>
+        <div className="grid md:grid-cols-3 gap-6">
+          <div className="rounded-xl shadow-sm hover:shadow-md transition h-full">
+            <SupportPanel
+              icon={
+                <img
+                  src="/images/support/donation.png"
+                  alt="개인 후원 아이콘"
+                  loading="lazy"
+                  width={112}
+                  height={112}
+                  className="w-24 h-24 md:w-28 md:h-28 mx-auto object-contain drop-shadow-sm"
+                />
+              }
+              title="개인 후원"
+              items={[
+                "매월 or 일시 후원으로 사업의 지속가능성을 높여주세요.",
+                "계좌이체/자동이체",
+                "지속적인 복지서비스 지원",
+              ]}
+              accent="teal"
+            />
+          </div>
+          <div className="rounded-xl shadow-sm hover:shadow-md transition h-full">
+            <SupportPanel
+              icon={
+                <img
+                  src="/images/support/group.png"
+                  alt="기업·단체 후원 아이콘"
+                  loading="lazy"
+                  width={112}
+                  height={112}
+                  className="w-24 h-24 md:w-28 md:h-28 mx-auto object-contain drop-shadow-sm"
+                />
+              }
+              title="기업·단체 후원"
+              items={[
+                "파트너십/캠페인/지정기탁 등 다양한 방식으로\n함께 할 수 있어요.",
+                "사회공헌 파트너십",
+                "기업 참여형 후원 프로그램",
+              ]}
+              accent="sky"
+            />
+          </div>
+          <div className="rounded-xl shadow-sm hover:shadow-md transition h-full">
+            <SupportPanel
+              icon={
+                <img
+                  src="/images/support/present.png"
+                  alt="물품 후원 아이콘"
+                  loading="lazy"
+                  width={112}
+                  height={112}
+                  className="w-24 h-24 md:w-28 md:h-28 mx-auto object-contain drop-shadow-sm"
+                />
+              }
+              title="물품 후원"
+              items={[
+                "휠체어·보장구·보조기기 등 양질의 물품을 순환시켜요.",
+                "수거/검수/재분배",
+                "생활용품 후원 가능",
+              ]}
+              accent="emerald"
+            />
           </div>
         </div>
       </section>
@@ -174,23 +172,34 @@ export default function SupGuide() {
 /* ---------- 작은 컴포넌트들 (통일된 스타일) ---------- */
 
 function SupportPanel({ icon, title, items = [], accent = "teal" }) {
-  const accentClass = {
-    teal: "bg-teal-500",
-    sky: "bg-sky-500",
-    emerald: "bg-emerald-500",
-  }[accent] || "bg-teal-500";
+  const bgClass = {
+    teal: "bg-teal-50",
+    sky: "bg-sky-50",
+    emerald: "bg-emerald-50",
+  }[accent] || "bg-teal-50";
+
+  const titleClass = {
+    teal: "text-teal-800",
+    sky: "text-sky-800",
+    emerald: "text-emerald-800",
+  }[accent] || "text-teal-800";
+
+  const markerClass = {
+    teal: "marker:text-teal-600",
+    sky: "marker:text-sky-600",
+    emerald: "marker:text-emerald-600",
+  }[accent] || "marker:text-teal-600";
 
   return (
-    <div className="px-8 py-10 md:px-10 flex flex-col h-full">
-      <div className={`h-1.5 w-full rounded-t-xl ${accentClass} opacity-80`} />
+    <div className={`px-8 py-10 md:px-10 flex flex-col h-full rounded-xl ${bgClass}`}>
       <div className="mx-auto w-full max-w-[420px] text-left flex-1">
         <div className="mb-4 h-28 md:h-32 flex items-center justify-center">{icon}</div>
-        <h3 className="text-center text-[19px] md:text-[20px] font-semibold mb-4 text-teal-700 tracking-tight">{title}</h3>
+        <h3 className={`text-center text-[19px] md:text-[20px] font-semibold mb-4 tracking-tight ${titleClass}`}>{title}</h3>
         {items.length > 0 && (
           <>
             <p className="text-[15px] leading-[1.85] text-gray-800 break-keep whitespace-pre-line mb-2">{items[0]}</p>
             {items.length > 1 && (
-              <ul className="mt-4 list-disc pl-5 text-[15px] leading-[1.85] text-gray-800 space-y-1.5 marker:text-teal-600 break-keep">
+              <ul className={`mt-4 list-disc pl-5 text-[15px] leading-[1.85] text-gray-800 space-y-1.5 break-keep ${markerClass}`}>
                 {items.slice(1).map((t) => (
                   <li key={t} className="break-keep">{t}</li>
                 ))}
