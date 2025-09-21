@@ -13,7 +13,7 @@ export default function Combination() {
         </section>
       </div>
 
-      <div className="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8 pb-20 antialiased tracking-[-0.01em]">
+      <div className="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8 pb-20 antialiased tracking-[-0.01em] mt-10">
         <div className="rounded-2xl border border-gray-200 bg-white/70 backdrop-blur p-6 md:p-8 shadow-sm">
           <h2 className="text-xl md:text-2xl font-extrabold text-gray-900 mb-4">조합 가입 안내</h2>
           <p className="text-gray-700 leading-relaxed mb-6">
