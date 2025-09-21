@@ -34,6 +34,11 @@ export default function SupGuide() {
                 src="/images/support/donation.png"
                 alt="개인 후원 아이콘"
                 className="w-24 h-24 md:w-28 md:h-28 mx-auto object-contain drop-shadow-sm"
+                loading="lazy"
+                decoding="async"
+                fetchpriority="low"
+                width={112}
+                height={112}
               />
             }
             title="개인 후원"
@@ -50,6 +55,11 @@ export default function SupGuide() {
                 src="/images/support/group.png"
                 alt="기업·단체 후원 아이콘"
                 className="w-24 h-24 md:w-28 md:h-28 mx-auto object-contain drop-shadow-sm"
+                loading="lazy"
+                decoding="async"
+                fetchpriority="low"
+                width={112}
+                height={112}
               />
             }
             title="기업·단체 후원"
@@ -66,6 +76,11 @@ export default function SupGuide() {
                 src="/images/support/present.png"
                 alt="물품 후원 아이콘"
                 className="w-24 h-24 md:w-28 md:h-28 mx-auto object-contain drop-shadow-sm"
+                loading="lazy"
+                decoding="async"
+                fetchpriority="low"
+                width={112}
+                height={112}
               />
             }
             title="물품 후원"
