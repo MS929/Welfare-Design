@@ -1,6 +1,6 @@
 // src/pages/news/Notices.jsx
 import { useEffect, useMemo, useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import matter from "gray-matter";
 
 // Vite 최신 권장: as:'raw' 대신 query:'?raw'
@@ -20,6 +20,7 @@ function normalizeDate(v) {
 
 export default function Notices() {
   const location = useLocation();
+  const navigate = useNavigate();
   const [items, setItems] = useState([]);
   const [tab, setTab] = useState(() => {
     const qs = new URLSearchParams(location.search);
@@ -66,7 +67,8 @@ export default function Notices() {
       entries.sort((a, b) => {
         const ta = a.dateObj ? a.dateObj.getTime() : 0;
         const tb = b.dateObj ? b.dateObj.getTime() : 0;
-        return tb - ta;
+        if (tb !== ta) return tb - ta;
+        return b.slug.localeCompare(a.slug); // 안정 정렬: 파일명 역순
       });
 
       setItems(entries);
@@ -82,6 +84,14 @@ export default function Notices() {
     if (c.includes("정보") && c.includes("공개")) return setTab("정보공개");
     setTab("전체");
   }, [location.search]);
+
+  const setTabAndURL = (t) => {
+    setTab(t);
+    const param =
+      t === "전체" ? "" :
+      t === "공지" ? "?category=공지" : "?category=정보공개";
+    navigate(`/news/notices${param}`, { replace: false });
+  };
 
   const filtered = useMemo(() => {
     return items.filter((it) => {
@@ -102,6 +112,11 @@ export default function Notices() {
   }, [tab, q]);
 
   const totalPages = Math.ceil(filtered.length / PAGE_SIZE);
+
+  useEffect(() => {
+    const tp = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE));
+    if (page > tp) setPage(1);
+  }, [filtered.length, page]);
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -128,8 +143,8 @@ export default function Notices() {
         {["전체", "공지", "정보공개"].map((t) => (
           <button
             key={t}
-            onClick={() => setTab(t)}
-            className={`px-4 py-2 rounded-full border transition ${
+            onClick={() => setTabAndURL(t)}
+            className={`px-4 py-2 rounded-full border transition focus:outline-none focus:ring-2 focus:ring-[#1E9E8F] ${
               tab === t
                 ? "bg-[#1E9E8F] text-white border-[#1E9E8F] shadow-sm"
                 : "bg-white text-gray-700 border-gray-300 hover:bg-gray-50"
@@ -157,10 +172,10 @@ export default function Notices() {
           <table className="w-full text-sm">
             <thead className="bg-gray-50 text-gray-600 sticky top-0 z-10 border-b border-gray-100">
               <tr>
-                <th className="w-24 py-3.5 px-4 text-center font-medium text-gray-600">번호</th>
-                <th className="py-3.5 px-4 text-center font-medium text-gray-600">제목</th>
-                <th className="w-32 py-3.5 px-4 text-center font-medium text-gray-600">구분</th>
-                <th className="w-44 py-3.5 px-4 text-center font-medium text-gray-600">작성일</th>
+                <th scope="col" className="w-24 py-3.5 px-4 text-center font-medium text-gray-600">번호</th>
+                <th scope="col" className="py-3.5 px-4 text-center font-medium text-gray-600">제목</th>
+                <th scope="col" className="w-32 py-3.5 px-4 text-center font-medium text-gray-600">구분</th>
+                <th scope="col" className="w-44 py-3.5 px-4 text-center font-medium text-gray-600">작성일</th>
               </tr>
             </thead>
             <tbody>
