@@ -14,35 +14,35 @@ export default function Combination() {
       </div>
 
       {/* ===== 본문 ===== */}
-      <section className="relative max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8 pb-20 antialiased tracking-[-0.01em] mt-12">
+      <section className="relative max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8 pb-16 antialiased tracking-[-0.01em] mt-10">
         {/* Decorative background blobs (non-interactive) */}
         <div
           aria-hidden="true"
-          className="pointer-events-none absolute -top-16 -left-10 h-56 w-56 rounded-full bg-emerald-200/40 blur-3xl"
+          className="pointer-events-none absolute -top-10 -left-16 hidden md:block h-48 w-48 rounded-full bg-emerald-100/50 blur-2xl"
         />
         <div
           aria-hidden="true"
-          className="pointer-events-none absolute -bottom-8 -right-8 h-64 w-64 rounded-full bg-sky-200/40 blur-3xl"
+          className="pointer-events-none absolute -bottom-6 -right-10 hidden md:block h-56 w-56 rounded-full bg-sky-100/50 blur-2xl"
         />
 
-        <div className="relative rounded-2xl border border-gray-100 bg-white/70 backdrop-blur p-6 md:p-8 shadow-lg ring-1 ring-black/5">
+        <div className="relative rounded-2xl border border-gray-200 bg-white p-6 md:p-8 shadow-md">
           {/* badge */}
-          <span className="inline-flex items-center rounded-full bg-emerald-50 text-emerald-700 text-xs font-semibold px-2.5 py-1 mb-3">
+          <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-50 text-emerald-700 text-[11px] font-semibold px-2.5 py-1 mb-2">
             JOIN&nbsp;US
           </span>
 
-          <h2 className="text-xl md:text-2xl font-extrabold text-gray-900 mb-3">
+          <h2 className="text-xl md:text-2xl font-extrabold text-gray-900 mb-4">
             조합 가입 안내
           </h2>
 
-          <p className="text-gray-700 leading-relaxed mb-6 md:mb-7">
+          <p className="text-gray-700 leading-relaxed mb-6 md:mb-7 max-w-2xl">
             복지디자인의 미션에 공감하시고 조합 가입을 원하시면 아래 연락처로 편하게 문의해 주세요.
             간단한 안내와 상담 후 절차를 도와드립니다.
           </p>
 
           {/* 연락처 */}
           <ul className="mt-4 space-y-3 text-gray-800">
-            <li className="flex items-center gap-3">
+            <li className="flex items-center gap-3 leading-none">
               {/* phone icon */}
               <svg
                 className="h-5 w-5 text-emerald-600 flex-shrink-0"
@@ -65,7 +65,7 @@ export default function Combination() {
               </a>
             </li>
 
-            <li className="flex items-center gap-3">
+            <li className="flex items-center gap-3 leading-none">
               {/* mail icon */}
               <svg
                 className="h-5 w-5 text-sky-600 flex-shrink-0"
@@ -101,14 +101,14 @@ export default function Combination() {
           <div className="mt-8 flex flex-wrap gap-3">
             <a
               href="tel:042-000-0000"
-              className="inline-flex items-center justify-center rounded-md bg-emerald-600 hover:bg-emerald-700 text-white px-5 py-2.5 font-semibold"
+              className="inline-flex items-center justify-center rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white px-5 py-2.5 font-semibold"
               aria-label="전화 걸기 버튼"
             >
               전화 걸기
             </a>
             <a
               href="mailto:info@welfaredesign.org"
-              className="inline-flex items-center justify-center rounded-md bg-white text-sky-700 ring-1 ring-inset ring-sky-200 hover:bg-sky-50 px-5 py-2.5 font-semibold"
+              className="inline-flex items-center justify-center rounded-lg bg-white text-sky-700 ring-1 ring-inset ring-sky-200 hover:bg-sky-50 px-5 py-2.5 font-semibold"
               aria-label="이메일 보내기 버튼"
             >
               이메일 보내기
