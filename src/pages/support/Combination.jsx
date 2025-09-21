@@ -2,7 +2,7 @@ export default function Combination() {
   return (
     <div className="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8 pb-16 antialiased tracking-[-0.01em]">
       {/* ===== Hero Header ===== */}
-      <section className="max-w-screen-xl mx-auto px-4 pt-8 md:pt-10 pb-8">
+      <section className="max-w-screen-xl mx-auto px-4 pt-0 md:pt-2 pb-8">
         <nav className="text-sm text-gray-500">
           조합 &gt; <span className="text-black">가입 안내</span>
         </nav>
