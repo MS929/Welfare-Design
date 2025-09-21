@@ -5,25 +5,14 @@ import { useState } from "react";
 export default function SupGuide() {
   return (
     <div className="max-w-screen-xl mx-auto pl-2 pr-4 sm:pl-3 sm:pr-6 lg:pl-4 lg:pr-8 pt-8 md:pt-10 pb-14 antialiased tracking-[-0.01em]">
-      <header className="mb-10">
-        <nav className="text-sm text-gray-400">
-          <span className="text-emerald-600 font-medium">후원</span>
-          <span className="mx-1">&gt;</span>
-          <span className="text-gray-600">안내</span>
+      <section className="max-w-screen-xl mx-auto px-4 pt-10">
+        <nav className="text-sm text-black">
+          소개 &gt; <span className="text-black">복지디자인은?</span>
         </nav>
-        <h1 className="mt-2 text-[36px] md:text-[42px] leading-[1.15] font-extrabold tracking-tight text-gray-900">
-          복지디자인 후원 안내
+        <h1 className="mt-3 text-3xl md:text-4xl font-extrabold tracking-tight text-black">
+          복지디자인은?
         </h1>
-        <div className="mt-3 h-1 w-14 rounded-full bg-emerald-600"></div>
-        <p className="mt-4 text-gray-800 leading-[1.85] break-keep">
-          “작지만 깊이 있는 변화”, 그 출발점이 바로 복지디자인입니다. 복지디자인
-          사회적협동조합은 복지를 설계하는 사람들입니다. <br></br>
-          여러분의 작은 관심을 통하여 소외된 이웃이 스스로 삶을 회복할 수 있도록
-          체계적이고 지속 가능한 복지를 함께 만들어갑니다. <br></br>
-          현장 기반의 복지연결망을 운영하며 복지 사각지대를 해소하고, 지역
-          안에서 누구나 복지에 접근할 수 있도록 최선을 다하겠습니다.
-        </p>
-      </header>
+      </section>
 
       <section className="mt-8 -mx-0 rounded-2xl ring-1 ring-teal-500/40 overflow-hidden bg-white shadow-sm">
         <div className="grid md:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-teal-500/40">
