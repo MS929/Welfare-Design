@@ -85,7 +85,7 @@ export default function SupGuide() {
 
       {/* 후원 신청서 */}
       <section className="max-w-screen-xl mx-auto px-4 mt-12">
-        <div className="rounded-2xl border overflow-hidden bg-gradient-to-b from-emerald-50 to-emerald-100">
+        <div className="rounded-2xl border bg-white">
           {/* Header */}
           <div className="px-6 py-5 border-b border-emerald-200/50">
             <h3 className="text-xl font-semibold">후원 신청서</h3>
