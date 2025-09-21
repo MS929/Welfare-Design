@@ -29,7 +29,7 @@ export default function SupGuide() {
 
       <section className="max-w-screen-xl mx-auto px-4 mt-8">
         <div className="grid md:grid-cols-3 gap-6">
-          <div className="rounded-xl shadow-sm hover:shadow-md transition h-full">
+          <div className="rounded-xl shadow-sm h-full">
             <SupportPanel
               icon={
                 <img
@@ -50,7 +50,7 @@ export default function SupGuide() {
               accent="yellow"
             />
           </div>
-          <div className="rounded-xl shadow-sm hover:shadow-md transition h-full">
+          <div className="rounded-xl shadow-sm h-full">
             <SupportPanel
               icon={
                 <img
@@ -71,7 +71,7 @@ export default function SupGuide() {
               accent="warm"
             />
           </div>
-          <div className="rounded-xl shadow-sm hover:shadow-md transition h-full">
+          <div className="rounded-xl shadow-sm h-full">
             <SupportPanel
               icon={
                 <img
