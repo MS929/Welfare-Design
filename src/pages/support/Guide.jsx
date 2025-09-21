@@ -243,7 +243,7 @@ function BankBox({ className = "" }) {
           <button
             onClick={copy}
             aria-label="계좌번호 복사"
-            className="px-4 py-2 rounded-full bg-gradient-to-r from-teal-500 to-emerald-500 text-white font-medium shadow-md hover:from-teal-600 hover:to-emerald-600 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2"
+            className="px-6 py-3 rounded-full bg-gradient-to-r from-teal-500 to-emerald-500 text-white font-medium shadow-md hover:from-teal-600 hover:to-emerald-600 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2"
           >
             {copied ? "복사됨!" : "계좌 복사"}
           </button>
