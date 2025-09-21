@@ -59,9 +59,9 @@ export default function StoryDetail() {
 
   if (post === undefined) {
     return (
-      <div className="max-w-screen-md mx-auto px-4 py-16 text-center">
+      <div className="max-w-screen-md mx-auto px-4 py-20 text-center">
         <h1 className="text-2xl font-bold mb-3">글을 찾을 수 없습니다</h1>
-        <button className="text-sky-600 underline" onClick={() => nav(backTo)}>
+        <button className="text-emerald-700 hover:underline" onClick={() => nav(backTo)}>
           목록으로
         </button>
       </div>
@@ -70,42 +70,52 @@ export default function StoryDetail() {
 
   if (!post) {
     return (
-      <div className="max-w-screen-md mx-auto px-4 py-16">
-        <p className="text-gray-500">불러오는 중…</p>
+      <div className="max-w-screen-md mx-auto px-4 py-20">
+        <p className="text-gray-600">불러오는 중…</p>
       </div>
     );
   }
 
   return (
-    <div className="max-w-screen-md mx-auto px-4 py-10">
+    <div className="mx-auto max-w-3xl px-4 md:px-6 py-10 md:py-14">
       <button
-        className="text-sky-600 text-sm mb-4 hover:underline"
         onClick={() => nav(backTo)}
+        className="mb-6 inline-flex items-center gap-1 text-sm font-medium text-emerald-700 hover:text-emerald-800"
       >
-        ← 목록으로
+        <span aria-hidden>←</span>
+        <span>목록으로</span>
       </button>
 
-      <h1 className="text-3xl md:text-4xl font-extrabold leading-tight">
+      <h1 className="text-3xl md:text-4xl font-extrabold leading-tight tracking-tight text-gray-900">
         {post.title}
       </h1>
 
-      <div className="mt-2 text-sm text-gray-500">
-        {post.date
-          ? new Date(post.date).toISOString().slice(0, 10)
-          : null}
-        {post.author ? <span className="ml-2">· {post.author}</span> : null}
+      <div className="mt-2 flex items-center gap-2 text-sm text-gray-500">
+        {post.date ? (
+          <time dateTime={new Date(post.date).toISOString()}>
+            {new Date(post.date).toISOString().slice(0, 10)}
+          </time>
+        ) : null}
+        {post.author ? (
+          <>
+            <span aria-hidden>·</span>
+            <span>{post.author}</span>
+          </>
+        ) : null}
       </div>
 
       {post.thumbnail ? (
         <img
           src={post.thumbnail}
           alt=""
-          className="mt-6 w-full h-auto max-h-[520px] object-contain rounded-xl border"
+          className="mt-6 w-full h-auto max-h-[520px] object-contain rounded-2xl shadow-sm ring-1 ring-gray-200"
           loading="lazy"
         />
       ) : null}
 
-      <article className="prose max-w-none mt-8 prose-img:rounded-xl prose-img:my-6">
+      <hr className="my-6 md:my-8 border-gray-200" />
+
+      <article className="prose prose-gray max-w-none mt-0 prose-headings:font-semibold prose-h2:mt-12 prose-h3:mt-8 prose-img:rounded-xl prose-img:my-6">
         <ReactMarkdown
           remarkPlugins={[remarkGfm]}
           components={{
@@ -113,7 +123,7 @@ export default function StoryDetail() {
               <img
                 {...props}
                 loading="lazy"
-                className="w-full h-auto max-h-[520px] object-contain rounded-xl my-6"
+                className="w-full h-auto max-h-[520px] object-contain rounded-xl my-6 shadow-sm ring-1 ring-gray-200"
               />
             ),
             a: ({ node, ...props }) => {
@@ -124,7 +134,7 @@ export default function StoryDetail() {
                   {...props}
                   target={isExternal ? "_blank" : undefined}
                   rel={isExternal ? "noopener noreferrer" : undefined}
-                  className="text-sky-600 underline"
+                  className="text-emerald-700 hover:underline"
                 />
               );
             },
