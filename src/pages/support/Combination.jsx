@@ -9,7 +9,7 @@ export default function Combination() {
       <section className="bg-gradient-to-r from-emerald-50 to-teal-50 rounded-3xl shadow-sm p-10">
         {/* 헤더 */}
         <header className="text-center mb-12">
-          <h1 className="text-3xl md:text-4xl font-extrabold text-gray-900">
+          <h1 className="mt-3 text-3xl md:text-4xl font-extrabold tracking-tight text-black">
             조합 가입
           </h1>
           <p className="mt-4 text-gray-700 leading-relaxed max-w-2xl mx-auto">
