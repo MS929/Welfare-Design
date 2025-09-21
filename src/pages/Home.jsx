@@ -876,11 +876,9 @@ export default function Home1() {
                     height: 36,
                     padding: "0 16px",
                     borderRadius: 999,
-                    border: active
-                      ? `2px solid ${PALETTE.teal}`
-                      : `1px solid ${PALETTE.line}`,
-                    background: active ? PALETTE.tealTint : "#fff",
-                    color: active ? PALETTE.teal : PALETTE.darkText,
+                    border: `1px solid ${active ? PALETTE.teal : PALETTE.line}`,
+                    background: active ? PALETTE.teal : "#fff",
+                    color: active ? "#fff" : PALETTE.darkText,
                     fontWeight: 800,
                     boxShadow: "0 2px 6px rgba(0,0,0,.04)",
                     transition:
