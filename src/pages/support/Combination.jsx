@@ -15,17 +15,11 @@ export default function Combination() {
 
       {/* ===== 본문 ===== */}
       <section className="relative max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8 pb-16 antialiased tracking-[-0.01em] mt-10">
-        {/* Decorative background blobs (non-interactive) */}
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute -top-10 -left-16 hidden md:block h-48 w-48 rounded-full bg-emerald-100/50 blur-2xl"
-        />
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute -bottom-6 -right-10 hidden md:block h-56 w-56 rounded-full bg-sky-100/50 blur-2xl"
-        />
+        
 
         <div className="relative rounded-2xl border border-gray-200 bg-white p-6 md:p-8 shadow-md">
+          {/* accent bar */}
+          <div className="-mt-6 -mx-6 md:-mx-8 mb-4 h-1 rounded-t-2xl bg-gradient-to-r from-emerald-300/70 via-sky-300/70 to-transparent" />
           {/* badge */}
           <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-50 text-emerald-700 text-[11px] font-semibold px-2.5 py-1 mb-2">
             JOIN&nbsp;US
