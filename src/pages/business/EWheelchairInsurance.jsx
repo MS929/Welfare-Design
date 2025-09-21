@@ -18,7 +18,7 @@ export default function EwcInsurance() {
           {/* 우측: 대여 안내 + 기대효과 + 문의 */}
           <div className="grid h-[440px] lg:h-[470px] grid-rows-[auto,1fr,auto] gap-6 mt-14">
             <div className="rounded-2xl border border-[#2CB9B1]/40 bg-white/90 backdrop-blur-[1px] shadow-md p-7 md:p-8">
-              <ul className="space-y-4 text-gray-800 leading-relaxed">
+              <ul className="space-y-4 pt-2 text-gray-800 leading-relaxed">
                 <li className="flex gap-3">
                   <span className="mt-2 h-2 w-2 rounded-full bg-[#2CB9B1] shadow-[0_0_0_2px_rgba(44,185,177,0.18)] shrink-0" />
                   <span>저소득 취약계층 전동휠체어 사용자 대상 보험료 일부 지원</span>
@@ -32,7 +32,7 @@ export default function EwcInsurance() {
 
             <div className="rounded-2xl border border-[#2CB9B1]/30 bg-white/90 backdrop-blur-[1px] shadow-md p-7 md:p-8 h-full">
               <h3 className="font-semibold text-lg tracking-tight text-[#F26C2A] mb-3">기대 효과</h3>
-              <ul className="list-disc list-inside space-y-1.5 text-gray-700 leading-relaxed">
+              <ul className="list-disc list-inside pt-2 space-y-1.5 text-gray-700 leading-relaxed">
                 <li>
                   취약계층의 복지정보 접근성 강화 및 제도적 권리 실현 지원
                 </li>
