@@ -84,17 +84,17 @@ export default function SupGuide() {
       <BankBox className="max-w-screen-xl mx-auto px-4 mt-10 rounded-2xl border border-slate-200 bg-slate-50" />
 
       {/* 후원 신청서 */}
-      <section className="p-6 max-w-screen-xl mx-auto px-4 mt-10 rounded-2xl border border-slate-200 bg-slate-50">
-        {/* Header */}
-        <div className="pb-4">
+      <section className="max-w-screen-xl mx-auto px-4 mt-10 rounded-2xl border border-teal-200 overflow-hidden">
+        {/* Colored header strip */}
+        <div className="bg-teal-50/80 p-5 md:p-6">
           <h3 className="text-xl font-semibold">후원 신청서</h3>
-          <p className="text-gray-700 mt-1">
+          <p className="text-gray-800 mt-1">
             후원 신청서를 작성해주시면 기부금 영수증 발급과 투명한 후원금 공개를 약속드립니다.
           </p>
         </div>
 
         {/* Body */}
-        <div>
+        <div className="p-6">
           <p className="text-sm leading-relaxed text-gray-800 whitespace-pre-line">
             본 사회적협동조합은 기획재정부에 등록된 <strong className="font-semibold">지정기부금 단체</strong>로, 기부하신 내역에 대해서는 <strong className="font-semibold">후원 신청하기</strong>를 작성해 주셔야 기부금영수증을 발행해드리고 있습니다.
             {"\n"}또한, 연간 모금액 및 사용 내역은 홈페이지와 국세청 홈택스에 투명하게 공개되고 있습니다.
