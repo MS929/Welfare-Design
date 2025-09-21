@@ -84,7 +84,7 @@ export default function SupGuide() {
       {/* 후원 신청서 */}
       <section className="mt-12 overflow-hidden rounded-2xl border border-gray-200 bg-white">
         {/* Header */}
-        <div className="px-6 py-5 border-b bg-gradient-to-r from-emerald-50 to-teal-50">
+        <div className="px-6 py-5 border-b bg-gradient-to-r from-emerald-50 to-emerald-100">
           <h3 className="text-xl font-semibold">후원 신청서</h3>
           <p className="text-gray-600 mt-1">
             후원 신청서를 작성해주시면 기부금 영수증 발급과 투명한 후원금 공개를
@@ -114,7 +114,7 @@ export default function SupGuide() {
               href="https://forms.gle/AepMiTRFNNZs9ovu5"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center justify-center rounded-full px-6 py-3 text-white font-semibold shadow-sm transition bg-gradient-to-r from-orange-400 to-emerald-400 hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-orange-400 focus:ring-offset-2"
+              className="inline-flex items-center justify-center rounded-full px-6 py-3 text-white font-semibold shadow-sm transition bg-gradient-to-r from-orange-500 to-emerald-500 hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2"
             >
               후원 신청서 작성하기
             </a>
@@ -222,7 +222,7 @@ function BankBox({ className = "" }) {
   };
 
   return (
-    <section className={`rounded-2xl border border-emerald-200 p-6 bg-emerald-50/60 ${className}`}>
+    <section className={`rounded-2xl border border-emerald-300 p-6 bg-emerald-50 ${className}`}>
       <h3 className="text-lg font-semibold">무통장 입금(계좌이체)</h3>
       <div className="mt-3 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
         <p className="text-gray-800">
@@ -234,7 +234,7 @@ function BankBox({ className = "" }) {
         <div className="flex items-center gap-2">
           <button
             onClick={copy}
-            className="px-3 py-2 rounded-lg border border-emerald-300 text-emerald-700 bg-white"
+            className="px-3 py-2 rounded-lg border border-emerald-400 text-emerald-800 bg-emerald-100 hover:bg-emerald-200"
           >
             {copied ? "복사됨!" : "계좌 복사"}
           </button>
