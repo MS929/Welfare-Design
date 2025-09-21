@@ -1,5 +1,5 @@
 // src/pages/news/Stories.jsx
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState, memo } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import matter from "gray-matter";
 import "../../styles/global.css";
@@ -40,37 +40,79 @@ function Tag({ children }) {
   );
 }
 
-function StoryCard({ item, activeCat, backTo }) {
+function OptimizedImg({ src, alt = "", className = "", priority = false }) {
+  const imgRef = useRef(null);
+  const [realSrc, setRealSrc] = useState(priority ? src : "");
+  useEffect(() => {
+    if (priority || !imgRef.current) {
+      setRealSrc(src || "");
+      return;
+    }
+    let observer;
+    if ("IntersectionObserver" in window) {
+      observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              setRealSrc(src || "");
+              observer.disconnect();
+            }
+          });
+        },
+        { rootMargin: "200px" }
+      );
+      observer.observe(imgRef.current);
+    } else {
+      // fallback
+      setRealSrc(src || "");
+    }
+    return () => observer && observer.disconnect();
+  }, [src, priority]);
+  return (
+    <img
+      ref={imgRef}
+      src={realSrc}
+      alt={alt}
+      loading={priority ? "eager" : "lazy"}
+      decoding="async"
+      fetchpriority={priority ? "high" : "low"}
+      width="1280"
+      height="720"
+      className={className}
+      style={{ background: "#F6F8FA" }}
+    />
+  );
+}
+
+const StoryCard = memo(function StoryCard({ item, activeCat, backTo, priority = false }) {
   const date = item.date ? new Date(item.date).toISOString().slice(0, 10) : "";
   return (
     <Link
       to={`/news/stories/${item.slug}${activeCat && activeCat !== "전체" ? `?type=${encodeURIComponent(activeCat)}` : ""}`}
       state={{ backTo }}
-      className="group block overflow-hidden rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition-shadow bg-white"
+      className="group block overflow-hidden rounded-2xl border border-gray-100 shadow-sm hover:shadow-md hover:border-[#33A49C] transition-all bg-white"
     >
-        <div className="mt-6 w-full aspect-[16/9] bg-gray-50 overflow-hidden rounded-xl">
-          {item.thumbnail ? (
-            <img
-              src={item.thumbnail}
-              alt=""
-              className="h-full w-full object-cover"
-            />
-          ) : (
-            <div className="flex h-full w-full items-center justify-center text-gray-400 text-sm">
-              No image
-            </div>
-          )}
-        </div>
-
+      <div className="mt-6 w-full aspect-[16/9] bg-gray-50 overflow-hidden rounded-xl">
+        {item.thumbnail ? (
+          <OptimizedImg
+            src={item.thumbnail}
+            alt=""
+            priority={priority}
+            className="h-full w-full object-cover"
+          />
+        ) : (
+          <div className="flex h-full w-full items-center justify-center text-gray-400 text-sm">
+            No image
+          </div>
+        )}
+      </div>
       <div className="p-4 sm:p-5">
-        <h3 className="line-clamp-1 text-lg font-bold text-gray-900">
-          {item.title}
-        </h3>
+        <h3 className="line-clamp-1 text-lg font-bold text-gray-900">{item.title}</h3>
         <p className="mt-1 text-sm text-gray-500">{date}</p>
       </div>
     </Link>
   );
-}
+});
 
 export default function NewsStories() {
   const [rawItems, setRawItems] = useState([]);
@@ -175,7 +217,7 @@ export default function NewsStories() {
             className={`px-3 py-1.5 rounded-full border text-sm font-medium transition
               ${
                 activeCat === c
-                  ? "bg-emerald-600 border-emerald-600 text-white"
+                  ? "bg-[#33A49C] border-[#33A49C] text-white"
                   : "bg-white border-gray-300 text-gray-700 hover:border-emerald-400"
               }`}
           >
@@ -201,14 +243,14 @@ export default function NewsStories() {
       ) : (
         <>
           <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-            {pagedItems.map((it) => (
-              <StoryCard key={it.slug} item={it} activeCat={activeCat} backTo={backTo} />
+            {pagedItems.map((it, idx) => (
+              <StoryCard key={it.slug} item={it} activeCat={activeCat} backTo={backTo} priority={idx < 3} />
             ))}
           </div>
           {/* Pagination controls */}
           <div className="flex justify-center items-center gap-3 mt-8">
             <button
-              onClick={() => setPage((p) => Math.max(p - 1, 1))}
+              onClick={() => { setPage((p) => Math.max(p - 1, 1)); window.scrollTo({ top: 0, behavior: "smooth" }); }}
               disabled={page <= 1}
               className={`px-4 py-2 rounded border text-sm font-medium ${
                 page <= 1
@@ -222,7 +264,7 @@ export default function NewsStories() {
               {page} / {totalPages}
             </span>
             <button
-              onClick={() => setPage((p) => Math.min(p + 1, totalPages))}
+              onClick={() => { setPage((p) => Math.min(p + 1, totalPages)); window.scrollTo({ top: 0, behavior: "smooth" }); }}
               disabled={page >= totalPages}
               className={`px-4 py-2 rounded border text-sm font-medium ${
                 page >= totalPages
