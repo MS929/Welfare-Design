@@ -68,7 +68,7 @@ export default function SupGuide() {
                 "사회공헌 파트너십",
                 "기업 참여형 후원 프로그램",
               ]}
-              accent="sky"
+              accent="warm"
             />
           </div>
           <div className="rounded-xl shadow-sm hover:shadow-md transition h-full">
@@ -176,18 +176,21 @@ function SupportPanel({ icon, title, items = [], accent = "teal" }) {
     teal: "bg-teal-50",
     sky: "bg-sky-50",
     emerald: "bg-emerald-50",
+    warm: "bg-[#FFEDE2]", // new warm light background
   }[accent] || "bg-teal-50";
 
   const titleClass = {
     teal: "text-teal-800",
     sky: "text-sky-800",
     emerald: "text-emerald-800",
+    warm: "text-orange-700",
   }[accent] || "text-teal-800";
 
   const markerClass = {
     teal: "marker:text-teal-600",
     sky: "marker:text-sky-600",
     emerald: "marker:text-emerald-600",
+    warm: "marker:text-orange-500",
   }[accent] || "marker:text-teal-600";
 
   return (
