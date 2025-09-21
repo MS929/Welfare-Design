@@ -54,7 +54,13 @@ export default function NoticeDetail() {
     console.log(`[NoticeDetail] pathname: "${location.pathname}", isInfoPath: ${isInfoPath}`);
   }
 
-  let badgeText = isInfoPath ? "정보공개" : (post.category || post.type || "공지");
+  let rawCategory = (post.category || post.type || "").toLowerCase();
+  let isInfoCategory =
+    ["정보공개", "공시", "공개", "info", "information", "disclosure", "open", "open-data", "opendata"].some(keyword =>
+      rawCategory.includes(keyword)
+    );
+
+  let badgeText = (isInfoPath || isInfoCategory) ? "정보공개" : (post.category || post.type || "공지");
   const isInfo = badgeText === "정보공개";
 
   // Calmer, consistent image rendering for markdown
