@@ -30,7 +30,7 @@ export default function SupGuide() {
       <section className="max-w-screen-xl mx-auto px-4 mt-8">
         <div className="rounded-2xl bg-slate-50 p-6 md:p-8">
           <div className="grid md:grid-cols-3 gap-6">
-            <div className="rounded-xl border border-slate-200/80 bg-white shadow-sm hover:shadow-md transition h-full flex">
+            <div className="rounded-xl ring-1 ring-slate-200 bg-gradient-to-b from-white to-slate-50 shadow-[0_1px_0_rgba(15,23,42,0.04)] hover:shadow-md transition h-full flex flex-col">
               <SupportPanel
                 icon={
                   <img
@@ -48,9 +48,10 @@ export default function SupGuide() {
                   "계좌이체/자동이체",
                   "지속적인 복지서비스 지원",
                 ]}
+                accent="teal"
               />
             </div>
-            <div className="rounded-xl border border-slate-200/80 bg-white shadow-sm hover:shadow-md transition h-full flex">
+            <div className="rounded-xl ring-1 ring-slate-200 bg-gradient-to-b from-white to-slate-50 shadow-[0_1px_0_rgba(15,23,42,0.04)] hover:shadow-md transition h-full flex flex-col">
               <SupportPanel
                 icon={
                   <img
@@ -68,9 +69,10 @@ export default function SupGuide() {
                   "사회공헌 파트너십",
                   "기업 참여형 후원 프로그램",
                 ]}
+                accent="sky"
               />
             </div>
-            <div className="rounded-xl border border-slate-200/80 bg-white shadow-sm hover:shadow-md transition h-full flex">
+            <div className="rounded-xl ring-1 ring-slate-200 bg-gradient-to-b from-white to-slate-50 shadow-[0_1px_0_rgba(15,23,42,0.04)] hover:shadow-md transition h-full flex flex-col">
               <SupportPanel
                 icon={
                   <img
@@ -88,6 +90,7 @@ export default function SupGuide() {
                   "수거/검수/재분배",
                   "생활용품 후원 가능",
                 ]}
+                accent="emerald"
               />
             </div>
           </div>
@@ -170,9 +173,16 @@ export default function SupGuide() {
 
 /* ---------- 작은 컴포넌트들 (통일된 스타일) ---------- */
 
-function SupportPanel({ icon, title, items = [] }) {
+function SupportPanel({ icon, title, items = [], accent = "teal" }) {
+  const accentClass = {
+    teal: "bg-teal-500",
+    sky: "bg-sky-500",
+    emerald: "bg-emerald-500",
+  }[accent] || "bg-teal-500";
+
   return (
     <div className="px-8 py-10 md:px-10 flex flex-col h-full">
+      <div className={`h-1.5 w-full rounded-t-xl ${accentClass} opacity-80`} />
       <div className="mx-auto w-full max-w-[420px] text-left flex-1">
         <div className="mb-4 h-28 md:h-32 flex items-center justify-center">{icon}</div>
         <h3 className="text-center text-[19px] md:text-[20px] font-semibold mb-4 text-teal-700 tracking-tight">{title}</h3>
