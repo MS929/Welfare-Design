@@ -12,10 +12,8 @@ export default function NoticeDetail() {
   useEffect(() => {
     (async () => {
       try {
-        const modules = import.meta.glob('/src/content/notices/*.md', { query: '?raw', import: 'default' })
-        const fileKey = Object.keys(modules).find((p) =>
-          p.endsWith(`${slug}.md`)
-        );
+        const modules = import.meta.glob('/src/content/notices/*.md', { query: '?raw', import: 'default' });
+        const fileKey = Object.keys(modules).find((p) => p.endsWith(`${slug}.md`));
 
         if (!fileKey) {
           setPost(undefined);
@@ -45,64 +43,65 @@ export default function NoticeDetail() {
 
   if (!post) return null;
 
+  // Calmer, consistent image rendering for markdown
   const markdownComponents = {
-    img: ({node, ...props}) => (
+    img: ({ node, ...props }) => (
       <img
         {...props}
         loading="lazy"
         decoding="async"
-        className="rounded-xl shadow-md mt-6 w-full"
+        className="mt-6 rounded-lg border border-gray-200 w-full max-h-[70vh] object-contain"
         alt={props.alt || ""}
       />
-    )
+    ),
   };
 
   return (
-    <div className="max-w-screen-md mx-auto px-4 py-10">
-      <header className="flex items-center justify-between mb-6">
+    <div className="max-w-3xl mx-auto px-4 py-10">
+      {/* Top line: back button */}
+      <div className="mb-6">
         <button
           onClick={() => nav('/news/notices')}
-          className="px-3 py-1 rounded-full border border-sky-600 text-sky-600 text-sm font-semibold hover:bg-sky-50 transition"
+          className="inline-flex items-center gap-1 px-3 py-1.5 rounded-full text-sm font-medium border border-gray-300 text-gray-700 hover:bg-gray-50 transition"
           aria-label="Back to notice list"
         >
-          ← 목록으로
+          <span aria-hidden>←</span> 목록으로
         </button>
-        <h1 className="text-4xl font-extrabold tracking-tight text-gray-900 flex-1 text-center">
-          {post.title || slug}
-        </h1>
-        <div className="w-24" />
-      </header>
+      </div>
 
-      <div className="flex items-center space-x-3 mb-8 justify-center">
-        <span className="inline-block bg-sky-600 text-white text-xs font-semibold px-3 py-1 rounded-full select-none">
-          공지
-        </span>
+      {/* Title */}
+      <h1 className="text-center text-4xl font-extrabold tracking-tight text-gray-900">{post.title || slug}</h1>
+
+      {/* Meta */}
+      <div className="mt-3 flex items-center justify-center gap-3">
+        <span className="inline-flex items-center rounded-full bg-sky-600 text-white px-3 py-1 text-xs font-semibold select-none">공지</span>
         {post.date && (
           <time
-            className="text-gray-500 text-sm font-medium select-none"
+            className="text-gray-500 text-sm select-none"
             dateTime={new Date(post.date).toISOString()}
           >
             {new Date(post.date).toLocaleDateString(undefined, {
-              year: "numeric",
-              month: "2-digit",
-              day: "2-digit",
+              year: 'numeric',
+              month: '2-digit',
+              day: '2-digit',
             })}
           </time>
         )}
       </div>
 
+      {/* Thumbnail (optional) */}
       {post.thumbnail && (
         <img
           src={post.thumbnail}
           alt=""
           loading="lazy"
           decoding="async"
-          className="rounded-xl shadow-md mb-8 w-full object-cover"
-          style={{willChange: "transform"}}
+          className="mt-8 w-full rounded-lg border border-gray-200 object-cover"
         />
       )}
 
-      <article className="prose prose-sky max-w-none rounded-xl ring-1 ring-gray-200 shadow-md p-8 bg-white">
+      {/* Content */}
+      <article className="mt-8 rounded-xl border border-gray-200 bg-white p-8 shadow-sm">
         <ReactMarkdown components={markdownComponents}>{post.content}</ReactMarkdown>
       </article>
     </div>
