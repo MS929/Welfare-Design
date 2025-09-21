@@ -169,25 +169,27 @@ export default function Notices() {
                 const dateStr = (it.dateObj && it.dateObj.toISOString().slice(0, 10)) || it.date || "";
                 const isNotice = it.category === "공지";
                 const circleChip = (
-                  <span className={`inline-flex items-center rounded-full border bg-white px-5 py-1.5 shadow-sm ${
-                    it.category === "공지"
-                      ? "text-orange-600 border-orange-300"
-                      : "text-[#1E9E8F] border-[#7FD1C9]"
-                  }`}>
-                    <span className="text-[15px] font-medium tracking-tight">{it.category}</span>
+                  <span
+                    className={`inline-flex items-center rounded-full border bg-white px-3 py-1 shadow-sm text-sm ${
+                      it.category === "공지"
+                        ? "text-orange-600 border-orange-200"
+                        : "text-[#1E9E8F] border-[#9FDCD5]"
+                    }`}
+                  >
+                    <span className="font-medium tracking-tight">{it.category}</span>
                   </span>
                 );
                 return (
-                  <tr key={it.slug} className="border-t border-gray-100 odd:bg-white even:bg-gray-50/40 hover:bg-gray-100/60 transition-colors">
-                    <td className="py-4 pl-6 pr-16 text-gray-400 text-left align-middle">
-                      <span className="flex items-center justify-start h-full ml-2">{number}</span>
+                  <tr key={it.slug} className="border-t border-gray-100 odd:bg-white even:bg-gray-50/40 hover:bg-gray-100 transition-colors">
+                    <td className="py-4 pl-6 pr-16 text-gray-500 text-center align-middle">
+                      <span className="inline-flex items-center justify-center h-full">{number}</span>
                     </td>
                     <td className="py-4 pl-10 pr-2 align-middle">
                       <Link
                         to={`/news/notices/${encodeURIComponent(it.slug)}`}
-                        className="block w-full -mx-2 px-2 -my-1 py-1 hover:underline decoration-2 decoration-sky-300 underline-offset-2 max-w-full truncate"
+                        className="block w-full -mx-2 px-2 -my-1 py-1 max-w-full truncate transition-colors hover:text-[#1E9E8F]"
                       >
-                        <span className="text-gray-900 font-medium truncate">{it.title || "제목 없음"}</span>
+                        <span className="text-gray-900 font-semibold truncate">{it.title || "제목 없음"}</span>
                       </Link>
                     </td>
                     <td className="py-4 px-2 align-top text-center">
