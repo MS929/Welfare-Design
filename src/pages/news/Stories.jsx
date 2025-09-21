@@ -92,7 +92,7 @@ const StoryCard = memo(function StoryCard({ item, activeCat, backTo, priority = 
       state={{ backTo }}
       className="group block overflow-hidden rounded-2xl border border-gray-100 shadow-sm hover:shadow-md hover:border-[#33A49C] transition-all bg-white"
     >
-      <div className="mt-6 w-full aspect-[16/9] bg-gray-50 overflow-hidden rounded-xl">
+      <div className="mt-6 w-full aspect-[4/3] bg-gray-50 overflow-hidden rounded-xl">
         {item.thumbnail ? (
           <OptimizedImg
             src={item.thumbnail}
