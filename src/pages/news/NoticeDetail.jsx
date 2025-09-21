@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import matter from 'gray-matter';
 import ReactMarkdown from 'react-markdown';
 export default function NoticeDetail() {
   const { slug } = useParams();
   const nav = useNavigate();
+  const location = useLocation();
   const [post, setPost] = useState(null);
 
   useEffect(() => {
@@ -41,6 +42,13 @@ export default function NoticeDetail() {
 
   if (!post) return null;
 
+  // Determine badge text
+  const badgeText =
+    post.category ||
+    post.type ||
+    (/(open|disclosure|info)/i.test(location.pathname) ? "정보공개" : "공지");
+  const isInfo = badgeText === "정보공개";
+
   // Calmer, consistent image rendering for markdown
   const markdownComponents = {
     img: ({ node, ...props }) => (
@@ -64,8 +72,10 @@ export default function NoticeDetail() {
         >
           <span aria-hidden>←</span> 목록으로
         </button>
-        <span className="inline-flex items-center rounded-full bg-sky-100 text-sky-700 px-3 py-1 text-sm font-semibold select-none">
-          공지
+        <span className={`inline-flex items-center rounded-full px-3 py-1 text-sm font-semibold select-none ${
+          isInfo ? 'bg-emerald-100 text-emerald-700' : 'bg-sky-100 text-sky-700'
+        }`}>
+          {badgeText}
         </span>
       </div>
 
