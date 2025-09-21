@@ -42,13 +42,12 @@ export default function NoticeDetail() {
 
   if (!post) return null;
 
-  // Determine badge text
-  let badgeText;
-  if (/(open|disclosure|info)/i.test(location.pathname)) {
-    badgeText = "정보공개";
-  } else {
-    badgeText = post.category || post.type || "공지";
-  }
+  // Determine badge text (force "정보공개" when the current route is an information-disclosure page)
+  const path = location.pathname || "";
+  const isInfoPath =
+    /\/(open|disclosure|info|public)/i.test(path) || /정보공개|공시|공개/.test(path);
+  
+  let badgeText = isInfoPath ? "정보공개" : (post.category || post.type || "공지");
   const isInfo = badgeText === "정보공개";
 
   // Calmer, consistent image rendering for markdown
