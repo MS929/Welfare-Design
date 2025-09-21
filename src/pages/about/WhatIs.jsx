@@ -1,5 +1,24 @@
+import { useEffect } from "react";
 // src/pages/about/WhatIs.jsx
 export default function AboutWhat() {
+  // Preload the above-the-fold image for faster first paint
+  useEffect(() => {
+    if (!document) return;
+    try {
+      const href = "/images/about/main.png";
+      const link = document.createElement("link");
+      link.rel = "preload";
+      link.as = "image";
+      link.href = href;
+      document.head.appendChild(link);
+      // Also warm the cache via JS Image object (fallback for some browsers)
+      const img = new Image();
+      img.src = href;
+      return () => {
+        if (link.parentNode) document.head.removeChild(link);
+      };
+    } catch {}
+  }, []);
   const SectionTitle = ({ color, children }) => (
     <div className="flex items-center gap-3 mb-6">
       <span
@@ -610,11 +629,21 @@ export default function AboutWhat() {
           <div className="rounded-lg overflow-hidden">
             <img
               src={background.image}
-              onError={(e) => {
-                e.currentTarget.style.display = 'none';
-              }}
               alt="설립 배경"
-              className="w-full h-auto object-contain max-h-52 md:max-h-56"
+              loading="eager"
+              decoding="async"
+              fetchpriority="high"
+              width="400"
+              height="224"
+              sizes="(min-width: 768px) 400px, 100vw"
+              className="w-full h-auto object-contain max-h-52 md:max-h-56 opacity-0 transition-opacity duration-300"
+              onLoad={(e) => {
+                e.currentTarget.style.opacity = "1";
+              }}
+              onError={(e) => {
+                // Hide broken image quickly to avoid layout jank
+                e.currentTarget.style.display = "none";
+              }}
             />
           </div>
 
