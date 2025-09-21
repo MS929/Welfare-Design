@@ -153,14 +153,14 @@ export default function Notices() {
       {paginatedItems.length === 0 ? (
         <p className="text-gray-500">등록된 글이 없습니다.</p>
       ) : (
-        <div className="overflow-hidden rounded-none border border-gray-100 bg-white shadow-lg">
+        <div className="overflow-hidden rounded-none border border-gray-100 bg-white shadow">
           <table className="w-full text-sm">
-            <thead className="bg-gray-50/90 backdrop-blur supports-[backdrop-filter]:bg-gray-50/75 text-gray-600 sticky top-0 z-10 border-b border-gray-100">
+            <thead className="bg-gray-50 text-gray-600 sticky top-0 z-10 border-b border-gray-100">
               <tr>
-                <th className="w-24 py-3.5 pl-6 pr-2 text-left font-medium text-gray-600">번호</th>
+                <th className="w-24 py-3.5 px-4 text-center font-medium text-gray-600">번호</th>
                 <th className="py-3.5 px-4 text-center font-medium text-gray-600">제목</th>
-                <th className="w-32 py-3.5 px-2 text-center font-medium text-gray-600">구분</th>
-                <th className="w-44 py-3.5 px-4 text-left font-medium text-gray-600">작성일</th>
+                <th className="w-32 py-3.5 px-4 text-center font-medium text-gray-600">구분</th>
+                <th className="w-44 py-3.5 px-4 text-center font-medium text-gray-600">작성일</th>
               </tr>
             </thead>
             <tbody>
@@ -181,10 +181,10 @@ export default function Notices() {
                 );
                 return (
                   <tr key={it.slug} className="border-t border-gray-100 odd:bg-white even:bg-gray-50/40 hover:bg-gray-100 transition-colors">
-                    <td className="py-4 pl-6 pr-16 text-gray-500 text-center align-middle">
-                      <span className="inline-flex items-center justify-center h-full">{number}</span>
+                    <td className="py-4 px-4 text-gray-500 text-center align-middle">
+                      {number}
                     </td>
-                    <td className="py-4 pl-10 pr-2 align-middle">
+                    <td className="py-4 px-4 align-middle">
                       <Link
                         to={`/news/notices/${encodeURIComponent(it.slug)}`}
                         className="block w-full -mx-2 px-2 -my-1 py-1 max-w-full truncate transition-colors hover:text-[#1E9E8F]"
@@ -192,10 +192,10 @@ export default function Notices() {
                         <span className="text-gray-900 font-medium truncate">{it.title || "제목 없음"}</span>
                       </Link>
                     </td>
-                    <td className="py-4 px-2 align-top text-center">
+                    <td className="py-4 px-4 align-middle text-center">
                       {circleChip}
                     </td>
-                    <td className="py-4 px-4 text-gray-600 align-top whitespace-nowrap">{dateStr}</td>
+                    <td className="py-4 px-4 text-gray-600 align-middle whitespace-nowrap">{dateStr}</td>
                   </tr>
                 );
               })}
