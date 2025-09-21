@@ -84,7 +84,7 @@ export default function SupGuide() {
       <BankBox className="max-w-screen-xl mx-auto px-4 mt-10" />
 
       {/* 후원 신청서 */}
-      <section className="max-w-screen-xl mx-auto px-4 mt-12">
+      <section className="max-w-screen-xl mx-auto px-4 mt-12 min-h-[200px] md:min-h-[240px]">
         <CardSection title="후원 신청서">
           <p className="text-sm leading-relaxed text-gray-800 whitespace-pre-line">
             본 사회적협동조합은 기획재정부에 등록된 <strong className="font-semibold">지정기부금 단체</strong>로, 기부하신 내역에 대해서는 <strong className="font-semibold">후원 신청하기</strong>를 작성해 주셔야 기부금영수증을 발행해드리고 있습니다.
