@@ -27,65 +27,70 @@ export default function SupGuide() {
         </p>
       </section>
 
-      <section className="max-w-screen-xl mx-auto px-4 mt-8 rounded-2xl border bg-white">
-        <div className="grid md:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-teal-200">
-          {/* 개인 후원 */}
-          <SupportPanel
-            icon={
-              <img
-                src="/images/support/donation.png"
-                alt="개인 후원 아이콘"
-                loading="lazy"
-                width={112}
-                height={112}
-                className="w-24 h-24 md:w-28 md:h-28 mx-auto object-contain drop-shadow-sm"
+      <section className="max-w-screen-xl mx-auto px-4 mt-8">
+        <div className="rounded-2xl bg-slate-50 p-6 md:p-8">
+          <div className="grid md:grid-cols-3 gap-6">
+            <div className="rounded-xl border border-slate-200 bg-white shadow-sm hover:shadow-md transition">
+              <SupportPanel
+                icon={
+                  <img
+                    src="/images/support/donation.png"
+                    alt="개인 후원 아이콘"
+                    loading="lazy"
+                    width={112}
+                    height={112}
+                    className="w-24 h-24 md:w-28 md:h-28 mx-auto object-contain drop-shadow-sm"
+                  />
+                }
+                title="개인 후원"
+                items={[
+                  "매월 or 일시 후원으로 사업의 지속가능성을 높여주세요.",
+                  "계좌이체/자동이체",
+                  "지속적인 복지서비스 지원",
+                ]}
               />
-            }
-            title="개인 후원"
-            items={[
-              "매월 or 일시 후원으로 사업의 지속가능성을 높여주세요.",
-              "계좌이체/자동이체",
-              "지속적인 복지서비스 지원",
-            ]}
-          />
-          {/* 기업·단체 후원 */}
-          <SupportPanel
-            icon={
-              <img
-                src="/images/support/group.png"
-                alt="기업·단체 후원 아이콘"
-                loading="lazy"
-                width={112}
-                height={112}
-                className="w-24 h-24 md:w-28 md:h-28 mx-auto object-contain drop-shadow-sm"
+            </div>
+            <div className="rounded-xl border border-slate-200 bg-white shadow-sm hover:shadow-md transition">
+              <SupportPanel
+                icon={
+                  <img
+                    src="/images/support/group.png"
+                    alt="기업·단체 후원 아이콘"
+                    loading="lazy"
+                    width={112}
+                    height={112}
+                    className="w-24 h-24 md:w-28 md:h-28 mx-auto object-contain drop-shadow-sm"
+                  />
+                }
+                title="기업·단체 후원"
+                items={[
+                  "파트너십/캠페인/지정기탁 등 다양한 방식으로\n함께 할 수 있어요.",
+                  "사회공헌 파트너십",
+                  "기업 참여형 후원 프로그램",
+                ]}
               />
-            }
-            title="기업·단체 후원"
-            items={[
-              "파트너십/캠페인/지정기탁 등 다양한 방식으로\n함께 할 수 있어요.",
-              "사회공헌 파트너십",
-              "기업 참여형 후원 프로그램",
-            ]}
-          />
-          {/* 물품 후원 */}
-          <SupportPanel
-            icon={
-              <img
-                src="/images/support/present.png"
-                alt="물품 후원 아이콘"
-                loading="lazy"
-                width={112}
-                height={112}
-                className="w-24 h-24 md:w-28 md:h-28 mx-auto object-contain drop-shadow-sm"
+            </div>
+            <div className="rounded-xl border border-slate-200 bg-white shadow-sm hover:shadow-md transition">
+              <SupportPanel
+                icon={
+                  <img
+                    src="/images/support/present.png"
+                    alt="물품 후원 아이콘"
+                    loading="lazy"
+                    width={112}
+                    height={112}
+                    className="w-24 h-24 md:w-28 md:h-28 mx-auto object-contain drop-shadow-sm"
+                  />
+                }
+                title="물품 후원"
+                items={[
+                  "휠체어·보장구·보조기기 등 양질의 물품을 순환시켜요.",
+                  "수거/검수/재분배",
+                  "생활용품 후원 가능",
+                ]}
               />
-            }
-            title="물품 후원"
-            items={[
-              "휠체어·보장구·보조기기 등 양질의 물품을 순환시켜요.",
-              "수거/검수/재분배",
-              "생활용품 후원 가능",
-            ]}
-          />
+            </div>
+          </div>
         </div>
       </section>
 
