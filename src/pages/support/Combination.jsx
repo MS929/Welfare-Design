@@ -3,8 +3,10 @@ export default function Combination() {
     <div className="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8 pb-16 antialiased tracking-[-0.01em]">
       {/* ===== Hero Header ===== */}
       <section className="max-w-screen-xl mx-auto px-4 pt-0 md:pt-2 pb-8">
-        <nav className="text-sm text-gray-500">
-          조합 &gt; <span className="text-black">가입 안내</span>
+        <nav className="flex items-center text-sm text-gray-500 space-x-2">
+          <span>조합</span>
+          <span>&gt;</span>
+          <span className="text-black">가입 안내</span>
         </nav>
         <h1 className="mt-3 text-3xl md:text-4xl font-extrabold tracking-tight text-black">
           조합 가입
