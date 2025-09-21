@@ -138,7 +138,7 @@ export default function Notices() {
       </section>
 
       {/* 필터 + 검색 */}
-      <div className="flex flex-wrap items-center gap-3 mb-6 max-w-screen-xl mx-auto pl-2 pr-4 sm:pl-3 sm:pr-6 lg:pl-4 lg:pr-8 pt-8 md:pt-10 pb-14 antialiased tracking-[-0.01em]">
+      <div className="max-w-screen-xl mx-auto flex flex-wrap items-center gap-3 px-4 pt-6 pb-6 antialiased tracking-[-0.01em]">
         {["전체", "공지", "정보공개"].map((t) => (
           <button
             key={t}
@@ -165,9 +165,9 @@ export default function Notices() {
 
       {/* 리스트(글) 형식 */}
       {paginatedItems.length === 0 ? (
-        <p className="max-w-screen-xl mx-auto pl-2 pr-4 sm:pl-3 sm:pr-6 lg:pl-4 lg:pr-8 pt-8 md:pt-10 pb-14 text-gray-500">등록된 글이 없습니다.</p>
+        <p className="max-w-screen-xl mx-auto px-4 py-8 text-gray-500">등록된 글이 없습니다.</p>
       ) : (
-        <div className="overflow-hidden rounded-none border border-gray-100 bg-white shadow max-w-screen-xl mx-auto pl-2 pr-4 sm:pl-3 sm:pr-6 lg:pl-4 lg:pr-8 pb-14">
+        <div className="max-w-screen-xl mx-auto overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm">
           <table className="w-full text-sm">
             <thead className="bg-gray-50 text-gray-600 sticky top-0 z-10 border-b border-gray-100">
               <tr>
@@ -219,7 +219,7 @@ export default function Notices() {
       )}
 
       {/* Pagination Controls */}
-      <div className="flex justify-center items-center gap-4 mt-8 max-w-screen-xl mx-auto pb-14">
+      <div className="max-w-screen-xl mx-auto flex justify-center items-center gap-4 my-8 px-4">
         <button
           onClick={() => setPage((p) => Math.max(1, p - 1))}
           disabled={page === 1}
