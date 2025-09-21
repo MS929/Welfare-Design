@@ -102,6 +102,11 @@ export default function Notices() {
   }, [tab, q]);
 
   const totalPages = Math.ceil(filtered.length / PAGE_SIZE);
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, [page]);
+
   const paginatedItems = filtered.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
 
   return (
@@ -114,7 +119,7 @@ export default function Notices() {
         <span className="text-gray-400">›</span>
         <span className="text-gray-600">공지사항</span>
       </nav>
-      <h1 className="text-[36px] md:text-[44px] leading-[1.15] font-extrabold tracking-tight text-gray-900 mb-6">
+      <h1 className="text-3xl md:text-4xl leading-[1.15] font-extrabold tracking-tight text-gray-900 mb-6">
         공지사항
       </h1>
 
@@ -126,7 +131,7 @@ export default function Notices() {
             onClick={() => setTab(t)}
             className={`px-4 py-2 rounded-full border transition ${
               tab === t
-                ? "bg-gray-900 text-white border-gray-900 shadow-sm"
+                ? "bg-[#1E9E8F] text-white border-[#1E9E8F] shadow-sm"
                 : "bg-white text-gray-700 border-gray-300 hover:bg-gray-50"
             }`}
           >
@@ -139,7 +144,7 @@ export default function Notices() {
             value={q}
             onChange={(e) => setQ(e.target.value)}
             placeholder="Search"
-            className="w-full rounded-full border border-gray-300 px-4 py-2 outline-none focus:ring-2 focus:ring-sky-300 focus:border-sky-300 shadow-sm"
+            className="w-full rounded-full border border-gray-300 px-4 py-2 outline-none focus:ring-2 focus:ring-[#1E9E8F] focus:border-[#1E9E8F] shadow-sm"
           />
         </div>
       </div>
@@ -164,12 +169,16 @@ export default function Notices() {
                 const dateStr = (it.dateObj && it.dateObj.toISOString().slice(0, 10)) || it.date || "";
                 const isNotice = it.category === "공지";
                 const circleChip = (
-                  <span className="inline-flex items-center rounded-full border border-gray-300 bg-white text-gray-700 px-5 py-1.5 shadow-sm">
+                  <span className={`inline-flex items-center rounded-full border bg-white px-5 py-1.5 shadow-sm ${
+                    it.category === "공지"
+                      ? "text-orange-600 border-orange-300"
+                      : "text-[#1E9E8F] border-[#7FD1C9]"
+                  }`}>
                     <span className="text-[15px] font-medium tracking-tight">{it.category}</span>
                   </span>
                 );
                 return (
-                  <tr key={it.slug} className="border-t border-gray-100 odd:bg-white even:bg-gray-50/40 hover:bg-gray-100/60 transition-colors">
+                  <tr key={it.slug} className="border-t border-gray-100 odd:bg-white even:bg-gray-50/40 hover:bg-gray-100/60 hover:border-l-4 hover:border-[#1E9E8F] transition-colors">
                     <td className="py-4 pl-6 pr-16 text-gray-400 text-left align-middle">
                       <span className="flex items-center justify-start h-full ml-2">{number}</span>
                     </td>
