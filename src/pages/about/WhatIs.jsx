@@ -578,7 +578,7 @@ export default function AboutWhat() {
       {/* ===== 브레드크럼 + 제목 (필요 시 수정) ===== */}
       <section className="max-w-screen-xl mx-auto px-4 pt-10">
         <nav className="text-sm text-brand-700/80">
-          소개 &gt; <span className="text-gray-700">복지디자인은?</span>
+          소개 &gt; <span className="text-black-700">복지디자인은?</span>
         </nav>
         <h1 className="mt-3 text-3xl md:text-4xl font-extrabold tracking-tight text-black">
           복지디자인은?
