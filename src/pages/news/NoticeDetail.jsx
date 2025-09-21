@@ -43,10 +43,17 @@ export default function NoticeDetail() {
   if (!post) return null;
 
   // Determine badge text (force "정보공개" when the current route is an information-disclosure page)
-  const path = location.pathname || "";
-  const isInfoPath =
-    /\/(open|disclosure|info|public)/i.test(path) || /정보공개|공시|공개/.test(path);
-  
+  const path = (location.pathname || "").toLowerCase();
+  const infoKeywords = ['open-data', 'opendata', 'open', 'disclosure', 'info', 'public', 'information', 'data'];
+  const koreanKeywords = ['정보공개', '공시', '공개'];
+  const isInfoPath = infoKeywords.some(keyword => path.includes(keyword)) ||
+    koreanKeywords.some(keyword => location.pathname.includes(keyword)) ||
+    location.state?.section === 'info';
+
+  if (import.meta.env.DEV) {
+    console.log(`[NoticeDetail] pathname: "${location.pathname}", isInfoPath: ${isInfoPath}`);
+  }
+
   let badgeText = isInfoPath ? "정보공개" : (post.category || post.type || "공지");
   const isInfo = badgeText === "정보공개";
 
