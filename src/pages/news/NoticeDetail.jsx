@@ -43,10 +43,12 @@ export default function NoticeDetail() {
   if (!post) return null;
 
   // Determine badge text
-  const badgeText =
-    post.category ||
-    post.type ||
-    (/(open|disclosure|info)/i.test(location.pathname) ? "정보공개" : "공지");
+  let badgeText;
+  if (/(open|disclosure|info)/i.test(location.pathname)) {
+    badgeText = "정보공개";
+  } else {
+    badgeText = post.category || post.type || "공지";
+  }
   const isInfo = badgeText === "정보공개";
 
   // Calmer, consistent image rendering for markdown
