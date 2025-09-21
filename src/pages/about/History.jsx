@@ -47,15 +47,15 @@ export default function AboutHistory() {
       />
 
       {/* 헤더: whatIs.jsx와 동일 규격 + 좌측 레일 정렬 */}
-      <section className="mt-12 flex flex-col items-start" style={{ marginLeft: "var(--title-guide)" }}>
-        {/* breadcrumb pill (좌측 레일 맞춤) */}
-        <div className="mb-2 text-sm text-slate-500">
-          <span className="text-slate-400">소개</span>
-          <span className="mx-1 text-slate-300">›</span>
-          <span className="text-slate-600">연혁</span>
+      <section className="mt-12 flex flex-col items-start">
+        {/* breadcrumb (whatIs.jsx와 동일 스타일) */}
+        <div className="mb-3 text-sm text-black/80">
+          <span className="text-black">소개</span>
+          <span className="mx-1 text-gray-400">›</span>
+          <span className="text-black">연혁</span>
         </div>
-        {/* page title */}
-        <h1 className="text-3xl md:text-4xl font-extrabold leading-tight tracking-tight mb-6">
+        {/* page title (whatIs.jsx와 동일 크기/두께) */}
+        <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight mb-6">
           연혁
         </h1>
       </section>
