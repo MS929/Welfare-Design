@@ -125,21 +125,20 @@ export default function Notices() {
   const paginatedItems = filtered.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
 
   return (
-    <div className="max-w-screen-xl mx-auto pl-2 pr-4 sm:pl-3 sm:pr-6 lg:pl-4 lg:pr-8 pt-8 md:pt-10 pb-14 antialiased tracking-[-0.01em]">
-      {/* ===== 브레드크럼 + 제목 ===== */}
-      <nav className="flex items-center gap-1 text-[13px] md:text-[14px] text-gray-600 mb-2">
-        <Link to="/news/stories" className="text-[#1E9E8F] font-semibold hover:underline">
-          소식
-        </Link>
-        <span className="text-gray-400">›</span>
-        <span className="text-gray-600">공지사항</span>
-      </nav>
-      <h1 className="text-3xl md:text-4xl leading-[1.15] font-extrabold tracking-tight text-gray-900 mb-6">
-        공지사항
-      </h1>
+    <div className="bg-white">
+      {/* ===== 브레드크럼 + 제목 (whatIs.jsx 동일 규격) ===== */}
+      <section className="max-w-screen-xl mx-auto px-4 pt-10">
+        <nav className="text-sm text-black/80">
+          소식 <span className="mx-1 text-gray-400">›</span>
+          <span className="text-black">공지사항</span>
+        </nav>
+        <h1 className="mt-3 text-3xl md:text-4xl font-extrabold tracking-tight text-black">
+          공지사항
+        </h1>
+      </section>
 
       {/* 필터 + 검색 */}
-      <div className="flex flex-wrap items-center gap-3 mb-6">
+      <div className="flex flex-wrap items-center gap-3 mb-6 max-w-screen-xl mx-auto pl-2 pr-4 sm:pl-3 sm:pr-6 lg:pl-4 lg:pr-8 pt-8 md:pt-10 pb-14 antialiased tracking-[-0.01em]">
         {["전체", "공지", "정보공개"].map((t) => (
           <button
             key={t}
@@ -166,9 +165,9 @@ export default function Notices() {
 
       {/* 리스트(글) 형식 */}
       {paginatedItems.length === 0 ? (
-        <p className="text-gray-500">등록된 글이 없습니다.</p>
+        <p className="max-w-screen-xl mx-auto pl-2 pr-4 sm:pl-3 sm:pr-6 lg:pl-4 lg:pr-8 pt-8 md:pt-10 pb-14 text-gray-500">등록된 글이 없습니다.</p>
       ) : (
-        <div className="overflow-hidden rounded-none border border-gray-100 bg-white shadow">
+        <div className="overflow-hidden rounded-none border border-gray-100 bg-white shadow max-w-screen-xl mx-auto pl-2 pr-4 sm:pl-3 sm:pr-6 lg:pl-4 lg:pr-8 pb-14">
           <table className="w-full text-sm">
             <thead className="bg-gray-50 text-gray-600 sticky top-0 z-10 border-b border-gray-100">
               <tr>
@@ -220,7 +219,7 @@ export default function Notices() {
       )}
 
       {/* Pagination Controls */}
-      <div className="flex justify-center items-center gap-4 mt-8">
+      <div className="flex justify-center items-center gap-4 mt-8 max-w-screen-xl mx-auto pb-14">
         <button
           onClick={() => setPage((p) => Math.max(1, p - 1))}
           disabled={page === 1}
