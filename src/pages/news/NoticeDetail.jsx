@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate, useParams, useLocation } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import matter from 'gray-matter';
 import ReactMarkdown from 'react-markdown';
+
 export default function NoticeDetail() {
   const { slug } = useParams();
   const nav = useNavigate();
-  const location = useLocation();
-  const searchParams = new URLSearchParams(location.search || '');
   const [post, setPost] = useState(null);
 
   useEffect(() => {
@@ -24,39 +23,11 @@ export default function NoticeDetail() {
         const { data, content } = matter(raw);
         setPost({ ...(data ?? {}), content });
       } catch (e) {
-        console.error("[notice detail] load error:", e);
+        console.error('[notice detail] load error:', e);
         setPost(undefined);
       }
     })();
   }, [slug]);
-
-  // Determine badge text (force "정보공개" when this page is an information‑disclosure view)
-  const path = (location.pathname || '').toLowerCase();
-
-  // signals from URL path
-  const infoKeywords = ['open-data', 'opendata', 'open', 'disclosure', 'info', 'public', 'information', 'data'];
-  const koreanKeywords = ['정보공개', '공시', '공개', '정보'];
-  const isInfoPath = infoKeywords.some(k => path.includes(k)) || koreanKeywords.some(k => path.includes(k));
-
-  // signals from query string (ex: ?tab=info, ?category=정보공개)
-  const queryCandidates = [
-    searchParams.get('tab'),
-    searchParams.get('category'),
-    searchParams.get('type'),
-    searchParams.get('section'),
-  ].filter(Boolean).map(String);
-  const isInfoQuery = queryCandidates.some(v =>
-    [...infoKeywords, ...koreanKeywords].some(k => v.toLowerCase().includes(k))
-  );
-
-  // optional navigation state hint (ex: navigate(..., { state: { section: 'info' } }))
-  const isInfoState = (location.state && typeof location.state.section === 'string')
-    ? [...infoKeywords, ...koreanKeywords].some(k => String(location.state.section).toLowerCase().includes(k))
-    : false;
-
-  if (import.meta.env.DEV) {
-    console.log('[NoticeDetail] path/query/state check', { path: location.pathname, queryCandidates, isInfoPath, isInfoQuery, isInfoState });
-  }
 
   if (post === undefined) {
     return (
@@ -71,38 +42,6 @@ export default function NoticeDetail() {
 
   if (!post) return null;
 
-  // --- Robust category detection (use multiple front‑matter fields) ---
-  const normalizeToArray = (v) => {
-    if (!v) return [];
-    if (Array.isArray(v)) return v;
-    if (typeof v === 'string') return v.split(',').map(s => s.trim()).filter(Boolean);
-    return [];
-  };
-
-  const infoKeywordSet = [
-    '정보공개', '공시', '공개', '정보',
-    'info', 'information', 'disclosure', 'open', 'open-data', 'opendata', 'public'
-  ];
-
-  const fmPieces = [
-    post.category, post.type, post.section, post.kind, post.badge, post.title
-  ].filter(Boolean).map(String);
-
-  const tagPieces = normalizeToArray(post.tags || post.tag || post.labels || post.label).map(String);
-
-  const combined = [...fmPieces, ...tagPieces]
-    .join(' ')
-    .toLowerCase();
-
-  const isInfoCategory = infoKeywordSet.some(k => combined.includes(k.toLowerCase()));
-  const isInfoTitle = typeof post.title === 'string' && infoKeywordSet.some(k => post.title.toLowerCase().includes(k.toLowerCase()));
-
-  // Final badge text: force 정보공개 if any signal indicates it
-  let badgeText = (isInfoPath || isInfoQuery || isInfoState || isInfoCategory || isInfoTitle)
-    ? '정보공개'
-    : (post.category || post.type || '공지');
-  const isInfo = badgeText === '정보공개';
-
   // Calmer, consistent image rendering for markdown
   const markdownComponents = {
     img: ({ node, ...props }) => (
@@ -111,7 +50,7 @@ export default function NoticeDetail() {
         loading="lazy"
         decoding="async"
         className="mt-6 rounded-lg border border-gray-200 w-full max-h-[70vh] object-contain"
-        alt={props.alt || ""}
+        alt={props.alt || ''}
       />
     ),
   };
@@ -126,11 +65,7 @@ export default function NoticeDetail() {
         >
           <span aria-hidden>←</span> 목록으로
         </button>
-        <span className={`inline-flex items-center rounded-full px-3 py-1 text-sm font-semibold select-none ${
-          isInfo ? 'bg-emerald-100 text-emerald-700' : 'bg-sky-100 text-sky-700'
-        }`}>
-          {badgeText}
-        </span>
+        {/* Badge removed intentionally */}
       </div>
 
       <article className="bg-white shadow-sm ring-1 ring-gray-200 rounded-lg p-8 text-gray-900">
