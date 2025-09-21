@@ -84,42 +84,38 @@ export default function SupGuide() {
       <BankBox className="max-w-screen-xl mx-auto px-4 mt-10 rounded-2xl border bg-white" />
 
       {/* 후원 신청서 */}
-      <section className="max-w-screen-xl mx-auto px-4 mt-12 rounded-2xl border bg-white">
-        {/* Header */}
-        <div className="px-6 py-5 border-b bg-gradient-to-r from-emerald-50 to-emerald-100">
-          <h3 className="text-xl font-semibold">후원 신청서</h3>
-          <p className="text-gray-600 mt-1">
-            후원 신청서를 작성해주시면 기부금 영수증 발급과 투명한 후원금 공개를
-            약속드립니다.
-          </p>
-        </div>
-
-        {/* Body */}
-        <div className="p-6">
-          <p className="text-sm leading-relaxed text-gray-800 whitespace-pre-line">
-            본 사회적협동조합은 기획재정부에 등록된{" "}
-            <strong className="font-semibold">지정기부금 단체</strong>
-            로, 기부하신 내역에 대해서는{" "}
-            <strong className="font-semibold">후원 신청하기</strong>를 작성해
-            주셔야 기부금영수증을 발행해드리고 있습니다.
-            {"\n"}또한, 연간 모금액 및 사용 내역은 홈페이지와 국세청 홈택스에
-            투명하게 공개되고 있습니다.
-            {"\n"}많은 후원과 관심 부탁드립니다.
-          </p>
-
-          <div className="mt-5 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-            <p className="text-xs text-gray-500">
-              ※ 기부금 영수증 발급을 위해서는 신청서 작성이 필요합니다.<br></br> <br></br>
-              ※ 법인세법 제18조 소득세법 제34조에 의거 기부금 영수증 발급이 가능합니다.
+      <section className="max-w-screen-xl mx-auto px-4 mt-12">
+        <div className="rounded-2xl border overflow-hidden bg-gradient-to-r from-emerald-50 to-emerald-100">
+          {/* Header */}
+          <div className="px-6 py-5 border-b border-emerald-200/50">
+            <h3 className="text-xl font-semibold">후원 신청서</h3>
+            <p className="text-gray-700 mt-1">
+              후원 신청서를 작성해주시면 기부금 영수증 발급과 투명한 후원금 공개를 약속드립니다.
             </p>
-            <a
-              href="https://forms.gle/AepMiTRFNNZs9ovu5"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center justify-center rounded-full px-6 py-3 text-white font-semibold shadow-sm transition bg-gradient-to-r from-orange-500 to-emerald-500 hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2"
-            >
-              후원 신청서 작성하기
-            </a>
+          </div>
+
+          {/* Body */}
+          <div className="p-6">
+            <p className="text-sm leading-relaxed text-gray-800 whitespace-pre-line">
+              본 사회적협동조합은 기획재정부에 등록된 <strong className="font-semibold">지정기부금 단체</strong>로, 기부하신 내역에 대해서는 <strong className="font-semibold">후원 신청하기</strong>를 작성해 주셔야 기부금영수증을 발행해드리고 있습니다.
+              {"\n"}또한, 연간 모금액 및 사용 내역은 홈페이지와 국세청 홈택스에 투명하게 공개되고 있습니다.
+              {"\n"}많은 후원과 관심 부탁드립니다.
+            </p>
+
+            <div className="mt-5 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+              <p className="text-xs text-gray-600">
+                ※ 기부금 영수증 발급을 위해서는 신청서 작성이 필요합니다.<br /><br />
+                ※ 법인세법 제18조 소득세법 제34조에 의거 기부금 영수증 발급이 가능합니다.
+              </p>
+              <a
+                href="https://forms.gle/AepMiTRFNNZs9ovu5"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center justify-center rounded-full px-6 py-3 text-white font-semibold shadow-sm transition bg-gradient-to-r from-orange-500 to-emerald-500 hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2"
+              >
+                후원 신청서 작성하기
+              </a>
+            </div>
           </div>
         </div>
       </section>
