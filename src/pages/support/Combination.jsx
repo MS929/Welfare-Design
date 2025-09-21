@@ -6,7 +6,7 @@ export default function Combination() {
         조합 &gt; <span className="text-gray-900 font-medium">가입 안내</span>
       </nav>
 
-      <section className="bg-gradient-to-r from-emerald-50 to-teal-50 rounded-3xl shadow-sm p-10">
+      <section className="bg-emerald-50 rounded-2xl p-10">
         {/* 헤더 */}
         <header className="text-center mb-12">
           <h1 className="mt-3 text-3xl md:text-4xl font-extrabold tracking-tight text-black">
@@ -19,7 +19,7 @@ export default function Combination() {
         </header>
 
         {/* 문의 섹션 */}
-        <div className="bg-white rounded-2xl shadow-md p-8">
+        <div className="bg-white rounded-xl p-6 mt-8">
           <h3 className="font-extrabold text-xl text-gray-900 mb-6">문의</h3>
           <ul className="space-y-4">
             <li className="flex items-center">
