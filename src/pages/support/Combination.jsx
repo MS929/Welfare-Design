@@ -6,7 +6,7 @@ export default function Combination() {
         <nav className="text-sm text-black">
           조합 &gt; <span className="text-black">가입 안내</span>
         </nav>
-        <h1 className="mt-6 text-3xl md:text-4xl font-extrabold tracking-tight text-black">
+        <h1 className="mt-3 text-3xl md:text-4xl font-extrabold tracking-tight text-black">
           조합 가입
         </h1>
       </section>
