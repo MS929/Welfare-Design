@@ -29,7 +29,7 @@ export default function SupFAQ() {
 		<section className="max-w-screen-xl mx-auto pl-2 pr-4 sm:pl-3 sm:pr-6 lg:pl-4 lg:pr-8 pb-10">
 			<div className="bg-white">
 			  {/* ===== 브레드크럼 + 제목 (whatIs.jsx 스타일) ===== */}
-			  <section className="pt-8 md:pt-10 mb-6 md:mb-8">
+			  <section className="pt-8 md:pt-10 mb-10 md:mb-12">
 			    <nav className="text-sm text-black">
 			      후원 &gt; <span className="text-black">FAQ</span>
 			    </nav>
@@ -42,17 +42,17 @@ export default function SupFAQ() {
 			<h1 className="sr-only">자주 묻는 질문</h1>
 
 			{/* Tabs */}
-			<div className="grid grid-cols-3 gap-4 mt-8">
+			<div className="grid grid-cols-3 gap-4">
 				{CATEGORIES.map((c) => (
 					<button
 						key={c}
 						onClick={() => setCat(c)}
 						className={`relative flex items-center justify-center rounded-full px-6 py-2.5 font-semibold text-center border transition-all shadow-sm
 							${cat === c
-								? "bg-[#ff4f8f]/95 text-white border-[#ff4f8f] shadow-md"
+								? "bg-[#1E9E8F] text-white border-[#1E9E8F] shadow-md"
 								: "bg-white text-gray-700 border-gray-200 hover:bg-gray-50"
 							}
-							${cat === c ? "" : "hover:text-[#ff4f8f]"}
+							${cat === c ? "" : "hover:text-[#1E9E8F]"}
 						`}
 						style={{ minHeight: "44px" }}
 					>
@@ -60,7 +60,7 @@ export default function SupFAQ() {
 						<span
 							className={`ml-2 inline-block text-xs px-2 py-0.5 rounded-full font-semibold 
 								${cat === c
-									? "bg-white text-[#ff4f8f] border border-[#ff4f8f]"
+									? "bg-white text-[#1E9E8F] border border-[#1E9E8F]"
 									: "bg-gray-100 text-gray-500 border border-gray-200"
 								}
 							`}
@@ -79,11 +79,11 @@ export default function SupFAQ() {
 						value={q}
 						onChange={(e) => setQ(e.target.value)}
 						placeholder="키워드로 검색"
-						className="flex-1 rounded-full border border-gray-200 px-4 py-2.5 bg-white text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#2CB9B1] transition"
+						className="flex-1 rounded-full border border-gray-200 px-4 py-2.5 bg-white text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#1E9E8F] transition"
 					/>
 					<button
 						onClick={() => setQ((v) => v.trim())}
-						className="inline-flex items-center gap-1 rounded-full bg-[#ff4f8f]/90 text-white border border-[#ff4f8f] px-5 py-2.5 font-semibold shadow hover:bg-[#ff4f8f] transition"
+						className="inline-flex items-center gap-1 rounded-full bg-[#1E9E8F] text-white border border-[#1E9E8F] px-5 py-2.5 font-semibold shadow hover:bg-[#157F76] transition"
 					>
 						<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" className="h-5 w-5" strokeWidth="2">
 							<circle cx="11" cy="11" r="7" stroke="currentColor" />
@@ -119,7 +119,7 @@ function Item({ item, open, onToggle }) {
 				onClick={onToggle}
 				className={`w-full flex items-start gap-4 px-6 py-7 md:py-8 text-left group transition hover:bg-gray-50 focus:outline-none`}
 			>
-				<span className="text-[#ff4f8f] font-bold pt-0.5">Q.</span>
+				<span className="text-[#1E9E8F] font-bold pt-0.5">Q.</span>
 				<span className="flex-1 text-gray-900 leading-snug font-medium">{item.title}</span>
 				<span className={`flex items-center justify-center h-8 w-8 rounded-full transition ${
 					open
@@ -127,11 +127,11 @@ function Item({ item, open, onToggle }) {
 						: "bg-gray-100 group-hover:bg-gray-200"
 				}`}>
 					{open ? (
-						<svg width="22" height="22" viewBox="0 0 22 22" fill="none" className="mx-auto text-[#2CB9B1] opacity-80" stroke="currentColor" strokeWidth="2">
+						<svg width="22" height="22" viewBox="0 0 22 22" fill="none" className="mx-auto text-[#1E9E8F] opacity-80" stroke="currentColor" strokeWidth="2">
 							<line x1="6" y1="11" x2="16" y2="11" stroke="currentColor" strokeLinecap="round"/>
 						</svg>
 					) : (
-						<svg width="22" height="22" viewBox="0 0 22 22" fill="none" className="mx-auto text-gray-400 group-hover:text-[#2CB9B1]" stroke="currentColor" strokeWidth="2">
+						<svg width="22" height="22" viewBox="0 0 22 22" fill="none" className="mx-auto text-gray-400 group-hover:text-[#1E9E8F]" stroke="currentColor" strokeWidth="2">
 							<line x1="11" y1="6" x2="11" y2="16" stroke="currentColor" strokeLinecap="round"/>
 							<line x1="6" y1="11" x2="16" y2="11" stroke="currentColor" strokeLinecap="round"/>
 						</svg>
