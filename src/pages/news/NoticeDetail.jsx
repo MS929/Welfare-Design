@@ -1,3 +1,7 @@
+import React, { useEffect, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+import matter from 'gray-matter';
+import ReactMarkdown from 'react-markdown';
 export default function NoticeDetail() {
   const { slug } = useParams();
   const nav = useNavigate();
