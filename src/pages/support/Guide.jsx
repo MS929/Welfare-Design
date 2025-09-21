@@ -175,8 +175,8 @@ function SupportPanel({ icon, title, items = [], accent = "teal" }) {
   const bgClass = {
     teal: "bg-teal-50",
     sky: "bg-sky-50",
-    emerald: "bg-emerald-50",
-    warm: "bg-[#FFEDE2]", // new warm light background
+    emerald: "bg-green-50", // changed from bg-emerald-50 to bg-green-50 for more distinction
+    warm: "bg-[#FFEDE2]", // peach tone
   }[accent] || "bg-teal-50";
 
   const titleClass = {
