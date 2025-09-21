@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useMemo, useState, useEffect } from "react";
 import { loadFaqItems } from "../../lib/loadFaq";
 
 const CATEGORIES = ["전체", "후원관련 문의", "기부금영수증"]; // 필요 시 '기타' 추가
@@ -7,6 +7,7 @@ export default function SupFAQ() {
 	const all = useMemo(() => loadFaqItems(), []);
 	const [cat, setCat] = useState("전체");
 	const [q, setQ] = useState("");
+	const [dq, setDq] = useState("");
 	const [openIdx, setOpenIdx] = useState(null);
 
 	const counts = useMemo(() => {
@@ -17,13 +18,18 @@ export default function SupFAQ() {
 		return m;
 	}, [all]);
 
+	useEffect(() => {
+		const t = setTimeout(() => setDq(q.trim()), 250);
+		return () => clearTimeout(t);
+	}, [q]);
+
 	const filtered = useMemo(() => {
 		return all
 			.filter((it) => (cat === "전체" ? true : it.category === cat))
 			.filter((it) =>
-				q ? (it.title + " " + it.body).toLowerCase().includes(q.toLowerCase()) : true
+				dq ? (it.title + " " + it.body).toLowerCase().includes(dq.toLowerCase()) : true
 			);
-	}, [all, cat, q]);
+	}, [all, cat, dq]);
 
 	return (
 		<section className="max-w-screen-xl mx-auto pl-2 pr-4 sm:pl-3 sm:pr-6 lg:pl-4 lg:pr-8 pb-10">
@@ -42,34 +48,46 @@ export default function SupFAQ() {
 			<h1 className="sr-only">자주 묻는 질문</h1>
 
 			{/* Tabs */}
-			<div className="grid grid-cols-3 gap-4">
-				{CATEGORIES.map((c) => (
-					<button
-						key={c}
-						onClick={() => setCat(c)}
-						className={`relative flex items-center justify-center rounded-full px-6 py-2.5 font-semibold text-center border transition-all shadow-sm
-							${cat === c
-								? "bg-[#1E9E8F] text-white border-[#1E9E8F] shadow-md"
-								: "bg-white text-gray-700 border-gray-200 hover:bg-gray-50"
-							}
-							${cat === c ? "" : "hover:text-[#1E9E8F]"}
-						`}
-						style={{ minHeight: "44px" }}
-					>
-						<span>{c}</span>
-						<span
-							className={`ml-2 inline-block text-xs px-2 py-0.5 rounded-full font-semibold 
-								${cat === c
-									? "bg-white text-[#1E9E8F] border border-[#1E9E8F]"
-									: "bg-gray-100 text-gray-500 border border-gray-200"
+			<div className="grid grid-cols-3 gap-4" role="tablist" aria-label="FAQ 카테고리">
+				{CATEGORIES.map((c, i) => {
+					const selected = cat === c;
+					return (
+						<button
+							key={c}
+							role="tab"
+							id={`tab-${i}`}
+							aria-selected={selected}
+							aria-controls={`panel-${i}`}
+							tabIndex={selected ? 0 : -1}
+							onKeyDown={(e) => {
+								if (e.key === "ArrowRight") setCat(CATEGORIES[(i + 1) % CATEGORIES.length]);
+								if (e.key === "ArrowLeft") setCat(CATEGORIES[(i - 1 + CATEGORIES.length) % CATEGORIES.length]);
+							}}
+							onClick={() => setCat(c)}
+							className={`relative flex items-center justify-center rounded-full px-6 py-2.5 font-semibold text-center border transition-all shadow-sm
+								${selected
+									? "bg-[#1E9E8F] text-white border-[#1E9E8F] shadow-md"
+									: "bg-white text-gray-700 border-gray-200 hover:bg-gray-50"
 								}
+								${selected ? "" : "hover:text-[#1E9E8F]"}
 							`}
-							style={{ minWidth: 24, textAlign: "center" }}
+							style={{ minHeight: "44px" }}
 						>
-							{counts[c] ?? 0}
-						</span>
-					</button>
-				))}
+							<span>{c}</span>
+							<span
+								className={`ml-2 inline-block text-xs px-2 py-0.5 rounded-full font-semibold 
+									${selected
+										? "bg-white text-[#1E9E8F] border border-[#1E9E8F]"
+										: "bg-gray-100 text-gray-500 border border-gray-200"
+									}
+								`}
+								style={{ minWidth: 24, textAlign: "center" }}
+							>
+								{counts[c] ?? 0}
+							</span>
+						</button>
+					);
+				})}
 			</div>
 
 			{/* Search Row */}
@@ -80,6 +98,7 @@ export default function SupFAQ() {
 						onChange={(e) => setQ(e.target.value)}
 						placeholder="키워드로 검색"
 						className="flex-1 rounded-full border border-gray-200 px-4 py-2.5 bg-white text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#1E9E8F] transition"
+						onKeyDown={(e)=>{ if(e.key==='Enter'){ setDq(q.trim()); }}}
 					/>
 					<button
 						onClick={() => setQ((v) => v.trim())}
@@ -102,6 +121,8 @@ export default function SupFAQ() {
 						item={it}
 						open={openIdx === idx}
 						onToggle={() => setOpenIdx(openIdx === idx ? null : idx)}
+						idx={idx}
+						q={dq}
 					/>
 				))}
 				{filtered.length === 0 && (
@@ -112,19 +133,27 @@ export default function SupFAQ() {
 	);
 }
 
-function Item({ item, open, onToggle }) {
+function Item({ item, open, onToggle, idx, q }) {
+	const contentId = `faq-panel-${idx}`;
+	const buttonId = `faq-button-${idx}`;
+
+	function renderTitle(text, keyword) {
+		return highlight(text, keyword);
+	}
+
 	return (
-		<div className="">
+		<div>
 			<button
+				id={buttonId}
+				aria-expanded={open}
+				aria-controls={contentId}
 				onClick={onToggle}
 				className={`w-full flex items-start gap-4 px-6 py-7 md:py-8 text-left group transition hover:bg-gray-50 focus:outline-none`}
 			>
 				<span className="text-[#1E9E8F] font-bold pt-0.5">Q.</span>
-				<span className="flex-1 text-gray-900 leading-snug font-medium">{item.title}</span>
-				<span className={`flex items-center justify-center h-8 w-8 rounded-full transition ${
-					open
-						? "bg-[#2CB9B1]/10"
-						: "bg-gray-100 group-hover:bg-gray-200"
+				<span className="flex-1 text-gray-900 leading-snug font-medium">{renderTitle(item.title, q)}</span>
+				<span className={`flex items-center justify-center h-8 w-8 rounded-full transition transform duration-200 ${
+					open ? "bg-[#2CB9B1]/10 rotate-180" : "bg-gray-100 group-hover:bg-gray-200 rotate-0"
 				}`}>
 					{open ? (
 						<svg width="22" height="22" viewBox="0 0 22 22" fill="none" className="mx-auto text-[#1E9E8F] opacity-80" stroke="currentColor" strokeWidth="2">
@@ -139,7 +168,12 @@ function Item({ item, open, onToggle }) {
 				</span>
 			</button>
 			{open && (
-				<div className="px-6 md:px-7 pt-4 pb-8 text-gray-700">
+				<div
+					id={contentId}
+					role="region"
+					aria-labelledby={buttonId}
+					className="px-6 md:px-7 pt-4 pb-8 text-gray-700"
+				>
 					<div
 						className="max-w-none leading-relaxed space-y-3"
 						dangerouslySetInnerHTML={{ __html: mdToHtml(item.body) }}
@@ -155,4 +189,14 @@ function mdToHtml(md) {
 	return (md || "")
 		.replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
 		.replace(/\n/g, "<br/>");
+}
+
+function escapeRegExp(s){return s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");}
+function highlight(text, keyword){
+	if(!keyword) return text;
+	const re = new RegExp(`(${escapeRegExp(keyword)})`, 'ig');
+	const parts = String(text).split(re);
+	return parts.map((part, i) =>
+		re.test(part) ? <mark key={i} className="bg-yellow-100 px-0.5 rounded">{part}</mark> : part
+	);
 }
