@@ -27,15 +27,18 @@ export default function SupGuide() {
         </p>
       </section>
 
-      <section className="max-w-screen-xl mx-auto px-4 mt-8 rounded-2xl border bg-white">
-        <div className="grid md:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-teal-500/40">
+      <section className="max-w-screen-xl mx-auto px-4 mt-8">
+        <div className="grid gap-6 md:grid-cols-3">
           {/* 개인 후원 */}
           <SupportPanel
+            className="group rounded-2xl border border-gray-200 bg-white p-6 hover:shadow-md transition ring-1 ring-transparent hover:ring-emerald-200"
             icon={
               <img
                 src="/images/support/donation.png"
                 alt="개인 후원 아이콘"
-                className="w-24 h-24 md:w-28 md:h-28 mx-auto object-contain drop-shadow-sm"
+                className="w-24 h-24 md:w-28 md:h-28 mx-auto object-contain"
+                loading="eager"
+                decoding="async"
               />
             }
             title="개인 후원"
@@ -47,11 +50,14 @@ export default function SupGuide() {
           />
           {/* 기업·단체 후원 */}
           <SupportPanel
+            className="group rounded-2xl border border-gray-200 bg-white p-6 hover:shadow-md transition ring-1 ring-transparent hover:ring-emerald-200"
             icon={
               <img
                 src="/images/support/group.png"
                 alt="기업·단체 후원 아이콘"
-                className="w-24 h-24 md:w-28 md:h-28 mx-auto object-contain drop-shadow-sm"
+                className="w-24 h-24 md:w-28 md:h-28 mx-auto object-contain"
+                loading="lazy"
+                decoding="async"
               />
             }
             title="기업·단체 후원"
@@ -63,11 +69,14 @@ export default function SupGuide() {
           />
           {/* 물품 후원 */}
           <SupportPanel
+            className="group rounded-2xl border border-gray-200 bg-white p-6 hover:shadow-md transition ring-1 ring-transparent hover:ring-emerald-200"
             icon={
               <img
                 src="/images/support/present.png"
                 alt="물품 후원 아이콘"
-                className="w-24 h-24 md:w-28 md:h-28 mx-auto object-contain drop-shadow-sm"
+                className="w-24 h-24 md:w-28 md:h-28 mx-auto object-contain"
+                loading="lazy"
+                decoding="async"
               />
             }
             title="물품 후원"
@@ -81,12 +90,12 @@ export default function SupGuide() {
       </section>
 
       {/* 계좌 안내 */}
-      <BankBox className="max-w-screen-xl mx-auto px-4 mt-10 rounded-2xl border bg-white" />
+      <BankBox className="max-w-screen-xl mx-auto px-4 mt-10 rounded-2xl border border-emerald-200 bg-emerald-50/40" />
 
       {/* 후원 신청서 */}
       <section className="max-w-screen-xl mx-auto px-4 mt-12 rounded-2xl border bg-white">
         {/* Header */}
-        <div className="px-6 py-5 border-b bg-gradient-to-r from-emerald-50 to-emerald-100">
+        <div className="px-6 py-5 border-b bg-emerald-50">
           <h3 className="text-xl font-semibold">후원 신청서</h3>
           <p className="text-gray-600 mt-1">
             후원 신청서를 작성해주시면 기부금 영수증 발급과 투명한 후원금 공개를
@@ -125,8 +134,8 @@ export default function SupGuide() {
       </section>
 
       {/* FAQ/연락처 */}
-      <section className="max-w-screen-xl mx-auto px-4 mt-10 grid md:grid-cols-2 gap-6 rounded-2xl border bg-white">
-        <div className="p-6 flex flex-col h-full">
+      <section className="max-w-screen-xl mx-auto px-4 mt-10 grid md:grid-cols-2 gap-6">
+        <div className="p-6 flex flex-col h-full rounded-2xl border border-gray-200 bg-white hover:shadow-md transition">
           <h3 className="text-lg font-semibold">자주 묻는 질문</h3>
           <ul className="mt-3 list-disc pl-5 text-gray-700 space-y-1">
             <li>정기후원 해지는 어디서 하나요?</li>
@@ -134,13 +143,13 @@ export default function SupGuide() {
           </ul>
           <Link
             to="/support/faq"
-            className="inline-block mt-4 text-emerald-700"
+            className="inline-block mt-4 text-emerald-700 font-semibold hover:underline"
           >
             FAQ 전체 보기 →
           </Link>
         </div>
 
-        <div className="p-6 flex flex-col h-full">
+        <div className="p-6 flex flex-col h-full rounded-2xl border border-gray-200 bg-white hover:shadow-md transition">
           <h3 className="text-lg font-semibold">연락처</h3>
           <ul className="mt-2 list-disc pl-5 text-gray-700 space-y-1">
             <li>
@@ -159,17 +168,21 @@ export default function SupGuide() {
 
 /* ---------- 작은 컴포넌트들 ---------- */
 
-function SupportPanel({ icon, title, items = [] }) {
+function SupportPanel({ icon, title, items = [], className = "" }) {
   return (
-    <div className="px-8 py-12 md:px-10">
+    <div className={className}>
       <div className="mx-auto w-full max-w-[420px] text-left">
         <div className="mb-4 flex justify-center">{icon}</div>
-        <h3 className="text-center text-[19px] md:text-[20px] font-semibold mb-4 text-emerald-700 tracking-tight">{title}</h3>
+        <h3 className="text-center text-[19px] md:text-[20px] font-semibold mb-3 text-emerald-700 tracking-tight">
+          {title}
+        </h3>
         {items.length > 0 && (
           <>
-            <p className="text-[15px] leading-[1.85] text-gray-800 break-keep whitespace-pre-line mb-2">{items[0]}</p>
+            <p className="text-[15px] leading-[1.85] text-gray-800 break-keep whitespace-pre-line">
+              {items[0]}
+            </p>
             {items.length > 1 && (
-              <ul className="mt-4 list-disc pl-5 text-[15px] leading-[1.85] text-gray-800 space-y-1.5 marker:text-emerald-600 break-keep">
+              <ul className="mt-3 list-disc pl-5 text-[15px] leading-[1.85] text-gray-800 space-y-1.5 marker:text-emerald-600 break-keep">
                 {items.slice(1).map((t) => (
                   <li key={t} className="break-keep">{t}</li>
                 ))}
@@ -236,7 +249,7 @@ function BankBox({ className = "" }) {
         <div className="flex items-center gap-2">
           <button
             onClick={copy}
-            className="px-3 py-2 rounded-lg border border-emerald-400 text-emerald-800 bg-emerald-100 hover:bg-emerald-200"
+            className="px-3 py-2 rounded-lg border border-emerald-300 text-emerald-800 bg-white hover:bg-emerald-50"
           >
             {copied ? "복사됨!" : "계좌 복사"}
           </button>
