@@ -81,10 +81,10 @@ export default function SupGuide() {
       </section>
 
       {/* 계좌 안내 */}
-      <BankBox className="max-w-screen-xl mx-auto px-4 mt-10 rounded-2xl border bg-white" />
+      <BankBox className="max-w-screen-xl mx-auto px-4 mt-10 rounded-2xl border border-emerald-200 bg-emerald-50" />
 
       {/* 후원 신청서 */}
-      <section className="p-6 max-w-screen-xl mx-auto px-4 mt-12 rounded-2xl border bg-white">
+      <section className="p-6 max-w-screen-xl mx-auto px-4 mt-10 rounded-2xl border border-emerald-200 bg-emerald-50">
         {/* Header */}
         <div className="pb-4">
           <h3 className="text-xl font-semibold">후원 신청서</h3>
