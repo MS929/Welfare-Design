@@ -28,10 +28,10 @@ export default function SupGuide() {
       </section>
 
       <section className="max-w-screen-xl mx-auto px-4 mt-8">
-        <div className="grid gap-6 md:grid-cols-3 items-stretch">
+        <div className="grid gap-6 md:grid-cols-3 items-stretch" style={{ gridAutoRows: '1fr' }}>
           {/* 개인 후원 */}
           <SupportPanel
-            className="group h-full flex flex-col min-h-[360px] rounded-2xl border border-gray-200 bg-white p-6 hover:shadow-md transition ring-1 ring-transparent hover:ring-emerald-200"
+            className="group h-full flex flex-col min-h-[420px] md:min-h-[440px] rounded-2xl border border-gray-200 bg-white p-6 hover:shadow-md transition ring-1 ring-transparent hover:ring-emerald-200"
             icon={
               <img
                 src="/images/support/donation.png"
@@ -50,7 +50,7 @@ export default function SupGuide() {
           />
           {/* 기업·단체 후원 */}
           <SupportPanel
-            className="group h-full flex flex-col min-h-[360px] rounded-2xl border border-gray-200 bg-white p-6 hover:shadow-md transition ring-1 ring-transparent hover:ring-emerald-200"
+            className="group h-full flex flex-col min-h-[420px] md:min-h-[440px] rounded-2xl border border-gray-200 bg-white p-6 hover:shadow-md transition ring-1 ring-transparent hover:ring-emerald-200"
             icon={
               <img
                 src="/images/support/group.png"
@@ -69,7 +69,7 @@ export default function SupGuide() {
           />
           {/* 물품 후원 */}
           <SupportPanel
-            className="group h-full flex flex-col min-h-[360px] rounded-2xl border border-gray-200 bg-white p-6 hover:shadow-md transition ring-1 ring-transparent hover:ring-emerald-200"
+            className="group h-full flex flex-col min-h-[420px] md:min-h-[440px] rounded-2xl border border-gray-200 bg-white p-6 hover:shadow-md transition ring-1 ring-transparent hover:ring-emerald-200"
             icon={
               <img
                 src="/images/support/present.png"
@@ -171,7 +171,7 @@ export default function SupGuide() {
 function SupportPanel({ icon, title, items = [], className = "" }) {
   return (
     <div className={className}>
-      <div className="mx-auto w-full max-w-[420px] text-left flex-1 flex flex-col">
+      <div className="mx-auto w-full text-left flex-1 flex flex-col h-full">
         <div className="mb-3 flex justify-center">{icon}</div>
         <h3 className="text-center text-[19px] md:text-[20px] font-semibold mb-3 text-emerald-700 tracking-tight">
           {title}
