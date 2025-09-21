@@ -54,14 +54,34 @@ export default function NoticeDetail() {
     console.log(`[NoticeDetail] pathname: "${location.pathname}", isInfoPath: ${isInfoPath}`);
   }
 
-  let rawCategory = (post.category || post.type || "").toLowerCase();
-  let isInfoCategory =
-    ["정보공개", "공시", "공개", "info", "information", "disclosure", "open", "open-data", "opendata"].some(keyword =>
-      rawCategory.includes(keyword)
-    );
+  // --- Robust category detection (use multiple front‑matter fields) ---
+  const normalizeToArray = (v) => {
+    if (!v) return [];
+    if (Array.isArray(v)) return v;
+    if (typeof v === 'string') return v.split(',').map(s => s.trim()).filter(Boolean);
+    return [];
+  };
 
-  let badgeText = (isInfoPath || isInfoCategory) ? "정보공개" : (post.category || post.type || "공지");
-  const isInfo = badgeText === "정보공개";
+  const infoKeywordSet = [
+    '정보공개', '공시', '공개', '정보',
+    'info', 'information', 'disclosure', 'open', 'open-data', 'opendata', 'public'
+  ];
+
+  const fmPieces = [
+    post.category, post.type, post.section, post.kind, post.badge
+  ].filter(Boolean).map(String);
+
+  const tagPieces = normalizeToArray(post.tags || post.tag || post.labels || post.label).map(String);
+
+  const combined = [...fmPieces, ...tagPieces]
+    .join(' ')
+    .toLowerCase();
+
+  const isInfoCategory = infoKeywordSet.some(k => combined.includes(k.toLowerCase()));
+
+  // Final badge text: force 정보공개 if either path or meta implies it
+  let badgeText = (isInfoPath || isInfoCategory) ? '정보공개' : (post.category || post.type || '공지');
+  const isInfo = badgeText === '정보공개';
 
   // Calmer, consistent image rendering for markdown
   const markdownComponents = {
