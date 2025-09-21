@@ -106,7 +106,17 @@ export default function Notices() {
 
   return (
     <div className="max-w-screen-xl mx-auto pl-2 pr-4 sm:pl-3 sm:pr-6 lg:pl-4 lg:pr-8 pt-8 md:pt-10 pb-14 antialiased tracking-[-0.01em]">
-      <h1 className="text-[28px] md:text-[34px] leading-[1.2] font-extrabold tracking-tight text-gray-900 mb-6">공지사항</h1>
+      {/* ===== 브레드크럼 + 제목 ===== */}
+      <nav className="flex items-center gap-1 text-[13px] md:text-[14px] text-gray-600 mb-2">
+        <Link to="/news/stories" className="text-[#1E9E8F] font-semibold hover:underline">
+          소식
+        </Link>
+        <span className="text-gray-400">›</span>
+        <span className="text-gray-600">공지사항</span>
+      </nav>
+      <h1 className="text-[36px] md:text-[44px] leading-[1.15] font-extrabold tracking-tight text-gray-900 mb-6">
+        공지사항
+      </h1>
 
       {/* 필터 + 검색 */}
       <div className="flex flex-wrap items-center gap-3 mb-6">
