@@ -30,7 +30,7 @@ export default function EwcInsurance() {
               </ul>
             </div>
 
-            <div className="rounded-2xl border border-[#2CB9B1]/30 bg-white/90 backdrop-blur-[1px] shadow-md p-7 md:p-8 h-full">
+            <div className="rounded-2xl border border-[#2CB9B1]/30 bg-white/90 backdrop-blur-[1px] shadow-md p-7 md:p-8 h-full flex flex-col justify-center">
               <h3 className="font-semibold text-lg tracking-tight text-[#F26C2A] mb-3">기대 효과</h3>
               <ul className="list-disc list-inside pt-2 space-y-1.5 text-gray-700 leading-relaxed">
                 <li>
