@@ -28,7 +28,7 @@ export default function SupGuide() {
       </section>
 
       <section className="max-w-screen-xl mx-auto px-4 mt-8 rounded-2xl border bg-white">
-        <div className="grid md:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-teal-500/40">
+        <div className="grid md:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-teal-200">
           {/* 개인 후원 */}
           <SupportPanel
             icon={
@@ -81,10 +81,10 @@ export default function SupGuide() {
       </section>
 
       {/* 계좌 안내 */}
-      <BankBox className="max-w-screen-xl mx-auto px-4 mt-10 rounded-2xl border border-emerald-200 bg-emerald-50" />
+      <BankBox className="max-w-screen-xl mx-auto px-4 mt-10 rounded-2xl border border-slate-200 bg-slate-50" />
 
       {/* 후원 신청서 */}
-      <section className="p-6 max-w-screen-xl mx-auto px-4 mt-10 rounded-2xl border border-emerald-200 bg-emerald-50">
+      <section className="p-6 max-w-screen-xl mx-auto px-4 mt-10 rounded-2xl border border-slate-200 bg-slate-50">
         {/* Header */}
         <div className="pb-4">
           <h3 className="text-xl font-semibold">후원 신청서</h3>
@@ -110,7 +110,7 @@ export default function SupGuide() {
               href="https://forms.gle/AepMiTRFNNZs9ovu5"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center justify-center rounded-full px-6 py-3 text-white font-semibold shadow-sm transition bg-gradient-to-r from-orange-500 to-emerald-500 hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2"
+              className="inline-flex items-center justify-center rounded-full px-6 py-3 text-white font-semibold shadow-sm transition bg-teal-600 hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2"
             >
               후원 신청서 작성하기
             </a>
@@ -128,7 +128,7 @@ export default function SupGuide() {
           </ul>
           <Link
             to="/support/faq"
-            className="inline-block mt-4 text-emerald-700"
+            className="inline-block mt-4 text-teal-700"
           >
             FAQ 전체 보기 →
           </Link>
@@ -158,12 +158,12 @@ function SupportPanel({ icon, title, items = [] }) {
     <div className="px-8 py-12 md:px-10">
       <div className="mx-auto w-full max-w-[420px] text-left">
         <div className="mb-4 flex justify-center">{icon}</div>
-        <h3 className="text-center text-[19px] md:text-[20px] font-semibold mb-4 text-emerald-700 tracking-tight">{title}</h3>
+        <h3 className="text-center text-[19px] md:text-[20px] font-semibold mb-4 text-teal-700 tracking-tight">{title}</h3>
         {items.length > 0 && (
           <>
             <p className="text-[15px] leading-[1.85] text-gray-800 break-keep whitespace-pre-line mb-2">{items[0]}</p>
             {items.length > 1 && (
-              <ul className="mt-4 list-disc pl-5 text-[15px] leading-[1.85] text-gray-800 space-y-1.5 marker:text-emerald-600 break-keep">
+              <ul className="mt-4 list-disc pl-5 text-[15px] leading-[1.85] text-gray-800 space-y-1.5 marker:text-teal-600 break-keep">
                 {items.slice(1).map((t) => (
                   <li key={t} className="break-keep">{t}</li>
                 ))}
@@ -230,7 +230,7 @@ function BankBox({ className = "" }) {
         <div className="flex items-center gap-2">
           <button
             onClick={copy}
-            className="px-3 py-2 rounded-lg border border-emerald-400 text-emerald-800 bg-emerald-100 hover:bg-emerald-200"
+            className="px-3 py-2 rounded-lg border border-teal-400 text-teal-800 bg-teal-100 hover:bg-teal-200"
           >
             {copied ? "복사됨!" : "계좌 복사"}
           </button>
