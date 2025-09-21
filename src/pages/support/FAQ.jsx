@@ -123,15 +123,15 @@ function Item({ item, open, onToggle }) {
 				<span className="flex-1 text-gray-900 leading-snug font-medium">{item.title}</span>
 				<span className={`flex items-center justify-center h-8 w-8 rounded-full transition ${
 					open
-						? "bg-[#ff4f8f]/10"
+						? "bg-[#2CB9B1]/10"
 						: "bg-gray-100 group-hover:bg-gray-200"
 				}`}>
 					{open ? (
-						<svg width="22" height="22" viewBox="0 0 22 22" fill="none" className="mx-auto text-[#ff4f8f] opacity-80" stroke="currentColor" strokeWidth="2">
+						<svg width="22" height="22" viewBox="0 0 22 22" fill="none" className="mx-auto text-[#2CB9B1] opacity-80" stroke="currentColor" strokeWidth="2">
 							<line x1="6" y1="11" x2="16" y2="11" stroke="currentColor" strokeLinecap="round"/>
 						</svg>
 					) : (
-						<svg width="22" height="22" viewBox="0 0 22 22" fill="none" className="mx-auto text-gray-400 group-hover:text-[#ff4f8f]" stroke="currentColor" strokeWidth="2">
+						<svg width="22" height="22" viewBox="0 0 22 22" fill="none" className="mx-auto text-gray-400 group-hover:text-[#2CB9B1]" stroke="currentColor" strokeWidth="2">
 							<line x1="11" y1="6" x2="11" y2="16" stroke="currentColor" strokeLinecap="round"/>
 							<line x1="6" y1="11" x2="16" y2="11" stroke="currentColor" strokeLinecap="round"/>
 						</svg>
