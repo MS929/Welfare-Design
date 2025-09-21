@@ -28,10 +28,10 @@ export default function SupGuide() {
       </section>
 
       <section className="max-w-screen-xl mx-auto px-4 mt-8">
-        <div className="grid gap-6 md:grid-cols-3 items-stretch" style={{ gridAutoRows: '1fr' }}>
+        <div className="grid gap-6 md:grid-cols-3">
           {/* 개인 후원 */}
           <SupportPanel
-            className="group h-full flex flex-col min-h-[420px] md:min-h-[440px] rounded-2xl border border-gray-200 bg-white p-6 hover:shadow-md transition ring-1 ring-transparent hover:ring-emerald-200"
+            className="group rounded-2xl border border-gray-200 bg-white p-6 hover:shadow-md transition ring-1 ring-transparent hover:ring-emerald-200"
             icon={
               <img
                 src="/images/support/donation.png"
@@ -50,7 +50,7 @@ export default function SupGuide() {
           />
           {/* 기업·단체 후원 */}
           <SupportPanel
-            className="group h-full flex flex-col min-h-[420px] md:min-h-[440px] rounded-2xl border border-gray-200 bg-white p-6 hover:shadow-md transition ring-1 ring-transparent hover:ring-emerald-200"
+            className="group rounded-2xl border border-gray-200 bg-white p-6 hover:shadow-md transition ring-1 ring-transparent hover:ring-emerald-200"
             icon={
               <img
                 src="/images/support/group.png"
@@ -69,7 +69,7 @@ export default function SupGuide() {
           />
           {/* 물품 후원 */}
           <SupportPanel
-            className="group h-full flex flex-col min-h-[420px] md:min-h-[440px] rounded-2xl border border-gray-200 bg-white p-6 hover:shadow-md transition ring-1 ring-transparent hover:ring-emerald-200"
+            className="group rounded-2xl border border-gray-200 bg-white p-6 hover:shadow-md transition ring-1 ring-transparent hover:ring-emerald-200"
             icon={
               <img
                 src="/images/support/present.png"
@@ -93,9 +93,9 @@ export default function SupGuide() {
       <BankBox className="max-w-screen-xl mx-auto px-4 mt-10 rounded-2xl border border-emerald-200 bg-emerald-50/40" />
 
       {/* 후원 신청서 */}
-      <section className="max-w-screen-xl mx-auto px-4 mt-12 rounded-2xl border border-emerald-200 overflow-hidden">
+      <section className="max-w-screen-xl mx-auto px-4 mt-12 rounded-2xl border bg-white">
         {/* Header */}
-        <div className="px-6 py-5 border-b bg-emerald-50/60">
+        <div className="px-6 py-5 border-b bg-emerald-50">
           <h3 className="text-xl font-semibold">후원 신청서</h3>
           <p className="text-gray-600 mt-1">
             후원 신청서를 작성해주시면 기부금 영수증 발급과 투명한 후원금 공개를
@@ -104,7 +104,7 @@ export default function SupGuide() {
         </div>
 
         {/* Body */}
-        <div className="p-6 bg-white">
+        <div className="p-6">
           <p className="text-sm leading-relaxed text-gray-800 whitespace-pre-line">
             본 사회적협동조합은 기획재정부에 등록된{" "}
             <strong className="font-semibold">지정기부금 단체</strong>
@@ -171,8 +171,8 @@ export default function SupGuide() {
 function SupportPanel({ icon, title, items = [], className = "" }) {
   return (
     <div className={className}>
-      <div className="mx-auto w-full text-left flex-1 flex flex-col h-full">
-        <div className="mb-3 flex justify-center">{icon}</div>
+      <div className="mx-auto w-full max-w-[420px] text-left">
+        <div className="mb-4 flex justify-center">{icon}</div>
         <h3 className="text-center text-[19px] md:text-[20px] font-semibold mb-3 text-emerald-700 tracking-tight">
           {title}
         </h3>
