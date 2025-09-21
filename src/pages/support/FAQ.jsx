@@ -59,7 +59,7 @@ export default function SupFAQ() {
 			</div>
 
 			{/* Search Row */}
-			<div className="mt-6 bg-gray-50 border rounded-md p-6">
+			<div className="mt-10 bg-gray-50 border rounded-md p-6">
 				<div className="max-w-md ml-auto flex gap-2">
 					<input
 						value={q}
