@@ -16,7 +16,7 @@ export default function Rental() {
           </div>
 
           {/* 우측: 대여 안내 + 기대효과 + 문의 */}
-          <div className="flex flex-col h-full">
+          <div className="flex flex-col h-full mt-8">
             <div className="rounded-2xl border border-[#2CB9B1]/40 bg-white/90 backdrop-blur-[1px] shadow-md p-7 md:p-8">
               <ul className="space-y-4 text-gray-800 leading-relaxed">
                 <li className="flex gap-3">
