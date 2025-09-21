@@ -194,6 +194,15 @@ export default function NewsStories() {
 
   const backTo = `/news/stories${activeCat && activeCat !== "전체" ? `?type=${encodeURIComponent(activeCat)}` : ""}`;
 
+  // 항상 페이지/탭 전환 시 상단으로 스크롤
+  useEffect(() => {
+    // 다음 프레임에 실행되도록 살짝 지연시켜 레이아웃이 잡힌 뒤 스크롤되게 함
+    const id = requestAnimationFrame(() => {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+    return () => cancelAnimationFrame(id);
+  }, [page, activeCat]);
+
   return (
     <div className="max-w-screen-xl mx-auto px-4 py-10">
       {/* breadcrumb */}
@@ -213,6 +222,7 @@ export default function NewsStories() {
               setActiveCat(c);
               const search = c && c !== "전체" ? `?type=${encodeURIComponent(c)}` : "";
               navigate({ pathname: "/news/stories", search }, { replace: false });
+              window.scrollTo({ top: 0, behavior: "smooth" });
             }}
             className={`px-3 py-1.5 rounded-full border text-sm font-medium transition
               ${
