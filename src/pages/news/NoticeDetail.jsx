@@ -6,6 +6,7 @@ export default function NoticeDetail() {
   const { slug } = useParams();
   const nav = useNavigate();
   const location = useLocation();
+  const searchParams = new URLSearchParams(location.search || '');
   const [post, setPost] = useState(null);
 
   useEffect(() => {
@@ -29,6 +30,34 @@ export default function NoticeDetail() {
     })();
   }, [slug]);
 
+  // Determine badge text (force "정보공개" when this page is an information‑disclosure view)
+  const path = (location.pathname || '').toLowerCase();
+
+  // signals from URL path
+  const infoKeywords = ['open-data', 'opendata', 'open', 'disclosure', 'info', 'public', 'information', 'data'];
+  const koreanKeywords = ['정보공개', '공시', '공개', '정보'];
+  const isInfoPath = infoKeywords.some(k => path.includes(k)) || koreanKeywords.some(k => path.includes(k));
+
+  // signals from query string (ex: ?tab=info, ?category=정보공개)
+  const queryCandidates = [
+    searchParams.get('tab'),
+    searchParams.get('category'),
+    searchParams.get('type'),
+    searchParams.get('section'),
+  ].filter(Boolean).map(String);
+  const isInfoQuery = queryCandidates.some(v =>
+    [...infoKeywords, ...koreanKeywords].some(k => v.toLowerCase().includes(k))
+  );
+
+  // optional navigation state hint (ex: navigate(..., { state: { section: 'info' } }))
+  const isInfoState = (location.state && typeof location.state.section === 'string')
+    ? [...infoKeywords, ...koreanKeywords].some(k => String(location.state.section).toLowerCase().includes(k))
+    : false;
+
+  if (import.meta.env.DEV) {
+    console.log('[NoticeDetail] path/query/state check', { path: location.pathname, queryCandidates, isInfoPath, isInfoQuery, isInfoState });
+  }
+
   if (post === undefined) {
     return (
       <div className="max-w-screen-md mx-auto px-4 py-16 text-center">
@@ -41,18 +70,6 @@ export default function NoticeDetail() {
   }
 
   if (!post) return null;
-
-  // Determine badge text (force "정보공개" when the current route is an information-disclosure page)
-  const path = (location.pathname || "").toLowerCase();
-  const infoKeywords = ['open-data', 'opendata', 'open', 'disclosure', 'info', 'public', 'information', 'data'];
-  const koreanKeywords = ['정보공개', '공시', '공개'];
-  const isInfoPath = infoKeywords.some(keyword => path.includes(keyword)) ||
-    koreanKeywords.some(keyword => location.pathname.includes(keyword)) ||
-    location.state?.section === 'info';
-
-  if (import.meta.env.DEV) {
-    console.log(`[NoticeDetail] pathname: "${location.pathname}", isInfoPath: ${isInfoPath}`);
-  }
 
   // --- Robust category detection (use multiple front‑matter fields) ---
   const normalizeToArray = (v) => {
@@ -68,7 +85,7 @@ export default function NoticeDetail() {
   ];
 
   const fmPieces = [
-    post.category, post.type, post.section, post.kind, post.badge
+    post.category, post.type, post.section, post.kind, post.badge, post.title
   ].filter(Boolean).map(String);
 
   const tagPieces = normalizeToArray(post.tags || post.tag || post.labels || post.label).map(String);
@@ -78,9 +95,12 @@ export default function NoticeDetail() {
     .toLowerCase();
 
   const isInfoCategory = infoKeywordSet.some(k => combined.includes(k.toLowerCase()));
+  const isInfoTitle = typeof post.title === 'string' && infoKeywordSet.some(k => post.title.toLowerCase().includes(k.toLowerCase()));
 
-  // Final badge text: force 정보공개 if either path or meta implies it
-  let badgeText = (isInfoPath || isInfoCategory) ? '정보공개' : (post.category || post.type || '공지');
+  // Final badge text: force 정보공개 if any signal indicates it
+  let badgeText = (isInfoPath || isInfoQuery || isInfoState || isInfoCategory || isInfoTitle)
+    ? '정보공개'
+    : (post.category || post.type || '공지');
   const isInfo = badgeText === '정보공개';
 
   // Calmer, consistent image rendering for markdown
