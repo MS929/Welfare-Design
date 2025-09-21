@@ -77,45 +77,49 @@ export default function StoryDetail() {
   }
 
   return (
-    <div className="mx-auto max-w-3xl px-4 md:px-6 py-10 md:py-14">
+    <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-10 md:py-14">
       <button
         onClick={() => nav(backTo)}
-        className="mb-6 inline-flex items-center gap-1 text-sm font-medium text-emerald-700 hover:text-emerald-800"
+        className="inline-flex items-center gap-1 rounded-full px-3 py-1.5 text-sm font-medium text-emerald-700 bg-emerald-50 hover:bg-emerald-100 ring-1 ring-emerald-200 mb-6"
       >
         <span aria-hidden>←</span>
         <span>목록으로</span>
       </button>
 
-      <h1 className="text-3xl md:text-4xl font-extrabold leading-tight tracking-tight text-gray-900">
+      <h1 className="text-4xl sm:text-5xl font-extrabold leading-tight tracking-tight text-gray-900">
         {post.title}
       </h1>
 
-      <div className="mt-2 flex items-center gap-2 text-sm text-gray-500">
+      <div className="mt-4 flex flex-wrap items-center gap-2 text-sm">
         {post.date ? (
-          <time dateTime={new Date(post.date).toISOString()}>
+          <time
+            dateTime={new Date(post.date).toISOString()}
+            className="inline-flex items-center gap-1 rounded-full bg-gray-50 px-3 py-1 text-gray-600 ring-1 ring-gray-200"
+          >
             {new Date(post.date).toISOString().slice(0, 10)}
           </time>
         ) : null}
         {post.author ? (
-          <>
-            <span aria-hidden>·</span>
-            <span>{post.author}</span>
-          </>
+          <span className="inline-flex items-center gap-1 rounded-full bg-gray-50 px-3 py-1 text-gray-600 ring-1 ring-gray-200">
+            {post.author}
+          </span>
         ) : null}
       </div>
 
       {post.thumbnail ? (
-        <img
-          src={post.thumbnail}
-          alt=""
-          className="mt-6 w-full h-auto max-h-[520px] object-contain rounded-2xl shadow-sm ring-1 ring-gray-200"
-          loading="lazy"
-        />
+        <figure className="mt-6 overflow-hidden rounded-2xl ring-1 ring-gray-200 shadow-sm">
+          <img
+            src={post.thumbnail}
+            alt=""
+            className="w-full h-auto max-h-[520px] object-cover"
+            loading="lazy"
+          />
+        </figure>
       ) : null}
 
       <hr className="my-6 md:my-8 border-gray-200" />
 
-      <article className="prose prose-gray max-w-none mt-0 prose-headings:font-semibold prose-h2:mt-12 prose-h3:mt-8 prose-img:rounded-xl prose-img:my-6">
+      <article className="prose prose-lg prose-gray max-w-none text-gray-800 prose-a:text-emerald-700 prose-a:no-underline hover:prose-a:underline prose-img:rounded-xl prose-headings:font-semibold prose-h2:mt-12 prose-h3:mt-8">
         <ReactMarkdown
           remarkPlugins={[remarkGfm]}
           components={{
@@ -123,7 +127,7 @@ export default function StoryDetail() {
               <img
                 {...props}
                 loading="lazy"
-                className="w-full h-auto max-h-[520px] object-contain rounded-xl my-6 shadow-sm ring-1 ring-gray-200"
+                className="w-full h-auto rounded-xl my-6 shadow-sm ring-1 ring-gray-200"
               />
             ),
             a: ({ node, ...props }) => {
