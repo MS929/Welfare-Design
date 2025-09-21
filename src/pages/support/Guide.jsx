@@ -7,14 +7,14 @@ export default function SupGuide() {
     <div className="max-w-screen-xl mx-auto pl-2 pr-4 sm:pl-3 sm:pr-6 lg:pl-4 lg:pr-8 pt-8 md:pt-10 pb-14 antialiased tracking-[-0.01em]">
       <header className="mb-10">
         <nav className="text-sm text-gray-400">
-          <span className="text-[#2CAAA0] font-medium">후원</span>
+          <span className="text-teal-600 font-medium">후원</span>
           <span className="mx-1">&gt;</span>
           <span className="text-gray-600">안내</span>
         </nav>
         <h1 className="mt-2 text-[36px] md:text-[42px] leading-[1.15] font-extrabold tracking-tight text-gray-900">
           복지디자인 후원 안내
         </h1>
-        <div className="mt-3 h-1 w-14 rounded-full bg-[#2CAAA0]"></div>
+        <div className="mt-3 h-1 w-14 rounded-full bg-teal-600"></div>
         <p className="mt-4 text-gray-800 leading-[1.85] break-keep">
           “작지만 깊이 있는 변화”, 그 출발점이 바로 복지디자인입니다. 복지디자인
           사회적협동조합은 복지를 설계하는 사람들입니다. <br></br>
@@ -28,6 +28,7 @@ export default function SupGuide() {
       <section className="mt-8 grid md:grid-cols-3 gap-6">
         {/* 개인 후원 */}
         <SupportPanel
+          theme="teal"
           icon={
             <img
               src="/images/support/donation.png"
@@ -49,6 +50,7 @@ export default function SupGuide() {
         />
         {/* 기업·단체 후원 */}
         <SupportPanel
+          theme="amber"
           icon={
             <img
               src="/images/support/group.png"
@@ -70,6 +72,7 @@ export default function SupGuide() {
         />
         {/* 물품 후원 */}
         <SupportPanel
+          theme="sky"
           icon={
             <img
               src="/images/support/present.png"
@@ -95,9 +98,9 @@ export default function SupGuide() {
       <BankBox className="mt-10" />
 
       {/* 후원 신청서 */}
-      <section className="mt-12 overflow-hidden rounded-2xl border border-[#2CAAA0]/40 bg-[#2CAAA0]/10">
+      <section className="mt-12 overflow-hidden rounded-2xl border border-teal-300/40 bg-teal-50">
         {/* Header */}
-        <div className="px-6 py-5 border-b bg-[#2CAAA0]/10">
+        <div className="px-6 py-5 border-b bg-teal-50">
           <h3 className="text-xl font-semibold">후원 신청서</h3>
           <p className="text-gray-600 mt-1">
             후원 신청서를 작성해주시면 기부금 영수증 발급과 투명한 후원금 공개를
@@ -137,7 +140,7 @@ export default function SupGuide() {
 
       {/* FAQ/연락처 */}
       <section className="grid md:grid-cols-2 gap-6 mt-10 items-stretch">
-        <div className="rounded-2xl border border-[#2CAAA0]/20 p-6 bg-white hover:shadow-sm transition">
+        <div className="rounded-2xl border border-teal-300/20 p-6 bg-white hover:shadow-sm transition">
           <h3 className="text-lg font-semibold">자주 묻는 질문</h3>
           <ul className="mt-3 list-disc pl-5 text-gray-700 space-y-1">
             <li>정기후원 해지는 어디서 하나요?</li>
@@ -145,13 +148,13 @@ export default function SupGuide() {
           </ul>
           <Link
             to="/support/faq"
-            className="inline-block mt-4 text-[#2CAAA0]"
+            className="inline-block mt-4 text-teal-600"
           >
             FAQ 전체 보기 →
           </Link>
         </div>
 
-        <div className="rounded-2xl border border-[#2CAAA0]/20 p-6 bg-white hover:shadow-sm transition">
+        <div className="rounded-2xl border border-teal-300/20 p-6 bg-white hover:shadow-sm transition">
           <h3 className="text-lg font-semibold">연락처</h3>
           <ul className="mt-2 list-disc pl-5 text-gray-700 space-y-1">
             <li>
@@ -170,17 +173,43 @@ export default function SupGuide() {
 
 /* ---------- 작은 컴포넌트들 ---------- */
 
-function SupportPanel({ icon, title, items = [] }) {
+function SupportPanel({ icon, title, items = [], theme = "teal" }) {
+  const themes = {
+    teal: {
+      border: "border-teal-600/30",
+      gradientFrom: "from-teal-600/10",
+      gradientTo: "to-white",
+      title: "text-teal-600",
+      marker: "marker:text-teal-600",
+    },
+    amber: {
+      border: "border-amber-400/30",
+      gradientFrom: "from-amber-400/10",
+      gradientTo: "to-white",
+      title: "text-amber-400",
+      marker: "marker:text-amber-400",
+    },
+    sky: {
+      border: "border-sky-500/30",
+      gradientFrom: "from-sky-500/10",
+      gradientTo: "to-white",
+      title: "text-sky-500",
+      marker: "marker:text-sky-500",
+    },
+  };
+
+  const themeColors = themes[theme] || themes.teal;
+
   return (
-    <div className="group rounded-2xl border border-[#2CAAA0]/30 bg-gradient-to-b from-[#2CAAA0]/10 to-white p-8 md:p-10 shadow-sm transition-transform duration-200 hover:-translate-y-0.5 hover:shadow-md">
+    <div className={`group rounded-2xl border ${themeColors.border} bg-gradient-to-b ${themeColors.gradientFrom} ${themeColors.gradientTo} p-8 md:p-10 shadow-sm transition-transform duration-200 hover:-translate-y-0.5 hover:shadow-md`}>
       <div className="mx-auto w-full max-w-[420px] text-left">
         <div className="mb-4 flex justify-center">{icon}</div>
-        <h3 className="text-center text-[20px] md:text-[20px] font-semibold mb-4 text-[#2CAAA0] tracking-tight">{title}</h3>
+        <h3 className={`text-center text-[20px] md:text-[20px] font-semibold mb-4 tracking-tight ${themeColors.title}`}>{title}</h3>
         {items.length > 0 && (
           <>
             <p className="text-[15px] leading-[1.85] text-gray-800 break-keep whitespace-pre-line mb-2">{items[0]}</p>
             {items.length > 1 && (
-              <ul className="mt-4 list-disc pl-5 text-[15px] leading-[1.85] text-gray-800 space-y-1.5 marker:text-[#2CAAA0] break-keep">
+              <ul className={`mt-4 list-disc pl-5 text-[15px] leading-[1.85] text-gray-800 space-y-1.5 ${themeColors.marker} break-keep`}>
                 {items.slice(1).map((t) => (
                   <li key={t} className="break-keep">{t}</li>
                 ))}
@@ -235,7 +264,7 @@ function BankBox({ className = "" }) {
   };
 
   return (
-    <section className={`rounded-2xl border border-[#2CAAA0]/40 p-6 bg-[#2CAAA0]/10 ${className} hover:shadow-sm`}>
+    <section className={`rounded-2xl border border-teal-300/40 p-6 bg-teal-50 ${className} hover:shadow-sm`}>
       <h3 className="text-lg font-semibold">무통장 입금(계좌이체)</h3>
       <div className="mt-3 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
         <p className="text-gray-800">
@@ -247,10 +276,10 @@ function BankBox({ className = "" }) {
         <div className="flex items-center gap-2">
           <button
             onClick={copy}
-            className={`px-3 py-2 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-[#2CAAA0] focus:ring-offset-2 transition ${
+            className={`px-3 py-2 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-teal-600 focus:ring-offset-2 transition ${
               copied
-                ? "bg-[#ECF8F7] text-[#2CAAA0] border border-[#2CAAA0]/50"
-                : "bg-[#2CAAA0] text-white hover:bg-[#27998f]"
+                ? "bg-teal-50 text-teal-700 border border-teal-300/60"
+                : "bg-teal-600 text-white hover:bg-teal-700"
             }`}
           >
             {copied ? "복사됨!" : "계좌 복사"}
