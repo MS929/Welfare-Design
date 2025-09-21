@@ -35,6 +35,9 @@ export default function SupGuide() {
               <img
                 src="/images/support/donation.png"
                 alt="개인 후원 아이콘"
+                loading="lazy"
+                width={112}
+                height={112}
                 className="w-24 h-24 md:w-28 md:h-28 mx-auto object-contain drop-shadow-sm"
               />
             }
@@ -51,6 +54,9 @@ export default function SupGuide() {
               <img
                 src="/images/support/group.png"
                 alt="기업·단체 후원 아이콘"
+                loading="lazy"
+                width={112}
+                height={112}
                 className="w-24 h-24 md:w-28 md:h-28 mx-auto object-contain drop-shadow-sm"
               />
             }
@@ -67,6 +73,9 @@ export default function SupGuide() {
               <img
                 src="/images/support/present.png"
                 alt="물품 후원 아이콘"
+                loading="lazy"
+                width={112}
+                height={112}
                 className="w-24 h-24 md:w-28 md:h-28 mx-auto object-contain drop-shadow-sm"
               />
             }
@@ -84,9 +93,9 @@ export default function SupGuide() {
       <BankBox className="max-w-screen-xl mx-auto px-4 mt-10 rounded-2xl border border-slate-200 bg-slate-50" />
 
       {/* 후원 신청서 */}
-      <section className="max-w-screen-xl mx-auto px-4 mt-10 rounded-2xl border border-slate-200 overflow-hidden">
+      <section className="max-w-screen-xl mx-auto px-4 mt-10 overflow-hidden bg-white rounded-2xl border border-slate-200">
         {/* Colored header strip */}
-        <div className="bg-slate-50 px-6 py-5 md:py-6 border-b border-slate-200/70 -mx-4 rounded-t-2xl">
+        <div className="bg-slate-50 px-6 py-5 md:py-6 border-b border-slate-200/70">
           <h3 className="text-xl font-semibold">후원 신청서</h3>
           <p className="text-gray-800 mt-1">
             후원 신청서를 작성해주시면 기부금 영수증 발급과 투명한 후원금 공개를 약속드립니다.
@@ -106,20 +115,23 @@ export default function SupGuide() {
               ※ 기부금 영수증 발급을 위해서는 신청서 작성이 필요합니다.<br /><br />
               ※ 법인세법 제18조 소득세법 제34조에 의거 기부금 영수증 발급이 가능합니다.
             </p>
-            <a
-              href="https://forms.gle/AepMiTRFNNZs9ovu5"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center justify-center rounded-full px-6 py-3 text-white font-semibold shadow-sm transition bg-teal-600 hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2"
-            >
-              후원 신청서 작성하기
-            </a>
+            <div className="flex items-center gap-2">
+              <a
+                href="https://forms.gle/AepMiTRFNNZs9ovu5"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center justify-center rounded-full px-6 py-3 text-white font-semibold shadow-sm transition bg-teal-600 hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2"
+                aria-label="후원 신청서 작성하기"
+              >
+                후원 신청서 작성하기
+              </a>
+            </div>
           </div>
         </div>
       </section>
 
       {/* FAQ/연락처 */}
-      <section className="max-w-screen-xl mx-auto px-4 mt-10 grid md:grid-cols-2 gap-6 rounded-2xl border bg-white">
+      <section className="max-w-screen-xl mx-auto px-4 mt-10 grid md:grid-cols-2 gap-6 rounded-2xl border bg-white divide-y md:divide-y-0 md:divide-x divide-slate-200">
         <div className="p-6 flex flex-col h-full">
           <h3 className="text-lg font-semibold">자주 묻는 질문</h3>
           <ul className="mt-3 list-disc pl-5 text-gray-700 space-y-1">
@@ -151,7 +163,7 @@ export default function SupGuide() {
   );
 }
 
-/* ---------- 작은 컴포넌트들 ---------- */
+/* ---------- 작은 컴포넌트들 (통일된 스타일) ---------- */
 
 function SupportPanel({ icon, title, items = [] }) {
   return (
@@ -230,10 +242,12 @@ function BankBox({ className = "" }) {
         <div className="flex items-center gap-2">
           <button
             onClick={copy}
-            className="px-4 py-2 rounded-full bg-gradient-to-r from-teal-500 to-emerald-500 text-white font-medium shadow-md hover:from-teal-600 hover:to-emerald-600 transition-all duration-200"
+            aria-label="계좌번호 복사"
+            className="px-4 py-2 rounded-full bg-gradient-to-r from-teal-500 to-emerald-500 text-white font-medium shadow-md hover:from-teal-600 hover:to-emerald-600 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2"
           >
             {copied ? "복사됨!" : "계좌 복사"}
           </button>
+          <span className="sr-only" aria-live="polite">{copied ? "계좌번호가 복사되었습니다." : ""}</span>
         </div>
       </div>
       <p className="text-gray-600 text-sm mt-3">
