@@ -27,7 +27,7 @@ export default function SupGuide() {
         </p>
       </section>
 
-      <section className="mt-8 -mx-0 rounded-2xl ring-1 ring-teal-500/40 overflow-hidden bg-white shadow-sm">
+      <section className="max-w-screen-xl mx-auto px-4 mt-8 rounded-2xl border bg-white">
         <div className="grid md:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-teal-500/40">
           {/* 개인 후원 */}
           <SupportPanel
@@ -81,10 +81,10 @@ export default function SupGuide() {
       </section>
 
       {/* 계좌 안내 */}
-      <BankBox className="mt-10" />
+      <BankBox className="max-w-screen-xl mx-auto px-4 mt-10 rounded-2xl border bg-white" />
 
       {/* 후원 신청서 */}
-      <section className="mt-12 overflow-hidden rounded-2xl border border-gray-200 bg-white">
+      <section className="max-w-screen-xl mx-auto px-4 mt-12 rounded-2xl border bg-white">
         {/* Header */}
         <div className="px-6 py-5 border-b bg-gradient-to-r from-emerald-50 to-emerald-100">
           <h3 className="text-xl font-semibold">후원 신청서</h3>
@@ -125,8 +125,8 @@ export default function SupGuide() {
       </section>
 
       {/* FAQ/연락처 */}
-      <section className="grid md:grid-cols-2 gap-6 mt-10 items-stretch">
-        <div className="rounded-2xl border p-6 bg-white flex flex-col h-full">
+      <section className="max-w-screen-xl mx-auto px-4 mt-10 grid md:grid-cols-2 gap-6 rounded-2xl border bg-white">
+        <div className="p-6 flex flex-col h-full">
           <h3 className="text-lg font-semibold">자주 묻는 질문</h3>
           <ul className="mt-3 list-disc pl-5 text-gray-700 space-y-1">
             <li>정기후원 해지는 어디서 하나요?</li>
@@ -140,7 +140,7 @@ export default function SupGuide() {
           </Link>
         </div>
 
-        <div className="rounded-2xl border p-6 bg-white flex flex-col h-full">
+        <div className="p-6 flex flex-col h-full">
           <h3 className="text-lg font-semibold">연락처</h3>
           <ul className="mt-2 list-disc pl-5 text-gray-700 space-y-1">
             <li>
@@ -224,7 +224,7 @@ function BankBox({ className = "" }) {
   };
 
   return (
-    <section className={`rounded-2xl border border-emerald-300 p-6 bg-emerald-50 ${className}`}>
+    <section className={`p-6 ${className}`}>
       <h3 className="text-lg font-semibold">무통장 입금(계좌이체)</h3>
       <div className="mt-3 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
         <p className="text-gray-800">
