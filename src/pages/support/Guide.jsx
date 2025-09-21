@@ -4,7 +4,7 @@ import { useState } from "react";
 
 export default function SupGuide() {
   return (
-    <div className="max-w-screen-xl mx-auto pl-2 pr-4 sm:pl-3 sm:pr-6 lg:pl-4 lg:pr-8 pt-8 md:pt-10 pb-14 antialiased tracking-[-0.01em]">
+    <div className="bg-white">
       {/* ===== 브레드크럼 + 제목 (whatIs.jsx 스타일) ===== */}
       <section className="max-w-screen-xl mx-auto px-4 pt-10">
         <nav className="text-sm text-black">
@@ -17,7 +17,6 @@ export default function SupGuide() {
 
       {/* 기존 소개 문단 유지 (헤더 밖으로 이동) */}
       <section className="max-w-screen-xl mx-auto px-4 mt-4 mb-10">
-        <div className="mt-3 h-1 w-14 rounded-full bg-emerald-600"></div>
         <p className="mt-4 text-gray-800 leading-[1.85] break-keep">
           “작지만 깊이 있는 변화”, 그 출발점이 바로 복지디자인입니다. 복지디자인
           사회적협동조합은 복지를 설계하는 사람들입니다. <br></br>
