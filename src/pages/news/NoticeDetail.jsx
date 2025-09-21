@@ -57,12 +57,12 @@ export default function NoticeDetail() {
   };
 
   return (
-    <div className="max-w-3xl mx-auto px-4 py-10">
+    <div className="max-w-3xl mx-auto px-4 py-12">
       {/* Top line: back button */}
       <div className="mb-6">
         <button
           onClick={() => nav('/news/notices')}
-          className="inline-flex items-center gap-1 px-3 py-1.5 rounded-full text-sm font-medium border border-gray-300 text-gray-700 hover:bg-gray-50 transition"
+          className="inline-flex items-center gap-1 px-3 py-1.5 rounded border border-gray-300 text-gray-700 hover:bg-gray-50 transition text-sm font-medium"
           aria-label="Back to notice list"
         >
           <span aria-hidden>←</span> 목록으로
@@ -70,16 +70,13 @@ export default function NoticeDetail() {
       </div>
 
       {/* Title */}
-      <h1 className="text-center text-4xl font-extrabold tracking-tight text-gray-900">{post.title || slug}</h1>
+      <h1 className="text-3xl md:text-4xl font-extrabold tracking-tight text-gray-900 mb-2">{post.title || slug}</h1>
 
       {/* Meta */}
-      <div className="mt-3 flex items-center justify-center gap-3">
-        <span className="inline-flex items-center rounded-full bg-sky-600 text-white px-3 py-1 text-xs font-semibold select-none">공지</span>
+      <div className="flex items-center gap-3 text-gray-500 text-sm font-medium select-none">
+        <span className="inline-flex items-center rounded-full bg-sky-100 text-sky-700 px-2 py-0.5">공지</span>
         {post.date && (
-          <time
-            className="text-gray-500 text-sm select-none"
-            dateTime={new Date(post.date).toISOString()}
-          >
+          <time dateTime={new Date(post.date).toISOString()}>
             {new Date(post.date).toLocaleDateString(undefined, {
               year: 'numeric',
               month: '2-digit',
@@ -89,6 +86,8 @@ export default function NoticeDetail() {
         )}
       </div>
 
+      <div className="mt-6 h-px bg-gray-200" />
+
       {/* Thumbnail (optional) */}
       {post.thumbnail && (
         <img
@@ -96,12 +95,12 @@ export default function NoticeDetail() {
           alt=""
           loading="lazy"
           decoding="async"
-          className="mt-8 w-full rounded-lg border border-gray-200 object-cover"
+          className="mt-6 w-full rounded-lg object-cover"
         />
       )}
 
       {/* Content */}
-      <article className="mt-8 rounded-xl border border-gray-200 bg-white p-8 shadow-sm">
+      <article className="text-[17px] leading-8 text-gray-800 space-y-6 mt-8">
         <ReactMarkdown components={markdownComponents}>{post.content}</ReactMarkdown>
       </article>
     </div>
