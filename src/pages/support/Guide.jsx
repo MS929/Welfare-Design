@@ -25,72 +25,70 @@ export default function SupGuide() {
         </p>
       </header>
 
-      <section className="mt-8 -mx-0 rounded-2xl ring-1 ring-[#2CAAA0]/20 overflow-hidden bg-white shadow-sm">
-        <div className="grid md:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-[#2CAAA0]/20">
-          {/* 개인 후원 */}
-          <SupportPanel
-            icon={
-              <img
-                src="/images/support/donation.png"
-                alt="개인 후원 아이콘"
-                className="w-24 h-24 md:w-28 md:h-28 mx-auto object-contain drop-shadow-sm"
-                loading="lazy"
-                decoding="async"
-                fetchpriority="low"
-                width={112}
-                height={112}
-              />
-            }
-            title="개인 후원"
-            items={[
-              "매월 or 일시 후원으로 사업의 지속가능성을 높여주세요.",
-              "계좌이체/자동이체",
-              "지속적인 복지서비스 지원",
-            ]}
-          />
-          {/* 기업·단체 후원 */}
-          <SupportPanel
-            icon={
-              <img
-                src="/images/support/group.png"
-                alt="기업·단체 후원 아이콘"
-                className="w-24 h-24 md:w-28 md:h-28 mx-auto object-contain drop-shadow-sm"
-                loading="lazy"
-                decoding="async"
-                fetchpriority="low"
-                width={112}
-                height={112}
-              />
-            }
-            title="기업·단체 후원"
-            items={[
-              "파트너십/캠페인/지정기탁 등 다양한 방식으로\n함께 할 수 있어요.",
-              "사회공헌 파트너십",
-              "기업 참여형 후원 프로그램",
-            ]}
-          />
-          {/* 물품 후원 */}
-          <SupportPanel
-            icon={
-              <img
-                src="/images/support/present.png"
-                alt="물품 후원 아이콘"
-                className="w-24 h-24 md:w-28 md:h-28 mx-auto object-contain drop-shadow-sm"
-                loading="lazy"
-                decoding="async"
-                fetchpriority="low"
-                width={112}
-                height={112}
-              />
-            }
-            title="물품 후원"
-            items={[
-              "휠체어·보장구·보조기기 등 양질의 물품을 순환시켜요.",
-              "수거/검수/재분배",
-              "생활용품 후원 가능",
-            ]}
-          />
-        </div>
+      <section className="mt-8 grid md:grid-cols-3 gap-6">
+        {/* 개인 후원 */}
+        <SupportPanel
+          icon={
+            <img
+              src="/images/support/donation.png"
+              alt="개인 후원 아이콘"
+              className="w-24 h-24 md:w-28 md:h-28 mx-auto object-contain drop-shadow-sm group-hover:drop-shadow-md"
+              loading="lazy"
+              decoding="async"
+              fetchpriority="low"
+              width={112}
+              height={112}
+            />
+          }
+          title="개인 후원"
+          items={[
+            "매월 or 일시 후원으로 사업의 지속가능성을 높여주세요.",
+            "계좌이체/자동이체",
+            "지속적인 복지서비스 지원",
+          ]}
+        />
+        {/* 기업·단체 후원 */}
+        <SupportPanel
+          icon={
+            <img
+              src="/images/support/group.png"
+              alt="기업·단체 후원 아이콘"
+              className="w-24 h-24 md:w-28 md:h-28 mx-auto object-contain drop-shadow-sm group-hover:drop-shadow-md"
+              loading="lazy"
+              decoding="async"
+              fetchpriority="low"
+              width={112}
+              height={112}
+            />
+          }
+          title="기업·단체 후원"
+          items={[
+            "파트너십/캠페인/지정기탁 등 다양한 방식으로\n함께 할 수 있어요.",
+            "사회공헌 파트너십",
+            "기업 참여형 후원 프로그램",
+          ]}
+        />
+        {/* 물품 후원 */}
+        <SupportPanel
+          icon={
+            <img
+              src="/images/support/present.png"
+              alt="물품 후원 아이콘"
+              className="w-24 h-24 md:w-28 md:h-28 mx-auto object-contain drop-shadow-sm group-hover:drop-shadow-md"
+              loading="lazy"
+              decoding="async"
+              fetchpriority="low"
+              width={112}
+              height={112}
+            />
+          }
+          title="물품 후원"
+          items={[
+            "휠체어·보장구·보조기기 등 양질의 물품을 순환시켜요.",
+            "수거/검수/재분배",
+            "생활용품 후원 가능",
+          ]}
+        />
       </section>
 
       {/* 계좌 안내 */}
@@ -139,7 +137,7 @@ export default function SupGuide() {
 
       {/* FAQ/연락처 */}
       <section className="grid md:grid-cols-2 gap-6 mt-10 items-stretch">
-        <div className="rounded-2xl border p-6 bg-white flex flex-col h-full">
+        <div className="rounded-2xl border border-[#2CAAA0]/20 p-6 bg-white hover:shadow-sm transition">
           <h3 className="text-lg font-semibold">자주 묻는 질문</h3>
           <ul className="mt-3 list-disc pl-5 text-gray-700 space-y-1">
             <li>정기후원 해지는 어디서 하나요?</li>
@@ -153,7 +151,7 @@ export default function SupGuide() {
           </Link>
         </div>
 
-        <div className="rounded-2xl border p-6 bg-white flex flex-col h-full">
+        <div className="rounded-2xl border border-[#2CAAA0]/20 p-6 bg-white hover:shadow-sm transition">
           <h3 className="text-lg font-semibold">연락처</h3>
           <ul className="mt-2 list-disc pl-5 text-gray-700 space-y-1">
             <li>
@@ -174,10 +172,10 @@ export default function SupGuide() {
 
 function SupportPanel({ icon, title, items = [] }) {
   return (
-    <div className="px-8 py-12 md:px-10">
+    <div className="group rounded-2xl border border-[#2CAAA0]/30 bg-gradient-to-b from-[#2CAAA0]/10 to-white p-8 md:p-10 shadow-sm transition-transform duration-200 hover:-translate-y-0.5 hover:shadow-md">
       <div className="mx-auto w-full max-w-[420px] text-left">
         <div className="mb-4 flex justify-center">{icon}</div>
-        <h3 className="text-center text-[19px] md:text-[20px] font-semibold mb-4 text-[#2CAAA0] tracking-tight">{title}</h3>
+        <h3 className="text-center text-[20px] md:text-[20px] font-semibold mb-4 text-[#2CAAA0] tracking-tight">{title}</h3>
         {items.length > 0 && (
           <>
             <p className="text-[15px] leading-[1.85] text-gray-800 break-keep whitespace-pre-line mb-2">{items[0]}</p>
@@ -237,7 +235,7 @@ function BankBox({ className = "" }) {
   };
 
   return (
-    <section className={`rounded-2xl border border-[#2CAAA0]/40 p-6 bg-[#2CAAA0]/10 ${className}`}>
+    <section className={`rounded-2xl border border-[#2CAAA0]/40 p-6 bg-[#2CAAA0]/10 ${className} hover:shadow-sm`}>
       <h3 className="text-lg font-semibold">무통장 입금(계좌이체)</h3>
       <div className="mt-3 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
         <p className="text-gray-800">
@@ -249,10 +247,17 @@ function BankBox({ className = "" }) {
         <div className="flex items-center gap-2">
           <button
             onClick={copy}
-            className="px-3 py-2 rounded-lg border border-[#2CAAA0]/60 text-[#2CAAA0] bg-white"
+            className={`px-3 py-2 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-[#2CAAA0] focus:ring-offset-2 transition ${
+              copied
+                ? "bg-[#ECF8F7] text-[#2CAAA0] border border-[#2CAAA0]/50"
+                : "bg-[#2CAAA0] text-white hover:bg-[#27998f]"
+            }`}
           >
             {copied ? "복사됨!" : "계좌 복사"}
           </button>
+          <span className="sr-only" aria-live="polite">
+            {copied ? "계좌번호가 복사되었습니다." : ""}
+          </span>
         </div>
       </div>
       <p className="text-gray-600 text-sm mt-3">
