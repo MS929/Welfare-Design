@@ -205,13 +205,14 @@ export default function NewsStories() {
 
   return (
     <div className="max-w-screen-xl mx-auto px-4 py-10">
-      {/* breadcrumb */}
-      <div className="text-[13px] leading-none text-gray-500 mb-3">
-        <Link to="/news" className="text-emerald-600 hover:underline font-medium">소식</Link>
-        <span className="mx-1 align-middle">›</span>
-        <span className="text-gray-700">복지디자인 이야기</span>
+      {/* breadcrumb (whatIs.jsx와 동일 스타일) */}
+      <div className="mb-3 text-sm text-black/80">
+        <Link to="/news" className="text-black">소식</Link>
+        <span className="mx-1 text-gray-400">›</span>
+        <span className="text-black">복지디자인 이야기</span>
       </div>
-      <h1 className="mt-2 text-3xl md:text-4xl font-extrabold tracking-tight mb-8">복지디자인 이야기</h1>
+      {/* page title (whatIs.jsx와 동일 크기/두께) */}
+      <h1 className="mt-2 text-4xl md:text-5xl font-extrabold tracking-tight mb-8">복지디자인 이야기</h1>
 
       {/* 탭 */}
       <div className="flex flex-wrap items-center gap-2 sm:gap-3 mb-6">
