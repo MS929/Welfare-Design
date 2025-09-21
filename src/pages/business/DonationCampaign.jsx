@@ -38,7 +38,7 @@ export default function Donation() {
 
             <div className="rounded-2xl border border-[#2CB9B1]/30 bg-white/90 backdrop-blur-[1px] shadow-md p-7 md:p-8 h-full">
               <h3 className="font-semibold text-lg tracking-tight text-[#F26C2A] mb-3">기대 효과</h3>
-              <ul className="list-disc list-inside space-y-1.5 text-gray-700 leading-relaxed">
+              <ul className="list-disc list-outside pl-5 space-y-1.5 text-gray-700 leading-relaxed tracking-tight text-justify">
                 <li>
                   취약계층의 복지정보 접근성 강화 및 제도적 권리 실현 지원
                 </li>
