@@ -230,7 +230,7 @@ function BankBox({ className = "" }) {
         <div className="flex items-center gap-2">
           <button
             onClick={copy}
-            className="px-3 py-2 rounded-lg border border-teal-400 text-teal-800 bg-teal-100 hover:bg-teal-200"
+            className="px-4 py-2 rounded-full bg-gradient-to-r from-teal-500 to-emerald-500 text-white font-medium shadow-md hover:from-teal-600 hover:to-emerald-600 transition-all duration-200"
           >
             {copied ? "복사됨!" : "계좌 복사"}
           </button>
