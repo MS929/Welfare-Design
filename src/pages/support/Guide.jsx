@@ -47,7 +47,7 @@ export default function SupGuide() {
                 "계좌이체/자동이체",
                 "지속적인 복지서비스 지원",
               ]}
-              accent="teal"
+              accent="yellow"
             />
           </div>
           <div className="rounded-xl shadow-sm hover:shadow-md transition h-full">
@@ -177,6 +177,7 @@ function SupportPanel({ icon, title, items = [], accent = "teal" }) {
     sky: "bg-sky-50",
     emerald: "bg-green-50", // changed from bg-emerald-50 to bg-green-50 for more distinction
     warm: "bg-[#FFEDE2]", // peach tone
+    yellow: "bg-yellow-50",
   }[accent] || "bg-teal-50";
 
   const titleClass = {
@@ -184,6 +185,7 @@ function SupportPanel({ icon, title, items = [], accent = "teal" }) {
     sky: "text-sky-800",
     emerald: "text-emerald-800",
     warm: "text-orange-700",
+    yellow: "text-yellow-700",
   }[accent] || "text-teal-800";
 
   const markerClass = {
@@ -191,6 +193,7 @@ function SupportPanel({ icon, title, items = [], accent = "teal" }) {
     sky: "marker:text-sky-600",
     emerald: "marker:text-emerald-600",
     warm: "marker:text-orange-500",
+    yellow: "marker:text-yellow-500",
   }[accent] || "marker:text-teal-600";
 
   return (
