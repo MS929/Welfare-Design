@@ -18,8 +18,6 @@ export default function Combination() {
         
 
         <div className="relative rounded-2xl border border-gray-200 bg-white p-6 md:p-8 shadow-md">
-          {/* accent bar */}
-          <div className="-mt-6 -mx-6 md:-mx-8 mb-4 h-1 rounded-t-2xl bg-gradient-to-r from-emerald-300/70 via-sky-300/70 to-transparent" />
           {/* badge */}
           <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-50 text-emerald-700 text-[11px] font-semibold px-2.5 py-1 mb-2">
             JOIN&nbsp;US
