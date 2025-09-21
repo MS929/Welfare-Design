@@ -7,14 +7,14 @@ export default function SupGuide() {
     <div className="max-w-screen-xl mx-auto pl-2 pr-4 sm:pl-3 sm:pr-6 lg:pl-4 lg:pr-8 pt-8 md:pt-10 pb-14 antialiased tracking-[-0.01em]">
       <header className="mb-10">
         <nav className="text-sm text-gray-400">
-          <span className="text-emerald-600 font-medium">후원</span>
+          <span className="text-[#2CAAA0] font-medium">후원</span>
           <span className="mx-1">&gt;</span>
           <span className="text-gray-600">안내</span>
         </nav>
         <h1 className="mt-2 text-[36px] md:text-[42px] leading-[1.15] font-extrabold tracking-tight text-gray-900">
           복지디자인 후원 안내
         </h1>
-        <div className="mt-3 h-1 w-14 rounded-full bg-emerald-600"></div>
+        <div className="mt-3 h-1 w-14 rounded-full bg-[#2CAAA0]"></div>
         <p className="mt-4 text-gray-800 leading-[1.85] break-keep">
           “작지만 깊이 있는 변화”, 그 출발점이 바로 복지디자인입니다. 복지디자인
           사회적협동조합은 복지를 설계하는 사람들입니다. <br></br>
@@ -25,8 +25,8 @@ export default function SupGuide() {
         </p>
       </header>
 
-      <section className="mt-8 -mx-0 rounded-2xl ring-1 ring-emerald-100 overflow-hidden bg-white shadow-sm">
-        <div className="grid md:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-emerald-100">
+      <section className="mt-8 -mx-0 rounded-2xl ring-1 ring-[#2CAAA0]/20 overflow-hidden bg-white shadow-sm">
+        <div className="grid md:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-[#2CAAA0]/20">
           {/* 개인 후원 */}
           <SupportPanel
             icon={
@@ -97,9 +97,9 @@ export default function SupGuide() {
       <BankBox className="mt-10" />
 
       {/* 후원 신청서 */}
-      <section className="mt-12 overflow-hidden rounded-2xl border border-gray-200 bg-white">
+      <section className="mt-12 overflow-hidden rounded-2xl border border-[#2CAAA0]/40 bg-[#2CAAA0]/10">
         {/* Header */}
-        <div className="px-6 py-5 border-b bg-gradient-to-r from-emerald-50 to-teal-50">
+        <div className="px-6 py-5 border-b bg-[#2CAAA0]/10">
           <h3 className="text-xl font-semibold">후원 신청서</h3>
           <p className="text-gray-600 mt-1">
             후원 신청서를 작성해주시면 기부금 영수증 발급과 투명한 후원금 공개를
@@ -147,7 +147,7 @@ export default function SupGuide() {
           </ul>
           <Link
             to="/support/faq"
-            className="inline-block mt-4 text-emerald-700"
+            className="inline-block mt-4 text-[#2CAAA0]"
           >
             FAQ 전체 보기 →
           </Link>
@@ -177,12 +177,12 @@ function SupportPanel({ icon, title, items = [] }) {
     <div className="px-8 py-12 md:px-10">
       <div className="mx-auto w-full max-w-[420px] text-left">
         <div className="mb-4 flex justify-center">{icon}</div>
-        <h3 className="text-center text-[19px] md:text-[20px] font-semibold mb-4 text-emerald-700 tracking-tight">{title}</h3>
+        <h3 className="text-center text-[19px] md:text-[20px] font-semibold mb-4 text-[#2CAAA0] tracking-tight">{title}</h3>
         {items.length > 0 && (
           <>
             <p className="text-[15px] leading-[1.85] text-gray-800 break-keep whitespace-pre-line mb-2">{items[0]}</p>
             {items.length > 1 && (
-              <ul className="mt-4 list-disc pl-5 text-[15px] leading-[1.85] text-gray-800 space-y-1.5 marker:text-emerald-600 break-keep">
+              <ul className="mt-4 list-disc pl-5 text-[15px] leading-[1.85] text-gray-800 space-y-1.5 marker:text-[#2CAAA0] break-keep">
                 {items.slice(1).map((t) => (
                   <li key={t} className="break-keep">{t}</li>
                 ))}
@@ -237,7 +237,7 @@ function BankBox({ className = "" }) {
   };
 
   return (
-    <section className={`rounded-2xl border border-emerald-200 p-6 bg-emerald-50/60 ${className}`}>
+    <section className={`rounded-2xl border border-[#2CAAA0]/40 p-6 bg-[#2CAAA0]/10 ${className}`}>
       <h3 className="text-lg font-semibold">무통장 입금(계좌이체)</h3>
       <div className="mt-3 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
         <p className="text-gray-800">
@@ -249,7 +249,7 @@ function BankBox({ className = "" }) {
         <div className="flex items-center gap-2">
           <button
             onClick={copy}
-            className="px-3 py-2 rounded-lg border border-emerald-300 text-emerald-700 bg-white"
+            className="px-3 py-2 rounded-lg border border-[#2CAAA0]/60 text-[#2CAAA0] bg-white"
           >
             {copied ? "복사됨!" : "계좌 복사"}
           </button>
