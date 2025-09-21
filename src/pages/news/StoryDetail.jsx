@@ -1,5 +1,5 @@
 // src/pages/news/StoryDetail.jsx
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, useMemo } from "react";
 import { useNavigate, useParams, useLocation } from "react-router-dom";
 import matter from "gray-matter";
 import ReactMarkdown from "react-markdown";
@@ -38,16 +38,18 @@ function SmartImage({ src, alt, className, priority = false, placeholderMin = 22
     <div
       ref={ref}
       className={`${className} rounded-xl bg-gray-100`}
-      style={{ minHeight: loaded ? undefined : placeholderMin }}
+      style={{ minHeight: placeholderMin }}
     >
       {currentSrc && (
         <img
           src={currentSrc}
           alt={alt}
           decoding="async"
-          className={`${className} transition-opacity duration-300 ${loaded ? "opacity-100" : "opacity-0"}`}
+          loading={priority ? "eager" : "lazy"}
+          className={`${className} transition-opacity duration-300 opacity-100`}
           width={size.width}
           height={size.height}
+          style={{ willChange: "opacity", backfaceVisibility: "hidden" }}
           onLoad={(e) => {
             setLoaded(true);
             if (!size.width || !size.height) {
@@ -82,7 +84,7 @@ export default function StoryDetail() {
   const [post, setPost] = useState(null); // null: 로딩, undefined: not found
   const [neighbors, setNeighbors] = useState({ prev: null, next: null });
   const [copied, setCopied] = useState(false);
-  const [progress, setProgress] = useState(0);
+  const progressRef = useRef(null);
 
   useEffect(() => {
     (async () => {
@@ -145,12 +147,42 @@ export default function StoryDetail() {
       const el = document.documentElement;
       const total = el.scrollHeight - el.clientHeight;
       const scrolled = total > 0 ? el.scrollTop / total : 0;
-      setProgress(Math.min(100, Math.max(0, scrolled * 100)));
+      if (progressRef.current) {
+        progressRef.current.style.width = `${Math.min(100, Math.max(0, scrolled * 100))}%`;
+      }
     };
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
+
+  const markdownContent = useMemo(() => {
+    if (!post) return null;
+    return (
+      <ReactMarkdown
+        remarkPlugins={[remarkGfm]}
+        components={{
+          img: ({ node, ...props }) => (
+            <SmartImage {...props} className="block w-full h-auto rounded-xl my-6" />
+          ),
+          a: ({ node, ...props }) => {
+            const href = String(props.href || "");
+            const isExternal = /^https?:\/\//i.test(href);
+            return (
+              <a
+                {...props}
+                target={isExternal ? "_blank" : undefined}
+                rel={isExternal ? "noopener noreferrer" : undefined}
+                className="text-emerald-700 hover:underline"
+              />
+            );
+          },
+        }}
+      >
+        {post.content}
+      </ReactMarkdown>
+    );
+  }, [post?.content]);
 
   if (post === undefined) {
     return (
@@ -175,8 +207,9 @@ export default function StoryDetail() {
     <>
       <div className="fixed left-0 right-0 top-0 h-0.5 z-40">
         <div
+          ref={progressRef}
           className="h-full bg-emerald-600/80 transition-[width] duration-200"
-          style={{ width: `${progress}%` }}
+          style={{ width: "0%" }}
         />
       </div>
 
@@ -220,28 +253,7 @@ export default function StoryDetail() {
 
         <div className="rounded-2xl border border-gray-100 bg-white shadow-sm p-6 md:p-8">
           <article className="prose prose-lg prose-gray max-w-none text-gray-800 prose-a:text-emerald-700 prose-a:no-underline hover:prose-a:underline prose-img:rounded-xl prose-headings:font-semibold prose-h2:mt-12 prose-h3:mt-8">
-            <ReactMarkdown
-              remarkPlugins={[remarkGfm]}
-              components={{
-                img: ({ node, ...props }) => (
-                  <SmartImage {...props} className="block w-full h-auto rounded-xl my-6" />
-                ),
-                a: ({ node, ...props }) => {
-                  const href = String(props.href || "");
-                  const isExternal = /^https?:\/\//i.test(href);
-                  return (
-                    <a
-                      {...props}
-                      target={isExternal ? "_blank" : undefined}
-                      rel={isExternal ? "noopener noreferrer" : undefined}
-                      className="text-emerald-700 hover:underline"
-                    />
-                  );
-                },
-              }}
-            >
-              {post.content}
-            </ReactMarkdown>
+            {markdownContent}
           </article>
         </div>
 
