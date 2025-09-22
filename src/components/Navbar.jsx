@@ -197,7 +197,7 @@ export default function Navbar() {
 
       {megaOpen && (
         <div
-          className="absolute left-0 right-0 top-full z-40 bg-white/95 shadow-lg border-t"
+          className="absolute left-0 right-0 top-full z-40 bg-white shadow-lg border-t"
           onMouseEnter={() => setMegaOpen(true)}
           onMouseLeave={() => {
             setMegaOpen(false);
