@@ -184,6 +184,22 @@ export default function Navbar() {
           </Link>
         </div>
 
+        {/* Mobile CTA buttons */}
+        <div className="flex md:hidden items-center gap-2 justify-self-end">
+          <Link
+            to="/support/guide"
+            className="bg-emerald-500 hover:bg-emerald-600 text-white px-3 py-2 rounded-full text-sm shadow-sm transition"
+          >
+            후원 안내
+          </Link>
+          <Link
+            to="/support/combination"
+            className="border border-emerald-500 text-emerald-600 hover:bg-emerald-50 px-3 py-2 rounded-full text-sm transition"
+          >
+            조합 가입
+          </Link>
+        </div>
+
         {/* 모바일 햄버거 */}
         <button
           className="md:hidden ml-auto rounded-md p-2 hover:bg-gray-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500"
@@ -234,6 +250,23 @@ export default function Navbar() {
       {/* 모바일 메뉴(간단 버전) */}
       {mobileOpen && (
         <div className="md:hidden border-t bg-white">
+          {/* Mobile CTAs (inside drawer) */}
+          <div className="px-4 py-3 flex gap-2 sticky top-0 bg-white z-10 border-b">
+            <Link
+              to="/support/guide"
+              className="bg-emerald-500 hover:bg-emerald-600 text-white px-3 py-2 rounded-full text-sm shadow-sm transition"
+              onClick={() => setMobileOpen(false)}
+            >
+              후원 안내
+            </Link>
+            <Link
+              to="/support/combination"
+              className="border border-emerald-500 text-emerald-600 hover:bg-emerald-50 px-3 py-2 rounded-full text-sm transition"
+              onClick={() => setMobileOpen(false)}
+            >
+              조합 가입
+            </Link>
+          </div>
           <details className="border-b">
             <summary className="px-4 py-3 cursor-pointer hover:bg-gray-50">
               소개
