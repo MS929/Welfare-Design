@@ -945,9 +945,9 @@ export default function Home1() {
             display: "flex",
             alignItems: "center",
             gap: 10,
-            flexWrap: isTablet ? "nowrap" : "wrap",
-            overflowX: isTablet ? "auto" : "visible",
-            paddingBottom: isTablet ? 6 : 0,
+            flexWrap: "wrap",
+            justifyContent: isMobile ? "center" : "flex-start",
+            rowGap: 8
           }}
         >
             {storyPills.map((label) => {
@@ -969,6 +969,8 @@ export default function Home1() {
                     boxShadow: "0 2px 6px rgba(0,0,0,.04)",
                     transition:
                       "background .15s ease, border-color .15s ease, color .15s ease",
+                    minWidth: isMobile ? "auto" : 64,
+                    flexShrink: 0,
                   }}
                 >
                   {label}
