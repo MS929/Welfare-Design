@@ -17,7 +17,7 @@ export default function Combination() {
       <section className="relative max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8 pb-16 antialiased tracking-[-0.01em] mt-10">
         
 
-        <div className="relative rounded-2xl border border-gray-200 bg-white p-6 md:p-8 shadow-md">
+        <div className="relative rounded-2xl border border-gray-200 bg-white p-6 md:p-8 shadow-md text-center">
           {/* badge */}
           <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-50 text-emerald-700 text-[11px] font-semibold px-2.5 py-1 mb-2">
             JOIN&nbsp;US
@@ -28,12 +28,11 @@ export default function Combination() {
           </h2>
 
           <p className="text-gray-700 leading-relaxed mb-6 md:mb-7 max-w-2xl">
-            복지디자인의 미션에 공감하시고 조합 가입을 원하시면 아래 연락처로 편하게 문의해 주세요.
-            간단한 안내와 상담 후 절차를 도와드립니다.
+            복지디자인의 미션에 공감하시고 조합 가입을 원하시면 아래 연락처로 편하게 문의해 주세요. 간단한 안내와 상담 후 절차를 도와드립니다.
           </p>
 
           {/* 연락처 */}
-          <ul className="mt-4 space-y-3 text-gray-800">
+          <ul className="mt-4 space-y-3 text-gray-800 items-center flex flex-col">
             <li className="flex items-center gap-3 leading-none">
               {/* phone icon */}
               <svg
@@ -90,7 +89,7 @@ export default function Combination() {
           </ul>
 
           {/* actions */}
-          <div className="mt-8 flex flex-wrap gap-3">
+          <div className="mt-8 flex flex-wrap gap-3 justify-center">
             <a
               href="tel:042-000-0000"
               className="inline-flex items-center justify-center rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white px-5 py-2.5 font-semibold"
