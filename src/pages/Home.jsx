@@ -902,13 +902,13 @@ export default function Home1() {
           style={{
             display: "flex",
             flexDirection: isMobile ? "column" : "row",
-            alignItems: isMobile ? "center" : "flex-end",
-            justifyContent: isMobile ? "center" : "space-between",
+            alignItems: isMobile ? "flex-start" : "flex-end",
+            justifyContent: isMobile ? "flex-start" : "space-between",
             gap: isMobile ? 12 : 16,
             marginBottom: isMobile ? 16 : 24,
           }}
         >
-          <div style={{ textAlign: isMobile ? "center" : "left" }}>
+          <div style={{ textAlign: "left" }}>
             <h2
               style={{
                 margin: 0,
@@ -917,7 +917,7 @@ export default function Home1() {
                 display: "flex",
                 alignItems: "center",
                 gap: 10,
-                textAlign: isMobile ? "center" : "left",
+                textAlign: "left",
               }}
             >
               <span
@@ -937,7 +937,7 @@ export default function Home1() {
                 margin: isMobile ? "6px 0 0" : "6px 0 0",
                 color: PALETTE.grayText,
                 fontSize: 14,
-                textAlign: isMobile ? "center" : "left",
+                textAlign: "left",
               }}
             >
               행복한 소식을 만들어가는 복지디자인입니다.
@@ -951,7 +951,7 @@ export default function Home1() {
               alignItems: "center",
               gap: 10,
               flexWrap: "wrap",
-              justifyContent: isMobile ? "center" : "flex-start",
+              justifyContent: "flex-start",
               rowGap: 8,
               marginTop: isMobile ? 10 : 0,
             }}
@@ -1188,8 +1188,8 @@ export default function Home1() {
           style={{
             display: "flex",
             flexDirection: isMobile ? "column" : "row",
-            alignItems: "center",
-            justifyContent: isMobile ? "center" : "space-between",
+            alignItems: isMobile ? "flex-start" : "center",
+            justifyContent: isMobile ? "flex-start" : "space-between",
             gap: isMobile ? 8 : 12,
             marginBottom: isMobile ? 16 : 20,
           }}
@@ -1237,9 +1237,9 @@ export default function Home1() {
                 flexWrap: "wrap",
                 gap: 8,
                 alignItems: "center",
-                justifyContent: isMobile ? "center" : "space-between",
+                justifyContent: "space-between",
                 marginBottom: isMobile ? 10 : 12,
-                textAlign: isMobile ? "center" : "left",
+                textAlign: "left",
               }}
             >
               <h2 style={{ margin: 0, fontSize: 22, fontWeight: 900 }}>공지</h2>
@@ -1356,9 +1356,9 @@ export default function Home1() {
                 flexWrap: "wrap",
                 gap: 8,
                 alignItems: "center",
-                justifyContent: isMobile ? "center" : "space-between",
+                justifyContent: "space-between",
                 marginBottom: isMobile ? 10 : 12,
-                textAlign: isMobile ? "center" : "left",
+                textAlign: "left",
               }}
             >
               <h2 style={{ margin: 0, fontSize: 22, fontWeight: 900 }}>
