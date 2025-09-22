@@ -10,18 +10,6 @@ export default function Footer() {
           </p>
         </div>
 
-        {/* 메뉴 */}
-        <div>
-          <h3 className="text-white font-semibold mb-3">메뉴</h3>
-          <ul className="space-y-2 text-sm">
-            <li><a href="/about" className="hover:text-white">소개</a></li>
-            <li><a href="/business" className="hover:text-white">사업</a></li>
-            <li><a href="/news" className="hover:text-white">소식</a></li>
-            <li><a href="/support" className="hover:text-white">후원 안내</a></li>
-            <li><a href="/join" className="hover:text-white">조합 가입</a></li>
-          </ul>
-        </div>
-
         {/* 연락처 */}
         <div>
           <h3 className="text-white font-semibold mb-3">문의</h3>
@@ -30,20 +18,11 @@ export default function Footer() {
           <p className="text-sm">이메일: songkangbokji@songkang.or.kr</p>
           <p className="text-sm mt-2">대전광역시 유성구 봉산로 45</p>
         </div>
-
-        {/* 소셜/저작권 */}
-        <div>
-          <h3 className="text-white font-semibold mb-3">Follow Us</h3>
-          <div className="flex space-x-4">
-            <a href="#" className="hover:text-white">Facebook</a>
-            <a href="#" className="hover:text-white">Instagram</a>
-            <a href="#" className="hover:text-white">YouTube</a>
-          </div>
-        </div>
       </div>
       {/* 저작권 */}
       <div className="text-center text-sm text-gray-400 border-t border-gray-700 py-4">
-        © {new Date().getFullYear()} 복지디자인. All rights reserved.
+        © {new Date().getFullYear()} 복지디자인. All rights reserved. Design By
+        MS シ
       </div>
     </footer>
   );
