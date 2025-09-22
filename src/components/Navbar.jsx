@@ -124,7 +124,7 @@ export default function Navbar() {
     {
       title: "후원",
       items: [
-        { to: "/support/guide", label: "후원가이드" },
+        { to: "/support/guide", label: "후원안내" },
         { to: "/support/faq", label: "FAQ" },
       ],
     },
@@ -356,7 +356,7 @@ export default function Navbar() {
                 className="block px-3 py-2 rounded hover:bg-gray-50"
                 onClick={() => setMobileOpen(false)}
               >
-                후원가이드
+                후원안내
               </NavLink>
               <NavLink
                 to="/support/faq"
