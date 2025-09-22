@@ -184,22 +184,6 @@ export default function Navbar() {
           </Link>
         </div>
 
-        {/* Mobile CTA buttons */}
-        <div className="flex md:hidden items-center gap-2 justify-self-end">
-          <Link
-            to="/support/guide"
-            className="bg-emerald-500 hover:bg-emerald-600 text-white px-3 py-2 rounded-full text-sm shadow-sm transition"
-          >
-            후원 안내
-          </Link>
-          <Link
-            to="/support/combination"
-            className="border border-emerald-500 text-emerald-600 hover:bg-emerald-50 px-3 py-2 rounded-full text-sm transition"
-          >
-            조합 가입
-          </Link>
-        </div>
-
         {/* 모바일 햄버거 */}
         <button
           className="md:hidden ml-auto rounded-md p-2 hover:bg-gray-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500"
@@ -209,6 +193,24 @@ export default function Navbar() {
         >
           ☰
         </button>
+
+        {/* Mobile CTA buttons – show compact pills only on very small+ (≥380px). On narrower screens, keep CTAs inside the drawer only. */}
+        <div className="hidden md:hidden min-[380px]:flex items-center gap-2 justify-self-end">
+          <Link
+            to="/support/guide"
+            className="bg-emerald-500 hover:bg-emerald-600 text-white px-2.5 py-1.5 rounded-full text-xs shadow-sm transition whitespace-nowrap"
+            aria-label="후원 안내"
+          >
+            후원 안내
+          </Link>
+          <Link
+            to="/support/combination"
+            className="border border-emerald-500 text-emerald-600 hover:bg-emerald-50 px-2.5 py-1.5 rounded-full text-xs transition whitespace-nowrap"
+            aria-label="조합 가입"
+          >
+            조합 가입
+          </Link>
+        </div>
       </nav>
 
       {megaOpen && (
@@ -251,17 +253,17 @@ export default function Navbar() {
       {mobileOpen && (
         <div className="md:hidden border-t bg-white">
           {/* Mobile CTAs (inside drawer) */}
-          <div className="px-4 py-3 flex gap-2 sticky top-0 bg-white z-10 border-b">
+          <div className="px-4 py-3 flex gap-2 items-center sticky top-0 bg-white z-10 border-b">
             <Link
               to="/support/guide"
-              className="bg-emerald-500 hover:bg-emerald-600 text-white px-3 py-2 rounded-full text-sm shadow-sm transition"
+              className="bg-emerald-500 hover:bg-emerald-600 text-white px-3 py-2 rounded-full text-sm shadow-sm transition whitespace-nowrap"
               onClick={() => setMobileOpen(false)}
             >
               후원 안내
             </Link>
             <Link
               to="/support/combination"
-              className="border border-emerald-500 text-emerald-600 hover:bg-emerald-50 px-3 py-2 rounded-full text-sm transition"
+              className="border border-emerald-500 text-emerald-600 hover:bg-emerald-50 px-3 py-2 rounded-full text-sm transition whitespace-nowrap"
               onClick={() => setMobileOpen(false)}
             >
               조합 가입
