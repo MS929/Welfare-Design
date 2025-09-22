@@ -4,16 +4,18 @@ export default function Footer() {
       <div className="max-w-6xl mx-auto px-6 py-10">
         {/* 로고 및 협동조합 소개 */}
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center border-b border-gray-700 pb-6 mb-6">
-          <div className="mb-4 md:mb-0">
+          <div className="mb-4 md:mb-0 flex items-center">
             <img
               src="/images/about/main.png"
               alt="복지디자인 로고"
-              className="h-12 mb-2"
+              className="h-12"
             />
-            <p className="text-sm font-semibold">복지디자인 사회적협동조합 | Welfare Design Cooperative</p>
-            <p className="text-xs text-gray-400">
-              함께 성장하며 모두의 행복을 위한 복지를 디자인합니다.
-            </p>
+            <div className="ml-3">
+              <p className="text-sm font-semibold">복지디자인 사회적협동조합 | Welfare Design Cooperative</p>
+              <p className="text-xs text-gray-400">
+                함께 성장하며 모두의 행복을 위한 복지를 디자인합니다.
+              </p>
+            </div>
           </div>
 
           {/* 연락처 */}
