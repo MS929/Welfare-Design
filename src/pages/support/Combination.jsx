@@ -28,7 +28,7 @@ export default function Combination() {
           </h2>
 
           <p className="text-gray-700 leading-relaxed mb-6 md:mb-7 max-w-2xl text-center mx-auto">
-            복지디자인의 미션에 공감하시고 조합 가입을 원하시면 아래 연락처로 편하게 문의해 주세요. 간단한 안내와 상담 후 절차를 도와드립니다.
+            복지디자인의 미션에 공감하시고 조합 가입을 원하시면 아래 연락처로 편하게 문의해 주세요. <br></br>간단한 안내와 상담 후 절차를 도와드립니다.
           </p>
 
           {/* 연락처 */}
