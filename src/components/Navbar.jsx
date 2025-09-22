@@ -171,13 +171,13 @@ export default function Navbar() {
         <div className="hidden md:flex items-center gap-3 col-start-3 justify-self-end">
           <Link
             to="/support/guide"
-            className="bg-sky-400 hover:bg-sky-500 text-white px-4 py-2 rounded-full"
+            className="bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-full"
           >
             후원 안내
           </Link>
           <Link
             to="/support/combination"
-            className="bg-sky-400 hover:bg-sky-500 text-white px-4 py-2 rounded-full"
+            className="bg-emerald-500 hover:bg-emerald-600 text-white px-4 py-2 rounded-full"
           >
             조합 가입
           </Link>
