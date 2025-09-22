@@ -194,25 +194,6 @@ export default function Navbar() {
           ☰
         </button>
 
-        {/* Mobile CTA buttons – show compact pills only on very small+ (≥380px). On narrower screens, keep CTAs inside the drawer only. */}
-        {!mobileOpen && (
-          <div className="hidden md:hidden min-[380px]:flex items-center gap-2 justify-self-end">
-            <Link
-              to="/support/guide"
-              className="bg-emerald-500 hover:bg-emerald-600 text-white px-2.5 py-1.5 rounded-full text-xs shadow-sm transition whitespace-nowrap"
-              aria-label="후원 안내"
-            >
-              후원 안내
-            </Link>
-            <Link
-              to="/support/combination"
-              className="border border-emerald-500 text-emerald-600 hover:bg-emerald-50 px-2.5 py-1.5 rounded-full text-xs transition whitespace-nowrap"
-              aria-label="조합 가입"
-            >
-              조합 가입
-            </Link>
-          </div>
-        )}
       </nav>
 
       {megaOpen && (
