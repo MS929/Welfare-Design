@@ -763,7 +763,7 @@ export default function Home1() {
                 }}
               >
                 {/* Left: heading + description */}
-                <div>
+                <div style={{ textAlign: isMobile ? "center" : "left" }}>
                   <h3
                     style={{
                       margin: 0,
@@ -771,6 +771,7 @@ export default function Home1() {
                       fontWeight: 900,
                       letterSpacing: -0.2,
                       color: PALETTE.darkText,
+                      textAlign: isMobile ? "center" : "left",
                     }}
                   >
                     빠르게 가기
@@ -780,6 +781,7 @@ export default function Home1() {
                       margin: "6px 0 0",
                       color: PALETTE.grayText,
                       lineHeight: 1.5,
+                      textAlign: isMobile ? "center" : "left",
                     }}
                   >
                     자주 찾는 메뉴를 한 번에 <br />
@@ -899,13 +901,14 @@ export default function Home1() {
         <div
           style={{
             display: "flex",
-            alignItems: "flex-end",
-            justifyContent: "space-between",
-            gap: 16,
-            marginBottom: 24,
+            flexDirection: isMobile ? "column" : "row",
+            alignItems: isMobile ? "center" : "flex-end",
+            justifyContent: isMobile ? "center" : "space-between",
+            gap: isMobile ? 12 : 16,
+            marginBottom: isMobile ? 16 : 24,
           }}
         >
-          <div>
+          <div style={{ textAlign: isMobile ? "center" : "left" }}>
             <h2
               style={{
                 margin: 0,
@@ -914,6 +917,7 @@ export default function Home1() {
                 display: "flex",
                 alignItems: "center",
                 gap: 10,
+                textAlign: isMobile ? "center" : "left",
               }}
             >
               <span
@@ -930,9 +934,10 @@ export default function Home1() {
             </h2>
             <p
               style={{
-                margin: "6px 0 0",
+                margin: isMobile ? "6px 0 0" : "6px 0 0",
                 color: PALETTE.grayText,
                 fontSize: 14,
+                textAlign: isMobile ? "center" : "left",
               }}
             >
               행복한 소식을 만들어가는 복지디자인입니다.
@@ -940,16 +945,17 @@ export default function Home1() {
           </div>
 
           {/* 우측: 가로 필터 + 전체보기 */}
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            gap: 10,
-            flexWrap: "wrap",
-            justifyContent: isMobile ? "center" : "flex-start",
-            rowGap: 8
-          }}
-        >
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: 10,
+              flexWrap: "wrap",
+              justifyContent: isMobile ? "center" : "flex-start",
+              rowGap: 8,
+              marginTop: isMobile ? 10 : 0,
+            }}
+          >
             {storyPills.map((label) => {
               const active = storyActive === label;
               return (
@@ -978,7 +984,11 @@ export default function Home1() {
               );
             })}
             <a
-              href={storyActive === "전체" ? "/news/stories" : `/news/stories?type=${encodeURIComponent(storyActive)}`}
+              href={
+                storyActive === "전체"
+                  ? "/news/stories"
+                  : `/news/stories?type=${encodeURIComponent(storyActive)}`
+              }
               style={{
                 textDecoration: "none",
                 color: PALETTE.teal,
@@ -1177,10 +1187,11 @@ export default function Home1() {
         <div
           style={{
             display: "flex",
+            flexDirection: isMobile ? "column" : "row",
             alignItems: "center",
-            gap: 12,
-            justifyContent: "space-between",
-            marginBottom: 20,
+            justifyContent: isMobile ? "center" : "space-between",
+            gap: isMobile ? 8 : 12,
+            marginBottom: isMobile ? 16 : 20,
           }}
         >
           <h2
@@ -1191,6 +1202,7 @@ export default function Home1() {
               display: "flex",
               alignItems: "center",
               gap: 10,
+              textAlign: isMobile ? "center" : "left",
             }}
           >
             <span
@@ -1222,9 +1234,12 @@ export default function Home1() {
             <div
               style={{
                 display: "flex",
-                justifyContent: "space-between",
-                alignItems: "baseline",
-                marginBottom: 12,
+                flexWrap: "wrap",
+                gap: 8,
+                alignItems: "center",
+                justifyContent: isMobile ? "center" : "space-between",
+                marginBottom: isMobile ? 10 : 12,
+                textAlign: isMobile ? "center" : "left",
               }}
             >
               <h2 style={{ margin: 0, fontSize: 22, fontWeight: 900 }}>공지</h2>
@@ -1338,9 +1353,12 @@ export default function Home1() {
             <div
               style={{
                 display: "flex",
-                justifyContent: "space-between",
-                alignItems: "baseline",
-                marginBottom: 12,
+                flexWrap: "wrap",
+                gap: 8,
+                alignItems: "center",
+                justifyContent: isMobile ? "center" : "space-between",
+                marginBottom: isMobile ? 10 : 12,
+                textAlign: isMobile ? "center" : "left",
               }}
             >
               <h2 style={{ margin: 0, fontSize: 22, fontWeight: 900 }}>
