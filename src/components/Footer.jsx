@@ -10,7 +10,7 @@ export default function Footer() {
               alt="복지디자인 로고"
               className="h-12 mb-2"
             />
-            <p className="text-sm font-semibold">복지디자인 사회적협동조합</p>
+            <p className="text-sm font-semibold">복지디자인 사회적협동조합 | Welfare Design Cooperative</p>
             <p className="text-xs text-gray-400">
               함께 성장하며 모두의 행복을 위한 복지를 디자인합니다.
             </p>
