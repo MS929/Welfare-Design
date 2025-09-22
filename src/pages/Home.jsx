@@ -161,6 +161,41 @@ const Pill = ({ label, icon, color, onClick }) => (
   </button>
 );
 
+// 작은 "더보기" 캡슐 링크 – 스토리 필터와 동일한 톤
+const MorePill = ({ href, children }) => (
+  <a
+    href={href}
+    style={{
+      display: "inline-flex",
+      alignItems: "center",
+      gap: 6,
+      height: 36,
+      padding: "0 14px",
+      borderRadius: 999,
+      border: `1px solid ${PALETTE.teal}`,
+      background: "#fff",
+      color: PALETTE.teal,
+      fontWeight: 800,
+      textDecoration: "none",
+      boxShadow: "0 2px 6px rgba(0,0,0,.04)",
+      transition: "background .15s ease, color .15s ease, border-color .15s ease",
+    }}
+    onMouseEnter={(e) => {
+      e.currentTarget.style.background = PALETTE.teal;
+      e.currentTarget.style.color = "#fff";
+      e.currentTarget.style.borderColor = PALETTE.teal;
+    }}
+    onMouseLeave={(e) => {
+      e.currentTarget.style.background = "#fff";
+      e.currentTarget.style.color = PALETTE.teal;
+      e.currentTarget.style.borderColor = PALETTE.teal;
+    }}
+  >
+    <span style={{ fontWeight: 900 }}>{children}</span>
+    <span aria-hidden style={{ fontWeight: 900 }}>›</span>
+  </a>
+);
+
 // OptimizedImg 컴포넌트가 import되어 있다고 가정합니다.
 const StoryCard = ({ title, date, href = "/news/stories", thumbnail, priority = false }) => (
   <a href={href} style={{ textDecoration: "none", color: "inherit" }}>
@@ -1130,20 +1165,7 @@ export default function Home1() {
               }}
             >
               <h2 style={{ margin: 0, fontSize: 22, fontWeight: 900 }}>공지</h2>
-              <a
-                href="/news/notices?category=공지"
-                style={{
-                  color: PALETTE.teal,
-                  fontWeight: 800,
-                  textDecoration: "none",
-                  border: `1px solid ${PALETTE.teal}33`,
-                  borderRadius: 999,
-                  padding: "6px 10px",
-                  background: "#fff",
-                }}
-              >
-                더보기 ›
-              </a>
+              <MorePill href="/news/notices?category=공지">더보기</MorePill>
             </div>
             <div style={{ display: "grid", gap: 22 }}>
               {(loadingNotices
@@ -1261,20 +1283,7 @@ export default function Home1() {
               <h2 style={{ margin: 0, fontSize: 22, fontWeight: 900 }}>
                 정보공개
               </h2>
-              <a
-                href="/news/notices?category=정보공개"
-                style={{
-                  color: PALETTE.teal,
-                  fontWeight: 800,
-                  textDecoration: "none",
-                  border: `1px solid ${PALETTE.teal}33`,
-                  borderRadius: 999,
-                  padding: "6px 10px",
-                  background: "#fff",
-                }}
-              >
-                더보기 ›
-              </a>
+              <MorePill href="/news/notices?category=정보공개">더보기</MorePill>
             </div>
             <div style={{ display: "grid", gap: 22 }}>
               {(loadingNotices
