@@ -1,4 +1,22 @@
 import { useState, useEffect, useMemo, useRef } from "react";
+// Responsive media query hook
+const useMedia = (query) => {
+  const [match, setMatch] = useState(() => {
+    if (typeof window === "undefined" || !window.matchMedia) return false;
+    try { return window.matchMedia(query).matches; } catch { return false; }
+  });
+  useEffect(() => {
+    if (typeof window === "undefined" || !window.matchMedia) return;
+    const mq = window.matchMedia(query);
+    const handler = () => setMatch(mq.matches);
+    handler();
+    mq.addEventListener ? mq.addEventListener("change", handler) : mq.addListener(handler);
+    return () => {
+      mq.removeEventListener ? mq.removeEventListener("change", handler) : mq.removeListener(handler);
+    };
+  }, [query]);
+  return match;
+};
 import matter from "gray-matter";
 import { Link } from "react-router-dom";
 import OptimizedImg from "../components/OptimizedImg";
@@ -91,9 +109,17 @@ const Section = ({
     return (
       <section
         style={{
-          width: "100vw",
-          margin: "0 calc(50% - 50vw)",
-          padding: "40px 0",
+          ...(typeof window !== "undefined" && window.innerWidth <= 640
+            ? {
+                width: "100%",
+                margin: 0,
+                padding: "24px 0",
+              }
+            : {
+                width: "100vw",
+                margin: "0 calc(50% - 50vw)",
+                padding: "40px 0",
+              }),
           ...style,
         }}
       >
@@ -101,7 +127,10 @@ const Section = ({
           style={{
             maxWidth: innerMaxWidth,
             margin: "0 auto",
-            padding: "0 24px",
+            padding:
+              typeof window !== "undefined" && window.innerWidth <= 640
+                ? "0 16px"
+                : "0 24px",
           }}
         >
           {children}
@@ -116,7 +145,10 @@ const Section = ({
         maxWidth: CONTAINER,
         width: "100%",
         margin: "0 auto",
-        padding: "40px 24px",
+        padding:
+          typeof window !== "undefined" && window.innerWidth <= 640
+            ? "24px 16px"
+            : "40px 24px",
         ...style,
       }}
     >
@@ -169,8 +201,12 @@ const MorePill = ({ href, children }) => (
       display: "inline-flex",
       alignItems: "center",
       gap: 6,
-      height: 36,
-      padding: "0 14px",
+      height:
+        typeof window !== "undefined" && window.innerWidth <= 640 ? 32 : 36,
+      padding:
+        typeof window !== "undefined" && window.innerWidth <= 640
+          ? "0 12px"
+          : "0 14px",
       borderRadius: 999,
       border: `1px solid ${PALETTE.teal}`,
       background: "#fff",
@@ -178,7 +214,10 @@ const MorePill = ({ href, children }) => (
       fontWeight: 800,
       textDecoration: "none",
       boxShadow: "0 2px 6px rgba(0,0,0,.04)",
-      transition: "background .15s ease, color .15s ease, border-color .15s ease",
+      fontSize:
+        typeof window !== "undefined" && window.innerWidth <= 640 ? 13 : 14,
+      transition:
+        "background .15s ease, color .15s ease, border-color .15s ease",
     }}
     onMouseEnter={(e) => {
       e.currentTarget.style.background = PALETTE.teal;
@@ -224,7 +263,10 @@ const StoryCard = ({ title, date, href = "/news/stories", thumbnail, priority = 
       <div
         aria-hidden
         style={{
-          height: 160,
+          height:
+            typeof window !== "undefined" && window.innerWidth <= 640
+              ? 130
+              : 160,
           overflow: "hidden",
           borderBottom: `1px solid ${PALETTE.line}`,
           background: thumbnail ? "#fff" : PALETTE.grayBg,
@@ -253,6 +295,8 @@ const StoryCard = ({ title, date, href = "/news/stories", thumbnail, priority = 
 );
 
 export default function Home1() {
+  const isMobile = useMedia("(max-width: 640px)");
+  const isTablet = useMedia("(max-width: 1024px)");
   const [notices, setNotices] = useState([]);
   const [loadingNotices, setLoadingNotices] = useState(true);
   // --- Stories (복지디자인 소식) state ---
@@ -419,22 +463,22 @@ export default function Home1() {
   }, [notices]);
 
   return (
-    <main style={{ background: "#fff" }}>
+    <main style={{ background: "#fff", overflowX: "hidden" }}>
       {/* 1) HERO – 이미지 캐러셀 + 우측 텍스트 (Home1 스타일) */}
       <Section
         fullBleed
         innerMaxWidth={CONTAINER}
         style={{
-          paddingTop: 80,
-          paddingBottom: 96,
+          paddingTop: isMobile ? 36 : isTablet ? 60 : 80,
+          paddingBottom: isMobile ? 40 : isTablet ? 72 : 96,
           background: "linear-gradient(180deg, #FAEEE0 0%, #FFFFFF 72%)",
         }}
       >
         <div
-          style={{
+          style={{ 
             display: "grid",
-            gridTemplateColumns: "1fr 1.15fr",
-            gap: 36,
+            gridTemplateColumns: isTablet ? "1fr" : "1fr 1.15fr",
+            gap: isTablet ? 20 : 36,
             alignItems: "center",
             padding: "0 32px",
           }}
@@ -450,7 +494,7 @@ export default function Home1() {
             <div
               style={{
                 position: "relative",
-                height: 360,
+                height: isMobile ? 220 : isTablet ? 300 : 360,
                 borderRadius: PALETTE.radiusLg,
                 overflow: "hidden",
                 boxShadow: "0 12px 28px rgba(0,0,0,.10)",
@@ -572,7 +616,7 @@ export default function Home1() {
           </div>
 
           {/* 우측 텍스트 */}
-          <div style={{ marginTop: -36 }}>
+          <div style={{ marginTop: isTablet ? 10 : -36, textAlign: isTablet ? "center" : "left" }}>
             {/* Eyebrow / 작은 포인트 배지 */}
             <div
               style={{
@@ -610,7 +654,7 @@ export default function Home1() {
 
             <h1
               style={{
-                fontSize: 38,
+                fontSize: isMobile ? 24 : isTablet ? 30 : 38,
                 lineHeight: 1.35,
                 margin: 0,
                 letterSpacing: -0.2,
@@ -647,7 +691,7 @@ export default function Home1() {
               지역과 함께합니다.
             </h1>
 
-            <p style={{ color: PALETTE.grayText, marginTop: 12, fontSize: 16 }}>
+            <p style={{ color: PALETTE.grayText, marginTop: 12, fontSize: isMobile ? 14 : 16 }}>
               주민·기관·전문가가 협력하는 맞춤형 복지 플랫폼을 설계·운영합니다.
             </p>
           </div>
@@ -713,9 +757,9 @@ export default function Home1() {
               <div
                 style={{
                   display: "grid",
-                  gridTemplateColumns: "minmax(220px, 1fr) 2fr",
-                  gap: 18,
-                  alignItems: "center",
+                  gridTemplateColumns: isTablet ? "1fr" : "minmax(220px, 1fr) 2fr",
+                  gap: isTablet ? 14 : 18,
+                  alignItems: isTablet ? "stretch" : "center",
                 }}
               >
                 {/* Left: heading + description */}
@@ -747,7 +791,11 @@ export default function Home1() {
                 <div
                   style={{
                     display: "grid",
-                    gridTemplateColumns: "repeat(4, minmax(0, 1fr))",
+                    gridTemplateColumns: isMobile
+                      ? "repeat(1, minmax(0,1fr))"
+                      : isTablet
+                      ? "repeat(2, minmax(0,1fr))"
+                      : "repeat(4, minmax(0,1fr))",
                     gap: 10,
                   }}
                 >
@@ -892,14 +940,16 @@ export default function Home1() {
           </div>
 
           {/* 우측: 가로 필터 + 전체보기 */}
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: 10,
-              flexWrap: "wrap",
-            }}
-          >
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: 10,
+            flexWrap: isTablet ? "nowrap" : "wrap",
+            overflowX: isTablet ? "auto" : "visible",
+            paddingBottom: isTablet ? 6 : 0,
+          }}
+        >
             {storyPills.map((label) => {
               const active = storyActive === label;
               return (
@@ -908,8 +958,9 @@ export default function Home1() {
                   onClick={() => setStoryActive(label)}
                   style={{
                     cursor: "pointer",
-                    height: 36,
-                    padding: "0 16px",
+                    height: isMobile ? 32 : 36,
+                    padding: isMobile ? "0 12px" : "0 16px",
+                    fontSize: isMobile ? 13 : 14,
                     borderRadius: 999,
                     border: `1px solid ${active ? PALETTE.teal : PALETTE.line}`,
                     background: active ? PALETTE.teal : "#fff",
@@ -943,7 +994,11 @@ export default function Home1() {
         <div
           style={{
             display: "grid",
-            gridTemplateColumns: "repeat(3, minmax(0,1fr))",
+            gridTemplateColumns: isMobile
+              ? "1fr"
+              : isTablet
+              ? "repeat(2, minmax(0,1fr))"
+              : "repeat(3, minmax(0,1fr))",
             gap: 24,
           }}
         >
@@ -993,7 +1048,11 @@ export default function Home1() {
           <div
             style={{
               display: "grid",
-              gridTemplateColumns: "repeat(3, minmax(0,1fr))",
+              gridTemplateColumns: isMobile
+                ? "1fr"
+                : isTablet
+                ? "repeat(2, minmax(0,1fr))"
+                : "repeat(3, minmax(0,1fr))",
               gap: 20,
             }}
           >
@@ -1150,8 +1209,10 @@ export default function Home1() {
         <div
           style={{
             display: "grid",
-            gridTemplateColumns: "repeat(2, minmax(0,1fr))",
-            gap: 28,
+            gridTemplateColumns: isTablet
+              ? "1fr"
+              : "repeat(2, minmax(0,1fr))",
+            gap: isTablet ? 18 : 28,
           }}
         >
           {/* 공지 */}
@@ -1180,7 +1241,7 @@ export default function Home1() {
                       background: "#fff",
                       border: `1px solid ${PALETTE.line}`,
                       borderRadius: 14,
-                      padding: "18px 20px",
+                      padding: isMobile ? "14px 16px" : "18px 20px",
                       boxShadow: PALETTE.shadowSm,
                     }}
                   >
@@ -1211,7 +1272,7 @@ export default function Home1() {
                       background: "#fff",
                       border: `1px solid ${PALETTE.line}`,
                       borderRadius: 14,
-                      padding: "18px 20px",
+                      padding: isMobile ? "14px 16px" : "18px 20px",
                       boxShadow: PALETTE.shadowSm,
                       textDecoration: "none",
                       color: "inherit",
