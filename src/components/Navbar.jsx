@@ -50,7 +50,7 @@ function Dropdown({ title, items }) {
               <li key={it.to}>
                 <NavLink
                   to={it.to}
-                  className="block px-3 py-2 rounded hover:bg-gray-50"
+                  className="block px-3 py-2 rounded hover:bg-gray-50 focus-visible:ring-2 focus-visible:ring-emerald-500"
                 >
                   {it.label}
                 </NavLink>
@@ -132,6 +132,7 @@ export default function Navbar() {
 
   return (
     <header
+      role="navigation" aria-label="Primary"
       className="sticky top-0 z-50 bg-white shadow"
       onMouseLeave={() => {
         setMegaOpen(false);
@@ -140,7 +141,7 @@ export default function Navbar() {
     >
       <nav className="w-full relative px-4 md:pl-[120px] md:pr-6 py-3 grid grid-cols-[auto,1fr,auto] items-center gap-6">
         {/* Logo (mobile inline, desktop inline so it doesn't shift the tab grid) */}
-        <Link to="/" className="flex items-center">
+        <Link to="/" className="flex items-center mr-4 md:mr-8">
           <img src="/images/main/main3.png" alt="복지 디자인 로고" className="h-12 w-auto md:h-16 object-contain block" />
         </Link>
 
@@ -154,7 +155,7 @@ export default function Navbar() {
               <button
                 type="button"
                 className={`text-left font-medium text-[15px] hover:text-emerald-600 leading-tight ${
-                  hoveredIdx === idx ? "text-emerald-600" : ""
+                  hoveredIdx === idx ? "text-emerald-600 underline decoration-emerald-500 underline-offset-8" : ""
                 }`}
                 onMouseEnter={() => {
                   setMegaOpen(true);
@@ -171,13 +172,13 @@ export default function Navbar() {
         <div className="hidden md:flex items-center gap-3 col-start-3 justify-self-end">
           <Link
             to="/support/guide"
-            className="bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-full"
+            className="bg-emerald-500 hover:bg-emerald-600 text-white px-4 py-2 rounded-full shadow-sm hover:shadow transition"
           >
             후원 안내
           </Link>
           <Link
             to="/support/combination"
-            className="bg-emerald-500 hover:bg-emerald-600 text-white px-4 py-2 rounded-full"
+            className="border border-emerald-500 text-emerald-600 hover:bg-emerald-50 px-4 py-2 rounded-full transition"
           >
             조합 가입
           </Link>
@@ -185,9 +186,10 @@ export default function Navbar() {
 
         {/* 모바일 햄버거 */}
         <button
-          className="md:hidden ml-auto"
+          className="md:hidden ml-auto rounded-md p-2 hover:bg-gray-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500"
           onClick={() => setMobileOpen((v) => !v)}
           aria-label="toggle menu"
+          aria-expanded={mobileOpen}
         >
           ☰
         </button>
@@ -211,7 +213,7 @@ export default function Navbar() {
                       <li key={it.to}>
                         <NavLink
                           to={it.to}
-                          className="block h-8 leading-none text-[14px] text-gray-800 hover:text-emerald-600 whitespace-nowrap"
+                          className="block h-8 leading-none text-[14px] text-gray-800 hover:text-emerald-600 whitespace-nowrap focus-visible:ring-2 focus-visible:ring-emerald-500"
                           onClick={() => {
                             setMegaOpen(false);
                             setHoveredIdx(null);
@@ -239,27 +241,27 @@ export default function Navbar() {
             <div className="px-2 pb-2">
               <NavLink
                 to="/about/establishment"
-                className="block px-3 py-2 rounded hover:bg-gray-50"
+                className="block px-3 py-2 rounded hover:bg-gray-50 focus-visible:ring-2 focus-visible:ring-emerald-500"
               >
                 설립 내용
               </NavLink>
               <NavLink
                 to="/about/what"
-                className="block px-3 py-2 rounded hover:bg-gray-50"
+                className="block px-3 py-2 rounded hover:bg-gray-50 focus-visible:ring-2 focus-visible:ring-emerald-500"
                 onClick={() => setMobileOpen(false)}
               >
                 복지디자인은?
               </NavLink>
               <NavLink
                 to="/about/history"
-                className="block px-3 py-2 rounded hover:bg-gray-50"
+                className="block px-3 py-2 rounded hover:bg-gray-50 focus-visible:ring-2 focus-visible:ring-emerald-500"
                 onClick={() => setMobileOpen(false)}
               >
                 연혁
               </NavLink>
               <NavLink
                 to="/about/people"
-                className="block px-3 py-2 rounded hover:bg-gray-50"
+                className="block px-3 py-2 rounded hover:bg-gray-50 focus-visible:ring-2 focus-visible:ring-emerald-500"
                 onClick={() => setMobileOpen(false)}
               >
                 함께하는 사람들
@@ -274,14 +276,14 @@ export default function Navbar() {
             <div className="px-2 pb-2">
               <NavLink
                 to="/news/stories"
-                className="block px-3 py-2 rounded hover:bg-gray-50"
+                className="block px-3 py-2 rounded hover:bg-gray-50 focus-visible:ring-2 focus-visible:ring-emerald-500"
                 onClick={() => setMobileOpen(false)}
               >
                 복지디자인 이야기
               </NavLink>
               <NavLink
                 to="/news/notices"
-                className="block px-3 py-2 rounded hover:bg-gray-50"
+                className="block px-3 py-2 rounded hover:bg-gray-50 focus-visible:ring-2 focus-visible:ring-emerald-500"
                 onClick={() => setMobileOpen(false)}
               >
                 공지사항
@@ -296,49 +298,49 @@ export default function Navbar() {
             <div className="px-2 pb-2">
               <NavLink
                 to="/business/overview"
-                className="block px-3 py-2 rounded hover:bg-gray-50"
+                className="block px-3 py-2 rounded hover:bg-gray-50 focus-visible:ring-2 focus-visible:ring-emerald-500"
                 onClick={() => setMobileOpen(false)}
               >
                 사업영역
               </NavLink>
               <NavLink
                 to="/business/rental"
-                className="block px-3 py-2 rounded hover:bg-gray-50"
+                className="block px-3 py-2 rounded hover:bg-gray-50 focus-visible:ring-2 focus-visible:ring-emerald-500"
                 onClick={() => setMobileOpen(false)}
               >
                 휠체어·복지용구 무료 대여
               </NavLink>
               <NavLink
                 to="/business/apply-help"
-                className="block px-3 py-2 rounded hover:bg-gray-50"
+                className="block px-3 py-2 rounded hover:bg-gray-50 focus-visible:ring-2 focus-visible:ring-emerald-500"
                 onClick={() => setMobileOpen(false)}
               >
                 복지용구 신청 안내 지원
               </NavLink>
               <NavLink
                 to="/business/donation"
-                className="block px-3 py-2 rounded hover:bg-gray-50"
+                className="block px-3 py-2 rounded hover:bg-gray-50 focus-visible:ring-2 focus-visible:ring-emerald-500"
                 onClick={() => setMobileOpen(false)}
               >
                 보조기기 기증 캠페인
               </NavLink>
               <NavLink
                 to="/business/ewc-insurance"
-                className="block px-3 py-2 rounded hover:bg-gray-50"
+                className="block px-3 py-2 rounded hover:bg-gray-50 focus-visible:ring-2 focus-visible:ring-emerald-500"
                 onClick={() => setMobileOpen(false)}
               >
                 전동휠체어 보험금 지원
               </NavLink>
               <NavLink
                 to="/business/needs-survey"
-                className="block px-3 py-2 rounded hover:bg-gray-50"
+                className="block px-3 py-2 rounded hover:bg-gray-50 focus-visible:ring-2 focus-visible:ring-emerald-500"
                 onClick={() => setMobileOpen(false)}
               >
                 복지욕구 실태조사
               </NavLink>
               <NavLink
                 to="/business/member-services"
-                className="block px-3 py-2 rounded hover:bg-gray-50"
+                className="block px-3 py-2 rounded hover:bg-gray-50 focus-visible:ring-2 focus-visible:ring-emerald-500"
                 onClick={() => setMobileOpen(false)}
               >
                 조합원 지원 서비스
@@ -353,14 +355,14 @@ export default function Navbar() {
             <div className="px-2 pb-2">
               <NavLink
                 to="/support/guide"
-                className="block px-3 py-2 rounded hover:bg-gray-50"
+                className="block px-3 py-2 rounded hover:bg-gray-50 focus-visible:ring-2 focus-visible:ring-emerald-500"
                 onClick={() => setMobileOpen(false)}
               >
                 후원안내
               </NavLink>
               <NavLink
                 to="/support/faq"
-                className="block px-3 py-2 rounded hover:bg-gray-50"
+                className="block px-3 py-2 rounded hover:bg-gray-50 focus-visible:ring-2 focus-visible:ring-emerald-500"
                 onClick={() => setMobileOpen(false)}
               >
                 FAQ
