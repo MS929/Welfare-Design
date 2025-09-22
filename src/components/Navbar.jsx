@@ -132,7 +132,7 @@ export default function Navbar() {
 
   return (
     <header
-      className="sticky top-0 z-50 bg-white/90 backdrop-blur shadow"
+      className="sticky top-0 z-50 bg-white shadow"
       onMouseLeave={() => {
         setMegaOpen(false);
         setHoveredIdx(null);
