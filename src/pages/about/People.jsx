@@ -164,7 +164,7 @@ function OrgChartMobile() {
       <MobileNode label="이사장" />
       <MobileConnector h={28} />
       <MobileNode label="사무국" />
-      <MobileConnector h={20} />
+      <MobileConnector h={28} />
     </div>
   );
 }
