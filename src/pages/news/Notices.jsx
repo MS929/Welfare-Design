@@ -167,55 +167,105 @@ export default function Notices() {
       {paginatedItems.length === 0 ? (
         <p className="max-w-screen-xl mx-auto px-4 py-8 text-gray-500">등록된 글이 없습니다.</p>
       ) : (
-        <div className="max-w-screen-xl mx-auto overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm">
-          <table className="w-full text-sm">
-            <thead className="bg-gray-50 text-gray-600 sticky top-0 z-10 border-b border-gray-100">
-              <tr>
-                <th scope="col" className="w-24 py-3.5 px-4 text-center font-medium text-gray-600">번호</th>
-                <th scope="col" className="py-3.5 px-4 text-center font-medium text-gray-600">제목</th>
-                <th scope="col" className="w-32 py-3.5 px-4 text-center font-medium text-gray-600">구분</th>
-                <th scope="col" className="w-44 py-3.5 px-4 text-center font-medium text-gray-600">작성일</th>
-              </tr>
-            </thead>
-            <tbody>
+        <>
+          {/* ── Desktop (md and up): 기존 테이블 유지 ───────────────────────── */}
+          <div className="hidden md:block">
+            <div className="max-w-screen-xl mx-auto overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm">
+              <table className="w-full text-sm">
+                <thead className="bg-gray-50 text-gray-600 sticky top-0 z-10 border-b border-gray-100">
+                  <tr>
+                    <th scope="col" className="w-24 py-3.5 px-4 text-center font-medium text-gray-600">번호</th>
+                    <th scope="col" className="py-3.5 px-4 text-center font-medium text-gray-600">제목</th>
+                    <th scope="col" className="w-32 py-3.5 px-4 text-center font-medium text-gray-600">구분</th>
+                    <th scope="col" className="w-44 py-3.5 px-4 text-center font-medium text-gray-600">작성일</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {paginatedItems.map((it, idx) => {
+                    const number = filtered.length - ((page - 1) * PAGE_SIZE + idx);
+                    const dateStr = (it.dateObj && it.dateObj.toISOString().slice(0, 10)) || it.date || "";
+                    const circleChip = (
+                      <span
+                        className={`inline-flex items-center rounded-full border bg-white px-3 py-1 shadow-sm text-sm ${
+                          it.category === "공지"
+                            ? "text-orange-600 border-orange-200"
+                            : "text-[#1E9E8F] border-[#9FDCD5]"
+                        }`}
+                      >
+                        <span className="font-medium tracking-tight">{it.category}</span>
+                      </span>
+                    );
+                    return (
+                      <tr key={it.slug} className="border-t border-gray-100 odd:bg-white even:bg-gray-50/40 hover:bg-gray-100 transition-colors">
+                        <td className="py-4 px-4 text-gray-500 text-center align-middle">
+                          {number}
+                        </td>
+                        <td className="py-4 px-4 align-middle">
+                          <Link
+                            to={`/news/notices/${encodeURIComponent(it.slug)}`}
+                            className="block w-full -mx-2 px-2 -my-1 py-1 max-w-full truncate transition-colors hover:text-[#1E9E8F]"
+                          >
+                            <span className="text-gray-900 font-medium truncate">{it.title || "제목 없음"}</span>
+                          </Link>
+                        </td>
+                        <td className="py-4 px-4 align-middle text-center">
+                          {circleChip}
+                        </td>
+                        <td className="py-4 px-4 text-gray-600 align-middle whitespace-nowrap">{dateStr}</td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          {/* ── Mobile (under md): 카드 리스트 전용 UI ──────────────────────── */}
+          <div className="md:hidden">
+            <ul className="max-w-screen-xl mx-auto px-4 space-y-3">
               {paginatedItems.map((it, idx) => {
                 const number = filtered.length - ((page - 1) * PAGE_SIZE + idx);
                 const dateStr = (it.dateObj && it.dateObj.toISOString().slice(0, 10)) || it.date || "";
-                const isNotice = it.category === "공지";
-                const circleChip = (
-                  <span
-                    className={`inline-flex items-center rounded-full border bg-white px-3 py-1 shadow-sm text-sm ${
-                      it.category === "공지"
-                        ? "text-orange-600 border-orange-200"
-                        : "text-[#1E9E8F] border-[#9FDCD5]"
-                    }`}
-                  >
-                    <span className="font-medium tracking-tight">{it.category}</span>
-                  </span>
-                );
                 return (
-                  <tr key={it.slug} className="border-t border-gray-100 odd:bg-white even:bg-gray-50/40 hover:bg-gray-100 transition-colors">
-                    <td className="py-4 px-4 text-gray-500 text-center align-middle">
-                      {number}
-                    </td>
-                    <td className="py-4 px-4 align-middle">
-                      <Link
-                        to={`/news/notices/${encodeURIComponent(it.slug)}`}
-                        className="block w-full -mx-2 px-2 -my-1 py-1 max-w-full truncate transition-colors hover:text-[#1E9E8F]"
-                      >
-                        <span className="text-gray-900 font-medium truncate">{it.title || "제목 없음"}</span>
-                      </Link>
-                    </td>
-                    <td className="py-4 px-4 align-middle text-center">
-                      {circleChip}
-                    </td>
-                    <td className="py-4 px-4 text-gray-600 align-middle whitespace-nowrap">{dateStr}</td>
-                  </tr>
+                  <li key={it.slug}>
+                    <Link
+                      to={`/news/notices/${encodeURIComponent(it.slug)}`}
+                      className="block rounded-2xl border border-gray-200 bg-white p-4 shadow-sm active:bg-gray-50"
+                    >
+                      <div className="flex items-start gap-3">
+                        {/* 번호 */}
+                        <span className="shrink-0 mt-0.5 rounded-full bg-gray-100 px-2.5 py-1 text-xs font-medium text-gray-600">
+                          {number}
+                        </span>
+
+                        {/* 본문 */}
+                        <div className="min-w-0 flex-1">
+                          <p className="text-[15px] font-semibold text-gray-900 leading-snug break-words">
+                            {it.title || "제목 없음"}
+                          </p>
+
+                          <div className="mt-2 flex items-center gap-2 text-sm">
+                            <span
+                              className={`inline-flex items-center rounded-full border bg-white px-2.5 py-0.5 text-[12px] ${
+                                it.category === "공지"
+                                  ? "text-orange-600 border-orange-200"
+                                  : "text-[#1E9E8F] border-[#9FDCD5]"
+                              }`}
+                            >
+                              {it.category}
+                            </span>
+                            <span className="h-3 w-px bg-gray-300" aria-hidden="true" />
+                            <time className="text-gray-600">{dateStr}</time>
+                          </div>
+                        </div>
+                      </div>
+                    </Link>
+                  </li>
                 );
               })}
-            </tbody>
-          </table>
-        </div>
+            </ul>
+          </div>
+        </>
       )}
 
       {/* Pagination Controls */}
