@@ -78,7 +78,7 @@ export default function AboutHistory() {
       </header>
 
       {/* 타임라인 래퍼: Establishment와 맞추기 위해 좌측 고정 여백 부여 */}
-      <div className="history-wrapper relative mt-5" style={{ marginLeft: "var(--timeline-offset)" }}>
+      <div className="history-wrapper relative mt-5 pr-4 md:pr-0" style={{ marginLeft: "var(--timeline-offset)" }}>
         {Object.keys(byYear)
           .sort((a, b) => b.localeCompare(a))
           .map((year) => (
@@ -112,13 +112,13 @@ export default function AboutHistory() {
                   {byYear[year].map((item, i) => (
                     <div key={i} className="relative">
                       {/* card */}
-                      <article className="relative bg-white/90 backdrop-blur-sm border border-slate-200 rounded-xl shadow-sm hover:shadow-md transition overflow-hidden">
+                      <article className="relative bg-white/90 backdrop-blur-sm border border-slate-200 rounded-xl shadow-sm hover:shadow-md transition overflow-visible md:overflow-hidden">
                         <div className="absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b from-[var(--pri)] to-[var(--sec)]" />
-                        <div className="p-4 md:p-6">
+                        <div className="p-4 pr-5 md:p-6">
                           <time className="inline-block px-3 py-1 text-xs font-semibold text-[var(--pri)] bg-[var(--pri-soft)] rounded-full">
                             {item.ym}
                           </time>
-                          <p className="mt-2 md:mt-3 font-medium text-slate-800 leading-relaxed">
+                          <p className="mt-2 md:mt-3 font-medium text-slate-800 leading-relaxed break-keep break-words">
                             {item.event}
                           </p>
                         </div>
