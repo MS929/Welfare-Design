@@ -650,7 +650,12 @@ export default function AboutWhat() {
 
           <div className="space-y-4 text-gray-800 leading-relaxed break-words self-center">
             {background.paragraphs.map((t, i) => (
-              <p key={i} className="whitespace-pre-line">{t}</p>
+              <p
+                key={i}
+                className="whitespace-pre-line text-[15px] md:text-base leading-[1.7]"
+              >
+                {t}
+              </p>
             ))}
           </div>
         </div>
@@ -686,11 +691,11 @@ export default function AboutWhat() {
                   {Array.isArray(b.body) ? (
                     <ul className="list-disc pl-5 space-y-2 text-gray-800 leading-relaxed">
                       {b.body.map((t, i) => (
-                        <li key={i}>{t}</li>
+                        <li key={i} className="text-[15px] md:text-base leading-[1.7]">{t}</li>
                       ))}
                     </ul>
                   ) : (
-                    <p className="text-gray-800 leading-relaxed">{b.body}</p>
+                    <p className="text-gray-800 leading-relaxed text-[15px] md:text-base leading-[1.7]">{b.body}</p>
                   )}
                 </div>
               </div>
@@ -720,7 +725,7 @@ export default function AboutWhat() {
           <h3 className="text-lg font-semibold mb-3 text-brand-800">조합원의 자격 및 유형</h3>
           <ul className="list-disc pl-5 space-y-2 text-gray-800">
             {memberEligibility.map((t, i) => (
-              <li key={i}>{t}</li>
+              <li key={i} className="text-[15px] md:text-base leading-[1.7]">{t}</li>
             ))}
           </ul>
         </div>
@@ -729,7 +734,7 @@ export default function AboutWhat() {
           <h3 className="text-lg font-semibold mb-3 text-brand-800">운영 공개</h3>
           <ul className="list-disc pl-5 space-y-2 text-gray-800">
             {operationDisclosure.map((t, i) => (
-              <li key={i}>{t}</li>
+              <li key={i} className="text-[15px] md:text-base leading-[1.7]">{t}</li>
             ))}
           </ul>
         </div>
@@ -759,13 +764,13 @@ export default function AboutWhat() {
                 {/* 내용 */}
                 <div className="p-5 flex-1">
                   {Array.isArray(p.desc) ? (
-                    <ul className="list-disc pl-5 space-y-1 text-gray-800 leading-relaxed">
+                    <ul className="list-disc pl-5 space-y-2 text-gray-800 leading-relaxed">
                       {p.desc.map((line, i) => (
-                        <li key={i} className="text-sm md:text-base">{line}</li>
+                        <li key={i} className="text-[15px] md:text-base leading-[1.7]">{line}</li>
                       ))}
                     </ul>
                   ) : (
-                    <p className="text-gray-800 leading-relaxed">{p.desc}</p>
+                    <p className="text-gray-800 leading-relaxed text-[15px] md:text-base leading-[1.7]">{p.desc}</p>
                   )}
                 </div>
               </div>
@@ -783,7 +788,7 @@ export default function AboutWhat() {
 
         <div className="rounded-xl border border-brand-200 bg-white p-4 md:p-5 shadow-sm">
           {/* 고정 높이 + 스크롤 */}
-          <div className="max-h-[60vh] overflow-y-auto whitespace-pre-wrap leading-relaxed text-gray-900">
+          <div className="max-h-[60vh] overflow-y-auto overscroll-contain whitespace-pre-wrap leading-relaxed text-gray-900 text-[15px] md:text-base">
             {bylawsText}
           </div> 
 
