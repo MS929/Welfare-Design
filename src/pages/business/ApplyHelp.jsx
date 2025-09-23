@@ -4,17 +4,17 @@ import BizLayout from "./_Layout";
 export default function ApplyHelp() {
   return (
     <BizLayout title="복지용구 신청 안내 지원">
-      <div className="max-w-screen-xl mx-auto px-4">
+      <div className="max-w-screen-xl mx-auto px-4 pb-12">
         {/* 상단: 좌측 이미지 / 우측 안내 박스 */}
         <div className="grid gap-8 md:grid-cols-2 items-stretch">
           {/* 이미지 */}
           <img
             src="/images/business/apply-help.png"
             alt="복지용구 신청 안내 지원"
-            className="w-full h-auto"
+            className="w-full h-auto rounded-2xl shadow-sm"
           />
           {/* 안내 박스 (불릿) + 기대 효과 + 상담 문의 배너 */}
-          <div className="grid h-[440px] lg:h-[470px] grid-rows-[auto,1fr,auto] gap-6 mt-12">
+          <div className="grid md:h-[460px] lg:h-[470px] grid-rows-[auto,auto,auto] md:grid-rows-[auto,1fr,auto] gap-6 mt-12">
             {/* 안내 박스 */}
             <div className="rounded-2xl border border-[#2CB9B1]/40 bg-white/90 backdrop-blur-[1px] shadow-md p-7 md:p-8">
               <ul className="space-y-4 text-gray-800 leading-relaxed">
@@ -33,7 +33,7 @@ export default function ApplyHelp() {
               </ul>
             </div>
             {/* 기대 효과 */}
-            <div className="rounded-2xl border border-[#2CB9B1]/30 bg-white/90 backdrop-blur-[1px] shadow-md p-7 md:p-8 h-full">
+            <div className="rounded-2xl border border-[#2CB9B1]/30 bg-white/90 backdrop-blur-[1px] shadow-md p-7 md:p-8 md:h-full">
               <h3 className="font-semibold text-lg tracking-tight text-[#F26C2A] mb-3">기대 효과</h3>
               <ul className="list-disc list-inside space-y-1.5 text-gray-700 leading-relaxed">
                 <li>
