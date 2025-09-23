@@ -8,15 +8,16 @@ export default function Donation() {
         {/* 이미지 + 우측 정보 박스(대여 안내) + 기대효과(대여 안내 박스 아래) */}
         <div className="grid gap-8 md:grid-cols-2 items-stretch">
           {/* 좌측 이미지: JS 동기화 제거, 순수 CSS로 동일 높이 */}
-          <div className="flex items-center justify-center">
+          <div className="flex items-center justify-center w-full">
             <img
               src="/images/business/donation.png"
               alt="보조기기 기증 캠페인"
+              className="w-full max-w-[520px] h-auto object-contain"
             />
           </div>
 
           {/* 우측: 대여 안내 + 기대효과 + 문의 */}
-          <div className="grid h-[440px] lg:h-[470px] grid-rows-[auto,1fr,auto] gap-6 mt-14">
+          <div className="grid gap-6 mt-10 md:mt-14 md:grid-rows-[auto,1fr,auto] md:h-[470px]">
             <div className="rounded-2xl border border-[#2CB9B1]/40 bg-white/90 backdrop-blur-[1px] shadow-md p-7 md:p-8">
               <ul className="space-y-4 text-gray-800 leading-relaxed">
                 <li className="flex gap-3">
@@ -36,7 +37,7 @@ export default function Donation() {
               </ul>
             </div>
 
-            <div className="rounded-2xl border border-[#2CB9B1]/30 bg-white/90 backdrop-blur-[1px] shadow-md py-10 px-7 md:px-8 md:py-12 h-full">
+            <div className="rounded-2xl border border-[#2CB9B1]/30 bg-white/90 backdrop-blur-[1px] shadow-md py-10 px-7 md:px-8 md:py-12">
               <h3 className="font-semibold text-lg tracking-tight text-[#F26C2A] mb-3">기대 효과</h3>
               <ul className="list-disc list-outside pl-5 space-y-1.5 text-gray-700 leading-relaxed tracking-tight text-justify">
                 <li>
@@ -47,7 +48,7 @@ export default function Donation() {
             </div>
 
             <div className="rounded-2xl border border-[#F26C2A]/45 bg-gradient-to-r from-[#FFF3E9] to-[#EFFFFD] px-8 py-5 shadow-md">
-              <div className="flex items-center gap-3 text-[#111827] tracking-tight">
+              <div className="flex items-center justify-between gap-3 text-[#111827] tracking-tight whitespace-nowrap">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 24 24"
@@ -57,10 +58,10 @@ export default function Donation() {
                 >
                   <path d="M2.25 6.75c0 7.008 5.742 12.75 12.75 12.75.71 0 1.32-.51 1.44-1.21l.38-2.19a1.5 1.5 0 0 0-1.08-1.71l-2.24-.62a1.5 1.5 0 0 0-1.49.44l-.82.83a10.97 10.97 0 0 1-4.26-4.27l.83-.82a1.5 1.5 0 0 0 .44-1.49l-.62-2.24a1.5 1.5 0 0 0-1.71-1.08l-2.19.38c-.7.12-1.21.73-1.21 1.44Z" />
                 </svg>
-                <span className="font-semibold tracking-wide text-[#374151]">
+                <span className="font-semibold tracking-wide text-[#374151] mr-3 truncate">
                   신청 문의 : 복지디자인
                 </span>
-                <a href="tel:0420000000" className="font-extrabold text-xl md:text-2xl tabular-nums text-[#F26C2A] underline">
+                <a href="tel:0420000000" className="font-extrabold text-lg md:text-2xl tabular-nums text-[#F26C2A] underline">
                   042-000-0000
                 </a>
               </div>
