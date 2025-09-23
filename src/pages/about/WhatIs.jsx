@@ -625,24 +625,25 @@ export default function AboutWhat() {
       <section className="max-w-screen-xl mx-auto px-4 py-10">
         <SectionTitle color="#3BA7A0">설립 배경</SectionTitle>
 
-        <div className="grid grid-cols-1 md:grid-cols-[200px,1fr] gap-6 items-center">
-          <div className="rounded-lg overflow-hidden">
+        <div className="grid grid-cols-1 md:grid-cols-[minmax(260px,340px),1fr] gap-6 items-center">
+          <div className="rounded-lg bg-white/70 p-3 shadow-sm flex items-center justify-center">
             <img
               src={background.image}
               alt="설립 배경"
               loading="eager"
               decoding="async"
               fetchpriority="high"
-              width="400"
-              height="224"
-              sizes="(min-width: 768px) 400px, 100vw"
-              className="w-full h-auto object-cover max-h-52 md:max-h-56 opacity-0 transition-opacity duration-300"
+              width={680}
+              height={510}
+              sizes="(min-width: 768px) 340px, 80vw"
+              className="block max-h-64 md:max-h-72 w-auto object-contain opacity-0 transition-opacity duration-300"
               onLoad={(e) => {
                 e.currentTarget.style.opacity = "1";
               }}
               onError={(e) => {
-                // Hide broken image quickly to avoid layout jank
-                e.currentTarget.style.display = "none";
+                // 이미지가 깨질 경우, 일단 숨기지 말고 로고/대체이미지를 보여줘 비율 깨짐 방지
+                e.currentTarget.src = "/images/about/fallback.png";
+                e.currentTarget.style.opacity = "1";
               }}
             />
           </div>
