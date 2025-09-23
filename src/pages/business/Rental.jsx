@@ -9,29 +9,27 @@ export default function Rental() {
         <div className="grid gap-8 md:grid-cols-2 items-stretch">
           {/* 좌측 이미지: JS 동기화 제거, 순수 CSS로 동일 높이 */}
           <div className="flex items-center justify-center">
-            {/* Mobile (md 미만): 빠른 표시를 위해 eager + fetchpriority=high */}
-            <img
-              src="/images/business/rental.png"
-              alt="휠체어 및 복지용구 무료 대여"
-              loading="eager"
-              fetchpriority="high"
-              decoding="async"
-              width="800"
-              height="600"
-              className="block md:hidden w-full h-auto"
-              style={{ imageRendering: "auto", display: "block" }}
-            />
-            {/* Desktop/Tablet (md 이상): lazy 로드 */}
-            <img
-              src="/images/business/rental.png"
-              alt="휠체어 및 복지용구 무료 대여"
-              loading="lazy"
-              decoding="async"
-              width="1200"
-              height="900"
-              className="hidden md:block w-full h-auto"
-              style={{ imageRendering: "auto", display: "block" }}
-            />
+            {/* 단일 그림 요소로 중복 렌더 제거 */}
+            <picture>
+              {/* 데스크탑(768px 이상) 소스 */}
+              <source
+                media="(min-width: 768px)"
+                srcSet="/images/business/rental.png"
+              />
+              {/* 기본 이미지: 모바일 우선 eager 로드 */}
+              <img
+                src="/images/business/rental.png"
+                alt="휠체어 및 복지용구 무료 대여"
+                loading="eager"
+                fetchpriority="high"
+                decoding="async"
+                width="1200"
+                height="900"
+                sizes="(max-width: 767px) 100vw, 50vw"
+                className="w-full h-auto"
+                style={{ imageRendering: "auto", display: "block" }}
+              />
+            </picture>
           </div>
 
           {/* 우측: 대여 안내 + 기대효과 + 문의 */}
