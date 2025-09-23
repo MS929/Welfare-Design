@@ -193,8 +193,10 @@ export default function Navbar() {
 
         {/* 모바일 햄버거 */}
         <button
-          className="md:hidden ml-auto rounded-md p-2 hover:bg-gray-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500"
+          className="md:hidden ml-auto rounded-md p-2 hover:bg-gray-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 z-[75]"
+          style={{ touchAction: 'manipulation' }}
           onClick={() => setMobileOpen((v) => !v)}
+          onTouchStart={() => setMobileOpen((v) => !v)}
           aria-label="toggle menu"
           aria-expanded={mobileOpen}
         >
@@ -240,13 +242,21 @@ export default function Navbar() {
 
       {/* 모바일 메뉴(간단 버전) */}
       {mobileOpen && (
-        <div className="md:hidden border-t bg-white">
+        <div
+          className="fixed inset-0 z-40 md:hidden"
+          onClick={() => setMobileOpen(false)}
+          aria-hidden="true"
+        />
+      )}
+      {mobileOpen && (
+        <div className="md:hidden absolute left-0 right-0 top-full z-[70] border-t bg-white shadow-lg">
           {/* Mobile CTAs (inside drawer) */}
           <div className="px-4 py-3 flex gap-2 items-center sticky top-0 bg-white z-10 border-b">
             <Link
               to="/support/guide"
               className="bg-emerald-500 hover:bg-emerald-600 text-white px-3 py-2 rounded-full text-sm shadow-sm transition whitespace-nowrap"
               onClick={() => setMobileOpen(false)}
+              style={{ touchAction: 'manipulation' }}
             >
               후원 안내
             </Link>
@@ -254,12 +264,13 @@ export default function Navbar() {
               to="/support/combination"
               className="border border-emerald-500 text-emerald-600 hover:bg-emerald-50 px-3 py-2 rounded-full text-sm transition whitespace-nowrap"
               onClick={() => setMobileOpen(false)}
+              style={{ touchAction: 'manipulation' }}
             >
               조합 가입
             </Link>
           </div>
           <details className="border-b">
-            <summary className="px-4 py-3 cursor-pointer hover:bg-gray-50">
+            <summary className="px-4 py-3 cursor-pointer hover:bg-gray-50" style={{ touchAction: 'manipulation' }}>
               소개
             </summary>
             <div className="px-2 pb-2">
@@ -295,7 +306,7 @@ export default function Navbar() {
           </details>
 
           <details className="border-b">
-            <summary className="px-4 py-3 cursor-pointer hover:bg-gray-50">
+            <summary className="px-4 py-3 cursor-pointer hover:bg-gray-50" style={{ touchAction: 'manipulation' }}>
               소식
             </summary>
             <div className="px-2 pb-2">
@@ -317,7 +328,7 @@ export default function Navbar() {
           </details>
 
           <details className="border-b">
-            <summary className="px-4 py-3 cursor-pointer hover:bg-gray-50">
+            <summary className="px-4 py-3 cursor-pointer hover:bg-gray-50" style={{ touchAction: 'manipulation' }}>
               사업
             </summary>
             <div className="px-2 pb-2">
@@ -374,7 +385,7 @@ export default function Navbar() {
           </details>
 
           <details>
-            <summary className="px-4 py-3 cursor-pointer hover:bg-gray-50">
+            <summary className="px-4 py-3 cursor-pointer hover:bg-gray-50" style={{ touchAction: 'manipulation' }}>
               후원
             </summary>
             <div className="px-2 pb-2">
@@ -399,3 +410,15 @@ export default function Navbar() {
     </header>
   );
 }
+
+  useEffect(() => {
+    const prev = document.body.style.overflow;
+    if (mobileOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = prev || '';
+    }
+    return () => {
+      document.body.style.overflow = prev || '';
+    };
+  }, [mobileOpen]);
