@@ -3,7 +3,10 @@ export default function AboutGreeting() {
   return (
     <div className="bg-white">
       {/* 상단 : 브레드크럼 + 제목 (유연한 타이포) */}
-      <section className="max-w-screen-xl mx-auto px-4 sm:px-5 md:px-6 pt-[env(safe-area-inset-top)] pt-6 sm:pt-7 md:pt-10 pb-4">
+      <section
+        className="max-w-screen-xl mx-auto px-4 sm:px-5 md:px-6 pb-4 pt-6 sm:pt-7 md:pt-10 lg:pt-12"
+        style={{ paddingTop: 'calc(env(safe-area-inset-top, 0px) + 64px)' }}
+      >
         <nav className="text-[clamp(12px,2.8vw,14px)] text-gray-500">
           소개 &gt; <span className="text-gray-700">인사말</span>
         </nav>
