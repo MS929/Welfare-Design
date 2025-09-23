@@ -43,7 +43,7 @@ export default function AboutHistory() {
 
   return (
     <div
-      className="relative max-w-7xl mx-auto px-0 pt-0 pb-14"
+      className="relative max-w-7xl mx-auto px-0 pt-0 pb-14 overflow-x-hidden"
       style={themeVars}
     >
       <style>{`
@@ -78,7 +78,7 @@ export default function AboutHistory() {
       </header>
 
       {/* 타임라인 래퍼: Establishment와 맞추기 위해 좌측 고정 여백 부여 */}
-      <div className="history-wrapper relative mt-5 pr-4 md:pr-0" style={{ marginLeft: "var(--timeline-offset)" }}>
+      <div className="history-wrapper relative mt-5 px-4 pr-5 md:px-0 md:pr-0 overflow-x-visible" style={{ marginLeft: "var(--timeline-offset)" }}>
         {Object.keys(byYear)
           .sort((a, b) => b.localeCompare(a))
           .map((year) => (
@@ -101,7 +101,7 @@ export default function AboutHistory() {
               </div>
 
               {/* 세로 라인 + 카드들 */}
-              <div className="relative flex-1 pl-8 md:pl-10 lg:pl-12">
+              <div className="relative flex-1 min-w-0 pl-8 md:pl-10 lg:pl-12 overflow-x-visible">
                 {/* vertical rail aligned to the page's left guide */}
                 <div
                   className="absolute bottom-6 border-l-2 border-dashed border-[var(--pri)]/30"
@@ -112,13 +112,13 @@ export default function AboutHistory() {
                   {byYear[year].map((item, i) => (
                     <div key={i} className="relative">
                       {/* card */}
-                      <article className="relative bg-white/90 backdrop-blur-sm border border-slate-200 rounded-xl shadow-sm hover:shadow-md transition overflow-visible md:overflow-hidden">
+                      <article className="relative w-full max-w-full min-w-0 bg-white/90 backdrop-blur-sm border border-slate-200 rounded-xl shadow-sm hover:shadow-md transition overflow-visible md:overflow-hidden">
                         <div className="absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b from-[var(--pri)] to-[var(--sec)]" />
-                        <div className="p-4 pr-5 md:p-6">
+                        <div className="p-4 pr-6 md:p-6 max-w-full">
                           <time className="inline-block px-3 py-1 text-xs font-semibold text-[var(--pri)] bg-[var(--pri-soft)] rounded-full">
                             {item.ym}
                           </time>
-                          <p className="mt-2 md:mt-3 font-medium text-slate-800 leading-relaxed break-keep break-words">
+                          <p className="mt-2 md:mt-3 font-medium text-slate-800 leading-relaxed break-keep break-words" style={{ overflowWrap: 'anywhere', wordBreak: 'keep-all' }}>
                             {item.event}
                           </p>
                         </div>
