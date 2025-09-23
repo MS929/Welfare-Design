@@ -156,29 +156,38 @@ function OrgChartDesktop() {
 
 function OrgChartMobile() {
   return (
-    <div className="max-w-screen-sm mx-auto flex flex-col items-start space-y-4 px-2">
-      <MobileStep label="조합원총회" />
-      <div className="w-px bg-gray-300 mx-auto" style={{height: '32px'}} />
-      <MobileStep label="이사회" />
-      <div className="w-px bg-gray-300 mx-auto" style={{height: '32px'}} />
-      <MobileStep label="이사장" />
-      <div className="w-px bg-gray-300 mx-auto" style={{height: '32px'}} />
-      <MobileStep label="사무국" />
-      <ul className="list-disc list-inside space-y-1 mt-2 w-full max-w-xs">
-        <li>복지연결플랫폼</li>
-        <li>복지디자인연구소</li>
-        <li>협력운영플랫폼</li>
-      </ul>
+    <div className="max-w-screen-sm mx-auto flex flex-col items-center gap-3 px-4">
+      <MobileNode label="조합원총회" />
+      <MobileConnector h={28} />
+      <MobileNode label="이사회" />
+      <MobileConnector h={28} />
+      <MobileNode label="이사장" />
+      <MobileConnector h={28} />
+      <MobileNode label="사무국" />
+
+      {/* 하단 3개 플랫폼: 모바일에선 센터 정렬 칩 형태 */}
+      <div className="mt-2 flex flex-wrap items-center justify-center gap-2">
+        {['복지연결플랫폼', '복지디자인연구소', '협력운영플랫폼'].map((t) => (
+          <span key={t} className="px-3 py-1 rounded-full border text-sm text-gray-700 bg-white shadow-sm">
+            {t}
+          </span>
+        ))}
+      </div>
     </div>
   );
 }
 
-function MobileStep({ label }) {
+function MobileNode({ label }) {
   return (
-    <div className="flex items-center space-x-2">
-      <div className="w-4 h-4 rounded-full border-2 border-gray-400 bg-white flex-shrink-0" />
-      <span className="text-gray-800 font-semibold text-base">{label}</span>
+    <div className="inline-flex items-center justify-center rounded-full border border-gray-300 bg-white px-4 h-10 text-gray-800 shadow-sm text-sm">
+      {label}
     </div>
+  );
+}
+
+function MobileConnector({ h = 24 }) {
+  return (
+    <div className="w-[2px] bg-gray-300" style={{ height: `${h}px` }} />
   );
 }
 
