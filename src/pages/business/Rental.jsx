@@ -9,9 +9,28 @@ export default function Rental() {
         <div className="grid gap-8 md:grid-cols-2 items-stretch">
           {/* 좌측 이미지: JS 동기화 제거, 순수 CSS로 동일 높이 */}
           <div className="flex items-center justify-center">
+            {/* Mobile (md 미만): 빠른 표시를 위해 eager + fetchpriority=high */}
             <img
               src="/images/business/rental.png"
               alt="휠체어 및 복지용구 무료 대여"
+              loading="eager"
+              fetchpriority="high"
+              decoding="async"
+              width="800"
+              height="600"
+              className="block md:hidden w-full h-auto"
+              style={{ imageRendering: "auto", display: "block" }}
+            />
+            {/* Desktop/Tablet (md 이상): lazy 로드 */}
+            <img
+              src="/images/business/rental.png"
+              alt="휠체어 및 복지용구 무료 대여"
+              loading="lazy"
+              decoding="async"
+              width="1200"
+              height="900"
+              className="hidden md:block w-full h-auto"
+              style={{ imageRendering: "auto", display: "block" }}
             />
           </div>
 
