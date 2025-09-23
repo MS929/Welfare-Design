@@ -5,7 +5,10 @@ const raw = [
   { date: "2025.05", event: "가칭) 복지디자인사회적협동조합 실무자 교육 진행" },
   { date: "2025.06", event: "가칭) 복지디자인사회적협동조합 설립 추진단 결성" },
   { date: "2024.11", event: "가칭) 복지디자인사회적협동조합 창립총회 개최" },
-  { date: "2024.12", event: "가칭) 복지디자인사회적협동조합 설립동의자 모집 및 준비모임" },
+  {
+    date: "2024.12",
+    event: "가칭) 복지디자인사회적협동조합 설립동의자 모집 및 준비모임",
+  },
 ];
 
 // 날짜 오름차순 정렬 + 년도별 그룹
@@ -32,7 +35,7 @@ export default function AboutHistory() {
     "--title-guide": "20px",
     "--timeline-guide": "20px",
     "--year-block": "72px",
-    "--rail": "-4px" // page left guide fine‑tune (align to header guide)
+    "--rail": "-4px", // page left guide fine‑tune (align to header guide)
   };
 
   return (
@@ -119,9 +122,7 @@ export default function AboutHistory() {
             <section key={year} className="relative mb-16">
               {/* 연도 헤더 */}
               <div className="pl-1 mb-6 relative h-14 md:h-[var(--year-block)]">
-                <div
-                  className="absolute left-[var(--rail)] flex flex-col items-center -translate-x-1/2"
-                >
+                <div className="absolute left-[var(--rail)] flex flex-col items-center -translate-x-1/2">
                   {/* 그라데이션 텍스트 */}
                   <h2 className="text-2xl md:text-3xl font-black tracking-tight leading-none">
                     <span className="bg-gradient-to-r from-[var(--pri)] to-[var(--sec)] bg-clip-text text-transparent">
