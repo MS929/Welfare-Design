@@ -42,18 +42,36 @@ export default function ApplyHelp() {
                 <li>보조기기 및 복지용구의 지역 내 순환 체계 구축</li>
               </ul>
             </div>
-            {/* 상담 문의 배너 */}
-            <div className="rounded-2xl border border-[#F26C2A]/45 bg-gradient-to-r from-[#FFF3E9] to-[#EFFFFD] px-6 py-4 shadow-md">
-              <div className="flex items-center justify-between text-[#111827]">
-                <div className="flex items-center gap-2">
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="h-5 w-5 text-[#F26C2A]" aria-hidden="true">
-                    <path d="M2.25 6.75c0 7.008 5.742 12.75 12.75 12.75.71 0 1.32-.51 1.44-1.21l.38-2.19a1.5 1.5 0 0 0-1.08-1.71l-2.24-.62a1.5 1.5 0 0 0-1.49.44l-.82.83a10.97 10.97 0 0 1-4.26-4.27l.83-.82a1.5 1.5 0 0 0 .44-1.49l-.62-2.24a1.5 1.5 0 0 0-1.71-1.08l-2.19.38c-.7.12-1.21.73-1.21 1.44Z" />
-                  </svg>
-                  <span className="font-semibold text-sm sm:text-base text-[#374151]">신청 문의 : 복지디자인</span>
+            {/* 상담 문의 배너 - 모바일 전용 */}
+            <div className="block md:hidden">
+              <div className="rounded-2xl border border-[#F26C2A]/45 bg-gradient-to-r from-[#FFF3E9] to-[#EFFFFD] px-6 py-4 shadow-md">
+                <div className="flex items-center justify-between text-[#111827]">
+                  <div className="flex items-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="h-5 w-5 text-[#F26C2A]" aria-hidden="true">
+                      <path d="M2.25 6.75c0 7.008 5.742 12.75 12.75 12.75.71 0 1.32-.51 1.44-1.21l.38-2.19a1.5 1.5 0 0 0-1.08-1.71l-2.24-.62a1.5 1.5 0 0 0-1.49.44l-.82.83a10.97 10.97 0 0 1-4.26-4.27l.83-.82a1.5 1.5 0 0 0 .44-1.49l-.62-2.24a1.5 1.5 0 0 0-1.71-1.08l-2.19.38c-.7.12-1.21.73-1.21 1.44Z" />
+                    </svg>
+                    <span className="font-semibold text-sm sm:text-base text-[#374151]">신청 문의 : 복지디자인</span>
+                  </div>
+                  <a href="tel:0420000000" className="font-extrabold text-lg sm:text-xl tabular-nums text-[#F26C2A] underline">
+                    042-000-0000
+                  </a>
                 </div>
-                <a href="tel:0420000000" className="font-extrabold text-lg sm:text-xl tabular-nums text-[#F26C2A] underline">
-                  042-000-0000
-                </a>
+              </div>
+            </div>
+            {/* 상담 문의 배너 - PC 전용 */}
+            <div className="hidden md:block">
+              <div className="rounded-2xl border border-[#F26C2A]/45 bg-gradient-to-r from-[#FFF3E9] to-[#EFFFFD] px-6 py-4 shadow-md">
+                <div className="flex items-center justify-between text-[#111827]">
+                  <div className="flex items-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="h-5 w-5 text-[#F26C2A]" aria-hidden="true">
+                      <path d="M2.25 6.75c0 7.008 5.742 12.75 12.75 12.75.71 0 1.32-.51 1.44-1.21l.38-2.19a1.5 1.5 0 0 0-1.08-1.71l-2.24-.62a1.5 1.5 0 0 0-1.49.44l-.82.83a10.97 10.97 0 0 1-4.26-4.27l.83-.82a1.5 1.5 0 0 0 .44-1.49l-.62-2.24a1.5 1.5 0 0 0-1.71-1.08l-2.19.38c-.7.12-1.21.73-1.21 1.44Z" />
+                    </svg>
+                    <span className="font-semibold text-sm sm:text-base text-[#374151]">신청 문의 : 복지디자인</span>
+                  </div>
+                  <a href="tel:0420000000" className="font-extrabold text-lg sm:text-xl tabular-nums text-[#F26C2A] underline">
+                    042-000-0000
+                  </a>
+                </div>
               </div>
             </div>
           </div>
