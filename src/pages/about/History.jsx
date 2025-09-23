@@ -31,8 +31,14 @@ export default function AboutHistory() {
     "--sec-soft": "rgba(44,185,177,0.10)",
     "--title-guide": "20px",
     "--timeline-guide": "20px",
-    "--year-block": "72px",
-    "--rail": "-4px" // page left guide fine‑tune (align to header guide)
+    // default: MOBILE first
+    "--year-block": "56px",
+    "--timeline-offset": "1rem",
+    "--rail": "0px",
+    // desktop targets (used via media queries below)
+    "--year-block-desktop": "72px",
+    "--timeline-offset-desktop": "calc(var(--timeline-guide) + 80px)",
+    "--rail-desktop": "-4px"
   };
 
   return (
@@ -40,6 +46,21 @@ export default function AboutHistory() {
       className="relative max-w-7xl mx-auto px-0 pt-0 pb-14"
       style={themeVars}
     >
+      <style>{`
+        /* Mobile-first variable values are set in themeVars above */
+        .history-wrapper {
+          /* no extra rules needed for mobile; vars already set */
+        }
+        /* >= md (768px): restore desktop spacing/rail exactly as before */
+        @media (min-width: 768px) {
+          .history-wrapper {
+            --year-block: var(--year-block-desktop);
+            --timeline-offset: var(--timeline-offset-desktop);
+            --rail: var(--rail-desktop);
+          }
+        }
+      `}</style>
+
       {/* 상단 소프트 그라데이션 */}
       <div
         className="pointer-events-none absolute inset-x-0 -top-8 h-20 bg-gradient-to-b from-[var(--pri-soft)] via-[var(--sec-soft)] to-transparent blur-2xl"
@@ -57,7 +78,7 @@ export default function AboutHistory() {
       </header>
 
       {/* 타임라인 래퍼: Establishment와 맞추기 위해 좌측 고정 여백 부여 */}
-      <div className="relative mt-5" style={{ marginLeft: "calc(var(--timeline-guide) + 80px)" }}>
+      <div className="history-wrapper relative mt-5" style={{ marginLeft: "var(--timeline-offset)" }}>
         {Object.keys(byYear)
           .sort((a, b) => b.localeCompare(a))
           .map((year) => (
@@ -87,13 +108,13 @@ export default function AboutHistory() {
                   style={{ left: "var(--rail)", top: "calc(var(--year-block) - 40px)" }}
                 />
 
-                <div className="space-y-8">
+                <div className="space-y-6 md:space-y-8">
                   {byYear[year].map((item, i) => (
                     <div key={i} className="relative">
                       {/* card */}
                       <article className="relative bg-white/90 backdrop-blur-sm border border-slate-200 rounded-xl shadow-sm hover:shadow-md transition overflow-hidden">
                         <div className="absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b from-[var(--pri)] to-[var(--sec)]" />
-                        <div className="p-5 md:p-6">
+                        <div className="p-4 md:p-6">
                           <time className="inline-block px-3 py-1 text-xs font-semibold text-[var(--pri)] bg-[var(--pri-soft)] rounded-full">
                             {item.ym}
                           </time>
