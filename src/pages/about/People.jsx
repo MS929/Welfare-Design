@@ -183,10 +183,11 @@ function CrossAuditor() {
 }
 
 function VLine({ h = 8 }) {
+  // Force a crisp 1px line on all DPR/zoom levels by using a border, not a filled box
   return (
     <div
-      className="w-px bg-gray-300 mx-auto"
-      style={{ height: `${h * 4}px` }}
+      className="mx-auto"
+      style={{ height: `${h * 4}px`, borderLeft: "1px solid #D1D5DB" }}
     />
   );
 }
