@@ -53,7 +53,8 @@ export default function AboutPeople() {
 
       {/* ===== 조직도 캔버스 ===== */}
       <section className="max-w-screen-xl mx-auto px-4 pt-10 pb-0 mb-[-0px]">
-        <OrgChart />
+        <div className="hidden md:block"><OrgChartDesktop /></div>
+        <div className="md:hidden"><OrgChartMobile /></div>
       </section>
 
       {/* ===== 하단 3 플랫폼 카드 ===== */}
@@ -121,7 +122,7 @@ function PlatformCard({ title, items, color }) {
 
 /* ================= 조직도 ================= */
 
-function OrgChart() {
+function OrgChartDesktop() {
   return (
     <div className="relative mx-auto w-full max-w-screen-xl">
       <div className="flex flex-col items-center">
@@ -152,7 +153,53 @@ function OrgChart() {
     </div>
   );
 }
-// 가운데 트렁크에 정확히 접속하는 감사 교차부
+
+function OrgChartMobile() {
+  return (
+    <div className="max-w-screen-sm mx-auto flex flex-col items-start space-y-4 px-2">
+      <MobileStep label="조합원총회" />
+      <div className="w-px bg-gray-300 mx-auto" style={{height: '32px'}} />
+      <MobileStep label="이사회" />
+      <div className="w-px bg-gray-300 mx-auto" style={{height: '32px'}} />
+      <MobileStep label="이사장" />
+      <div className="w-px bg-gray-300 mx-auto" style={{height: '32px'}} />
+      <MobileStep label="사무국" />
+      <ul className="list-disc list-inside space-y-1 mt-2 w-full max-w-xs">
+        <li>복지연결플랫폼</li>
+        <li>복지디자인연구소</li>
+        <li>협력운영플랫폼</li>
+      </ul>
+    </div>
+  );
+}
+
+function MobileStep({ label }) {
+  return (
+    <div className="flex items-center space-x-2">
+      <div className="w-4 h-4 rounded-full border-2 border-gray-400 bg-white flex-shrink-0" />
+      <span className="text-gray-800 font-semibold text-base">{label}</span>
+    </div>
+  );
+}
+
+function VLine({ h = 8 }) {
+  return (
+    <div
+      className="w-px bg-gray-300 mx-auto"
+      style={{ height: `${h * 4}px` }}
+    />
+  );
+}
+
+function Node({ label, small = false }) {
+  const base =
+    "inline-flex items-center justify-center rounded-xl border border-gray-300 bg-white px-4 text-gray-800 shadow-sm";
+  const size = small
+    ? "h-9 text-sm"
+    : "h-11 text-base min-w-[96px]";
+  return <div className={`${base} ${size}`}>{label}</div>;
+}
+
 function CrossAuditor() {
   // left spur length from the center to the 감사 node
   const spur = 280; // px
@@ -176,24 +223,6 @@ function CrossAuditor() {
       </div>
     </div>
   );
-}
-
-function VLine({ h = 8 }) {
-  return (
-    <div
-      className="w-px bg-gray-300 mx-auto"
-      style={{ height: `${h * 4}px` }}
-    />
-  );
-}
-
-function Node({ label, small = false }) {
-  const base =
-    "inline-flex items-center justify-center rounded-xl border border-gray-300 bg-white px-4 text-gray-800 shadow-sm";
-  const size = small
-    ? "h-9 text-sm"
-    : "h-11 text-base min-w-[96px]";
-  return <div className={`${base} ${size}`}>{label}</div>;
 }
 
 function Th({ children }) {
