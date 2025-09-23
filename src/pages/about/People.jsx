@@ -165,13 +165,19 @@ function OrgChartMobile() {
       <MobileConnector h={28} />
       <MobileNode label="사무국" />
 
-      {/* 하단 3개 플랫폼: 모바일에선 센터 정렬 칩 형태 */}
-      <div className="mt-2 flex flex-wrap items-center justify-center gap-2">
-        {['복지연결플랫폼', '복지디자인연구소', '협력운영플랫폼'].map((t) => (
-          <span key={t} className="px-3 py-1 rounded-full border text-sm text-gray-700 bg-white shadow-sm">
-            {t}
-          </span>
-        ))}
+      <div className="mt-4 flex justify-center gap-8 w-full">
+        <div className="flex flex-col items-center">
+          <MobileConnector h={20} />
+          <MobileNode label="복지연결플랫폼" />
+        </div>
+        <div className="flex flex-col items-center">
+          <MobileConnector h={20} />
+          <MobileNode label="복지디자인연구소" />
+        </div>
+        <div className="flex flex-col items-center">
+          <MobileConnector h={20} />
+          <MobileNode label="협력운영플랫폼" />
+        </div>
       </div>
     </div>
   );
