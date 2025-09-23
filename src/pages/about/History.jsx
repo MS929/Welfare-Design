@@ -33,7 +33,7 @@ export default function AboutHistory() {
     "--timeline-guide": "20px",
     // default: MOBILE first
     "--year-block": "56px",
-    "--timeline-offset": "1rem",
+    "--timeline-offset": "32px",
     "--rail": "0px",
     // desktop targets (used via media queries below)
     "--year-block-desktop": "72px",
@@ -78,7 +78,7 @@ export default function AboutHistory() {
       </header>
 
       {/* 타임라인 래퍼: Establishment와 맞추기 위해 좌측 고정 여백 부여 */}
-      <div className="history-wrapper relative mt-5 px-4 pr-5 md:px-0 md:pr-0 overflow-x-visible" style={{ marginLeft: "var(--timeline-offset)" }}>
+      <div className="history-wrapper relative mt-5 px-4 pr-5 md:px-0 md:pr-0 overflow-x-visible" style={{ paddingLeft: "var(--timeline-offset)" }}>
         {Object.keys(byYear)
           .sort((a, b) => b.localeCompare(a))
           .map((year) => (
@@ -86,10 +86,10 @@ export default function AboutHistory() {
               {/* 연도 헤더 */}
               <div className="pl-1 mb-6 relative" style={{ height: "var(--year-block)" }}>
                 <div
-                  className="absolute left-[var(--rail)] flex flex-col items-center -translate-x-1/2"
+                  className="absolute left-[var(--rail)] flex flex-col items-center -translate-x-0 md:-translate-x-1/2"
                 >
                   {/* 그라데이션 텍스트 */}
-                  <h2 className="text-2xl md:text-3xl font-black tracking-tight leading-none">
+                  <h2 className="text-2xl md:text-3xl font-black tracking-tighter md:tracking-tight leading-none">
                     <span className="bg-gradient-to-r from-[var(--pri)] to-[var(--sec)] bg-clip-text text-transparent">
                       {year}
                     </span>
@@ -101,11 +101,11 @@ export default function AboutHistory() {
               </div>
 
               {/* 세로 라인 + 카드들 */}
-              <div className="relative flex-1 min-w-0 pl-8 md:pl-10 lg:pl-12 overflow-x-visible">
+              <div className="relative flex-1 min-w-0 pl-9 md:pl-10 lg:pl-12 overflow-x-visible">
                 {/* vertical rail aligned to the page's left guide */}
                 <div
                   className="absolute bottom-6 border-l-2 border-dashed border-[var(--pri)]/30"
-                  style={{ left: "var(--rail)", top: "calc(var(--year-block) - 40px)" }}
+                  style={{ left: "var(--rail)", top: "calc(var(--year-block) - 28px)" }}
                 />
 
                 <div className="space-y-6 md:space-y-8">
@@ -118,7 +118,7 @@ export default function AboutHistory() {
                           <time className="inline-block px-3 py-1 text-xs font-semibold text-[var(--pri)] bg-[var(--pri-soft)] rounded-full">
                             {item.ym}
                           </time>
-                          <p className="mt-2 md:mt-3 font-medium text-slate-800 leading-relaxed break-keep break-words" style={{ overflowWrap: 'anywhere', wordBreak: 'keep-all' }}>
+                          <p className="mt-2 md:mt-3 font-medium text-slate-800 leading-relaxed break-keep break-words" style={{ overflowWrap: 'anywhere', wordBreak: 'keep-all', lineHeight: 1.6 }}>
                             {item.event}
                           </p>
                         </div>
