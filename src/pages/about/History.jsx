@@ -57,7 +57,7 @@ export default function AboutHistory() {
       </header>
 
       {/* 타임라인 래퍼: Establishment와 맞추기 위해 좌측 고정 여백 부여 */}
-      <div className="relative mt-5 ml-4 md:ml-[calc(var(--timeline-guide)+80px)]">
+      <div className="relative mt-5" style={{ marginLeft: "calc(var(--timeline-guide) + 80px)" }}>
         {Object.keys(byYear)
           .sort((a, b) => b.localeCompare(a))
           .map((year) => (
@@ -65,7 +65,7 @@ export default function AboutHistory() {
               {/* 연도 헤더 */}
               <div className="pl-1 mb-6 relative" style={{ height: "var(--year-block)" }}>
                 <div
-                  className="absolute left-3 md:left-[var(--rail)] flex flex-col items-center -translate-x-1/2"
+                  className="absolute left-[var(--rail)] flex flex-col items-center -translate-x-1/2"
                 >
                   {/* 그라데이션 텍스트 */}
                   <h2 className="text-2xl md:text-3xl font-black tracking-tight leading-none">
@@ -80,11 +80,11 @@ export default function AboutHistory() {
               </div>
 
               {/* 세로 라인 + 카드들 */}
-              <div className="relative flex-1 pl-6 md:pl-10 lg:pl-12">
+              <div className="relative flex-1 pl-8 md:pl-10 lg:pl-12">
                 {/* vertical rail aligned to the page's left guide */}
                 <div
-                  className="absolute bottom-6 border-l-2 border-dashed border-[var(--pri)]/30 left-3 md:left-[var(--rail)]"
-                  style={{ top: "calc(var(--year-block) - 40px)" }}
+                  className="absolute bottom-6 border-l-2 border-dashed border-[var(--pri)]/30"
+                  style={{ left: "var(--rail)", top: "calc(var(--year-block) - 40px)" }}
                 />
 
                 <div className="space-y-8">
@@ -93,7 +93,7 @@ export default function AboutHistory() {
                       {/* card */}
                       <article className="relative bg-white/90 backdrop-blur-sm border border-slate-200 rounded-xl shadow-sm hover:shadow-md transition overflow-hidden">
                         <div className="absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b from-[var(--pri)] to-[var(--sec)]" />
-                        <div className="p-4 md:p-6">
+                        <div className="p-5 md:p-6">
                           <time className="inline-block px-3 py-1 text-xs font-semibold text-[var(--pri)] bg-[var(--pri-soft)] rounded-full">
                             {item.ym}
                           </time>
