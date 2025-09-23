@@ -14,3 +14,7 @@ function OrgChartMobile() {
     </div>
   );
 }
+
+export default function AboutPeople() {
+  return <OrgChartMobile />;
+}
