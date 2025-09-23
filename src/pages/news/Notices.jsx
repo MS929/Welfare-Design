@@ -222,7 +222,7 @@ export default function Notices() {
 
           {/* ── Mobile (under md): 카드 리스트 전용 UI ──────────────────────── */}
           <div className="md:hidden">
-            <ul className="max-w-screen-xl mx-auto px-4 space-y-3">
+            <ul className="max-w-screen-xl mx-auto px-4 space-y-4">
               {paginatedItems.map((it, idx) => {
                 const number = filtered.length - ((page - 1) * PAGE_SIZE + idx);
                 const dateStr = (it.dateObj && it.dateObj.toISOString().slice(0, 10)) || it.date || "";
@@ -230,32 +230,32 @@ export default function Notices() {
                   <li key={it.slug}>
                     <Link
                       to={`/news/notices/${encodeURIComponent(it.slug)}`}
-                      className="block rounded-2xl border border-gray-200 bg-white p-4 shadow-sm active:bg-gray-50"
+                      className="block rounded-2xl border border-gray-200 bg-white p-4 shadow-sm hover:shadow-md active:bg-gray-50 transition-shadow"
                     >
                       <div className="flex items-start gap-3">
                         {/* 번호 */}
-                        <span className="shrink-0 mt-0.5 rounded-full bg-gray-100 px-2.5 py-1 text-xs font-medium text-gray-600">
+                        <span className="shrink-0 mt-0.5 grid place-items-center h-6 w-6 rounded-full bg-gray-100 text-xs font-semibold text-gray-700">
                           {number}
                         </span>
 
                         {/* 본문 */}
                         <div className="min-w-0 flex-1">
-                          <p className="text-[15px] font-semibold text-gray-900 leading-snug break-words">
+                          <p className="text-[15px] font-semibold text-gray-900 leading-snug break-words truncate">
                             {it.title || "제목 없음"}
                           </p>
 
-                          <div className="mt-2 flex items-center gap-2 text-sm">
+                          <div className="mt-2 flex items-center gap-2 text-[13px]">
                             <span
-                              className={`inline-flex items-center rounded-full border bg-white px-2.5 py-0.5 text-[12px] ${
+                              className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-[12px] border ${
                                 it.category === "공지"
-                                  ? "text-orange-600 border-orange-200"
-                                  : "text-[#1E9E8F] border-[#9FDCD5]"
+                                  ? "text-orange-700 border-orange-200 bg-orange-50"
+                                  : "text-[#15796E] border-[#9FDCD5] bg-[#E9F7F5]"
                               }`}
                             >
                               {it.category}
                             </span>
                             <span className="h-3 w-px bg-gray-300" aria-hidden="true" />
-                            <time className="text-gray-600">{dateStr}</time>
+                            <time className="text-gray-500">{dateStr}</time>
                           </div>
                         </div>
                       </div>
