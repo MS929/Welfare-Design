@@ -625,7 +625,7 @@ export default function AboutWhat() {
       <section className="max-w-screen-xl mx-auto px-4 py-10">
         <SectionTitle color="#3BA7A0">설립 배경</SectionTitle>
 
-        <div className="grid md:grid-cols-[200px,1fr] gap-6 items-center">
+        <div className="grid grid-cols-1 md:grid-cols-[200px,1fr] gap-6 items-center">
           <div className="rounded-lg overflow-hidden">
             <img
               src={background.image}
@@ -636,7 +636,7 @@ export default function AboutWhat() {
               width="400"
               height="224"
               sizes="(min-width: 768px) 400px, 100vw"
-              className="w-full h-auto object-contain max-h-52 md:max-h-56 opacity-0 transition-opacity duration-300"
+              className="w-full h-auto object-cover max-h-52 md:max-h-56 opacity-0 transition-opacity duration-300"
               onLoad={(e) => {
                 e.currentTarget.style.opacity = "1";
               }}
@@ -658,7 +658,7 @@ export default function AboutWhat() {
       {/* ===== 설립 목적 / 미션 / 비전 ===== */}
       <section className="max-w-screen-xl mx-auto px-4 pb-10">
         {/* 카드 상단을 브랜드 3색으로 채우고, 제목을 가운데 정렬 */}
-        <div className="grid md:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 space-y-4 sm:space-y-0">
           {gmv.map((b, idx) => {
             const accents = [
               { bg: "#F4B731", fg: "#2B2E34" }, // Yellow (dark text for contrast)
@@ -714,7 +714,7 @@ export default function AboutWhat() {
       </section>
 
       {/* ===== 조합원의 자격 및 유형 / 운영 공개 ===== */}
-      <section className="max-w-screen-xl mx-auto px-4 pb-10 grid md:grid-cols-2 gap-6">
+      <section className="max-w-screen-xl mx-auto px-4 pb-10 grid grid-cols-1 md:grid-cols-2 gap-6 space-y-4 md:space-y-0">
         <div className="rounded-xl border border-brand-200 bg-white p-5 shadow-sm">
           <h3 className="text-lg font-semibold mb-3 text-brand-800">조합원의 자격 및 유형</h3>
           <ul className="list-disc pl-5 space-y-2 text-gray-800">
@@ -737,7 +737,7 @@ export default function AboutWhat() {
       {/* ===== 운영 원칙 (7대 원칙) ===== */}
       <section className="max-w-screen-xl mx-auto px-4 pb-10">
         <SectionTitle color="#F4B731">운영 원칙(협동조합 7대 원칙)</SectionTitle>
-        <div className="grid md:grid-cols-2 gap-6 items-stretch">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-stretch space-y-4 md:space-y-0">
           {principles.map((p, idx) => {
             const principlePalette = ["#F4B731", "#ED6A32", "#3BA7A0"]; // repeat
             const pc = principlePalette[idx % principlePalette.length];
@@ -760,7 +760,7 @@ export default function AboutWhat() {
                   {Array.isArray(p.desc) ? (
                     <ul className="list-disc pl-5 space-y-1 text-gray-800 leading-relaxed">
                       {p.desc.map((line, i) => (
-                        <li key={i}>{line}</li>
+                        <li key={i} className="text-sm md:text-base">{line}</li>
                       ))}
                     </ul>
                   ) : (
