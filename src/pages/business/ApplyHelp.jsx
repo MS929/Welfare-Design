@@ -47,7 +47,7 @@ export default function ApplyHelp() {
               </ul>
             </div>
             {/* 상담 문의 배너 */}
-            <div className="rounded-2xl border border-[#F26C2A]/45 bg-gradient-to-r from-[#FFF3E9] to-[#EFFFFD] px-8 py-5 shadow-md">
+            <div className="hidden md:block rounded-2xl border border-[#F26C2A]/45 bg-gradient-to-r from-[#FFF3E9] to-[#EFFFFD] px-8 py-5 shadow-md">
               <div className="flex items-center gap-3 text-[#111827] tracking-tight">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
