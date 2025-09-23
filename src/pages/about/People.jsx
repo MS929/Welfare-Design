@@ -164,21 +164,7 @@ function OrgChartMobile() {
       <MobileNode label="이사장" />
       <MobileConnector h={28} />
       <MobileNode label="사무국" />
-
-      <div className="mt-4 flex justify-center gap-8 w-full">
-        <div className="flex flex-col items-center">
-          <MobileConnector h={20} />
-          <MobileNode label="복지연결플랫폼" />
-        </div>
-        <div className="flex flex-col items-center">
-          <MobileConnector h={20} />
-          <MobileNode label="복지디자인연구소" />
-        </div>
-        <div className="flex flex-col items-center">
-          <MobileConnector h={20} />
-          <MobileNode label="협력운영플랫폼" />
-        </div>
-      </div>
+      <MobileConnector h={20} />
     </div>
   );
 }
