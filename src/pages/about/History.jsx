@@ -15,6 +15,13 @@ export default function AboutHistory() {
     "--rail": "-4px" // desktop default
   };
 
+  // 안전 가드: 외부 전역/모듈의 byYear가 없을 때도 페이지가 깨지지 않도록
+  // window.__WD_HISTORY__ 를 우선 사용하고, 없으면 빈 객체로 처리
+  const safeByYear =
+    (typeof byYear !== "undefined" && byYear) ||
+    (typeof window !== "undefined" && window.__WD_HISTORY__) ||
+    {};
+
   return (
     <div
       className="about-history relative max-w-7xl mx-auto px-0 pt-0 pb-14"
@@ -45,10 +52,15 @@ export default function AboutHistory() {
       </header>
 
       {/* ===== 데스크톱 타임라인 (기존 그대로) ===== */}
+      {Object.keys(safeByYear).length === 0 && (
+        <div className="md:px-4 px-4 py-10 text-center text-slate-500">
+          등록된 연혁이 없습니다.
+        </div>
+      )}
       <div className="hidden md:block">
         {/* 타임라인 래퍼: 좌측 고정 여백 유지 */}
         <div className="relative mt-5 mobile-ml" style={{ marginLeft: "calc(var(--timeline-guide) + 80px)" }}>
-          {Object.keys(byYear)
+          {Object.keys(safeByYear)
             .sort((a, b) => b.localeCompare(a))
             .map((year) => (
               <section key={year} className="relative mb-16">
@@ -70,7 +82,7 @@ export default function AboutHistory() {
                   />
 
                   <div className="space-y-8">
-                    {byYear[year].map((item, i) => (
+                    {safeByYear[year].map((item, i) => (
                       <div key={i} className="relative">
                         <article className="relative bg-white/90 backdrop-blur-sm border border-slate-200 rounded-xl shadow-sm hover:shadow-md transition overflow-hidden">
                           <div className="absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b from-[var(--pri)] to-[var(--sec)]" />
@@ -92,7 +104,7 @@ export default function AboutHistory() {
 
       {/* ===== 모바일 타임라인 (새 레이아웃) ===== */}
       <div className="md:hidden px-4 mt-6">
-        {Object.keys(byYear)
+        {Object.keys(safeByYear)
           .sort((a, b) => b.localeCompare(a))
           .map((year) => (
             <section key={year} className="mb-10">
@@ -105,7 +117,7 @@ export default function AboutHistory() {
 
               {/* 간단 리스트 카드 (세로 레일 제거, 여백 축소) */}
               <div className="space-y-4">
-                {byYear[year].map((item, i) => (
+                {safeByYear[year].map((item, i) => (
                   <article
                     key={i}
                     className="bg-white/95 border border-slate-200 rounded-lg shadow-sm overflow-hidden"
