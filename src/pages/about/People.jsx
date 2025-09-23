@@ -123,7 +123,7 @@ function PlatformCard({ title, items, color }) {
 
 function OrgChart() {
   return (
-    <div className="relative mx-auto w-full max-w-screen-xl">
+    <div className="relative mx-auto w-full max-w-screen-xl overflow-x-auto px-2">
       <div className="flex flex-col items-center">
         {/* 중앙 트렁크: 총회 → 이사회 → 이사장 */}
         <Node label="조합원총회" />
@@ -141,12 +141,14 @@ function OrgChart() {
 
         {/* 하단 분기: 3플랫폼 위치까지 하강 및 가로선/세로선 */}
         <VLine h={16} />
-        {/* Horizontal connector trimmed to span only between the left/right platform columns */}
-        <div className="h-px w-2/3 mx-auto bg-gray-300" />
-        <div className="grid w-full grid-cols-3">
-          <div className="flex justify-center"><VLine h={36} /></div>
-          <div className="flex justify-center"><VLine h={36} /></div>
-          <div className="flex justify-center"><VLine h={36} /></div>
+        {/* NOTE: Mobile-friendly tweaks; desktop (md+) remains unchanged. */}
+        <div className="hidden md:block">
+          <div className="h-px w-2/3 mx-auto bg-gray-300" />
+          <div className="grid w-full grid-cols-3">
+            <div className="flex justify-center"><VLine h={36} /></div>
+            <div className="flex justify-center"><VLine h={36} /></div>
+            <div className="flex justify-center"><VLine h={36} /></div>
+          </div>
         </div>
       </div>
     </div>
@@ -154,8 +156,10 @@ function OrgChart() {
 }
 // 가운데 트렁크에 정확히 접속하는 감사 교차부
 function CrossAuditor() {
-  // left spur length from the center to the 감사 node
-  const spur = 280; // px
+  // NOTE: Mobile-friendly tweaks; desktop (md+) remains unchanged.
+  const spur = (typeof window !== "undefined" && window.innerWidth < 640)
+    ? Math.max(120, Math.min(180, Math.floor(window.innerWidth * 0.35)))
+    : 280;
   return (
     <div className="relative w-full h-10">
       {/* central joint to keep the trunk visually continuous */}
@@ -188,11 +192,12 @@ function VLine({ h = 8 }) {
 }
 
 function Node({ label, small = false }) {
+  // NOTE: Mobile-friendly tweaks; desktop (md+) remains unchanged.
   const base =
     "inline-flex items-center justify-center rounded-xl border border-gray-300 bg-white px-4 text-gray-800 shadow-sm";
   const size = small
-    ? "h-9 text-sm"
-    : "h-11 text-base min-w-[96px]";
+    ? "h-9 text-sm md:h-9 md:text-sm"
+    : "h-9 text-sm min-w-[84px] md:h-11 md:text-base md:min-w-[96px]";
   return <div className={`${base} ${size}`}>{label}</div>;
 }
 
