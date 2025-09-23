@@ -99,7 +99,7 @@ export default function Navbar() {
         { to: "/about/what", label: "복지디자인은?" },
         { to: "/about/establishment", label: "인사말" },
         { to: "/about/history", label: "연혁" },
-        { to: "/about/people", label: "조직도" },
+        { to: "/about/people", label: "함께하는 사람들" },
       ],
     },
     {
@@ -132,7 +132,8 @@ export default function Navbar() {
 
   return (
     <header
-      role="navigation" aria-label="Primary"
+      role="navigation"
+      aria-label="Primary"
       className="sticky top-0 z-50 bg-white shadow"
       onMouseLeave={() => {
         setMegaOpen(false);
@@ -142,7 +143,11 @@ export default function Navbar() {
       <nav className="w-full relative px-4 md:pl-[120px] md:pr-6 py-3 grid grid-cols-[auto,1fr,auto] items-center gap-6">
         {/* Logo (mobile inline, desktop inline so it doesn't shift the tab grid) */}
         <Link to="/" className="flex items-center mr-4 md:mr-8">
-          <img src="/images/main/main3.png" alt="복지 디자인 로고" className="h-12 w-auto md:h-16 object-contain block" />
+          <img
+            src="/images/main/main3.png"
+            alt="복지 디자인 로고"
+            className="h-12 w-auto md:h-16 object-contain block"
+          />
         </Link>
 
         {/* Top tabs (desktop) inline next to logo */}
@@ -155,7 +160,9 @@ export default function Navbar() {
               <button
                 type="button"
                 className={`text-left font-medium text-[15px] hover:text-emerald-600 leading-tight ${
-                  hoveredIdx === idx ? "text-emerald-600 underline decoration-emerald-500 underline-offset-8" : ""
+                  hoveredIdx === idx
+                    ? "text-emerald-600 underline decoration-emerald-500 underline-offset-8"
+                    : ""
                 }`}
                 onMouseEnter={() => {
                   setMegaOpen(true);
@@ -193,7 +200,6 @@ export default function Navbar() {
         >
           ☰
         </button>
-
       </nav>
 
       {megaOpen && (
@@ -258,17 +264,17 @@ export default function Navbar() {
             </summary>
             <div className="px-2 pb-2">
               <NavLink
-                to="/about/establishment"
-                className="block px-3 py-2 rounded hover:bg-gray-50 focus-visible:ring-2 focus-visible:ring-emerald-500"
-              >
-                설립 내용
-              </NavLink>
-              <NavLink
                 to="/about/what"
                 className="block px-3 py-2 rounded hover:bg-gray-50 focus-visible:ring-2 focus-visible:ring-emerald-500"
                 onClick={() => setMobileOpen(false)}
               >
                 복지디자인은?
+              </NavLink>
+              <NavLink
+                to="/about/establishment"
+                className="block px-3 py-2 rounded hover:bg-gray-50 focus-visible:ring-2 focus-visible:ring-emerald-500"
+              >
+                인사말
               </NavLink>
               <NavLink
                 to="/about/history"
