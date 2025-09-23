@@ -91,6 +91,19 @@ export default function Navbar() {
     return () => window.removeEventListener("resize", on);
   }, []);
 
+  // Lock body scroll when mobile drawer is open (mobile only)
+  useEffect(() => {
+    const prev = document.body.style.overflow;
+    if (mobileOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = prev || '';
+    }
+    return () => {
+      document.body.style.overflow = prev || '';
+    };
+  }, [mobileOpen]);
+
   // 상단 섹션/항목 정의(중복 제거)
   const sections = [
     {
@@ -196,7 +209,6 @@ export default function Navbar() {
           className="md:hidden ml-auto rounded-md p-2 hover:bg-gray-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 z-[75]"
           style={{ touchAction: 'manipulation' }}
           onClick={() => setMobileOpen((v) => !v)}
-          onTouchStart={() => setMobileOpen((v) => !v)}
           aria-label="toggle menu"
           aria-expanded={mobileOpen}
         >
@@ -410,15 +422,3 @@ export default function Navbar() {
     </header>
   );
 }
-
-  useEffect(() => {
-    const prev = document.body.style.overflow;
-    if (mobileOpen) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = prev || '';
-    }
-    return () => {
-      document.body.style.overflow = prev || '';
-    };
-  }, [mobileOpen]);
