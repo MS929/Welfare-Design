@@ -273,6 +273,7 @@ export default function Navbar() {
               <NavLink
                 to="/about/establishment"
                 className="block px-3 py-2 rounded hover:bg-gray-50 focus-visible:ring-2 focus-visible:ring-emerald-500"
+                onClick={() => setMobileOpen(false)}
               >
                 인사말
               </NavLink>
