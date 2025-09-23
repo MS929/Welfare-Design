@@ -1,3 +1,5 @@
+import React from "react";
+
 export default function AboutHistory() {
   // 페이지 전용 팔레트(로고 컬러 반영)
   // Primary(주황)   : #F26C2A
@@ -21,6 +23,44 @@ export default function AboutHistory() {
     (typeof byYear !== "undefined" && byYear) ||
     (typeof window !== "undefined" && window.__WD_HISTORY__) ||
     {};
+
+  const [hydrated, setHydrated] = React.useState(safeByYear);
+
+  React.useEffect(() => {
+    // If we already have data, nothing to do
+    if (hydrated && Object.keys(hydrated).length) return;
+
+    const tryRead = () => {
+      let g = {};
+      try {
+        // prefer explicit global, then window fallbacks
+        // eslint-disable-next-line no-undef
+        g = (typeof byYear !== 'undefined' && byYear) ||
+            (typeof window !== 'undefined' && (window.__WD_HISTORY__ || window.byYear)) ||
+            {};
+      } catch (_) {}
+      if (g && Object.keys(g).length) {
+        setHydrated(g);
+        return true;
+      }
+      return false;
+    };
+
+    // initial attempt
+    if (tryRead()) return;
+
+    // sometimes the global arrives slightly later; poll briefly
+    const iv = setInterval(() => {
+      if (tryRead()) clearInterval(iv);
+    }, 150);
+    const tm = setTimeout(() => clearInterval(iv), 2500);
+    return () => {
+      clearInterval(iv);
+      clearTimeout(tm);
+    };
+  }, []);
+
+  const dataByYear = hydrated && Object.keys(hydrated).length ? hydrated : safeByYear;
 
   return (
     <div
@@ -52,7 +92,7 @@ export default function AboutHistory() {
       </header>
 
       {/* ===== 데스크톱 타임라인 (기존 그대로) ===== */}
-      {Object.keys(safeByYear).length === 0 && (
+      {Object.keys(dataByYear).length === 0 && (
         <div className="md:px-4 px-4 py-10 text-center text-slate-500">
           등록된 연혁이 없습니다.
         </div>
@@ -60,7 +100,7 @@ export default function AboutHistory() {
       <div className="hidden md:block">
         {/* 타임라인 래퍼: 좌측 고정 여백 유지 */}
         <div className="relative mt-5 mobile-ml" style={{ marginLeft: "calc(var(--timeline-guide) + 80px)" }}>
-          {Object.keys(safeByYear)
+          {Object.keys(dataByYear)
             .sort((a, b) => b.localeCompare(a))
             .map((year) => (
               <section key={year} className="relative mb-16">
@@ -82,7 +122,7 @@ export default function AboutHistory() {
                   />
 
                   <div className="space-y-8">
-                    {safeByYear[year].map((item, i) => (
+                    {dataByYear[year].map((item, i) => (
                       <div key={i} className="relative">
                         <article className="relative bg-white/90 backdrop-blur-sm border border-slate-200 rounded-xl shadow-sm hover:shadow-md transition overflow-hidden">
                           <div className="absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b from-[var(--pri)] to-[var(--sec)]" />
@@ -104,7 +144,7 @@ export default function AboutHistory() {
 
       {/* ===== 모바일 타임라인 (새 레이아웃) ===== */}
       <div className="md:hidden px-4 mt-6">
-        {Object.keys(safeByYear)
+        {Object.keys(dataByYear)
           .sort((a, b) => b.localeCompare(a))
           .map((year) => (
             <section key={year} className="mb-10">
@@ -117,7 +157,7 @@ export default function AboutHistory() {
 
               {/* 간단 리스트 카드 (세로 레일 제거, 여백 축소) */}
               <div className="space-y-4">
-                {safeByYear[year].map((item, i) => (
+                {dataByYear[year].map((item, i) => (
                   <article
                     key={i}
                     className="bg-white/95 border border-slate-200 rounded-lg shadow-sm overflow-hidden"
