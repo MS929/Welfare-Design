@@ -1,7 +1,6 @@
 // src/pages/business/ApplyHelp.jsx
 import BizLayout from "./_Layout";
-import ContactBox from "src/components/ContactBox";
-
+import ContactBox from "../../components/ContactBox";
 
 export default function ApplyHelp() {
   return (
