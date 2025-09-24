@@ -799,18 +799,20 @@ mark, [data-hl] {
               }}
             >
               현장과 지역을 잇는{" "}
-              <span
-                style={{
-                  boxDecorationBreak: "clone",
-                  WebkitBoxDecorationBreak: "clone",
-                  backgroundImage:
-                    "linear-gradient(transparent 70%, rgba(59,167,160,.28) 0)",
-                  fontWeight: 600,
-                }}
-              >
-                맞춤형 복지
+              <span style={{ whiteSpace: "nowrap" }}>
+                <span
+                  style={{
+                    boxDecorationBreak: "clone",
+                    WebkitBoxDecorationBreak: "clone",
+                    backgroundImage:
+                      "linear-gradient(transparent 70%, rgba(59,167,160,.28) 0)",
+                    fontWeight: 600,
+                  }}
+                >
+                  맞춤형 복지
+                </span>
+                를 설계하며
               </span>
-              를 설계하며
               <br />
               <span
                 style={{
