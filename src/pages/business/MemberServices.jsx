@@ -4,7 +4,7 @@ import BizLayout from "./_Layout";
 export default function MemberServices() {
   return (
     <BizLayout title="조합원 지원 서비스">
-      <div className="max-w-screen-xl mx-auto px-4 pb-24 md:pb-0">
+      <div className="max-w-screen-xl mx-auto px-4 pb-4 md:pb-0">
         {/* 이미지 + 우측 정보 박스(대여 안내) + 기대효과(대여 안내 박스 아래) */}
         <div className="grid gap-8 md:grid-cols-2 items-stretch">
           {/* 좌측 이미지: JS 동기화 제거, 순수 CSS로 동일 높이 */}
@@ -76,7 +76,7 @@ export default function MemberServices() {
             </div>
 
             {/* 문의 박스: PC(데스크탑) / 모바일 분리 렌더링 */}
-            <div className="mt-6">
+            <div className="mt-3 mb-1 md:mb-0">
               {/* Desktop & Tablet (md 이상): 기존 스타일 유지 */}
               <div className="hidden md:block rounded-2xl border border-[#F26C2A]/45 bg-gradient-to-r from-[#FFF3E9] to-[#EFFFFD] px-8 py-5 shadow-md">
                 <div className="flex items-center justify-center gap-3 text-[#111827] tracking-tight">
