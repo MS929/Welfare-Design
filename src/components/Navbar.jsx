@@ -225,11 +225,11 @@ export default function Navbar() {
             setHoveredIdx(null);
           }}
         >
-          <div style={{ marginLeft: megaLeft, width: 750 }}>
-            <div className="grid grid-cols-4 gap-16 justify-items-center pt-5 pb-6 text-center">
+          <div style={{ marginLeft: megaLeft, width: 840 }}>
+            <div className="grid grid-cols-4 gap-14 justify-items-center pt-5 pb-6 text-center mx-auto">
               {sections.map((sec) => (
-                <div key={sec.title} className="w-full text-center">
-                  <ul className="space-y-1.5">
+                <div key={sec.title} className="w-[200px] text-center">
+                  <ul className="space-y-1.5 items-center">
                     {sec.items.map((it) => (
                       <li key={it.to}>
                         <NavLink
