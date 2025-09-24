@@ -1,3 +1,5 @@
+import OptimizedImg from "./OptimizedImg";
+
 export default function Footer() {
   return (
     <footer className="bg-gray-900 text-gray-300 mt-12">
@@ -5,10 +7,14 @@ export default function Footer() {
         {/* 로고 및 협동조합 소개 */}
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center border-b border-gray-700 pb-6 mb-6">
           <div className="mb-4 md:mb-0 flex items-center">
-            <img
+            <OptimizedImg
               src="/images/about/main.png"
               alt="복지디자인 로고"
+              useCdn
+              cdnWidth={200}
+              sizes="200px"
               className="h-12"
+              imgStyle={{ height: "3rem", width: "auto", display: "block" }}
             />
             <div className="ml-3">
               <p className="text-sm font-semibold">복지디자인 사회적협동조합 | Welfare Design Cooperative</p>
