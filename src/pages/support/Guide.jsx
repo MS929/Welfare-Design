@@ -102,7 +102,7 @@ export default function SupGuide() {
       </div>
       {/* Mobile 전용: 컴팩트 버전 */}
       <div className="md:hidden max-w-screen-xl mx-auto px-4 mt-10">
-        <BankBox compact className="rounded-2xl border border-slate-200 bg-slate-50" />
+        <BankBox compact className="rounded-2xl border border-slate-200 bg-slate-50 shadow-sm" />
       </div>
 
       {/* 후원 신청서 (Desktop/Tablet) */}
@@ -140,7 +140,7 @@ export default function SupGuide() {
       </section>
 
       {/* 후원 신청서 (Mobile Compact) */}
-      <section className="md:hidden max-w-screen-xl mx-auto mt-10 overflow-hidden bg-white rounded-2xl border border-slate-200">
+      <section className="md:hidden max-w-screen-xl mx-auto mt-10 overflow-hidden bg-white rounded-2xl border border-slate-200 shadow-sm">
         <div className="bg-slate-50 px-5 py-4 border-b border-slate-200/70">
           <h3 className="text-lg font-semibold">후원 신청서</h3>
           <p className="text-gray-800 mt-1 text-[15px] leading-relaxed">
@@ -297,9 +297,9 @@ function BankBox({ className = "", compact = false }) {
 
   return (
     <section className={`${compact ? "p-5" : "p-6"} ${className}`}>
-      <h3 className="text-lg font-semibold">무통장 입금(계좌이체)</h3>
-      <div className={`${compact ? "mt-3" : "mt-3"} flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3`}>
-        <p className="text-gray-800">
+      <h3 className={`${compact ? "text-[18px]" : "text-lg"} font-semibold`}>무통장 입금(계좌이체)</h3>
+      <div className={`${compact ? "mt-3 flex flex-col gap-3" : "mt-3 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3"}`}>
+        <p className={`${compact ? "text-[16px] leading-relaxed" : ""} text-gray-800 break-keep`}>
           <span className="font-medium">{bank.name}</span>{" "}
           <span className="font-mono tracking-wide">{bank.number}</span>
           {" · "}
@@ -309,7 +309,7 @@ function BankBox({ className = "", compact = false }) {
           <button
             onClick={copy}
             aria-label="계좌번호 복사"
-            className={`${compact ? "px-6 py-3" : "px-7 py-3.5"} rounded-full bg-gradient-to-r from-teal-500 to-emerald-500 text-white font-semibold shadow-md hover:from-teal-600 hover:to-emerald-600 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2`}
+            className={`${compact ? "w-full px-6 py-3" : "px-7 py-3.5"} rounded-full bg-gradient-to-r from-teal-500 to-emerald-500 text-white font-semibold shadow-md hover:from-teal-600 hover:to-emerald-600 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2`}
           >
             {copied ? "복사됨!" : "계좌 복사"}
           </button>
