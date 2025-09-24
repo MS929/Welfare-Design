@@ -93,3 +93,14 @@ collections:
       - { label: "정렬 순서", name: "order", widget: "number", default: 0 }
       - { label: "노출 여부", name: "published", widget: "boolean", default: true }
       - { label: "답변", name: "body", widget: "markdown" }
+
+media_library:
+  name: cloudinary
+  config:
+    cloud_name: dxeadg9wi
+    api_key: 445728532345139
+    default_transformations:
+      - - fetch_format: auto   # 브라우저 맞춤 포맷 (webp/avif 등)
+          quality: auto        # 자동 품질 최적화
+          width: 1600          # 최대 크기 제한
+          crop: limit
