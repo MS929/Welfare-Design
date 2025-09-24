@@ -337,7 +337,7 @@ const StoryCard = ({
             sizes="(min-width: 1024px) 33vw, 100vw"
             style={{ width: "100%", height: "100%", objectFit: "cover" }}
             useCdn
-            cdnWidth={1000}
+            cdnWidth={isMobile ? 640 : isTablet ? 800 : 1000}
           />
         ) : null}
       </div>
@@ -638,9 +638,9 @@ mark, [data-hl] {
                     priority={i === heroIndex}
                     // Netlify Image CDN으로 런타임 리사이즈/압축
                     useCdn
-                    cdnWidth={1600}
+                    cdnWidth={isMobile ? 640 : isTablet ? 1200 : 1600}
                     sizes="(max-width: 640px) 100vw, (max-width: 1024px) 100vw, 1600px"
-                    // wrapper(<picture>) 스타일: 위치/페이드
+                      // wrapper(<picture>) 스타일: 위치/페이드
                     style={{
                       position: "absolute",
                       inset: 0,
