@@ -749,7 +749,7 @@ mark, [data-hl] {
             style={{
               marginTop: isTablet ? 10 : -36,
               textAlign: isTablet ? "center" : "left",
-              maxWidth: isMobile ? "34ch" : isTablet ? "42ch" : "48ch",
+              maxWidth: isMobile ? "34ch" : isTablet ? "42ch" : "56ch",
               marginInline: isTablet ? "auto" : 0,
             }}
           >
@@ -798,8 +798,8 @@ mark, [data-hl] {
                 textWrap: "balance",
               }}
             >
-              현장과 지역을 잇는{" "}
-              <span style={{ whiteSpace: "nowrap" }}>
+              <span style={{ whiteSpace: isTablet ? "normal" : "nowrap" }}>
+                현장과 지역을 잇는{" "}
                 <span
                   style={{
                     boxDecorationBreak: "clone",
