@@ -606,7 +606,7 @@ mark, [data-hl] {
         <div
           style={{
             display: "grid",
-            gridTemplateColumns: isTablet ? "1fr" : "1fr 1.35fr",
+            gridTemplateColumns: isTablet ? "1fr" : "1fr 1.45fr",
             gap: isTablet ? 20 : 36,
             alignItems: "center",
             padding: "0 32px",
@@ -750,6 +750,7 @@ mark, [data-hl] {
               marginTop: isTablet ? 10 : -36,
               textAlign: isTablet ? "center" : "left",
               maxWidth: isMobile ? "34ch" : isTablet ? "42ch" : "60ch",
+              width: isTablet ? "auto" : "60ch",
               marginInline: isTablet ? "auto" : 0,
             }}
           >
