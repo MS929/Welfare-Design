@@ -1,7 +1,5 @@
 // src/components/OptimizedImg.jsx
 import { useEffect, useRef, useState } from "react";
-// src/components/OptimizedImg.jsx
-import { useEffect, useRef, useState } from "react";
 
 /**
  * Optimized image component
