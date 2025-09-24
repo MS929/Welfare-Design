@@ -58,8 +58,8 @@ mark, [data-hl] {
       </section>
 
       <section className="max-w-screen-xl mx-auto px-4 mt-8">
-        <div className="grid md:grid-cols-3 gap-6">
-          <div className="rounded-xl shadow-sm h-full">
+        <div className="grid md:grid-cols-3 gap-6 auto-rows-[1fr] items-stretch">
+          <div className="rounded-xl shadow-sm h-full min-h-[420px] md:min-h-[460px]">
             <SupportPanel
               icon={
                 <img
@@ -80,7 +80,7 @@ mark, [data-hl] {
               accent="yellow"
             />
           </div>
-          <div className="rounded-xl shadow-sm h-full">
+          <div className="rounded-xl shadow-sm h-full min-h-[420px] md:min-h-[460px]">
             <SupportPanel
               icon={
                 <img
@@ -101,7 +101,7 @@ mark, [data-hl] {
               accent="warm"
             />
           </div>
-          <div className="rounded-xl shadow-sm h-full">
+          <div className="rounded-xl shadow-sm h-full min-h-[420px] md:min-h-[460px]">
             <SupportPanel
               icon={
                 <img
