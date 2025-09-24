@@ -1,6 +1,5 @@
 // src/pages/business/Rental.jsx
 import BizLayout from "./_Layout";
-import ContactBox from "../../components/ContactBox";
 
 export default function Rental() {
   return (
@@ -8,6 +7,31 @@ export default function Rental() {
       <div className="max-w-screen-xl mx-auto px-4">
         {/* 이미지 + 우측 정보 박스(대여 안내) + 기대효과(대여 안내 박스 아래) */}
         <div className="grid gap-8 md:grid-cols-2 items-stretch">
+          {/* 좌측 이미지: JS 동기화 제거, 순수 CSS로 동일 높이 */}
+          <div className="flex items-center justify-center">
+            {/* 단일 그림 요소로 중복 렌더 제거 */}
+            <picture>
+              {/* 데스크탑(768px 이상) 소스 */}
+              <source
+                media="(min-width: 768px)"
+                srcSet="/images/business/rental.png"
+              />
+              {/* 기본 이미지: 모바일 우선 eager 로드 */}
+              <img
+                src="/images/business/rental.png"
+                alt="휠체어 및 복지용구 무료 대여"
+                loading="eager"
+                fetchpriority="high"
+                decoding="async"
+                width="1200"
+                height="900"
+                sizes="(max-width: 767px) 100vw, 50vw"
+                className="w-full h-auto"
+                style={{ imageRendering: "auto", display: "block" }}
+              />
+            </picture>
+          </div>
+
           {/* 우측: 대여 안내 + 기대효과 + 문의 */}
           <div className="flex flex-col h-full mt-8">
             <div className="rounded-2xl border border-[#2CB9B1]/40 bg-white/90 backdrop-blur-[1px] shadow-md p-7 md:p-8">
@@ -97,7 +121,6 @@ export default function Rental() {
               </div>
             </div>
           </div>
-          <ContactBox />
         </div>
       </div>
     </BizLayout>
