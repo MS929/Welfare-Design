@@ -749,6 +749,8 @@ mark, [data-hl] {
             style={{
               marginTop: isTablet ? 10 : -36,
               textAlign: isTablet ? "center" : "left",
+              maxWidth: isMobile ? "34ch" : isTablet ? "42ch" : "48ch",
+              marginInline: isTablet ? "auto" : 0,
             }}
           >
             {/* Eyebrow / 작은 포인트 배지 */}
@@ -793,6 +795,7 @@ mark, [data-hl] {
                 margin: 0,
                 letterSpacing: -0.2,
                 fontWeight: 600,
+                textWrap: "balance",
               }}
             >
               현장과 지역을 잇는{" "}
