@@ -277,7 +277,9 @@ const StoryCard = ({
         background: "#fff",
         borderRadius: PALETTE.radiusLg,
         border: `1px solid ${PALETTE.line}`,
-        boxShadow: isTouchDevice ? "0 2px 6px rgba(0,0,0,.04)" : PALETTE.shadowSm,
+        boxShadow: isTouchDevice
+          ? "0 2px 6px rgba(0,0,0,.04)"
+          : PALETTE.shadowSm,
         overflow: "hidden",
         // ✅ 모바일에서는 transition/hover 제거 → 떨림 방지
         transition: isTouchDevice
@@ -319,7 +321,9 @@ const StoryCard = ({
         aria-hidden
         style={{
           height:
-            typeof window !== "undefined" && window.innerWidth <= 640 ? 130 : 160,
+            typeof window !== "undefined" && window.innerWidth <= 640
+              ? 130
+              : 160,
           overflow: "hidden",
           borderBottom: `1px solid ${PALETTE.line}`,
           background: thumbnail ? "#fff" : PALETTE.grayBg,
@@ -332,6 +336,8 @@ const StoryCard = ({
             priority={priority}
             sizes="(min-width: 1024px) 33vw, 100vw"
             style={{ width: "100%", height: "100%", objectFit: "cover" }}
+            useCdn
+            cdnWidth={1000}
           />
         ) : null}
       </div>

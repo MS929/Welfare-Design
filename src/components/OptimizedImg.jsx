@@ -8,10 +8,21 @@ import { useEffect, useRef, useState } from "react";
  * - LCP image: set priority={true} to use eager + fetchPriority="high"
  * - Pass width/height to reserve layout space (reduces CLS). If both given, aspectRatio is set.
  */
+
+// Build Netlify Image CDN URL for on-the-fly resize/format
+function toNetlifyImage(rawUrl, { w = 1600, q = 82, f = "webp" } = {}) {
+  try {
+    if (!rawUrl) return rawUrl;
+    const encoded = encodeURIComponent(rawUrl);
+    return `/.netlify/images?url=${encoded}&w=${w}&q=${q}&fm=${f}`;
+  } catch {
+    return rawUrl;
+  }
+}
 export default function OptimizedImg({
-  src,                 // fallback png/jpg
-  webp,                // optional webp path
-  avif,                // optional avif path
+  src, // fallback png/jpg
+  webp, // optional webp path
+  avif, // optional avif path
   alt = "",
   className,
   style,
@@ -19,6 +30,9 @@ export default function OptimizedImg({
   priority = false,
   sizes = "(max-width: 768px) 100vw, 1200px",
   width,
+  useCdn = false, // ✅ 추가
+  cdnWidth, // ✅ 추가
+  cdnQuality, // ✅ 추가
   height,
   onLoad,
   onError,
@@ -54,15 +68,33 @@ export default function OptimizedImg({
   const decoding = priority ? "sync" : "async";
   const fetchPriority = priority ? "high" : "auto";
 
-  const aspectStyle = width && height ? { aspectRatio: `${width}/${height}` } : undefined;
+  const aspectStyle =
+    width && height ? { aspectRatio: `${width}/${height}` } : undefined;
 
+    let cdnWebp, cdnAvif, cdnSrc;
+    if (useCdn) {
+      const w = cdnWidth || width || 1600;
+      const q = typeof cdnQuality === "number" ? cdnQuality : 82;
+      cdnWebp = toNetlifyImage(src, { w, q, f: "webp" });
+      cdnAvif = toNetlifyImage(src, { w, q, f: "avif" });
+      cdnSrc = toNetlifyImage(src, { w, q, f: "jpg" });
+    }
+  
   return (
-    <picture ref={ref} className={className} style={{ ...style, ...aspectStyle }}>
+    <picture
+      ref={ref}
+      className={className}
+      style={{ ...style, ...aspectStyle }}
+    >
       {/* Only provide sources when visible to avoid preloading before IO triggers */}
-      {visible && avif && <source srcSet={avif} type="image/avif" sizes={sizes} />}
-      {visible && webp && <source srcSet={webp} type="image/webp" sizes={sizes} />}
+      {visible && (avif || useCdn) && (
+        <source srcSet={avif ? avif : cdnAvif} type="image/avif" sizes={sizes} />
+      )}
+      {visible && (webp || useCdn) && (
+        <source srcSet={webp ? webp : cdnWebp} type="image/webp" sizes={sizes} />
+      )}
       <img
-        src={visible ? src : undefined}
+        src={visible ? (useCdn ? cdnSrc : src) : undefined}
         alt={alt}
         loading={loading}
         decoding={decoding}
