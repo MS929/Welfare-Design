@@ -58,7 +58,7 @@ mark, [data-hl] {
       </section>
 
       <section className="max-w-screen-xl mx-auto px-4 mt-8">
-        <div className="grid md:grid-cols-3 gap-6 auto-rows-[1fr] items-stretch">
+        <div className="grid md:grid-cols-3 gap-6 auto-rows-[1fr] items-stretch max-w-screen-xl mx-auto px-4">
           <div className="rounded-xl shadow-sm h-full min-h-[420px] md:min-h-[460px]">
             <SupportPanel
               icon={
