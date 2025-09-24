@@ -8,12 +8,28 @@ export default function DonationCampaign() {
         {/* 이미지 + 우측 정보 박스(대여 안내) + 기대효과(대여 안내 박스 아래) */}
         <div className="grid gap-8 md:grid-cols-2 items-stretch">
           {/* 좌측 이미지: JS 동기화 제거, 순수 CSS로 동일 높이 */}
-          <div className="flex items-center justify-center w-full">
-            <img
-              src="/images/business/donation.png"
-              alt="보조기기 기증 캠페인"
-              className="w-full max-w-[520px] h-auto object-contain"
-            />
+          <div className="flex items-center justify-center">
+            {/* 단일 그림 요소로 중복 렌더 제거 */}
+            <picture>
+              {/* 데스크탑(768px 이상) 소스 */}
+              <source
+                media="(min-width: 768px)"
+                srcSet="/images/business/rental.png"
+              />
+              {/* 기본 이미지: 모바일 우선 eager 로드 */}
+              <img
+                src="/images/business/rental.png"
+                alt="휠체어 및 복지용구 무료 대여"
+                loading="eager"
+                fetchpriority="high"
+                decoding="async"
+                width="1200"
+                height="900"
+                sizes="(max-width: 767px) 100vw, 50vw"
+                className="w-full h-auto"
+                style={{ imageRendering: "auto", display: "block" }}
+              />
+            </picture>
           </div>
 
           {/* 우측: 대여 안내 + 기대효과 + 문의 */}
@@ -38,7 +54,9 @@ export default function DonationCampaign() {
             </div>
 
             <div className="rounded-2xl border border-[#2CB9B1]/30 bg-white/90 backdrop-blur-[1px] shadow-md py-10 px-7 md:px-8 md:py-12">
-              <h3 className="font-semibold text-lg tracking-tight text-[#F26C2A] mb-3">기대 효과</h3>
+              <h3 className="font-semibold text-lg tracking-tight text-[#F26C2A] mb-3">
+                기대 효과
+              </h3>
               <ul className="list-disc list-outside pl-5 space-y-1.5 text-gray-700 leading-relaxed tracking-tight text-justify">
                 <li>
                   취약계층의 복지정보 접근성 강화 및 제도적 권리 실현 지원
@@ -47,7 +65,7 @@ export default function DonationCampaign() {
               </ul>
             </div>
 
-{/* 문의 박스: PC(데스크탑) / 모바일 분리 렌더링 */}
+            {/* 문의 박스: PC(데스크탑) / 모바일 분리 렌더링 */}
             <div className="mt-6">
               {/* Desktop & Tablet (md 이상): 기존 스타일 유지 */}
               <div className="hidden md:block rounded-2xl border border-[#F26C2A]/45 bg-gradient-to-r from-[#FFF3E9] to-[#EFFFFD] px-8 py-5 shadow-md">

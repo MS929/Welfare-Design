@@ -10,11 +10,27 @@ export default function NeedsSurvey() {
         <div className="grid gap-8 md:grid-cols-2 items-stretch">
           {/* 좌측 이미지: JS 동기화 제거, 순수 CSS로 동일 높이 */}
           <div className="flex items-center justify-center">
-            <img
-              src="/images/business/needs-survey.png"
-              alt="취약 계층 복지욕구 실태조사"
-              className="w-full h-auto max-w-[560px]"
-            />
+            {/* 단일 그림 요소로 중복 렌더 제거 */}
+            <picture>
+              {/* 데스크탑(768px 이상) 소스 */}
+              <source
+                media="(min-width: 768px)"
+                srcSet="/images/business/needs-survey.png"
+              />
+              {/* 기본 이미지: 모바일 우선 eager 로드 */}
+              <img
+                src="/images/business/needs-survey.png"
+                alt="휠체어 및 복지용구 무료 대여"
+                loading="eager"
+                fetchpriority="high"
+                decoding="async"
+                width="1200"
+                height="900"
+                sizes="(max-width: 767px) 100vw, 50vw"
+                className="w-full h-auto"
+                style={{ imageRendering: "auto", display: "block" }}
+              />
+            </picture>
           </div>
 
           {/* 우측: 대여 안내 + 기대효과 + 문의 */}
@@ -36,7 +52,9 @@ export default function NeedsSurvey() {
             </div>
 
             <div className="rounded-2xl border border-[#2CB9B1]/30 bg-white/90 backdrop-blur-[1px] shadow-md p-7 md:p-8 h-full flex flex-col justify-center">
-              <h3 className="font-semibold text-lg tracking-tight text-[#F26C2A] mb-3">기대 효과</h3>
+              <h3 className="font-semibold text-lg tracking-tight text-[#F26C2A] mb-3">
+                기대 효과
+              </h3>
               <ul className="list-disc list-inside space-y-1.5 text-gray-700 leading-relaxed">
                 <li>
                   취약계층의 복지정보 접근성 강화 및 제도적 권리 실현 지원
@@ -47,7 +65,6 @@ export default function NeedsSurvey() {
               </ul>
             </div>
 
-            
             {/* 문의 박스: PC(데스크탑) / 모바일 분리 렌더링 */}
             <div className="mt-6">
               {/* Desktop & Tablet (md 이상): 기존 스타일 유지 */}
@@ -100,7 +117,7 @@ export default function NeedsSurvey() {
                   </a>
                 </div>
               </div>
-            </div>  
+            </div>
           </div>
         </div>
       </div>

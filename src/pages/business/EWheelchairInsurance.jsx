@@ -9,10 +9,27 @@ export default function EwcInsurance() {
         <div className="grid gap-8 md:grid-cols-2 items-stretch">
           {/* 좌측 이미지: JS 동기화 제거, 순수 CSS로 동일 높이 */}
           <div className="flex items-center justify-center">
-            <img
-              src="/images/business/ewc-insurance.png"
-              alt="취약 계층 전동휠체어 보험금 지원"
-            />
+            {/* 단일 그림 요소로 중복 렌더 제거 */}
+            <picture>
+              {/* 데스크탑(768px 이상) 소스 */}
+              <source
+                media="(min-width: 768px)"
+                srcSet="/images/business/rental.png"
+              />
+              {/* 기본 이미지: 모바일 우선 eager 로드 */}
+              <img
+                src="/images/business/rental.png"
+                alt="휠체어 및 복지용구 무료 대여"
+                loading="eager"
+                fetchpriority="high"
+                decoding="async"
+                width="1200"
+                height="900"
+                sizes="(max-width: 767px) 100vw, 50vw"
+                className="w-full h-auto"
+                style={{ imageRendering: "auto", display: "block" }}
+              />
+            </picture>
           </div>
 
           {/* 우측: 대여 안내 + 기대효과 + 문의 */}
@@ -21,17 +38,24 @@ export default function EwcInsurance() {
               <ul className="space-y-4 pt-2 text-gray-800 leading-relaxed">
                 <li className="flex gap-3">
                   <span className="mt-2 h-2 w-2 rounded-full bg-[#2CB9B1] shadow-[0_0_0_2px_rgba(44,185,177,0.18)] shrink-0" />
-                  <span>저소득 취약계층 전동휠체어 사용자 대상 보험료 일부 지원</span>
+                  <span>
+                    저소득 취약계층 전동휠체어 사용자 대상 보험료 일부 지원
+                  </span>
                 </li>
                 <li className="flex gap-3">
                   <span className="mt-2 h-2 w-2 rounded-full bg-[#2CB9B1] shadow-[0_0_0_2px_rgba(44,185,177,0.18)] shrink-0" />
-                  <span>사례관리 기관과 협력하여 대상자 발굴 및 기존 사업과 연계하여 지원</span>
+                  <span>
+                    사례관리 기관과 협력하여 대상자 발굴 및 기존 사업과 연계하여
+                    지원
+                  </span>
                 </li>
               </ul>
             </div>
 
             <div className="rounded-2xl border border-[#2CB9B1]/30 bg-white/90 backdrop-blur-[1px] shadow-md p-7 md:p-8 h-full flex flex-col justify-center">
-              <h3 className="font-semibold text-lg tracking-tight text-[#F26C2A] mb-3">기대 효과</h3>
+              <h3 className="font-semibold text-lg tracking-tight text-[#F26C2A] mb-3">
+                기대 효과
+              </h3>
               <ul className="list-disc list-inside pt-2 space-y-1.5 text-gray-700 leading-relaxed">
                 <li>
                   취약계층의 복지정보 접근성 강화 및 제도적 권리 실현 지원
@@ -40,7 +64,6 @@ export default function EwcInsurance() {
               </ul>
             </div>
 
-            
             {/* 문의 박스: PC(데스크탑) / 모바일 분리 렌더링 */}
             <div className="mt-6">
               {/* Desktop & Tablet (md 이상): 기존 스타일 유지 */}
