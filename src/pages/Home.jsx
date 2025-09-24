@@ -606,7 +606,7 @@ mark, [data-hl] {
         <div
           style={{
             display: "grid",
-            gridTemplateColumns: isTablet ? "1fr" : "1fr 1.45fr",
+            gridTemplateColumns: isTablet ? "1fr" : "1.1fr 1.4fr",
             gap: isTablet ? 20 : 36,
             alignItems: "center",
             padding: "0 32px",
