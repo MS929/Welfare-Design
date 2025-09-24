@@ -65,7 +65,7 @@ export default function NeedsSurvey() {
             </div>
 
             {/* 문의 박스: PC(데스크탑) / 모바일 분리 렌더링 */}
-            <div className="mt-6">
+            <div className="mt-6 mb-6 md:mb-0">
               {/* Desktop & Tablet (md 이상): 기존 스타일 유지 */}
               <div className="hidden md:block rounded-2xl border border-[#F26C2A]/45 bg-gradient-to-r from-[#FFF3E9] to-[#EFFFFD] px-8 py-5 shadow-md">
                 <div className="flex items-center justify-center gap-3 text-[#111827] tracking-tight">
