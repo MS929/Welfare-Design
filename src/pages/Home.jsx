@@ -261,6 +261,31 @@ const MorePill = ({ href, children }) => (
   </a>
 );
 
+// CMS thumbnail can be string, object, or array; extract a usable URL
+function extractThumbSrc(v) {
+  if (!v) return "";
+  if (typeof v === "string") return v.trim();
+  try {
+    if (Array.isArray(v)) {
+      for (const it of v) {
+        const u = extractThumbSrc(it);
+        if (u) return u;
+      }
+      return "";
+    }
+    if (typeof v === "object") {
+      return (
+        (typeof v.url === "string" && v.url) ||
+        (typeof v.secure_url === "string" && v.secure_url) ||
+        (typeof v.src === "string" && v.src) ||
+        (typeof v.path === "string" && v.path) ||
+        (typeof v.download_url === "string" && v.download_url) ||
+        ""
+      ).trim();
+    }
+  } catch {}
+  return "";
+}
 // OptimizedImg 컴포넌트가 import되어 있다고 가정합니다.
 const StoryCard = (props) => {
   const {
@@ -275,9 +300,9 @@ const StoryCard = (props) => {
     isTablet = false,
   } = props;
 
-  // 썸네일 유효성 및 Cloudinary URL 판별
-  const hasThumb = typeof thumbnail === "string" && thumbnail.trim().length > 0;
-  const isCloudinary = hasThumb && /res\.cloudinary\.com\//.test(thumbnail);
+  const thumbSrc = extractThumbSrc(thumbnail);
+  const hasThumb = typeof thumbSrc === "string" && thumbSrc.length > 0;
+  const isCloudinary = hasThumb && /res\.cloudinary\.com\//.test(thumbSrc);
 
   return (
     <a href={href} style={{ textDecoration: "none", color: "inherit" }}>
@@ -338,7 +363,7 @@ const StoryCard = (props) => {
         >
           {hasThumb ? (
             <OptimizedImg
-              src={thumbnail}
+              src={thumbSrc}
               alt=""
               priority={priority}
               sizes="(min-width: 1024px) 33vw, 100vw"
