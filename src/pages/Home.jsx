@@ -1354,19 +1354,26 @@ export default function Home1() {
                       boxShadow: PALETTE.shadowSm,
                       textDecoration: "none",
                       color: "inherit",
-                      transition:
-                        "transform .12s ease, box-shadow .12s ease, border-color .12s ease",
+                      transition: (isMobile || isTouch)
+                        ? "none"
+                        : "transform .12s ease, box-shadow .12s ease, border-color .12s ease",
                     }}
-                    onMouseEnter={(e) => {
-                      e.currentTarget.style.transform = "translateY(-2px)";
-                      e.currentTarget.style.boxShadow = `0 10px 22px rgba(0,0,0,.08), 0 0 0 3px ${PALETTE.orange}22`;
-                      e.currentTarget.style.borderColor = PALETTE.orange;
-                    }}
-                    onMouseLeave={(e) => {
+                    onTouchEnd={(e) => {
+                      // 모바일에서 뒤로가기 시 active 스타일 잔상 제거
                       e.currentTarget.style.transform = "none";
                       e.currentTarget.style.boxShadow = PALETTE.shadowSm;
                       e.currentTarget.style.borderColor = PALETTE.line;
                     }}
+                    onMouseEnter={!(isMobile || isTouch) ? (e) => {
+                      e.currentTarget.style.transform = "translateY(-2px)";
+                      e.currentTarget.style.boxShadow = `0 10px 22px rgba(0,0,0,.08), 0 0 0 3px ${PALETTE.orange}22`;
+                      e.currentTarget.style.borderColor = PALETTE.orange;
+                    } : undefined}
+                    onMouseLeave={!(isMobile || isTouch) ? (e) => {
+                      e.currentTarget.style.transform = "none";
+                      e.currentTarget.style.boxShadow = PALETTE.shadowSm;
+                      e.currentTarget.style.borderColor = PALETTE.line;
+                    } : undefined}
                   >
                     <div
                       style={{
@@ -1475,19 +1482,26 @@ export default function Home1() {
                       boxShadow: PALETTE.shadowSm,
                       textDecoration: "none",
                       color: "inherit",
-                      transition:
-                        "transform .12s ease, box-shadow .12s ease, border-color .12s ease",
+                      transition: (isMobile || isTouch)
+                        ? "none"
+                        : "transform .12s ease, box-shadow .12s ease, border-color .12s ease",
                     }}
-                    onMouseEnter={(e) => {
-                      e.currentTarget.style.transform = "translateY(-2px)";
-                      e.currentTarget.style.boxShadow = `0 10px 22px rgba(0,0,0,.08), 0 0 0 3px ${PALETTE.orange}22`;
-                      e.currentTarget.style.borderColor = PALETTE.orange;
-                    }}
-                    onMouseLeave={(e) => {
+                    onTouchEnd={(e) => {
+                      // 모바일에서 뒤로가기 시 active 스타일 잔상 제거
                       e.currentTarget.style.transform = "none";
                       e.currentTarget.style.boxShadow = PALETTE.shadowSm;
                       e.currentTarget.style.borderColor = PALETTE.line;
                     }}
+                    onMouseEnter={!(isMobile || isTouch) ? (e) => {
+                      e.currentTarget.style.transform = "translateY(-2px)";
+                      e.currentTarget.style.boxShadow = `0 10px 22px rgba(0,0,0,.08), 0 0 0 3px ${PALETTE.orange}22`;
+                      e.currentTarget.style.borderColor = PALETTE.orange;
+                    } : undefined}
+                    onMouseLeave={!(isMobile || isTouch) ? (e) => {
+                      e.currentTarget.style.transform = "none";
+                      e.currentTarget.style.boxShadow = PALETTE.shadowSm;
+                      e.currentTarget.style.borderColor = PALETTE.line;
+                    } : undefined}
                   >
                     <div
                       style={{
