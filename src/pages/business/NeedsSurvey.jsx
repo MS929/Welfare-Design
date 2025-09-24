@@ -1,6 +1,8 @@
 // src/pages/business/NeedsSurvey.jsx
 
 import BizLayout from "./_Layout";
+import ContactBox from "../../components/ContactBox";
+
 
 export default function NeedsSurvey() {
   return (
