@@ -131,6 +131,7 @@ export default function MemberServices() {
               </div>
             </div>
           </div>
+          <ContactBox />
         </div>
       </div>
     </BizLayout>

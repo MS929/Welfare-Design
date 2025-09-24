@@ -121,6 +121,7 @@ export default function NeedsSurvey() {
               </div>
             </div>
           </div>
+          <ContactBox />
         </div>
       </div>
     </BizLayout>

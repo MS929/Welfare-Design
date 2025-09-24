@@ -122,6 +122,7 @@ export default function Rental() {
               </div>
             </div>
           </div>
+          <ContactBox />
         </div>
       </div>
     </BizLayout>

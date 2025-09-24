@@ -121,6 +121,7 @@ export default function DonationCampaign() {
               </div>
             </div>
           </div>
+          <ContactBox />
         </div>
       </div>
     </BizLayout>

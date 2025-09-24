@@ -120,6 +120,7 @@ export default function EwcInsurance() {
               </div>
             </div>
           </div>
+          <ContactBox />
         </div>
       </div>
     </BizLayout>
