@@ -13,11 +13,11 @@ export default function ApplyHelp() {
               {/* 데스크탑(768px 이상) 소스 */}
               <source
                 media="(min-width: 768px)"
-                srcSet="/images/business/rental.png"
+                srcSet="/images/business/apply-help.png"
               />
               {/* 기본 이미지: 모바일 우선 eager 로드 */}
               <img
-                src="/images/business/rental.png"
+                src="/images/business/apply-help.png"
                 alt="휠체어 및 복지용구 무료 대여"
                 loading="eager"
                 fetchpriority="high"
