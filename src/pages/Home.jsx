@@ -262,115 +262,131 @@ const MorePill = ({ href, children }) => (
 );
 
 // OptimizedImg 컴포넌트가 import되어 있다고 가정합니다.
-const StoryCard = ({
-  title,
-  date,
-  href = "/news/stories",
-  thumbnail,
-  priority = false,
-  // ✅ 모바일/터치에서 hover/transition 끄기 위한 플래그
-  isTouchDevice = false,
-  isMobile = false,
-  isTablet = false,
-}) => (
-  <a href={href} style={{ textDecoration: "none", color: "inherit" }}>
-    <article
-      style={{
-        background: "#fff",
-        borderRadius: PALETTE.radiusLg,
-        border: `1px solid ${PALETTE.line}`,
-        boxShadow: isTouchDevice
-          ? "0 2px 6px rgba(0,0,0,.04)"
-          : PALETTE.shadowSm,
-        overflow: "hidden",
-        // ✅ 모바일에서는 transition/hover 제거 → 떨림 방지
-        transition: isTouchDevice
-          ? "none"
-          : "transform .12s ease, box-shadow .12s ease, border-color .12s ease",
+const StoryCard = (props) => {
+  const {
+    title,
+    date,
+    href = "/news/stories",
+    thumbnail,
+    priority = false,
+    // ✅ 모바일/터치에서 hover/transition 끄기 위한 플래그
+    isTouchDevice = false,
+    isMobile = false,
+    isTablet = false,
+  } = props;
 
-        // ✅ iOS Safari에서 스크롤 시 카드 떨림 방지(레이어 고정)
-        transform: "translateZ(0)",
-        backfaceVisibility: "hidden",
-        WebkitBackfaceVisibility: "hidden",
-        willChange: isTouchDevice ? "auto" : "transform",
+  // 썸네일 유효성 및 Cloudinary URL 판별
+  const hasThumb = typeof thumbnail === "string" && thumbnail.trim().length > 0;
+  const isCloudinary = hasThumb && /res\.cloudinary\.com\//.test(thumbnail);
 
-        // ✅ content-visibility가 iOS에서 떨림을 유발할 수 있어 터치에서는 비활성화
-        ...(isTouchDevice
-          ? {}
-          : { contentVisibility: "auto", containIntrinsicSize: "268px 220px" }),
-      }}
-      // ✅ 터치 디바이스에서는 hover 핸들러 자체를 달지 않음
-      onMouseEnter={
-        !isTouchDevice
-          ? (e) => {
-              e.currentTarget.style.transform = "translateY(-4px)";
-              e.currentTarget.style.boxShadow = `0 14px 28px rgba(15,23,42,.12), 0 0 0 3px ${PALETTE.teal}22`;
-              e.currentTarget.style.borderColor = PALETTE.teal;
-            }
-          : undefined
-      }
-      onMouseLeave={
-        !isTouchDevice
-          ? (e) => {
-              e.currentTarget.style.transform = "none";
-              e.currentTarget.style.boxShadow = PALETTE.shadowSm;
-              e.currentTarget.style.borderColor = PALETTE.line;
-            }
-          : undefined
-      }
-    >
-      <div
-        aria-hidden
+  return (
+    <a href={href} style={{ textDecoration: "none", color: "inherit" }}>
+      <article
         style={{
-          height:
-            typeof window !== "undefined" && window.innerWidth <= 640
-              ? 130
-              : 160,
+          background: "#fff",
+          borderRadius: PALETTE.radiusLg,
+          border: `1px solid ${PALETTE.line}`,
+          boxShadow: isTouchDevice ? "0 2px 6px rgba(0,0,0,.04)" : PALETTE.shadowSm,
           overflow: "hidden",
-          borderBottom: `1px solid ${PALETTE.line}`,
-          background: thumbnail ? "#fff" : PALETTE.grayBg,
+          // ✅ 모바일에서는 transition/hover 제거 → 떨림 방지
+          transition: isTouchDevice
+            ? "none"
+            : "transform .12s ease, box-shadow .12s ease, border-color .12s ease",
+
+          // ✅ iOS Safari에서 스크롤 시 카드 떨림 방지(레이어 고정)
+          transform: "translateZ(0)",
+          backfaceVisibility: "hidden",
+          WebkitBackfaceVisibility: "hidden",
+          willChange: isTouchDevice ? "auto" : "transform",
+
+          // ✅ content-visibility가 iOS에서 떨림을 유발할 수 있어 터치에서는 비활성화
+          ...(isTouchDevice
+            ? {}
+            : { contentVisibility: "auto", containIntrinsicSize: "268px 220px" }),
         }}
-      >
-        {thumbnail ? (
-          <OptimizedImg
-            src={thumbnail}
-            alt=""
-            priority={priority}
-            sizes="(min-width: 1024px) 33vw, 100vw"
-            style={{ width: "100%", height: "100%", objectFit: "cover" }}
-            useCdn
-            cdnWidth={isMobile ? 480 : isTablet ? 800 : 1000}
-            cdnQuality={76}
-          />
-        ) : null}
-      </div>
-      <div
-        style={{
-          padding: 16,
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          textAlign: "center",
-        }}
+        // ✅ 터치 디바이스에서는 hover 핸들러 자체를 달지 않음
+        onMouseEnter={
+          !isTouchDevice
+            ? (e) => {
+                e.currentTarget.style.transform = "translateY(-4px)";
+                e.currentTarget.style.boxShadow = `0 14px 28px rgba(15,23,42,.12), 0 0 0 3px ${PALETTE.teal}22`;
+                e.currentTarget.style.borderColor = PALETTE.teal;
+              }
+            : undefined
+        }
+        onMouseLeave={
+          !isTouchDevice
+            ? (e) => {
+                e.currentTarget.style.transform = "none";
+                e.currentTarget.style.boxShadow = PALETTE.shadowSm;
+                e.currentTarget.style.borderColor = PALETTE.line;
+              }
+            : undefined
+        }
       >
         <div
+          aria-hidden
           style={{
-            fontWeight: 800,
-            lineHeight: 1.25,
-            textOverflow: "ellipsis",
-            whiteSpace: "nowrap",
+            height:
+              typeof window !== "undefined" && window.innerWidth <= 640
+                ? 130
+                : 160,
             overflow: "hidden",
+            borderBottom: `1px solid ${PALETTE.line}`,
+            background: hasThumb ? "#fff" : PALETTE.grayBg,
           }}
         >
-          {title}
+          {hasThumb ? (
+            <OptimizedImg
+              src={thumbnail}
+              alt=""
+              priority={priority}
+              sizes="(min-width: 1024px) 33vw, 100vw"
+              style={{ width: "100%", height: "100%", objectFit: "cover" }}
+              // Cloudinary URL이면 Cloudinary CDN을 그대로 사용, 로컬/업로드 경로면 Netlify Image CDN 사용
+              useCdn={!isCloudinary}
+              cdnWidth={isMobile ? 480 : isTablet ? 800 : 1000}
+              cdnQuality={76}
+            />
+          ) : (
+            // 썸네일이 없을 때 깔끔한 플레이스홀더 표시
+            <div
+              style={{
+                width: "100%",
+                height: "100%",
+                background: "linear-gradient(180deg, #f3f4f6 0%, #e5e7eb 100%)",
+              }}
+            />
+          )}
         </div>
-        <div style={{ color: PALETTE.grayText, fontSize: 12, marginTop: 10 }}>
-          {date}
+        <div
+          style={{
+            padding: 16,
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            textAlign: "center",
+          }}
+        >
+          <div
+            style={{
+              fontWeight: 800,
+              lineHeight: 1.25,
+              textOverflow: "ellipsis",
+              whiteSpace: "nowrap",
+              overflow: "hidden",
+            }}
+          >
+            {title}
+          </div>
+          <div style={{ color: PALETTE.grayText, fontSize: 12, marginTop: 10 }}>
+            {date}
+          </div>
         </div>
-      </div>
-    </article>
-  </a>
-);
+      </article>
+    </a>
+  );
+};
 
 export default function Home1() {
   const isMobile = useMedia("(max-width: 640px)");
