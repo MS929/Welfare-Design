@@ -749,6 +749,8 @@ mark, [data-hl] {
             style={{
               marginTop: isTablet ? 10 : -36,
               textAlign: isTablet ? "center" : "left",
+              maxWidth: isMobile ? "28ch" : isTablet ? "32ch" : "36ch",
+              marginInline: isTablet ? "auto" : 0,
             }}
           >
             {/* Eyebrow / 작은 포인트 배지 */}
@@ -808,7 +810,7 @@ mark, [data-hl] {
               >
                 맞춤형 복지
               </span>
-              를\u00A0설계하며
+              설계하며
               <br />
               <span
                 style={{
