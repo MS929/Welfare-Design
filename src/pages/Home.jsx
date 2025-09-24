@@ -606,7 +606,7 @@ mark, [data-hl] {
         <div
           style={{
             display: "grid",
-            gridTemplateColumns: isTablet ? "1fr" : "1fr 1.15fr",
+            gridTemplateColumns: isTablet ? "1fr" : "1fr 1.25fr",
             gap: isTablet ? 20 : 36,
             alignItems: "center",
             padding: "0 32px",
@@ -749,7 +749,7 @@ mark, [data-hl] {
             style={{
               marginTop: isTablet ? 10 : -36,
               textAlign: isTablet ? "center" : "left",
-              maxWidth: isMobile ? "28ch" : isTablet ? "32ch" : "36ch",
+              maxWidth: isMobile ? "32ch" : isTablet ? "40ch" : "48ch",
               marginInline: isTablet ? "auto" : 0,
             }}
           >
@@ -810,7 +810,7 @@ mark, [data-hl] {
               >
                 맞춤형 복지
               </span>
-              설계하며
+              를\u00A0설계하며
               <br />
               <span
                 style={{
