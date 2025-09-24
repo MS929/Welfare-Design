@@ -329,9 +329,7 @@ const StoryCard = ({
           <OptimizedImg
             src={thumbnail}
             alt=""
-            loading={priority ? "eager" : "lazy"}
-            decoding="async"
-            fetchpriority={priority ? "high" : "low"}
+            priority={priority}
             sizes="(min-width: 1024px) 33vw, 100vw"
             style={{ width: "100%", height: "100%", objectFit: "cover" }}
           />
@@ -637,6 +635,7 @@ mark, [data-hl] {
                   alt="복지디자인 활동 이미지"
                   loading={i === heroIndex ? "eager" : "lazy"}
                   decoding="async"
+                  fetchPriority={heroIndex === i ? "high" : "low"}
                   style={{
                     position: "absolute",
                     inset: 0,
