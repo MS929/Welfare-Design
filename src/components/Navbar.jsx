@@ -116,14 +116,14 @@ export default function Navbar() {
       ],
     },
     {
-      title: "복지디자인 소식",
+      title: "소식",
       items: [
         { to: "/news/stories", label: "복지디자인 이야기" },
         { to: "/news/notices", label: "공지사항" },
       ],
     },
     {
-      title: "복지디자인 사업",
+      title: "사업",
       items: [
         { to: "/business/overview", label: "사업영역" },
         { to: "/business/rental", label: "휠체어·복지용구 무료 대여" },
@@ -135,7 +135,7 @@ export default function Navbar() {
       ],
     },
     {
-      title: "복지디자인 후원",
+      title: "후원",
       items: [
         { to: "/support/guide", label: "후원안내" },
         { to: "/support/faq", label: "FAQ" },
