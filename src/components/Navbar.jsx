@@ -172,7 +172,7 @@ export default function Navbar() {
             <li key={sec.title} className="flex items-center">
               <button
                 type="button"
-                className={`text-left font-medium text-[15px] hover:text-emerald-600 leading-tight ${
+                className={`text-left font-medium text-[16px] hover:text-emerald-600 leading-tight ${
                   hoveredIdx === idx
                     ? "text-emerald-600 underline decoration-emerald-500 underline-offset-8"
                     : ""
