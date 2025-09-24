@@ -91,7 +91,7 @@ export default function NeedsSurvey() {
                 </div>
               </div>
               {/* Mobile 전용 (md 미만): 한 줄 레이아웃, 줄바꿈 방지 */}
-              <div className="md:hidden rounded-2xl border border-[#F26C2A]/45 bg-gradient-to-r from-[#FFF3E9] to-[#EFFFFD] px-5 py-2 shadow-md">
+              <div className="md:hidden rounded-2xl border border-[#F26C2A]/45 bg-gradient-to-r from-[#FFF3E9] to-[#EFFFFD] px-5 py-4 shadow-md">
                 <div className="flex items-center justify-between gap-3 text-[#111827]">
                   <div className="flex items-center gap-2 min-w-0">
                     {/* phone icon */}
