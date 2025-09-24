@@ -270,6 +270,8 @@ const StoryCard = ({
   priority = false,
   // ✅ 모바일/터치에서 hover/transition 끄기 위한 플래그
   isTouchDevice = false,
+  isMobile = false,
+  isTablet = false,
 }) => (
   <a href={href} style={{ textDecoration: "none", color: "inherit" }}>
     <article
@@ -1189,6 +1191,8 @@ mark, [data-hl] {
                 priority={idx < 3}
                 // ✅ 모바일/터치에서 hover/transition 비활성화
                 isTouchDevice={isMobile || isTouch}
+                isMobile={isMobile}
+                isTablet={isTablet}
               />
             ))}
             {storyFiltered.length === 0 && (
