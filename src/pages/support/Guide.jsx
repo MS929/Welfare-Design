@@ -59,7 +59,7 @@ mark, [data-hl] {
 
       <section className="max-w-screen-xl mx-auto px-4 mt-8">
         <div className="grid md:grid-cols-3 gap-6 auto-rows-[1fr] items-stretch">
-          <div className="rounded-xl shadow-sm h-full min-h-[420px] md:min-h-[460px]">
+          <div className="rounded-xl shadow-sm h-full min-h-[360px] md:min-h-[400px]">
             <SupportPanel
               icon={
                 <img
@@ -80,7 +80,7 @@ mark, [data-hl] {
               accent="yellow"
             />
           </div>
-          <div className="rounded-xl shadow-sm h-full min-h-[420px] md:min-h-[460px]">
+          <div className="rounded-xl shadow-sm h-full min-h-[360px] md:min-h-[400px]">
             <SupportPanel
               icon={
                 <img
@@ -101,7 +101,7 @@ mark, [data-hl] {
               accent="warm"
             />
           </div>
-          <div className="rounded-xl shadow-sm h-full min-h-[420px] md:min-h-[460px]">
+          <div className="rounded-xl shadow-sm h-full min-h-[360px] md:min-h-[400px]">
             <SupportPanel
               icon={
                 <img
@@ -264,7 +264,7 @@ function SupportPanel({ icon, title, items = [], accent = "teal" }) {
   }[accent] || "marker:text-teal-600";
 
   return (
-    <div className={`px-8 py-10 md:px-10 flex flex-col h-full rounded-xl ${bgClass}`}>
+    <div className={`px-8 py-8 md:px-9 flex flex-col h-full rounded-xl ${bgClass}`}>
       <div className="mx-auto w-full max-w-[420px] text-left flex-1">
         <div className="mb-4 h-28 md:h-32 flex items-center justify-center">{icon}</div>
         <h3 className={`text-center text-[19px] md:text-[20px] font-semibold mb-4 tracking-tight ${titleClass}`}>{title}</h3>
