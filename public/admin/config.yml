@@ -99,6 +99,7 @@ media_library:
   config:
     cloud_name: dxeadg9wi
     api_key: 445728532345139
+    upload_preset: welfare_auto
     default_transformations:
       - - fetch_format: auto   # 브라우저 맞춤 포맷 (webp/avif 등)
           quality: auto        # 자동 품질 최적화
