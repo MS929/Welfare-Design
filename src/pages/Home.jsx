@@ -236,37 +236,64 @@ const MorePill = ({ href, children }) => (
 );
 
 // OptimizedImg 컴포넌트가 import되어 있다고 가정합니다.
-const StoryCard = ({ title, date, href = "/news/stories", thumbnail, priority = false }) => (
+const StoryCard = ({
+  title,
+  date,
+  href = "/news/stories",
+  thumbnail,
+  priority = false,
+  // ✅ 모바일/터치에서 hover/transition 끄기 위한 플래그
+  isTouchDevice = false,
+}) => (
   <a href={href} style={{ textDecoration: "none", color: "inherit" }}>
     <article
       style={{
         background: "#fff",
         borderRadius: PALETTE.radiusLg,
         border: `1px solid ${PALETTE.line}`,
-        boxShadow: PALETTE.shadowSm,
+        boxShadow: isTouchDevice ? "0 2px 6px rgba(0,0,0,.04)" : PALETTE.shadowSm,
         overflow: "hidden",
-        transition: "transform .12s ease, box-shadow .12s ease, border-color .12s ease",
-        contentVisibility: "auto",
-        containIntrinsicSize: "268px 220px",
+        // ✅ 모바일에서는 transition/hover 제거 → 떨림 방지
+        transition: isTouchDevice
+          ? "none"
+          : "transform .12s ease, box-shadow .12s ease, border-color .12s ease",
+
+        // ✅ iOS Safari에서 스크롤 시 카드 떨림 방지(레이어 고정)
+        transform: "translateZ(0)",
+        backfaceVisibility: "hidden",
+        WebkitBackfaceVisibility: "hidden",
+        willChange: isTouchDevice ? "auto" : "transform",
+
+        // ✅ content-visibility가 iOS에서 떨림을 유발할 수 있어 터치에서는 비활성화
+        ...(isTouchDevice
+          ? {}
+          : { contentVisibility: "auto", containIntrinsicSize: "268px 220px" }),
       }}
-      onMouseEnter={(e) => {
-        e.currentTarget.style.transform = "translateY(-4px)";
-        e.currentTarget.style.boxShadow = `0 14px 28px rgba(15,23,42,.12), 0 0 0 3px ${PALETTE.teal}22`;
-        e.currentTarget.style.borderColor = PALETTE.teal;
-      }}
-      onMouseLeave={(e) => {
-        e.currentTarget.style.transform = "none";
-        e.currentTarget.style.boxShadow = PALETTE.shadowSm;
-        e.currentTarget.style.borderColor = PALETTE.line;
-      }}
+      // ✅ 터치 디바이스에서는 hover 핸들러 자체를 달지 않음
+      onMouseEnter={
+        !isTouchDevice
+          ? (e) => {
+              e.currentTarget.style.transform = "translateY(-4px)";
+              e.currentTarget.style.boxShadow = `0 14px 28px rgba(15,23,42,.12), 0 0 0 3px ${PALETTE.teal}22`;
+              e.currentTarget.style.borderColor = PALETTE.teal;
+            }
+          : undefined
+      }
+      onMouseLeave={
+        !isTouchDevice
+          ? (e) => {
+              e.currentTarget.style.transform = "none";
+              e.currentTarget.style.boxShadow = PALETTE.shadowSm;
+              e.currentTarget.style.borderColor = PALETTE.line;
+            }
+          : undefined
+      }
     >
       <div
         aria-hidden
         style={{
           height:
-            typeof window !== "undefined" && window.innerWidth <= 640
-              ? 130
-              : 160,
+            typeof window !== "undefined" && window.innerWidth <= 640 ? 130 : 160,
           overflow: "hidden",
           borderBottom: `1px solid ${PALETTE.line}`,
           background: thumbnail ? "#fff" : PALETTE.grayBg,
@@ -284,8 +311,26 @@ const StoryCard = ({ title, date, href = "/news/stories", thumbnail, priority = 
           />
         ) : null}
       </div>
-      <div style={{ padding: 16, display: "flex", flexDirection: "column", alignItems: "center", textAlign: "center" }}>
-        <div style={{ fontWeight: 800, lineHeight: 1.25, textOverflow: "ellipsis", whiteSpace: "nowrap", overflow: "hidden" }}>{title}</div>
+      <div
+        style={{
+          padding: 16,
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          textAlign: "center",
+        }}
+      >
+        <div
+          style={{
+            fontWeight: 800,
+            lineHeight: 1.25,
+            textOverflow: "ellipsis",
+            whiteSpace: "nowrap",
+            overflow: "hidden",
+          }}
+        >
+          {title}
+        </div>
         <div style={{ color: PALETTE.grayText, fontSize: 12, marginTop: 10 }}>
           {date}
         </div>
@@ -297,6 +342,7 @@ const StoryCard = ({ title, date, href = "/news/stories", thumbnail, priority = 
 export default function Home1() {
   const isMobile = useMedia("(max-width: 640px)");
   const isTablet = useMedia("(max-width: 1024px)");
+  const isTouch = useMedia("(hover: none) and (pointer: coarse)");
   const [notices, setNotices] = useState([]);
   const [loadingNotices, setLoadingNotices] = useState(true);
   // --- Stories (복지디자인 소식) state ---
@@ -475,7 +521,7 @@ export default function Home1() {
         }}
       >
         <div
-          style={{ 
+          style={{
             display: "grid",
             gridTemplateColumns: isTablet ? "1fr" : "1fr 1.15fr",
             gap: isTablet ? 20 : 36,
@@ -616,7 +662,12 @@ export default function Home1() {
           </div>
 
           {/* 우측 텍스트 */}
-          <div style={{ marginTop: isTablet ? 10 : -36, textAlign: isTablet ? "center" : "left" }}>
+          <div
+            style={{
+              marginTop: isTablet ? 10 : -36,
+              textAlign: isTablet ? "center" : "left",
+            }}
+          >
             {/* Eyebrow / 작은 포인트 배지 */}
             <div
               style={{
@@ -691,7 +742,13 @@ export default function Home1() {
               지역과 함께합니다.
             </h1>
 
-            <p style={{ color: PALETTE.grayText, marginTop: 12, fontSize: isMobile ? 14 : 16 }}>
+            <p
+              style={{
+                color: PALETTE.grayText,
+                marginTop: 12,
+                fontSize: isMobile ? 14 : 16,
+              }}
+            >
               주민·기관·전문가가 협력하는 맞춤형 복지 플랫폼을 설계·운영합니다.
             </p>
           </div>
@@ -757,7 +814,9 @@ export default function Home1() {
               <div
                 style={{
                   display: "grid",
-                  gridTemplateColumns: isTablet ? "1fr" : "minmax(220px, 1fr) 2fr",
+                  gridTemplateColumns: isTablet
+                    ? "1fr"
+                    : "minmax(220px, 1fr) 2fr",
                   gap: isTablet ? 14 : 18,
                   alignItems: isTablet ? "stretch" : "center",
                 }}
@@ -1019,9 +1078,13 @@ export default function Home1() {
               key={n.slug}
               title={n.title}
               date={n.date}
-              href={`/news/stories/${encodeURIComponent(n.slug)}${n.type ? `?type=${encodeURIComponent(n.type)}` : ""}`}
+              href={`/news/stories/${encodeURIComponent(n.slug)}${
+                n.type ? `?type=${encodeURIComponent(n.type)}` : ""
+              }`}
               thumbnail={n.thumbnail}
               priority={idx < 3}
+              // ✅ 모바일/터치에서 hover/transition 비활성화
+              isTouchDevice={isMobile || isTouch}
             />
           ))}
           {storyFiltered.length === 0 && (
@@ -1223,9 +1286,7 @@ export default function Home1() {
         <div
           style={{
             display: "grid",
-            gridTemplateColumns: isTablet
-              ? "1fr"
-              : "repeat(2, minmax(0,1fr))",
+            gridTemplateColumns: isTablet ? "1fr" : "repeat(2, minmax(0,1fr))",
             gap: isTablet ? 18 : 28,
           }}
         >
@@ -1293,12 +1354,12 @@ export default function Home1() {
                       boxShadow: PALETTE.shadowSm,
                       textDecoration: "none",
                       color: "inherit",
-                      transition: "transform .12s ease, box-shadow .12s ease, border-color .12s ease",
+                      transition:
+                        "transform .12s ease, box-shadow .12s ease, border-color .12s ease",
                     }}
                     onMouseEnter={(e) => {
                       e.currentTarget.style.transform = "translateY(-2px)";
-                      e.currentTarget.style.boxShadow =
-                        `0 10px 22px rgba(0,0,0,.08), 0 0 0 3px ${PALETTE.orange}22`;
+                      e.currentTarget.style.boxShadow = `0 10px 22px rgba(0,0,0,.08), 0 0 0 3px ${PALETTE.orange}22`;
                       e.currentTarget.style.borderColor = PALETTE.orange;
                     }}
                     onMouseLeave={(e) => {
@@ -1414,12 +1475,12 @@ export default function Home1() {
                       boxShadow: PALETTE.shadowSm,
                       textDecoration: "none",
                       color: "inherit",
-                      transition: "transform .12s ease, box-shadow .12s ease, border-color .12s ease",
+                      transition:
+                        "transform .12s ease, box-shadow .12s ease, border-color .12s ease",
                     }}
                     onMouseEnter={(e) => {
                       e.currentTarget.style.transform = "translateY(-2px)";
-                      e.currentTarget.style.boxShadow =
-                        `0 10px 22px rgba(0,0,0,.08), 0 0 0 3px ${PALETTE.orange}22`;
+                      e.currentTarget.style.boxShadow = `0 10px 22px rgba(0,0,0,.08), 0 0 0 3px ${PALETTE.orange}22`;
                       e.currentTarget.style.borderColor = PALETTE.orange;
                     }}
                     onMouseLeave={(e) => {
