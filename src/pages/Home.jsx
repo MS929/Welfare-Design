@@ -810,7 +810,7 @@ mark, [data-hl] {
               >
                 맞춤형 복지
               </span>
-              를\u00A0설계하며
+              를"\u00A0"설계하며
               <br />
               <span
                 style={{
