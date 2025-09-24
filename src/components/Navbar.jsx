@@ -225,16 +225,16 @@ export default function Navbar() {
             setHoveredIdx(null);
           }}
         >
-          <div style={{ marginLeft: megaLeft, width: 840 }}>
-            <div className="grid grid-cols-4 gap-14 justify-items-start pt-5 pb-6 text-left">
+          <div style={{ marginLeft: megaLeft, width: 750 }}>
+            <div className="grid grid-cols-4 gap-16 justify-items-center pt-5 pb-6 text-center">
               {sections.map((sec) => (
-                <div key={sec.title} className="w-[180px]">
+                <div key={sec.title} className="w-full">
                   <ul className="space-y-1.5">
                     {sec.items.map((it) => (
                       <li key={it.to}>
                         <NavLink
                           to={it.to}
-                          className="block h-8 leading-none text-[15px] text-gray-800 hover:text-emerald-600 whitespace-nowrap focus-visible:ring-2 focus-visible:ring-emerald-500"
+                          className="block h-8 leading-none text-[14px] text-gray-800 hover:text-emerald-600 whitespace-nowrap focus-visible:ring-2 focus-visible:ring-emerald-500"
                           onClick={() => {
                             setMegaOpen(false);
                             setHoveredIdx(null);
