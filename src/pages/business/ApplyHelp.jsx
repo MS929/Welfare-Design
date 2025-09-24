@@ -8,29 +8,7 @@ export default function ApplyHelp() {
       <div className="max-w-screen-xl mx-auto px-4 pb-12">
         {/* 상단: 좌측 이미지 / 우측 안내 박스 */}
         <div className="grid gap-8 md:grid-cols-2 items-stretch">
-          <div className="flex items-center justify-center">
-            {/* 단일 그림 요소로 중복 렌더 제거 */}
-            <picture>
-              {/* 데스크탑(768px 이상) 소스 */}
-              <source
-                media="(min-width: 768px)"
-                srcSet="/images/business/apply-help.png"
-              />
-              {/* 기본 이미지: 모바일 우선 eager 로드 */}
-              <img
-                src="/images/business/apply-help.png"
-                alt="휠체어 및 복지용구 무료 대여"
-                loading="eager"
-                fetchpriority="high"
-                decoding="async"
-                width="1200"
-                height="900"
-                sizes="(max-width: 767px) 100vw, 50vw"
-                className="w-full h-auto"
-                style={{ imageRendering: "auto", display: "block" }}
-              />
-            </picture>
-          </div>
+        
           {/* 안내 박스 (불릿) + 기대 효과 + 상담 문의 배너 */}
           <div className="grid md:h-[460px] lg:h-[470px] grid-rows-[auto,auto,auto] md:grid-rows-[auto,1fr,auto] gap-6 mt-12">
             {/* 안내 박스 */}
