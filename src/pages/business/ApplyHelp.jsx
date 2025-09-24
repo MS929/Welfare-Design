@@ -8,7 +8,6 @@ export default function ApplyHelp() {
       <div className="max-w-screen-xl mx-auto px-4 pb-12">
         {/* 상단: 좌측 이미지 / 우측 안내 박스 */}
         <div className="grid gap-8 md:grid-cols-2 items-stretch">
-        
           {/* 안내 박스 (불릿) + 기대 효과 + 상담 문의 배너 */}
           <div className="grid md:h-[460px] lg:h-[470px] grid-rows-[auto,auto,auto] md:grid-rows-[auto,1fr,auto] gap-6 mt-12">
             {/* 안내 박스 */}
