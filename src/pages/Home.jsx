@@ -429,13 +429,6 @@ export default function Home1() {
     };
   }, [prefersReducedMotion]);
 
-  // pre-load hero images for smoother transitions
-  useEffect(() => {
-    HERO_IMAGES.forEach((src) => {
-      const img = new Image();
-      img.src = src;
-    });
-  }, []);
 
   useEffect(() => {
     try {
