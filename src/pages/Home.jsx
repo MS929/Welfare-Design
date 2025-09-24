@@ -501,6 +501,23 @@ export default function Home1() {
     }
   }, []);
 
+  // iOS/모바일에서 뒤로가기 시(active 잔상) 카드 스타일 초기화
+  useEffect(() => {
+    const resetStyles = () => {
+      const nodes = document.querySelectorAll('[data-reset-touch="true"]');
+      nodes.forEach((el) => {
+        el.style.transform = 'none';
+        el.style.boxShadow = PALETTE.shadowSm;
+        el.style.borderColor = PALETTE.line;
+        el.style.background = '#fff';
+      });
+    };
+    // 최초 진입 및 BFCache 복귀 시 모두 초기화
+    resetStyles();
+    window.addEventListener('pageshow', resetStyles);
+    return () => window.removeEventListener('pageshow', resetStyles);
+  }, []);
+
   const noticesSplit = useMemo(() => {
     const norm = (c) => normalizeNoticeCategory(c);
     const notice = notices.filter((n) => norm(n.category) === "공지");
@@ -1345,6 +1362,7 @@ export default function Home1() {
                   <a
                     key={item.id}
                     href={item.to}
+                    data-reset-touch="true"
                     style={{
                       display: "block",
                       background: "#fff",
@@ -1363,6 +1381,20 @@ export default function Home1() {
                       e.currentTarget.style.transform = "none";
                       e.currentTarget.style.boxShadow = PALETTE.shadowSm;
                       e.currentTarget.style.borderColor = PALETTE.line;
+                    }}
+                    onFocus={(e) => {
+                      if (isMobile || isTouch) {
+                        e.currentTarget.style.transform = 'none';
+                        e.currentTarget.style.boxShadow = PALETTE.shadowSm;
+                        e.currentTarget.style.borderColor = PALETTE.line;
+                      }
+                    }}
+                    onBlur={(e) => {
+                      if (isMobile || isTouch) {
+                        e.currentTarget.style.transform = 'none';
+                        e.currentTarget.style.boxShadow = PALETTE.shadowSm;
+                        e.currentTarget.style.borderColor = PALETTE.line;
+                      }
                     }}
                     onMouseEnter={!(isMobile || isTouch) ? (e) => {
                       e.currentTarget.style.transform = "translateY(-2px)";
@@ -1473,6 +1505,7 @@ export default function Home1() {
                   <a
                     key={item.id}
                     href={item.to}
+                    data-reset-touch="true"
                     style={{
                       display: "block",
                       background: "#fff",
@@ -1491,6 +1524,20 @@ export default function Home1() {
                       e.currentTarget.style.transform = "none";
                       e.currentTarget.style.boxShadow = PALETTE.shadowSm;
                       e.currentTarget.style.borderColor = PALETTE.line;
+                    }}
+                    onFocus={(e) => {
+                      if (isMobile || isTouch) {
+                        e.currentTarget.style.transform = 'none';
+                        e.currentTarget.style.boxShadow = PALETTE.shadowSm;
+                        e.currentTarget.style.borderColor = PALETTE.line;
+                      }
+                    }}
+                    onBlur={(e) => {
+                      if (isMobile || isTouch) {
+                        e.currentTarget.style.transform = 'none';
+                        e.currentTarget.style.boxShadow = PALETTE.shadowSm;
+                        e.currentTarget.style.borderColor = PALETTE.line;
+                      }
                     }}
                     onMouseEnter={!(isMobile || isTouch) ? (e) => {
                       e.currentTarget.style.transform = "translateY(-2px)";
