@@ -96,26 +96,31 @@ export default function SupGuide() {
       </section>
 
       {/* 계좌 안내 */}
-      <BankBox className="max-w-screen-xl mx-auto px-4 mt-10 rounded-2xl border border-slate-200 bg-slate-50" />
+      <div className="max-w-screen-xl mx-auto px-4 mt-10">
+        {/* Desktop/Tablet */}
+        <div className="hidden md:block">
+          <BankBox className="rounded-2xl border border-slate-200 bg-slate-50" />
+        </div>
+        {/* Mobile 전용: 컴팩트 버전 */}
+        <div className="md:hidden">
+          <BankBox compact className="rounded-2xl border border-slate-200 bg-slate-50" />
+        </div>
+      </div>
 
-      {/* 후원 신청서 */}
-      <section className="max-w-screen-xl mx-auto mt-10 overflow-hidden bg-white rounded-2xl border border-slate-200">
-        {/* Colored header strip */}
-        <div className="bg-slate-50 px-6 md:px-8 py-5 md:py-6 border-b border-slate-200/70">
+      {/* 후원 신청서 (Desktop/Tablet) */}
+      <section className="hidden md:block max-w-screen-xl mx-auto mt-10 overflow-hidden bg-white rounded-2xl border border-slate-200">
+        <div className="bg-slate-50 px-8 py-6 border-b border-slate-200/70">
           <h3 className="text-xl font-semibold">후원 신청서</h3>
           <p className="text-gray-800 mt-1">
             후원 신청서를 작성해주시면 기부금 영수증 발급과 투명한 후원금 공개를 약속드립니다.
           </p>
         </div>
-
-        {/* Body */}
-        <div className="px-6 md:px-8 py-6">
+        <div className="px-8 py-6">
           <p className="text-sm leading-relaxed text-gray-800 whitespace-pre-line">
             본 사회적협동조합은 기획재정부에 등록된 <strong className="font-semibold">지정기부금 단체</strong>로, 기부하신 내역에 대해서는 <strong className="font-semibold">후원 신청하기</strong>를 작성해 주셔야 기부금영수증을 발행해드리고 있습니다.
             {"\n"}또한, 연간 모금액 및 사용 내역은 홈페이지와 국세청 홈택스에 투명하게 공개되고 있습니다.
             {"\n"}많은 후원과 관심 부탁드립니다.
           </p>
-
           <div className="mt-5 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
             <p className="text-xs text-gray-600">
               ※ 기부금 영수증 발급을 위해서는 신청서 작성이 필요합니다.<br /><br />
@@ -132,6 +137,39 @@ export default function SupGuide() {
                 후원 신청서 작성하기
               </a>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 후원 신청서 (Mobile Compact) */}
+      <section className="md:hidden max-w-screen-xl mx-auto mt-10 overflow-hidden bg-white rounded-2xl border border-slate-200">
+        <div className="bg-slate-50 px-5 py-4 border-b border-slate-200/70">
+          <h3 className="text-lg font-semibold">후원 신청서</h3>
+          <p className="text-gray-800 mt-1 text-[15px] leading-relaxed">
+            후원 신청서를 작성해주시면 기부금 영수증 발급과 투명한 후원금 공개를 약속드립니다.
+          </p>
+        </div>
+        <div className="px-5 py-4">
+          <p className="text-[15px] leading-[1.85] text-gray-800 whitespace-pre-line">
+            본 사회적협동조합은 기획재정부에 등록된 <strong className="font-semibold">지정기부금 단체</strong>로, 기부하신 내역에 대해서는 <strong className="font-semibold">후원 신청하기</strong>를 작성해 주셔야 기부금영수증을 발행해드리고 있습니다.
+            {"\n"}또한, 연간 모금액 및 사용 내역은 홈페이지와 국세청 홈택스에 투명하게 공개되고 있습니다.
+            {"\n"}많은 후원과 관심 부탁드립니다.
+          </p>
+          <div className="mt-4 flex flex-col gap-3">
+            <p className="text-[13px] text-gray-600 leading-relaxed">
+              ※ 기부금 영수증 발급을 위해서는 신청서 작성이 필요합니다.
+              <br />
+              ※ 법인세법 제18조 소득세법 제34조에 의거 기부금 영수증 발급이 가능합니다.
+            </p>
+            <a
+              href="https://forms.gle/AepMiTRFNNZs9ovu5"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex w-full items-center justify-center rounded-full px-6 py-3 text-white font-semibold shadow-sm transition bg-teal-600 hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2"
+              aria-label="후원 신청서 작성하기"
+            >
+              후원 신청서 작성하기
+            </a>
           </div>
         </div>
       </section>
@@ -242,7 +280,7 @@ function SupportCard({ title, desc, bullets = [], cta, className = "" }) {
   );
 }
 
-function BankBox({ className = "" }) {
+function BankBox({ className = "", compact = false }) {
   const [copied, setCopied] = useState(false);
 
   const bank = {
@@ -260,9 +298,9 @@ function BankBox({ className = "" }) {
   };
 
   return (
-    <section className={`p-6 ${className}`}>
+    <section className={`${compact ? "p-5" : "p-6"} ${className}`}>
       <h3 className="text-lg font-semibold">무통장 입금(계좌이체)</h3>
-      <div className="mt-3 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+      <div className={`${compact ? "mt-3" : "mt-3"} flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3`}>
         <p className="text-gray-800">
           <span className="font-medium">{bank.name}</span>{" "}
           <span className="font-mono tracking-wide">{bank.number}</span>
@@ -273,7 +311,7 @@ function BankBox({ className = "" }) {
           <button
             onClick={copy}
             aria-label="계좌번호 복사"
-            className="px-7 py-3.5 rounded-full bg-gradient-to-r from-teal-500 to-emerald-500 text-white font-semibold shadow-md hover:from-teal-600 hover:to-emerald-600 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2"
+            className={`${compact ? "px-6 py-3" : "px-7 py-3.5"} rounded-full bg-gradient-to-r from-teal-500 to-emerald-500 text-white font-semibold shadow-md hover:from-teal-600 hover:to-emerald-600 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2`}
           >
             {copied ? "복사됨!" : "계좌 복사"}
           </button>
