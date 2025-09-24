@@ -793,6 +793,7 @@ mark, [data-hl] {
                 margin: 0,
                 letterSpacing: -0.2,
                 fontWeight: 600,
+                textWrap: "balance",
               }}
             >
               현장과 지역을 잇는{" "}
@@ -807,7 +808,7 @@ mark, [data-hl] {
               >
                 맞춤형 복지
               </span>
-              를 설계하며
+              를\u00A0설계하며
               <br />
               <span
                 style={{
