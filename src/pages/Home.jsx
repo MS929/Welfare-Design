@@ -606,7 +606,7 @@ mark, [data-hl] {
         <div
           style={{
             display: "grid",
-            gridTemplateColumns: isTablet ? "1fr" : "1fr 1.25fr",
+            gridTemplateColumns: isTablet ? "1fr" : "1fr 1.15fr",
             gap: isTablet ? 20 : 36,
             alignItems: "center",
             padding: "0 32px",
@@ -749,8 +749,6 @@ mark, [data-hl] {
             style={{
               marginTop: isTablet ? 10 : -36,
               textAlign: isTablet ? "center" : "left",
-              maxWidth: isMobile ? "32ch" : isTablet ? "40ch" : "48ch",
-              marginInline: isTablet ? "auto" : 0,
             }}
           >
             {/* Eyebrow / 작은 포인트 배지 */}
@@ -795,7 +793,6 @@ mark, [data-hl] {
                 margin: 0,
                 letterSpacing: -0.2,
                 fontWeight: 600,
-                textWrap: "balance",
               }}
             >
               현장과 지역을 잇는{" "}
@@ -810,7 +807,7 @@ mark, [data-hl] {
               >
                 맞춤형 복지
               </span>
-              를"\u00A0"설계하며
+              를 설계하며
               <br />
               <span
                 style={{
