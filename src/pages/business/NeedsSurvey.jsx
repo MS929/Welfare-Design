@@ -68,7 +68,7 @@ export default function NeedsSurvey() {
             <div className="mt-6">
               {/* Desktop & Tablet (md 이상): 기존 스타일 유지 */}
               <div className="hidden md:block rounded-2xl border border-[#F26C2A]/45 bg-gradient-to-r from-[#FFF3E9] to-[#EFFFFD] px-8 py-5 shadow-md">
-                <div className="flex items-center gap-3 text-[#111827] tracking-tight">
+                <div className="flex items-center justify-center gap-3 text-[#111827] tracking-tight">
                   {/* phone icon */}
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
