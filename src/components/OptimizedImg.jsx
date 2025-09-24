@@ -26,6 +26,7 @@ export default function OptimizedImg({
   alt = "",
   className,
   style,
+  imgStyle,
   // If priority is true -> eager/sync/high, else lazy/async/auto
   priority = false,
   sizes = "(max-width: 768px) 100vw, 1200px",
@@ -88,10 +89,18 @@ export default function OptimizedImg({
     >
       {/* Only provide sources when visible to avoid preloading before IO triggers */}
       {visible && (avif || useCdn) && (
-        <source srcSet={avif ? avif : cdnAvif} type="image/avif" sizes={sizes} />
+        <source
+          srcSet={avif ? avif : cdnAvif}
+          type="image/avif"
+          sizes={sizes}
+        />
       )}
       {visible && (webp || useCdn) && (
-        <source srcSet={webp ? webp : cdnWebp} type="image/webp" sizes={sizes} />
+        <source
+          srcSet={webp ? webp : cdnWebp}
+          type="image/webp"
+          sizes={sizes}
+        />
       )}
       <img
         src={visible ? (useCdn ? cdnSrc : src) : undefined}
@@ -104,6 +113,7 @@ export default function OptimizedImg({
         height={height}
         onLoad={onLoad}
         onError={onError}
+        style={imgStyle}
         {...rest}
       />
     </picture>
