@@ -3,7 +3,37 @@ import BizLayout from "./_Layout";
 
 export default function ApplyHelp() {
   return (
-    <BizLayout title="복지용구 신청 안내 지원">
+    <>
+      <style
+        id="page-text-guard"
+        dangerouslySetInnerHTML={{ __html: `
+html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+*, *::before, *::after { box-sizing: border-box; min-width: 0; hyphens: manual; -webkit-hyphens: manual; }
+body {
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  word-break: keep-all;            /* Korean: avoid mid-word breaks */
+  overflow-wrap: anywhere;         /* Long English/URLs wrap safely */
+  -webkit-line-break: after-white-space;
+}
+h1, h2, .heading-balance { text-wrap: balance; }
+@supports not (text-wrap: balance) {
+  h1, h2, .heading-balance { line-height: 1.25; max-width: 45ch; }
+}
+mark, [data-hl] {
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+  padding: 0 .08em;
+  border-radius: 2px;
+}
+.nowrap { white-space: nowrap; }
+.u-wrap-anywhere { overflow-wrap: anywhere; word-break: keep-all; }
+.u-ellipsis { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        ` }}
+      />
+      <BizLayout title="복지용구 신청 안내 지원">
       <div className="max-w-screen-xl mx-auto px-4 pb-4">
         {/* 상단: 좌측 이미지 / 우측 안내 박스 */}
         <div className="grid gap-8 md:grid-cols-2 items-stretch">
@@ -121,5 +151,6 @@ export default function ApplyHelp() {
         </div>
       </div>
     </BizLayout>
+    </>
   );
 }

@@ -1,6 +1,35 @@
 export default function Combination() {
   return (
     <>
+      <style
+        id="page-text-guard"
+        dangerouslySetInnerHTML={{ __html: `
+html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+*, *::before, *::after { box-sizing: border-box; min-width: 0; hyphens: manual; -webkit-hyphens: manual; }
+body {
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  word-break: keep-all;
+  overflow-wrap: anywhere;
+  -webkit-line-break: after-white-space;
+}
+h1, h2, .heading-balance { text-wrap: balance; }
+@supports not (text-wrap: balance) {
+  h1, h2, .heading-balance { line-height: 1.25; max-width: 45ch; }
+}
+mark, [data-hl] {
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+  padding: 0 .08em;
+  border-radius: 2px;
+}
+.nowrap { white-space: nowrap; }
+.u-wrap-anywhere { overflow-wrap: anywhere; word-break: keep-all; }
+.u-ellipsis { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        ` }}
+      />
       <div className="bg-white">
         {/* ===== 브레드크럼 + 제목 (필요 시 수정) ===== */}
         <section className="max-w-screen-xl mx-auto px-4 pt-10">
@@ -15,8 +44,6 @@ export default function Combination() {
 
       {/* ===== 본문 ===== */}
       <section className="relative max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8 pb-16 antialiased tracking-[-0.01em] mt-10">
-        
-
         <div className="relative rounded-2xl border border-gray-200 bg-white p-6 md:p-8 shadow-md text-center">
           {/* badge */}
           <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-50 text-emerald-700 text-[11px] font-semibold px-2.5 py-1 mb-2">

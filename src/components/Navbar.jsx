@@ -144,7 +144,50 @@ export default function Navbar() {
   ];
 
   return (
-    <header
+    <>
+      <style
+        id="global-text-guard"
+        // This style is global and loaded on every page via Navbar
+        dangerouslySetInnerHTML={{ __html: `
+html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+*, *::before, *::after { box-sizing: border-box; min-width: 0; }
+body {
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  word-break: keep-all;       /* Korean: avoid awkward mid-word breaks */
+  overflow-wrap: anywhere;    /* Long English/URLs still wrap safely */
+}
+a, button, p, li, div, span { overflow-wrap: anywhere; word-break: keep-all; }
+h1, h2, h3, h4, h5 { line-height: 1.25; }
+.nowrap, .nav-nowrap { white-space: nowrap; }
+/* ==== Cross-device heading wrap consistency ==== */
+h1, h2, .heading-balance { text-wrap: balance; }
+@supports not (text-wrap: balance) {
+  /* Fallback: reduce line-length variability */
+  h1, h2, .heading-balance { line-height: 1.25; max-width: 45ch; }
+}
+
+/* Avoid auto hyphenation and platform-specific line-break behavior */
+*, *::before, *::after { hyphens: manual; -webkit-hyphens: manual; }
+html { -webkit-line-break: after-white-space; }
+
+/* ==== Highlight / underline background spans safe split across lines ==== */
+/* Use this by adding <mark> or data-hl on spans for background-emphasis */
+mark, [data-hl] {
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+  padding: 0 .08em; /* keep background from touching glyph edges */
+  border-radius: 2px;
+}
+
+/* Long tokens: prevent layout shift but still allow wrap */
+.u-wrap-anywhere { overflow-wrap: anywhere; word-break: keep-all; }
+.u-ellipsis { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        ` }}
+      />
+      <header
       role="navigation"
       aria-label="Primary"
       className="sticky top-0 z-50 bg-white shadow"
@@ -420,5 +463,6 @@ export default function Navbar() {
         </div>
       )}
     </header>
+    </>
   );
 }

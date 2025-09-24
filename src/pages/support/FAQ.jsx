@@ -33,6 +33,35 @@ export default function SupFAQ() {
 
 	return (
 		<>
+      <style
+        id="page-text-guard"
+        dangerouslySetInnerHTML={{ __html: `
+html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+*, *::before, *::after { box-sizing: border-box; min-width: 0; hyphens: manual; -webkit-hyphens: manual; }
+body {
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  word-break: keep-all;            /* Korean: avoid mid-word breaks */
+  overflow-wrap: anywhere;         /* Long English/URLs wrap safely */
+  -webkit-line-break: after-white-space;
+}
+h1, h2, .heading-balance { text-wrap: balance; }
+@supports not (text-wrap: balance) {
+  h1, h2, .heading-balance { line-height: 1.25; max-width: 45ch; }
+}
+mark, [data-hl] {
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+  padding: 0 .08em;
+  border-radius: 2px;
+}
+.nowrap { white-space: nowrap; }
+.u-wrap-anywhere { overflow-wrap: anywhere; word-break: keep-all; }
+.u-ellipsis { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        ` }}
+      />
 			<section className="hidden md:block max-w-screen-xl mx-auto pl-2 pr-4 sm:pl-3 sm:pr-6 lg:pl-4 lg:pr-8 pb-10">
 				<div className="bg-white">
 				  {/* ===== 브레드크럼 + 제목 (whatIs.jsx 스타일) ===== */}

@@ -44,7 +44,37 @@ export default function BizOverview() {     // 0. 사업영역
   ];
 
   return (
-    <BizLayout title="사업영역">
+    <>
+      <style
+        id="page-text-guard"
+        dangerouslySetInnerHTML={{ __html: `
+html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+*, *::before, *::after { box-sizing: border-box; min-width: 0; hyphens: manual; -webkit-hyphens: manual; }
+body {
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  word-break: keep-all;
+  overflow-wrap: anywhere;
+  -webkit-line-break: after-white-space;
+}
+h1, h2, .heading-balance { text-wrap: balance; }
+@supports not (text-wrap: balance) {
+  h1, h2, .heading-balance { line-height: 1.25; max-width: 45ch; }
+}
+mark, [data-hl] {
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+  padding: 0 .08em;
+  border-radius: 2px;
+}
+.nowrap { white-space: nowrap; }
+.u-wrap-anywhere { overflow-wrap: anywhere; word-break: keep-all; }
+.u-ellipsis { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        ` }}
+      />
+      <BizLayout title="사업영역">
       <section>
         <p className="text-gray-700 leading-relaxed">
           복지디자인 사회적협동조합은 이동·건강·경제·정보 접근성 등을 중심으로
@@ -83,5 +113,6 @@ export default function BizOverview() {     // 0. 사업영역
         </div>
       </section>
     </BizLayout>
+    </>
   );
 }

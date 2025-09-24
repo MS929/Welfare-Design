@@ -3,7 +3,37 @@ import BizLayout from "./_Layout";
 
 export default function DonationCampaign() {
   return (
-    <BizLayout title="보조기기 기증 캠페인">
+    <>
+      <style
+        id="page-text-guard"
+        dangerouslySetInnerHTML={{ __html: `
+html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+*, *::before, *::after { box-sizing: border-box; min-width: 0; hyphens: manual; -webkit-hyphens: manual; }
+body {
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  word-break: keep-all;
+  overflow-wrap: anywhere;
+  -webkit-line-break: after-white-space;
+}
+h1, h2, .heading-balance { text-wrap: balance; }
+@supports not (text-wrap: balance) {
+  h1, h2, .heading-balance { line-height: 1.25; max-width: 45ch; }
+}
+mark, [data-hl] {
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+  padding: 0 .08em;
+  border-radius: 2px;
+}
+.nowrap { white-space: nowrap; }
+.u-wrap-anywhere { overflow-wrap: anywhere; word-break: keep-all; }
+.u-ellipsis { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        ` }}
+      />
+      <BizLayout title="보조기기 기증 캠페인">
       <div className="max-w-screen-xl mx-auto px-4 pb-4 md:pb-0">
         {/* 이미지 + 우측 정보 박스(대여 안내) + 기대효과(대여 안내 박스 아래) */}
         <div className="grid gap-8 md:grid-cols-2 items-stretch">
@@ -122,5 +152,6 @@ export default function DonationCampaign() {
         </div>
       </div>
     </BizLayout>
+    </>
   );
 }
