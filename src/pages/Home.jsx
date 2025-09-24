@@ -197,6 +197,8 @@ const Pill = ({ label, icon, color, onClick }) => (
 const MorePill = ({ href, children }) => (
   <a
     href={href}
+    data-reset-touch="true"
+    data-reset-kind="pill"
     style={{
       display: "inline-flex",
       alignItems: "center",
@@ -218,6 +220,7 @@ const MorePill = ({ href, children }) => (
         typeof window !== "undefined" && window.innerWidth <= 640 ? 13 : 14,
       transition:
         "background .15s ease, color .15s ease, border-color .15s ease",
+      WebkitTapHighlightColor: "transparent",
     }}
     onMouseEnter={(e) => {
       e.currentTarget.style.background = PALETTE.teal;
@@ -225,6 +228,29 @@ const MorePill = ({ href, children }) => (
       e.currentTarget.style.borderColor = PALETTE.teal;
     }}
     onMouseLeave={(e) => {
+      e.currentTarget.style.background = "#fff";
+      e.currentTarget.style.color = PALETTE.teal;
+      e.currentTarget.style.borderColor = PALETTE.teal;
+    }}
+    onTouchStart={(e) => {
+      // 모바일 터치 눌림 시 hover와 동일하게 표시
+      e.currentTarget.style.background = PALETTE.teal;
+      e.currentTarget.style.color = "#fff";
+      e.currentTarget.style.borderColor = PALETTE.teal;
+    }}
+    onTouchEnd={(e) => {
+      // 터치 종료 및 뒤로가기 복귀 시 기본값 복구
+      e.currentTarget.style.background = "#fff";
+      e.currentTarget.style.color = PALETTE.teal;
+      e.currentTarget.style.borderColor = PALETTE.teal;
+    }}
+    onFocus={(e) => {
+      // 모바일 브라우저에서 focus 잔상 방지
+      e.currentTarget.style.background = "#fff";
+      e.currentTarget.style.color = PALETTE.teal;
+      e.currentTarget.style.borderColor = PALETTE.teal;
+    }}
+    onBlur={(e) => {
       e.currentTarget.style.background = "#fff";
       e.currentTarget.style.color = PALETTE.teal;
       e.currentTarget.style.borderColor = PALETTE.teal;
@@ -506,10 +532,20 @@ export default function Home1() {
     const resetStyles = () => {
       const nodes = document.querySelectorAll('[data-reset-touch="true"]');
       nodes.forEach((el) => {
+        // 공통 초기화
         el.style.transform = 'none';
         el.style.boxShadow = PALETTE.shadowSm;
-        el.style.borderColor = PALETTE.line;
         el.style.background = '#fff';
+        const kind = el.getAttribute('data-reset-kind');
+        // 컴포넌트 종류별 기본값 복구
+        if (kind === 'pill') {
+          // MorePill 기본 스타일 복구
+          el.style.color = PALETTE.teal;
+          el.style.borderColor = PALETTE.teal;
+        } else {
+          // 공지/정보공개 카드 기본값
+          el.style.borderColor = PALETTE.line;
+        }
       });
     };
     // 최초 진입 및 BFCache 복귀 시 모두 초기화
