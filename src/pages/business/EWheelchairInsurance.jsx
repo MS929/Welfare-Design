@@ -2,6 +2,14 @@
 import BizLayout from "./_Layout";
 
 export default function EwcInsurance() {
+  // --- Cloudinary responsive image helper (local to this page) ---
+  const ORIGIN = (typeof window !== 'undefined' && window.location?.origin)
+    ? window.location.origin
+    // SSR/preview fallback (kept conservative; change to your prod domain if needed)
+    : '';
+  const RAW = '/images/business/ewc-insurance.png';
+  const cld = (w) => `https://res.cloudinary.com/dxeadg9wi/image/fetch/c_limit,f_auto,q_auto,w_${w}/${encodeURIComponent(ORIGIN + RAW)}`;
+
   return (
     <>
       <style
@@ -41,23 +49,32 @@ mark, [data-hl] {
           <div className="flex items-center justify-center">
             {/* 단일 그림 요소로 중복 렌더 제거 */}
             <picture>
-              {/* 데스크탑(768px 이상) 소스 */}
+              {/* AVIF first */}
               <source
-                media="(min-width: 768px)"
-                srcSet="/images/business/ewc-insurance.png"
-              />
-              {/* 기본 이미지: 모바일 우선 eager 로드 */}
-              <img
-                src="/images/business/ewc-insurance.png"
-                alt="휠체어 및 복지용구 무료 대여"
-                loading="eager"
-                fetchpriority="high"
-                decoding="async"
-                width="1200"
-                height="900"
+                type="image/avif"
+                srcSet={`${cld(480)} 480w, ${cld(768)} 768w, ${cld(1200)} 1200w`}
                 sizes="(max-width: 767px) 100vw, 50vw"
+              />
+              {/* WEBP fallback */}
+              <source
+                type="image/webp"
+                srcSet={`${cld(480)} 480w, ${cld(768)} 768w, ${cld(1200)} 1200w`}
+                sizes="(max-width: 767px) 100vw, 50vw"
+              />
+              {/* Final PNG/auto fallback */}
+              <img
+                src={cld(768)}
+                srcSet={`${cld(480)} 480w, ${cld(768)} 768w, ${cld(1200)} 1200w`}
+                sizes="(max-width: 767px) 100vw, 50vw"
+                alt="휠체어 및 복지용구 무료 대여"
+                width={1200}
+                height={900}
+                decoding="async"
+                loading="eager"
+                fetchPriority="high"
                 className="w-full h-auto"
-                style={{ imageRendering: "auto", display: "block" }}
+                style={{ imageRendering: 'auto', display: 'block' }}
+                onError={(e) => { e.currentTarget.src = RAW; }}
               />
             </picture>
           </div>
