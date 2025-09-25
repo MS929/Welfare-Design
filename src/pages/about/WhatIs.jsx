@@ -1,26 +1,5 @@
 import { useEffect } from "react";
-// Map local /images paths to Cloudinary fetch URLs (auto WebP/AVIF, capped width)
-const cldFetch = (path, w = 1200) => {
-  try {
-    if (!path) return path;
-
-    // If it's already an absolute URL (http or https), send it as-is (Cloudinary fetch accepts raw URLs).
-    const isAbsolute = /^https?:\/\//i.test(path);
-
-    // Always use a stable absolute origin for relative paths so we don't nest/encode incorrectly in Cloudinary.
-    const BASE_ORIGIN = 'https://welfaredesign.netlify.app';
-
-    const remote = isAbsolute
-      ? path
-      : `${BASE_ORIGIN}${path.startsWith('/') ? path : `/${path}`}`;
-
-    // IMPORTANT: Do **not** encode the remote URL; Cloudinary expects the raw URL segment after `/fetch/`.
-    // Use c_limit to avoid upscaling + f_auto/q_auto for the best format and size.
-    return `https://res.cloudinary.com/dxeadg9wi/image/fetch/c_limit,f_auto,q_auto,w_${w}/${remote}`;
-  } catch {
-    return path;
-  }
-};
+import { cldFetch, cldSrcSet } from "@/lib/image";
 // src/pages/about/WhatIs.jsx
 export default function AboutWhat() {
   // Preload the above-the-fold image for faster first paint
@@ -651,17 +630,11 @@ export default function AboutWhat() {
           <div className="rounded-lg bg-white/70 p-2 shadow-sm flex items-center justify-center">
             <img
               src={cldFetch(background.image, 680)}
-              srcSet={`
-      ${cldFetch(background.image, 320)} 320w,
-      ${cldFetch(background.image, 480)} 480w,
-      ${cldFetch(background.image, 680)} 680w,
-      ${cldFetch(background.image, 960)} 960w,
-      ${cldFetch(background.image, 1200)} 1200w
-    `}
+              srcSet={cldSrcSet(background.image, [320, 480, 680, 960, 1200])}
               alt="설립 배경"
               loading="eager"
               decoding="async"
-              fetchpriority="high"
+              fetchPriority="high"
               width={680}
               height={510}
               sizes="(min-width: 1024px) 260px, (min-width: 768px) 240px, 80vw"
