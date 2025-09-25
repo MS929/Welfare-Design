@@ -104,11 +104,8 @@ export default function Navbar() {
     };
   }, [mobileOpen]);
 
-  // Cloudinary-optimized navbar logo (small, density-aware)
-  const ORIGIN = typeof window !== 'undefined' ? window.location.origin : 'https://welfaredesign.netlify.app';
-  const RAW_LOGO = `${ORIGIN}/images/main/main3.png`;
-  const cldLogo = (w) =>
-    `https://res.cloudinary.com/dxeadg9wi/image/fetch/c_limit,f_auto,q_auto,dpr_auto,w_${w}/${RAW_LOGO}`;
+  // Use original (untransformed) logo to avoid any blur from optimization
+  const logoSrc = "/images/main/main3.png";
 
   // 상단 섹션/항목 정의(중복 제거)
   const sections = [
@@ -206,19 +203,12 @@ mark, [data-hl] {
         {/* Logo (mobile inline, desktop inline so it doesn't shift the tab grid) */}
         <Link to="/" className="flex items-center mr-4 md:mr-8">
           <img
-            src={cldLogo(320)}
-            srcSet={`${cldLogo(160)} 1x, ${cldLogo(320)} 2x, ${cldLogo(480)} 3x`}
-            sizes="(min-width:1280px) 200px, (min-width:768px) 180px, 140px"
+            src={logoSrc}
             alt="복지 디자인 로고"
             className="h-12 w-auto md:h-16 object-contain block"
             loading="eager"
             fetchPriority="high"
             decoding="async"
-            crossOrigin="anonymous"
-            onError={(e) => {
-              e.currentTarget.src = "/images/main/main3.png";
-              e.currentTarget.removeAttribute("srcset");
-            }}
           />
         </Link>
 
