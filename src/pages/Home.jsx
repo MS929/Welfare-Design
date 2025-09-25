@@ -680,11 +680,14 @@ mark, [data-hl] {
                     alt="복지디자인 활동 이미지"
                     // 현재 보이는 것만 우선 로드(high)
                     priority={i === heroIndex}
+                    loading={i === heroIndex ? "eager" : "lazy"}
+                    fetchpriority={i === heroIndex ? "high" : "low"}
+                    decoding="async"
                     // Netlify Image CDN으로 런타임 리사이즈/압축
                     useCdn
-                    cdnWidth={isMobile ? 640 : isTablet ? 1200 : 1400}
-                    cdnQuality={78}
-                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 100vw, 1600px"
+                    cdnWidth={isMobile ? 800 : isTablet ? 1200 : 1200}
+                    cdnQuality={76}
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 100vw, 1200px"
                       // wrapper(<picture>) 스타일: 위치/페이드
                     style={{
                       position: "absolute",

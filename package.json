@@ -9,7 +9,10 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "deploy": "npm run build && netlify deploy --prod --dir=dist",
-    "push-deploy": "git add -A && (git diff --cached --quiet || git commit -m \"update\") && git push && npm run deploy"
+    "deploy:preview": "npm run build && netlify deploy --dir=dist",
+    "push-deploy": "git add -A && (git diff --cached --quiet || git commit -m \"update\") && git push && npm run deploy",
+    "pull": "git pull origin main",
+    "push-deploy:stash": "git stash -u && git pull --rebase origin main || true && git stash pop || true && git add -A && (git diff --cached --quiet || git commit -m \"update\") && git push && npm run deploy"
   },
   "dependencies": {
     "buffer": "^6.0.3",
