@@ -608,7 +608,7 @@ export default function AboutWhat() {
       <section className="max-w-screen-xl mx-auto px-4 py-10">
         <SectionTitle color="#3BA7A0">설립 배경</SectionTitle>
 
-        <div className="grid grid-cols-1 md:grid-cols-[minmax(120px,180px),1fr] gap-6 items-center">
+        <div className="grid grid-cols-1 md:grid-cols-[minmax(120px,180px),1fr] gap-8 md:gap-12 items-center">
           <div className="rounded-lg bg-white/70 p-2 shadow-sm flex items-center justify-center">
             <OptimizedImg
               src={background.image}
