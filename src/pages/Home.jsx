@@ -20,6 +20,7 @@ const useMedia = (query) => {
 import matter from "gray-matter";
 import { Link } from "react-router-dom";
 import OptimizedImg from "../components/OptimizedImg";
+import { cldFetch, cldSrcSet } from "../lib/image";
 // src/pages/Home.jsx
 // 팔레트 (우리 브랜드 컬러로, 레퍼런스 톤을 흉내냄)
 const PALETTE = {
@@ -676,19 +677,17 @@ mark, [data-hl] {
                 {HERO_IMAGES.map((src, i) => (
                   <OptimizedImg
                     key={src}
-                    src={src}
+                    src={cldFetch(src, isMobile ? 800 : 1200)}
+                    srcSet={cldSrcSet(src, [800, 1200, 1600])}
                     alt="복지디자인 활동 이미지"
                     // 현재 보이는 것만 우선 로드(high)
                     priority={i === heroIndex}
                     loading={i === heroIndex ? "eager" : "lazy"}
                     fetchpriority={i === heroIndex ? "high" : "low"}
                     decoding="async"
-                    // Netlify Image CDN으로 런타임 리사이즈/압축
-                    useCdn
-                    cdnWidth={isMobile ? 800 : isTablet ? 1200 : 1200}
-                    cdnQuality={76}
+                    useCdn={false}
                     sizes="(max-width: 640px) 100vw, (max-width: 1024px) 100vw, 1200px"
-                      // wrapper(<picture>) 스타일: 위치/페이드
+                    // wrapper(<picture>) 스타일: 위치/페이드
                     style={{
                       position: "absolute",
                       inset: 0,
