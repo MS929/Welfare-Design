@@ -2,6 +2,12 @@
 import BizLayout from "./_Layout";
 
 export default function ApplyHelp() {
+  // Cloudinary fetch helper for this page image (keeps local fallback working)
+  const ORIGIN = "https://welfaredesign.netlify.app"; // production origin for static images
+  const RAW = `${ORIGIN}/images/business/apply-help.png`;
+  const cld = (w, fmt = "auto") =>
+    `https://res.cloudinary.com/dxeadg9wi/image/fetch/c_limit,f_${fmt},q_auto,w_${w}/${RAW}`;
+
   return (
     <>
       <style
@@ -40,23 +46,42 @@ mark, [data-hl] {
           <div className="flex items-center justify-center">
             {/* 단일 그림 요소로 중복 렌더 제거 */}
             <picture>
-              {/* 데스크탑(768px 이상) 소스 */}
+              {/* Prefer AVIF, then WebP, then PNG. Use responsive widths. */}
               <source
-                media="(min-width: 768px)"
-                srcSet="/images/business/apply-help.png"
+                type="image/avif"
+                sizes="(max-width: 767px) 100vw, 50vw"
+                srcSet={[
+                  `${cld(480, "avif")} 480w`,
+                  `${cld(768, "avif")} 768w`,
+                  `${cld(1200, "avif")} 1200w`,
+                ].join(", ")}
               />
-              {/* 기본 이미지: 모바일 우선 eager 로드 */}
+              <source
+                type="image/webp"
+                sizes="(max-width: 767px) 100vw, 50vw"
+                srcSet={[
+                  `${cld(480, "webp")} 480w`,
+                  `${cld(768, "webp")} 768w`,
+                  `${cld(1200, "webp")} 1200w`,
+                ].join(", ")}
+              />
+              {/* Fallback to Cloudinary-optimized PNG; if that fails, the browser will use the local PNG below via onError swap. */}
               <img
-                src="/images/business/apply-help.png"
+                src={cld(800, "png")}
                 alt="휠체어 및 복지용구 무료 대여"
-                loading="eager"
-                fetchpriority="high"
+                loading="lazy"
+                fetchpriority="low"
                 decoding="async"
                 width="1200"
                 height="900"
                 sizes="(max-width: 767px) 100vw, 50vw"
                 className="w-full h-auto"
+                crossOrigin="anonymous"
                 style={{ imageRendering: "auto", display: "block" }}
+                onError={(e) => {
+                  // Fallback to local asset if Cloudinary fetch fails (e.g., offline preview)
+                  e.currentTarget.src = "/images/business/apply-help.png";
+                }}
               />
             </picture>
           </div>
