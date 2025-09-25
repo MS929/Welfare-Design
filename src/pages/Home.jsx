@@ -1027,7 +1027,6 @@ mark, [data-hl] {
                             "transform .12s ease, box-shadow .12s ease",
                           width: "100%",
                           minHeight: 64,
-                          alignItems: "center",
                         }}
                         onMouseEnter={(e) => {
                           e.currentTarget.style.transform = "translateY(-2px)";
