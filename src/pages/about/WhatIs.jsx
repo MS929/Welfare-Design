@@ -23,11 +23,11 @@ export default function AboutWhat() {
   const SectionTitle = ({ color, children }) => (
     <div className="flex items-center gap-3 mb-6">
       <span
-        className="inline-block h-6 w-6 rounded-full"
+        className="inline-block h-4 w-4 md:h-6 md:w-6 rounded-full"
         style={{ backgroundColor: color }}
         aria-hidden
       />
-      <h2 className="text-2xl font-bold text-brand-900 m-0">{children}</h2>
+      <h2 className="text-xl md:text-2xl font-bold leading-tight text-brand-900 m-0">{children}</h2>
     </div>
   );
   // ===== 데이터: 텍스트만 바꾸면 됨 =====
@@ -626,8 +626,8 @@ export default function AboutWhat() {
       <section className="max-w-screen-xl mx-auto px-4 py-10">
         <SectionTitle color="#3BA7A0">설립 배경</SectionTitle>
 
-        <div className="grid grid-cols-1 md:grid-cols-[minmax(200px,260px),1fr] gap-6 items-center">
-          <div className="rounded-lg bg-white/70 p-2 shadow-sm flex items-center justify-center">
+        <div className="grid grid-cols-1 md:grid-cols-[minmax(200px,260px),1fr] gap-4 md:gap-6 items-center">
+          <div className="rounded-lg border border-gray-200 bg-white/80 p-3 shadow-sm flex items-center justify-center mx-auto w-full max-w-[360px] md:max-w-none">
             <img
               src={cldFetch(background.image, 680)}
               srcSet={cldSrcSet(background.image, [320, 480, 680, 960, 1200])}
@@ -637,8 +637,8 @@ export default function AboutWhat() {
               fetchPriority="high"
               width={680}
               height={510}
-              sizes="(min-width: 1024px) 260px, (min-width: 768px) 240px, 80vw"
-              className="block max-h-48 md:max-h-56 w-auto object-contain opacity-0 transition-opacity duration-300"
+              sizes="(min-width: 1024px) 260px, (min-width: 768px) 240px, 88vw"
+              className="block w-full h-auto max-w-[320px] md:max-w-none max-h-40 md:max-h-56 object-contain opacity-0 transition-opacity duration-300"
               onLoad={(e) => {
                 e.currentTarget.style.opacity = '1';
               }}
@@ -649,11 +649,11 @@ export default function AboutWhat() {
             />
           </div>
 
-          <div className="space-y-4 text-gray-800 leading-relaxed break-words self-center">
+          <div className="space-y-4 text-gray-900 leading-relaxed break-words self-center">
             {background.paragraphs.map((t, i) => (
               <p
                 key={i}
-                className="whitespace-pre-line text-[15px] md:text-base leading-[1.7]"
+                className="whitespace-pre-line text-[15px] md:text-base leading-[1.75]"
               >
                 {t}
               </p>
