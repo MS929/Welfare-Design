@@ -23,8 +23,6 @@
     <meta name="twitter:title" content="복지디자인 사회적협동조합" />
     <meta name="twitter:description" content="복지디자인 사회적협동조합의 활동과 소식을 전해드립니다." />
     <meta name="twitter:image" content="https://res.cloudinary.com/dxeadg9wi/image/fetch/c_limit,f_auto,q_auto,w_1200/https%3A%2F%2Fwelfaredesign.netlify.app%2Fimages%2Fabout%2Fmain2.png" />
-    <!-- Preload optimized hero image via Cloudinary fetch -->
-    <link rel="preload" as="image" fetchpriority="high" crossorigin href="https://res.cloudinary.com/dxeadg9wi/image/fetch/c_limit,f_auto,q_auto,w_1600/https%3A%2F%2Fwelfaredesign.netlify.app%2Fimages%2Fabout%2Fmain2.png">
   </head>
   <body>
     <div id="root"></div>
@@ -45,7 +43,7 @@
         Object.defineProperty(HTMLImageElement.prototype, 'src', {
           configurable: true,
           get: desc.get,
-          set: function(v){ if(isMain(v)) v = toCloud(v); try{ this.decoding='async'; }catch(_){} return desc.set.call(this, v); }
+          set: function(v){ if (isMain(v)) { v = toCloud(v); try{ this.decoding='async'; }catch(_){} try{ this.loading='eager'; }catch(_){} try{ this.fetchPriority='high'; }catch(_){} } return desc.set.call(this, v); }
         });
       })();
     </script>
@@ -92,7 +90,16 @@
         function toCloud(url){ var u=normalize(url); return u ? (BASE + "/" + encodeURIComponent(u)) : url; }
         function maybeSwap(img){
           if(!img||!img.getAttribute) return; var src=img.getAttribute('src'); if(!src) return;
-          if(src.indexOf('/images/about/main2.png')>-1){ var n=toCloud(src); if(img.src!==n){ img.decoding='async'; if(!img.hasAttribute('loading')) img.loading='lazy'; try{ img.fetchPriority = img.getAttribute('loading')==='eager'?'high':'auto'; }catch(_){} img.src=n; } }
+          if (src.indexOf('/images/about/main2.png') > -1) {
+            var n = toCloud(src);
+            if (img.src !== n) {
+              // Always decode asynchronously but request it eagerly so it's used promptly
+              try { img.decoding = 'async'; } catch (_) {}
+              try { img.loading = 'eager'; } catch (_) {}
+              try { img.fetchPriority = 'high'; } catch (_) {}
+              img.src = n;
+            }
+          }
         }
         document.addEventListener('DOMContentLoaded', function(){
           document.querySelectorAll('img').forEach(maybeSwap);
