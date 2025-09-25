@@ -3,6 +3,7 @@ import { BrowserRouter } from "react-router-dom";
 import { Routes, Route } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import { useEffect } from "react";
+import ScrollToTop from "./components/ScrollToTop";
 
 import Navbar from "./components/Navbar.jsx";
 import Footer from "./components/Footer.jsx";
