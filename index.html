@@ -35,7 +35,7 @@
         function isMain(src){
           try{
             var s = String(src || "");
-            return s.endsWith("main.png") || s.indexOf("/images/main.png") > -1 || decodeURIComponent(s).indexOf("/images/main.png") > -1;
+            return s.endsWith("main.png") || s.indexOf("/images/about/main.png") > -1 || decodeURIComponent(s).indexOf("/images/main.png") > -1;
           }catch(e){ return false; }
         }
         // Patch setAttribute to catch early attribute sets
