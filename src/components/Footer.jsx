@@ -13,14 +13,14 @@ export default function Footer() {
               src="/images/about/main.png"
               alt="복지디자인 로고"
               useCdn
-              cdnWidth={128}
+              cdnWidth={96}
               sizes="(max-width: 768px) 40px, 56px"
-              className="h-10 w-auto md:h-12 lg:h-12 shrink-0 rounded"
+              className="h-8 w-auto md:h-9 lg:h-9 shrink-0 rounded"
               loading="lazy"
               decoding="async"
               fetchpriority="low"
-              width={128}
-              height={48}
+              width={96}
+              height={36}
               onError={(e) => {
                 e.currentTarget.src = "/images/about/fallback.png";
               }}
