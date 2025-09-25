@@ -3,8 +3,6 @@
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/png" href="/images/main/main6.png" />
-    <link rel="preconnect" href="https://res.cloudinary.com" crossorigin>
-    <link rel="dns-prefetch" href="https://res.cloudinary.com">
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>복지디자인 사회적협동조합</title>
     <!-- SEO meta -->
@@ -22,40 +20,35 @@
     <meta name="twitter:title" content="복지디자인 사회적협동조합" />
     <meta name="twitter:description" content="복지디자인 사회적협동조합의 활동과 소식을 전해드립니다." />
     <meta name="twitter:image" content="/images/main/main6.png" />
-    <!-- Preload optimized hero image via Cloudinary (same visual, lighter bytes) -->
-    <link rel="preload" as="image" crossorigin href="https://res.cloudinary.com/dxeadg9wi/image/fetch/c_limit,f_auto,q_auto,w_1600/https%3A%2F%2Fwelfaredesign.netlify.app%2Fimages%2Fmain.png">
+    <!-- Preload optimized hero image via Netlify Image CDN -->
+    <link rel="preload" as="image" href="/.netlify/images?url=%2Fimages%2Fmain.png&w=1600&fit=contain&fm=auto&q=76">
   </head>
   <body>
     <div id="root"></div>
     <script>
       (function(){
-        var CLOUD_FETCH_BASE = "https://res.cloudinary.com/dxeadg9wi/image/fetch/c_limit,f_auto,q_auto,w_1600";
-        function normalize(url){ try { return new URL(url, location.origin).href; } catch(e) { return url; } }
-        function toCloud(url){ return CLOUD_FETCH_BASE + "/" + encodeURIComponent(normalize(url)); }
-        function isMain(src){
-          try{
-            var s = String(src || "");
-            return s.endsWith("main.png") || s.indexOf("/images/about/main.png") > -1 || decodeURIComponent(s).indexOf("/images/about/main.png") > -1;
-          }catch(e){ return false; }
+        var W = 1600, Q = 76;
+        function normalize(url){ try { return new URL(url, location.origin); } catch(e) { return null; } }
+        function toNetlify(url){
+          var u = normalize(url); if(!u) return url;
+          var path = u.pathname; // keep same origin path
+          return "/.netlify/images?url=" + encodeURIComponent(path) + "&w=" + W + "&fit=contain&fm=auto&q=" + Q;
         }
-        // Patch setAttribute to catch early attribute sets
+        function isMain(src){ try{ var s=String(src||""); return s.includes("/images/main.png"); }catch(e){ return false; } }
+        // Patch setAttribute
         var origSetAttr = Element.prototype.setAttribute;
         Element.prototype.setAttribute = function(name, value){
           if (this.tagName === 'IMG' && name === 'src' && isMain(value)) {
-            value = toCloud(value);
+            value = toNetlify(value);
           }
           return origSetAttr.call(this, name, value);
         };
-        // Patch HTMLImageElement.src setter to intercept direct property assignment
+        // Patch direct src assignment
         var desc = Object.getOwnPropertyDescriptor(HTMLImageElement.prototype, 'src');
         Object.defineProperty(HTMLImageElement.prototype, 'src', {
           configurable: true,
           get: desc.get,
-          set: function(v){
-            if (isMain(v)) v = toCloud(v);
-            try { this.decoding = 'async'; } catch(_) {}
-            return desc.set.call(this, v);
-          }
+          set: function(v){ if(isMain(v)) v = toNetlify(v); try{ this.decoding='async'; }catch(_){} return desc.set.call(this, v); }
         });
       })();
     </script>
@@ -97,35 +90,19 @@
     </script>
     <script>
       (function(){
-        var CLOUD_FETCH_BASE = "https://res.cloudinary.com/dxeadg9wi/image/fetch/c_limit,f_auto,q_auto,w_1600";
-        function toCloudinary(url){
-          try { return CLOUD_FETCH_BASE + "/" + encodeURIComponent(new URL(url, location.origin).href); } catch(e) { return url; }
-        }
+        var W = 1600, Q = 76;
+        function normalize(url){ try { return new URL(url, location.origin); } catch(e) { return null; } }
+        function toNetlify(url){ var u=normalize(url); if(!u) return url; return "/.netlify/images?url="+encodeURIComponent(u.pathname)+"&w="+W+"&fit=contain&fm=auto&q="+Q; }
         function maybeSwap(img){
-          if (!img || !img.getAttribute) return;
-          var src = img.getAttribute("src");
-          if (!src) return;
-          if (src.includes("/images/main.png")) {
-            var newSrc = toCloudinary(src);
-            if (img.src !== newSrc) {
-              img.decoding = "async";
-              if (!img.hasAttribute("loading")) img.loading = "lazy"; // keep eager if author-set
-              try { img.fetchPriority = img.getAttribute("loading") === "eager" ? "high" : "auto"; } catch(_) {}
-              img.src = newSrc;
-            }
-          }
+          if(!img||!img.getAttribute) return; var src=img.getAttribute('src'); if(!src) return;
+          if(src.indexOf('/images/main.png')>-1){ var newSrc=toNetlify(src); if(img.src!==newSrc){ img.decoding='async'; if(!img.hasAttribute('loading')) img.loading='lazy'; try{ img.fetchPriority = img.getAttribute('loading')==='eager'?'high':'auto'; }catch(_){} img.src=newSrc; } }
         }
-        document.addEventListener("DOMContentLoaded", function(){
-          document.querySelectorAll("img").forEach(maybeSwap);
-          var mo = new MutationObserver(function(muts){
-            muts.forEach(function(m){
-              m.addedNodes && m.addedNodes.forEach(function(n){
-                if (n && n.tagName === "IMG") maybeSwap(n);
-                else if (n && n.querySelectorAll) n.querySelectorAll("img").forEach(maybeSwap);
-              });
-            });
+        document.addEventListener('DOMContentLoaded', function(){
+          document.querySelectorAll('img').forEach(maybeSwap);
+          var mo=new MutationObserver(function(muts){
+            muts.forEach(function(m){ (m.addedNodes||[]).forEach(function(n){ if(n&&n.tagName==='IMG') maybeSwap(n); else if(n&&n.querySelectorAll) n.querySelectorAll('img').forEach(maybeSwap); }); });
           });
-          mo.observe(document.documentElement, { childList: true, subtree: true });
+          mo.observe(document.documentElement,{childList:true,subtree:true});
         });
       })();
     </script>
