@@ -30,20 +30,38 @@ export default function Footer() {
             <div className="leading-tight md:leading-snug">
               <p className="text-[15px] md:text-[15.5px] lg:text-[16px] font-semibold tracking-tight">
                 복지디자인 사회적협동조합
-                <span className="hidden xl:inline"> | Welfare Design Cooperative</span>
+                <span className="hidden xl:inline">
+                  {" "}
+                  | Welfare Design Cooperative
+                </span>
               </p>
               <p className="text-[12px] md:text-[12.5px] lg:text-[13px] text-gray-400 mt-1">
                 함께 성장하며 모두의 행복을 위한 복지를 디자인합니다.
+              </p>
+              <p className="text-[12px] md:text-[12.5px] lg:text-[13px] text-gray-400 mt-1">
+                계좌번호 : 1230456789-1011-22 하나은행
               </p>
             </div>
           </div>
 
           {/* Contacts (PC 우측 정렬, 간격 컴팩트) */}
           <ul className="grid grid-cols-1 gap-1 md:gap-1 md:text-right text-[14px] md:text-[13px] lg:text-[13.5px] leading-relaxed tabular-nums">
-            <li className="whitespace-nowrap"><span className="text-gray-400">전화</span><span className="mx-1 text-gray-600">:</span>042-934-6338</li>
-            <li className="whitespace-nowrap"><span className="text-gray-400">팩스</span><span className="mx-1 text-gray-600">:</span>042-934-1858</li>
-            <li className="break-all"><span className="text-gray-400">이메일</span><span className="mx-1 text-gray-600">:</span>songkangbokji@songkang.or.kr</li>
-            <li className="whitespace-normal md:whitespace-nowrap">대전광역시 유성구 봉산로 45</li>
+            <li className="whitespace-nowrap">
+              <span className="text-gray-400">전화</span>
+              <span className="mx-1 text-gray-600">:</span>042-934-6338
+            </li>
+            <li className="whitespace-nowrap">
+              <span className="text-gray-400">팩스</span>
+              <span className="mx-1 text-gray-600">:</span>042-934-1858
+            </li>
+            <li className="break-all">
+              <span className="text-gray-400">이메일</span>
+              <span className="mx-1 text-gray-600">:</span>
+              songkangbokji@songkang.or.kr
+            </li>
+            <li className="whitespace-normal md:whitespace-nowrap">
+              대전광역시 유성구 봉산로 45
+            </li>
           </ul>
         </div>
 
@@ -52,7 +70,9 @@ export default function Footer() {
 
         {/* Bottom row */}
         <div className="flex flex-col md:flex-row items-center md:justify-between gap-1 text-[11.5px] sm:text-[12px] lg:text-[12.5px] text-gray-500">
-          <p className="order-2 md:order-1">© {year} 복지디자인 사회적협동조합. All rights reserved.</p>
+          <p className="order-2 md:order-1">
+            © {year} 복지디자인 사회적협동조합. All rights reserved.
+          </p>
           <p className="order-1 md:order-2">
             Design By{" "}
             <a
