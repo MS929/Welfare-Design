@@ -17,7 +17,7 @@ export default function AboutWhat() {
     title: "설립 배경",
     image: "/images/about/main.png", // 없으면 자동 대체 이미지로 표시됨
     paragraphs: [
-      "복지디자인 사회적협동조합은 한국침례신학대학교 사회복지대학원에서 만난 12명의 동문들이 사람을 향한 마음을 배우고 사회복지의 가치를 실천해온 경험을 지역사회와 이웃에게 돌려드리고자 설립한 조합입니다.",
+      "복지디자인 사회적협동조합은 한국침례신학대학교 사회복지대학원에서 만난 12명의 동문들이 사람을 향한 마음을 배우고 사회복지의 가치를 실천해온 경험을지역사회와 이웃에게 돌려드리고자 설립한 조합입니다.",
       "우리는 복지가 설계될 수 있다는 믿음 아래, 작고 연약한 삶도 따뜻하게 디자인될 수 있으며 의미와 책임, 그리고 소명을 담은 복지를 만들어가야 한다고 확신합니다.",
       "복지디자인 사회적협동조합은 은혜의 복지를 기획하고, 사람을 향한 섬김을 실천하며, 지속가능하고 따뜻한 공동체를 이루는 것을 목표로 합니다.",
     ],
@@ -605,10 +605,10 @@ export default function AboutWhat() {
         <div className="mx-auto mt-5 h-1 w-28 rounded-full bg-gradient-to-r from-brand-400 to-brand-600" />
       </section>
       {/* ===== 설립 배경 ===== */}
-      <section className="max-w-screen-xl mx-auto px-4 pt-10 pb-16 md:pb-20">
+      <section className="max-w-screen-xl mx-auto px-4 py-10">
         <SectionTitle color="#3BA7A0">설립 배경</SectionTitle>
 
-        <div className="grid grid-cols-1 md:grid-cols-[minmax(120px,180px),1fr] gap-8 md:gap-12 items-stretch">
+        <div className="grid grid-cols-1 md:grid-cols-[minmax(120px,180px),1fr] gap-8 md:gap-12 items-center">
           <div className="rounded-lg bg-white/70 p-2 shadow-sm flex items-center justify-center">
             <OptimizedImg
               src={background.image}
@@ -632,7 +632,7 @@ export default function AboutWhat() {
             />
           </div>
 
-          <div className="h-full flex flex-col justify-center space-y-4 text-gray-800 leading-relaxed break-words">
+          <div className="space-y-4 text-gray-800 leading-relaxed break-words self-center">
             {background.paragraphs.map((t, i) => (
               <p
                 key={i}
