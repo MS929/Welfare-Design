@@ -69,11 +69,9 @@ export default function Footer() {
         <hr className="border-gray-800 my-3" />
 
         {/* Bottom row */}
-        <div className="flex flex-col md:flex-row items-center md:justify-between gap-1 text-[11.5px] sm:text-[12px] lg:text-[12.5px] text-gray-500">
-          <p className="order-2 md:order-1">
-            © {year} 복지디자인 사회적협동조합. All rights reserved.
-          </p>
-          <p className="order-1 md:order-2">
+        <div className="flex flex-col items-center justify-center text-center gap-1 text-[11.5px] sm:text-[12px] lg:text-[12.5px] text-gray-500">
+          <p>© {year} 복지디자인 사회적협동조합. All rights reserved.</p>
+          <p>
             Design By{" "}
             <a
               href="https://github.com/MS929"
