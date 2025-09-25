@@ -86,7 +86,6 @@ mark, [data-hl] {
         {/* 프로그램 카드 그리드 */}
         <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 gap-6">
           {programs.map((p) => {
-            const base = p.icon.replace(/\.png$/, "");
             return (
               <Link
                 key={p.to}
@@ -115,20 +114,16 @@ mark, [data-hl] {
                     </svg>
                   </span>
                 </div>
-                <picture className="absolute bottom-3 right-3">
-                  <source srcSet={`${base}.avif`} type="image/avif" />
-                  <source srcSet={`${base}.webp`} type="image/webp" />
-                  <img
-                    src={p.icon}
-                    alt=""
-                    width={48}
-                    height={48}
-                    loading="lazy"
-                    decoding="async"
-                    fetchpriority="low"
-                    className="absolute bottom-3 right-3 w-12 h-12 opacity-80 select-none pointer-events-none"
-                  />
-                </picture>
+                <img
+                  src={p.icon}
+                  alt=""
+                  width={48}
+                  height={48}
+                  loading="lazy"
+                  decoding="async"
+                  fetchpriority="low"
+                  className="absolute bottom-3 right-3 w-12 h-12 opacity-80 select-none pointer-events-none"
+                />
               </Link>
             );
           })}
