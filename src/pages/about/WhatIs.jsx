@@ -617,11 +617,11 @@ export default function AboutWhat() {
               loading="eager"
               fetchpriority="high"
               decoding="async"
-              sizes="(min-width: 768px) 300px, 90vw"
+              sizes="(min-width: 768px) 340px, 80vw"
               style={{
                 display: "block",
-                width: "100%",
-                height: "auto",
+                maxHeight: "18rem",
+                width: "auto",
                 objectFit: "contain"
               }}
               useCdn
