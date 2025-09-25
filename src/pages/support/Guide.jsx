@@ -1,6 +1,7 @@
 // src/pages/support/Guide.jsx
 import { Link } from "react-router-dom";
 import { useState } from "react";
+import { imageUrl } from "@/lib/image";
 
 export default function SupGuide() {
   return (
@@ -32,6 +33,7 @@ mark, [data-hl] {
 .nowrap { white-space: nowrap; }
 .u-wrap-anywhere { overflow-wrap: anywhere; word-break: keep-all; }
 .u-ellipsis { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.cv-auto { content-visibility: auto; contain-intrinsic-size: 400px 600px; }
         ` }}
       />
       <div className="bg-white">
@@ -62,13 +64,12 @@ mark, [data-hl] {
           <div className="rounded-xl shadow-sm h-full min-h-[360px] md:min-h-[400px]">
             <SupportPanel
               icon={
-                <img
-                  src="/images/support/donation.png"
+                <OptImg
+                  path="/images/support/donation.png"
                   alt="개인 후원 아이콘"
-                  loading="lazy"
+                  className="w-24 h-24 md:w-28 md:h-28 mx-auto object-contain drop-shadow-sm"
                   width={112}
                   height={112}
-                  className="w-24 h-24 md:w-28 md:h-28 mx-auto object-contain drop-shadow-sm"
                 />
               }
               title="개인 후원"
@@ -83,13 +84,12 @@ mark, [data-hl] {
           <div className="rounded-xl shadow-sm h-full min-h-[360px] md:min-h-[400px]">
             <SupportPanel
               icon={
-                <img
-                  src="/images/support/group.png"
+                <OptImg
+                  path="/images/support/group.png"
                   alt="기업·단체 후원 아이콘"
-                  loading="lazy"
+                  className="w-24 h-24 md:w-28 md:h-28 mx-auto object-contain drop-shadow-sm"
                   width={112}
                   height={112}
-                  className="w-24 h-24 md:w-28 md:h-28 mx-auto object-contain drop-shadow-sm"
                 />
               }
               title="기업·단체 후원"
@@ -104,13 +104,12 @@ mark, [data-hl] {
           <div className="rounded-xl shadow-sm h-full min-h-[360px] md:min-h-[400px]">
             <SupportPanel
               icon={
-                <img
-                  src="/images/support/present.png"
+                <OptImg
+                  path="/images/support/present.png"
                   alt="물품 후원 아이콘"
-                  loading="lazy"
+                  className="w-24 h-24 md:w-28 md:h-28 mx-auto object-contain drop-shadow-sm"
                   width={112}
                   height={112}
-                  className="w-24 h-24 md:w-28 md:h-28 mx-auto object-contain drop-shadow-sm"
                 />
               }
               title="물품 후원"
@@ -238,6 +237,29 @@ mark, [data-hl] {
 
 /* ---------- 작은 컴포넌트들 (통일된 스타일) ---------- */
 
+function OptImg({ path, alt, width = 112, height = 112, className = "", priority = false }) {
+  const avif = imageUrl(path, { w: 256, q: 82, fm: "avif" });
+  const webp = imageUrl(path, { w: 256, q: 82, fm: "webp" });
+  const png  = imageUrl(path, { w: 256, q: 82, fm: "png" });
+  return (
+    <picture>
+      <source srcSet={avif} type="image/avif" />
+      <source srcSet={webp} type="image/webp" />
+      <img
+        src={png}
+        alt={alt}
+        width={width}
+        height={height}
+        loading={priority ? "eager" : "lazy"}
+        decoding="async"
+        fetchpriority={priority ? "high" : "low"}
+        className={className}
+        sizes="(max-width: 768px) 96px, 112px"
+      />
+    </picture>
+  );
+}
+
 function SupportPanel({ icon, title, items = [], accent = "teal" }) {
   const bgClass = {
     teal: "bg-teal-50",
@@ -264,7 +286,7 @@ function SupportPanel({ icon, title, items = [], accent = "teal" }) {
   }[accent] || "marker:text-teal-600";
 
   return (
-    <div className={`px-8 py-8 md:px-9 flex flex-col h-full rounded-xl ${bgClass}`}>
+    <div className={`px-8 py-8 md:px-9 flex flex-col h-full rounded-xl cv-auto ${bgClass}`}>
       <div className="mx-auto w-full max-w-[420px] text-left flex-1">
         <div className="mb-4 h-28 md:h-32 flex items-center justify-center">{icon}</div>
         <h3 className={`text-center text-[19px] md:text-[20px] font-semibold mb-4 tracking-tight ${titleClass}`}>{title}</h3>
