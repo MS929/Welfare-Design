@@ -23,10 +23,42 @@
     <meta name="twitter:description" content="복지디자인 사회적협동조합의 활동과 소식을 전해드립니다." />
     <meta name="twitter:image" content="/images/main/main6.png" />
     <!-- Preload optimized hero image via Cloudinary (same visual, lighter bytes) -->
-    <link rel="preload" as="image" href="https://res.cloudinary.com/dxeadg9wi/image/fetch/c_limit,f_auto,q_auto,w_1600/https%3A%2F%2Fwelfaredesign.netlify.app%2Fimages%2Fmain.png">
+    <link rel="preload" as="image" crossorigin href="https://res.cloudinary.com/dxeadg9wi/image/fetch/c_limit,f_auto,q_auto,w_1600/https%3A%2F%2Fwelfaredesign.netlify.app%2Fimages%2Fmain.png">
   </head>
   <body>
     <div id="root"></div>
+    <script>
+      (function(){
+        var CLOUD_FETCH_BASE = "https://res.cloudinary.com/dxeadg9wi/image/fetch/c_limit,f_auto,q_auto,w_1600";
+        function normalize(url){ try { return new URL(url, location.origin).href; } catch(e) { return url; } }
+        function toCloud(url){ return CLOUD_FETCH_BASE + "/" + encodeURIComponent(normalize(url)); }
+        function isMain(src){
+          try{
+            var s = String(src || "");
+            return s.endsWith("main.png") || s.indexOf("/images/main.png") > -1 || decodeURIComponent(s).indexOf("/images/main.png") > -1;
+          }catch(e){ return false; }
+        }
+        // Patch setAttribute to catch early attribute sets
+        var origSetAttr = Element.prototype.setAttribute;
+        Element.prototype.setAttribute = function(name, value){
+          if (this.tagName === 'IMG' && name === 'src' && isMain(value)) {
+            value = toCloud(value);
+          }
+          return origSetAttr.call(this, name, value);
+        };
+        // Patch HTMLImageElement.src setter to intercept direct property assignment
+        var desc = Object.getOwnPropertyDescriptor(HTMLImageElement.prototype, 'src');
+        Object.defineProperty(HTMLImageElement.prototype, 'src', {
+          configurable: true,
+          get: desc.get,
+          set: function(v){
+            if (isMain(v)) v = toCloud(v);
+            try { this.decoding = 'async'; } catch(_) {}
+            return desc.set.call(this, v);
+          }
+        });
+      })();
+    </script>
     <script type="module" src="/src/main.jsx"></script>
 
     <!-- Netlify Identity widget: 초대/복구 토큰 처리 (홈은 그대로 유지) -->
