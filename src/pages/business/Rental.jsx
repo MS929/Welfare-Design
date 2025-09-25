@@ -48,7 +48,7 @@ mark, [data-hl] {
                     REMOTE
                   )}`;
                 const cldM = (w, fmt = 'auto') =>
-                  `https://res.cloudinary.com/dxeadg9wi/image/fetch/c_limit,f_${fmt},q_auto,dpr_auto,w_${w}/${encodeURIComponent(REMOTE)}`;
+                  `https://res.cloudinary.com/dxeadg9wi/image/fetch/c_limit,f_${fmt},q_auto:eco,dpr_auto,w_${w}/${encodeURIComponent(REMOTE)}`;
 
                 const srcSet = [640, 960, 1200, 1600]
                   .map((w) => `${cld(w)} ${w}w`)
@@ -79,7 +79,7 @@ mark, [data-hl] {
                       sizes="(max-width: 767px) 100vw, 50vw"
                     />
                     <img
-                      src={cld(960)}
+                      src={cldM(480)}
                       alt="휠체어 및 복지용구 무료 대여"
                       loading="eager"
                       fetchpriority="high"
