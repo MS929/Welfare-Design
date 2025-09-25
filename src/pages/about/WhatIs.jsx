@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { cldFetch, cldSrcSet } from "@/lib/image";
+import { cldFetch, cldSrcSet } from "../../lib/image";
 // src/pages/about/WhatIs.jsx
 export default function AboutWhat() {
   // Preload the above-the-fold image for faster first paint
