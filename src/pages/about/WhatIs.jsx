@@ -627,28 +627,25 @@ export default function AboutWhat() {
         <SectionTitle color="#3BA7A0">설립 배경</SectionTitle>
 
         <div className="grid grid-cols-1 md:grid-cols-[minmax(200px,260px),1fr] gap-4 md:gap-6 items-center">
-          <div className="rounded-lg border border-gray-200 bg-white/80 p-3 shadow-sm flex items-center justify-center mx-auto w-full max-w-[360px] md:max-w-none">
-            <img
-              src={cldFetch(background.image, 680)}
-              srcSet={cldSrcSet(background.image, [320, 480, 680, 960, 1200])}
-              alt="설립 배경"
-              loading="eager"
-              decoding="async"
-              fetchPriority="high"
-              width={680}
-              height={510}
-              sizes="(min-width: 1024px) 260px, (min-width: 768px) 240px, 88vw"
-              className="block w-full h-auto max-w-[320px] md:max-w-none max-h-40 md:max-h-56 object-contain opacity-0 transition-opacity duration-300"
-              onLoad={(e) => {
-                e.currentTarget.style.opacity = '1';
-              }}
-              onError={(e) => {
-                e.currentTarget.src = '/images/about/fallback.png';
-                e.currentTarget.style.opacity = '1';
-              }}
-            />
-          </div>
-
+          <img
+            src={cldFetch(background.image, 680)}
+            srcSet={cldSrcSet(background.image, [320, 480, 680, 960, 1200])}
+            alt="설립 배경"
+            loading="eager"
+            decoding="async"
+            fetchPriority="high"
+            width={680}
+            height={510}
+            sizes="(min-width: 1024px) 260px, (min-width: 768px) 240px, 88vw"
+            className="block w-full h-auto max-w-[320px] md:max-w-none max-h-40 md:max-h-56 object-contain opacity-0 transition-opacity duration-300"
+            onLoad={(e) => {
+              e.currentTarget.style.opacity = '1';
+            }}
+            onError={(e) => {
+              e.currentTarget.src = '/images/about/fallback.png';
+              e.currentTarget.style.opacity = '1';
+            }}
+          />
           <div className="space-y-4 text-gray-900 leading-relaxed break-words self-center">
             {background.paragraphs.map((t, i) => (
               <p
