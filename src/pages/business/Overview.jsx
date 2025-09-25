@@ -105,7 +105,12 @@ mark, [data-hl] {
                   </p>
                   <span className="inline-flex items-center gap-1 text-[#F26C2A] font-semibold mt-4">
                     자세히 보기
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="h-4 w-4">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 24 24"
+                      fill="currentColor"
+                      className="h-4 w-4"
+                    >
                       <path d="M13.5 4.5 21 12l-7.5 7.5m7.5-7.5H3" />
                     </svg>
                   </span>
@@ -121,11 +126,11 @@ mark, [data-hl] {
                     loading="lazy"
                     decoding="async"
                     fetchpriority="low"
-                    className="w-12 h-12 opacity-80 select-none pointer-events-none"
+                    className="absolute bottom-3 right-3 w-12 h-12 opacity-80 select-none pointer-events-none"
                   />
                 </picture>
               </Link>
-            )
+            );
           })}
         </div>
       </section>
