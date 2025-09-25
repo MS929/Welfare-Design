@@ -626,7 +626,7 @@ export default function AboutWhat() {
       <section className="max-w-screen-xl mx-auto px-4 py-10">
         <SectionTitle color="#3BA7A0">설립 배경</SectionTitle>
 
-        <div className="grid grid-cols-1 md:grid-cols-[minmax(200px,260px),1fr] gap-4 md:gap-6 items-center">
+        <div className="grid grid-cols-1 md:grid-cols-[minmax(200px,260px),1fr] gap-4 md:gap-6 items-center justify-items-center md:justify-items-start">
           <img
             src={cldFetch(background.image, 680)}
             srcSet={cldSrcSet(background.image, [320, 480, 680, 960, 1200])}
@@ -637,7 +637,7 @@ export default function AboutWhat() {
             width={680}
             height={510}
             sizes="(min-width: 1024px) 260px, (min-width: 768px) 240px, 88vw"
-            className="block w-full h-auto max-w-[320px] md:max-w-none max-h-40 md:max-h-56 object-contain opacity-0 transition-opacity duration-300"
+            className="block w-full h-auto max-w-[320px] md:max-w-none max-h-40 md:max-h-56 object-contain opacity-0 transition-opacity duration-300 mx-auto"
             onLoad={(e) => {
               e.currentTarget.style.opacity = '1';
             }}
