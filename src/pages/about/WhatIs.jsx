@@ -1,11 +1,22 @@
 import { useEffect } from "react";
 // Map local /images paths to Cloudinary fetch URLs (auto WebP/AVIF, capped width)
 const cldFetch = (path, w = 1200) => {
-  if (!path || path.startsWith('http')) return path;
   try {
-    const origin = window?.location?.origin || 'https://welfaredesign.netlify.app';
-    // c_limit to avoid upscaling, q_auto,f_auto to pick best format
-    return `https://res.cloudinary.com/dxeadg9wi/image/fetch/c_limit,f_auto,q_auto,w_${w}/${origin}${path}`;
+    if (!path) return path;
+
+    // If it's already an absolute URL (http or https), send it as-is (Cloudinary fetch accepts raw URLs).
+    const isAbsolute = /^https?:\/\//i.test(path);
+
+    // Always use a stable absolute origin for relative paths so we don't nest/encode incorrectly in Cloudinary.
+    const BASE_ORIGIN = 'https://welfaredesign.netlify.app';
+
+    const remote = isAbsolute
+      ? path
+      : `${BASE_ORIGIN}${path.startsWith('/') ? path : `/${path}`}`;
+
+    // IMPORTANT: Do **not** encode the remote URL; Cloudinary expects the raw URL segment after `/fetch/`.
+    // Use c_limit to avoid upscaling + f_auto/q_auto for the best format and size.
+    return `https://res.cloudinary.com/dxeadg9wi/image/fetch/c_limit,f_auto,q_auto,w_${w}/${remote}`;
   } catch {
     return path;
   }
