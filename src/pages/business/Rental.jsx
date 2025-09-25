@@ -47,8 +47,8 @@ mark, [data-hl] {
                   `https://res.cloudinary.com/dxeadg9wi/image/fetch/c_limit,f_auto,q_auto,w_${w}/${encodeURIComponent(
                     REMOTE
                   )}`;
-                const cldM = (w, fmt='auto') =>
-                  `https://res.cloudinary.com/dxeadg9wi/image/fetch/c_limit,f_${fmt},q_auto:eco,w_${w}/${encodeURIComponent(REMOTE)}`;
+                const cldM = (w, fmt = 'auto') =>
+                  `https://res.cloudinary.com/dxeadg9wi/image/fetch/c_limit,f_${fmt},q_auto,dpr_auto,w_${w}/${encodeURIComponent(REMOTE)}`;
 
                 const srcSet = [640, 960, 1200, 1600]
                   .map((w) => `${cld(w)} ${w}w`)
@@ -59,13 +59,13 @@ mark, [data-hl] {
                     <source
                       media="(max-width: 767px)"
                       type="image/avif"
-                      srcSet={`${cldM(320,'avif')} 320w, ${cldM(480,'avif')} 480w, ${cldM(640,'avif')} 640w`}
+                      srcSet={`${cldM(320,'avif')} 320w, ${cldM(480,'avif')} 480w, ${cldM(640,'avif')} 640w, ${cldM(750,'avif')} 750w, ${cldM(828,'avif')} 828w`}
                       sizes="100vw"
                     />
                     <source
                       media="(max-width: 767px)"
                       type="image/webp"
-                      srcSet={`${cldM(320,'webp')} 320w, ${cldM(480,'webp')} 480w, ${cldM(640,'webp')} 640w`}
+                      srcSet={`${cldM(320,'webp')} 320w, ${cldM(480,'webp')} 480w, ${cldM(640,'webp')} 640w, ${cldM(750,'webp')} 750w, ${cldM(828,'webp')} 828w`}
                       sizes="100vw"
                     />
                     <source
@@ -168,7 +168,7 @@ mark, [data-hl] {
                       fill="currentColor"
                       className="h-5 w-5 text-[#F26C2A] shrink-0"
                       aria-hidden="true"
-                    >
+                    > 
                       <path d="M2.25 6.75c0 7.008 5.742 12.75 12.75 12.75.71 0 1.32-.51 1.44-1.21l.38-2.19a1.5 1.5 0 0 0-1.08-1.71l-2.24-.62a1.5 1.5 0 0 0-1.49.44l-.82.83a10.97 10.97 0 0 1-4.26-4.27l.83-.82a1.5 1.5 0 0 0 .44-1.49l-.62-2.24a1.5 1.5 0 0 0-1.71-1.08l-2.19.38c-.7.12-1.21.73-1.21 1.44Z" />
                     </svg>
                     <span className="font-semibold text-[15px] text-[#374151] whitespace-nowrap">
