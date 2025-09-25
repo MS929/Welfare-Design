@@ -51,30 +51,30 @@ mark, [data-hl] {
             <picture>
               {/* AVIF first */}
               <source
+                media="(max-width: 767px)"
                 type="image/avif"
-                srcSet={`${cld(480)} 480w, ${cld(768)} 768w, ${cld(1200)} 1200w`}
-                sizes="(max-width: 767px) 100vw, 50vw"
+                srcSet={`${cld(320)} 320w, ${cld(480)} 480w, ${cld(640)} 640w, ${cld(750)} 750w, ${cld(828)} 828w`}
+                sizes="100vw"
               />
               {/* WEBP fallback */}
               <source
+                media="(max-width: 767px)"
                 type="image/webp"
-                srcSet={`${cld(480)} 480w, ${cld(768)} 768w, ${cld(1200)} 1200w`}
-                sizes="(max-width: 767px) 100vw, 50vw"
+                srcSet={`${cld(320)} 320w, ${cld(480)} 480w, ${cld(640)} 640w, ${cld(750)} 750w, ${cld(828)} 828w`}
+                sizes="100vw"
               />
               {/* Final PNG/auto fallback */}
               <img
-                src={cld(768)}
-                srcSet={`${cld(480)} 480w, ${cld(768)} 768w, ${cld(1200)} 1200w`}
-                sizes="(max-width: 767px) 100vw, 50vw"
+                src={RAW}
                 alt="휠체어 및 복지용구 무료 대여"
                 width={1200}
                 height={900}
                 decoding="async"
                 loading="eager"
                 fetchPriority="high"
+                sizes="(max-width: 767px) 100vw, 50vw"
                 className="w-full h-auto"
                 style={{ imageRendering: 'auto', display: 'block' }}
-                onError={(e) => { e.currentTarget.src = RAW; }}
               />
             </picture>
           </div>
