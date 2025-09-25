@@ -608,8 +608,8 @@ export default function AboutWhat() {
       <section className="max-w-screen-xl mx-auto px-4 py-10">
         <SectionTitle color="#3BA7A0">설립 배경</SectionTitle>
 
-        <div className="grid grid-cols-1 md:grid-cols-[minmax(120px,180px),1fr] gap-8 md:gap-12 items-center">
-          <div className="rounded-lg bg-white/70 p-2 shadow-sm flex items-center justify-center">
+        <div className="grid grid-cols-1 md:grid-cols-[minmax(150px,220px),1fr] gap-6 items-center">
+          <div className="rounded-lg bg-white/70 p-3 shadow-sm flex items-center justify-center">
             <OptimizedImg
               src={background.image}
               alt={background.title}
@@ -617,13 +617,13 @@ export default function AboutWhat() {
               loading="eager"
               fetchpriority="high"
               decoding="async"
-              sizes="(min-width: 768px) 180px, 70vw"
+              sizes="(min-width: 768px) 200px, 75vw"
               style={{
                 display: "block",
                 width: "100%",
                 height: "auto",
-                maxWidth: "180px",
-                maxHeight: "7rem",
+                maxWidth: "200px",
+                maxHeight: "8rem",
                 objectFit: "contain"
               }}
               useCdn
