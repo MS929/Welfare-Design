@@ -637,7 +637,7 @@ export default function AboutWhat() {
             width={680}
             height={510}
             sizes="(min-width: 1024px) 260px, (min-width: 768px) 240px, 88vw"
-            className="block w-full h-auto max-w-[320px] md:max-w-none max-h-40 md:max-h-56 object-contain opacity-0 transition-opacity duration-300 mx-auto"
+            className="block w-full h-auto max-w-[320px] md:max-w-none max-h-40 md:max-h-56 object-contain opacity-0 transition-opacity duration-300 mx-auto mb-4"
             onLoad={(e) => {
               e.currentTarget.style.opacity = '1';
             }}
@@ -646,7 +646,7 @@ export default function AboutWhat() {
               e.currentTarget.style.opacity = '1';
             }}
           />
-          <div className="space-y-4 text-gray-900 leading-relaxed break-words self-center">
+          <div className="space-y-4 text-gray-900 leading-relaxed break-words self-center mt-0">
             {background.paragraphs.map((t, i) => (
               <p
                 key={i}
