@@ -72,6 +72,7 @@ mark, [data-hl] {
 .nowrap { white-space: nowrap; }
 .u-wrap-anywhere { overflow-wrap: anywhere; word-break: keep-all; }
 .u-ellipsis { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.cv { content-visibility: auto; contain-intrinsic-size: 240px 160px; }
         ` }}
       />
       <BizLayout title="사업영역">
@@ -84,32 +85,48 @@ mark, [data-hl] {
 
         {/* 프로그램 카드 그리드 */}
         <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 gap-6">
-          {programs.map((p) => (
-            <Link
-              key={p.to}
-              to={p.to}
-              className="relative block h-full rounded-2xl border border-[#2CB9B1]/30 bg-white/90 backdrop-blur-[1px] ring-1 ring-inset ring-white/60 shadow-sm hover:shadow-md transition-all duration-200 hover:border-[#2CB9B1]/50 focus:outline-none focus:ring-2 focus:ring-[#2CB9B1]/40"
-            >
-              <div className="p-5 flex flex-col h-full">
-                <div className="flex items-start gap-3">
-                  <span className="mt-1 inline-block h-2.5 w-2.5 rounded-full bg-[#F26C2A] shadow-[0_0_0_2px_rgba(242,108,42,0.18)]" />
-                  <h4 className="font-semibold text-[17px] text-[#111827] leading-snug">
-                    {p.title}
-                  </h4>
+          {programs.map((p) => {
+            const base = p.icon.replace(/\.png$/, "");
+            return (
+              <Link
+                key={p.to}
+                to={p.to}
+                className="cv relative block h-full rounded-2xl border border-[#2CB9B1]/30 bg-white/90 backdrop-blur-[1px] ring-1 ring-inset ring-white/60 shadow-sm hover:shadow-md transition-all duration-200 hover:border-[#2CB9B1]/50 focus:outline-none focus:ring-2 focus:ring-[#2CB9B1]/40"
+              >
+                <div className="p-5 flex flex-col h-full">
+                  <div className="flex items-start gap-3">
+                    <span className="mt-1 inline-block h-2.5 w-2.5 rounded-full bg-[#F26C2A] shadow-[0_0_0_2px_rgba(242,108,42,0.18)]" />
+                    <h4 className="font-semibold text-[17px] text-[#111827] leading-snug">
+                      {p.title}
+                    </h4>
+                  </div>
+                  <p className="text-sm text-gray-600 mt-3 leading-relaxed flex-1">
+                    {p.desc}
+                  </p>
+                  <span className="inline-flex items-center gap-1 text-[#F26C2A] font-semibold mt-4">
+                    자세히 보기
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="h-4 w-4">
+                      <path d="M13.5 4.5 21 12l-7.5 7.5m7.5-7.5H3" />
+                    </svg>
+                  </span>
                 </div>
-                <p className="text-sm text-gray-600 mt-3 leading-relaxed flex-1">
-                  {p.desc}
-                </p>
-                <span className="inline-flex items-center gap-1 text-[#F26C2A] font-semibold mt-4">
-                  자세히 보기
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="h-4 w-4">
-                    <path d="M13.5 4.5 21 12l-7.5 7.5m7.5-7.5H3" />
-                  </svg>
-                </span>
-              </div>
-              <img src={p.icon} alt="" className="w-12 h-12 absolute bottom-3 right-3 opacity-80" />
-            </Link>
-          ))}
+                <picture className="absolute bottom-3 right-3">
+                  <source srcSet={`${base}.avif`} type="image/avif" />
+                  <source srcSet={`${base}.webp`} type="image/webp" />
+                  <img
+                    src={p.icon}
+                    alt=""
+                    width={48}
+                    height={48}
+                    loading="lazy"
+                    decoding="async"
+                    fetchpriority="low"
+                    className="w-12 h-12 opacity-80 select-none pointer-events-none"
+                  />
+                </picture>
+              </Link>
+            )
+          })}
         </div>
       </section>
     </BizLayout>
