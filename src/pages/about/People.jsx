@@ -163,7 +163,6 @@ function OrgChartMobile() {
       <MobileConnector h={28} />
       <MobileNode label="이사장" />
       <MobileAuditor />
-      <MobileConnector h={28} />
       <MobileNode label="사무국" />
       <MobileConnector h={28} />
     </div>
@@ -188,55 +187,29 @@ function MobileConnector({ h = 24 }) {
 }
 
 function MobileAuditor() {
-  // distance (px) from the center trunk to the 감사 node on the left
-  const spur = 118; // tuned for typical mobile width; keeps elbow clear of the trunk
-  const lineColor = "#D1D5DB"; // tailwind gray-300
-  const elbow = 12; // elbow square size for a softer curve
+  // straight T junction: keep the vertical trunk continuous and draw a single horizontal spur to the left
+  const spur = 118; // distance from center trunk to the 감사 node
+  const lineColor = "#D1D5DB"; // gray-300
+  const H = 56; // total height for the auditor block (controls spacing between '이사장' and '사무국')
+  const mid = Math.floor(H / 2); // y position for the spur
 
   return (
-    <div className="relative w-full" style={{ height: 52 }}>
-      {/* keep the trunk continuous (short segment above the elbow) */}
-      <div className="absolute left-1/2 -translate-x-1/2" style={{ top: 0 }}>
-        <MobileConnector h={20} />
-      </div>
+    <div className="relative w-full" style={{ height: H }}>
+      {/* continuous vertical trunk (full height) */}
+      <div
+        className="absolute left-1/2 -translate-x-1/2"
+        style={{ top: 0, height: H, width: 2, backgroundColor: lineColor, borderRadius: 2 }}
+      />
 
-      {/* rounded elbow from trunk to horizontal spur */}
+      {/* single horizontal spur to '감사' at the mid point */}
       <div
         className="absolute"
-        style={{
-          left: `calc(50% - ${elbow}px)`,
-          top: 20,
-          width: elbow,
-          height: elbow,
-          borderLeft: `2px solid ${lineColor}`,
-          borderTop: `2px solid ${lineColor}`,
-          borderTopLeftRadius: elbow,
-        }}
+        style={{ top: mid, left: `calc(50% - ${spur}px)`, width: spur, height: 2, backgroundColor: lineColor, borderRadius: 2 }}
       />
 
-      {/* horizontal spur from elbow to the 감사 node */}
-      <div
-        className="absolute h-[2px]"
-        style={{
-          top: 26, // centerline through the elbow square (20 + elbow/2)
-          left: `calc(50% - ${spur}px)`,
-          width: spur - elbow,
-          backgroundColor: lineColor,
-          borderRadius: 2,
-        }}
-      />
-
-      {/* 감사 node at the end of the spur */}
-      <div
-        className="absolute -translate-y-1/2"
-        style={{ top: 26, left: `calc(50% - ${spur}px)` }}
-      >
+      {/* 감사 node at the left end of the spur */}
+      <div className="absolute -translate-y-1/2" style={{ top: mid, left: `calc(50% - ${spur}px)` }}>
         <MobileNode label="감사" />
-      </div>
-
-      {/* continue the vertical trunk below the elbow */}
-      <div className="absolute left-1/2 -translate-x-1/2" style={{ bottom: 0 }}>
-        <MobileConnector h={20} />
       </div>
     </div>
   );
