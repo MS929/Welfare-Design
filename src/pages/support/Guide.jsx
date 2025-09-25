@@ -1,7 +1,7 @@
 // src/pages/support/Guide.jsx
 import { Link } from "react-router-dom";
 import { useState } from "react";
-import { imageUrl } from "@/lib/image";
+import { imageUrl } from "../../lib/image";
 
 export default function SupGuide() {
   return (
