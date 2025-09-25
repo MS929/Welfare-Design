@@ -6,6 +6,8 @@ export default function NeedsSurvey() {
   const ORIGIN = typeof window !== 'undefined' ? window.location.origin : 'https://welfaredesign.netlify.app';
   const RAW = `${ORIGIN}/images/business/needs-survey.png`;
   const cld = (w, fmt = 'auto') => `https://res.cloudinary.com/dxeadg9wi/image/fetch/c_limit,f_${fmt},q_auto,w_${w}/${encodeURIComponent(RAW)}`;
+  const cldM = (w, fmt = 'auto') =>
+    `https://res.cloudinary.com/dxeadg9wi/image/fetch/c_limit,f_${fmt},q_auto:eco,dpr_auto,w_${w}/${encodeURIComponent(RAW)}`;
   return (
     <>
       <style
@@ -44,19 +46,22 @@ mark, [data-hl] {
           {/* 좌측 이미지: JS 동기화 제거, 순수 CSS로 동일 높이 */}
           <div className="flex items-center justify-center">
             <picture>
-              {/* Prefer AVIF, then WebP, then PNG; responsive widths */}
+              {/* 모바일 전용: Cloudinary 최적화 (AVIF/WebP) */}
               <source
+                media="(max-width: 767px)"
                 type="image/avif"
-                srcSet={`${cld(480, 'avif')} 480w, ${cld(768, 'avif')} 768w, ${cld(1200, 'avif')} 1200w`}
-                sizes="(max-width: 767px) 100vw, 50vw"
+                srcSet={`${cldM(320, 'avif')} 320w, ${cldM(480, 'avif')} 480w, ${cldM(640, 'avif')} 640w, ${cldM(750, 'avif')} 750w, ${cldM(828, 'avif')} 828w`}
+                sizes="100vw"
               />
               <source
+                media="(max-width: 767px)"
                 type="image/webp"
-                srcSet={`${cld(480, 'webp')} 480w, ${cld(768, 'webp')} 768w, ${cld(1200, 'webp')} 1200w`}
-                sizes="(max-width: 767px) 100vw, 50vw"
+                srcSet={`${cldM(320, 'webp')} 320w, ${cldM(480, 'webp')} 480w, ${cldM(640, 'webp')} 640w, ${cldM(750, 'webp')} 750w, ${cldM(828, 'webp')} 828w`}
+                sizes="100vw"
               />
+              {/* 데스크탑/태블릿: 원본 정적 PNG 유지 */}
               <img
-                src={cld(768, 'png')}
+                src="/images/business/needs-survey.png"
                 alt="휠체어 및 복지용구 무료 대여"
                 loading="eager"
                 fetchPriority="high"
@@ -66,7 +71,6 @@ mark, [data-hl] {
                 sizes="(max-width: 767px) 100vw, 50vw"
                 className="w-full h-auto"
                 style={{ imageRendering: 'auto', display: 'block' }}
-                onError={(e) => { e.currentTarget.src = '/images/business/needs-survey.png'; }}
               />
             </picture>
           </div>
