@@ -13,8 +13,8 @@ export default function Footer() {
               useCdn
               cdnWidth={200}
               sizes="200px"
-              className="h-12"
-              imgStyle={{ height: "3rem", width: "auto", display: "block" }}
+              className="h-10"
+              imgStyle={{ height: "2.5rem", width: "auto", display: "block" }}
               loading="lazy"
               decoding="async"
               fetchpriority="low"
@@ -22,7 +22,7 @@ export default function Footer() {
               height={80}
               onError={(e) => { e.currentTarget.src = "/images/about/fallback.png"; }}
             />
-            <div className="ml-3">
+            <div className="ml-2">
               <p className="text-sm font-semibold">복지디자인 사회적협동조합 | Welfare Design Cooperative</p>
               <p className="text-xs text-gray-400">
                 함께 성장하며 모두의 행복을 위한 복지를 디자인합니다.
