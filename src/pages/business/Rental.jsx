@@ -34,6 +34,8 @@ mark, [data-hl] {
         ` }}
       />
       <BizLayout title="휠체어 및 복지용구 무료 대여">
+        {/* Cloudinary connection warm-up for mobile images */}
+        <link rel="preconnect" href="https://res.cloudinary.com" crossOrigin="anonymous" />
       <div className="max-w-screen-xl mx-auto px-4 pb-4 md:pb-0">
         {/* 이미지 + 우측 정보 박스(대여 안내) + 기대효과(대여 안내 박스 아래) */}
         <div className="grid gap-8 md:grid-cols-2 items-stretch">
@@ -66,7 +68,7 @@ mark, [data-hl] {
                       src="/images/business/rental.png"
                       alt="휠체어 및 복지용구 무료 대여"
                       loading="eager"
-                      fetchpriority="high"
+                      fetchPriority="high"
                       decoding="async"
                       width="960"
                       height="720"

@@ -14,6 +14,7 @@ export default function EwcInsurance() {
 
   return (
     <>
+      <link rel="preconnect" href="https://res.cloudinary.com" crossOrigin="anonymous" />
       <style
         id="page-text-guard"
         dangerouslySetInnerHTML={{ __html: `

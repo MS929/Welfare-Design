@@ -10,6 +10,7 @@ export default function NeedsSurvey() {
     `https://res.cloudinary.com/dxeadg9wi/image/fetch/c_limit,f_${fmt},q_auto:eco,dpr_auto,w_${w}/${encodeURIComponent(RAW)}`;
   return (
     <>
+      <link rel="preconnect" href="https://res.cloudinary.com" crossOrigin="anonymous" />
       <style
         id="page-text-guard"
         dangerouslySetInnerHTML={{ __html: `
@@ -62,7 +63,7 @@ mark, [data-hl] {
               {/* 데스크탑/태블릿: 원본 정적 PNG 유지 */}
               <img
                 src="/images/business/needs-survey.png"
-                alt="휠체어 및 복지용구 무료 대여"
+                alt="취약 계층 복지욕구 실태조사"
                 loading="eager"
                 fetchPriority="high"
                 decoding="async"
