@@ -6,6 +6,7 @@ export default function DonationCampaign() {
   const RAW = `${ORIGIN}/images/business/donation.png`;
   const C_BASE = 'https://res.cloudinary.com/dxeadg9wi/image/fetch';
   const cld = (w, fmt = 'auto') => `${C_BASE}/c_limit,f_${fmt},q_auto,w_${w}/${encodeURIComponent(RAW)}`;
+  const cldM = (w, fmt = 'auto') => `${C_BASE}/c_limit,f_${fmt},q_auto:eco,dpr_auto,w_${w}/${encodeURIComponent(RAW)}`;
 
   return (
     <>
@@ -47,17 +48,19 @@ mark, [data-hl] {
             {/* 단일 그림 요소로 중복 렌더 제거 */}
             <picture>
               <source
+                media="(max-width: 767px)"
                 type="image/avif"
-                srcSet={`${cld(1200, 'avif')} 1200w, ${cld(768, 'avif')} 768w, ${cld(480, 'avif')} 480w`}
-                sizes="(max-width: 767px) 100vw, 50vw"
+                srcSet={`${cldM(320, 'avif')} 320w, ${cldM(480, 'avif')} 480w, ${cldM(640, 'avif')} 640w, ${cldM(750, 'avif')} 750w, ${cldM(828, 'avif')} 828w`}
+                sizes="100vw"
               />
               <source
+                media="(max-width: 767px)"
                 type="image/webp"
-                srcSet={`${cld(1200, 'webp')} 1200w, ${cld(768, 'webp')} 768w, ${cld(480, 'webp')} 480w`}
-                sizes="(max-width: 767px) 100vw, 50vw"
+                srcSet={`${cldM(320, 'webp')} 320w, ${cldM(480, 'webp')} 480w, ${cldM(640, 'webp')} 640w, ${cldM(750, 'webp')} 750w, ${cldM(828, 'webp')} 828w`}
+                sizes="100vw"
               />
               <img
-                src={cld(768, 'png')}
+                src="/images/business/donation.png"
                 alt="휠체어 및 복지용구 무료 대여"
                 loading="eager"
                 fetchpriority="high"
@@ -67,10 +70,6 @@ mark, [data-hl] {
                 sizes="(max-width: 767px) 100vw, 50vw"
                 className="w-full h-auto"
                 style={{ imageRendering: 'auto', display: 'block' }}
-                onError={(e) => {
-                  e.currentTarget.src = '/images/business/donation.png';
-                  e.currentTarget.srcset = '';
-                }}
               />
             </picture>
           </div>
