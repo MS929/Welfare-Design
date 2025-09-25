@@ -39,7 +39,7 @@ export default function Footer() {
                 함께 성장하며 모두의 행복을 위한 복지를 디자인합니다.
               </p>
               <p className="text-[12px] md:text-[12.5px] lg:text-[13px] text-gray-400 mt-1">
-                계좌번호 : 1230456789-1011-22 하나은행
+                계좌번호 : 1230456789-1011-22 · 하나은행
               </p>
             </div>
           </div>
