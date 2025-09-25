@@ -15,7 +15,7 @@ export default function Footer() {
               useCdn
               cdnWidth={96}
               sizes="(max-width: 768px) 40px, 56px"
-              className="h-8 w-auto md:h-9 lg:h-9 shrink-0 rounded"
+              className="h-7 w-auto md:h-8 lg:h-8 shrink-0 rounded self-center"
               loading="lazy"
               decoding="async"
               fetchpriority="low"
