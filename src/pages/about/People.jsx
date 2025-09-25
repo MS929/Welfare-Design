@@ -162,6 +162,7 @@ function OrgChartMobile() {
       <MobileNode label="이사회" />
       <MobileConnector h={28} />
       <MobileNode label="이사장" />
+      <MobileAuditor />
       <MobileConnector h={28} />
       <MobileNode label="사무국" />
       <MobileConnector h={28} />
@@ -180,6 +181,30 @@ function MobileNode({ label }) {
 function MobileConnector({ h = 24 }) {
   return (
     <div className="w-[2px] bg-gray-300" style={{ height: `${h}px` }} />
+  );
+}
+
+function MobileAuditor() {
+  const spur = 120; // px — distance from center to the 감사 node
+  return (
+    <div className="relative w-full h-8">
+      {/* Keep the vertical trunk continuous */}
+      <div className="absolute left-1/2 top-0 -translate-x-1/2">
+        <MobileConnector h={16} />
+      </div>
+      {/* Short horizontal line from trunk to 감사 (left side) */}
+      <div
+        className="absolute top-1/2 -translate-y-1/2 h-px bg-gray-300"
+        style={{ left: `calc(50% - ${spur}px)`, width: `${spur}px` }}
+      />
+      {/* 감사 node at the end of the spur */}
+      <div
+        className="absolute top-1/2 -translate-y-1/2"
+        style={{ left: `calc(50% - ${spur}px)` }}
+      >
+        <MobileNode label="감사" />
+      </div>
+    </div>
   );
 }
 
