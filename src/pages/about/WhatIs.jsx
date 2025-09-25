@@ -1,11 +1,22 @@
 import { useEffect } from "react";
+// Map local /images paths to Cloudinary fetch URLs (auto WebP/AVIF, capped width)
+const cldFetch = (path, w = 1200) => {
+  if (!path || path.startsWith('http')) return path;
+  try {
+    const origin = window?.location?.origin || 'https://welfaredesign.netlify.app';
+    // c_limit to avoid upscaling, q_auto,f_auto to pick best format
+    return `https://res.cloudinary.com/dxeadg9wi/image/fetch/c_limit,f_auto,q_auto,w_${w}/${origin}${path}`;
+  } catch {
+    return path;
+  }
+};
 // src/pages/about/WhatIs.jsx
 export default function AboutWhat() {
   // Preload the above-the-fold image for faster first paint
   useEffect(() => {
     if (!document) return;
     try {
-      const href = "/images/about/main.png";
+      const href = cldFetch("/images/about/main.png", 1200);
       const link = document.createElement("link");
       link.rel = "preload";
       link.as = "image";
@@ -628,22 +639,28 @@ export default function AboutWhat() {
         <div className="grid grid-cols-1 md:grid-cols-[minmax(200px,260px),1fr] gap-6 items-center">
           <div className="rounded-lg bg-white/70 p-2 shadow-sm flex items-center justify-center">
             <img
-              src={background.image}
+              src={cldFetch(background.image, 680)}
+              srcSet={`
+      ${cldFetch(background.image, 320)} 320w,
+      ${cldFetch(background.image, 480)} 480w,
+      ${cldFetch(background.image, 680)} 680w,
+      ${cldFetch(background.image, 960)} 960w,
+      ${cldFetch(background.image, 1200)} 1200w
+    `}
               alt="설립 배경"
               loading="eager"
               decoding="async"
               fetchpriority="high"
               width={680}
               height={510}
-              sizes="(min-width: 768px) 240px, 80vw"
+              sizes="(min-width: 1024px) 260px, (min-width: 768px) 240px, 80vw"
               className="block max-h-48 md:max-h-56 w-auto object-contain opacity-0 transition-opacity duration-300"
               onLoad={(e) => {
-                e.currentTarget.style.opacity = "1";
+                e.currentTarget.style.opacity = '1';
               }}
               onError={(e) => {
-                // 이미지가 깨질 경우, 일단 숨기지 말고 로고/대체이미지를 보여줘 비율 깨짐 방지
-                e.currentTarget.src = "/images/about/fallback.png";
-                e.currentTarget.style.opacity = "1";
+                e.currentTarget.src = '/images/about/fallback.png';
+                e.currentTarget.style.opacity = '1';
               }}
             />
           </div>
