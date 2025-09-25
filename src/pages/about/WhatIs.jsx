@@ -632,7 +632,7 @@ export default function AboutWhat() {
             />
           </div>
 
-          <div className="space-y-4 text-gray-800 leading-relaxed break-words self-center">
+          <div className="space-y-4 text-gray-800 leading-relaxed break-words self-center md:mt-2">
             {background.paragraphs.map((t, i) => (
               <p
                 key={i}
