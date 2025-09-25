@@ -47,6 +47,8 @@ mark, [data-hl] {
                   `https://res.cloudinary.com/dxeadg9wi/image/fetch/c_limit,f_auto,q_auto,w_${w}/${encodeURIComponent(
                     REMOTE
                   )}`;
+                const cldM = (w, fmt='auto') =>
+                  `https://res.cloudinary.com/dxeadg9wi/image/fetch/c_limit,f_${fmt},q_auto:eco,w_${w}/${encodeURIComponent(REMOTE)}`;
 
                 const srcSet = [640, 960, 1200, 1600]
                   .map((w) => `${cld(w)} ${w}w`)
@@ -54,6 +56,18 @@ mark, [data-hl] {
 
                 return (
                   <>
+                    <source
+                      media="(max-width: 767px)"
+                      type="image/avif"
+                      srcSet={`${cldM(320,'avif')} 320w, ${cldM(480,'avif')} 480w, ${cldM(640,'avif')} 640w`}
+                      sizes="100vw"
+                    />
+                    <source
+                      media="(max-width: 767px)"
+                      type="image/webp"
+                      srcSet={`${cldM(320,'webp')} 320w, ${cldM(480,'webp')} 480w, ${cldM(640,'webp')} 640w`}
+                      sizes="100vw"
+                    />
                     <source
                       type="image/avif"
                       srcSet={srcSet}
@@ -65,13 +79,13 @@ mark, [data-hl] {
                       sizes="(max-width: 767px) 100vw, 50vw"
                     />
                     <img
-                      src={cld(1200)}
+                      src={cld(960)}
                       alt="휠체어 및 복지용구 무료 대여"
                       loading="eager"
                       fetchpriority="high"
                       decoding="async"
-                      width="1200"
-                      height="900"
+                      width="960"
+                      height="720"
                       sizes="(max-width: 767px) 100vw, 50vw"
                       className="w-full h-auto"
                       style={{ imageRendering: "auto", display: "block" }}
