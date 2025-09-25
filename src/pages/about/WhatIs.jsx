@@ -27,7 +27,7 @@ export default function AboutWhat() {
   useEffect(() => {
     if (!document) return;
     try {
-      const href = cldFetch("/images/about/main.png", 1200);
+      const href = cldFetch("/images/about/main2.png", 1200);
       const link = document.createElement("link");
       link.rel = "preload";
       link.as = "image";
@@ -54,7 +54,7 @@ export default function AboutWhat() {
   // ===== 데이터: 텍스트만 바꾸면 됨 =====
   const background = {
     title: "설립 배경",
-    image: "/images/about/main.png", // 없으면 자동 대체 이미지로 표시됨
+    image: "/images/about/main2.png", // 없으면 자동 대체 이미지로 표시됨
     paragraphs: [
       "복지디자인 사회적협동조합은 한국침례신학대학교 사회복지대학원에서 만난 12명의 동문들이 사람을 향한 마음을 배우고 사회복지의 가치를 실천해온 경험을 지역사회와 이웃에게 돌려드리고자 설립한 조합입니다.",
       "우리는 복지가 설계될 수 있다는 믿음 아래, 작고 연약한 삶도 따뜻하게 디자인될 수 있으며 의미와 책임, 그리고 소명을 담은 복지를 만들어가야 한다고 확신합니다.",
