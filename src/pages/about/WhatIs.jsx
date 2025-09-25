@@ -622,8 +622,6 @@ export default function AboutWhat() {
                 display: "block",
                 width: "100%",
                 height: "auto",
-                maxWidth: "340px",
-                maxHeight: "14rem",
                 objectFit: "contain"
               }}
               useCdn
