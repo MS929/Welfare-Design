@@ -62,12 +62,12 @@ mark, [data-hl] {
               {/* 데스크탑/태블릿: 정적 PNG 그대로 */}
               <img
                 src="/images/business/apply-help.png"
-                alt="휠체어 및 복지용구 무료 대여"
+                alt="복지용구 신청 안내 지원"
                 loading="eager"
-                fetchpriority="high"
+                fetchPriority="high"
                 decoding="async"
-                width="1200"
-                height="900"
+                width="960"
+                height="720"
                 sizes="(max-width: 767px) 100vw, 50vw"
                 className="w-full h-auto"
                 style={{ imageRendering: "auto", display: "block" }}

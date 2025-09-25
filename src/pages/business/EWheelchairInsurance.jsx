@@ -5,10 +5,12 @@ export default function EwcInsurance() {
   // --- Cloudinary responsive image helper (local to this page) ---
   const ORIGIN = (typeof window !== 'undefined' && window.location?.origin)
     ? window.location.origin
-    // SSR/preview fallback (kept conservative; change to your prod domain if needed)
-    : '';
+    // SSR/preview fallback (use production origin so fetch URL is absolute)
+    : 'https://welfaredesign.netlify.app';
   const RAW = '/images/business/ewc-insurance.png';
   const cld = (w) => `https://res.cloudinary.com/dxeadg9wi/image/fetch/c_limit,f_auto,q_auto,w_${w}/${encodeURIComponent(ORIGIN + RAW)}`;
+  const cldM = (w, fmt = 'auto') =>
+    `https://res.cloudinary.com/dxeadg9wi/image/fetch/c_limit,f_${fmt},q_auto:eco,dpr_auto,w_${w}/${encodeURIComponent(ORIGIN + RAW)}`;
 
   return (
     <>
@@ -53,22 +55,22 @@ mark, [data-hl] {
               <source
                 media="(max-width: 767px)"
                 type="image/avif"
-                srcSet={`${cld(320)} 320w, ${cld(480)} 480w, ${cld(640)} 640w, ${cld(750)} 750w, ${cld(828)} 828w`}
+                srcSet={`${cldM(320,'avif')} 320w, ${cldM(480,'avif')} 480w, ${cldM(640,'avif')} 640w, ${cldM(750,'avif')} 750w, ${cldM(828,'avif')} 828w`}
                 sizes="100vw"
               />
               {/* WEBP fallback */}
               <source
                 media="(max-width: 767px)"
                 type="image/webp"
-                srcSet={`${cld(320)} 320w, ${cld(480)} 480w, ${cld(640)} 640w, ${cld(750)} 750w, ${cld(828)} 828w`}
+                srcSet={`${cldM(320,'webp')} 320w, ${cldM(480,'webp')} 480w, ${cldM(640,'webp')} 640w, ${cldM(750,'webp')} 750w, ${cldM(828,'webp')} 828w`}
                 sizes="100vw"
               />
               {/* Final PNG/auto fallback */}
               <img
                 src={RAW}
-                alt="휠체어 및 복지용구 무료 대여"
-                width={1200}
-                height={900}
+                alt="취약 계층 전동휠체어 보험금 지원"
+                width={960}
+                height={720}
                 decoding="async"
                 loading="eager"
                 fetchPriority="high"

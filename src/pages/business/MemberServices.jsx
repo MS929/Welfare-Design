@@ -66,8 +66,8 @@ mark, [data-hl] {
                 loading="eager"
                 fetchPriority="high"
                 decoding="async"
-                width="1200"
-                height="900"
+                width="960"
+                height="720"
                 sizes="(max-width: 767px) 100vw, 50vw"
                 className="w-full h-auto"
                 style={{ imageRendering: 'auto', display: 'block' }}

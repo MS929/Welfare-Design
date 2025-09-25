@@ -61,12 +61,12 @@ mark, [data-hl] {
               />
               <img
                 src="/images/business/donation.png"
-                alt="휠체어 및 복지용구 무료 대여"
+                alt="보조기기 기증 캠페인"
                 loading="eager"
-                fetchpriority="high"
+                fetchPriority="high"
                 decoding="async"
-                width="1200"
-                height="900"
+                width="960"
+                height="720"
                 sizes="(max-width: 767px) 100vw, 50vw"
                 className="w-full h-auto"
                 style={{ imageRendering: 'auto', display: 'block' }}

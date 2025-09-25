@@ -43,19 +43,12 @@ mark, [data-hl] {
             <picture>
               {(() => {
                 const REMOTE = "https://welfaredesign.netlify.app/images/business/rental.png";
-                const cld = (w) =>
-                  `https://res.cloudinary.com/dxeadg9wi/image/fetch/c_limit,f_auto,q_auto,w_${w}/${encodeURIComponent(
-                    REMOTE
-                  )}`;
                 const cldM = (w, fmt = 'auto') =>
                   `https://res.cloudinary.com/dxeadg9wi/image/fetch/c_limit,f_${fmt},q_auto:eco,dpr_auto,w_${w}/${encodeURIComponent(REMOTE)}`;
 
-                const srcSet = [640, 960, 1200, 1600]
-                  .map((w) => `${cld(w)} ${w}w`)
-                  .join(", ");
-
                 return (
                   <>
+                    {/* 모바일 전용: Cloudinary 최적화 */}
                     <source
                       media="(max-width: 767px)"
                       type="image/avif"
@@ -68,18 +61,9 @@ mark, [data-hl] {
                       srcSet={`${cldM(320,'webp')} 320w, ${cldM(480,'webp')} 480w, ${cldM(640,'webp')} 640w, ${cldM(750,'webp')} 750w, ${cldM(828,'webp')} 828w`}
                       sizes="100vw"
                     />
-                    <source
-                      type="image/avif"
-                      srcSet={srcSet}
-                      sizes="(max-width: 767px) 100vw, 50vw"
-                    />
-                    <source
-                      type="image/webp"
-                      srcSet={srcSet}
-                      sizes="(max-width: 767px) 100vw, 50vw"
-                    />
+                    {/* 데스크탑/태블릿: 정적 PNG 그대로 사용 (PC는 건들지 않음) */}
                     <img
-                      src={cldM(480)}
+                      src="/images/business/rental.png"
                       alt="휠체어 및 복지용구 무료 대여"
                       loading="eager"
                       fetchpriority="high"
