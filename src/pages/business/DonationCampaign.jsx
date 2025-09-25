@@ -2,6 +2,11 @@
 import BizLayout from "./_Layout";
 
 export default function DonationCampaign() {
+  const ORIGIN = typeof window !== 'undefined' ? window.location.origin : 'https://welfaredesign.netlify.app';
+  const RAW = `${ORIGIN}/images/business/donation.png`;
+  const C_BASE = 'https://res.cloudinary.com/dxeadg9wi/image/fetch';
+  const cld = (w, fmt = 'auto') => `${C_BASE}/c_limit,f_${fmt},q_auto,w_${w}/${encodeURIComponent(RAW)}`;
+
   return (
     <>
       <style
@@ -41,14 +46,18 @@ mark, [data-hl] {
           <div className="flex items-center justify-center">
             {/* 단일 그림 요소로 중복 렌더 제거 */}
             <picture>
-              {/* 데스크탑(768px 이상) 소스 */}
               <source
-                media="(min-width: 768px)"
-                srcSet="/images/business/donation.png"
+                type="image/avif"
+                srcSet={`${cld(1200, 'avif')} 1200w, ${cld(768, 'avif')} 768w, ${cld(480, 'avif')} 480w`}
+                sizes="(max-width: 767px) 100vw, 50vw"
               />
-              {/* 기본 이미지: 모바일 우선 eager 로드 */}
+              <source
+                type="image/webp"
+                srcSet={`${cld(1200, 'webp')} 1200w, ${cld(768, 'webp')} 768w, ${cld(480, 'webp')} 480w`}
+                sizes="(max-width: 767px) 100vw, 50vw"
+              />
               <img
-                src="/images/business/donation.png"
+                src={cld(768, 'png')}
                 alt="휠체어 및 복지용구 무료 대여"
                 loading="eager"
                 fetchpriority="high"
@@ -57,7 +66,11 @@ mark, [data-hl] {
                 height="900"
                 sizes="(max-width: 767px) 100vw, 50vw"
                 className="w-full h-auto"
-                style={{ imageRendering: "auto", display: "block" }}
+                style={{ imageRendering: 'auto', display: 'block' }}
+                onError={(e) => {
+                  e.currentTarget.src = '/images/business/donation.png';
+                  e.currentTarget.srcset = '';
+                }}
               />
             </picture>
           </div>
