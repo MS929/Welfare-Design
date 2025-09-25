@@ -1,24 +1,7 @@
 import { useEffect } from "react";
+import OptimizedImg from "../../components/OptimizedImg";
 // src/pages/about/WhatIs.jsx
 export default function AboutWhat() {
-  // Preload the above-the-fold image for faster first paint
-  useEffect(() => {
-    if (!document) return;
-    try {
-      const href = "/images/about/main.png";
-      const link = document.createElement("link");
-      link.rel = "preload";
-      link.as = "image";
-      link.href = href;
-      document.head.appendChild(link);
-      // Also warm the cache via JS Image object (fallback for some browsers)
-      const img = new Image();
-      img.src = href;
-      return () => {
-        if (link.parentNode) document.head.removeChild(link);
-      };
-    } catch {}
-  }, []);
   const SectionTitle = ({ color, children }) => (
     <div className="flex items-center gap-3 mb-6">
       <span
@@ -627,21 +610,22 @@ export default function AboutWhat() {
 
         <div className="grid grid-cols-1 md:grid-cols-[minmax(260px,340px),1fr] gap-6 items-center">
           <div className="rounded-lg bg-white/70 p-3 shadow-sm flex items-center justify-center">
-            <img
+            <OptimizedImg
               src={background.image}
               alt="설립 배경"
+              priority
               loading="eager"
-              decoding="async"
               fetchpriority="high"
-              width={680}
-              height={510}
+              decoding="async"
               sizes="(min-width: 768px) 340px, 80vw"
-              className="block max-h-64 md:max-h-72 w-auto object-contain opacity-0 transition-opacity duration-300"
+              style={{ display: "block", maxHeight: "18rem", width: "auto", objectFit: "contain" }}
+              useCdn
+              cdnWidth={680}
+              cdnQuality={76}
               onLoad={(e) => {
                 e.currentTarget.style.opacity = "1";
               }}
               onError={(e) => {
-                // 이미지가 깨질 경우, 일단 숨기지 말고 로고/대체이미지를 보여줘 비율 깨짐 방지
                 e.currentTarget.src = "/images/about/fallback.png";
                 e.currentTarget.style.opacity = "1";
               }}
