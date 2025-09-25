@@ -612,23 +612,21 @@ export default function AboutWhat() {
           <div className="rounded-lg bg-white/70 p-3 shadow-sm flex items-center justify-center">
             <OptimizedImg
               src={background.image}
-              alt="설립 배경"
+              alt={background.title}
               priority
               loading="eager"
               fetchpriority="high"
               decoding="async"
               sizes="(min-width: 768px) 340px, 80vw"
-              style={{ display: "block", maxHeight: "18rem", width: "auto", objectFit: "contain" }}
+              style={{
+                display: "block",
+                maxHeight: "18rem",
+                width: "auto",
+                objectFit: "contain"
+              }}
               useCdn
-              cdnWidth={680}
+              cdnWidth={1200}
               cdnQuality={76}
-              onLoad={(e) => {
-                e.currentTarget.style.opacity = "1";
-              }}
-              onError={(e) => {
-                e.currentTarget.src = "/images/about/fallback.png";
-                e.currentTarget.style.opacity = "1";
-              }}
             />
           </div>
 
