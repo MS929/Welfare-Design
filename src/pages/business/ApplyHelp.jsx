@@ -6,7 +6,7 @@ export default function ApplyHelp() {
   const ORIGIN = "https://welfaredesign.netlify.app"; // production origin for static images
   const RAW = `${ORIGIN}/images/business/apply-help.png`;
   const cld = (w, fmt = "auto") =>
-    `https://res.cloudinary.com/dxeadg9wi/image/fetch/c_limit,f_${fmt},q_auto,w_${w}/${RAW}`;
+    `https://res.cloudinary.com/dxeadg9wi/image/fetch/c_limit,f_${fmt},q_auto:eco,dpr_auto,w_${w}/${RAW}`;
 
   return (
     <>
@@ -46,42 +46,31 @@ mark, [data-hl] {
           <div className="flex items-center justify-center">
             {/* 단일 그림 요소로 중복 렌더 제거 */}
             <picture>
-              {/* Prefer AVIF, then WebP, then PNG. Use responsive widths. */}
+              {/* 모바일 전용 Cloudinary 최적화 */}
               <source
+                media="(max-width: 767px)"
                 type="image/avif"
-                sizes="(max-width: 767px) 100vw, 50vw"
-                srcSet={[
-                  `${cld(480, "avif")} 480w`,
-                  `${cld(768, "avif")} 768w`,
-                  `${cld(1200, "avif")} 1200w`,
-                ].join(", ")}
+                srcSet={`${cld(320,'avif')} 320w, ${cld(480,'avif')} 480w, ${cld(640,'avif')} 640w, ${cld(750,'avif')} 750w, ${cld(828,'avif')} 828w`}
+                sizes="100vw"
               />
               <source
+                media="(max-width: 767px)"
                 type="image/webp"
-                sizes="(max-width: 767px) 100vw, 50vw"
-                srcSet={[
-                  `${cld(480, "webp")} 480w`,
-                  `${cld(768, "webp")} 768w`,
-                  `${cld(1200, "webp")} 1200w`,
-                ].join(", ")}
+                srcSet={`${cld(320,'webp')} 320w, ${cld(480,'webp')} 480w, ${cld(640,'webp')} 640w, ${cld(750,'webp')} 750w, ${cld(828,'webp')} 828w`}
+                sizes="100vw"
               />
-              {/* Fallback to Cloudinary-optimized PNG; if that fails, the browser will use the local PNG below via onError swap. */}
+              {/* 데스크탑/태블릿: 정적 PNG 그대로 */}
               <img
-                src={cld(800, "png")}
+                src="/images/business/apply-help.png"
                 alt="휠체어 및 복지용구 무료 대여"
-                loading="lazy"
-                fetchpriority="low"
+                loading="eager"
+                fetchpriority="high"
                 decoding="async"
                 width="1200"
                 height="900"
                 sizes="(max-width: 767px) 100vw, 50vw"
                 className="w-full h-auto"
-                crossOrigin="anonymous"
                 style={{ imageRendering: "auto", display: "block" }}
-                onError={(e) => {
-                  // Fallback to local asset if Cloudinary fetch fails (e.g., offline preview)
-                  e.currentTarget.src = "/images/business/apply-help.png";
-                }}
               />
             </picture>
           </div>
