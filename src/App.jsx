@@ -1,8 +1,5 @@
 // src/App.jsx
-import { BrowserRouter } from "react-router-dom";
 import { Routes, Route } from "react-router-dom";
-import { useLocation } from "react-router-dom";
-import { useEffect } from "react";
 import ScrollToTop from "./components/ScrollToTop";
 
 import Navbar from "./components/Navbar.jsx";
@@ -50,13 +47,6 @@ function NotFound() {
   );
 }
 
-function ScrollToTop() {
-  const { pathname } = useLocation();
-  useEffect(() => { 
-    window.scrollTo({ top: 0, left: 0, behavior: "auto" }); // 항상 맨 위
-  }, [pathname]);
-  return null;
-}
 
 export default function App() {
   return (
