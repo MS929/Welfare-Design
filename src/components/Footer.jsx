@@ -3,7 +3,7 @@ import OptimizedImg from "./OptimizedImg";
 export default function Footer() {
   const year = new Date().getFullYear();
   return (
-    <footer className="bg-gray-900 text-gray-300 mt-12 md:mt-16">
+    <footer className="bg-gray-900 text-gray-200 mt-12 md:mt-16">
       {/* container */}
       <div className="max-w-6xl mx-auto px-4 sm:px-6 py-5 md:py-5 lg:py-4">
         {/* Top row */}
@@ -28,35 +28,35 @@ export default function Footer() {
             />
 
             <div className="leading-tight md:leading-snug">
-              <p className="text-[15px] md:text-[15.5px] lg:text-[16px] font-semibold tracking-tight">
+              <p className="text-[16px] md:text-[16.5px] lg:text-[17px] font-semibold tracking-tight text-gray-100">
                 복지디자인 사회적협동조합
                 <span className="hidden xl:inline">
                   {" "}
                   | Welfare Design Cooperative
                 </span>
               </p>
-              <p className="text-[12px] md:text-[12.5px] lg:text-[13px] text-gray-400 mt-1">
+              <p className="text-[12.5px] md:text-[13px] lg:text-[13.5px] text-gray-300 mt-1">
                 함께 성장하며 모두의 행복을 위한 복지를 디자인합니다.
               </p>
-              <p className="text-[12px] md:text-[12.5px] lg:text-[13px] text-gray-400 mt-1">
+              <p className="text-[12.5px] md:text-[13px] lg:text-[13.5px] text-gray-300 mt-1 font-medium tracking-tight">
                 계좌번호 : 1230456789-1011-22 · 하나은행
               </p>
             </div>
           </div>
 
           {/* Contacts (PC 우측 정렬, 간격 컴팩트) */}
-          <ul className="grid grid-cols-1 gap-1 md:gap-1 md:text-right text-[14px] md:text-[13px] lg:text-[13.5px] leading-relaxed tabular-nums">
+          <ul className="grid grid-cols-1 gap-1 md:gap-1 md:text-right text-[14px] md:text-[13.5px] lg:text-[14px] leading-relaxed tabular-nums text-gray-300">
             <li className="whitespace-nowrap">
               <span className="text-gray-400">전화</span>
-              <span className="mx-1 text-gray-600">:</span>042-934-6338
+              <span className="mx-1 text-gray-500">:</span>042-934-6338
             </li>
             <li className="whitespace-nowrap">
               <span className="text-gray-400">팩스</span>
-              <span className="mx-1 text-gray-600">:</span>042-934-1858
+              <span className="mx-1 text-gray-500">:</span>042-934-1858
             </li>
             <li className="break-all">
               <span className="text-gray-400">이메일</span>
-              <span className="mx-1 text-gray-600">:</span>
+              <span className="mx-1 text-gray-500">:</span>
               songkangbokji@songkang.or.kr
             </li>
             <li className="whitespace-normal md:whitespace-nowrap">
@@ -66,10 +66,10 @@ export default function Footer() {
         </div>
 
         {/* Divider */}
-        <hr className="border-gray-800 my-3" />
+        <hr className="border-gray-700 my-3" />
 
         {/* Bottom row */}
-        <div className="flex flex-col items-center justify-center text-center gap-1 text-[11.5px] sm:text-[12px] lg:text-[12.5px] text-gray-500">
+        <div className="flex flex-col items-center justify-center text-center gap-[3px] text-[11.5px] sm:text-[12.5px] lg:text-[13px] text-gray-400">
           <p>© {year} 복지디자인 사회적협동조합. All rights reserved.</p>
           <p>
             Design By{" "}
