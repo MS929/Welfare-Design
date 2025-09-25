@@ -41,24 +41,44 @@ mark, [data-hl] {
           <div className="flex items-center justify-center">
             {/* 단일 그림 요소로 중복 렌더 제거 */}
             <picture>
-              {/* 데스크탑(768px 이상) 소스 */}
-              <source
-                media="(min-width: 768px)"
-                srcSet="/images/business/rental.png"
-              />
-              {/* 기본 이미지: 모바일 우선 eager 로드 */}
-              <img
-                src="/images/business/rental.png"
-                alt="휠체어 및 복지용구 무료 대여"
-                loading="eager"
-                fetchpriority="high"
-                decoding="async"
-                width="1200"
-                height="900"
-                sizes="(max-width: 767px) 100vw, 50vw"
-                className="w-full h-auto"
-                style={{ imageRendering: "auto", display: "block" }}
-              />
+              {(() => {
+                const REMOTE = "https://welfaredesign.netlify.app/images/business/rental.png";
+                const cld = (w) =>
+                  `https://res.cloudinary.com/dxeadg9wi/image/fetch/c_limit,f_auto,q_auto,w_${w}/${encodeURIComponent(
+                    REMOTE
+                  )}`;
+
+                const srcSet = [640, 960, 1200, 1600]
+                  .map((w) => `${cld(w)} ${w}w`)
+                  .join(", ");
+
+                return (
+                  <>
+                    <source
+                      type="image/avif"
+                      srcSet={srcSet}
+                      sizes="(max-width: 767px) 100vw, 50vw"
+                    />
+                    <source
+                      type="image/webp"
+                      srcSet={srcSet}
+                      sizes="(max-width: 767px) 100vw, 50vw"
+                    />
+                    <img
+                      src={cld(1200)}
+                      alt="휠체어 및 복지용구 무료 대여"
+                      loading="eager"
+                      fetchpriority="high"
+                      decoding="async"
+                      width="1200"
+                      height="900"
+                      sizes="(max-width: 767px) 100vw, 50vw"
+                      className="w-full h-auto"
+                      style={{ imageRendering: "auto", display: "block" }}
+                    />
+                  </>
+                );
+              })()}
             </picture>
           </div>
 
