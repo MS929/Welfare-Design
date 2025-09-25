@@ -2,6 +2,11 @@
 import BizLayout from "./_Layout";
 
 export default function MemberServices() {
+  // Cloudinary fetch helper for this page image (origin-safe for SSR)
+  const ORIGIN = typeof window !== 'undefined' ? window.location.origin : 'https://welfaredesign.netlify.app';
+  const RAW = `${ORIGIN}/images/business/member-services.png`;
+  const cld = (w, fmt = 'auto') => `https://res.cloudinary.com/dxeadg9wi/image/fetch/c_limit,f_${fmt},q_auto,w_${w}/${RAW}`;
+
   return (
     <>
       <style
@@ -41,23 +46,29 @@ mark, [data-hl] {
           <div className="flex items-center justify-center">
             {/* 단일 그림 요소로 중복 렌더 제거 */}
             <picture>
-              {/* 데스크탑(768px 이상) 소스 */}
+              {/* Prefer AVIF, then WebP, then PNG; responsive widths */}
               <source
-                media="(min-width: 768px)"
-                srcSet="/images/business/member-services.png"
+                type="image/avif"
+                srcSet={`${cld(480, 'avif')} 480w, ${cld(768, 'avif')} 768w, ${cld(1200, 'avif')} 1200w`}
+                sizes="(max-width: 767px) 100vw, 50vw"
               />
-              {/* 기본 이미지: 모바일 우선 eager 로드 */}
+              <source
+                type="image/webp"
+                srcSet={`${cld(480, 'webp')} 480w, ${cld(768, 'webp')} 768w, ${cld(1200, 'webp')} 1200w`}
+                sizes="(max-width: 767px) 100vw, 50vw"
+              />
               <img
-                src="/images/business/member-services.png"
+                src={cld(768, 'png')}
                 alt="조합원 지원 서비스"
                 loading="eager"
-                fetchpriority="high"
+                fetchPriority="high"
                 decoding="async"
                 width="1200"
                 height="900"
                 sizes="(max-width: 767px) 100vw, 50vw"
                 className="w-full h-auto"
-                style={{ imageRendering: "auto", display: "block" }}
+                style={{ imageRendering: 'auto', display: 'block' }}
+                onError={(e) => { e.currentTarget.src = '/images/business/member-services.png'; }}
               />
             </picture>
           </div>

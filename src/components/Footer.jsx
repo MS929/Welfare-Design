@@ -15,6 +15,12 @@ export default function Footer() {
               sizes="200px"
               className="h-12"
               imgStyle={{ height: "3rem", width: "auto", display: "block" }}
+              loading="lazy"
+              decoding="async"
+              fetchpriority="low"
+              width={200}
+              height={80}
+              onError={(e) => { e.currentTarget.src = "/images/about/fallback.png"; }}
             />
             <div className="ml-3">
               <p className="text-sm font-semibold">복지디자인 사회적협동조합 | Welfare Design Cooperative</p>
