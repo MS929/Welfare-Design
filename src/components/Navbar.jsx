@@ -255,13 +255,13 @@ mark, [data-hl] {
 
         {/* 모바일 햄버거 */}
         <button
-          className="md:hidden ml-auto rounded-md p-2 hover:bg-gray-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 z-[75]"
+          className="md:hidden ml-auto rounded-md p-3 hover:bg-gray-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 z-[75] min-w-[44px] min-h-[44px] flex items-center justify-center"
           style={{ touchAction: 'manipulation' }}
           onClick={() => setMobileOpen((v) => !v)}
           aria-label="toggle menu"
           aria-expanded={mobileOpen}
         >
-          ☰
+          <span className="text-2xl leading-none" aria-hidden="true">☰</span>
         </button>
       </nav>
 
