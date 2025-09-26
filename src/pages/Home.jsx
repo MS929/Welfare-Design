@@ -1259,7 +1259,26 @@ mark, [data-hl] {
           }}
         >
           <Section id="support" style={{ padding: "24px 20px" }}>
-            <h2 style={{ margin: "0 0 6px 0", fontSize: 24, fontWeight: 900 }}>
+            <h2
+              style={{
+                margin: "0 0 6px 0",
+                fontSize: 24,
+                fontWeight: 900,
+                display: "flex",
+                alignItems: "center",
+                gap: 10,
+              }}
+            >
+              <span
+                aria-hidden
+                style={{
+                  width: 8,
+                  height: 24,
+                  background: PALETTE.yellow,
+                  borderRadius: 3,
+                  display: "inline-block",
+                }}
+              />
               지원사업 영역
             </h2>
             <p
@@ -1339,12 +1358,14 @@ mark, [data-hl] {
                   onMouseEnter={(e) => {
                     e.currentTarget.style.transform = "translateY(-4px)";
                     e.currentTarget.style.boxShadow =
-                      "0 18px 36px rgba(59,167,160,.16), 0 10px 22px rgba(237,106,50,.10)";
+                      "0 18px 36px rgba(245,183,49,.16), 0 10px 22px rgba(245,183,49,.10)";
+                    e.currentTarget.style.borderColor = PALETTE.yellow;
                   }}
                   onMouseLeave={(e) => {
                     e.currentTarget.style.transform = "none";
                     e.currentTarget.style.boxShadow =
                       "0 12px 28px rgba(59,167,160,.10), 0 6px 14px rgba(237,106,50,.06)";
+                    e.currentTarget.style.borderColor = "rgba(255,255,255,0.6)";
                   }}
                 >
                   <div
