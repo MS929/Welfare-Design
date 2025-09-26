@@ -60,6 +60,20 @@ export default function App() {
   return (
     <div className="font-sans min-h-screen flex flex-col bg-white">
       <Navbar />
+      <button
+        onClick={() => {
+          throw new Error("테스트용 Sentry 에러 발생!");
+        }}
+        style={{
+          backgroundColor: "#ef4444",
+          color: "white",
+          padding: "8px 16px",
+          margin: "10px",
+          borderRadius: "4px",
+        }}
+      >
+        Sentry Test Error
+      </button>
       <ScrollToTop />
       <main className="flex-1">
         <Routes>
