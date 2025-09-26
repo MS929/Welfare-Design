@@ -170,6 +170,12 @@ mark, [data-hl] {
 /* Long tokens: prevent layout shift but still allow wrap */
 .u-wrap-anywhere { overflow-wrap: anywhere; word-break: keep-all; }
 .u-ellipsis { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+/* ==== Desktop navbar hardening (equal tabs/columns) ==== */
+@media (min-width: 768px) {
+  .navbar-eq-cols { display:flex; width:1040px; max-width:1040px; }
+  .navbar-eq-cols > li { flex: 1 1 0; min-width:0; }
+}
         ` }}
       />
       <header
@@ -196,13 +202,13 @@ mark, [data-hl] {
 
         {/* Top tabs (desktop) inline next to logo */}
         <ul
-          className="hidden md:grid col-start-2 grid-cols-4 gap-14 justify-items-center items-center text-center w-[900px] mx-auto"
+          className="hidden md:flex navbar-eq-cols col-start-2 w-[1040px] max-w-[1040px] mx-auto items-center justify-between"
         >
           {sections.map((sec, idx) => (
-            <li key={sec.title} className="flex items-center">
+            <li key={sec.title} className="flex-1 min-w-0 flex items-center justify-center">
               <button
                 type="button"
-                className={`text-left font-medium text-[16px] hover:text-emerald-600 leading-tight ${
+                className={`nav-nowrap inline-block text-center font-medium text-[16px] leading-[1.2] hover:text-emerald-600 px-3 py-1 ${
                   hoveredIdx === idx
                     ? "text-emerald-600 underline decoration-emerald-500 underline-offset-8"
                     : ""
@@ -255,16 +261,16 @@ mark, [data-hl] {
             setHoveredIdx(null);
           }}
         >
-          <div className="max-w-[1000px] min-w-[900px] mx-auto px-4">
-            <div className="grid grid-cols-4 gap-12 justify-items-center pt-5 pb-6 text-center">
+          <div className="w-[1040px] max-w-[1040px] mx-auto px-4">
+            <div className="grid grid-cols-4 gap-10 justify-items-center pt-5 pb-6 text-center">
               {sections.map((sec) => (
-                <div key={sec.title} className="w-full text-center">
-                  <ul className="space-y-1.5">
+                <div key={sec.title} className="w-full min-w-[0] text-center">
+                  <ul className="space-y-2">
                     {sec.items.map((it) => (
                       <li key={it.to}>
                         <NavLink
                           to={it.to}
-                          className="block h-8 leading-none text-[15px] text-gray-800 hover:text-emerald-600 whitespace-nowrap focus-visible:ring-2 focus-visible:ring-emerald-500 text-center"
+                          className="block h-8 leading-[1.2] text-[15px] text-gray-800 hover:text-emerald-600 nav-nowrap focus-visible:ring-2 focus-visible:ring-emerald-500 text-center"
                           onClick={() => {
                             setMegaOpen(false);
                             setHoveredIdx(null);
