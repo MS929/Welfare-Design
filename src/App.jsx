@@ -1,4 +1,5 @@
 // src/App.jsx
+import * as Sentry from "@sentry/react";
 import { Routes, Route } from "react-router-dom";
 import ScrollToTop from "./components/ScrollToTop";
 
@@ -47,11 +48,13 @@ function NotFound() {
   );
 }
 
-Sentry.init({
-  dsn: import.meta.env.VITE_SENTRY_DSN,
-  environment: import.meta.env.VITE_SENTRY_ENV, // ← 추가
-  tracesSampleRate: 1.0,
-});
+if (import.meta.env.VITE_SENTRY_DSN) {
+  Sentry.init({
+    dsn: import.meta.env.VITE_SENTRY_DSN,
+    environment: import.meta.env.VITE_SENTRY_ENV,
+    tracesSampleRate: 1.0,
+  });
+}
 
 export default function App() {
   return (
