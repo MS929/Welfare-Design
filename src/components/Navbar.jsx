@@ -131,11 +131,12 @@ export default function Navbar() {
   return (
     <>
       <style
-        dangerouslySetInnerHTML={{
-          __html: `
-            html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
-            *, *::before, *::after { box-sizing: border-box; min-width: 0; }
-            body {
+        id="global-text-guard"
+        // This style is global and loaded on every page via Navbar
+        dangerouslySetInnerHTML={{ __html: `
+html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+*, *::before, *::after { box-sizing: border-box; min-width: 0; }
+body {
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -143,7 +144,7 @@ export default function Navbar() {
   word-break: keep-all;       /* Korean: avoid awkward mid-word breaks */
   overflow-wrap: anywhere;    /* Long English/URLs still wrap safely */
 }
-a, button, p, li, span { overflow-wrap: anywhere; word-break: keep-all; }
+a, button, p, li, div, span { overflow-wrap: anywhere; word-break: keep-all; }
 h1, h2, h3, h4, h5 { line-height: 1.25; }
 .nowrap, .nav-nowrap { white-space: nowrap; }
 /* ==== Cross-device heading wrap consistency ==== */
@@ -169,12 +170,6 @@ mark, [data-hl] {
 /* Long tokens: prevent layout shift but still allow wrap */
 .u-wrap-anywhere { overflow-wrap: anywhere; word-break: keep-all; }
 .u-ellipsis { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-
-/* ==== Desktop navbar hardening (equal tabs/columns) ==== */
-@media (min-width: 768px) {
-  .navbar-eq-cols { display:flex; width:1200px; max-width:1200px; }
-  .navbar-eq-cols > li { flex: 1 1 0; min-width:0; }
-}
         ` }}
       />
       <header
@@ -201,13 +196,13 @@ mark, [data-hl] {
 
         {/* Top tabs (desktop) inline next to logo */}
         <ul
-          className="hidden md:flex navbar-eq-cols col-start-2 w-[1200px] max-w-[1200px] mx-auto items-center justify-between"
+          className="hidden md:grid col-start-2 grid-cols-4 gap-16 justify-items-center items-center text-center w-[750px] mx-auto"
         >
           {sections.map((sec, idx) => (
-            <li key={sec.title} className="flex-1 min-w-0 flex items-center justify-center">
+            <li key={sec.title} className="flex items-center">
               <button
                 type="button"
-                className={`nav-nowrap inline-block text-center font-medium text-[16px] leading-[1.2] hover:text-emerald-600 px-3 py-1 ${
+                className={`text-left font-medium text-[16px] hover:text-emerald-600 leading-tight ${
                   hoveredIdx === idx
                     ? "text-emerald-600 underline decoration-emerald-500 underline-offset-8"
                     : ""
@@ -260,16 +255,16 @@ mark, [data-hl] {
             setHoveredIdx(null);
           }}
         >
-          <div className="w-[1200px] max-w-[1200px] mx-auto px-4">
-            <div className="grid grid-cols-4 gap-10 justify-items-start pt-5 pb-6 text-left">
+          <div className="max-w-[750px] mx-auto">
+            <div className="grid grid-cols-4 gap-16 justify-items-center pt-5 pb-6 text-center">
               {sections.map((sec) => (
-                <div key={sec.title} className="w-full min-w-[0] text-left">
-                  <ul className="space-y-2">
+                <div key={sec.title} className="w-full text-center">
+                  <ul className="space-y-1.5">
                     {sec.items.map((it) => (
                       <li key={it.to}>
                         <NavLink
                           to={it.to}
-                          className="block h-8 leading-[1.2] text-[15px] text-gray-800 hover:text-emerald-600 nav-nowrap focus-visible:ring-2 focus-visible:ring-emerald-500"
+                          className="block h-8 leading-none text-[15px] text-gray-800 hover:text-emerald-600 whitespace-nowrap focus-visible:ring-2 focus-visible:ring-emerald-500 text-center"
                           onClick={() => {
                             setMegaOpen(false);
                             setHoveredIdx(null);
