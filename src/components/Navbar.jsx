@@ -75,12 +75,13 @@ export default function Navbar() {
   // 상단 탭 UL의 실제 좌표를 기준으로 메가메뉴를 정렬
   const tabsRef = useRef(null);
   const [megaLeft, setMegaLeft] = useState(0);
+  const [megaWidth, setMegaWidth] = useState(0);
 
   const updateMegaLeft = () => {
     if (!tabsRef.current) return;
     const rect = tabsRef.current.getBoundingClientRect();
-    // 1px 떨림 방지를 위해 반올림
     setMegaLeft(Math.round(rect.left));
+    setMegaWidth(Math.round(rect.width));
   };
 
   // 메가메뉴가 열릴 때, 그리고 리사이즈 시 좌표 재계산
@@ -215,7 +216,7 @@ mark, [data-hl] {
         {/* Top tabs (desktop) inline next to logo */}
         <ul
           ref={tabsRef}
-          className="hidden md:grid col-start-2 grid-cols-4 gap-16 justify-items-center items-center text-center w-[750px] mx-auto"
+          className="hidden md:grid col-start-2 grid-cols-4 gap-16 justify-items-center items-center text-center mx-auto"
         >
           {sections.map((sec, idx) => (
             <li key={sec.title} className="flex items-center">
@@ -274,16 +275,16 @@ mark, [data-hl] {
             setHoveredIdx(null);
           }}
         >
-          <div style={{ marginLeft: megaLeft, width: 750 }}>
-            <div className="flex justify-between pt-5 pb-6 text-center">
+          <div style={{ marginLeft: megaLeft, width: megaWidth }}>
+            <div className="grid grid-cols-4 gap-16 pt-5 pb-6 text-center">
               {sections.map((sec) => (
-                <div key={sec.title} className="flex-1 px-4 text-center min-w-[160px]">
+                <div key={sec.title} className="px-2 text-center min-w-[160px]">
                   <ul className="space-y-2">
                     {sec.items.map((it) => (
                       <li key={it.to}>
                         <NavLink
                           to={it.to}
-                          className="block leading-snug text-[15px] text-gray-800 hover:text-emerald-600 whitespace-normal focus-visible:ring-2 focus-visible:ring-emerald-500 text-center"
+                          className="block leading-[1.35] text-[15px] text-gray-800 hover:text-emerald-600 whitespace-normal focus-visible:ring-2 focus-visible:ring-emerald-500 text-center"
                           onClick={() => {
                             setMegaOpen(false);
                             setHoveredIdx(null);
