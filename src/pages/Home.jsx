@@ -1342,8 +1342,7 @@ mark, [data-hl] {
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "space-between",
-                    background:
-                      "linear-gradient(180deg, rgba(255,255,255,0.88) 0%, rgba(255,255,255,0.76) 100%)",
+                    background: "#fff",
                     border: "1px solid rgba(255,255,255,0.6)",
                     color: PALETTE.darkText,
                     borderRadius: PALETTE.radiusLg,
