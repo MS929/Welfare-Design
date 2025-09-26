@@ -144,7 +144,7 @@ body {
   word-break: keep-all;       /* Korean: avoid awkward mid-word breaks */
   overflow-wrap: anywhere;    /* Long English/URLs still wrap safely */
 }
-a, button, p, li, div, span { overflow-wrap: anywhere; word-break: keep-all; }
+a, button, p, li, span { overflow-wrap: anywhere; word-break: keep-all; }
 h1, h2, h3, h4, h5 { line-height: 1.25; }
 .nowrap, .nav-nowrap { white-space: nowrap; }
 /* ==== Cross-device heading wrap consistency ==== */
@@ -196,7 +196,7 @@ mark, [data-hl] {
 
         {/* Top tabs (desktop) inline next to logo */}
         <ul
-          className="hidden md:grid col-start-2 grid-cols-4 gap-16 justify-items-center items-center text-center w-[750px] mx-auto"
+          className="hidden md:grid col-start-2 grid-cols-4 gap-14 justify-items-center items-center text-center w-[900px] mx-auto"
         >
           {sections.map((sec, idx) => (
             <li key={sec.title} className="flex items-center">
@@ -255,8 +255,8 @@ mark, [data-hl] {
             setHoveredIdx(null);
           }}
         >
-          <div className="max-w-[750px] mx-auto">
-            <div className="grid grid-cols-4 gap-16 justify-items-center pt-5 pb-6 text-center">
+          <div className="max-w-[1000px] min-w-[900px] mx-auto px-4">
+            <div className="grid grid-cols-4 gap-12 justify-items-center pt-5 pb-6 text-center">
               {sections.map((sec) => (
                 <div key={sec.title} className="w-full text-center">
                   <ul className="space-y-1.5">
