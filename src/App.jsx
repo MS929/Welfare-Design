@@ -52,6 +52,7 @@ if (import.meta.env.VITE_SENTRY_DSN) {
   Sentry.init({
     dsn: import.meta.env.VITE_SENTRY_DSN,
     environment: import.meta.env.VITE_SENTRY_ENV,
+    release: __SENTRY_RELEASE__,
     tracesSampleRate: 1.0,
   });
 }
