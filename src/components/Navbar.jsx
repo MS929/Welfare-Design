@@ -278,7 +278,7 @@ mark, [data-hl] {
           }}
         >
           <div style={{ marginLeft: megaLeft, width: megaWidth }}>
-            <div className="grid grid-cols-4 gap-12 pt-5 pb-6 text-center">
+            <div className="grid grid-cols-4 gap-16 justify-items-center pt-5 pb-6 text-center">
               {sections.map((sec) => (
                 <div key={sec.title} className="text-center">
                   <ul className="space-y-2">
