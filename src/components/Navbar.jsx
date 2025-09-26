@@ -73,21 +73,24 @@ export default function Navbar() {
   const [hoveredIdx, setHoveredIdx] = useState(null);
 
   // 상단 탭 UL의 실제 좌표와 너비를 기준으로 메가메뉴를 정렬
-  // const tabsRef = useRef(null);
-  // const [megaLeft, setMegaLeft] = useState(0);
-  // const [megaWidth, setMegaWidth] = useState(0);
-  // const updateMegaLeft = () => {
-  //   if (!tabsRef.current) return;
-  //   const rect = tabsRef.current.getBoundingClientRect();
-  //   setMegaLeft(Math.round(rect.left));
-  //   setMegaWidth(Math.round(rect.width || tabsRef.current.offsetWidth || 0));
-  // };
-  // useEffect(() => { updateMegaLeft(); }, [megaOpen]);
-  // useEffect(() => {
-  //   const on = () => updateMegaLeft();
-  //   window.addEventListener("resize", on);
-  //   return () => window.removeEventListener("resize", on);
-  // }, []);
+  const tabsRef = useRef(null);
+  const [megaLeft, setMegaLeft] = useState(0);
+  const [megaWidth, setMegaWidth] = useState(0);
+
+  const updateMegaLeft = () => {
+    if (!tabsRef.current) return;
+    const rect = tabsRef.current.getBoundingClientRect();
+    setMegaLeft(Math.round(rect.left));
+    setMegaWidth(Math.round(rect.width || tabsRef.current.offsetWidth || 0));
+  };
+
+  // 메가메뉴가 열릴 때, 그리고 리사이즈 시 좌표 재계산
+  useEffect(() => { updateMegaLeft(); }, [megaOpen]);
+  useEffect(() => {
+    const on = () => updateMegaLeft();
+    window.addEventListener("resize", on);
+    return () => window.removeEventListener("resize", on);
+  }, []);
 
   // Lock body scroll when mobile drawer is open (mobile only)
   useEffect(() => {
@@ -127,8 +130,8 @@ export default function Navbar() {
       title: "사업",
       items: [
         { to: "/business/overview", label: "사업영역" },
-        { to: "/business/rental", label: "휠체어·복지용구 무료 대여" },
-        { to: "/business/apply-help", label: "복지용구 신청 안내 지원" },
+        { to: "/business/rental", label: "휠체어·복지용구 대여" },
+        { to: "/business/apply-help", label: "복지용구 신청 안내" },
         { to: "/business/donation", label: "보조기기 기증 캠페인" },
         { to: "/business/ewc-insurance", label: "전동휠체어 보험금 지원" },
         { to: "/business/needs-survey", label: "복지욕구 실태조사" },
@@ -212,8 +215,8 @@ mark, [data-hl] {
 
         {/* Top tabs (desktop) inline next to logo */}
         <ul
-          // ref={tabsRef}
-          className="hidden md:grid col-start-2 grid-cols-4 gap-16 justify-items-center items-center text-center w-[750px] mx-auto" // keep in sync with mega menu width
+          ref={tabsRef}
+          className="hidden md:grid col-start-2 grid-cols-4 gap-16 justify-items-center items-center text-center w-[750px] mx-auto"
         >
           {sections.map((sec, idx) => (
             <li key={sec.title} className="flex items-center">
@@ -272,8 +275,8 @@ mark, [data-hl] {
             setHoveredIdx(null);
           }}
         >
-          <div className="w-[750px] mx-auto">
-            <div className="grid grid-cols-4 gap-24 pt-5 pb-6 text-center">
+          <div style={{ marginLeft: megaLeft, width: Math.max(megaWidth, 920) }}>
+            <div className="grid grid-cols-4 gap-16 pt-5 pb-6 text-center">
               {sections.map((sec) => (
                 <div key={sec.title} className="text-center">
                   <ul className="space-y-3">
@@ -281,7 +284,7 @@ mark, [data-hl] {
                       <li key={it.to}>
                         <NavLink
                           to={it.to}
-                          className="block py-1 leading-[1.6] text-[15px] text-gray-800 hover:text-emerald-600 whitespace-nowrap overflow-hidden text-ellipsis focus-visible:ring-2 focus-visible:ring-emerald-500 text-center"
+                          className="block py-1.5 leading-[1.6] text-[15px] text-gray-800 hover:text-emerald-600 whitespace-nowrap overflow-hidden text-ellipsis focus-visible:ring-2 focus-visible:ring-emerald-500 text-center"
                           title={it.label}
                           onClick={() => {
                             setMegaOpen(false);
@@ -404,14 +407,14 @@ mark, [data-hl] {
                 className="block px-3 py-2 rounded hover:bg-gray-50 focus-visible:ring-2 focus-visible:ring-emerald-500"
                 onClick={(e) => { setMobileOpen(false); e.target.closest('details').removeAttribute('open'); }}
               >
-                휠체어·복지용구 무료 대여
+                휠체어·복지용구 대여
               </NavLink>
               <NavLink
                 to="/business/apply-help"
                 className="block px-3 py-2 rounded hover:bg-gray-50 focus-visible:ring-2 focus-visible:ring-emerald-500"
                 onClick={(e) => { setMobileOpen(false); e.target.closest('details').removeAttribute('open'); }}
               >
-                복지용구 신청 안내 지원
+                복지용구 신청 안내
               </NavLink>
               <NavLink
                 to="/business/donation"
