@@ -299,6 +299,7 @@ const StoryCard = (props) => {
     isTouchDevice = false,
     isMobile = false,
     isTablet = false,
+    objectPosition = "50% 30%",
   } = props;
 
   const thumbSrc = extractThumbSrc(thumbnail);
@@ -373,6 +374,13 @@ const StoryCard = (props) => {
               useCdn={!isCloudinary}
               cdnWidth={isMobile ? 480 : isTablet ? 800 : 1000}
               cdnQuality={76}
+              imgStyle={{
+                width: "100%",
+                height: "100%",
+                objectFit: "cover",
+                objectPosition: objectPosition,
+                display: "block",
+              }}
             />
           ) : (
             // 썸네일이 없을 때 깔끔한 플레이스홀더 표시
@@ -552,6 +560,8 @@ export default function Home1() {
           slug: base,
           type,
           thumbnail: data?.thumbnail || null,
+          // allow overriding card focal point via frontmatter (e.g., thumbPosition: "50% 20%")
+          thumbPosition: data?.thumbPosition || data?.thumb_position || data?.focal || "50% 30%",
         };
       });
       mapped.sort((a, b) => {
@@ -1237,6 +1247,7 @@ mark, [data-hl] {
                 isTouchDevice={isMobile || isTouch}
                 isMobile={isMobile}
                 isTablet={isTablet}
+                objectPosition={n.thumbPosition}
               />
             ))}
             {storyFiltered.length === 0 && (
