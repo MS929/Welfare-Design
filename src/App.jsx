@@ -48,11 +48,19 @@ function NotFound() {
   );
 }
 
+/** Sentry init (safe for builds without __SENTRY_RELEASE__) */
 if (import.meta.env.VITE_SENTRY_DSN) {
+  const safeRelease =
+    // injected by Sentry bundler plugin if present
+    (typeof __SENTRY_RELEASE__ !== "undefined" ? __SENTRY_RELEASE__ : undefined) ||
+    // or you can set VITE_SENTRY_RELEASE from Netlify envs
+    import.meta.env.VITE_SENTRY_RELEASE;
+
   Sentry.init({
     dsn: import.meta.env.VITE_SENTRY_DSN,
     environment: import.meta.env.VITE_SENTRY_ENV,
-    release: __SENTRY_RELEASE__,
+    // only pass release when it exists
+    ...(safeRelease ? { release: safeRelease } : {}),
     tracesSampleRate: 1.0,
   });
 }
