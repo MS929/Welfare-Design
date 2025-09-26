@@ -276,15 +276,15 @@ mark, [data-hl] {
           }}
         >
           <div style={{ marginLeft: megaLeft, width: megaWidth }}>
-            <div className="grid grid-cols-4 gap-16 pt-5 pb-6 text-center">
+            <div className="grid grid-cols-4 gap-12 pt-5 pb-6 text-center">
               {sections.map((sec) => (
                 <div key={sec.title} className="text-center">
-                  <ul className="space-y-3">
+                  <ul className="space-y-2">
                     {sec.items.map((it) => (
                       <li key={it.to}>
                         <NavLink
                           to={it.to}
-                          className="block py-1.5 leading-[1.6] text-[15px] text-gray-800 hover:text-emerald-600 whitespace-normal focus-visible:ring-2 focus-visible:ring-emerald-500 text-center"
+                          className="block py-1 leading-[1.6] text-[15px] text-gray-800 hover:text-emerald-600 whitespace-normal focus-visible:ring-2 focus-visible:ring-emerald-500 text-center"
                           onClick={() => {
                             setMegaOpen(false);
                             setHoveredIdx(null);
