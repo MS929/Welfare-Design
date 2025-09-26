@@ -133,7 +133,7 @@ export default function Navbar() {
         { to: "/business/rental", label: "휠체어·복지용구 대여" },
         { to: "/business/apply-help", label: "복지용구 신청 안내" },
         { to: "/business/donation", label: "보조기기 기증 캠페인" },
-        { to: "/business/ewc-insurance", label: "전동휠체어 보험금 지원" },
+        { to: "/business/ewc-insurance", label: "전동휠체어 보험금 지원", nowrap: true },
         { to: "/business/needs-survey", label: "복지욕구 실태조사" },
         { to: "/business/member-services", label: "조합원 지원 서비스" },
       ],
@@ -290,7 +290,7 @@ mark, [data-hl] {
                             setHoveredIdx(null);
                           }}
                         >
-                          {it.label}
+                          <span className={it.nowrap ? "nav-nowrap" : ""}>{it.label}</span>
                         </NavLink>
                       </li>
                     ))}
