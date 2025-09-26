@@ -19,6 +19,9 @@ export default defineConfig({
         injectReleasesMap: true,
         setCommits: { auto: true },
       },
+      define: {
+        __SENTRY_RELEASE__: JSON.stringify(process.env.COMMIT_REF || ""),
+      },
       telemetry: false,
     }),
   ],
