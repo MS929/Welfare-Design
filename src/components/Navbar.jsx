@@ -130,8 +130,8 @@ export default function Navbar() {
       title: "사업",
       items: [
         { to: "/business/overview", label: "사업영역" },
-        { to: "/business/rental", label: "휠체어·복지용구 대여" },
-        { to: "/business/apply-help", label: "복지용구 신청 안내" },
+        { to: "/business/rental", label: "휠체어·복지용구 무료 대여" },
+        { to: "/business/apply-help", label: "복지용구 신청 안내 지원" },
         { to: "/business/donation", label: "보조기기 기증 캠페인" },
         { to: "/business/ewc-insurance", label: "전동휠체어 보험금 지원" },
         { to: "/business/needs-survey", label: "복지욕구 실태조사" },
@@ -275,7 +275,7 @@ mark, [data-hl] {
             setHoveredIdx(null);
           }}
         >
-          <div style={{ marginLeft: megaLeft, width: Math.max(megaWidth, 920) }}>
+          <div style={{ marginLeft: megaLeft, width: megaWidth }}>
             <div className="grid grid-cols-4 gap-16 pt-5 pb-6 text-center">
               {sections.map((sec) => (
                 <div key={sec.title} className="text-center">
@@ -284,8 +284,7 @@ mark, [data-hl] {
                       <li key={it.to}>
                         <NavLink
                           to={it.to}
-                          className="block py-1.5 leading-[1.6] text-[15px] text-gray-800 hover:text-emerald-600 whitespace-nowrap overflow-hidden text-ellipsis focus-visible:ring-2 focus-visible:ring-emerald-500 text-center"
-                          title={it.label}
+                          className="block py-1.5 leading-[1.6] text-[15px] text-gray-800 hover:text-emerald-600 whitespace-normal focus-visible:ring-2 focus-visible:ring-emerald-500 text-center"
                           onClick={() => {
                             setMegaOpen(false);
                             setHoveredIdx(null);
@@ -407,14 +406,14 @@ mark, [data-hl] {
                 className="block px-3 py-2 rounded hover:bg-gray-50 focus-visible:ring-2 focus-visible:ring-emerald-500"
                 onClick={(e) => { setMobileOpen(false); e.target.closest('details').removeAttribute('open'); }}
               >
-                휠체어·복지용구 대여
+                휠체어·복지용구 무료 대여
               </NavLink>
               <NavLink
                 to="/business/apply-help"
                 className="block px-3 py-2 rounded hover:bg-gray-50 focus-visible:ring-2 focus-visible:ring-emerald-500"
                 onClick={(e) => { setMobileOpen(false); e.target.closest('details').removeAttribute('open'); }}
               >
-                복지용구 신청 안내
+                복지용구 신청 안내 지원
               </NavLink>
               <NavLink
                 to="/business/donation"
