@@ -1343,28 +1343,23 @@ mark, [data-hl] {
                     alignItems: "center",
                     justifyContent: "space-between",
                     background: "#fff",
-                    border: "1px solid rgba(255,255,255,0.6)",
+                    border: `1px solid ${PALETTE.line}`,
                     color: PALETTE.darkText,
                     borderRadius: PALETTE.radiusLg,
                     padding: 22,
-                    boxShadow:
-                      "0 12px 28px rgba(59,167,160,.10), 0 6px 14px rgba(237,106,50,.06)",
+                    boxShadow: PALETTE.shadowSm,
                     textDecoration: "none",
                     transition: "transform .18s ease, box-shadow .18s ease",
-                    backdropFilter: "saturate(150%) blur(8px)",
-                    WebkitBackdropFilter: "saturate(150%) blur(8px)",
                   }}
                   onMouseEnter={(e) => {
-                    e.currentTarget.style.transform = "translateY(-4px)";
-                    e.currentTarget.style.boxShadow =
-                      "0 18px 36px rgba(245,183,49,.16), 0 10px 22px rgba(245,183,49,.10)";
+                    e.currentTarget.style.transform = "translateY(-2px)";
+                    e.currentTarget.style.boxShadow = `0 10px 22px rgba(0,0,0,.08), 0 0 0 3px ${PALETTE.yellow}33`;
                     e.currentTarget.style.borderColor = PALETTE.yellow;
                   }}
                   onMouseLeave={(e) => {
                     e.currentTarget.style.transform = "none";
-                    e.currentTarget.style.boxShadow =
-                      "0 12px 28px rgba(59,167,160,.10), 0 6px 14px rgba(237,106,50,.06)";
-                    e.currentTarget.style.borderColor = "rgba(255,255,255,0.6)";
+                    e.currentTarget.style.boxShadow = PALETTE.shadowSm;
+                    e.currentTarget.style.borderColor = PALETTE.line;
                   }}
                 >
                   <div
@@ -1376,10 +1371,9 @@ mark, [data-hl] {
                         width: 44,
                         height: 44,
                         borderRadius: 14,
-                        background: `linear-gradient(180deg, ${PALETTE.grayCard} 0%, rgba(255,255,255,.85) 100%)`,
+                        background: "#fff",
                         border: `1px solid ${PALETTE.line}`,
-                        boxShadow:
-                          "inset 0 1px 0 rgba(255,255,255,.6), 0 6px 14px rgba(0,0,0,.06)",
+                        boxShadow: "0 2px 6px rgba(0,0,0,.06)",
                         display: "flex",
                         alignItems: "center",
                         justifyContent: "center",
