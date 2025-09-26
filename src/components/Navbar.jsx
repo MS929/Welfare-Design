@@ -131,12 +131,11 @@ export default function Navbar() {
   return (
     <>
       <style
-        id="global-text-guard"
-        // This style is global and loaded on every page via Navbar
-        dangerouslySetInnerHTML={{ __html: `
-html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
-*, *::before, *::after { box-sizing: border-box; min-width: 0; }
-body {
+        dangerouslySetInnerHTML={{
+          __html: `
+            html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+            *, *::before, *::after { box-sizing: border-box; min-width: 0; }
+            body {
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -173,7 +172,7 @@ mark, [data-hl] {
 
 /* ==== Desktop navbar hardening (equal tabs/columns) ==== */
 @media (min-width: 768px) {
-  .navbar-eq-cols { display:flex; width:1040px; max-width:1040px; }
+  .navbar-eq-cols { display:flex; width:1200px; max-width:1200px; }
   .navbar-eq-cols > li { flex: 1 1 0; min-width:0; }
 }
         ` }}
@@ -202,7 +201,7 @@ mark, [data-hl] {
 
         {/* Top tabs (desktop) inline next to logo */}
         <ul
-          className="hidden md:flex navbar-eq-cols col-start-2 w-[1040px] max-w-[1040px] mx-auto items-center justify-between"
+          className="hidden md:flex navbar-eq-cols col-start-2 w-[1200px] max-w-[1200px] mx-auto items-center justify-between"
         >
           {sections.map((sec, idx) => (
             <li key={sec.title} className="flex-1 min-w-0 flex items-center justify-center">
@@ -261,16 +260,16 @@ mark, [data-hl] {
             setHoveredIdx(null);
           }}
         >
-          <div className="w-[1040px] max-w-[1040px] mx-auto px-4">
-            <div className="grid grid-cols-4 gap-10 justify-items-center pt-5 pb-6 text-center">
+          <div className="w-[1200px] max-w-[1200px] mx-auto px-4">
+            <div className="grid grid-cols-4 gap-10 justify-items-start pt-5 pb-6 text-left">
               {sections.map((sec) => (
-                <div key={sec.title} className="w-full min-w-[0] text-center">
+                <div key={sec.title} className="w-full min-w-[0] text-left">
                   <ul className="space-y-2">
                     {sec.items.map((it) => (
                       <li key={it.to}>
                         <NavLink
                           to={it.to}
-                          className="block h-8 leading-[1.2] text-[15px] text-gray-800 hover:text-emerald-600 nav-nowrap focus-visible:ring-2 focus-visible:ring-emerald-500 text-center"
+                          className="block h-8 leading-[1.2] text-[15px] text-gray-800 hover:text-emerald-600 nav-nowrap focus-visible:ring-2 focus-visible:ring-emerald-500"
                           onClick={() => {
                             setMegaOpen(false);
                             setHoveredIdx(null);
