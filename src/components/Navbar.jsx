@@ -72,15 +72,16 @@ export default function Navbar() {
   // 현재 포인터가 올라간 상단 탭 인덱스(메가메뉴는 해당 섹션만 표시)
   const [hoveredIdx, setHoveredIdx] = useState(null);
 
-  // 상단 탭 UL의 실제 좌표를 기준으로 메가메뉴를 정렬
+  // 상단 탭 UL의 실제 좌표와 너비를 기준으로 메가메뉴를 정렬
   const tabsRef = useRef(null);
   const [megaLeft, setMegaLeft] = useState(0);
+  const [megaWidth, setMegaWidth] = useState(0);
 
   const updateMegaLeft = () => {
     if (!tabsRef.current) return;
     const rect = tabsRef.current.getBoundingClientRect();
-    // 1px 떨림 방지를 위해 반올림
     setMegaLeft(Math.round(rect.left));
+    setMegaWidth(Math.round(rect.width || tabsRef.current.offsetWidth || 0));
   };
 
   // 메가메뉴가 열릴 때, 그리고 리사이즈 시 좌표 재계산
@@ -274,10 +275,10 @@ mark, [data-hl] {
             setHoveredIdx(null);
           }}
         >
-          <div style={{ marginLeft: megaLeft, width: 750 }}>
-            <div className="grid grid-cols-4 gap-8 pt-5 pb-6 text-center">
+          <div style={{ marginLeft: megaLeft, width: megaWidth }}>
+            <div className="grid grid-cols-4 gap-16 pt-5 pb-6 text-center">
               {sections.map((sec) => (
-                <div key={sec.title} className="px-4 text-center">
+                <div key={sec.title} className="text-center">
                   <ul className="space-y-2">
                     {sec.items.map((it) => (
                       <li key={it.to}>
