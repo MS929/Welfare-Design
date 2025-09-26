@@ -80,8 +80,10 @@ export default function Navbar() {
   const updateMegaLeft = () => {
     if (!tabsRef.current) return;
     const rect = tabsRef.current.getBoundingClientRect();
-    setMegaLeft(Math.round(rect.left));
-    setMegaWidth(Math.round(rect.width || tabsRef.current.offsetWidth || 0));
+    // Use precise floating values to keep the mega menu columns perfectly
+    // aligned with the top tabs, especially the rightmost ("후원") column.
+    setMegaLeft(rect.left);
+    setMegaWidth(rect.width || tabsRef.current.offsetWidth || 0);
   };
 
   // 메가메뉴가 열릴 때, 그리고 리사이즈 시 좌표 재계산
