@@ -1,6 +1,6 @@
 // src/components/Navbar.jsx
 import { useRef, useState, useEffect } from "react";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useLocation } from "react-router-dom";
 
 const OPEN_DELAY_MS = 120;
 const CLOSE_DELAY_MS = 250;
@@ -64,6 +64,7 @@ function Dropdown({ title, items }) {
 }
 
 export default function Navbar() {
+  const location = useLocation();
   const [mobileOpen, setMobileOpen] = useState(false);
 
   // 메가메뉴(데스크톱) 열기 상태
@@ -204,7 +205,21 @@ mark, [data-hl] {
     >
       <nav className="w-full relative px-4 md:pl-[120px] md:pr-6 py-3 grid grid-cols-[auto,1fr,auto] items-center gap-6">
         {/* Logo (mobile inline, desktop inline so it doesn't shift the tab grid) */}
-        <Link to="/" className="flex items-center mr-4 md:mr-8">
+        <Link
+          to="/"
+          className="flex items-center mr-4 md:mr-8"
+          onClick={(e) => {
+            // If we're already on the home route, force a refresh so it behaves like "reload"
+            if (location.pathname === "/") {
+              e.preventDefault();
+              // Scroll to top for better UX, then hard refresh
+              window.scrollTo({ top: 0, behavior: "smooth" });
+              // Give the scroll a moment in case of smooth behavior
+              setTimeout(() => window.location.reload(), 150);
+            }
+            // Otherwise let React Router navigate normally
+          }}
+        >
           <img
             src={logoSrc}
             alt="복지 디자인 로고"
