@@ -275,9 +275,9 @@ mark, [data-hl] {
           }}
         >
           <div style={{ marginLeft: megaLeft, width: 750 }}>
-            <div className="flex justify-between pt-5 pb-6 text-center">
+            <div className="grid grid-cols-4 gap-8 pt-5 pb-6 text-center">
               {sections.map((sec) => (
-                <div key={sec.title} className="flex-1 px-4 text-center min-w-[160px]">
+                <div key={sec.title} className="px-4 text-center">
                   <ul className="space-y-2">
                     {sec.items.map((it) => (
                       <li key={it.to}>
