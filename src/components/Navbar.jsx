@@ -275,15 +275,15 @@ mark, [data-hl] {
           }}
         >
           <div style={{ marginLeft: megaLeft, width: 750 }}>
-            <div className="grid grid-cols-4 gap-16 justify-items-center pt-5 pb-6 text-center">
+            <div className="flex justify-between pt-5 pb-6 text-center">
               {sections.map((sec) => (
-                <div key={sec.title} className="w-full text-center">
-                  <ul className="space-y-1.5">
+                <div key={sec.title} className="flex-1 px-4 text-center min-w-[160px]">
+                  <ul className="space-y-2">
                     {sec.items.map((it) => (
                       <li key={it.to}>
                         <NavLink
                           to={it.to}
-                          className="block h-8 leading-none text-[15px] text-gray-800 hover:text-emerald-600 whitespace-nowrap focus-visible:ring-2 focus-visible:ring-emerald-500 text-center"
+                          className="block leading-snug text-[15px] text-gray-800 hover:text-emerald-600 whitespace-normal focus-visible:ring-2 focus-visible:ring-emerald-500 text-center"
                           onClick={() => {
                             setMegaOpen(false);
                             setHoveredIdx(null);
