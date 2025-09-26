@@ -354,10 +354,8 @@ const StoryCard = (props) => {
         <div
           aria-hidden
           style={{
-            height:
-              typeof window !== "undefined" && window.innerWidth <= 640
-                ? 130
-                : 160,
+            aspectRatio: '16 / 9',
+            height: 'auto',
             overflow: "hidden",
             borderBottom: `1px solid ${PALETTE.line}`,
             background: hasThumb ? "#fff" : PALETTE.grayBg,
@@ -369,7 +367,7 @@ const StoryCard = (props) => {
               alt=""
               priority={priority}
               sizes="(min-width: 1024px) 33vw, 100vw"
-              style={{ width: "100%", height: "100%", objectFit: "cover" }}
+              style={{ width: "100%", height: "100%" }}
               // Cloudinary URL이면 Cloudinary CDN을 그대로 사용, 로컬/업로드 경로면 Netlify Image CDN 사용
               useCdn={!isCloudinary}
               cdnWidth={isMobile ? 480 : isTablet ? 800 : 1000}
@@ -1225,11 +1223,19 @@ mark, [data-hl] {
           <div
             style={{
               display: "grid",
-              gridTemplateColumns: isMobile
-                ? "1fr"
-                : isTablet
-                ? "repeat(2, minmax(0,1fr))"
-                : "repeat(3, minmax(0,1fr))",
+              ...(storyFiltered.length === 1
+                ? {
+                    gridTemplateColumns: isMobile ? "1fr" : "minmax(560px, 720px)",
+                    justifyContent: "center",
+                    justifyItems: "center",
+                  }
+                : {
+                    gridTemplateColumns: isMobile
+                      ? "1fr"
+                      : isTablet
+                      ? "repeat(2, minmax(0,1fr))"
+                      : "repeat(3, minmax(0,1fr))",
+                  }),
               gap: 24,
             }}
           >
