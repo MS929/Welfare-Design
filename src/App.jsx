@@ -47,6 +47,11 @@ function NotFound() {
   );
 }
 
+Sentry.init({
+  dsn: import.meta.env.VITE_SENTRY_DSN,
+  environment: import.meta.env.VITE_SENTRY_ENV, // ← 추가
+  tracesSampleRate: 1.0,
+});
 
 export default function App() {
   return (
