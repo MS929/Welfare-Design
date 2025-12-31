@@ -1,48 +1,38 @@
 /**
- * BizLayout.jsx
+ * _Layout.jsx
  * --------------------------------------------------
- * - 사업(Business) 페이지 공통 레이아웃 컴포넌트
- * - 상단에 브레드크럼 + 페이지 제목을 고정 제공
- * - 실제 페이지 콘텐츠는 children으로 주입받아 렌더링
- * - 사업 관련 페이지들에서 반복되는 레이아웃을 통합 관리하기 위한 목적
+ * 사업(Business) 섹션 공통 레이아웃 컴포넌트
+ *
+ * 이 파일은 "사업 페이지들에서 반복되는 상단 UI(브레드크럼 + 제목)"를
+ * 한 곳에서 공통 관리하기 위해 존재한다.
+ *
+ * - title   : 현재 페이지 제목 (브레드크럼, h1 제목에 사용)
+ * - children: 각 사업 페이지의 본문 콘텐츠
  */
 export default function BizLayout({
-  /** 현재 페이지의 제목 (브레드크럼 및 h1에 공통 사용) */
+  /** 현재 페이지 제목 (브레드크럼 및 h1 제목에 공통 사용) */
   title,
 
   /** 각 사업 페이지의 실제 콘텐츠 */
   children,
 }) {
   return (
-    /**
-     * 전체 페이지 컨테이너
-     * - 배경색 흰색 고정
-     */
     <div className="bg-white">
-      {/* ===== 상단: 브레드크럼 + 페이지 제목 영역 ===== */}
+      {/* 상단 영역: 브레드크럼 + 페이지 제목 */}
       <section className="max-w-screen-xl mx-auto px-4 pt-10">
-        {/* 브레드크럼: 사업 > 현재 페이지 */}
+        {/* 브레드크럼: "사업 > 현재 페이지 제목" */}
         <nav className="text-sm text-gray-500">
           사업 &gt; <span className="text-gray-700">{title}</span>
         </nav>
 
         {/* 페이지 메인 제목 */}
-        <h1 className="mt-3 text-3xl md:text-4xl font-extrabold">
-          {title}
-        </h1>
+        <h1 className="mt-3 text-3xl md:text-4xl font-extrabold">{title}</h1>
       </section>
 
-      {/* ===== 하단: 페이지별 실제 콘텐츠 영역 ===== */}
+      {/* 본문 영역: 각 페이지에서 전달된 children 렌더링 */}
       <section className="max-w-screen-xl mx-auto px-4 py-10">
         {children}
       </section>
     </div>
   );
 }
-
-/**
- * NOTE:
- * - BizLayout은 사업 페이지 공통 레이아웃이므로
- *   디자인 변경 시 이 파일만 수정하면 전체 사업 페이지에 반영됨
- * - title은 필수 props로 사용하는 것을 권장
- */

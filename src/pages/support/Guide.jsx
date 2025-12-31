@@ -1,4 +1,7 @@
 // src/pages/support/Guide.jsx
+// 후원 안내 페이지
+// - 카드(개인/기업·단체/물품) + 계좌 안내 + 후원 신청서 + FAQ/연락처를 한 페이지에 구성
+// - 모바일/데스크톱을 분리해 가독성과 클릭 동선을 최적화
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import { imageUrl } from "../../lib/image";
@@ -9,30 +12,64 @@ export default function SupGuide() {
       <style
         id="page-text-guard"
         dangerouslySetInnerHTML={{ __html: `
+/*
+  페이지 공통 텍스트/줄바꿈 가드 
+  - 모바일(iOS Safari 등)에서 글자 자동 확대/줄바꿈/하이픈 처리로 레이아웃이 깨지는 현상 방지
+  - 긴 URL/영문이 있을 때도 안전하게 줄바꿈되도록 보정
+*/
+
+/* iOS Safari의 폰트 자동 확대(가독성 보정)로 인해 레이아웃이 튀는 현상 방지 */
 html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
-*, *::before, *::after { box-sizing: border-box; min-width: 0; hyphens: manual; -webkit-hyphens: manual; }
-body {
-  line-height: 1.5;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-rendering: optimizeLegibility;
-  word-break: keep-all;
-  overflow-wrap: anywhere;
-  -webkit-line-break: after-white-space;
+
+/*
+  박스 모델 고정 + flex/grid 환경에서 예상치 못한 넘침 방지
+  - min-width: 0 : flex item이 내용 길이 때문에 줄어들지 못하는 문제 방지
+  - hyphens: manual : 자동 하이픈으로 단어가 어색하게 분리되는 현상 억제(필요 시 수동 하이픈만 허용)
+*/
+*, *::before, *::after {
+  box-sizing: border-box;
+  min-width: 0;
+  hyphens: manual;
+  -webkit-hyphens: manual;
 }
+
+body {
+  line-height: 1.5;                 /* 기본 줄간격(가독성) */
+  -webkit-font-smoothing: antialiased; /* mac/iOS에서 폰트 가장자리 렌더링 보정 */
+  -moz-osx-font-smoothing: grayscale;  /* Firefox(mac) 폰트 스무딩 보정 */
+  text-rendering: optimizeLegibility;  /* 커닝/가독성 우선 렌더링(브라우저 지원 범위 내) */
+
+  word-break: keep-all;             /*  한글 단어 중간 분리 방지(자연스러운 줄바꿈) */
+  overflow-wrap: anywhere;          /*  긴 영문/URL도 안전하게 줄바꿈(오버플로우 방지) */
+  -webkit-line-break: after-white-space; /* Safari에서 줄바꿈 규칙을 조금 더 안정적으로 */
+}
+
+/* 지원 브라우저에서 제목 줄바꿈을 더 예쁘게(텍스트 균형 줄바꿈) */
 h1, h2, .heading-balance { text-wrap: balance; }
+
+/* text-wrap 미지원 브라우저용 폴백: 줄높이/최대 폭으로 제목이 너무 길어지는 것 방지 */
 @supports not (text-wrap: balance) {
   h1, h2, .heading-balance { line-height: 1.25; max-width: 45ch; }
 }
+
+/* 하이라이트(mark) 배경이 줄바꿈될 때, 줄마다 자연스럽게 이어지도록 처리 */
 mark, [data-hl] {
   -webkit-box-decoration-break: clone;
   box-decoration-break: clone;
   padding: 0 .08em;
   border-radius: 2px;
 }
+
+/* 유틸: 줄바꿈 금지(짧은 라벨/토큰 등에 사용) */
 .nowrap { white-space: nowrap; }
+
+/* 유틸: 긴 텍스트(영문/URL)도 강제로 줄바꿈 허용 + 한글은 keep-all 유지 */
 .u-wrap-anywhere { overflow-wrap: anywhere; word-break: keep-all; }
+
+/* 유틸: 한 줄 말줄임(카드 제목/짧은 설명 등에 사용) */
 .u-ellipsis { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+/* 성능: 화면 밖 콘텐츠 렌더링 지연(지원 브라우저에서만) */
 .cv-auto { content-visibility: auto; contain-intrinsic-size: 400px 600px; }
         ` }}
       />
@@ -235,8 +272,11 @@ mark, [data-hl] {
   );
 }
 
-/* ---------- 작은 컴포넌트들 (통일된 스타일) ---------- */
+/* ---------- 재사용 컴포넌트들(후원 페이지 전용) ---------- */
 
+//  OptImg: Cloudinary(또는 CDN) 최적화 이미지 컴포넌트
+// - avif/webp/png 순으로 제공해서 브라우저가 지원하는 포맷을 자동 선택
+// - priority=true면 LCP 후보 이미지에 eager/high로 로딩 우선순위 부여
 function OptImg({ path, alt, width = 112, height = 112, className = "", priority = false }) {
   const avif = imageUrl(path, { w: 256, q: 82, fm: "avif" });
   const webp = imageUrl(path, { w: 256, q: 82, fm: "webp" });
@@ -260,11 +300,13 @@ function OptImg({ path, alt, width = 112, height = 112, className = "", priority
   );
 }
 
+//  SupportPanel: 상단 아이콘 + 제목 + 설명/불릿을 묶는 카드
+// - accent 값(teal/sky/emerald/warm/yellow)에 따라 배경/타이틀/불릿 마커 색상을 통일
 function SupportPanel({ icon, title, items = [], accent = "teal" }) {
   const bgClass = {
     teal: "bg-teal-50",
     sky: "bg-sky-50",
-    emerald: "bg-green-50", // changed from bg-emerald-50 to bg-green-50 for more distinction
+    emerald: "bg-green-50", // emerald-50보다 더 구분감 있는 연녹색 톤으로 조정
     warm: "bg-[#FFEDE2]", // peach tone
     yellow: "bg-yellow-50",
   }[accent] || "bg-teal-50";
@@ -331,6 +373,9 @@ function SupportCard({ title, desc, bullets = [], cta, className = "" }) {
   );
 }
 
+// BankBox: 무통장 입금(계좌이체) 안내 + 클립보드 복사 버튼
+// - compact=true: 모바일 전용 컴팩트 레이아웃
+// - copied 상태로 사용자에게 즉시 피드백(버튼 텍스트/스크린리더 안내)
 function BankBox({ className = "", compact = false }) {
   const [copied, setCopied] = useState(false);
 
@@ -376,6 +421,7 @@ function BankBox({ className = "", compact = false }) {
   );
 }
 
+// 아이콘: 손+하트(후원/나눔 느낌)
 function HeartHandIcon({ className = "" }) {
   return (
     <svg viewBox="0 0 64 64" className={className} fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -386,6 +432,7 @@ function HeartHandIcon({ className = "" }) {
   );
 }
 
+// 아이콘: 사람+하트(커뮤니티/참여 느낌)
 function PeopleHeartIcon({ className = "" }) {
   return (
     <svg viewBox="0 0 64 64" className={className} fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -397,6 +444,7 @@ function PeopleHeartIcon({ className = "" }) {
   );
 }
 
+// 아이콘: 박스+하트(물품 후원 느낌)
 function BoxHeartIcon({ className = "" }) {
   return (
     <svg viewBox="0 0 64 64" className={className} fill="none" xmlns="http://www.w3.org/2000/svg">

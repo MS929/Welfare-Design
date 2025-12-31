@@ -15,9 +15,10 @@
 import BizLayout from "./_Layout";
 
 // ---------------------------------------------------------------------------
-// Cloudinary fetch helper
-//  - "fetch" 모드로 Netlify에 있는 정적 이미지를 Cloudinary가 가져와 변환(AVIF/WEBP)
-//  - 모바일에서만 srcset으로 제공해 첫 로딩 트래픽을 줄이고, 데스크탑은 로컬 PNG 유지
+// Cloudinary 이미지 fetch 헬퍼
+//  - Netlify에 배포된 정적 이미지를 Cloudinary가 fetch 방식으로 가져와 AVIF/WEBP로 변환
+//  - 모바일에서만 srcset을 사용해 초기 로딩 트래픽을 절감하고,
+//    태블릿/데스크탑은 로컬 PNG를 그대로 사용해 디자인과 품질을 유지
 // ---------------------------------------------------------------------------
 const ORIGIN = "https://welfaredesign.netlify.app"; // 배포(프로덕션) 정적 파일 기준 origin
 const RAW = `${ORIGIN}/images/business/apply-help.png`; // Cloudinary가 fetch할 원본 URL
@@ -43,33 +44,64 @@ export default function ApplyHelp() {
       <style
         id="page-text-guard"
         dangerouslySetInnerHTML={{ __html: `
-html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
-*, *::before, *::after { box-sizing: border-box; min-width: 0; hyphens: manual; -webkit-hyphens: manual; }
+html {
+  -webkit-text-size-adjust: 100%; /* iOS Safari에서 글자 자동 확대를 막아 레이아웃이 흔들리지 않게 함 */
+  text-size-adjust: 100%;         /* 일부 브라우저의 텍스트 자동 조정 비활성화/완화 */
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;         /* padding/ border 포함해 크기를 계산(예상 가능한 레이아웃) */
+  min-width: 0;                   /* flex/grid 자식이 내용 때문에 과도하게 넓어지는 문제 방지 */
+  hyphens: manual;                /* 자동 하이픈 삽입을 최소화(필요 시 수동 하이픈만 적용) */
+  -webkit-hyphens: manual;        /* Safari 계열 하이픈 설정 */
+}
+
 body {
-  line-height: 1.5;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-rendering: optimizeLegibility;
-  word-break: keep-all;            /* Korean: avoid mid-word breaks */
-  overflow-wrap: anywhere;         /* Long English/URLs wrap safely */
-  -webkit-line-break: after-white-space;
+  line-height: 1.5;               /* 본문 기본 행간 */
+  -webkit-font-smoothing: antialiased; /* macOS/Safari에서 폰트 렌더링을 부드럽게 */
+  -moz-osx-font-smoothing: grayscale;  /* macOS/Firefox 폰트 렌더링 보정 */
+  text-rendering: optimizeLegibility;  /* 가독성 우선 렌더링(커닝 등) */
+
+  word-break: keep-all;           /* 한글 단어가 중간에서 끊어지지 않도록 설정 */
+  overflow-wrap: anywhere;        /* 긴 영문 텍스트나 URL도 화면 밖으로 넘치지 않게 줄바꿈 */
+  -webkit-line-break: after-white-space; /* WebKit 줄바꿈 동작 보정(공백 기준 줄바꿈 우선) */
 }
-h1, h2, .heading-balance { text-wrap: balance; }
+
+h1, h2, .heading-balance {
+  text-wrap: balance;             /* 제목 줄바꿈을 균형 있게(지원 브라우저에서만) */
+}
+
 @supports not (text-wrap: balance) {
-  h1, h2, .heading-balance { line-height: 1.25; max-width: 45ch; }
+  h1, h2, .heading-balance {
+    line-height: 1.25;            /* balance 미지원 환경에서 제목이 뭉개지지 않게 행간 조정 */
+    max-width: 45ch;              /* 제목 줄 길이를 제한해 과도한 한 줄 폭을 방지 */
+  }
 }
+
 mark, [data-hl] {
-  -webkit-box-decoration-break: clone;
-  box-decoration-break: clone;
-  padding: 0 .08em;
-  border-radius: 2px;
+  -webkit-box-decoration-break: clone; /* 줄바꿈된 강조 표시가 끊기지 않게(webkit) */
+  box-decoration-break: clone;          /* 줄바꿈된 강조 표시가 끊기지 않게(표준) */
+  padding: 0 .08em;                    /* 하이라이트 양옆 여백 */
+  border-radius: 2px;                  /* 하이라이트 모서리 살짝 둥글게 */
 }
-.nowrap { white-space: nowrap; }
-.u-wrap-anywhere { overflow-wrap: anywhere; word-break: keep-all; }
-.u-ellipsis { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+.nowrap {
+  white-space: nowrap;           /* 강제 한 줄 표시(줄바꿈 금지) */
+}
+
+.u-wrap-anywhere {
+  overflow-wrap: anywhere;       /* 긴 문자열도 어디서든 줄바꿈 허용 */
+  word-break: keep-all;          /* 한글 단어 중간 분리 방지 */
+}
+
+.u-ellipsis {
+  overflow: hidden;              /* 영역 밖 내용 숨김 */
+  text-overflow: ellipsis;       /* 한 줄 말줄임표 처리 */
+  white-space: nowrap;           /* 한 줄 고정 */
+}
         ` }}
       />
-      {/* 공통 비즈니스 레이아웃(헤더/푸터/SEO title 등) */}
+      {/* 공통 비즈니스 레이아웃: 상단 브레드크럼과 페이지 제목을 제공 */}
       <BizLayout title="복지용구 신청 안내 지원">
       <div className="max-w-screen-xl mx-auto px-4 pb-4">
         {/* ====================== 메인 섹션: 이미지 + 안내 콘텐츠 ====================== */}
@@ -159,7 +191,7 @@ mark, [data-hl] {
               {/* Desktop & Tablet (md 이상): 기존 스타일 유지 */}
               <div className="hidden md:block rounded-2xl border border-[#F26C2A]/45 bg-gradient-to-r from-[#FFF3E9] to-[#EFFFFD] px-8 py-5 shadow-md">
                 <div className="flex items-center justify-center gap-3 text-[#111827] tracking-tight">
-                  {/* phone icon */}
+                  {/* 전화 아이콘 */}
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 24 24"
@@ -184,7 +216,7 @@ mark, [data-hl] {
               <div className="md:hidden rounded-2xl border border-[#F26C2A]/45 bg-gradient-to-r from-[#FFF3E9] to-[#EFFFFD] px-5 py-4 shadow-md">
                 <div className="flex items-center justify-between gap-3 text-[#111827]">
                   <div className="flex items-center gap-2 min-w-0">
-                    {/* phone icon */}
+                    {/* 전화 아이콘 */}
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       viewBox="0 0 24 24"

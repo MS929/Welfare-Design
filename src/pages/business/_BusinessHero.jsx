@@ -2,15 +2,14 @@
 /**
  * BusinessHero 컴포넌트
  * --------------------------------------------------
- * - 사업(비즈니스) 페이지 상단 또는 섹션용 히어로 컴포넌트
- * - 좌측 이미지 + 우측 설명(불릿) + CTA 버튼 구조
- * - 다양한 사업 페이지에서 재사용 가능하도록 props 기반으로 설계
+ * - 사업 페이지 상단 또는 섹션용 히어로 컴포넌트
+ * - 좌측 이미지와 우측 설명(불릿) 및 CTA 버튼으로 구성
+ * - 다양한 사업 페이지에서 재사용 가능하도록 props 기반 설계
  */
 export default function BusinessHero({
   /**
    * 내부 섹션 제목 표시 여부
-   * - 페이지 상단 Hero가 아닌, 중간 섹션에서 사용할 경우 true
-   * - 기본값 false
+   * - 중간 섹션에서 제목을 표시할 때 사용
    */
   showHeading = false,
 
@@ -37,7 +36,6 @@ export default function BusinessHero({
 
   /**
    * CTA 링크 URL
-   * - ctaHref 또는 onCta 중 하나만 사용
    */
   ctaHref,
 
@@ -53,10 +51,10 @@ export default function BusinessHero({
   return (
     /**
      * 전체 섹션 컨테이너
-     * - max-width 제한 + 중앙 정렬
+     * - 최대 너비 제한 및 중앙 정렬
      */
     <section className="max-w-screen-xl mx-auto px-4">
-      {/* ===== (선택) 내부 제목 영역 ===== */}
+      {/* ===== 내부 제목 영역 ===== */}
       {showHeading && (
         <div className="mb-6">
           {/* 섹션 제목 */}
@@ -64,12 +62,9 @@ export default function BusinessHero({
             {heading}
           </h2>
 
-          {/* 보조 설명 (있을 경우만 렌더링) */}
-          {subtitle && (
-            <p className="mt-1 text-lg text-gray-700">
-              {subtitle}
-            </p>
-          )}
+          <p className="mt-1 text-lg text-gray-700">
+            {subtitle}
+          </p>
         </div>
       )}
 
@@ -97,7 +92,7 @@ export default function BusinessHero({
         </div>
 
         {/* ------------------------------------------------------------------
-            우측: 설명 + CTA 영역
+            우측: 설명 및 CTA 영역
            ------------------------------------------------------------------ */}
         <div className="rounded-2xl border border-emerald-200 bg-white p-6">
           {/* 설명 불릿 리스트 */}
@@ -111,12 +106,9 @@ export default function BusinessHero({
             ))}
           </ul>
 
-          {/* 하단 보조 안내 문구 */}
-          {note && (
-            <p className="mt-4 text-sm text-gray-500">
-              {note}
-            </p>
-          )}
+          <p className="mt-4 text-sm text-gray-500">
+            {note}
+          </p>
 
           {/* ===== CTA 버튼 영역 ===== */}
           {ctaText && (ctaHref || onCta) && (
@@ -135,7 +127,7 @@ export default function BusinessHero({
               ) : (
                 /**
                  * 버튼형 CTA
-                 * - 모달, 스크롤, 커스텀 액션 등
+                 * - 모달, 스크롤, 커스텀 액션 등 클릭 이벤트 처리
                  */
                 <button
                   onClick={onCta}

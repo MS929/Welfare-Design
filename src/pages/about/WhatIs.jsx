@@ -657,7 +657,7 @@ export default function AboutWhat() {
           </span>
         </p>
 
-        {/* 가는 구분선 (선택) */}
+        {/* 가는 구분선 */}
         <div className="mx-auto mt-5 h-1 w-28 rounded-full bg-gradient-to-r from-brand-400 to-brand-600" />
       </section>
       {/* ===== 설립 배경 ===== */}

@@ -30,8 +30,7 @@ export default function DonationCampaign() {
 
   return (
     <>
-      {/* Cloudinary CDN과의 사전 연결(preconnect)로 이미지 요청 지연 최소화 */} 
-      <link rel="preconnect" href="https://res.cloudinary.com" crossOrigin="anonymous" />
+      {/* Cloudinary CDN과의 사전 연결(preconnect)로 이미지 요청 지연 최소화*/}
       {/*
         텍스트/줄바꿈 안정화 CSS
         - 한글: word-break: keep-all → 단어 중간 끊김 방지
@@ -41,11 +40,11 @@ export default function DonationCampaign() {
       <style
         id="page-text-guard"
         dangerouslySetInnerHTML={{ __html: `
-/* ==========================================================================
-   Global Text & Layout Guard Styles
-   - 페이지 전반의 텍스트 깨짐, 줄바꿈, 가독성 문제를 예방하기 위한 방어용 CSS
-   - 특정 컴포넌트가 아닌 "페이지 안정성" 목적
-   ========================================================================== */
+/* =====================================================================
+   텍스트·레이아웃 안정화(가드) 스타일
+   - 페이지 전반의 텍스트 깨짐/줄바꿈/가독성 문제를 예방하기 위한 방어용 CSS
+   - 특정 컴포넌트가 아니라 "페이지 전체 안정성"을 위한 설정
+   ===================================================================== */
 
 /* 브라우저 텍스트 자동 확대/축소 방지 (모바일 접근성 이슈 예방) */
 html {
@@ -89,7 +88,7 @@ h1, h2, .heading-balance {
   text-wrap: balance;
 }
 
-/* text-wrap 미지원 브라우저용 fallback */
+/* text-wrap 미지원 브라우저용 대체 처리 */
 @supports not (text-wrap: balance) {
   h1, h2, .heading-balance {
     line-height: 1.25;
@@ -105,18 +104,18 @@ mark, [data-hl] {
   border-radius: 2px;
 }
 
-/* 줄바꿈 금지 유틸리티 */
+/* 줄바꿈 금지 유틸 클래스 */
 .nowrap {
   white-space: nowrap;
 }
 
-/* 어디서든 줄바꿈 허용 (긴 문자열 대응) */
+/* 어디서든 줄바꿈 허용(긴 문자열 대응) */
 .u-wrap-anywhere {
   overflow-wrap: anywhere;
   word-break: keep-all;
 }
 
-/* 한 줄 말줄임 처리 유틸리티 */
+/* 한 줄 말줄임 유틸 클래스 */
 .u-ellipsis {
   overflow: hidden;
   text-overflow: ellipsis;
@@ -212,10 +211,10 @@ mark, [data-hl] {
             */}
             {/* 문의 박스: PC(데스크탑) / 모바일 분리 렌더링 */}
             <div className="mt-3 mb-1 md:mb-0">
-              {/* Desktop & Tablet (md 이상): 기존 스타일 유지 */}
+              {/* 데스크탑/태블릿(md 이상): 기존 스타일 유지 */}
               <div className="hidden md:block rounded-2xl border border-[#F26C2A]/45 bg-gradient-to-r from-[#FFF3E9] to-[#EFFFFD] px-8 py-5 shadow-md">
                 <div className="flex items-center justify-center gap-3 text-[#111827] tracking-tight">
-                  {/* phone icon */}
+                  {/* 전화 아이콘 */}
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 24 24"
@@ -236,11 +235,11 @@ mark, [data-hl] {
                   </a>
                 </div>
               </div>
-              {/* Mobile 전용 (md 미만): 한 줄 레이아웃, 줄바꿈 방지 */}
+              {/* 모바일 전용(md 미만): 한 줄 레이아웃, 줄바꿈 방지 */}
               <div className="md:hidden rounded-2xl border border-[#F26C2A]/45 bg-gradient-to-r from-[#FFF3E9] to-[#EFFFFD] px-5 py-4 shadow-md">
                 <div className="flex items-center justify-between gap-3 text-[#111827]">
                   <div className="flex items-center gap-2 min-w-0">
-                    {/* phone icon */}
+                    {/* 전화 아이콘 */}
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       viewBox="0 0 24 24"

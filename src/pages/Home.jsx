@@ -356,7 +356,7 @@ const StoryCard = (props) => {
           WebkitBackfaceVisibility: "hidden",
           willChange: isTouchDevice ? "auto" : "transform",
 
-          // ✅ content-visibility가 iOS에서 떨림을 유발할 수 있어 터치에서는 비활성화
+          // content-visibility는 iOS에서 떨림을 유발할 수 있어 터치 환경에서는 비활성화
           ...(isTouchDevice
             ? {}
             : { contentVisibility: "auto", containIntrinsicSize: "268px 220px" }),
@@ -765,7 +765,7 @@ mark, [data-hl] {
                   background: "#fff",
                 }}
               >
-                // HERO 캐러셀 이미지 렌더링 (현재 인덱스만 표시)
+                {/* HERO 캐러셀 이미지 렌더링 (현재 인덱스만 표시) */}
                 {HERO_IMAGES.map((src, i) => (
                   <OptimizedImg
                     key={src}
