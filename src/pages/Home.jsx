@@ -5,7 +5,7 @@
  * - 모바일/터치 환경에서 hover/active 잔상 및 떨림(iOS Safari) 방지를 위한 스타일 처리 포함
  */
 import { useState, useEffect, useMemo, useRef } from "react";
-// ✅ 반응형/입력장치(터치) 감지를 위한 커스텀 훅
+//  반응형/입력장치(터치) 감지를 위한 커스텀 훅
 // - SSR 환경(윈도우 없음)에서도 안전하게 동작하도록 guard 처리
 // 반응형 미디어 쿼리 상태를 반환하는 훅
 const useMedia = (query) => {
@@ -325,7 +325,7 @@ const StoryCard = (props) => {
     href = "/news/stories",
     thumbnail,
     priority = false,
-    // ✅ 모바일/터치에서 hover/transition 끄기 위한 플래그
+    //  모바일/터치에서 hover/transition 끄기 위한 플래그
     isTouchDevice = false,
     isMobile = false,
     isTablet = false,
@@ -345,12 +345,12 @@ const StoryCard = (props) => {
           border: `1px solid ${PALETTE.line}`,
           boxShadow: isTouchDevice ? "0 2px 6px rgba(0,0,0,.04)" : PALETTE.shadowSm,
           overflow: "hidden",
-          // ✅ 모바일에서는 transition/hover 제거 → 떨림 방지
+          //  모바일에서는 transition/hover 제거 → 떨림 방지
           transition: isTouchDevice
             ? "none"
             : "transform .12s ease, box-shadow .12s ease, border-color .12s ease",
 
-          // ✅ iOS Safari에서 스크롤 시 카드 떨림 방지(레이어 고정)
+          //  iOS Safari에서 스크롤 시 카드 떨림 방지(레이어 고정)
           transform: "translateZ(0)",
           backfaceVisibility: "hidden",
           WebkitBackfaceVisibility: "hidden",
@@ -361,7 +361,7 @@ const StoryCard = (props) => {
             ? {}
             : { contentVisibility: "auto", containIntrinsicSize: "268px 220px" }),
         }}
-        // ✅ 터치 디바이스에서는 hover 핸들러 자체를 달지 않음
+        //  터치 디바이스에서는 hover 핸들러 자체를 달지 않음
         onMouseEnter={
           !isTouchDevice
             ? (e) => {
@@ -659,31 +659,72 @@ export default function Home1() {
         id="page-text-guard"
         dangerouslySetInnerHTML={{
           __html: `
-html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
-*, *::before, *::after { box-sizing: border-box; min-width: 0; hyphens: manual; -webkit-hyphens: manual; }
+/* 브라우저별 자동 텍스트 크기 조절 방지 (모바일 확대 이슈 대응) */
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+/* 모든 요소의 박스 모델을 border-box로 통일하고,
+   최소 너비 및 하이픈 처리 기준을 안정화 */
+*, *::before, *::after {
+  box-sizing: border-box;
+  min-width: 0;
+  hyphens: manual;
+  -webkit-hyphens: manual;
+}
+
+/* 본문 텍스트 기본 렌더링 품질 및 줄바꿈 정책 */
 body {
-  line-height: 1.5;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-rendering: optimizeLegibility;
-  word-break: keep-all;            /* Korean: avoid mid-word breaks */
-  overflow-wrap: anywhere;         /* Long English/URLs wrap safely */
-  -webkit-line-break: after-white-space;
+  line-height: 1.5;                 /* 가독성을 위한 기본 줄간격 */
+  -webkit-font-smoothing: antialiased; /* macOS/iOS 글꼴 렌더링 개선 */
+  -moz-osx-font-smoothing: grayscale;  /* Firefox macOS 렌더링 보정 */
+  text-rendering: optimizeLegibility;  /* 가독성 우선 렌더링 */
+
+  word-break: keep-all;             /* 한글 단어 중간 분리 방지 */
+  overflow-wrap: anywhere;          /* 긴 영문/URL도 안전하게 줄바꿈 */
+  -webkit-line-break: after-white-space; /* iOS 줄바꿈 안정화 */
 }
-h1, h2, .heading-balance { text-wrap: balance; }
+
+/* 제목 계열 텍스트 줄 균형 맞추기 (지원 브라우저 한정) */
+h1, h2, .heading-balance {
+  text-wrap: balance;
+}
+
+/* text-wrap 미지원 브라우저 대응용 대체 스타일 */
 @supports not (text-wrap: balance) {
-  h1, h2, .heading-balance { line-height: 1.25; max-width: 45ch; }
+  h1, h2, .heading-balance {
+    line-height: 1.25;   /* 제목 줄간격을 조여 시각적 균형 유지 */
+    max-width: 45ch;     /* 한 줄 길이 제한으로 줄바꿈 유도 */
+  }
 }
+
+/* 강조 텍스트(mark, 하이라이트)의 배경 잘림 방지 */
 mark, [data-hl] {
   -webkit-box-decoration-break: clone;
   box-decoration-break: clone;
   padding: 0 .08em;
   border-radius: 2px;
 }
-.nowrap { white-space: nowrap; }
-.u-wrap-anywhere { overflow-wrap: anywhere; word-break: keep-all; }
-.u-ellipsis { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-        `,
+
+/* 줄바꿈을 허용하지 않는 유틸리티 클래스 */
+.nowrap {
+  white-space: nowrap;
+}
+
+/* 어디서든 줄바꿈 허용 (영문/URL 대응용 유틸) */
+.u-wrap-anywhere {
+  overflow-wrap: anywhere;
+  word-break: keep-all;
+}
+
+/* 한 줄 말줄임 처리 유틸리티 */
+.u-ellipsis {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+    `,
         }}
       />
       <main style={{ background: "#fff", overflowX: "hidden" }}>
@@ -1021,7 +1062,7 @@ mark, [data-hl] {
                     alignItems: isTablet ? "stretch" : "center",
                   }}
                 >
-                    {/* 좌측: 섹션 제목 및 설명 영역 (빠르게 가기) */}
+                  {/* 좌측: 섹션 제목 및 설명 영역 (빠르게 가기) */}
                   <div style={{ textAlign: isMobile ? "center" : "left" }}>
                     <h3
                       style={{
@@ -1295,7 +1336,7 @@ mark, [data-hl] {
                 }`}
                 thumbnail={n.thumbnail}
                 priority={idx < 3}
-                // ✅ 모바일/터치에서 hover/transition 비활성화
+                //  모바일/터치에서 hover/transition 비활성화
                 isTouchDevice={isMobile || isTouch}
                 isMobile={isMobile}
                 isTablet={isTablet}
