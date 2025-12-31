@@ -14,31 +14,59 @@ export default function EwcInsurance() {
 
   return (
     <>
+      {/* Cloudinary CDN과의 연결을 미리 열어(Preconnect) 이미지 로딩 지연을 줄임 */}
       <link rel="preconnect" href="https://res.cloudinary.com" crossOrigin="anonymous" />
+      {/*
+        페이지 전용 텍스트/줄바꿈 가드 스타일
+        - 모바일에서 자동 글자 확대 방지
+        - 긴 단어/숫자(전화번호 등)로 인한 레이아웃 깨짐 방지
+        - 제목 줄바꿈(균형) 지원
+      */}
       <style
         id="page-text-guard"
         dangerouslySetInnerHTML={{ __html: `
+/* ===== 1) 모바일 자동 글자 확대 방지 (iOS Safari 등) ===== */
 html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
-*, *::before, *::after { box-sizing: border-box; min-width: 0; hyphens: manual; -webkit-hyphens: manual; }
+
+/* ===== 2) 레이아웃 안정화: box-sizing 통일 + 최소 너비/하이픈 처리 ===== */
+*, *::before, *::after {
+  box-sizing: border-box;
+  min-width: 0;              /* flex/grid 자식이 과도하게 커지는 현상 방지 */
+  hyphens: manual;
+  -webkit-hyphens: manual;
+}
+
+/* ===== 3) 본문 렌더링 품질 + 줄바꿈 정책 ===== */
 body {
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
+
+  /* 한국어 문장: 단어 중간 깨짐 최소화 + 필요 시 어디서든 줄바꿈 허용 */
   word-break: keep-all;
   overflow-wrap: anywhere;
+
+  /* WebKit 계열 줄바꿈 정책 보정 */
   -webkit-line-break: after-white-space;
 }
+
+/* ===== 4) 제목 줄바꿈 균형(지원 브라우저에서만) ===== */
 h1, h2, .heading-balance { text-wrap: balance; }
 @supports not (text-wrap: balance) {
+  /* text-wrap 미지원 시: 줄간격을 조금 줄이고 제목 폭을 제한해 자연스러운 줄바꿈 유도 */
   h1, h2, .heading-balance { line-height: 1.25; max-width: 45ch; }
 }
+
+/* ===== 5) 하이라이트(마크) 스타일: 줄바꿈 시에도 배경이 자연스럽게 이어지도록 ===== */
 mark, [data-hl] {
   -webkit-box-decoration-break: clone;
   box-decoration-break: clone;
   padding: 0 .08em;
   border-radius: 2px;
 }
+
+/* ===== 6) 유틸 클래스: 특정 상황에서 줄바꿈/말줄임 제어 ===== */
 .nowrap { white-space: nowrap; }
 .u-wrap-anywhere { overflow-wrap: anywhere; word-break: keep-all; }
 .u-ellipsis { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
@@ -50,7 +78,10 @@ mark, [data-hl] {
         <div className="grid gap-8 md:grid-cols-2 items-stretch">
           {/* 좌측 이미지: JS 동기화 제거, 순수 CSS로 동일 높이 */}
           <div className="flex items-center justify-center">
-            {/* 단일 그림 요소로 중복 렌더 제거 */}
+            {/*
+              단일 그림 요소로 중복 렌더 제거
+              <picture>를 사용해 브라우저가 지원하는 포맷(AVIF/WEBP)을 우선 선택 → 용량/속도 개선
+            */}
             <picture>
               {/* AVIF first */}
               <source
@@ -140,7 +171,11 @@ mark, [data-hl] {
                   </a>
                 </div>
               </div>
-              {/* Mobile 전용 (md 미만): 한 줄 레이아웃, 줄바꿈 방지 */}
+              {/*
+                Mobile 전용 (md 미만)
+                - 텍스트가 2줄로 깨지면 높이가 늘어나 레이아웃이 흔들릴 수 있어 한 줄 고정
+                - 전화번호는 tap-to-call이 잘 되도록 크게/굵게 표시
+              */}
               <div className="md:hidden rounded-2xl border border-[#F26C2A]/45 bg-gradient-to-r from-[#FFF3E9] to-[#EFFFFD] px-5 py-4 shadow-md">
                 <div className="flex items-center justify-between gap-3 text-[#111827]">
                   <div className="flex items-center gap-2 min-w-0">

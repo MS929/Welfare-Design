@@ -1,16 +1,45 @@
 // src/pages/business/ApplyHelp.jsx
+// -----------------------------------------------------------------------------
+// [페이지 목적]
+//  - 복지용구(보조기기/복지용구) 신청 안내 지원 페이지
+//  - 좌측: 대표 이미지 / 우측: 안내 내용(불릿) + 기대효과 + 전화 문의 배너
+//
+// [이미지 전략]
+//  - 모바일: Cloudinary `image/fetch`로 AVIF/WEBP + 반응형 srcset 제공(용량/속도 최적화)
+//  - 데스크탑/태블릿: 로컬 정적 PNG를 그대로 사용(디자인/품질 보존 + 캐시 안정)
+//
+// [텍스트/레이아웃 안정화]
+//  - 긴 영문/URL 줄바꿈, 한글 줄바꿈(keep-all) 등 깨짐 방지용 CSS 가드 포함
+//  - MD 기준으로 문의 배너 레이아웃을 분리해 모바일 줄바꿈/넘침을 예방
+// -----------------------------------------------------------------------------
 import BizLayout from "./_Layout";
 
-export default function ApplyHelp() {
-  // Cloudinary fetch helper for this page image (keeps local fallback working)
-  const ORIGIN = "https://welfaredesign.netlify.app"; // production origin for static images
-  const RAW = `${ORIGIN}/images/business/apply-help.png`;
-  const cld = (w, fmt = "auto") =>
-    `https://res.cloudinary.com/dxeadg9wi/image/fetch/c_limit,f_${fmt},q_auto:eco,dpr_auto,w_${w}/${RAW}`;
+// ---------------------------------------------------------------------------
+// Cloudinary fetch helper
+//  - "fetch" 모드로 Netlify에 있는 정적 이미지를 Cloudinary가 가져와 변환(AVIF/WEBP)
+//  - 모바일에서만 srcset으로 제공해 첫 로딩 트래픽을 줄이고, 데스크탑은 로컬 PNG 유지
+// ---------------------------------------------------------------------------
+const ORIGIN = "https://welfaredesign.netlify.app"; // 배포(프로덕션) 정적 파일 기준 origin
+const RAW = `${ORIGIN}/images/business/apply-help.png`; // Cloudinary가 fetch할 원본 URL
 
+// w: 요청 너비(px), fmt: avif/webp/auto
+// c_limit: 원본 비율 유지, 지정 폭 이상 확대 방지
+// q_auto:eco: 자동 품질(eco)
+// dpr_auto: 기기 DPR에 맞춰 최적화
+const cld = (w, fmt = "auto") =>
+  `https://res.cloudinary.com/dxeadg9wi/image/fetch/c_limit,f_${fmt},q_auto:eco,dpr_auto,w_${w}/${RAW}`;
+
+export default function ApplyHelp() {
   return (
     <>
+      {/* Cloudinary CDN과의 연결을 미리 열어(Preconnect) 이미지 요청 지연을 줄임 */}
       <link rel="preconnect" href="https://res.cloudinary.com" crossOrigin="anonymous" />
+      {/*
+        텍스트/줄바꿈 가드
+        - 한글: word-break: keep-all로 단어 중간 끊김 최소화
+        - 긴 URL/영문: overflow-wrap: anywhere로 안전하게 줄바꿈
+        - text-wrap: balance 지원 시 제목 줄바꿈 균형(미지원 브라우저는 fallback)
+      */}
       <style
         id="page-text-guard"
         dangerouslySetInnerHTML={{ __html: `
@@ -40,27 +69,38 @@ mark, [data-hl] {
 .u-ellipsis { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
         ` }}
       />
+      {/* 공통 비즈니스 레이아웃(헤더/푸터/SEO title 등) */}
       <BizLayout title="복지용구 신청 안내 지원">
       <div className="max-w-screen-xl mx-auto px-4 pb-4">
+        {/* ====================== 메인 섹션: 이미지 + 안내 콘텐츠 ====================== */}
         {/* 상단: 좌측 이미지 / 우측 안내 박스 */}
         <div className="grid gap-8 md:grid-cols-2 items-stretch">
           <div className="flex items-center justify-center">
-            {/* 단일 그림 요소로 중복 렌더 제거 */}
+            {/*
+              <picture>로 포맷/미디어쿼리 분기
+              - (max-width: 767px)에서만 AVIF/WEBP 소스 제공
+              - 그 외(태블릿/데스크탑)는 로컬 PNG로 안정적으로 렌더
+            */}
             <picture>
-              {/* 모바일 전용 Cloudinary 최적화 */}
+              {/* 모바일: AVIF (가장 용량 효율적) */}
               <source
                 media="(max-width: 767px)"
                 type="image/avif"
                 srcSet={`${cld(320,'avif')} 320w, ${cld(480,'avif')} 480w, ${cld(640,'avif')} 640w, ${cld(750,'avif')} 750w, ${cld(828,'avif')} 828w`}
                 sizes="100vw"
               />
+              {/* 모바일: WEBP (AVIF 미지원 브라우저 fallback) */}
               <source
                 media="(max-width: 767px)"
                 type="image/webp"
                 srcSet={`${cld(320,'webp')} 320w, ${cld(480,'webp')} 480w, ${cld(640,'webp')} 640w, ${cld(750,'webp')} 750w, ${cld(828,'webp')} 828w`}
                 sizes="100vw"
               />
-              {/* 데스크탑/태블릿: 정적 PNG 그대로 */}
+              {/*
+                태블릿/데스크탑: 로컬 정적 PNG
+                - 디자인 고정/품질 유지
+                - build 시 정적 자산 캐시 활용
+              */}
               <img
                 src="/images/business/apply-help.png"
                 alt="복지용구 신청 안내 지원"
@@ -75,7 +115,7 @@ mark, [data-hl] {
               />
             </picture>
           </div>
-          {/* 안내 박스 (불릿) + 기대 효과 + 상담 문의 배너 */}
+          {/* 우측 컬럼: 안내(불릿) → 기대효과 → 문의 배너(반응형) */}
           <div className="grid md:h-[460px] lg:h-[470px] grid-rows-[auto,auto,auto] md:grid-rows-[auto,1fr,auto] gap-6 mt-12">
             {/* 안내 박스 */}
             <div className="rounded-2xl border border-[#2CB9B1]/40 bg-white/90 backdrop-blur-[1px] shadow-md p-7 md:p-8">
@@ -109,6 +149,11 @@ mark, [data-hl] {
               </ul>
             </div>
 
+            {/*
+              문의 배너는 md 기준으로 완전히 분리 렌더링
+              - 데스크탑: 가운데 정렬 + 큰 폰트
+              - 모바일: 한 줄 레이아웃 + 줄바꿈 방지(whitespace-nowrap)
+            */}
             {/* 문의 박스: PC(데스크탑) / 모바일 분리 렌더링 */}
             <div className="mt-3 mb-1 md:mb-0">
               {/* Desktop & Tablet (md 이상): 기존 스타일 유지 */}

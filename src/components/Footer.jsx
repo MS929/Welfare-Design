@@ -1,89 +1,104 @@
+/**
+ * Footer.jsx
+ * - 사이트 하단에 공통으로 노출되는 푸터 컴포넌트
+ * - 단체 정보(로고, 소개 문구, 연락처, 주소)와 저작권 정보를 표시
+ * - 모든 페이지에서 공통 레이아웃으로 사용됨
+ */
+// Cloudinary/Netlify CDN을 활용한 이미지 최적화 컴포넌트
 import OptimizedImg from "./OptimizedImg";
 
+// 사이트 전체에 공통 적용되는 푸터 영역
 export default function Footer() {
+  // 현재 연도를 자동으로 계산하여 저작권 표기에 사용
   const year = new Date().getFullYear();
   return (
-    <footer className="bg-gray-900 text-gray-200 mt-12 md:mt-16">
-      {/* container */}
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 py-5 md:py-5 lg:py-4">
-        {/* Top row */}
-        <div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
-          {/* Brand */}
-          <div className="flex items-center gap-3 md:gap-4">
-            <OptimizedImg
-              src="/images/about/main.png"
-              alt="복지디자인 로고"
-              useCdn
-              cdnWidth={80}
-              sizes="(max-width: 768px) 40px, 48px"
-              className="h-6 w-auto md:h-7 lg:h-7 shrink-0 rounded -mt-6 md:-mt-8 lg:-mt-10"
-              loading="lazy"
-              decoding="async"
-              fetchpriority="low"
-              width={80}
-              height={30}
-              onError={(e) => {
-                e.currentTarget.src = "/images/about/fallback.png";
-              }}
-            />
+    <>
+      {/* 페이지 하단 전체를 감싸는 footer 영역 */}
+      <footer className="bg-gray-900 text-gray-200 mt-12 md:mt-16">
+        {/* 콘텐츠 폭을 제한하는 컨테이너 */}
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 py-5 md:py-5 lg:py-4">
+          {/* 상단 영역: 로고/단체 소개 + 연락처 정보 */}
+          <div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
+            {/* 브랜드 영역: 로고 이미지 + 단체명/슬로건 */}
+            <div className="flex items-center gap-3 md:gap-4">
+              {/* 단체 로고 이미지 (반응형 + CDN 최적화 적용) */}
+              <OptimizedImg
+                src="/images/about/main.png"
+                alt="복지디자인 로고"
+                useCdn
+                cdnWidth={80}
+                sizes="(max-width: 768px) 40px, 48px"
+                className="h-6 w-auto md:h-7 lg:h-7 shrink-0 rounded -mt-6 md:-mt-8 lg:-mt-10"
+                loading="lazy"
+                decoding="async"
+                fetchpriority="low"
+                width={80}
+                height={30}
+                onError={(e) => {
+                  // 로고 이미지 로딩 실패 시 fallback 이미지로 대체
+                  e.currentTarget.src = "/images/about/fallback.png";
+                }}
+              />
 
-            <div className="leading-tight md:leading-snug">
-              <p className="text-[16px] md:text-[16.5px] lg:text-[17px] font-semibold tracking-tight text-gray-100">
-                복지디자인 사회적협동조합
-                <span className="hidden xl:inline">
-                  {" "}
-                  | Welfare Design Cooperative
-                </span>
-              </p>
-              <p className="text-[12.5px] md:text-[13px] lg:text-[13.5px] text-gray-300 mt-1">
-                함께 성장하며 모두의 행복을 위한 복지를 디자인합니다.
-              </p>
-              <p className="text-[12.5px] md:text-[13px] lg:text-[13.5px] text-gray-300 mt-1 font-medium tracking-tight">
-                계좌번호 : 1230456789-1011-22 · 하나은행
-              </p>
+              <div className="leading-tight md:leading-snug">
+                <p className="text-[16px] md:text-[16.5px] lg:text-[17px] font-semibold tracking-tight text-gray-100">
+                  복지디자인 사회적협동조합
+                  <span className="hidden xl:inline">
+                    {" "}
+                    | Welfare Design Cooperative
+                  </span>
+                </p>
+                <p className="text-[12.5px] md:text-[13px] lg:text-[13.5px] text-gray-300 mt-1">
+                  함께 성장하며 모두의 행복을 위한 복지를 디자인합니다.
+                </p>
+                <p className="text-[12.5px] md:text-[13px] lg:text-[13.5px] text-gray-300 mt-1 font-medium tracking-tight">
+                  계좌번호 : 1230456789-1011-22 · 하나은행
+                </p>
+              </div>
             </div>
+
+            {/* 연락처 정보 영역 (PC에서는 우측 정렬) */}
+            <ul className="grid grid-cols-1 gap-1 md:gap-1 md:text-right text-[14px] md:text-[13.5px] lg:text-[14px] leading-relaxed tabular-nums text-gray-300">
+              <li className="whitespace-nowrap">
+                <span className="text-gray-400">전화</span>
+                <span className="mx-1 text-gray-500">:</span>042-934-6338
+              </li>
+              <li className="whitespace-nowrap">
+                <span className="text-gray-400">팩스</span>
+                <span className="mx-1 text-gray-500">:</span>042-934-1858
+              </li>
+              <li className="break-all">
+                <span className="text-gray-400">이메일</span>
+                <span className="mx-1 text-gray-500">:</span>
+                songkangbokji@songkang.or.kr
+              </li>
+              <li className="whitespace-normal md:whitespace-nowrap">
+                대전광역시 유성구 봉산로 45
+              </li>
+            </ul>
           </div>
 
-          {/* Contacts (PC 우측 정렬, 간격 컴팩트) */}
-          <ul className="grid grid-cols-1 gap-1 md:gap-1 md:text-right text-[14px] md:text-[13.5px] lg:text-[14px] leading-relaxed tabular-nums text-gray-300">
-            <li className="whitespace-nowrap">
-              <span className="text-gray-400">전화</span>
-              <span className="mx-1 text-gray-500">:</span>042-934-6338
-            </li>
-            <li className="whitespace-nowrap">
-              <span className="text-gray-400">팩스</span>
-              <span className="mx-1 text-gray-500">:</span>042-934-1858
-            </li>
-            <li className="break-all">
-              <span className="text-gray-400">이메일</span>
-              <span className="mx-1 text-gray-500">:</span>
-              songkangbokji@songkang.or.kr
-            </li>
-            <li className="whitespace-normal md:whitespace-nowrap">
-              대전광역시 유성구 봉산로 45
-            </li>
-          </ul>
-        </div>
+          {/* 상·하단 구분선 */}
+          <hr className="border-gray-700 my-3" />
 
-        {/* Divider */}
-        <hr className="border-gray-700 my-3" />
-
-        {/* Bottom row */}
-        <div className="flex flex-col items-center justify-center text-center gap-[3px] text-[11.5px] sm:text-[12.5px] lg:text-[13px] text-gray-400">
-          <p>© {year} 복지디자인 사회적협동조합. All rights reserved.</p>
-          <p>
-            Design By{" "}
-            <a
-              href="https://github.com/MS929"
-              className="underline decoration-gray-600 hover:text-gray-300 hover:decoration-gray-300"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              MS シ
-            </a>
-          </p>
+          {/* 하단 영역: 저작권 및 제작자 정보 */}
+          <div className="flex flex-col items-center justify-center text-center gap-[3px] text-[11.5px] sm:text-[12.5px] lg:text-[13px] text-gray-400">
+            <p>© {year} 복지디자인 사회적협동조합. All rights reserved.</p>
+            <p>
+              Design By{" "}
+              {/* 제작자 GitHub 외부 링크 */}
+              <a
+                href="https://github.com/MS929"
+                className="underline decoration-gray-600 hover:text-gray-300 hover:decoration-gray-300"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                MS シ
+              </a>
+            </p>
+          </div>
         </div>
-      </div>
-    </footer>
+      </footer>
+    </>
   );
 }

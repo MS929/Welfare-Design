@@ -2,8 +2,8 @@
 import { Link } from "react-router-dom";
 import BizLayout from "./_Layout";
 
-export default function BizOverview() {     // 0. 사업영역
-  // 운영 중인 6개 사업 카드
+export default function BizOverview() {     // 사업영역 메인 페이지 컴포넌트
+  // 현재 운영 중인 주요 사업 목록 (카드 UI로 렌더링됨)
   const programs = [
     {
       to: "/business/rental",
@@ -48,8 +48,11 @@ export default function BizOverview() {     // 0. 사업영역
       <style
         id="page-text-guard"
         dangerouslySetInnerHTML={{ __html: `
+/* 모바일 환경에서 브라우저 자동 글자 확대 방지 */
 html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+/* 박스 모델 통일 및 줄바꿈 안정성 확보 */
 *, *::before, *::after { box-sizing: border-box; min-width: 0; hyphens: manual; -webkit-hyphens: manual; }
+/* 가독성 향상을 위한 기본 텍스트 렌더링 설정 */
 body {
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
@@ -59,19 +62,26 @@ body {
   overflow-wrap: anywhere;
   -webkit-line-break: after-white-space;
 }
+/* 제목 줄바꿈 균형 조정 (지원 브라우저 한정) */
 h1, h2, .heading-balance { text-wrap: balance; }
+/* text-wrap 미지원 브라우저 대응 */
 @supports not (text-wrap: balance) {
   h1, h2, .heading-balance { line-height: 1.25; max-width: 45ch; }
 }
+/* 강조 텍스트(mark) 스타일 통일 */
 mark, [data-hl] {
   -webkit-box-decoration-break: clone;
   box-decoration-break: clone;
   padding: 0 .08em;
   border-radius: 2px;
 }
+/* 강제 줄바꿈 방지 유틸리티 */
 .nowrap { white-space: nowrap; }
+/* 긴 단어/URL 줄바꿈 허용 */
 .u-wrap-anywhere { overflow-wrap: anywhere; word-break: keep-all; }
+/* 한 줄 말줄임 처리 */
 .u-ellipsis { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+/* 카드 렌더링 성능 최적화 (content-visibility) */
 .cv { content-visibility: auto; contain-intrinsic-size: 240px 160px; }
         ` }}
       />
@@ -83,9 +93,10 @@ mark, [data-hl] {
           핵심 사업으로, 대상/절차/문의는 각 페이지에서 확인하실 수 있습니다.
         </p>
 
-        {/* 프로그램 카드 그리드 */}
+        {/* 사업영역 프로그램 카드 목록 영역 */}
         <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 gap-6">
           {programs.map((p) => {
+            {/* 개별 사업 카드 (클릭 시 상세 페이지 이동) */}
             return (
               <Link
                 key={p.to}
@@ -114,6 +125,7 @@ mark, [data-hl] {
                     </svg>
                   </span>
                 </div>
+                {/* 사업 아이콘 이미지 (시각적 보조 요소) */}
                 <img
                   src={p.icon}
                   alt=""

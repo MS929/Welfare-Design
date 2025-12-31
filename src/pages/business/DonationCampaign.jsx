@@ -1,7 +1,27 @@
 // src/pages/business/DonationCampaign.jsx
+// -----------------------------------------------------------------------------
+// [페이지 목적]
+//  - 보조기기(복지용구) 기증 캠페인 안내 페이지
+//  - 좌측: 캠페인 대표 이미지
+//  - 우측: 캠페인 내용 안내 → 기대 효과 → 전화 문의 배너
+//
+// [이미지 최적화 전략]
+//  - 모바일: Cloudinary image/fetch를 활용한 AVIF/WEBP + srcset 제공
+//  - 태블릿/데스크탑: 로컬 정적 PNG 사용으로 품질 고정 및 캐시 안정성 확보
+//
+// [UX/레이아웃 포인트]
+//  - 이미지/텍스트 동일 높이 느낌을 CSS Grid로 해결 (JS 계산 제거)
+//  - 문의 배너는 md 기준으로 완전히 분리 렌더링하여 줄바꿈/깨짐 방지
+// -----------------------------------------------------------------------------
 import BizLayout from "./_Layout";
 
 export default function DonationCampaign() {
+  // ---------------------------------------------------------------------------
+  // 이미지 URL 구성
+  //  - ORIGIN: 현재 배포 origin (SSR 환경 대비 fallback 포함)
+  //  - RAW: 원본 정적 이미지 경로
+  //  - cld / cldM: Cloudinary fetch URL 생성 헬퍼
+  // ---------------------------------------------------------------------------
   const ORIGIN = typeof window !== 'undefined' ? window.location.origin : 'https://welfaredesign.netlify.app';
   const RAW = `${ORIGIN}/images/business/donation.png`;
   const C_BASE = 'https://res.cloudinary.com/dxeadg9wi/image/fetch';
@@ -10,56 +30,133 @@ export default function DonationCampaign() {
 
   return (
     <>
+      {/* Cloudinary CDN과의 사전 연결(preconnect)로 이미지 요청 지연 최소화 */} 
       <link rel="preconnect" href="https://res.cloudinary.com" crossOrigin="anonymous" />
+      {/*
+        텍스트/줄바꿈 안정화 CSS
+        - 한글: word-break: keep-all → 단어 중간 끊김 방지
+        - 긴 URL/영문: overflow-wrap: anywhere → 레이아웃 깨짐 방지
+        - text-wrap: balance 지원 시 제목 줄바꿈 균형 개선
+      */}
       <style
         id="page-text-guard"
         dangerouslySetInnerHTML={{ __html: `
-html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
-*, *::before, *::after { box-sizing: border-box; min-width: 0; hyphens: manual; -webkit-hyphens: manual; }
+/* ==========================================================================
+   Global Text & Layout Guard Styles
+   - 페이지 전반의 텍스트 깨짐, 줄바꿈, 가독성 문제를 예방하기 위한 방어용 CSS
+   - 특정 컴포넌트가 아닌 "페이지 안정성" 목적
+   ========================================================================== */
+
+/* 브라우저 텍스트 자동 확대/축소 방지 (모바일 접근성 이슈 예방) */
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+/* 모든 요소에 box-sizing 통일 + 최소 너비 0
+   → grid/flex 내부에서 글자 넘침 현상 방지 */
+*, *::before, *::after {
+  box-sizing: border-box;
+  min-width: 0;
+  /* 자동 하이픈 비활성화 (한글/혼합 텍스트 깨짐 방지) */
+  hyphens: manual;
+  -webkit-hyphens: manual;
+}
+
+/* 본문 기본 가독성 세팅 */
 body {
   line-height: 1.5;
+
+  /* 폰트 렌더링 품질 개선 (macOS/iOS 중심) */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+  /* 텍스트 렌더링 최적화 */
   text-rendering: optimizeLegibility;
+
+  /* 한글 단어 중간 줄바꿈 방지 */
   word-break: keep-all;
+
+  /* 긴 영문/URL은 안전하게 줄바꿈 */
   overflow-wrap: anywhere;
+
+  /* WebKit 기반 브라우저에서 공백 기준 줄바꿈 보정 */
   -webkit-line-break: after-white-space;
 }
-h1, h2, .heading-balance { text-wrap: balance; }
-@supports not (text-wrap: balance) {
-  h1, h2, .heading-balance { line-height: 1.25; max-width: 45ch; }
+
+/* 제목 줄바꿈 균형 (지원 브라우저 한정) */
+h1, h2, .heading-balance {
+  text-wrap: balance;
 }
+
+/* text-wrap 미지원 브라우저용 fallback */
+@supports not (text-wrap: balance) {
+  h1, h2, .heading-balance {
+    line-height: 1.25;
+    max-width: 45ch; /* 제목 한 줄 길이 제한으로 가독성 확보 */
+  }
+}
+
+/* 강조(mark) 텍스트가 여러 줄로 넘어갈 때 배경 깨짐 방지 */
 mark, [data-hl] {
   -webkit-box-decoration-break: clone;
   box-decoration-break: clone;
   padding: 0 .08em;
   border-radius: 2px;
 }
-.nowrap { white-space: nowrap; }
-.u-wrap-anywhere { overflow-wrap: anywhere; word-break: keep-all; }
-.u-ellipsis { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+/* 줄바꿈 금지 유틸리티 */
+.nowrap {
+  white-space: nowrap;
+}
+
+/* 어디서든 줄바꿈 허용 (긴 문자열 대응) */
+.u-wrap-anywhere {
+  overflow-wrap: anywhere;
+  word-break: keep-all;
+}
+
+/* 한 줄 말줄임 처리 유틸리티 */
+.u-ellipsis {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
         ` }}
       />
+      {/* 사업 페이지 공통 레이아웃 (브레드크럼 + h1 제목 제공) */}
       <BizLayout title="보조기기 기증 캠페인">
       <div className="max-w-screen-xl mx-auto px-4 pb-4 md:pb-0">
-        {/* 이미지 + 우측 정보 박스(대여 안내) + 기대효과(대여 안내 박스 아래) */}
+        {/* ====================== 메인 섹션: 이미지 + 캠페인 안내 ====================== */}
         <div className="grid gap-8 md:grid-cols-2 items-stretch">
           {/* 좌측 이미지: JS 동기화 제거, 순수 CSS로 동일 높이 */}
           <div className="flex items-center justify-center">
+            {/*
+              <picture> 요소를 사용한 반응형 이미지 처리
+              - 모바일(max-width: 767px): AVIF → WEBP 순서로 최적 포맷 제공
+              - 태블릿/데스크탑: 로컬 PNG 사용
+            */}
             {/* 단일 그림 요소로 중복 렌더 제거 */}
             <picture>
+              {/* 모바일: AVIF 포맷 (최고 압축 효율) */} 
               <source
                 media="(max-width: 767px)"
                 type="image/avif"
                 srcSet={`${cldM(320, 'avif')} 320w, ${cldM(480, 'avif')} 480w, ${cldM(640, 'avif')} 640w, ${cldM(750, 'avif')} 750w, ${cldM(828, 'avif')} 828w`}
                 sizes="100vw"
               />
+              {/* 모바일: WEBP 포맷 (AVIF 미지원 브라우저 대응) */} 
               <source
                 media="(max-width: 767px)"
                 type="image/webp"
                 srcSet={`${cldM(320, 'webp')} 320w, ${cldM(480, 'webp')} 480w, ${cldM(640, 'webp')} 640w, ${cldM(750, 'webp')} 750w, ${cldM(828, 'webp')} 828w`}
                 sizes="100vw"
               />
+              {/*
+                태블릿/데스크탑: 정적 PNG 이미지
+                - 디자인 품질 고정
+                - 빌드 시 정적 자산 캐시 활용
+              */}
               <img
                 src="/images/business/donation.png"
                 alt="보조기기 기증 캠페인"
@@ -75,7 +172,7 @@ mark, [data-hl] {
             </picture>
           </div>
 
-          {/* 우측: 대여 안내 + 기대효과 + 문의 */}
+          {/* 우측 컬럼: 캠페인 안내 → 기대 효과 → 문의 배너 */} 
           <div className="grid gap-6 mt-10 md:mt-14 md:grid-rows-[auto,1fr,auto] md:h-[470px] md:max-h-none">
             <div className="rounded-2xl border border-[#2CB9B1]/40 bg-white/90 backdrop-blur-[1px] shadow-md p-7 md:p-8">
               <ul className="space-y-4 text-gray-800 leading-relaxed">
@@ -108,6 +205,11 @@ mark, [data-hl] {
               </ul>
             </div>
 
+            {/*
+              문의 배너 반응형 전략
+              - md 이상: 중앙 정렬 + 큰 전화번호 가독성
+              - md 미만: 한 줄 레이아웃 + whitespace-nowrap으로 줄바꿈 방지
+            */}
             {/* 문의 박스: PC(데스크탑) / 모바일 분리 렌더링 */}
             <div className="mt-3 mb-1 md:mb-0">
               {/* Desktop & Tablet (md 이상): 기존 스타일 유지 */}

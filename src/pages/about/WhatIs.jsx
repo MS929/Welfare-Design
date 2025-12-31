@@ -1,25 +1,52 @@
 import { useEffect } from "react";
 import { cldFetch, cldSrcSet } from "../../lib/image";
-// src/pages/about/WhatIs.jsx
+/**
+ * WhatIs.jsx (소개 > 복지디자인은?)
+ * --------------------------------------------------
+ * - 사회적협동조합 복지디자인의 정체성, 설립 배경,
+ *   설립 목적·미션·비전(GMV), 운영 원칙, 정관을 설명하는 소개 페이지
+ * - 정보 중심 페이지로, 하단의 데이터 상수만 수정하면
+ *   레이아웃 변경 없이 콘텐츠 유지·관리 가능
+ * - 상단 대표 이미지는 preload를 통해 초기 렌더링 성능(LCP)을 개선
+ */
 export default function AboutWhat() {
-  // Preload the above-the-fold image for faster first paint
+  /**
+   * [이미지 Preload 처리]
+   * - 첫 화면(above-the-fold)에 노출되는 대표 이미지를 미리 로드
+   * - <link rel="preload"> + Image() 객체로 캐시 예열
+   * - 일부 브라우저 preload 미동작 상황을 대비한 이중 안전장치
+   */
   useEffect(() => {
+    // SSR / 빌드 환경 방어 (document가 없는 경우 실행 방지)
     if (!document) return;
     try {
+      // Cloudinary 최적화 이미지 URL 생성 (1200px 기준)
       const href = cldFetch("/images/about/main2.png", 1200);
+
+      // <link rel="preload" as="image"> 태그를 head에 삽입
       const link = document.createElement("link");
       link.rel = "preload";
       link.as = "image";
       link.href = href;
       document.head.appendChild(link);
-      // Also warm the cache via JS Image object (fallback for some browsers)
+
+      // preload가 약한 브라우저를 대비한 캐시 워밍(Image 객체)
       const img = new Image();
       img.src = href;
+
+      // cleanup: 컴포넌트 언마운트 시 preload 링크 제거
       return () => {
         if (link.parentNode) document.head.removeChild(link);
       };
-    } catch {}
+    } catch {
+      // preload 실패 시에도 페이지는 정상 렌더링
+    }
   }, []);
+
+  /**
+   * 섹션 제목 공통 컴포넌트
+   * - 좌측 컬러 도트 + 제목 텍스트
+   */
   const SectionTitle = ({ color, children }) => (
     <div className="flex items-center gap-3 mb-6">
       <span
@@ -27,13 +54,21 @@ export default function AboutWhat() {
         style={{ backgroundColor: color }}
         aria-hidden
       />
-      <h2 className="text-xl md:text-2xl font-bold leading-tight text-brand-900 m-0">{children}</h2>
+      <h2 className="text-xl md:text-2xl font-bold leading-tight text-brand-900 m-0">
+        {children}
+      </h2>
     </div>
   );
-  // ===== 데이터: 텍스트만 바꾸면 됨 =====
+
+  // ============================================================================
+  // 페이지 콘텐츠 데이터
+  // - 아래 데이터 객체/배열만 수정하면 페이지 내용 변경 가능
+  // ============================================================================
+
+  // 1) 설립 배경
   const background = {
     title: "설립 배경",
-    image: "/images/about/main2.png", // 없으면 자동 대체 이미지로 표시됨
+    image: "/images/about/main2.png", // 로딩 실패 시 fallback 이미지로 대체
     paragraphs: [
       "복지디자인 사회적협동조합은 한국침례신학대학교 사회복지대학원에서 만난 12명의 동문들이 사람을 향한 마음을 배우고 사회복지의 가치를 실천해온 경험을 지역사회와 이웃에게 돌려드리고자 설립한 조합입니다.",
       "우리는 복지가 설계될 수 있다는 믿음 아래, 작고 연약한 삶도 따뜻하게 디자인될 수 있으며 의미와 책임, 그리고 소명을 담은 복지를 만들어가야 한다고 확신합니다.",
@@ -41,6 +76,7 @@ export default function AboutWhat() {
     ],
   };
 
+  // 2) 설립 목적 / 미션 / 비전
   const gmv = [
     {
       key: "설립 목적",
@@ -60,22 +96,24 @@ export default function AboutWhat() {
     },
   ];
 
-  const pastChairs = [
-    "1대 이사장 신창섭",
-  ];
+  // 3) 역대 이사장
+  const pastChairs = ["1대 이사장 신창섭"];
 
+  // 4) 조합원 자격 및 유형
   const memberEligibility = [
     "설립취지에 동의하고 조합운영규약(정관)에 따르는 자",
     "상호부조·협동의 가치에 공감하며 참여하려는 자",
     "조합의 목적사업 이용자 혹은 그 지지자",
   ];
 
+  // 5) 운영 공개 항목
   const operationDisclosure = [
     "정기보고: 총회, 이사회 의사록, 사업/결산 보고",
     "재정 공개: 회계감사 결과, 기부금 명세",
     "사업성과 공개: 정기 리포트, 평가 보고",
   ];
 
+  // 6) 협동조합 7대 원칙
   const principles = [
     {
       no: "01.",
@@ -133,7 +171,7 @@ export default function AboutWhat() {
     },
   ];
 
-  // 긴 정관 텍스트 (줄바꿈 그대로 보이게)
+  // 7) 정관 전문 (줄바꿈 유지)
   const bylawsText = `복지디자인 사회적협동조합 정관
 
 제1조(설립과 명칭) 이 조합은 「협동조합 기본법」 제85조에 따라 사회적협동조합으로 설
@@ -639,11 +677,11 @@ export default function AboutWhat() {
             sizes="(min-width: 1024px) 260px, (min-width: 768px) 240px, 88vw"
             className="block w-full h-auto max-w-[320px] md:max-w-none max-h-40 md:max-h-56 object-contain opacity-0 transition-opacity duration-300 mx-auto mb-4"
             onLoad={(e) => {
-              e.currentTarget.style.opacity = '1';
+              e.currentTarget.style.opacity = "1";
             }}
             onError={(e) => {
-              e.currentTarget.src = '/images/about/fallback.png';
-              e.currentTarget.style.opacity = '1';
+              e.currentTarget.src = "/images/about/fallback.png";
+              e.currentTarget.style.opacity = "1";
             }}
           />
           <div className="space-y-4 text-gray-900 leading-relaxed break-words self-center mt-0">
@@ -689,11 +727,18 @@ export default function AboutWhat() {
                   {Array.isArray(b.body) ? (
                     <ul className="list-disc pl-5 space-y-2 text-gray-800 leading-relaxed">
                       {b.body.map((t, i) => (
-                        <li key={i} className="text-[15px] md:text-base leading-[1.7]">{t}</li>
+                        <li
+                          key={i}
+                          className="text-[15px] md:text-base leading-[1.7]"
+                        >
+                          {t}
+                        </li>
                       ))}
                     </ul>
                   ) : (
-                    <p className="text-gray-800 leading-relaxed text-[15px] md:text-base leading-[1.7]">{b.body}</p>
+                    <p className="text-gray-800 leading-relaxed text-[15px] md:text-base leading-[1.7]">
+                      {b.body}
+                    </p>
                   )}
                 </div>
               </div>
@@ -720,19 +765,27 @@ export default function AboutWhat() {
       {/* ===== 조합원의 자격 및 유형 / 운영 공개 ===== */}
       <section className="max-w-screen-xl mx-auto px-4 pb-10 grid grid-cols-1 md:grid-cols-2 gap-6 space-y-4 md:space-y-0">
         <div className="rounded-xl border border-brand-200 bg-white p-5 shadow-sm">
-          <h3 className="text-lg font-semibold mb-3 text-brand-800">조합원의 자격 및 유형</h3>
+          <h3 className="text-lg font-semibold mb-3 text-brand-800">
+            조합원의 자격 및 유형
+          </h3>
           <ul className="list-disc pl-5 space-y-2 text-gray-800">
             {memberEligibility.map((t, i) => (
-              <li key={i} className="text-[15px] md:text-base leading-[1.7]">{t}</li>
+              <li key={i} className="text-[15px] md:text-base leading-[1.7]">
+                {t}
+              </li>
             ))}
           </ul>
         </div>
 
         <div className="rounded-xl border border-brand-200 bg-white p-5 shadow-sm">
-          <h3 className="text-lg font-semibold mb-3 text-brand-800">운영 공개</h3>
+          <h3 className="text-lg font-semibold mb-3 text-brand-800">
+            운영 공개
+          </h3>
           <ul className="list-disc pl-5 space-y-2 text-gray-800">
             {operationDisclosure.map((t, i) => (
-              <li key={i} className="text-[15px] md:text-base leading-[1.7]">{t}</li>
+              <li key={i} className="text-[15px] md:text-base leading-[1.7]">
+                {t}
+              </li>
             ))}
           </ul>
         </div>
@@ -740,7 +793,9 @@ export default function AboutWhat() {
 
       {/* ===== 운영 원칙 (7대 원칙) ===== */}
       <section className="max-w-screen-xl mx-auto px-4 pb-10">
-        <SectionTitle color="#F4B731">운영 원칙(협동조합 7대 원칙)</SectionTitle>
+        <SectionTitle color="#F4B731">
+          운영 원칙(협동조합 7대 원칙)
+        </SectionTitle>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-stretch space-y-4 md:space-y-0">
           {principles.map((p, idx) => {
             const principlePalette = ["#F4B731", "#ED6A32", "#3BA7A0"]; // repeat
@@ -764,11 +819,18 @@ export default function AboutWhat() {
                   {Array.isArray(p.desc) ? (
                     <ul className="list-disc pl-5 space-y-2 text-gray-800 leading-relaxed">
                       {p.desc.map((line, i) => (
-                        <li key={i} className="text-[15px] md:text-base leading-[1.7]">{line}</li>
+                        <li
+                          key={i}
+                          className="text-[15px] md:text-base leading-[1.7]"
+                        >
+                          {line}
+                        </li>
                       ))}
                     </ul>
                   ) : (
-                    <p className="text-gray-800 leading-relaxed text-[15px] md:text-base leading-[1.7]">{p.desc}</p>
+                    <p className="text-gray-800 leading-relaxed text-[15px] md:text-base leading-[1.7]">
+                      {p.desc}
+                    </p>
                   )}
                 </div>
               </div>
@@ -788,9 +850,9 @@ export default function AboutWhat() {
           {/* 고정 높이 + 스크롤 */}
           <div className="max-h-[60vh] overflow-y-auto overscroll-contain whitespace-pre-wrap leading-relaxed text-gray-900 text-[15px] md:text-base">
             {bylawsText}
-          </div> 
+          </div>
 
-          {/* 부가 행동 (선택) */}
+          {/* 부가 행동 */}
           {/* 다운로드 파일이 있으면 href 바꿔 사용 */}
           {/* <div className="mt-4 flex gap-2">
       <a

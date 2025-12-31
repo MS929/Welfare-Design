@@ -31,9 +31,9 @@ export default function OptimizedImg({
   priority = false,
   sizes = "(max-width: 768px) 100vw, 1200px",
   width,
-  useCdn = false, // ✅ 추가
-  cdnWidth, // ✅ 추가
-  cdnQuality, // ✅ 추가
+  useCdn = false, 
+  cdnWidth, 
+  cdnQuality, 
   height,
   onLoad,
   onError,

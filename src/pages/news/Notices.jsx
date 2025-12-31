@@ -1,14 +1,22 @@
 // src/pages/news/Notices.jsx
+// 공지사항 목록 페이지
+// - markdown 공지 파일들을 로드하여 목록/검색/카테고리/페이지네이션을 제공
+// - PC는 테이블 UI, 모바일은 카드 리스트 UI로 분기 렌더링
 import { useEffect, useMemo, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import matter from "gray-matter";
 
-// Vite 최신 권장: as:'raw' 대신 query:'?raw'
+// Vite glob 설정
+// - query:'?raw' : markdown 파일을 문자열(raw)로 로드
+// - import:'default' : default export만 사용
 const modules = import.meta.glob("/src/content/notices/*.md", {
   query: "?raw",
   import: "default",
 });
 
+// 날짜 문자열을 Date 객체로 안전하게 변환
+// - ISO, YYYY-MM-DD 형식 모두 대응
+// - 파싱 실패 시 null 반환
 function normalizeDate(v) {
   try {
     // ISO, YYYY-MM-DD 모두 대응
@@ -18,10 +26,13 @@ function normalizeDate(v) {
   return null;
 }
 
+// 공지사항 목록 메인 컴포넌트
 export default function Notices() {
   const location = useLocation();
   const navigate = useNavigate();
   const [items, setItems] = useState([]);
+  // URL 쿼리스트링(?category=)을 기준으로 초기 탭 결정
+  // 전체 | 공지 | 정보공개
   const [tab, setTab] = useState(() => {
     const qs = new URLSearchParams(location.search);
     const c = (qs.get("category") || "").replace(/\s+/g, "");
@@ -35,15 +46,18 @@ export default function Notices() {
   const PAGE_SIZE = 9;
 
   useEffect(() => {
+    // 최초 마운트 시: 모든 공지 markdown 파일을 로드하여 목록 데이터 구성
     (async () => {
+      // 각 markdown 파일을 순회하며 메타데이터/본문 파싱
       const entries = await Promise.all(
         Object.entries(modules).map(async ([path, loader]) => {
           const raw = await loader();
           const { data, content } = matter(raw);
 
-          // /src/content/notices/2025-09-03-foo.md -> 2025-09-03-foo
+          // 파일명에서 slug 추출 (상세 페이지 URL에 사용)
           const slug = path.split("/").pop().replace(/\.md$/, "");
 
+          // 카테고리 명칭 보정: '공모' → '정보공개'
           const rawCategory = data.category ?? "공지";
           const category = rawCategory === "공모" ? "정보공개" : rawCategory;
 
@@ -63,7 +77,7 @@ export default function Notices() {
         })
       );
 
-      // 최신순 정렬
+      // 최신 날짜 기준 내림차순 정렬 (동일 날짜는 파일명 역순)
       entries.sort((a, b) => {
         const ta = a.dateObj ? a.dateObj.getTime() : 0;
         const tb = b.dateObj ? b.dateObj.getTime() : 0;
@@ -75,7 +89,7 @@ export default function Notices() {
     })();
   }, []);
 
-  // Sync tab with ?category= query param when URL changes (e.g., from "더보기" links)
+  // URL 쿼리스트링 변경 시 탭 상태 동기화 (예: 다른 페이지의 '더보기' 링크)
   useEffect(() => {
     const qs = new URLSearchParams(location.search);
     const c = (qs.get("category") || "").replace(/\s+/g, "");
@@ -85,6 +99,7 @@ export default function Notices() {
     setTab("전체");
   }, [location.search]);
 
+  // 탭 변경 + URL 쿼리스트링 동기화
   const setTabAndURL = (t) => {
     setTab(t);
     const param =
@@ -106,27 +121,31 @@ export default function Notices() {
     });
   }, [items, tab, q]);
 
-  // Reset page to 1 when filters change
+  // 필터(탭/검색어) 변경 시 페이지를 1로 초기화
   useEffect(() => {
     setPage(1);
   }, [tab, q]);
 
+  // 전체 페이지 수 계산
   const totalPages = Math.ceil(filtered.length / PAGE_SIZE);
 
+  // 필터 변경으로 전체 페이지 수가 줄어들 경우 현재 페이지 보정
   useEffect(() => {
     const tp = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE));
     if (page > tp) setPage(1);
   }, [filtered.length, page]);
 
+  // 페이지 변경 시 상단으로 스크롤 이동
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, [page]);
 
+  // 현재 페이지에 해당하는 아이템 슬라이스
   const paginatedItems = filtered.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
 
   return (
     <div className="bg-white">
-      {/* ===== 브레드크럼 + 제목 (whatIs.jsx 동일 규격) ===== */}
+      {/* 브레드크럼 + 페이지 제목 */} 
       <section className="max-w-screen-xl mx-auto px-4 pt-10">
         <nav className="text-sm text-black/80">
           소식 <span className="mx-1 text-gray-400">›</span>
@@ -137,7 +156,7 @@ export default function Notices() {
         </h1>
       </section>
 
-      {/* 필터 + 검색 */}
+      {/* 카테고리 필터 + 검색 입력 */} 
       <div className="max-w-screen-xl mx-auto flex flex-wrap items-center gap-3 px-4 pt-6 pb-6 antialiased tracking-[-0.01em]">
         {["전체", "공지", "정보공개"].map((t) => (
           <button
@@ -163,12 +182,12 @@ export default function Notices() {
         </div>
       </div>
 
-      {/* 리스트(글) 형식 */}
+      {/* 검색/필터 결과가 없을 때 */} 
       {paginatedItems.length === 0 ? (
         <p className="max-w-screen-xl mx-auto px-4 py-8 text-gray-500">등록된 글이 없습니다.</p>
       ) : (
         <>
-          {/* ── Desktop (md and up): 기존 테이블 유지 ───────────────────────── */}
+          {/* 데스크탑(md 이상): 테이블 형태 공지 목록 */} 
           <div className="hidden md:block">
             <div className="max-w-screen-xl mx-auto overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm">
               <table className="w-full text-sm">
@@ -200,6 +219,7 @@ export default function Notices() {
                         <td className="py-4 px-4 text-gray-500 text-center align-middle">
                           {number}
                         </td>
+                        {/* 클릭 시 공지 상세 페이지로 이동 */} 
                         <td className="py-4 px-4 align-middle">
                           <Link
                             to={`/news/notices/${encodeURIComponent(it.slug)}`}
@@ -220,7 +240,7 @@ export default function Notices() {
             </div>
           </div>
 
-          {/* ── Mobile (under md): 카드 리스트 전용 UI ──────────────────────── */}
+          {/* 모바일(md 미만): 카드형 공지 리스트 */} 
           <div className="md:hidden">
             <ul className="max-w-screen-xl mx-auto px-4 space-y-4">
               {paginatedItems.map((it, idx) => {
@@ -228,6 +248,7 @@ export default function Notices() {
                 const dateStr = (it.dateObj && it.dateObj.toISOString().slice(0, 10)) || it.date || "";
                 return (
                   <li key={it.slug}>
+                    {/* 클릭 시 공지 상세 페이지로 이동 */} 
                     <Link
                       to={`/news/notices/${encodeURIComponent(it.slug)}`}
                       className="block rounded-2xl border border-gray-200 bg-white p-4 shadow-sm hover:shadow-md active:bg-gray-50 transition-shadow"
@@ -268,7 +289,7 @@ export default function Notices() {
         </>
       )}
 
-      {/* Pagination Controls */}
+      {/* 페이지네이션 컨트롤 */} 
       <div className="max-w-screen-xl mx-auto flex justify-center items-center gap-4 my-8 px-4">
         <button
           onClick={() => setPage((p) => Math.max(1, p - 1))}

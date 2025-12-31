@@ -1,15 +1,27 @@
+// src/pages/support/FAQ.jsx
+// 후원 페이지의 자주 묻는 질문(FAQ) 화면
+// - 카테고리 탭(전체/후원관련 문의/기부금영수증)
+// - 키워드 검색(입력 디바운스)
+// - 아코디언(질문 펼치기/접기)
+// - 데스크톱/모바일 레이아웃 분리
 import { useMemo, useState, useEffect } from "react";
 import { loadFaqItems } from "../../lib/loadFaq";
 
-const CATEGORIES = ["전체", "후원관련 문의", "기부금영수증"]; // 필요 시 '기타' 추가
+const CATEGORIES = ["전체", "후원관련 문의", "기부금영수증"]; // FAQ 카테고리(필요 시 '기타' 추가)
 
 export default function SupFAQ() {
+	// 전체 FAQ 데이터(정적 로드: 한 번만)
 	const all = useMemo(() => loadFaqItems(), []);
+	// 현재 선택된 카테고리
 	const [cat, setCat] = useState("전체");
+	// 입력값(즉시 반영)
 	const [q, setQ] = useState("");
+	// 검색용 디바운스 값(250ms 후 반영)
 	const [dq, setDq] = useState("");
+	// 열려있는 아코디언 인덱스(없으면 null)
 	const [openIdx, setOpenIdx] = useState(null);
 
+	// 카테고리별 문항 수(배지 표시용)
 	const counts = useMemo(() => {
 		const m = { 전체: all.length };
 		for (const c of CATEGORIES.filter((c) => c !== "전체")) {
@@ -18,11 +30,13 @@ export default function SupFAQ() {
 		return m;
 	}, [all]);
 
+ 	// 검색어 입력 디바운스(타이핑 중 과도한 필터링 방지)
 	useEffect(() => {
 		const t = setTimeout(() => setDq(q.trim()), 250);
 		return () => clearTimeout(t);
 	}, [q]);
 
+	// 카테고리 + 검색어 기준으로 FAQ 필터링
 	const filtered = useMemo(() => {
 		return all
 			.filter((it) => (cat === "전체" ? true : it.category === cat))
@@ -33,35 +47,68 @@ export default function SupFAQ() {
 
 	return (
 		<>
+      {/* 페이지 전역 텍스트/줄바꿈/하이픈 처리 보정(긴 URL/영문/한글 혼합 시 깨짐 방지) */}
       <style
         id="page-text-guard"
         dangerouslySetInnerHTML={{ __html: `
-html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
-*, *::before, *::after { box-sizing: border-box; min-width: 0; hyphens: manual; -webkit-hyphens: manual; }
+html {
+  -webkit-text-size-adjust: 100%; /* iOS Safari에서 글자 자동 확대 방지 */
+  text-size-adjust: 100%;         /* 표준: 글자 자동 확대 방지 */
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;         /* padding/border를 포함해 크기 계산(레이아웃 안정) */
+  min-width: 0;                   /* flex 아이템이 내용 때문에 과도하게 늘어나는 현상 방지 */
+  hyphens: manual;                /* 하이픈 분리: 자동이 아닌 수동(필요 시만) */
+  -webkit-hyphens: manual;        /* Safari용 하이픈 분리 설정 */
+}
+
 body {
-  line-height: 1.5;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-rendering: optimizeLegibility;
-  word-break: keep-all;            /* Korean: avoid mid-word breaks */
-  overflow-wrap: anywhere;         /* Long English/URLs wrap safely */
-  -webkit-line-break: after-white-space;
+  line-height: 1.5;               /* 기본 줄간격(가독성) */
+  -webkit-font-smoothing: antialiased;  /* macOS/Safari 글꼴 안티앨리어싱 개선 */
+  -moz-osx-font-smoothing: grayscale;   /* macOS/Firefox 글꼴 렌더링 보정 */
+  text-rendering: optimizeLegibility;   /* 커닝/리거처 등 가독성 우선 렌더링(지원 브라우저) */
+
+  word-break: keep-all;           /* 한글 단어 중간 분리 방지(띄어쓰기 기준 줄바꿈) */
+  overflow-wrap: anywhere;        /* 매우 긴 영문/URL도 레이아웃을 깨지 않게 강제 줄바꿈 */
+  -webkit-line-break: after-white-space; /* Safari에서 줄바꿈 규칙 보정(공백 기준) */
 }
-h1, h2, .heading-balance { text-wrap: balance; }
+
+h1, h2, .heading-balance {
+  text-wrap: balance;             /* 제목 줄바꿈을 균형 있게(지원 브라우저) */
+}
+
 @supports not (text-wrap: balance) {
-  h1, h2, .heading-balance { line-height: 1.25; max-width: 45ch; }
+  h1, h2, .heading-balance {
+    line-height: 1.25;            /* 대체: 제목 줄간격을 조금 타이트하게 */
+    max-width: 45ch;              /* 대체: 제목 폭을 제한해 자연스러운 줄바꿈 유도 */
+  }
 }
+
 mark, [data-hl] {
-  -webkit-box-decoration-break: clone;
-  box-decoration-break: clone;
-  padding: 0 .08em;
-  border-radius: 2px;
+  -webkit-box-decoration-break: clone; /* 줄바꿈된 하이라이트 배경이 각 줄에 자연스럽게 적용 */
+  box-decoration-break: clone;         /* 표준 속성 */
+  padding: 0 .08em;                    /* 강조 배경이 글자에 딱 붙지 않게 여백 */
+  border-radius: 2px;                  /* 강조 배경 모서리 둥글게 */
 }
-.nowrap { white-space: nowrap; }
-.u-wrap-anywhere { overflow-wrap: anywhere; word-break: keep-all; }
-.u-ellipsis { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+.nowrap {
+  white-space: nowrap;           /* 줄바꿈 금지(한 줄 고정) */
+}
+
+.u-wrap-anywhere {
+  overflow-wrap: anywhere;       /* 어디서든 줄바꿈 허용(긴 텍스트 대응) */
+  word-break: keep-all;          /* 한글은 단어 단위 유지 */
+}
+
+.u-ellipsis {
+  overflow: hidden;              /* 넘친 텍스트 숨김 */
+  text-overflow: ellipsis;       /* 말줄임표(...) 처리 */
+  white-space: nowrap;           /* 한 줄로 유지 */
+}
         ` }}
       />
+			{/* ===== 데스크톱 전용 FAQ( md 이상 ) ===== */}
 			<section className="hidden md:block max-w-screen-xl mx-auto pl-2 pr-4 sm:pl-3 sm:pr-6 lg:pl-4 lg:pr-8 pb-10">
 				<div className="bg-white">
 				  {/* ===== 브레드크럼 + 제목 (whatIs.jsx 스타일) ===== */}
@@ -77,7 +124,7 @@ mark, [data-hl] {
 
 				<h1 className="sr-only">자주 묻는 질문</h1>
 
-				{/* Tabs */}
+				{/* ===== 카테고리 탭(키보드 좌/우 이동 지원) ===== */}
 				<div className="grid grid-cols-3 gap-4" role="tablist" aria-label="FAQ 카테고리">
 					{CATEGORIES.map((c, i) => {
 						const selected = cat === c;
@@ -120,7 +167,7 @@ mark, [data-hl] {
 					})}
 				</div>
 
-				{/* Search Row */}
+				{/* ===== 검색(키워드) ===== */}
 				<div className="mt-10 bg-gray-50 border border-gray-100 rounded-xl p-6 shadow-sm">
 					<div className="max-w-md ml-auto flex gap-2 items-center">
 						<input
@@ -143,7 +190,7 @@ mark, [data-hl] {
 					</div>
 				</div>
 
-				{/* List */}
+				{/* ===== FAQ 목록(아코디언) ===== */}
 				<div className="mt-6 md:mt-8 divide-y divide-gray-200 border border-gray-200 rounded-md bg-white">
 					{filtered.map((it, idx) => (
 						<Item
@@ -160,12 +207,12 @@ mark, [data-hl] {
 					)}
 				</div>
 			</section>
-			{/* Mobile 전용 FAQ */}
+			{/* ===== 모바일 전용 FAQ( md 미만 ) ===== */}
 			<section className="md:hidden max-w-screen-md mx-auto px-4 pb-20">
-				{/* 제목 */}
+				{/* ===== 제목 ===== */}
 				<h1 className="mt-6 text-[28px] font-extrabold tracking-tight text-black">자주 묻는 질문</h1>
 
-				{/* 카테고리 칩: 가로 스크롤 */}
+				{/* ===== 카테고리 칩(가로 스크롤) ===== */}
 				<div className="mt-4 -mx-1 overflow-x-auto no-scrollbar">
 					<div className="flex items-center gap-2.5 px-1 min-w-max" role="tablist" aria-label="FAQ 카테고리(모바일)">
 						{CATEGORIES.map((c, i) => {
@@ -186,7 +233,7 @@ mark, [data-hl] {
 					</div>
 				</div>
 
-				{/* 검색 카드 */}
+				{/* ===== 검색(모바일) ===== */}
 				<div className="mt-6 rounded-2xl border border-gray-100 bg-gray-50 p-4 shadow-sm">
 					<div className="flex items-center gap-2">
 						<input
@@ -209,7 +256,7 @@ mark, [data-hl] {
 					</div>
 				</div>
 
-				{/* 리스트 */}
+				{/* ===== FAQ 목록(모바일 아코디언) ===== */}
 				<div className="mt-5 divide-y divide-gray-200 border border-gray-200 rounded-2xl bg-white overflow-hidden">
 					{filtered.map((it, idx) => (
 						<MobileItem
@@ -230,6 +277,7 @@ mark, [data-hl] {
 	);
 }
 
+// 데스크톱 FAQ 한 항목(질문/답변 아코디언)
 function Item({ item, open, onToggle, idx, q }) {
 	const contentId = `faq-panel-${idx}`;
 	const buttonId = `faq-button-${idx}`;
@@ -281,14 +329,16 @@ function Item({ item, open, onToggle, idx, q }) {
 	);
 }
 
-// 간단한 마크다운 렌더(굵게/줄바꿈만)
+// 간단한 마크다운 → HTML 변환(굵게 ** ** / 줄바꿈만 지원)
 function mdToHtml(md) {
 	return (md || "")
 		.replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
 		.replace(/\n/g, "<br/>");
 }
 
+// 검색어를 정규식으로 안전하게 사용하기 위한 이스케이프
 function escapeRegExp(s){return s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");}
+// 제목에서 검색어를 하이라이트(대소문자 무시)
 function highlight(text, keyword){
 	if(!keyword) return text;
 	const re = new RegExp(`(${escapeRegExp(keyword)})`, 'ig');
@@ -298,6 +348,7 @@ function highlight(text, keyword){
 	);
 }
 
+// 모바일 FAQ 한 항목(질문/답변 아코디언)
 function MobileItem({ item, open, onToggle, idx, q }) {
   const contentId = `m-faq-panel-${idx}`;
   const buttonId = `m-faq-button-${idx}`;

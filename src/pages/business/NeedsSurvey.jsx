@@ -2,7 +2,7 @@
 import BizLayout from "./_Layout";
 
 export default function NeedsSurvey() {
-  // Cloudinary fetch helper for this page image (SSR-safe origin)
+  // 이 페이지 이미지용 Cloudinary fetch 헬퍼 (SSR 환경에서도 origin 안전하게 처리)
   const ORIGIN = typeof window !== 'undefined' ? window.location.origin : 'https://welfaredesign.netlify.app';
   const RAW = `${ORIGIN}/images/business/needs-survey.png`;
   const cld = (w, fmt = 'auto') => `https://res.cloudinary.com/dxeadg9wi/image/fetch/c_limit,f_${fmt},q_auto,w_${w}/${encodeURIComponent(RAW)}`;
@@ -14,8 +14,13 @@ export default function NeedsSurvey() {
       <style
         id="page-text-guard"
         dangerouslySetInnerHTML={{ __html: `
+/* 텍스트 크기 자동 보정 비활성화(모바일 확대/축소로 인한 레이아웃 흔들림 방지) */
 html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+
+/* 전역 박스 모델 통일 + 예상치 못한 줄바꿈/하이픈 처리 안정화 */
 *, *::before, *::after { box-sizing: border-box; min-width: 0; hyphens: manual; -webkit-hyphens: manual; }
+
+/* 본문 타이포/줄바꿈 정책: 한글 단어 단위 유지 + 긴 문자열은 안전하게 줄바꿈 */
 body {
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
@@ -25,16 +30,24 @@ body {
   overflow-wrap: anywhere;
   -webkit-line-break: after-white-space;
 }
+
+/* 제목 줄바꿈을 보기 좋게(지원 브라우저) */
 h1, h2, .heading-balance { text-wrap: balance; }
+
+/* text-wrap 미지원 브라우저용 폴백: 과도한 줄바꿈/행간 붕괴 방지 */
 @supports not (text-wrap: balance) {
   h1, h2, .heading-balance { line-height: 1.25; max-width: 45ch; }
 }
+
+/* 하이라이트(마커) 영역이 줄바꿈될 때 모양이 깨지지 않게 */
 mark, [data-hl] {
   -webkit-box-decoration-break: clone;
   box-decoration-break: clone;
   padding: 0 .08em;
   border-radius: 2px;
 }
+
+/* 유틸리티 클래스: 특정 구간에서만 필요한 줄바꿈/말줄임 제어 */
 .nowrap { white-space: nowrap; }
 .u-wrap-anywhere { overflow-wrap: anywhere; word-break: keep-all; }
 .u-ellipsis { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
@@ -110,10 +123,10 @@ mark, [data-hl] {
 
             {/* 문의 박스: PC(데스크탑) / 모바일 분리 렌더링 */}
             <div className="mt-3 mb-1 md:mb-0">
-              {/* Desktop & Tablet (md 이상): 기존 스타일 유지 */}
+              {/* 데스크탑 & 태블릿(md 이상): 기존 스타일 유지 */}
               <div className="hidden md:block rounded-2xl border border-[#F26C2A]/45 bg-gradient-to-r from-[#FFF3E9] to-[#EFFFFD] px-8 py-5 shadow-md">
                 <div className="flex items-center justify-center gap-3 text-[#111827] tracking-tight">
-                  {/* phone icon */}
+                  {/* 전화 아이콘 */}
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 24 24"
@@ -134,11 +147,11 @@ mark, [data-hl] {
                   </a>
                 </div>
               </div>
-              {/* Mobile 전용 (md 미만): 한 줄 레이아웃, 줄바꿈 방지 */}
+              {/* 모바일 전용(md 미만): 한 줄 레이아웃, 줄바꿈 방지 */}
               <div className="md:hidden rounded-2xl border border-[#F26C2A]/45 bg-gradient-to-r from-[#FFF3E9] to-[#EFFFFD] px-5 py-4 shadow-md">
                 <div className="flex items-center justify-between gap-3 text-[#111827]">
                   <div className="flex items-center gap-2 min-w-0">
-                    {/* phone icon */}
+                    {/* 전화 아이콘 */}
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       viewBox="0 0 24 24"

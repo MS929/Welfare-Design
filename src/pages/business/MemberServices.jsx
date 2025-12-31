@@ -2,7 +2,7 @@
 import BizLayout from "./_Layout";
 
 export default function MemberServices() {
-  // Cloudinary fetch helper for this page image (origin-safe for SSR)
+  // 이 페이지에서 사용하는 이미지용 Cloudinary fetch 헬퍼 (SSR 환경에서도 안전하게 동작)
   const ORIGIN = typeof window !== 'undefined' ? window.location.origin : 'https://welfaredesign.netlify.app';
   const RAW = `${ORIGIN}/images/business/member-services.png`;
   const cld = (w, fmt = 'auto') => `https://res.cloudinary.com/dxeadg9wi/image/fetch/c_limit,f_${fmt},q_auto,w_${w}/${RAW}`;
@@ -10,34 +10,86 @@ export default function MemberServices() {
 
   return (
     <>
+      {/* Cloudinary CDN 사전 연결: 이미지 초기 로딩 지연 최소화 */}
       <link rel="preconnect" href="https://res.cloudinary.com" crossOrigin="anonymous" />
       <style
         id="page-text-guard"
         dangerouslySetInnerHTML={{ __html: `
-html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
-*, *::before, *::after { box-sizing: border-box; min-width: 0; hyphens: manual; -webkit-hyphens: manual; }
+/* =========================================================
+   Global text & layout guard
+   - 모바일/데스크탑 텍스트 깨짐 방지
+   - 줄바꿈/하이픈/가독성 기본값 통일
+   ========================================================= */
+
+/* 브라우저 자동 텍스트 확대 방지 (iOS/Android) */
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+/* 모든 요소 박스모델 통일 + 예기치 않은 넘침 방지 */
+*, *::before, *::after {
+  box-sizing: border-box;
+  min-width: 0;
+  /* 자동 하이픈은 필요할 때만 수동 적용 */
+  hyphens: manual;
+  -webkit-hyphens: manual;
+}
+
+/* 본문 기본 가독성 세팅 */
 body {
   line-height: 1.5;
+  /* 폰트 렌더링 개선 */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
+
+  /* 한글/영문 혼합 줄바꿈 안정화 */
   word-break: keep-all;
   overflow-wrap: anywhere;
   -webkit-line-break: after-white-space;
 }
-h1, h2, .heading-balance { text-wrap: balance; }
-@supports not (text-wrap: balance) {
-  h1, h2, .heading-balance { line-height: 1.25; max-width: 45ch; }
+
+/* 제목 줄바꿈 균형 (지원 브라우저 한정) */
+h1, h2, .heading-balance {
+  text-wrap: balance;
 }
+
+/* text-wrap 미지원 브라우저 대응용 fallback */
+@supports not (text-wrap: balance) {
+  h1, h2, .heading-balance {
+    line-height: 1.25;
+    max-width: 45ch;
+  }
+}
+
+/* 형광펜/강조 마크가 줄바꿈 시 깨지지 않도록 */
 mark, [data-hl] {
   -webkit-box-decoration-break: clone;
   box-decoration-break: clone;
   padding: 0 .08em;
   border-radius: 2px;
 }
-.nowrap { white-space: nowrap; }
-.u-wrap-anywhere { overflow-wrap: anywhere; word-break: keep-all; }
-.u-ellipsis { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+/* ===== Utility classes ===== */
+
+/* 절대 줄바꿈 금지 */
+.nowrap {
+  white-space: nowrap;
+}
+
+/* 어디서든 줄바꿈 허용 (긴 URL/숫자 대응) */
+.u-wrap-anywhere {
+  overflow-wrap: anywhere;
+  word-break: keep-all;
+}
+
+/* 한 줄 말줄임 처리 */
+.u-ellipsis {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
         ` }}
       />
       <BizLayout title="조합원 지원 서비스">
@@ -46,7 +98,10 @@ mark, [data-hl] {
         <div className="grid gap-8 md:grid-cols-2 items-stretch">
           {/* 좌측 이미지: JS 동기화 제거, 순수 CSS로 동일 높이 */}
           <div className="flex items-center justify-center">
-            {/* 단일 그림 요소로 중복 렌더 제거 */}
+            {/* 반응형 이미지 처리:
+                - 모바일: Cloudinary AVIF/WebP 자동 최적화
+                - 태블릿/데스크탑: 로컬 PNG 사용 (화질 안정성) */}
+            {/* 단일 picture 요소 사용으로 이미지 중복 렌더링 방지 */}
             <picture>
               {/* 모바일 전용: Cloudinary 최적화 (AVIF/WebP), 데스크탑/태블릿은 로컬 PNG 유지 */}
               <source
@@ -121,10 +176,11 @@ mark, [data-hl] {
 
             {/* 문의 박스: PC(데스크탑) / 모바일 분리 렌더링 */}
             <div className="mt-3 mb-1 md:mb-0">
-              {/* Desktop & Tablet (md 이상): 기존 스타일 유지 */}
+              {/* 데스크탑/태블릿: 중앙 정렬 + 큰 타이포그래피 유지 */}
+              {/* 데스크탑 & 태블릿 (md 이상): 기존 스타일 유지 */}
               <div className="hidden md:block rounded-2xl border border-[#F26C2A]/45 bg-gradient-to-r from-[#FFF3E9] to-[#EFFFFD] px-8 py-5 shadow-md">
                 <div className="flex items-center justify-center gap-3 text-[#111827] tracking-tight">
-                  {/* phone icon */}
+                  {/* 전화 아이콘 */}
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 24 24"
@@ -145,11 +201,12 @@ mark, [data-hl] {
                   </a>
                 </div>
               </div>
-              {/* Mobile 전용 (md 미만): 한 줄 레이아웃, 줄바꿈 방지 */}
+              {/* 모바일: 한 줄 고정 레이아웃 + 전화번호 탭 최적화 */}
+              {/* 모바일 전용 (md 미만): 한 줄 레이아웃 유지 및 줄바꿈 방지 */}
               <div className="md:hidden rounded-2xl border border-[#F26C2A]/45 bg-gradient-to-r from-[#FFF3E9] to-[#EFFFFD] px-5 py-4 shadow-md">
                 <div className="flex items-center justify-between gap-3 text-[#111827]">
                   <div className="flex items-center gap-2 min-w-0">
-                    {/* phone icon */}
+                    {/* 전화 아이콘 */}
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       viewBox="0 0 24 24"

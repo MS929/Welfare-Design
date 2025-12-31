@@ -1,12 +1,14 @@
 // src/pages/news/Stories.jsx
-import { useEffect, useMemo, useRef, useState, memo } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
-import matter from "gray-matter";
-import "../../styles/global.css";
+// "복지디자인 이야기" 목록 페이지
+// - 마크다운(/src/content/stories/*.md) frontmatter를 읽어 카드 목록을 구성
+// - 카테고리 탭/검색/페이지네이션을 제공하고, 상세로 이동 시 현재 탭 정보를 쿼리스트링으로 유지
 
+// 카테고리 탭(화면 표시용) — 쿼리스트링(type/tab)과도 동기화됨
 const CATEGORIES = ["전체", "사업", "교육", "회의", "기타"];
 
-// 구(旧) 카테고리 -> 신(新) 카테고리 매핑 + 정규화
+// 구(旧) 카테고리 값을 현재 탭 체계(사업/교육/회의/기타)로 정규화
+// - frontmatter.category 값이 허용 목록에 없으면 과거 표기/오타 등을 매핑해서 정리
+// - 매핑에 없으면 기본값은 "기타"
 function normalizeCat(raw) {
   const v = (raw || "").trim();
   const allowed = ["사업", "교육", "회의", "기타"]; 
@@ -21,7 +23,8 @@ function normalizeCat(raw) {
   return map[v] || "기타";
 }
 
-// 마크다운 본문에서 첫 문장 정도만 간단 추출
+// 마크다운 본문(content)에서 카드용 요약문(excerpt) 생성
+// - 이미지/링크/마크다운 기호를 제거하고, 지정 길이(max)까지만 잘라 표시
 function toExcerpt(md = "", max = 80) {
   const text = md
     .replace(/!\[[^\]]*\]\([^)]+\)/g, "") // 이미지
@@ -32,6 +35,7 @@ function toExcerpt(md = "", max = 80) {
   return text.length > max ? text.slice(0, max) + "…" : text;
 }
 
+// 카테고리/라벨 등을 표시할 때 사용하는 작은 태그 UI(현재 파일에서는 예비 컴포넌트)
 function Tag({ children }) {
   return (
     <span className="inline-block rounded-full bg-emerald-100 text-emerald-700 text-xs font-semibold px-2 py-1">
@@ -40,6 +44,10 @@ function Tag({ children }) {
   );
 }
 
+// 이미지 로딩 최적화 컴포넌트
+// - priority=true: 최초 화면(above-the-fold) 이미지는 즉시 로딩(eager) + 높은 우선순위
+// - priority=false: IntersectionObserver로 뷰포트 근처에 왔을 때만 src를 주입해 지연 로딩
+// - sizes: 반응형 이미지 힌트(브라우저가 적절한 리소스를 선택하도록 도움)
 function OptimizedImg({ src, alt = "", className = "", priority = false, sizes = "(min-width:1024px) 33vw, (min-width:640px) 50vw, 100vw" }) {
   const imgRef = useRef(null);
   const [realSrc, setRealSrc] = useState(priority ? src : "");
@@ -60,11 +68,11 @@ function OptimizedImg({ src, alt = "", className = "", priority = false, sizes =
             }
           });
         },
-        { rootMargin: "800px" }
+        { rootMargin: "800px" } // 화면에 들어오기 전 여유 구간에서 미리 로딩(체감 속도 개선)
       );
       observer.observe(imgRef.current);
     } else {
-      // fallback
+      // IntersectionObserver 미지원 브라우저 대비: 즉시 로딩
       setRealSrc(src || "");
     }
     return () => observer && observer.disconnect();
@@ -76,7 +84,7 @@ function OptimizedImg({ src, alt = "", className = "", priority = false, sizes =
       alt={alt}
       loading={priority ? "eager" : "lazy"}
       decoding="async"
-      fetchpriority={priority ? "high" : "low"}
+      fetchpriority={priority ? "high" : "low"} // 브라우저 리소스 우선순위 힌트
       width="1280"
       height="720"
       sizes={sizes}
@@ -87,6 +95,8 @@ function OptimizedImg({ src, alt = "", className = "", priority = false, sizes =
   );
 }
 
+// 카드 1개 렌더링(React.memo로 불필요한 재렌더 최소화)
+// - 상세 페이지로 이동할 때 현재 탭(type)을 쿼리에 붙여, 뒤로 왔을 때 목록 상태를 유지
 const StoryCard = memo(function StoryCard({ item, activeCat, backTo, priority = false }) {
   const date = item.date ? new Date(item.date).toISOString().slice(0, 10) : "";
   return (
@@ -129,13 +139,14 @@ export default function NewsStories() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    (async () => {
-      // vite glob – 파일 내용(raw)까지 읽어서 frontmatter 파싱
-      const modules = import.meta.glob("/src/content/stories/*.md", {
-        query: "?raw",
-        import: "default",
-      });
+    // Vite의 import.meta.glob으로 마크다운 파일을 "문자열(raw)"로 읽어들인 뒤,
+    // gray-matter로 frontmatter(data)와 본문(content)을 분리해 목록 데이터로 변환
+    const modules = import.meta.glob("/src/content/stories/*.md", {
+      query: "?raw",
+      import: "default",
+    });
 
+    (async () => {
       const entries = await Promise.all(
         Object.entries(modules).map(async ([path, loader]) => {
           const raw = await loader();
@@ -154,12 +165,14 @@ export default function NewsStories() {
         })
       );
 
-      // 최신순 정렬
+      // 최신 날짜가 위로 오도록 정렬(날짜가 없으면 _sort=0으로 뒤쪽)
       entries.sort((a, b) => b._sort - a._sort);
       setRawItems(entries);
     })();
   }, []);
 
+  // URL 쿼리스트링(type 또는 tab)과 현재 탭 상태(activeCat)를 동기화
+  // - 외부 링크/새로고침/뒤로가기에서도 동일한 탭이 유지되도록 함
   useEffect(() => {
     const params = new URLSearchParams(location.search);
     const typeParam = params.get("type") || params.get("tab"); // support both keys
@@ -170,6 +183,7 @@ export default function NewsStories() {
     }
   }, [location.search]);
 
+  // 탭 + 검색어 기준으로 목록 필터링(계산량을 줄이기 위해 useMemo 사용)
   const filtered = useMemo(() => {
     const byCat =
       activeCat === "전체"
@@ -186,21 +200,23 @@ export default function NewsStories() {
     );
   }, [rawItems, activeCat, q]);
 
-  // 페이지가 바뀌거나 필터가 바뀌면 페이지를 1로 리셋
+  // 탭/검색어가 바뀌면 현재 페이지를 1로 리셋(빈 페이지로 남는 상황 방지)
   useEffect(() => {
     setPage(1);
   }, [activeCat, q]);
 
+  // 페이지네이션: 현재 페이지에 보여줄 구간만 잘라서 렌더
   const startIdx = (page - 1) * PAGE_SIZE;
   const endIdx = startIdx + PAGE_SIZE;
   const pagedItems = filtered.slice(startIdx, endIdx);
   const totalPages = Math.ceil(filtered.length / PAGE_SIZE);
 
+  // 상세 페이지에서 "목록으로" 돌아올 때 사용할 기준 URL(현재 탭 정보를 포함)
   const backTo = `/news/stories${activeCat && activeCat !== "전체" ? `?type=${encodeURIComponent(activeCat)}` : ""}`;
 
-  // 항상 페이지/탭 전환 시 상단으로 스크롤
+  // 페이지 번호나 탭이 바뀌면 상단으로 부드럽게 스크롤(사용자가 새 목록을 바로 볼 수 있게)
   useEffect(() => {
-    // 다음 프레임에 실행되도록 살짝 지연시켜 레이아웃이 잡힌 뒤 스크롤되게 함
+    // 레이아웃 계산 이후에 스크롤되도록 requestAnimationFrame으로 한 프레임 지연
     const id = requestAnimationFrame(() => {
       window.scrollTo({ top: 0, behavior: "smooth" });
     });
@@ -263,7 +279,7 @@ export default function NewsStories() {
                 <StoryCard key={it.slug} item={it} activeCat={activeCat} backTo={backTo} priority={idx < 6} />
               ))}
             </div>
-            {/* Pagination controls */}
+            {/* 페이지네이션 컨트롤 */}
             <div className="flex justify-center items-center gap-3 mt-8">
               <button
                 onClick={() => { setPage((p) => Math.max(p - 1, 1)); window.scrollTo({ top: 0, behavior: "smooth" }); }}

@@ -1,5 +1,13 @@
+/**
+ * Home.jsx (메인 페이지)
+ * - 홈 화면 구성(히어로 캐러셀 / 빠르게 가기 / 복지디자인 소식 / 공지·정보공개)
+ * - CMS(markdown/mdx) 기반 콘텐츠를 Vite import.meta.glob 으로 로드해 리스트로 렌더링
+ * - 모바일/터치 환경에서 hover/active 잔상 및 떨림(iOS Safari) 방지를 위한 스타일 처리 포함
+ */
 import { useState, useEffect, useMemo, useRef } from "react";
-// Responsive media query hook
+// ✅ 반응형/입력장치(터치) 감지를 위한 커스텀 훅
+// - SSR 환경(윈도우 없음)에서도 안전하게 동작하도록 guard 처리
+// 반응형 미디어 쿼리 상태를 반환하는 훅
 const useMedia = (query) => {
   const [match, setMatch] = useState(() => {
     if (typeof window === "undefined" || !window.matchMedia) return false;
@@ -17,11 +25,16 @@ const useMedia = (query) => {
   }, [query]);
   return match;
 };
+// =============================
+// 외부 의존성 / 유틸 컴포넌트 import
+// =============================
 import matter from "gray-matter";
 import { Link } from "react-router-dom";
 import OptimizedImg from "../components/OptimizedImg";
 import { cldFetch, cldSrcSet } from "../lib/image";
-// src/pages/Home.jsx
+// =============================
+// 디자인 토큰(컬러/그림자/라운드 등) — 인라인 스타일 기반 UI 일관성 유지
+// =============================
 // 팔레트 (우리 브랜드 컬러로, 레퍼런스 톤을 흉내냄)
 const PALETTE = {
   orange: "#ED6A32",
@@ -50,14 +63,19 @@ const PALETTE = {
   tealTint: "rgba(59,167,160,.10)",
 };
 
+// 페이지 기본 컨테이너 최대 폭(px)
 const CONTAINER = 1360;
 
-// Hero carousel images (2개만 사용)
-// 아래 두 파일을 교체해서 쓰세요: /public/images/hero/hero1.jpg, /public/images/hero/hero2.jpg
+// HERO(상단) 캐러셀 이미지 경로 (public/images/hero 하위 정적 리소스)
+// - 필요 시 파일만 교체하면 코드 변경 없이 이미지 교체 가능
 const HERO_IMAGES = ["/images/hero/dog.png", "/images/hero/light.png"];
 const HERO_INTERVAL = 10000; // 10초
 
-// ===== Utils (match Home.jsx behavior) =====
+/**
+ * 파일명에서 날짜가 포함된 slug를 파싱
+ * 예) 2025-01-01-my-post.md -> { date: '2025-01-01', slug: 'my-post', titleFromFile: 'my-post' }
+ * - CMS 컨텐츠가 파일명 기반으로 라우팅/정렬될 때 안정적으로 사용
+ */
 function parseDatedSlug(filepath) {
   const name = filepath.split("/").pop() || "";
   const m = name.match(/^(\d{4}-\d{2}-\d{2})-(.+)\.(md|mdx)$/);
@@ -78,6 +96,7 @@ function parseDatedSlug(filepath) {
   return { date, slug, titleFromFile: rest };
 }
 
+// 날짜 포맷 정규화(YYYY-MM-DD). 문자열/Date 모두 처리.
 function formatDate(v) {
   if (!v) return "";
   try {
@@ -87,18 +106,23 @@ function formatDate(v) {
   return "";
 }
 
-// Normalize notice categories coming from CMS (e.g., "공모" -> "정보공개", "정보 공개" -> "정보공개")
+/**
+ * 공지 카테고리 표기 흔들림을 통일
+ * - 예: "정보 공개"/"정보-공개"/"공모" 등의 값을 "정보공개"로 정규화
+ */
 function normalizeNoticeCategory(v) {
   const s = (v ?? "").toString().trim();
   if (!s) return "공지";
-  // remove spaces/hyphens to compare variants like "정보 공개", "정보-공개"
+  // 공백/하이픈을 제거해 "정보 공개", "정보-공개" 같은 표기를 동일 기준으로 비교
   const compact = s.replace(/[\s-]/g, "");
   if (compact === "공모") return "정보공개";
   if (compact.includes("정보") && compact.includes("공개")) return "정보공개";
   if (s.startsWith("공지")) return "공지";
-  return s; // otherwise keep as-is
+  return s; // 그 외 값은 원문 그대로 사용
 }
 
+// 레이아웃 섹션 컴포넌트
+// - fullBleed=true: 배경은 화면 전체 폭, 내부 콘텐츠는 가운데 정렬 컨테이너
 const Section = ({
   children,
   style,
@@ -106,7 +130,7 @@ const Section = ({
   innerMaxWidth = CONTAINER,
 }) => {
   if (fullBleed) {
-    // full-bleed background stripe, with an inner centered container
+    // 배경은 화면 전체 폭, 내부 콘텐츠는 중앙 컨테이너로 제한
     return (
       <section
         style={{
@@ -139,7 +163,7 @@ const Section = ({
       </section>
     );
   }
-  // normal constrained section
+  // 일반 섹션: 컨테이너 폭으로 제한된 기본 레이아웃
   return (
     <section
       style={{
@@ -158,6 +182,7 @@ const Section = ({
   );
 };
 
+// 필터/태그 버튼용 캡슐 UI (Story 필터 등에 사용)
 const Pill = ({ label, icon, color, onClick }) => (
   <button
     onClick={onClick}
@@ -194,7 +219,7 @@ const Pill = ({ label, icon, color, onClick }) => (
   </button>
 );
 
-// 작은 "더보기" 캡슐 링크 – 스토리 필터와 동일한 톤
+// "더보기"용 캡슐 링크 (모바일 터치/뒤로가기 시 스타일 잔상 방지 처리 포함)
 const MorePill = ({ href, children }) => (
   <a
     href={href}
@@ -262,7 +287,7 @@ const MorePill = ({ href, children }) => (
   </a>
 );
 
-// CMS thumbnail can be string, object, or array; extract a usable URL
+// CMS thumbnail 필드가 다양한 형태(문자열/객체/배열)로 들어올 수 있어 URL을 안전하게 추출
 function extractThumbSrc(v) {
   if (!v) return "";
   if (typeof v === "string") return v.trim();
@@ -287,7 +312,12 @@ function extractThumbSrc(v) {
   } catch {}
   return "";
 }
-// OptimizedImg 컴포넌트가 import되어 있다고 가정합니다.
+/**
+ * StoryCard: 복지디자인 소식 카드
+ * - 썸네일 유무에 따라 이미지/플레이스홀더 렌더
+ * - Cloudinary URL 여부에 따라 CDN 처리 분기
+ * - iOS/터치 환경에서 hover/transition로 인한 떨림을 최소화
+ */
 const StoryCard = (props) => {
   const {
     title,
@@ -420,13 +450,17 @@ const StoryCard = (props) => {
   );
 };
 
+// 메인(Home) 페이지 컴포넌트
+// - 반응형/터치 감지, 히어로 캐러셀, 공지/소식 데이터 로딩 및 렌더 담당
 export default function Home1() {
+  // 뷰포트/입력장치 상태 (레이아웃 분기용)
   const isMobile = useMedia("(max-width: 640px)");
   const isTablet = useMedia("(max-width: 1024px)");
   const isTouch = useMedia("(hover: none) and (pointer: coarse)");
+  // 공지/정보공개 목록 데이터
   const [notices, setNotices] = useState([]);
   const [loadingNotices, setLoadingNotices] = useState(true);
-  // --- Stories (복지디자인 소식) state ---
+  // 복지디자인 소식 필터(카테고리) 상태
   const [storyActive, setStoryActive] = useState("전체");
   const [storyItems, setStoryItems] = useState([]);
   const storyPills = useMemo(
@@ -440,13 +474,14 @@ export default function Home1() {
       ),
     [storyItems, storyActive]
   );
-  // Removed noticeScope filter UI; always show both columns
+  // 공지 범위 선택 UI는 제거하고, 항상 두 컬럼(공지/정보공개)을 함께 표시
 
-  // --- HERO carousel state ---
+  // HERO 캐러셀 현재 인덱스 + 타이머
   const [heroIndex, setHeroIndex] = useState(0);
   const timerRef = useRef(null);
 
-  // 저감 모션 환경설정 시 자동재생 비활성화
+  // 사용자 OS 접근성 설정을 감지하여 애니메이션 동작 여부 결정
+  // 접근성: 사용자가 '동작 줄이기(reduce motion)'를 선호하면 자동재생을 끔
   const prefersReducedMotion = useMemo(() => {
     if (typeof window === "undefined" || !window.matchMedia) return false;
     try {
@@ -456,6 +491,7 @@ export default function Home1() {
     }
   }, []);
 
+  // 캐러셀 자동재생 타이머 재시작(사용자 조작 시에도 리셋)
   const restartTimer = () => {
     if (timerRef.current) clearInterval(timerRef.current);
     if (prefersReducedMotion) return; // reduce motion이면 자동재생 건너뜀
@@ -473,6 +509,7 @@ export default function Home1() {
   const nextHero = () => goTo(heroIndex + 1);
   const prevHero = () => goTo(heroIndex - 1);
 
+  // prefers-reduced-motion 변경에 따라 자동재생 on/off 및 정리(clean-up)
   useEffect(() => {
     restartTimer();
     return () => {
@@ -480,7 +517,7 @@ export default function Home1() {
     };
   }, [prefersReducedMotion]);
 
-
+  // 공지/정보공개 콘텐츠 로드 (md/mdx -> frontmatter 파싱 -> 최신순 정렬)
   useEffect(() => {
     try {
       setLoadingNotices(true);
@@ -523,7 +560,7 @@ export default function Home1() {
     }
   }, []);
 
-  // Load stories list (for 복지디자인 소식)
+  // 복지디자인 소식(스토리) 콘텐츠 로드 (구버전 카테고리명을 현재 카테고리로 매핑)
   useEffect(() => {
     try {
       const modules = import.meta.glob("/src/content/stories/*.{md,mdx}", {
@@ -558,8 +595,12 @@ export default function Home1() {
           slug: base,
           type,
           thumbnail: data?.thumbnail || null,
-          // allow overriding card focal point via frontmatter (e.g., thumbPosition: "50% 20%")
-          thumbPosition: data?.thumbPosition || data?.thumb_position || data?.focal || "50% 30%",
+          // frontmatter에서 썸네일 포커스 위치를 지정할 수 있도록 허용 (예: "50% 20%")
+          thumbPosition:
+            data?.thumbPosition ||
+            data?.thumb_position ||
+            data?.focal ||
+            "50% 30%",
         };
       });
       mapped.sort((a, b) => {
@@ -577,18 +618,18 @@ export default function Home1() {
     }
   }, []);
 
-  // iOS/모바일에서 뒤로가기 시(active 잔상) 카드 스타일 초기화
+  // iOS BFCache(뒤로가기 캐시) 복귀 시 눌림/hover 잔상 제거용 스타일 초기화
   useEffect(() => {
     const resetStyles = () => {
       const nodes = document.querySelectorAll('[data-reset-touch="true"]');
       nodes.forEach((el) => {
         // 공통 초기화
-        el.style.transform = 'none';
+        el.style.transform = "none";
         el.style.boxShadow = PALETTE.shadowSm;
-        el.style.background = '#fff';
-        const kind = el.getAttribute('data-reset-kind');
+        el.style.background = "#fff";
+        const kind = el.getAttribute("data-reset-kind");
         // 컴포넌트 종류별 기본값 복구
-        if (kind === 'pill') {
+        if (kind === "pill") {
           // MorePill 기본 스타일 복구
           el.style.color = PALETTE.teal;
           el.style.borderColor = PALETTE.teal;
@@ -600,10 +641,11 @@ export default function Home1() {
     };
     // 최초 진입 및 BFCache 복귀 시 모두 초기화
     resetStyles();
-    window.addEventListener('pageshow', resetStyles);
-    return () => window.removeEventListener('pageshow', resetStyles);
+    window.addEventListener("pageshow", resetStyles);
+    return () => window.removeEventListener("pageshow", resetStyles);
   }, []);
 
+  // 공지 데이터를 카테고리 기준으로 분리하여 화면에 표시하기 위한 전처리
   const noticesSplit = useMemo(() => {
     const norm = (c) => normalizeNoticeCategory(c);
     const notice = notices.filter((n) => norm(n.category) === "공지");
@@ -645,7 +687,7 @@ mark, [data-hl] {
         }}
       />
       <main style={{ background: "#fff", overflowX: "hidden" }}>
-        {/* 1) HERO – 이미지 캐러셀 + 우측 텍스트 (Home1 스타일) */}
+        {/* ================= HERO(상단 캐러셀) ================= */}
         <Section
           fullBleed
           innerMaxWidth={CONTAINER}
@@ -682,6 +724,7 @@ mark, [data-hl] {
                   background: "#fff",
                 }}
               >
+                // HERO 캐러셀 이미지 렌더링 (현재 인덱스만 표시)
                 {HERO_IMAGES.map((src, i) => (
                   <OptimizedImg
                     key={src}
@@ -717,6 +760,7 @@ mark, [data-hl] {
                   />
                 ))}
               </div>
+              {/* 캐러셀 수동 조작 컨트롤 (이전 / 다음 / 위치 표시) */}
               {/* 캐러셀 외부 컨트롤 (이미지 아래) */}
               <div
                 style={{
@@ -756,7 +800,7 @@ mark, [data-hl] {
                   {"‹"}
                 </button>
 
-                {/* dots */}
+                {/* 캐러셀 위치 표시 점(dots) */}
                 <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
                   {HERO_IMAGES.map((_, i) => (
                     <button
@@ -911,10 +955,10 @@ mark, [data-hl] {
           </div>
         </Section>
 
-        {/* 2) 빠르게 가기 */}
+        {/* ================= 빠르게 가기(퀵링크) ================= */}
         <div
           style={{
-            // full-bleed soft background behind the quick links (match photo 1)
+            // 빠르게 가기 영역 배경을 화면 전체 폭으로 깔아주는 래퍼(전체 너비 배경)
             background: PALETTE.pageBg, // was PALETTE.mintPeachBg
             borderTop: `1px solid ${PALETTE.line}`,
             borderBottom: `1px solid ${PALETTE.line}`,
@@ -977,7 +1021,7 @@ mark, [data-hl] {
                     alignItems: isTablet ? "stretch" : "center",
                   }}
                 >
-                  {/* Left: heading + description */}
+                    {/* 좌측: 섹션 제목 및 설명 영역 (빠르게 가기) */}
                   <div style={{ textAlign: isMobile ? "center" : "left" }}>
                     <h3
                       style={{
@@ -1004,7 +1048,7 @@ mark, [data-hl] {
                     </p>
                   </div>
 
-                  {/* Right: 4 cards unchanged */}
+                  {/* 우측: 빠르게 가기 카드 4개 영역 (퀵링크 카드) */}
                   <div
                     style={{
                       display: "grid",
@@ -1110,9 +1154,9 @@ mark, [data-hl] {
           </Section>
         </div>
 
-        {/* 복지디자인 소식 */}
+        {/* ================= 복지디자인 소식(스토리) ================= */}
         <Section>
-          {/* 헤더: 좌측 제목/설명, 우측 필터 + 전체보기 */}
+          {/* 상단 헤더: 좌측 제목/설명, 우측 필터 및 전체보기 링크 (소식 섹션) */}
           <div
             style={{
               display: "flex",
@@ -1219,13 +1263,15 @@ mark, [data-hl] {
             </div>
           </div>
 
-          {/* 카드 그리드 */}
+          {/* 카드 그리드 (소식 카드 목록) */}
           <div
             style={{
               display: "grid",
               ...(storyFiltered.length === 1
                 ? {
-                    gridTemplateColumns: isMobile ? "1fr" : "minmax(560px, 720px)",
+                    gridTemplateColumns: isMobile
+                      ? "1fr"
+                      : "minmax(560px, 720px)",
                     justifyContent: "center",
                     justifyItems: "center",
                   }
@@ -1264,7 +1310,7 @@ mark, [data-hl] {
           </div>
         </Section>
 
-        {/* 지원사업 영역 (민트 스트립 배경) */}
+        {/* ================= 지원사업(바로가기 카드) ================= */}
         <div
           style={{
             background: PALETTE.pageBg,
@@ -1403,7 +1449,7 @@ mark, [data-hl] {
                               <img
                                 src={`${base}.svg`}
                                 onError={(e) => {
-                                  // If SVG is missing, fall back to PNG once
+                                  // SVG 파일이 없을 경우 한 번만 PNG로 대체
                                   e.currentTarget.onerror = null;
                                   e.currentTarget.src = `${base}.png`;
                                 }}
@@ -1429,9 +1475,9 @@ mark, [data-hl] {
           </Section>
         </div>
 
-        {/* 공지/정보공개 – 두 칼럼 리스트 */}
+        {/* ================= 공지/정보공개(리스트) ================= */}
         <Section style={{ paddingTop: 52 }}>
-          {/* 상단 타이틀 */}
+          {/* 상단 타이틀 (공지사항) */}
           <div
             style={{
               display: "flex",
@@ -1467,7 +1513,7 @@ mark, [data-hl] {
             </h2>
           </div>
 
-          {/* 두 칼럼 그리드 */}
+          {/* 두 칼럼 그리드 (공지/정보공개) */}
           <div
             style={{
               display: "grid",
@@ -1477,7 +1523,7 @@ mark, [data-hl] {
               gap: isTablet ? 18 : 28,
             }}
           >
-            {/* 공지 */}
+            {/* 공지 (공지사항 리스트) */}
             <div>
               <div
                 style={{
@@ -1632,7 +1678,7 @@ mark, [data-hl] {
               </div>
             </div>
 
-            {/* 정보공개 */}
+            {/* 정보공개 (정보공개 리스트) */}
             <div>
               <div
                 style={{

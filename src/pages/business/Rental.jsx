@@ -6,9 +6,16 @@ export default function Rental() {
     <>
       <style
         id="page-text-guard"
-        dangerouslySetInnerHTML={{ __html: `
+        // 전역 텍스트/줄바꿈 가드: 모바일 자동 확대 방지 + 긴 텍스트 줄바꿈 안정화(깨짐 방지)
+        dangerouslySetInnerHTML={{
+          __html: `
+/* 모바일 Safari/Chrome에서 폰트가 임의로 확대되는 현상 방지 */
 html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+
+/* 레이아웃 계산 안정화 + 하이픈(단어 분리) 정책 고정 */
 *, *::before, *::after { box-sizing: border-box; min-width: 0; hyphens: manual; -webkit-hyphens: manual; }
+
+/* 본문 가독성/줄바꿈 기본값: 긴 문자열(전화번호/URL 등) 때문에 레이아웃이 깨지는 문제 예방 */
 body {
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
@@ -18,30 +25,39 @@ body {
   overflow-wrap: anywhere;
   -webkit-line-break: after-white-space;
 }
+
+/* 제목 계열은 가능한 줄 균형(balanced wrap)으로 보기 좋게 */
 h1, h2, .heading-balance { text-wrap: balance; }
+
+/* text-wrap: balance 미지원 브라우저 fallback */
 @supports not (text-wrap: balance) {
   h1, h2, .heading-balance { line-height: 1.25; max-width: 45ch; }
 }
+
+/* 하이라이트(mark) 배경이 줄바꿈 시에도 자연스럽게 이어지도록 */
 mark, [data-hl] {
   -webkit-box-decoration-break: clone;
   box-decoration-break: clone;
   padding: 0 .08em;
   border-radius: 2px;
 }
+
+/* 유틸: 줄바꿈 금지 / 어디서든 줄바꿈 허용 / 말줄임 */
 .nowrap { white-space: nowrap; }
 .u-wrap-anywhere { overflow-wrap: anywhere; word-break: keep-all; }
 .u-ellipsis { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-        ` }}
+          `,
+        }}
       />
       <BizLayout title="휠체어 및 복지용구 무료 대여">
-        {/* Cloudinary connection warm-up for mobile images */}
+        {/* 이미지 CDN(Cloudinary) 연결 미리 열기: 특히 모바일에서 첫 이미지 로딩 지연을 줄이기 위함 */}
         <link rel="preconnect" href="https://res.cloudinary.com" crossOrigin="anonymous" />
       <div className="max-w-screen-xl mx-auto px-4 pb-4 md:pb-0">
-        {/* 이미지 + 우측 정보 박스(대여 안내) + 기대효과(대여 안내 박스 아래) */}
+        {/* 섹션 구성: 좌측(이미지) + 우측(대여 안내/기대효과/문의) */}
         <div className="grid gap-8 md:grid-cols-2 items-stretch">
-          {/* 좌측 이미지: JS 동기화 제거, 순수 CSS로 동일 높이 */}
+          {/* 좌측 이미지 영역: 불필요한 JS 레이아웃 동기화 없이 반응형으로 표시 */}
           <div className="flex items-center justify-center">
-            {/* 단일 그림 요소로 중복 렌더 제거 */}
+            {/* <picture> 사용: 모바일은 최적화(Cloudinary), PC는 원본 PNG 유지 */}
             <picture>
               {(() => {
                 const REMOTE = "https://welfaredesign.netlify.app/images/business/rental.png";
@@ -50,7 +66,7 @@ mark, [data-hl] {
 
                 return (
                   <>
-                    {/* 모바일 전용: Cloudinary 최적화 */}
+                    {/* 모바일 전용: Cloudinary fetch 변환(포맷/품질/dpr/너비 자동 최적화) */}
                     <source
                       media="(max-width: 767px)"
                       type="image/avif"
@@ -63,7 +79,7 @@ mark, [data-hl] {
                       srcSet={`${cldM(320,'webp')} 320w, ${cldM(480,'webp')} 480w, ${cldM(640,'webp')} 640w, ${cldM(750,'webp')} 750w, ${cldM(828,'webp')} 828w`}
                       sizes="100vw"
                     />
-                    {/* 데스크탑/태블릿: 정적 PNG 그대로 사용 (PC는 건들지 않음) */}
+                    {/* 데스크탑/태블릿: 정적 PNG 사용(PC는 변환 없이 원본 유지) */}
                     <img
                       src="/images/business/rental.png"
                       alt="휠체어 및 복지용구 무료 대여"
@@ -82,7 +98,7 @@ mark, [data-hl] {
             </picture>
           </div>
 
-          {/* 우측: 대여 안내 + 기대효과 + 문의 */}
+          {/* 우측 영역: 대여 안내 → 기대효과 → 문의 */}
           <div className="flex flex-col h-full mt-8">
             <div className="rounded-2xl border border-[#2CB9B1]/40 bg-white/90 backdrop-blur-[1px] shadow-md p-7 md:p-8">
               <ul className="space-y-4 text-gray-800 leading-relaxed">
@@ -117,12 +133,12 @@ mark, [data-hl] {
               </ul>
             </div>
 
-            {/* 문의 박스: PC(데스크탑) / 모바일 분리 렌더링 */}
+            {/* 문의 박스: 화면 크기별(PC/모바일) 레이아웃을 분리해 줄바꿈/가독성 최적화 */}
             <div className="mt-3 mb-1 md:mb-0">
-              {/* Desktop & Tablet (md 이상): 기존 스타일 유지 */}
+              {/* PC/태블릿(md 이상): 기존 레이아웃(가운데 정렬 + 큰 폰트) 유지 */}
               <div className="hidden md:block rounded-2xl border border-[#F26C2A]/45 bg-gradient-to-r from-[#FFF3E9] to-[#EFFFFD] px-8 py-5 shadow-md">
                 <div className="flex items-center justify-center gap-3 text-[#111827] tracking-tight">
-                  {/* phone icon */}
+                  {/* 전화 아이콘(SVG) */}
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 24 24"
@@ -143,11 +159,11 @@ mark, [data-hl] {
                   </a>
                 </div>
               </div>
-              {/* Mobile 전용 (md 미만): 한 줄 레이아웃, 줄바꿈 방지 */}
+              {/* 모바일(md 미만): 한 줄 레이아웃 + 줄바꿈 방지(전화번호 잘림/개행 방지) */}
               <div className="md:hidden rounded-2xl border border-[#F26C2A]/45 bg-gradient-to-r from-[#FFF3E9] to-[#EFFFFD] px-5 py-4 shadow-md">
                 <div className="flex items-center justify-between gap-3 text-[#111827]">
                   <div className="flex items-center gap-2 min-w-0">
-                    {/* phone icon */}
+                    {/* 전화 아이콘(SVG) */}
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       viewBox="0 0 24 24"
@@ -177,3 +193,4 @@ mark, [data-hl] {
     </>
   );
 }
+                                                                                                                                                                                                                                                                                                                                                                                                                                     

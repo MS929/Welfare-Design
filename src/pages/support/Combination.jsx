@@ -1,11 +1,22 @@
+// src/pages/support/Combination.jsx
+// 조합 가입 안내 페이지
+// - 전화/이메일 문의 중심의 간단한 CTA 제공
+// - 텍스트 가독성 보호용 CSS(page-text-guard)를 페이지 단위로 주입
 export default function Combination() {
   return (
     <>
+      {/* 텍스트 가독성 보호용 전역 스타일
+         - 모바일 텍스트 확대 방지, 줄바꿈/하이픈/렌더링 품질 보정
+         - 이 페이지에만 한정 적용하기 위해 style 태그로 주입 */}
       <style
         id="page-text-guard"
         dangerouslySetInnerHTML={{ __html: `
+/* 모바일/브라우저별 텍스트 자동 확대 비활성화 */
 html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+/* 박스 모델 통일 + 최소 너비/하이픈 처리로 레이아웃 깨짐 방지 */
 *, *::before, *::after { box-sizing: border-box; min-width: 0; hyphens: manual; -webkit-hyphens: manual; }
+/* 본문 기본 가독성 세팅
+   - 줄간격/폰트 스무딩/단어 줄바꿈 정책 */
 body {
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
@@ -15,23 +26,29 @@ body {
   overflow-wrap: anywhere;
   -webkit-line-break: after-white-space;
 }
+/* 제목 텍스트 줄 균형 처리(text-wrap: balance 지원 브라우저용) */
 h1, h2, .heading-balance { text-wrap: balance; }
+/* text-wrap 미지원 브라우저 대응용 폴백 */
 @supports not (text-wrap: balance) {
   h1, h2, .heading-balance { line-height: 1.25; max-width: 45ch; }
 }
+/* 하이라이트(mark) 스타일: 줄바꿈 시 배경 깨짐 방지 */
 mark, [data-hl] {
   -webkit-box-decoration-break: clone;
   box-decoration-break: clone;
   padding: 0 .08em;
   border-radius: 2px;
 }
+/* 줄바꿈 금지 유틸 */
 .nowrap { white-space: nowrap; }
+/* 긴 텍스트 강제 줄바꿈 유틸(레이아웃 넘침 방지) */
 .u-wrap-anywhere { overflow-wrap: anywhere; word-break: keep-all; }
+/* 한 줄 말줄임 처리 유틸 */
 .u-ellipsis { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
         ` }}
       />
       <div className="bg-white">
-        {/* ===== 브레드크럼 + 제목 (필요 시 수정) ===== */}
+        {/* 상단 브레드크럼 + 페이지 제목 */}
         <section className="max-w-screen-xl mx-auto px-4 pt-10">
           <nav className="text-sm text-black">
             조합 &gt; <span className="text-black">가입 안내</span>
@@ -42,10 +59,10 @@ mark, [data-hl] {
         </section>
       </div>
 
-      {/* ===== 본문 ===== */}
+      {/* 조합 가입 안내 본문 영역 */}
       <section className="relative max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8 pb-16 antialiased tracking-[-0.01em] mt-10">
         <div className="relative rounded-2xl border border-gray-200 bg-white p-6 md:p-8 shadow-md text-center">
-          {/* badge */}
+          {/* 상단 강조 배지(JOIN US) */}
           <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-50 text-emerald-700 text-[11px] font-semibold px-2.5 py-1 mb-2">
             JOIN&nbsp;US
           </span>
@@ -58,10 +75,10 @@ mark, [data-hl] {
             복지디자인의 미션에 공감하시고 조합 가입을 원하시면 아래 연락처로 편하게 문의해 주세요. <br></br>간단한 안내와 상담 후 절차를 도와드립니다.
           </p>
 
-          {/* 연락처 */}
+          {/* 연락처 정보(전화 / 이메일) */}
           <ul className="mt-4 space-y-3 text-gray-800 items-center flex flex-col">
             <li className="flex items-center gap-3 leading-none">
-              {/* phone icon */}
+              {/* 전화 아이콘 */}
               <svg
                 className="h-5 w-5 text-emerald-600 flex-shrink-0"
                 viewBox="0 0 24 24"
@@ -84,7 +101,7 @@ mark, [data-hl] {
             </li>
 
             <li className="flex items-center gap-3 leading-none">
-              {/* mail icon */}
+              {/* 이메일 아이콘 */}
               <svg
                 className="h-5 w-5 text-sky-600 flex-shrink-0"
                 viewBox="0 0 24 24"
@@ -115,7 +132,7 @@ mark, [data-hl] {
             </li>
           </ul>
 
-          {/* actions */}
+          {/* 빠른 문의용 CTA 버튼 영역 */}
           <div className="mt-8 flex flex-wrap gap-3 justify-center">
             <a
               href="tel:042-000-0000"
@@ -133,7 +150,7 @@ mark, [data-hl] {
             </a>
           </div>
 
-          {/* helper note */}
+          {/* 상담 가능 시간 안내 문구 */}
           <p className="mt-5 text-sm text-gray-500">
             * 상담 가능 시간: 평일 09:00 ~ 18:00 (점심 12:00 ~ 13:00)
           </p>
