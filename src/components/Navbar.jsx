@@ -1,9 +1,19 @@
 /**
- * Navbar.jsx
- * - 사이트 상단에 공통으로 노출되는 네비게이션(헤더) 컴포넌트
- * - 데스크톱: 상단 탭 + 메가메뉴(hover 기반)
- * - 모바일: 햄버거 버튼 + 드로어(아코디언 details)
- * - 리사이즈 시 메가메뉴 정렬(좌표/너비 재계산), 모바일 오픈 시 body 스크롤 잠금 등 UX 처리 포함
+ * -----------------------------------------------------------------------------
+ * Navbar.jsx 
+ * [컴포넌트 목적]
+ *  - 사이트 전 페이지에서 공통으로 사용하는 상단 네비게이션(헤더)
+ *
+ * [구성]
+ *  - 데스크톱: 상단 4개 섹션 탭 + 호버 기반 메가메뉴ssssssss
+ *  - 모바일: 햄버거 버튼 + 드로어(섹션별 details/summary 아코디언)
+ *
+ * [UX/동작 포인트]
+ *  - 호버 진입/이탈에 지연 시간을 둬서 드롭다운 깜빡임 방지
+ *  - 리사이즈/토글 시 상단 탭 영역의 좌표를 재측정하여 메가메뉴 정렬 유지
+ *  - 모바일 메뉴 오픈 시 body 스크롤을 잠가 이중 스크롤을 방지
+ *  - Navbar에서 전역 텍스트 줄바꿈/렌더링 안정화 CSS를 주입(모바일 확대/긴 문자열 대응)
+ * -----------------------------------------------------------------------------
  */
 
 // =============================
@@ -187,17 +197,21 @@ export default function Navbar() {
         // Navbar를 통해 모든 페이지에 적용되는 전역 텍스트/줄바꿈 안정화 스타일
         dangerouslySetInnerHTML={{ __html: `
 html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+/* 공통 박스 모델: 레이아웃 계산 안정화 */
 *, *::before, *::after { box-sizing: border-box; min-width: 0; }
 body {
-  line-height: 1.5;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-rendering: optimizeLegibility;
-  word-break: keep-all;
-  overflow-wrap: anywhere;
+  line-height: 1.5;                    /* 기본 행간 */
+  -webkit-font-smoothing: antialiased; /* 글자 렌더링 부드럽게(웹킷) */
+  -moz-osx-font-smoothing: grayscale;  /* 글자 렌더링 부드럽게(맥) */
+  text-rendering: optimizeLegibility;  /* 가독성 우선 렌더링 */
+  word-break: keep-all;                /* 한글 단어 중간 분리 방지 */
+  overflow-wrap: anywhere;             /* 긴 영문/URL도 안전하게 줄바꿈 */
 }
+/* 링크/버튼/텍스트 요소에서 긴 문자열이 레이아웃을 깨지 않도록 방어 */
 a, button, p, li, div, span { overflow-wrap: anywhere; word-break: keep-all; }
+/* 제목 계열: 과도한 줄간격 확장을 방지 */
 h1, h2, h3, h4, h5 { line-height: 1.25; }
+/* 특정 텍스트는 줄바꿈 금지(메뉴 라벨 등) */
 .nowrap, .nav-nowrap { white-space: nowrap; }
 ` }}
       />

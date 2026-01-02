@@ -1,12 +1,33 @@
 // src/pages/business/Rental.jsx
+/**
+ * -----------------------------------------------------------------------------
+ * [페이지 목적]
+ *  - 휠체어 및 복지용구(보행보조기, 목욕의자 등) 무료 대여 안내 페이지
+ *  - 이용 방법/대여 규칙/기대 효과/전화 문의 정보를 한 화면에서 제공
+ *
+ * [구성]
+ *  - BizLayout(상단 공통 레이아웃) 내부에 본문 2열 Grid 배치
+ *    · 좌측: 대표 이미지(반응형)
+ *    · 우측: 대여 안내 카드 → 기대 효과 카드 → 문의 배너(PC/모바일 분리)
+ *
+ * [이미지 최적화 전략]
+ *  - 모바일: Cloudinary image/fetch로 AVIF/WEBP + srcset 제공(용량↓/속도↑)
+ *  - 태블릿/데스크탑: 로컬 정적 PNG로 품질/캐시 안정성 확보
+ *
+ * [텍스트/레이아웃 안정화]
+ *  - 전역 텍스트 가드 CSS를 페이지 단위로 주입하여(모바일 폰트 자동 확대/긴 문자열 깨짐) 예방
+ *  - 문의 배너는 md 기준으로 완전히 분리 렌더링하여 줄바꿈/잘림 이슈를 최소화
+ * -----------------------------------------------------------------------------
+ */
+
 import BizLayout from "./_Layout";
 
 export default function Rental() {
   return (
     <>
+      {/* 페이지 단위 CSS 주입: 전역 CSS 수정 없이도 모바일 텍스트/줄바꿈 이슈를 안전하게 방지 */}
       <style
         id="page-text-guard"
-        // 전역 텍스트/줄바꿈 가드: 모바일 자동 확대 방지 + 긴 텍스트 줄바꿈 안정화(깨짐 방지)
         dangerouslySetInnerHTML={{
           __html: `
 /* 모바일 Safari/Chrome에서 폰트가 임의로 확대되는 현상 방지 */
@@ -21,8 +42,8 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
-  word-break: keep-all;
-  overflow-wrap: anywhere;
+  word-break: keep-all;            /* 한글 단어 중간 분리 방지 */
+  overflow-wrap: anywhere;         /* 긴 영문/URL도 안전하게 줄바꿈 */
   -webkit-line-break: after-white-space;
 }
 
@@ -50,7 +71,7 @@ mark, [data-hl] {
         }}
       />
       <BizLayout title="휠체어 및 복지용구 무료 대여">
-        {/* 이미지 CDN(Cloudinary) 연결 미리 열기: 특히 모바일에서 첫 이미지 로딩 지연을 줄이기 위함 */}
+        {/* 이미지 CDN(Cloudinary)과의 연결을 미리 열어(Preconnect) 모바일 첫 로딩 지연을 줄임 */}
         <link rel="preconnect" href="https://res.cloudinary.com" crossOrigin="anonymous" />
       <div className="max-w-screen-xl mx-auto px-4 pb-4 md:pb-0">
         {/* 섹션 구성: 좌측(이미지) + 우측(대여 안내/기대효과/문의) */}
@@ -60,7 +81,9 @@ mark, [data-hl] {
             {/* <picture> 사용: 모바일은 최적화(Cloudinary), PC는 원본 PNG 유지 */}
             <picture>
               {(() => {
+                // 원본 이미지는 Netlify 정적 파일 URL을 기준으로, 모바일에서만 Cloudinary로 변환/최적화
                 const REMOTE = "https://welfaredesign.netlify.app/images/business/rental.png";
+                // Cloudinary fetch 변환 URL 생성기(너비/포맷 자동 최적화)
                 const cldM = (w, fmt = 'auto') =>
                   `https://res.cloudinary.com/dxeadg9wi/image/fetch/c_limit,f_${fmt},q_auto:eco,dpr_auto,w_${w}/${encodeURIComponent(REMOTE)}`;
 
@@ -100,6 +123,7 @@ mark, [data-hl] {
 
           {/* 우측 영역: 대여 안내 → 기대효과 → 문의 */}
           <div className="flex flex-col h-full mt-8">
+            {/* 대여 안내(이용 방법/기간/절차) */}
             <div className="rounded-2xl border border-[#2CB9B1]/40 bg-white/90 backdrop-blur-[1px] shadow-md p-7 md:p-8">
               <ul className="space-y-4 text-gray-800 leading-relaxed">
                 <li className="flex gap-3">
@@ -124,6 +148,7 @@ mark, [data-hl] {
               </ul>
             </div>
 
+            {/* 기대 효과(사업이 지역사회에 주는 가치) */}
             <div className="rounded-2xl border border-[#2CB9B1]/30 bg-white/90 backdrop-blur-[1px] shadow-md p-7 md:p-8 mt-6">
               <h3 className="font-semibold text-lg tracking-tight text-[#F26C2A] mb-3">기대 효과</h3>
               <ul className="list-disc list-inside space-y-1.5 text-gray-700 leading-relaxed">
@@ -133,9 +158,9 @@ mark, [data-hl] {
               </ul>
             </div>
 
-            {/* 문의 박스: 화면 크기별(PC/모바일) 레이아웃을 분리해 줄바꿈/가독성 최적화 */}
+            {/* 문의 배너: PC/모바일을 별도 렌더링하여(줄바꿈/전화번호 잘림) 문제를 예방 */}
             <div className="mt-3 mb-1 md:mb-0">
-              {/* PC/태블릿(md 이상): 기존 레이아웃(가운데 정렬 + 큰 폰트) 유지 */}
+              {/* PC/태블릿(md 이상): 가운데 정렬 + 큰 폰트로 강조(전화번호 가독성 우선) */}
               <div className="hidden md:block rounded-2xl border border-[#F26C2A]/45 bg-gradient-to-r from-[#FFF3E9] to-[#EFFFFD] px-8 py-5 shadow-md">
                 <div className="flex items-center justify-center gap-3 text-[#111827] tracking-tight">
                   {/* 전화 아이콘(SVG) */}
@@ -159,7 +184,7 @@ mark, [data-hl] {
                   </a>
                 </div>
               </div>
-              {/* 모바일(md 미만): 한 줄 레이아웃 + 줄바꿈 방지(전화번호 잘림/개행 방지) */}
+              {/* 모바일(md 미만): 한 줄 구성 + nowrap로 전화번호 개행/잘림 방지 */}
               <div className="md:hidden rounded-2xl border border-[#F26C2A]/45 bg-gradient-to-r from-[#FFF3E9] to-[#EFFFFD] px-5 py-4 shadow-md">
                 <div className="flex items-center justify-between gap-3 text-[#111827]">
                   <div className="flex items-center gap-2 min-w-0">
@@ -193,4 +218,3 @@ mark, [data-hl] {
     </>
   );
 }
-                                                                                                                                                                                                                                                                                                                                                                                                                                     

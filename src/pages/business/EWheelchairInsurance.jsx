@@ -1,11 +1,24 @@
-// src/pages/business/EwcInsurance.jsx
+// -----------------------------------------------------------------------------
+// [페이지 목적]
+//  - 취약 계층 전동휠체어 이용자를 위한 보험금 지원 사업 안내 페이지
+//
+// [구성]
+//  - 좌측: 사업 대표 이미지(반응형)
+//  - 우측: 지원 내용 요약 → 기대 효과 → 전화 문의 배너
+//
+// [이미지/UX 전략]
+//  - 모바일: Cloudinary fetch 기반 AVIF/WEBP 제공으로 용량 절감
+//  - 태블릿/데스크탑: 로컬 PNG 사용으로 화질 및 캐시 안정성 유지
+//  - 이미지/텍스트 높이 동기화는 CSS Grid로 처리(JS 계산 제거)
+// -----------------------------------------------------------------------------
+
 import BizLayout from "./_Layout";
 
 export default function EwcInsurance() {
-  // --- Cloudinary responsive image helper (local to this page) ---
+  // --- 이 페이지 전용 Cloudinary 반응형 이미지 헬퍼 ---
   const ORIGIN = (typeof window !== 'undefined' && window.location?.origin)
     ? window.location.origin
-    // SSR/preview fallback (use production origin so fetch URL is absolute)
+    // SSR/프리뷰 환경 대비용 fallback (fetch URL이 절대 경로가 되도록 운영 도메인 사용)
     : 'https://welfaredesign.netlify.app';
   const RAW = '/images/business/ewc-insurance.png';
   const cld = (w) => `https://res.cloudinary.com/dxeadg9wi/image/fetch/c_limit,f_auto,q_auto,w_${w}/${encodeURIComponent(ORIGIN + RAW)}`;
@@ -14,13 +27,13 @@ export default function EwcInsurance() {
 
   return (
     <>
-      {/* Cloudinary CDN과의 연결을 미리 열어(Preconnect) 이미지 로딩 지연을 줄임 */}
+      {/* Cloudinary CDN에 preconnect로 미리 연결해 이미지 로딩 지연을 줄임 */}
       <link rel="preconnect" href="https://res.cloudinary.com" crossOrigin="anonymous" />
       {/*
         페이지 전용 텍스트/줄바꿈 가드 스타일
-        - 모바일에서 자동 글자 확대 방지
-        - 긴 단어/숫자(전화번호 등)로 인한 레이아웃 깨짐 방지
-        - 제목 줄바꿈(균형) 지원
+        - 모바일 자동 글자 확대 방지
+        - 긴 단어/숫자로 인한 레이아웃 깨짐 방지
+        - 제목 줄바꿈 균형 지원
       */}
       <style
         id="page-text-guard"
@@ -76,28 +89,28 @@ mark, [data-hl] {
       <div className="max-w-screen-xl mx-auto px-4 pb-4 md:pb-0">
         {/* 이미지 + 우측 정보 박스(대여 안내) + 기대효과(대여 안내 박스 아래) */}
         <div className="grid gap-8 md:grid-cols-2 items-stretch">
-          {/* 좌측 이미지: JS 동기화 제거, 순수 CSS로 동일 높이 */}
+          {/* 좌측 이미지: JS 동기화 제거, CSS만으로 동일 높이 유지 */}
           <div className="flex items-center justify-center">
             {/*
               단일 그림 요소로 중복 렌더 제거
               <picture>를 사용해 브라우저가 지원하는 포맷(AVIF/WEBP)을 우선 선택 → 용량/속도 개선
             */}
             <picture>
-              {/* AVIF first */}
+              {/* AVIF 포맷 우선 제공(용량 효율 최상) */}
               <source
                 media="(max-width: 767px)"
                 type="image/avif"
                 srcSet={`${cldM(320,'avif')} 320w, ${cldM(480,'avif')} 480w, ${cldM(640,'avif')} 640w, ${cldM(750,'avif')} 750w, ${cldM(828,'avif')} 828w`}
                 sizes="100vw"
               />
-              {/* WEBP fallback */}
+              {/* WEBP 대체 포맷(AVIF 미지원 브라우저 대응) */}
               <source
                 media="(max-width: 767px)"
                 type="image/webp"
                 srcSet={`${cldM(320,'webp')} 320w, ${cldM(480,'webp')} 480w, ${cldM(640,'webp')} 640w, ${cldM(750,'webp')} 750w, ${cldM(828,'webp')} 828w`}
                 sizes="100vw"
               />
-              {/* Final PNG/auto fallback */}
+              {/* 최종 PNG fallback(모든 환경 대응) */}
               <img
                 src={RAW}
                 alt="취약 계층 전동휠체어 보험금 지원"
@@ -147,10 +160,10 @@ mark, [data-hl] {
 
             {/* 문의 박스: PC(데스크탑) / 모바일 분리 렌더링 */}
             <div className="mt-3 mb-1 md:mb-0">
-              {/* Desktop & Tablet (md 이상): 기존 스타일 유지 */}
+              {/* 데스크탑/태블릿(md 이상): 기존 레이아웃 유지 */}
               <div className="hidden md:block rounded-2xl border border-[#F26C2A]/45 bg-gradient-to-r from-[#FFF3E9] to-[#EFFFFD] px-8 py-5 shadow-md">
                 <div className="flex items-center justify-center gap-3 text-[#111827] tracking-tight">
-                  {/* phone icon */}
+                  {/* 전화 아이콘 */}
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 24 24"
@@ -172,14 +185,14 @@ mark, [data-hl] {
                 </div>
               </div>
               {/*
-                Mobile 전용 (md 미만)
-                - 텍스트가 2줄로 깨지면 높이가 늘어나 레이아웃이 흔들릴 수 있어 한 줄 고정
-                - 전화번호는 tap-to-call이 잘 되도록 크게/굵게 표시
+                모바일 전용(md 미만)
+                - 텍스트가 두 줄로 깨지지 않도록 한 줄 고정
+                - 전화번호는 탭 시 바로 연결되도록 크게 표시
               */}
               <div className="md:hidden rounded-2xl border border-[#F26C2A]/45 bg-gradient-to-r from-[#FFF3E9] to-[#EFFFFD] px-5 py-4 shadow-md">
                 <div className="flex items-center justify-between gap-3 text-[#111827]">
                   <div className="flex items-center gap-2 min-w-0">
-                    {/* phone icon */}
+                    {/* 전화 아이콘 */}
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       viewBox="0 0 24 24"

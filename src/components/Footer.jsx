@@ -4,7 +4,7 @@
  * - 단체 정보(로고, 소개 문구, 연락처, 주소)와 저작권 정보를 표시
  * - 모든 페이지에서 공통 레이아웃으로 사용됨
  */
-// Cloudinary/Netlify CDN을 활용한 이미지 최적화 컴포넌트
+// 이미지 최적화를 위한 공통 이미지 컴포넌트 (Cloudinary/Netlify CDN 사용)
 import OptimizedImg from "./OptimizedImg";
 
 // 사이트 전체에 공통 적용되는 푸터 영역
@@ -15,7 +15,6 @@ export default function Footer() {
     <>
       {/* 페이지 하단 전체를 감싸는 footer 영역 */}
       <footer className="bg-gray-900 text-gray-200 mt-12 md:mt-16">
-        {/* 콘텐츠 폭을 제한하는 컨테이너 */}
         <div className="max-w-6xl mx-auto px-4 sm:px-6 py-5 md:py-5 lg:py-4">
           {/* 상단 영역: 로고/단체 소개 + 연락처 정보 */}
           <div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">

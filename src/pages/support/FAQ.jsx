@@ -1,9 +1,24 @@
-// src/pages/support/FAQ.jsx
-// 후원 페이지의 자주 묻는 질문(FAQ) 화면
-// - 카테고리 탭(전체/후원관련 문의/기부금영수증)
-// - 키워드 검색(입력 디바운스)
-// - 아코디언(질문 펼치기/접기)
-// - 데스크톱/모바일 레이아웃 분리
+// -----------------------------------------------------------------------------
+// [페이지 목적]
+//  - 후원(지원) 섹션의 자주 묻는 질문(FAQ) 안내 페이지
+//  - 사용자가 빠르게 답을 찾을 수 있도록 카테고리/검색/아코디언 UI를 제공
+//
+// [구성]
+//  - 데스크톱(md 이상): 카테고리 탭 + 검색 + FAQ 아코디언 목록
+//  - 모바일(md 미만): 제목 + 가로 스크롤 카테고리 칩 + 검색 + 모바일 아코디언
+//
+// [주요 기능]
+//  - 카테고리 필터링: 전체 / 후원관련 문의 / 기부금영수증
+//  - 키워드 검색: 입력 디바운스(250ms)로 불필요한 재렌더/필터링을 줄임
+//  - 하이라이트: 검색어가 포함된 제목을 <mark>로 강조 표시
+//
+// [접근성(aria) 포인트]
+//  - 카테고리 영역: role="tablist" / role="tab" / aria-selected 사용
+//  - 아코디언: aria-expanded / aria-controls로 열림 상태를 명확히 전달
+//
+// [텍스트 깨짐 방지]
+//  - 페이지 전용 <style> 주입으로 iOS 글자 자동 확대/긴 URL 줄바꿈 등 이슈를 완화
+// -----------------------------------------------------------------------------
 import { useMemo, useState, useEffect } from "react";
 import { loadFaqItems } from "../../lib/loadFaq";
 
@@ -47,7 +62,7 @@ export default function SupFAQ() {
 
 	return (
 		<>
-      {/* 페이지 전역 텍스트/줄바꿈/하이픈 처리 보정(긴 URL/영문/한글 혼합 시 깨짐 방지) */}
+      {/* 페이지 텍스트 표시 보정: iOS 글자 자동 확대 방지 + 긴 URL/영문 줄바꿈 + 제목 줄바꿈 균형 */}
       <style
         id="page-text-guard"
         dangerouslySetInnerHTML={{ __html: `
@@ -277,7 +292,7 @@ mark, [data-hl] {
 	);
 }
 
-// 데스크톱 FAQ 한 항목(질문/답변 아코디언)
+// 데스크톱 FAQ 항목 컴포넌트(질문/답변 아코디언)
 function Item({ item, open, onToggle, idx, q }) {
 	const contentId = `faq-panel-${idx}`;
 	const buttonId = `faq-button-${idx}`;
@@ -329,14 +344,14 @@ function Item({ item, open, onToggle, idx, q }) {
 	);
 }
 
-// 간단한 마크다운 → HTML 변환(굵게 ** ** / 줄바꿈만 지원)
+// 매우 단순한 마크다운 → HTML 변환(굵게 ** **, 줄바꿈만 지원)
 function mdToHtml(md) {
 	return (md || "")
 		.replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
 		.replace(/\n/g, "<br/>");
 }
 
-// 검색어를 정규식으로 안전하게 사용하기 위한 이스케이프
+// 검색어를 정규식에 안전하게 넣기 위한 이스케이프 처리
 function escapeRegExp(s){return s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");}
 // 제목에서 검색어를 하이라이트(대소문자 무시)
 function highlight(text, keyword){
@@ -348,7 +363,7 @@ function highlight(text, keyword){
 	);
 }
 
-// 모바일 FAQ 한 항목(질문/답변 아코디언)
+// 모바일 FAQ 항목 컴포넌트(질문/답변 아코디언)
 function MobileItem({ item, open, onToggle, idx, q }) {
   const contentId = `m-faq-panel-${idx}`;
   const buttonId = `m-faq-button-${idx}`;

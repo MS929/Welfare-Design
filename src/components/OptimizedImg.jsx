@@ -2,14 +2,19 @@
 import { useEffect, useRef, useState } from "react";
 
 /**
- * 이미지 최적화 컴포넌트
- * - IntersectionObserver로 뷰포트 근처에 올 때만 로드(지원 안 하면 즉시 로드)
- * - <picture>로 AVIF/WEBP(가능하면) → PNG/JPG 폴백 순서 제공
- * - LCP(첫 화면 핵심 이미지)라면 priority={true}로: eager + fetchPriority="high"
- * - width/height를 주면 레이아웃 공간을 미리 확보하여 CLS(레이아웃 흔들림) 감소
+ * -----------------------------------------------------------------------------
+ * [컴포넌트 목적]
+ *  - 이미지 로딩/포맷을 최적화해서 초기 로딩(LCP)과 스크롤 구간 성능을 개선하는 컴포넌트
+ *
+ * [동작 방식]
+ *  - IntersectionObserver로 뷰포트 근처에 왔을 때만 로드(미지원 브라우저는 즉시 로드)
+ *  - <picture>를 사용해 AVIF/WEBP(가능하면) → PNG/JPG(폴백) 순서로 제공
+ *  - priority={true}면 첫 화면 핵심 이미지로 간주하여 eager + fetchPriority="high" 적용
+ *  - width/height를 주면 레이아웃 공간을 미리 확보해 CLS(레이아웃 흔들림) 감소
+ * -----------------------------------------------------------------------------
  */
 
-// Netlify Image CDN URL 생성(리사이즈/포맷 변환을 on-the-fly로 수행)
+// Netlify Image CDN URL 생성(요청 시 리사이즈/포맷 변환을 즉시 수행)
 function toNetlifyImage(rawUrl, { w = 1600, q = 82, f = "webp" } = {}) {
   try {
     if (!rawUrl) return rawUrl;
@@ -22,22 +27,22 @@ function toNetlifyImage(rawUrl, { w = 1600, q = 82, f = "webp" } = {}) {
 }
 
 export default function OptimizedImg({
-  src, // 최종 폴백(보통 png/jpg 경로)
-  webp, // 선택: webp 경로(직접 준비했을 때)
-  avif, // 선택: avif 경로(직접 준비했을 때)
+  src, // 기본 이미지 경로(최종 폴백: png/jpg 등)
+  webp, // webp 경로(별도로 준비한 경우)
+  avif, // avif 경로(별도로 준비한 경우)
   alt = "",
   className,
   style,
   imgStyle,
-  // priority=true면 즉시 로드(첫 화면/LCP 이미지용), 아니면 지연 로드
+  // priority=true면 즉시 로드(첫 화면/LCP 이미지용), 아니면 스크롤 시점에 지연 로드
   priority = false,
   sizes = "(max-width: 768px) 100vw, 1200px",
   width,
   height,
 
-  // Netlify 이미지 CDN을 사용할지 여부
+  // Netlify 이미지 CDN 사용 여부(원본 src를 기반으로 포맷 변환/리사이즈 요청)
   useCdn = false,
-  // CDN 변환 시 사용할 폭/품질(미지정이면 width 또는 기본값 사용)
+  // CDN 변환 시 사용할 폭/품질(미지정이면 width 또는 기본값을 사용)
   cdnWidth,
   cdnQuality,
 
@@ -53,7 +58,7 @@ export default function OptimizedImg({
     // 이미 보이도록 결정됐으면(또는 priority) 아무 것도 하지 않음
     if (visible) return;
 
-    // IntersectionObserver 미지원 브라우저: 즉시 로드로 폴백
+    // IntersectionObserver 미지원 브라우저: 즉시 로드로 처리
     if (!("IntersectionObserver" in window)) {
       setVisible(true);
       return;
@@ -113,7 +118,7 @@ export default function OptimizedImg({
       )}
 
       <img
-        // visible 전에는 src를 비워두어(undef) 실제 다운로드를 지연
+        // visible 전에는 src를 비워두어(undefined) 실제 다운로드를 지연
         src={visible ? (useCdn ? cdnSrc : src) : undefined}
         alt={alt}
         loading={loading}

@@ -1,22 +1,37 @@
-// src/pages/news/Notices.jsx
-// 공지사항 목록 페이지
-// - markdown 공지 파일들을 로드하여 목록/검색/카테고리/페이지네이션을 제공
-// - PC는 테이블 UI, 모바일은 카드 리스트 UI로 분기 렌더링
+// -----------------------------------------------------------------------------
+// [페이지 목적]
+//  - 공지사항 목록 페이지
+//  - 마크다운 공지 파일을 불러와 목록/검색/카테고리/페이지네이션 제공
+//
+// [화면 구성]
+//  - 데스크탑(md 이상): 테이블 형태 목록
+//  - 모바일(md 미만): 카드형 리스트
+//
+// [데이터 처리]
+//  - /src/content/notices/*.md 파일을 로드
+//  - 프론트매터(date, title, category 등)를 기준으로 목록 구성
+//  - 최신 날짜 기준 내림차순 정렬
+// -----------------------------------------------------------------------------
 import { useEffect, useMemo, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import matter from "gray-matter";
 
-// Vite glob 설정
-// - query:'?raw' : markdown 파일을 문자열(raw)로 로드
-// - import:'default' : default export만 사용
+// -----------------------------------------------------------------------------
+// [마크다운 로딩]
+//  - Vite import.meta.glob을 사용해 공지 마크다운 파일을 일괄 로드
+//  - query: '?raw'  → 파일 내용을 문자열로 로드
+//  - import: 'default' → default export만 사용
+// -----------------------------------------------------------------------------
 const modules = import.meta.glob("/src/content/notices/*.md", {
   query: "?raw",
   import: "default",
 });
 
-// 날짜 문자열을 Date 객체로 안전하게 변환
-// - ISO, YYYY-MM-DD 형식 모두 대응
-// - 파싱 실패 시 null 반환
+// -----------------------------------------------------------------------------
+// [유틸] 날짜 문자열을 Date 객체로 정규화
+//  - ISO, YYYY-MM-DD 형식 모두 대응
+//  - 파싱 실패 시 null 반환
+// -----------------------------------------------------------------------------
 function normalizeDate(v) {
   try {
     // ISO, YYYY-MM-DD 모두 대응
@@ -26,7 +41,9 @@ function normalizeDate(v) {
   return null;
 }
 
-// 공지사항 목록 메인 컴포넌트
+// -----------------------------------------------------------------------------
+// [컴포넌트] 공지사항 목록
+// -----------------------------------------------------------------------------
 export default function Notices() {
   const location = useLocation();
   const navigate = useNavigate();
@@ -46,7 +63,7 @@ export default function Notices() {
   const PAGE_SIZE = 9;
 
   useEffect(() => {
-    // 최초 마운트 시: 모든 공지 markdown 파일을 로드하여 목록 데이터 구성
+    // 최초 마운트 시 모든 공지 마크다운을 로드하여 목록 데이터 구성
     (async () => {
       // 각 markdown 파일을 순회하며 메타데이터/본문 파싱
       const entries = await Promise.all(
@@ -77,7 +94,7 @@ export default function Notices() {
         })
       );
 
-      // 최신 날짜 기준 내림차순 정렬 (동일 날짜는 파일명 역순)
+      // 최신 날짜 기준 내림차순 정렬 (동일 날짜일 경우 파일명 기준으로 안정 정렬)
       entries.sort((a, b) => {
         const ta = a.dateObj ? a.dateObj.getTime() : 0;
         const tb = b.dateObj ? b.dateObj.getTime() : 0;

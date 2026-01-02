@@ -5,9 +5,9 @@
  * - 모바일/터치 환경에서 hover/active 잔상 및 떨림(iOS Safari) 방지를 위한 스타일 처리 포함
  */
 import { useState, useEffect, useMemo, useRef } from "react";
-//  반응형/입력장치(터치) 감지를 위한 커스텀 훅
-// - SSR 환경(윈도우 없음)에서도 안전하게 동작하도록 guard 처리
-// 반응형 미디어 쿼리 상태를 반환하는 훅
+// 반응형(미디어 쿼리) 및 입력장치(터치/마우스) 상태를 감지하는 커스텀 훅
+// - SSR 환경처럼 window가 없을 수 있는 상황을 고려해 안전장치(guard)를 포함
+// - 전달된 미디어 쿼리(query)가 매칭되는지 boolean으로 반환
 const useMedia = (query) => {
   const [match, setMatch] = useState(() => {
     if (typeof window === "undefined" || !window.matchMedia) return false;
@@ -313,9 +313,9 @@ function extractThumbSrc(v) {
   return "";
 }
 /**
- * StoryCard: 복지디자인 소식 카드
- * - 썸네일 유무에 따라 이미지/플레이스홀더 렌더
- * - Cloudinary URL 여부에 따라 CDN 처리 분기
+ * StoryCard(소식 카드)
+ * - 썸네일 유무에 따라 이미지/플레이스홀더를 분기 렌더링
+ * - Cloudinary URL 여부에 따라 CDN 처리 방식을 분기
  * - iOS/터치 환경에서 hover/transition로 인한 떨림을 최소화
  */
 const StoryCard = (props) => {
@@ -474,14 +474,14 @@ export default function Home1() {
       ),
     [storyItems, storyActive]
   );
-  // 공지 범위 선택 UI는 제거하고, 항상 두 컬럼(공지/정보공개)을 함께 표시
+  // 공지 범위 토글 UI는 제거하고, 항상 두 컬럼(공지/정보공개)을 함께 표시
 
-  // HERO 캐러셀 현재 인덱스 + 타이머
+  // 히어로(상단) 캐러셀: 현재 인덱스 + 자동재생 타이머
   const [heroIndex, setHeroIndex] = useState(0);
   const timerRef = useRef(null);
 
-  // 사용자 OS 접근성 설정을 감지하여 애니메이션 동작 여부 결정
-  // 접근성: 사용자가 '동작 줄이기(reduce motion)'를 선호하면 자동재생을 끔
+  // 사용자 OS/브라우저의 접근성 설정에 따라 애니메이션 동작 여부를 결정
+  // - 사용자가 '동작 줄이기(reduce motion)'를 선호하면 자동재생을 비활성화
   const prefersReducedMotion = useMemo(() => {
     if (typeof window === "undefined" || !window.matchMedia) return false;
     try {
@@ -491,7 +491,7 @@ export default function Home1() {
     }
   }, []);
 
-  // 캐러셀 자동재생 타이머 재시작(사용자 조작 시에도 리셋)
+  // 캐러셀 자동재생 타이머 재시작(사용자 조작 시에도 초기화)
   const restartTimer = () => {
     if (timerRef.current) clearInterval(timerRef.current);
     if (prefersReducedMotion) return; // reduce motion이면 자동재생 건너뜀
@@ -509,7 +509,7 @@ export default function Home1() {
   const nextHero = () => goTo(heroIndex + 1);
   const prevHero = () => goTo(heroIndex - 1);
 
-  // prefers-reduced-motion 변경에 따라 자동재생 on/off 및 정리(clean-up)
+  // prefers-reduced-motion 변경에 따라 자동재생 활성/비활성 및 정리(clean-up)
   useEffect(() => {
     restartTimer();
     return () => {
@@ -618,7 +618,7 @@ export default function Home1() {
     }
   }, []);
 
-  // iOS BFCache(뒤로가기 캐시) 복귀 시 눌림/hover 잔상 제거용 스타일 초기화
+  // iOS BFCache(뒤로가기 캐시) 복귀 시 눌림/hover 잔상을 제거하기 위한 스타일 초기화
   useEffect(() => {
     const resetStyles = () => {
       const nodes = document.querySelectorAll('[data-reset-touch="true"]');
@@ -645,7 +645,7 @@ export default function Home1() {
     return () => window.removeEventListener("pageshow", resetStyles);
   }, []);
 
-  // 공지 데이터를 카테고리 기준으로 분리하여 화면에 표시하기 위한 전처리
+  // 공지 데이터를 카테고리(공지/정보공개) 기준으로 분리해 화면에 표시하기 위한 전처리
   const noticesSplit = useMemo(() => {
     const norm = (c) => normalizeNoticeCategory(c);
     const notice = notices.filter((n) => norm(n.category) === "공지");

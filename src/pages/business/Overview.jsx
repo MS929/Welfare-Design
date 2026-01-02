@@ -1,6 +1,23 @@
-// src/pages/business/Overview.jsx
+// -----------------------------------------------------------------------------
+// [페이지 목적]
+//  - 복지디자인 사회적협동조합의 사업영역 전체를 한눈에 보여주는 메인 페이지
+//  - 개별 사업 페이지로 진입하기 위한 카드형 네비게이션 역할
+//
+// [구성]
+//  - 상단: 사업영역 개요 설명 텍스트
+//  - 하단: 현재 운영 중인 주요 사업 프로그램 카드 목록
+//
+// [UX/레이아웃 포인트]
+//  - 카드 UI에 content-visibility를 적용해 초기 렌더링 성능 최적화
+//  - 반응형 그리드로 화면 크기별 가독성 유지
+//
+// [텍스트/레이아웃 안정화]
+//  - 페이지 전용 text-guard CSS로 모바일 자동 확대 및 줄바꿈 깨짐 방지
+// -----------------------------------------------------------------------------
 import { Link } from "react-router-dom";
 import BizLayout from "./_Layout";
+
+// BizLayout: 사업영역 공통 레이아웃 및 페이지 타이틀/메타 정보 제공
 
 export default function BizOverview() {     // 사업영역 메인 페이지 컴포넌트
   // 현재 운영 중인 주요 사업 목록 (카드 UI로 렌더링됨)
@@ -45,6 +62,7 @@ export default function BizOverview() {     // 사업영역 메인 페이지 컴
 
   return (
     <>
+      // 페이지 전용 텍스트/레이아웃 안정화 CSS (text-guard)
       <style
         id="page-text-guard"
         dangerouslySetInnerHTML={{ __html: `
@@ -87,6 +105,7 @@ mark, [data-hl] {
       />
       <BizLayout title="사업영역">
       <section>
+        {/* 사업영역 개요 설명 (인트로) */}
         <p className="text-gray-700 leading-relaxed">
           복지디자인 사회적협동조합은 이동·건강·경제·정보 접근성 등을 중심으로
           지역 기반 상호부조의 사업을 전개합니다. 아래 프로그램은 현재 운영 중인
@@ -96,7 +115,7 @@ mark, [data-hl] {
         {/* 사업영역 프로그램 카드 목록 영역 */}
         <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 gap-6">
           {programs.map((p) => {
-            {/* 개별 사업 카드 (클릭 시 상세 페이지 이동) */}
+            // 개별 사업 카드 (클릭 시 상세 페이지 이동)
             return (
               <Link
                 key={p.to}
@@ -125,7 +144,7 @@ mark, [data-hl] {
                     </svg>
                   </span>
                 </div>
-                {/* 사업 아이콘 이미지 (시각적 보조 요소) */}
+                {/* 사업 아이콘 이미지: 카드 내용을 보조하는 시각 요소 */}
                 <img
                   src={p.icon}
                   alt=""

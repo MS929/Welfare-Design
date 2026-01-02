@@ -15,12 +15,13 @@ export default function AboutWhat() {
    * - 첫 화면(above-the-fold)에 노출되는 대표 이미지를 미리 로드
    * - <link rel="preload"> + Image() 객체로 캐시 예열
    * - 일부 브라우저 preload 미동작 상황을 대비한 이중 안전장치
+   * - 실패해도 UX에 영향이 없도록 try/catch로 감쌈
    */
   useEffect(() => {
-    // SSR / 빌드 환경 방어 (document가 없는 경우 실행 방지)
+    // SSR/빌드 환경 방어 (document가 없는 경우 실행 방지)
     if (!document) return;
     try {
-      // Cloudinary 최적화 이미지 URL 생성 (1200px 기준)
+      // Cloudinary 최적화 이미지 URL 생성 (기준 폭 1200px)
       const href = cldFetch("/images/about/main2.png", 1200);
 
       // <link rel="preload" as="image"> 태그를 head에 삽입
@@ -30,22 +31,23 @@ export default function AboutWhat() {
       link.href = href;
       document.head.appendChild(link);
 
-      // preload가 약한 브라우저를 대비한 캐시 워밍(Image 객체)
+      // preload 지원이 약한 브라우저를 대비한 캐시 워밍(Image 객체)
       const img = new Image();
       img.src = href;
 
-      // cleanup: 컴포넌트 언마운트 시 preload 링크 제거
+      // 정리(cleanup): 컴포넌트 언마운트 시 preload 링크 제거
       return () => {
         if (link.parentNode) document.head.removeChild(link);
       };
     } catch {
-      // preload 실패 시에도 페이지는 정상 렌더링
+      // preload가 실패해도 페이지는 정상 렌더링
     }
   }, []);
 
   /**
    * 섹션 제목 공통 컴포넌트
    * - 좌측 컬러 도트 + 제목 텍스트
+   * - 색상은 섹션의 성격(브랜드 컬러)에 맞춰 전달
    */
   const SectionTitle = ({ color, children }) => (
     <div className="flex items-center gap-3 mb-6">
@@ -62,13 +64,13 @@ export default function AboutWhat() {
 
   // ============================================================================
   // 페이지 콘텐츠 데이터
-  // - 아래 데이터 객체/배열만 수정하면 페이지 내용 변경 가능
+  // - 아래 데이터(객체/배열)만 수정하면 페이지 내용 변경 가능
   // ============================================================================
 
   // 1) 설립 배경
   const background = {
     title: "설립 배경",
-    image: "/images/about/main2.png", // 로딩 실패 시 fallback 이미지로 대체
+    image: "/images/about/main2.png", // 로딩 실패 시 대체 이미지로 전환
     paragraphs: [
       "복지디자인 사회적협동조합은 한국침례신학대학교 사회복지대학원에서 만난 12명의 동문들이 사람을 향한 마음을 배우고 사회복지의 가치를 실천해온 경험을 지역사회와 이웃에게 돌려드리고자 설립한 조합입니다.",
       "우리는 복지가 설계될 수 있다는 믿음 아래, 작고 연약한 삶도 따뜻하게 디자인될 수 있으며 의미와 책임, 그리고 소명을 담은 복지를 만들어가야 한다고 확신합니다.",
@@ -703,9 +705,9 @@ export default function AboutWhat() {
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 space-y-4 sm:space-y-0">
           {gmv.map((b, idx) => {
             const accents = [
-              { bg: "#F4B731", fg: "#2B2E34" }, // Yellow (dark text for contrast)
-              { bg: "#ED6A32", fg: "#2B2E34" }, // Orange
-              { bg: "#3BA7A0", fg: "#2B2E34" }, // Teal
+              { bg: "#F4B731", fg: "#2B2E34" }, // 노랑(대비를 위해 어두운 글자)
+              { bg: "#ED6A32", fg: "#2B2E34" }, // 오렌지
+              { bg: "#3BA7A0", fg: "#2B2E34" }, // 청록
             ];
             const accent = accents[idx % accents.length];
             return (
@@ -798,7 +800,7 @@ export default function AboutWhat() {
         </SectionTitle>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-stretch space-y-4 md:space-y-0">
           {principles.map((p, idx) => {
-            const principlePalette = ["#F4B731", "#ED6A32", "#3BA7A0"]; // repeat
+            const principlePalette = ["#F4B731", "#ED6A32", "#3BA7A0"]; // 반복 적용
             const pc = principlePalette[idx % principlePalette.length];
             return (
               <div

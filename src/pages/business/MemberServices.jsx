@@ -1,8 +1,31 @@
-// src/pages/business/MemberServices.jsx
+// -----------------------------------------------------------------------------
+// [페이지 목적]
+//  - 조합원 지원 서비스(상담/교육/정보제공/협력/홍보) 안내 페이지
+//  - 좌측: 대표 이미지
+//  - 우측: 서비스 항목 → 기대 효과 → 전화 문의 배너
+//
+// [이미지 최적화 전략]
+//  - 모바일: Cloudinary image/fetch로 AVIF/WEBP + srcset 제공(용량 절감)
+//  - 태블릿/데스크탑: 로컬 PNG 사용(화질 고정 + 캐시 안정성)
+//
+// [UX/레이아웃 포인트]
+//  - 이미지/텍스트 높이 맞춤을 CSS Grid로 처리하여 불필요한 JS 동기화 제거
+//  - 문의 배너는 md 기준으로 PC/모바일을 분리 렌더링해 줄바꿈/깨짐 방지
+//
+// [텍스트 깨짐 방지]
+//  - 페이지 전용 style 주입으로 모바일 텍스트 확대/줄바꿈 이슈 최소화
+// -----------------------------------------------------------------------------
+
+// 사업(Business) 섹션 공통 레이아웃(브레드크럼 + 제목 + 컨텐츠 컨테이너)
 import BizLayout from "./_Layout";
 
 export default function MemberServices() {
-  // 이 페이지에서 사용하는 이미지용 Cloudinary fetch 헬퍼 (SSR 환경에서도 안전하게 동작)
+  // ---------------------------------------------------------------------------
+  // Cloudinary image/fetch용 URL 구성
+  //  - ORIGIN: SSR 환경에서 window가 없을 수 있어 안전한 기본 도메인으로 대체
+  //  - RAW: 로컬 정적 이미지 경로를 절대 URL로 변환(Cloudinary fetch 입력값)
+  //  - cld/cldM: 폭(w)과 포맷(fmt)에 따라 최적화된 이미지 URL 생성
+  // ---------------------------------------------------------------------------
   const ORIGIN = typeof window !== 'undefined' ? window.location.origin : 'https://welfaredesign.netlify.app';
   const RAW = `${ORIGIN}/images/business/member-services.png`;
   const cld = (w, fmt = 'auto') => `https://res.cloudinary.com/dxeadg9wi/image/fetch/c_limit,f_${fmt},q_auto,w_${w}/${RAW}`;
@@ -16,7 +39,7 @@ export default function MemberServices() {
         id="page-text-guard"
         dangerouslySetInnerHTML={{ __html: `
 /* =========================================================
-   Global text & layout guard
+   페이지 텍스트/레이아웃 가드
    - 모바일/데스크탑 텍스트 깨짐 방지
    - 줄바꿈/하이픈/가독성 기본값 통일
    ========================================================= */
@@ -71,7 +94,7 @@ mark, [data-hl] {
   border-radius: 2px;
 }
 
-/* ===== Utility classes ===== */
+/* ===== 유틸리티 클래스 ===== */
 
 /* 절대 줄바꿈 금지 */
 .nowrap {
@@ -103,19 +126,21 @@ mark, [data-hl] {
                 - 태블릿/데스크탑: 로컬 PNG 사용 (화질 안정성) */}
             {/* 단일 picture 요소 사용으로 이미지 중복 렌더링 방지 */}
             <picture>
-              {/* 모바일 전용: Cloudinary 최적화 (AVIF/WebP), 데스크탑/태블릿은 로컬 PNG 유지 */}
+              {/* 모바일: AVIF 우선 제공(지원 시 가장 효율적) */}
               <source
                 media="(max-width: 767px)"
                 type="image/avif"
                 srcSet={`${cldM(320,'avif')} 320w, ${cldM(480,'avif')} 480w, ${cldM(640,'avif')} 640w, ${cldM(750,'avif')} 750w, ${cldM(828,'avif')} 828w`}
                 sizes="100vw"
               />
+              {/* 모바일: WEBP 대체 제공(AVIF 미지원 대비) */}
               <source
                 media="(max-width: 767px)"
                 type="image/webp"
                 srcSet={`${cldM(320,'webp')} 320w, ${cldM(480,'webp')} 480w, ${cldM(640,'webp')} 640w, ${cldM(750,'webp')} 750w, ${cldM(828,'webp')} 828w`}
                 sizes="100vw"
               />
+              {/* 기본 표시 이미지(태블릿/데스크탑은 로컬 PNG로 고정) */}
               <img
                 src="/images/business/member-services.png"
                 alt="조합원 지원 서비스"
@@ -176,8 +201,7 @@ mark, [data-hl] {
 
             {/* 문의 박스: PC(데스크탑) / 모바일 분리 렌더링 */}
             <div className="mt-3 mb-1 md:mb-0">
-              {/* 데스크탑/태블릿: 중앙 정렬 + 큰 타이포그래피 유지 */}
-              {/* 데스크탑 & 태블릿 (md 이상): 기존 스타일 유지 */}
+              {/* md 이상: 중앙 정렬 + 큰 타이포그래피 */}
               <div className="hidden md:block rounded-2xl border border-[#F26C2A]/45 bg-gradient-to-r from-[#FFF3E9] to-[#EFFFFD] px-8 py-5 shadow-md">
                 <div className="flex items-center justify-center gap-3 text-[#111827] tracking-tight">
                   {/* 전화 아이콘 */}
@@ -201,8 +225,7 @@ mark, [data-hl] {
                   </a>
                 </div>
               </div>
-              {/* 모바일: 한 줄 고정 레이아웃 + 전화번호 탭 최적화 */}
-              {/* 모바일 전용 (md 미만): 한 줄 레이아웃 유지 및 줄바꿈 방지 */}
+              {/* md 미만: 한 줄 레이아웃 유지 + 줄바꿈 방지 */}
               <div className="md:hidden rounded-2xl border border-[#F26C2A]/45 bg-gradient-to-r from-[#FFF3E9] to-[#EFFFFD] px-5 py-4 shadow-md">
                 <div className="flex items-center justify-between gap-3 text-[#111827]">
                   <div className="flex items-center gap-2 min-w-0">

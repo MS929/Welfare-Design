@@ -5,6 +5,8 @@
 //  - 좌측: 캠페인 대표 이미지
 //  - 우측: 캠페인 내용 안내 → 기대 효과 → 전화 문의 배너
 //
+//  - BizLayout을 사용해 사업 페이지 공통 상단(브레드크럼/제목) 스타일을 통일
+//
 // [이미지 최적화 전략]
 //  - 모바일: Cloudinary image/fetch를 활용한 AVIF/WEBP + srcset 제공
 //  - 태블릿/데스크탑: 로컬 정적 PNG 사용으로 품질 고정 및 캐시 안정성 확보
@@ -30,20 +32,20 @@ export default function DonationCampaign() {
 
   return (
     <>
-      {/* Cloudinary CDN과의 사전 연결(preconnect)로 이미지 요청 지연 최소화*/}
+      {/* 페이지 전용 텍스트/줄바꿈 안정화 CSS 주입 (모바일 확대·줄바꿈 이슈 방지) */}
       {/*
-        텍스트/줄바꿈 안정화 CSS
-        - 한글: word-break: keep-all → 단어 중간 끊김 방지
-        - 긴 URL/영문: overflow-wrap: anywhere → 레이아웃 깨짐 방지
-        - text-wrap: balance 지원 시 제목 줄바꿈 균형 개선
+        페이지 전용 "텍스트 가드" CSS 설명
+        - word-break: keep-all → 한글 단어 중간 끊김 방지
+        - overflow-wrap: anywhere → 긴 영문/URL 레이아웃 깨짐 방지
+        - text-wrap: balance → 제목 줄바꿈 균형(지원 브라우저 한정)
       */}
       <style
         id="page-text-guard"
         dangerouslySetInnerHTML={{ __html: `
 /* =====================================================================
-   텍스트·레이아웃 안정화(가드) 스타일
-   - 페이지 전반의 텍스트 깨짐/줄바꿈/가독성 문제를 예방하기 위한 방어용 CSS
-   - 특정 컴포넌트가 아니라 "페이지 전체 안정성"을 위한 설정
+   텍스트 가드(페이지 전용)
+   - 모바일에서 글자 자동 확대/줄바꿈으로 레이아웃이 깨지는 상황 예방
+   - grid/flex 내부 글자 넘침을 줄이기 위해 min-width: 0 등 적용
    ===================================================================== */
 
 /* 브라우저 텍스트 자동 확대/축소 방지 (모바일 접근성 이슈 예방) */
@@ -62,7 +64,7 @@ html {
   -webkit-hyphens: manual;
 }
 
-/* 본문 기본 가독성 세팅 */
+/* 본문 기본 가독성(줄바꿈/렌더링) 세팅 */
 body {
   line-height: 1.5;
 
@@ -109,7 +111,7 @@ mark, [data-hl] {
   white-space: nowrap;
 }
 
-/* 어디서든 줄바꿈 허용(긴 문자열 대응) */
+/* 긴 문자열(영문/URL) 안전 줄바꿈 유틸 */
 .u-wrap-anywhere {
   overflow-wrap: anywhere;
   word-break: keep-all;
@@ -123,7 +125,7 @@ mark, [data-hl] {
 }
         ` }}
       />
-      {/* 사업 페이지 공통 레이아웃 (브레드크럼 + h1 제목 제공) */}
+      {/* 사업 페이지 공통 레이아웃: 브레드크럼 + 페이지 제목(h1) 영역 */}
       <BizLayout title="보조기기 기증 캠페인">
       <div className="max-w-screen-xl mx-auto px-4 pb-4 md:pb-0">
         {/* ====================== 메인 섹션: 이미지 + 캠페인 안내 ====================== */}
@@ -137,14 +139,14 @@ mark, [data-hl] {
             */}
             {/* 단일 그림 요소로 중복 렌더 제거 */}
             <picture>
-              {/* 모바일: AVIF 포맷 (최고 압축 효율) */} 
+              {/* 모바일: AVIF 포맷 (최고 압축 효율)*/}
               <source
                 media="(max-width: 767px)"
                 type="image/avif"
                 srcSet={`${cldM(320, 'avif')} 320w, ${cldM(480, 'avif')} 480w, ${cldM(640, 'avif')} 640w, ${cldM(750, 'avif')} 750w, ${cldM(828, 'avif')} 828w`}
                 sizes="100vw"
               />
-              {/* 모바일: WEBP 포맷 (AVIF 미지원 브라우저 대응) */} 
+              {/* 모바일: WEBP 포맷 (AVIF 미지원 브라우저 대응)*/}
               <source
                 media="(max-width: 767px)"
                 type="image/webp"
@@ -171,7 +173,7 @@ mark, [data-hl] {
             </picture>
           </div>
 
-          {/* 우측 컬럼: 캠페인 안내 → 기대 효과 → 문의 배너 */} 
+          {/* 우측 컬럼: 캠페인 안내 → 기대 효과 → 문의 배너*/}
           <div className="grid gap-6 mt-10 md:mt-14 md:grid-rows-[auto,1fr,auto] md:h-[470px] md:max-h-none">
             <div className="rounded-2xl border border-[#2CB9B1]/40 bg-white/90 backdrop-blur-[1px] shadow-md p-7 md:p-8">
               <ul className="space-y-4 text-gray-800 leading-relaxed">
@@ -205,9 +207,9 @@ mark, [data-hl] {
             </div>
 
             {/*
-              문의 배너 반응형 전략
-              - md 이상: 중앙 정렬 + 큰 전화번호 가독성
-              - md 미만: 한 줄 레이아웃 + whitespace-nowrap으로 줄바꿈 방지
+              문의 배너 반응형 처리
+              - md 이상: 중앙 정렬 + 큰 글씨로 번호 가독성 확보
+              - md 미만: 한 줄 유지(whitespace-nowrap)로 줄바꿈/깨짐 방지
             */}
             {/* 문의 박스: PC(데스크탑) / 모바일 분리 렌더링 */}
             <div className="mt-3 mb-1 md:mb-0">

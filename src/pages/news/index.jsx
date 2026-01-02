@@ -1,19 +1,26 @@
-// src/pages/news/index.jsx
-// '복지디자인 이야기' 목록 페이지
-// - /src/content/stories 폴더의 md/mdx 파일을 읽어 목록을 만든다.
-// - 파일명(YYYY-MM-DD-슬러그.md[x]) 또는 프론트매터(title/date/excerpt)를 기준으로
-//   제목/날짜/요약을 구성하고, 최신 날짜가 위로 오도록 정렬한다.
+// -----------------------------------------------------------------------------
+// [페이지 목적]
+//  - "복지디자인 이야기"(스토리) 목록 페이지
+//  - /src/content/stories 폴더의 md/mdx 파일을 읽어 목록을 구성
+//
+// [데이터 구성 규칙]
+//  - 파일명 규칙(권장): YYYY-MM-DD-슬러그.md[x]
+//  - 또는 프론트매터(title/date/excerpt)를 우선 사용
+//  - 최신 날짜가 위로 오도록 내림차순 정렬
+// -----------------------------------------------------------------------------
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import matter from "gray-matter";
 
-// 파일명에서 날짜/슬러그를 파싱한다.
-// - 파일명 규칙: YYYY-MM-DD-제목(or-slug).md / .mdx
-// - 날짜가 없으면 date=null 로 두고, slug는 확장자 제거 후 사용한다.
-// - slug는 URL 경로에 쓰이므로 영문/숫자/한글/하이픈 중심으로 정규화한다.
+// -----------------------------------------------------------------------------
+// [유틸] 파일명에서 날짜/슬러그 추출
+//  - 파일명 규칙: YYYY-MM-DD-제목(or-slug).md / .mdx
+//  - 날짜가 없으면 date=null 로 처리
+//  - slug는 URL 경로에 사용되므로 영문/숫자/한글/하이픈 위주로 정규화
+// -----------------------------------------------------------------------------
 function parseDatedSlug(filepath) {
   const name = filepath.split("/").pop() || "";
-  // 예: 2025-12-31-welfare-design-story.mdx
+  // 예) 2025-12-31-welfare-design-story.mdx
   const m = name.match(/^(\d{4}-\d{2}-\d{2})-(.+)\.(md|mdx)$/);
   if (!m)
     return {
@@ -22,9 +29,9 @@ function parseDatedSlug(filepath) {
       titleFromFile: name,
     };
   const [, date, rest] = m;
-  // 유니코드 결합문자(악센트 등)를 제거하고, 허용 문자 외에는 하이픈으로 치환
-  // - normalize("NFKD") + 결합문자 제거: á → a 처럼 URL 친화적으로 변환
-  // - 공백/특수문자 → '-' 로 치환하고, 앞뒤 하이픈은 제거
+  // URL에 안전하게 쓰기 위해 문자열을 정규화
+  //  - normalize("NFKD") + 결합문자 제거: á → a 처럼 분리/단순화
+  //  - 공백/특수문자 → '-' 치환, 앞뒤 하이픈 제거, 소문자 변환
   const slug = rest
     .normalize("NFKD")
     .replace(/[\u0300-\u036f]/g, "")
@@ -34,9 +41,11 @@ function parseDatedSlug(filepath) {
   return { date, slug, titleFromFile: rest };
 }
 
-// 날짜 값을 "YYYY-MM-DD" 형태 문자열로 정규화
-// - 프론트매터 date가 문자열/Date/객체 형태로 들어와도 안전하게 처리
-// - 파싱 실패 시 빈 문자열 반환
+// -----------------------------------------------------------------------------
+// [유틸] 날짜 값을 "YYYY-MM-DD" 형태 문자열로 정규화
+//  - 프론트매터 date가 문자열/Date/객체 형태여도 최대한 안전하게 처리
+//  - 파싱 실패 시 빈 문자열 반환
+// -----------------------------------------------------------------------------
 function formatDate(v) {
   if (!v) return "";
   try {
@@ -55,18 +64,18 @@ export default function NewsIndex() {
 
   useEffect(() => {
     try {
-      // stories 폴더의 md/mdx를 모두 읽어(빌드 시점 eager 로딩) 목록 데이터로 변환
-      // Vite 기능: glob으로 파일들을 한 번에 가져온다.
-      // - eager: true  → 빌드/로딩 시점에 즉시 로드
-      // - query: '?raw' → 파일 내용을 문자열(raw)로 가져옴
-      // - import: 'default' → default export(문자열) 사용
+      // stories 폴더의 md/mdx를 모두 읽어 목록 데이터로 변환
+      // Vite의 import.meta.glob 기능을 사용해 파일을 한 번에 가져온다.
+      //  - eager: true        → 빌드/로딩 시점에 즉시 로드
+      //  - query: "?raw"      → 파일 내용을 문자열(raw)로 가져옴
+      //  - import: "default"  → default export(문자열) 사용
       const modules = import.meta.glob("/src/content/stories/*.{md,mdx}", {
         eager: true,
         query: "?raw",
         import: "default",
       });
 
-      // 각 파일(raw markdown)을 gray-matter로 파싱하여 메타데이터/본문을 분리
+      // 각 파일의 raw markdown을 gray-matter로 파싱하여 프론트매터/본문을 분리
       const list = Object.entries(modules).map(([path, raw]) => {
         const { data, content } = matter(raw);
         const meta = parseDatedSlug(path);
@@ -75,7 +84,7 @@ export default function NewsIndex() {
           title: data?.title || meta.titleFromFile,
           date: formatDate(data?.date) || formatDate(meta.date),
           // excerpt가 없으면 본문 앞 120자 정도를 대체 요약으로 사용
-          // 줄바꿈은 한 줄로 정리하여 리스트에서 깔끔하게 보이도록 처리
+          // 줄바꿈은 한 줄로 정리해 리스트에서 깔끔하게 보이도록 처리
           excerpt: (data?.excerpt || content?.slice(0, 120) || "").replace(
             /\n/g,
             " "
@@ -84,11 +93,11 @@ export default function NewsIndex() {
         };
       });
 
-      // 최신 날짜가 먼저 오도록 내림차순 정렬
+      // 최신 날짜가 먼저 보이도록 내림차순 정렬
       list.sort((a, b) => (a.date > b.date ? -1 : 1));
       setItems(list);
     } catch (e) {
-      // 런타임에서 파일 로딩/파싱에 실패해도 화면이 깨지지 않게 빈 배열로 폴백
+      // 파일 로딩/파싱에 실패해도 화면이 깨지지 않도록 빈 배열로 폴백
       console.warn("뉴스 목록 로드 실패:", e);
       setItems([]);
     }

@@ -1,7 +1,16 @@
-// src/pages/news/Stories.jsx
-// "복지디자인 이야기" 목록 페이지
-// - 마크다운(/src/content/stories/*.md) frontmatter를 읽어 카드 목록을 구성
-// - 카테고리 탭/검색/페이지네이션을 제공하고, 상세로 이동 시 현재 탭 정보를 쿼리스트링으로 유지
+// -----------------------------------------------------------------------------
+// [페이지 목적]
+//  - "복지디자인 이야기" 게시글 목록 페이지
+//  - /src/content/stories/*.md(마크다운) frontmatter를 읽어 카드 목록을 구성
+//
+// [기능]
+//  - 카테고리 탭 + 검색 + 페이지네이션 제공
+//  - 상세로 이동할 때 현재 탭 정보를 쿼리스트링(type)에 유지하여 뒤로가기 UX를 안정화
+//
+// [구현 메모]
+//  - normalizeCat(): 과거 표기/오타 등을 현재 카테고리 체계로 정규화
+//  - OptimizedImg(): 우선순위(priority) 여부에 따라 즉시 로딩/지연 로딩을 분기
+// -----------------------------------------------------------------------------
 
 // 카테고리 탭(화면 표시용) — 쿼리스트링(type/tab)과도 동기화됨
 const CATEGORIES = ["전체", "사업", "교육", "회의", "기타"];
@@ -35,7 +44,8 @@ function toExcerpt(md = "", max = 80) {
   return text.length > max ? text.slice(0, max) + "…" : text;
 }
 
-// 카테고리/라벨 등을 표시할 때 사용하는 작은 태그 UI(현재 파일에서는 예비 컴포넌트)
+// 카테고리/라벨 등을 표시할 때 사용하는 작은 태그 UI
+// - 현재 파일에서는 예비 컴포넌트(필요 시 StoryCard 등에 연결)
 function Tag({ children }) {
   return (
     <span className="inline-block rounded-full bg-emerald-100 text-emerald-700 text-xs font-semibold px-2 py-1">
@@ -84,7 +94,7 @@ function OptimizedImg({ src, alt = "", className = "", priority = false, sizes =
       alt={alt}
       loading={priority ? "eager" : "lazy"}
       decoding="async"
-      fetchpriority={priority ? "high" : "low"} // 브라우저 리소스 우선순위 힌트
+      fetchpriority={priority ? "high" : "low"} // 브라우저에 로딩 우선순위 힌트 제공
       width="1280"
       height="720"
       sizes={sizes}
@@ -175,7 +185,7 @@ export default function NewsStories() {
   // - 외부 링크/새로고침/뒤로가기에서도 동일한 탭이 유지되도록 함
   useEffect(() => {
     const params = new URLSearchParams(location.search);
-    const typeParam = params.get("type") || params.get("tab"); // support both keys
+    const typeParam = params.get("type") || params.get("tab"); // type / tab 키 모두 지원
     if (typeParam && CATEGORIES.includes(typeParam)) {
       setActiveCat(typeParam);
     } else if (!typeParam) {

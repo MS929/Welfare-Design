@@ -1,15 +1,15 @@
-// src/pages/business/_BusinessHero.jsx
-/**
- * BusinessHero 컴포넌트
- * --------------------------------------------------
- * - 사업 페이지 상단 또는 섹션용 히어로 컴포넌트
- * - 좌측 이미지와 우측 설명(불릿) 및 CTA 버튼으로 구성
- * - 다양한 사업 페이지에서 재사용 가능하도록 props 기반 설계
- */
+// -----------------------------------------------------------------------------
+// [컴포넌트 목적]
+//  - 사업 페이지 상단 또는 주요 섹션에 사용되는 공통 히어로 컴포넌트
+//  - 좌측 이미지 + 우측 설명(불릿) + CTA로 구성된 시각적 안내 영역
+//
+// [설계 의도]
+//  - 다양한 사업 페이지에서 재사용할 수 있도록 props 기반으로 구성
+//  - 레이아웃과 콘텐츠를 분리하여 유지보수 효율을 높임
+// -----------------------------------------------------------------------------
 export default function BusinessHero({
   /**
-   * 내부 섹션 제목 표시 여부
-   * - 중간 섹션에서 제목을 표시할 때 사용
+   * 중간 섹션에서 제목 표시 여부 제어
    */
   showHeading = false,
 
@@ -40,8 +40,7 @@ export default function BusinessHero({
   ctaHref,
 
   /**
-   * CTA 클릭 핸들러
-   * - 라우팅이 아닌 동작(모달, 스크롤 등)에 사용
+   * 페이지 이동 없이 동작을 수행하는 클릭 핸들러
    */
   onCta,
 
@@ -70,11 +69,9 @@ export default function BusinessHero({
 
       {/* ===== 메인 콘텐츠 영역 (2컬럼 레이아웃) ===== */}
       <div className="grid md:grid-cols-2 gap-8 items-start">
-        {/* ------------------------------------------------------------------
-            좌측: 이미지 영역
-            - 부모에 고정 높이를 두지 않아 이미지 잘림 방지
-            - object-contain으로 비율 유지
-           ------------------------------------------------------------------ */}
+        {/* 좌측 영역: 대표 이미지 표시
+            - 고정 높이를 두지 않아 이미지 잘림을 방지
+            - object-contain으로 원본 비율 유지 */}
         <div className="rounded-3xl bg-emerald-200/40 p-3">
           <div className="w-full rounded-2xl overflow-hidden flex items-center justify-center">
             <img
@@ -84,16 +81,15 @@ export default function BusinessHero({
                * 이미지 스타일
                * - 큰 화면에서도 과도하게 커지지 않도록 max-height 제한
                * - w-auto + h-auto로 원본 비율 유지
+               * - 다양한 화면 크기에서 시각적 균형을 유지하기 위함
                */
               className="max-h-[520px] w-auto h-auto object-contain"
-              loading="lazy" // 초기 로딩 성능 최적화
+              loading="lazy" // 초기 렌더링 성능 개선을 위한 지연 로딩
             />
           </div>
         </div>
 
-        {/* ------------------------------------------------------------------
-            우측: 설명 및 CTA 영역
-           ------------------------------------------------------------------ */}
+        {/* 우측 영역: 설명 불릿 + CTA 제공 영역 */}
         <div className="rounded-2xl border border-emerald-200 bg-white p-6">
           {/* 설명 불릿 리스트 */}
           <ul className="space-y-3 text-gray-800 leading-relaxed">
@@ -115,8 +111,7 @@ export default function BusinessHero({
             <div className="pt-6">
               {ctaHref ? (
                 /**
-                 * 링크형 CTA
-                 * - 페이지 이동 목적
+                 * 페이지 이동을 통한 다음 단계 유도
                  */
                 <a
                   href={ctaHref}
@@ -126,8 +121,7 @@ export default function BusinessHero({
                 </a>
               ) : (
                 /**
-                 * 버튼형 CTA
-                 * - 모달, 스크롤, 커스텀 액션 등 클릭 이벤트 처리
+                 * 페이지 이동 없이 동작을 수행하는 액션 트리거
                  */
                 <button
                   onClick={onCta}

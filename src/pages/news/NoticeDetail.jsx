@@ -1,15 +1,26 @@
-// src/pages/news/NoticeDetail.jsx
-// 공지사항 상세 페이지
-// - URL 파라미터(slug)를 기준으로 공지 markdown 파일을 로드한다.
-// - gray-matter로 프론트매터/본문을 분리하여 화면에 렌더링한다.
-// - 파일이 없을 경우 '글을 찾을 수 없습니다' 안내 화면을 보여준다.
+// -----------------------------------------------------------------------------
+// [페이지 목적]
+//  - 공지사항 상세 페이지(NoticeDetail)
+//  - URL 파라미터(slug)로 /src/content/notices/*.md 중 해당 글을 찾아 렌더링
+//
+// [데이터 로딩 흐름]
+//  - Vite import.meta.glob(..., { query: '?raw' })로 마크다운 원문을 문자열로 로드
+//  - gray-matter로 프론트매터(data)와 본문(content) 분리
+//  - slug 파일이 없거나 로딩/파싱 오류가 나면 404 성격 화면(post === undefined) 노출
+//
+// [마크다운 렌더링]
+//  - react-markdown 사용
+//  - 이미지(img)는 공통 스타일 + lazy 로딩/async 디코딩으로 통일
+// -----------------------------------------------------------------------------
 
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import matter from 'gray-matter';
 import ReactMarkdown from 'react-markdown';
 
-// 공지사항 상세 뷰 컴포넌트
+// -----------------------------------------------------------------------------
+// [컴포넌트] 공지사항 상세 뷰
+// -----------------------------------------------------------------------------
 export default function NoticeDetail() {
   // URL 경로에서 공지 slug 추출 (/news/notices/:slug)
   const { slug } = useParams();
@@ -61,11 +72,14 @@ export default function NoticeDetail() {
     );
   }
 
+  // 로딩 중에는 화면을 비워두고(=null 반환) 데이터가 준비되면 본문을 렌더링
   if (!post) return null;
 
-  // 마크다운 이미지 렌더링 통일
-  // - lazy 로딩 + async 디코딩
-  // - 과도한 크기 방지 및 비율 유지
+  // ---------------------------------------------------------------------------
+  // [마크다운 컴포넌트 커스터마이징]
+  //  - 이미지(img): lazy 로딩 + async 디코딩
+  //  - 화면 폭에 맞추되, 최대 높이를 제한하고(object-contain) 비율을 유지
+  // ---------------------------------------------------------------------------
   const markdownComponents = {
     img: ({ node, ...props }) => (
       <img
@@ -81,7 +95,8 @@ export default function NoticeDetail() {
   return (
     <div className="max-w-3xl mx-auto px-4 py-12">
       <div className="mb-6 flex items-center justify-between">
-        {/* 공지 목록으로 돌아가기 버튼 */} 
+        {/* 공지 목록으로 돌아가기 버튼 */}
+        {/* aria-label은 스크린리더 접근성용(영문 유지) */}
         <button
           onClick={() => nav('/news/notices')}
           className="inline-flex items-center gap-1 px-3 py-1.5 rounded border border-gray-300 text-gray-700 hover:bg-gray-50 transition text-sm font-medium"
@@ -92,7 +107,7 @@ export default function NoticeDetail() {
         {/* 배지 UI는 의도적으로 제거됨 (공지 성격 단순화) */}
       </div>
 
-      {/* 공지 본문 카드 영역 */} 
+      {/* 공지 본문 카드 영역 */}
       <article className="bg-white shadow-sm ring-1 ring-gray-200 rounded-lg p-8 text-gray-900">
         <header className="mb-6">
           <h1 className="text-3xl md:text-4xl font-extrabold tracking-tight">{post.title || slug}</h1>
@@ -110,7 +125,7 @@ export default function NoticeDetail() {
           )}
         </header>
 
-        {/* 썸네일 이미지가 있을 경우에만 렌더링 */} 
+        {/* 썸네일 이미지가 있을 경우에만 렌더링 */}
         {post.thumbnail && (
           <img
             src={post.thumbnail}
@@ -121,7 +136,7 @@ export default function NoticeDetail() {
           />
         )}
 
-        {/* 마크다운 본문 렌더링 영역 */} 
+        {/* 마크다운 본문 렌더링 영역 */}
         <div className="prose max-w-none text-[17px] leading-8 text-gray-800">
           <ReactMarkdown components={markdownComponents}>{post.content}</ReactMarkdown>
         </div>

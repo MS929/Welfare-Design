@@ -12,14 +12,12 @@
 //  - 긴 영문/URL 줄바꿈, 한글 줄바꿈(keep-all) 등 깨짐 방지용 CSS 가드 포함
 //  - MD 기준으로 문의 배너 레이아웃을 분리해 모바일 줄바꿈/넘침을 예방
 // -----------------------------------------------------------------------------
-import BizLayout from "./_Layout";
-
-// ---------------------------------------------------------------------------
-// Cloudinary 이미지 fetch 헬퍼
-//  - Netlify에 배포된 정적 이미지를 Cloudinary가 fetch 방식으로 가져와 AVIF/WEBP로 변환
-//  - 모바일에서만 srcset을 사용해 초기 로딩 트래픽을 절감하고,
-//    태블릿/데스크탑은 로컬 PNG를 그대로 사용해 디자인과 품질을 유지
-// ---------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
+// [Cloudinary 이미지 변환(fetch) 헬퍼]
+//  - Netlify에 배포된 정적 이미지를 Cloudinary가 fetch로 가져와 AVIF/WEBP로 변환
+//  - 모바일 구간에서만 srcset을 사용해 초기 로딩 트래픽을 절감
+//  - 태블릿/데스크탑은 로컬 PNG를 그대로 사용해 디자인/품질/캐시 안정성 유지
+// -----------------------------------------------------------------------------
 const ORIGIN = "https://welfaredesign.netlify.app"; // 배포(프로덕션) 정적 파일 기준 origin
 const RAW = `${ORIGIN}/images/business/apply-help.png`; // Cloudinary가 fetch할 원본 URL
 
@@ -33,13 +31,13 @@ const cld = (w, fmt = "auto") =>
 export default function ApplyHelp() {
   return (
     <>
-      {/* Cloudinary CDN과의 연결을 미리 열어(Preconnect) 이미지 요청 지연을 줄임 */}
+      {/* Cloudinary CDN에 preconnect로 미리 연결해 이미지 요청 지연을 줄임 */}
       <link rel="preconnect" href="https://res.cloudinary.com" crossOrigin="anonymous" />
       {/*
-        텍스트/줄바꿈 가드
+        [텍스트/줄바꿈 깨짐 방지용 CSS]
         - 한글: word-break: keep-all로 단어 중간 끊김 최소화
-        - 긴 URL/영문: overflow-wrap: anywhere로 안전하게 줄바꿈
-        - text-wrap: balance 지원 시 제목 줄바꿈 균형(미지원 브라우저는 fallback)
+        - 긴 URL/영문: overflow-wrap: anywhere로 화면 밖 넘침 방지
+        - 제목: text-wrap: balance 지원 시 줄바꿈 균형, 미지원 브라우저는 fallback 적용
       */}
       <style
         id="page-text-guard"
@@ -109,19 +107,19 @@ mark, [data-hl] {
         <div className="grid gap-8 md:grid-cols-2 items-stretch">
           <div className="flex items-center justify-center">
             {/*
-              <picture>로 포맷/미디어쿼리 분기
-              - (max-width: 767px)에서만 AVIF/WEBP 소스 제공
-              - 그 외(태블릿/데스크탑)는 로컬 PNG로 안정적으로 렌더
+              [이미지 포맷/미디어쿼리 분기]
+              - (max-width: 767px) 모바일 구간에서만 AVIF/WEBP 소스를 제공
+              - 태블릿/데스크탑은 로컬 PNG를 사용해 품질과 캐시 안정성을 확보
             */}
             <picture>
-              {/* 모바일: AVIF (가장 용량 효율적) */}
+              {/* 모바일: AVIF (가장 용량 효율이 좋은 포맷) */}
               <source
                 media="(max-width: 767px)"
                 type="image/avif"
                 srcSet={`${cld(320,'avif')} 320w, ${cld(480,'avif')} 480w, ${cld(640,'avif')} 640w, ${cld(750,'avif')} 750w, ${cld(828,'avif')} 828w`}
                 sizes="100vw"
               />
-              {/* 모바일: WEBP (AVIF 미지원 브라우저 fallback) */}
+              {/* 모바일: WEBP (AVIF 미지원 브라우저를 위한 대체 포맷) */}
               <source
                 media="(max-width: 767px)"
                 type="image/webp"
@@ -130,8 +128,8 @@ mark, [data-hl] {
               />
               {/*
                 태블릿/데스크탑: 로컬 정적 PNG
-                - 디자인 고정/품질 유지
-                - build 시 정적 자산 캐시 활용
+                - 디자인/화질을 고정해 의도한 비주얼 유지
+                - 빌드 시 정적 자산 캐시를 그대로 활용
               */}
               <img
                 src="/images/business/apply-help.png"
@@ -147,7 +145,7 @@ mark, [data-hl] {
               />
             </picture>
           </div>
-          {/* 우측 컬럼: 안내(불릿) → 기대효과 → 문의 배너(반응형) */}
+          {/* 우측 컬럼: 안내(불릿) → 기대 효과 → 문의 배너(반응형) */}
           <div className="grid md:h-[460px] lg:h-[470px] grid-rows-[auto,auto,auto] md:grid-rows-[auto,1fr,auto] gap-6 mt-12">
             {/* 안내 박스 */}
             <div className="rounded-2xl border border-[#2CB9B1]/40 bg-white/90 backdrop-blur-[1px] shadow-md p-7 md:p-8">
@@ -182,13 +180,13 @@ mark, [data-hl] {
             </div>
 
             {/*
-              문의 배너는 md 기준으로 완전히 분리 렌더링
-              - 데스크탑: 가운데 정렬 + 큰 폰트
+              [문의 배너 분리 렌더링(md 기준)]
+              - 데스크탑/태블릿: 가운데 정렬 + 큰 폰트 구성
               - 모바일: 한 줄 레이아웃 + 줄바꿈 방지(whitespace-nowrap)
             */}
-            {/* 문의 박스: PC(데스크탑) / 모바일 분리 렌더링 */}
+            {/* 문의 박스: 데스크탑/태블릿(md 이상)과 모바일(md 미만) 분리 렌더링 */}
             <div className="mt-3 mb-1 md:mb-0">
-              {/* Desktop & Tablet (md 이상): 기존 스타일 유지 */}
+              {/* 데스크탑/태블릿(md 이상): 기존 스타일 유지 */}
               <div className="hidden md:block rounded-2xl border border-[#F26C2A]/45 bg-gradient-to-r from-[#FFF3E9] to-[#EFFFFD] px-8 py-5 shadow-md">
                 <div className="flex items-center justify-center gap-3 text-[#111827] tracking-tight">
                   {/* 전화 아이콘 */}
@@ -212,7 +210,7 @@ mark, [data-hl] {
                   </a>
                 </div>
               </div>
-              {/* Mobile 전용 (md 미만): 한 줄 레이아웃, 줄바꿈 방지 */}
+              {/* 모바일(md 미만): 한 줄 레이아웃 + 줄바꿈 방지 */}
               <div className="md:hidden rounded-2xl border border-[#F26C2A]/45 bg-gradient-to-r from-[#FFF3E9] to-[#EFFFFD] px-5 py-4 shadow-md">
                 <div className="flex items-center justify-between gap-3 text-[#111827]">
                   <div className="flex items-center gap-2 min-w-0">

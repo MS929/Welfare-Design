@@ -43,7 +43,6 @@ import StoryDetail from "./pages/news/StoryDetail.jsx"; // 파일명/경로 꼭 
 import NoticeDetail from "./pages/news/NoticeDetail.jsx";
 import NewsIndex from "./pages/news/index.jsx";
 
-
 /* 사업 */
 // 복지디자인에서 운영하는 주요 사업 페이지
 import BizOverview from "./pages/business/Overview.jsx";
@@ -62,11 +61,26 @@ import SupFAQ from "./pages/support/FAQ.jsx";
 import Combination from "./pages/support/Combination.jsx";
 
 
+/**
+ * NotFound (404)
+ * -----------------------------------------------------------------------------
+ * [역할]
+ *  - 정의되지 않은 경로로 접근했을 때 표시되는 404 안내 컴포넌트
+ *
+ * [구성]
+ *  - 상태 제목(h1) + 간단한 안내 문구(p)로 구성
+ *
+ * [사용 위치]
+ *  - App.jsx 라우팅 하단의 와일드카드(*) 경로에서 사용
+ */
 // 존재하지 않는 경로 접근 시 표시되는 404 페이지
 function NotFound() {
   return (
     <div className="max-w-screen-md mx-auto px-4 py-16 text-center">
+      {/* 404 안내 메시지를 화면 중앙에 정렬하는 컨테이너 */}
+      {/* 상태 코드/메시지 제목 */}
       <h1 className="text-3xl font-bold mb-3">페이지를 찾을 수 없습니다</h1>
+      {/* 사용자가 주소를 확인하도록 안내하는 문구 */}
       <p className="text-gray-600">주소를 다시 확인해 주세요.</p>
     </div>
   );

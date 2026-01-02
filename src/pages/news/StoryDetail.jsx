@@ -1,8 +1,16 @@
-// src/pages/news/StoryDetail.jsx
-// 동행이야기(스토리) 상세 페이지
-// - /src/content/stories/*.md(마크다운) 파일을 로드해 상세 내용을 렌더링
-// - 목록 화면에서 선택한 탭(tab) 상태를 URL(state/query)로 받아 "목록으로" 이동 시 유지
-// - 스크롤 진행률(상단 바) 표시
+// -----------------------------------------------------------------------------
+// [페이지 목적]
+//  - 동행이야기(스토리) 상세 페이지
+//  - /src/content/stories/*.md(마크다운) 파일을 읽어 본문을 렌더링
+//
+// [상태 유지/이동 동선]
+//  - 목록 화면의 탭(tab) 상태를 location.state 또는 URL 쿼리(?tab=...)로 전달받음
+//  - "목록으로" 버튼 및 이전/다음 글 이동 후에도 동일 탭으로 복귀할 수 있도록 backTo를 유지
+//
+// [UX/성능 포인트]
+//  - 상단 고정 스크롤 진행률 바 표시
+//  - 마크다운 이미지 로딩을 SmartImage로 교체해 초기 렌더 비용과 레이아웃 시프트를 줄임
+// -----------------------------------------------------------------------------
 
 import { useEffect, useState, useRef, useMemo } from "react";
 import { useNavigate, useParams, useLocation } from "react-router-dom";
@@ -10,10 +18,12 @@ import matter from "gray-matter";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 
-// 지연 로딩 + 뷰포트 근접 시 로드하는 이미지 컴포넌트
-// - priority=true: 즉시 로드(상단 썸네일 등)
-// - 그 외: IntersectionObserver로 화면 근처(rootMargin)에서만 로드하여 초기 렌더 비용 절감
-// - 로드 전에는 회색 플레이스홀더(minHeight)로 레이아웃 흔들림(레이아웃 시프트) 최소화
+// -----------------------------------------------------------------------------
+// SmartImage: 지연 로딩 + 뷰포트 근접 시 로드하는 이미지 컴포넌트
+//  - priority=true: 즉시 로드(상단 썸네일 등)
+//  - 그 외: IntersectionObserver로 화면 근처(rootMargin)에서만 로드해 초기 렌더 비용 절감
+//  - 로드 전에는 회색 플레이스홀더(minHeight)로 레이아웃 흔들림(레이아웃 시프트) 최소화
+// -----------------------------------------------------------------------------
 function SmartImage({ src, alt, className, priority = false, placeholderMin = 220 }) {
   const [shouldLoad, setShouldLoad] = useState(priority);
   const [loaded, setLoaded] = useState(false);
@@ -72,9 +82,9 @@ function SmartImage({ src, alt, className, priority = false, placeholderMin = 22
 }
 
 /**
- * 동행이야기 상세 페이지
- * - CMS가 생성한 /src/content/stories/*.md 를 읽어서 렌더링
- * - Vite 5/7 호환: import.meta.glob 의 as:'raw' 대신 query:'?raw', import:'default'
+ * 동행이야기(스토리) 상세 페이지
+ * - CMS가 생성한 /src/content/stories/*.md 파일을 읽어 렌더링
+ * - Vite 환경에서 마크다운을 문자열(raw)로 불러오기 위해 import.meta.glob + query:"?raw" 조합 사용
  */
 export default function StoryDetail() {
   const { slug } = useParams();
@@ -99,7 +109,7 @@ export default function StoryDetail() {
     (async () => {
       try {
         // Vite의 import.meta.glob으로 스토리 마크다운 파일을 "문자열(raw)"로 한 번에 수집
-        // - query:"?raw" + import:"default" 조합은 Vite 5/7 환경에서 raw 로딩 호환을 위한 설정
+        // - query:"?raw" + import:"default" 조합으로 마크다운 본문을 문자열로 로드
         const modules = import.meta.glob("/src/content/stories/*.md", {
           query: "?raw",
           import: "default",
@@ -173,9 +183,9 @@ export default function StoryDetail() {
   }, []);
 
   // 마크다운 본문을 ReactMarkdown으로 렌더링
-  // - img: SmartImage로 교체해 이미지 로딩/성능 최적화
-  // - a: 외부 링크는 새 탭 + 보안(rel) 처리
-  // - useMemo로 본문(content)이 바뀔 때만 렌더 결과를 재계산
+  // - 이미지(img): SmartImage로 교체해 로딩/성능 최적화
+  // - 링크(a): 외부 링크는 새 탭으로 열고 보안 속성(rel)을 추가
+  // - useMemo로 post.content가 바뀔 때만 렌더 결과를 재계산
   const markdownContent = useMemo(() => {
     if (!post) return null;
     return (
@@ -298,7 +308,6 @@ export default function StoryDetail() {
 
           {neighbors.next ? (
             <>
-              {/* 이전/다음 이동 시에도 탭과 backTo를 state로 넘겨 목록 복귀 동선을 유지 */}
               <button
                 onClick={() => nav(`/news/stories/${neighbors.next.slug}`, { state: { tab: effectiveTab, backTo } })}
                 className="group text-right inline-flex items-center gap-2 rounded-lg px-3 py-2 self-end sm:self-auto hover:bg-white hover:shadow-sm"

@@ -1,22 +1,32 @@
-// src/pages/support/Combination.jsx
-// 조합 가입 안내 페이지
-// - 전화/이메일 문의 중심의 간단한 CTA 제공
-// - 텍스트 가독성 보호용 CSS(page-text-guard)를 페이지 단위로 주입
+// -----------------------------------------------------------------------------
+// [페이지 목적]
+//  - 조합 가입 안내 페이지
+//  - 전화/이메일 문의 중심의 간단한 CTA 제공
+//
+// [구성]
+//  - 상단: 브레드크럼 + 페이지 제목
+//  - 본문: 가입 안내 문구 + 전화/이메일 연락처 + 빠른 문의 CTA
+//
+// [텍스트/가독성 안정화]
+//  - page-text-guard CSS를 페이지 단위로 주입
+//  - 모바일 텍스트 자동 확대 및 줄바꿈 이슈를 최소화
+// -----------------------------------------------------------------------------
 export default function Combination() {
   return (
     <>
-      {/* 텍스트 가독성 보호용 전역 스타일
-         - 모바일 텍스트 확대 방지, 줄바꿈/하이픈/렌더링 품질 보정
-         - 이 페이지에만 한정 적용하기 위해 style 태그로 주입 */}
+      {/* 페이지 전용 텍스트/가독성 안정화 CSS
+          - 모바일 텍스트 자동 확대 방지
+          - 줄바꿈/하이픈/렌더링 품질 보정
+          - 이 페이지에만 적용하기 위해 style 태그로 직접 주입 */}
       <style
         id="page-text-guard"
         dangerouslySetInnerHTML={{ __html: `
-/* 모바일/브라우저별 텍스트 자동 확대 비활성화 */
+/* 모바일/브라우저별 텍스트 자동 확대 방지 */
 html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
 /* 박스 모델 통일 + 최소 너비/하이픈 처리로 레이아웃 깨짐 방지 */
 *, *::before, *::after { box-sizing: border-box; min-width: 0; hyphens: manual; -webkit-hyphens: manual; }
-/* 본문 기본 가독성 세팅
-   - 줄간격/폰트 스무딩/단어 줄바꿈 정책 */
+/* 본문 기본 가독성 설정
+   - 줄간격, 폰트 스무딩, 단어 줄바꿈 정책 */
 body {
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
@@ -75,7 +85,7 @@ mark, [data-hl] {
             복지디자인의 미션에 공감하시고 조합 가입을 원하시면 아래 연락처로 편하게 문의해 주세요. <br></br>간단한 안내와 상담 후 절차를 도와드립니다.
           </p>
 
-          {/* 연락처 정보(전화 / 이메일) */}
+          {/* 연락 수단 목록: 전화 / 이메일 */}
           <ul className="mt-4 space-y-3 text-gray-800 items-center flex flex-col">
             <li className="flex items-center gap-3 leading-none">
               {/* 전화 아이콘 */}
@@ -132,7 +142,7 @@ mark, [data-hl] {
             </li>
           </ul>
 
-          {/* 빠른 문의용 CTA 버튼 영역 */}
+          {/* 빠른 문의를 위한 CTA 버튼 영역 */}
           <div className="mt-8 flex flex-wrap gap-3 justify-center">
             <a
               href="tel:042-000-0000"
