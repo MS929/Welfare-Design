@@ -62,7 +62,7 @@ export default function BizOverview() {     // 사업영역 메인 페이지 컴
 
   return (
     <>
-      // 페이지 전용 텍스트/레이아웃 안정화 CSS (text-guard)
+      {/*페이지 전용 텍스트/레이아웃 안정화 CSS (text-guard) */}
       <style
         id="page-text-guard"
         dangerouslySetInnerHTML={{ __html: `
