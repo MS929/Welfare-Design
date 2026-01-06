@@ -11,7 +11,9 @@
 //  - normalizeCat(): 과거 표기/오타 등을 현재 카테고리 체계로 정규화
 //  - OptimizedImg(): 우선순위(priority) 여부에 따라 즉시 로딩/지연 로딩을 분기
 // -----------------------------------------------------------------------------
-
+import { memo, useEffect, useMemo, useRef, useState } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import matter from "gray-matter";
 // 카테고리 탭(화면 표시용) — 쿼리스트링(type/tab)과도 동기화됨
 const CATEGORIES = ["전체", "사업", "교육", "회의", "기타"];
 

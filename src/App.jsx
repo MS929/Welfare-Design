@@ -5,10 +5,6 @@
  * - 페이지 단위 컴포넌트들을 URL 경로별로 연결하는 역할
  */
 
-// =============================
-// 에러 추적(Sentry)
-// =============================
-import * as Sentry from "@sentry/react";
 
 // =============================
 // 라우팅 관련 의존성
@@ -86,23 +82,6 @@ function NotFound() {
   );
 }
 
-// Sentry DSN이 설정된 경우에만 에러 추적 활성화 (개발/배포 환경 분기용)
-/** Sentry init (safe for builds without __SENTRY_RELEASE__) */
-if (import.meta.env.VITE_SENTRY_DSN) {
-  const safeRelease =
-    // injected by Sentry bundler plugin if present
-    (typeof __SENTRY_RELEASE__ !== "undefined" ? __SENTRY_RELEASE__ : undefined) ||
-    // or you can set VITE_SENTRY_RELEASE from Netlify envs
-    import.meta.env.VITE_SENTRY_RELEASE;
-
-  Sentry.init({
-    dsn: import.meta.env.VITE_SENTRY_DSN,
-    environment: import.meta.env.VITE_SENTRY_ENV,
-    // only pass release when it exists
-    ...(safeRelease ? { release: safeRelease } : {}),
-    tracesSampleRate: 1.0,
-  });
-}
 
 // 전체 페이지 레이아웃과 라우팅을 감싸는 루트 컴포넌트
 export default function App() {

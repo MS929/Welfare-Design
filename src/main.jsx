@@ -1,7 +1,7 @@
 /**
  * main.jsx
  * - React 애플리케이션의 진입점(Entry Point)
- * - 전역 환경 설정(Buffer, Sentry)과 Router를 초기화
+ * - 전역 환경 설정(Buffer)과 Router를 초기화
  * - 실제 화면(라우팅/레이아웃) 구성은 App.jsx에서 담당
  */
 
@@ -22,16 +22,6 @@ import App from "./App";
 
 // 전역 스타일(CSS Reset 및 기본 타이포/레이아웃 설정)
 import "./index.css";
-
-// 에러 추적 및 퍼포먼스 모니터링을 위한 Sentry 설정
-import * as Sentry from "@sentry/react";
-
-// Sentry 초기화: 런타임 에러 및 성능 이슈를 실시간으로 수집
-Sentry.init({
-  dsn: import.meta.env.VITE_SENTRY_DSN, // Netlify 환경 변수에 저장된 DSN 값 사용
-  integrations: [],
-  tracesSampleRate: 1.0, // 퍼포먼스 추적 비율 (운영 시 0.1 등으로 낮출 수 있음)
-});
 
 // React 18 방식의 Root 생성 후 애플리케이션 렌더링
 ReactDOM.createRoot(document.getElementById("root")).render(
