@@ -288,27 +288,92 @@ h1, h2, h3, h4, h5 { line-height: 1.25; }
           <div
             className="absolute left-0 right-0 top-full z-40 bg-white shadow-lg border-t"
             onMouseEnter={() => setMegaOpen(true)}
-            onMouseLeave={() => { setMegaOpen(false); setHoveredIdx(null); }}
+            onMouseLeave={() => {
+              setMegaOpen(false);
+              setHoveredIdx(null);
+            }}
           >
-            <div style={{ marginLeft: megaLeft, width: megaWidth }}>
-              <div className="grid grid-cols-4 gap-16 justify-items-center pt-5 pb-6 text-center">
-                {sections.map((sec) => (
-                  <div key={sec.title} className="text-center">
-                    <ul className="space-y-2">
-                      {sec.items.map((it) => (
-                        <li key={it.to}>
-                          <NavLink
-                            to={it.to}
-                            className="block py-1 leading-[1.6] text-[15px] text-gray-800 hover:text-emerald-600 whitespace-normal focus-visible:ring-2 focus-visible:ring-emerald-500 text-center"
-                            onClick={() => { setMegaOpen(false); setHoveredIdx(null); }}
-                          >
-                            <span className={it.nowrap ? "nav-nowrap" : ""}>{it.label}</span>
-                          </NavLink>
-                        </li>
-                      ))}
-                    </ul>
+            {/*
+              Desktop Mega Menu Layout
+              - Left: illustration panel (replace the image path as needed)
+              - Right: 4-column menu aligned in a centered container
+            */}
+            <div
+              style={{
+                maxWidth: 1360,
+                margin: "0 auto",
+                padding: "22px 24px 26px",
+              }}
+            >
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "flex-start",
+                  gap: 44,
+                }}
+              >
+                {/* Left illustration panel */}
+                <div
+                  aria-hidden
+                  style={{
+                    flex: "0 0 360px",
+                    maxWidth: 360,
+                  }}
+                >
+                  <div
+                    style={{
+                      width: "100%",
+                      borderRadius: 10,
+                      overflow: "hidden",
+                      background: "#FFF7F2",
+                      border: "1px solid rgba(17,24,39,.10)",
+                      boxShadow: "0 8px 18px rgba(0,0,0,.06)",
+                    }}
+                  >
+                    <img
+                      src="/images/illustrations/mega-community.png"
+                      alt=""
+                      loading="eager"
+                      decoding="async"
+                      style={{
+                        width: "100%",
+                        height: "auto",
+                        display: "block",
+                      }}
+                      onError={(e) => {
+                        // If the file path is different, replace it with the correct one.
+                        // Prevent infinite loop.
+                        e.currentTarget.onerror = null;
+                      }}
+                    />
                   </div>
-                ))}
+                </div>
+
+                {/* Right menu columns */}
+                <div style={{ flex: "1 1 auto" }}>
+                  <div className="grid grid-cols-4 gap-16 justify-items-center pt-1 text-center">
+                    {sections.map((sec) => (
+                      <div key={sec.title} className="text-center">
+                        <ul className="space-y-2">
+                          {sec.items.map((it) => (
+                            <li key={it.to}>
+                              <NavLink
+                                to={it.to}
+                                className="block py-1 leading-[1.6] text-[15px] text-gray-800 hover:text-emerald-600 whitespace-normal focus-visible:ring-2 focus-visible:ring-emerald-500 text-center"
+                                onClick={() => {
+                                  setMegaOpen(false);
+                                  setHoveredIdx(null);
+                                }}
+                              >
+                                <span className={it.nowrap ? "nav-nowrap" : ""}>{it.label}</span>
+                              </NavLink>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    ))}
+                  </div>
+                </div>
               </div>
             </div>
           </div>
