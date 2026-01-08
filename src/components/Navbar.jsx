@@ -113,6 +113,25 @@ export default function Navbar() {
 
   // 상단 탭 UL의 실제 좌표와 너비를 기준으로 메가메뉴를 정렬
   const tabsRef = useRef(null);
+  // 메가메뉴 컬럼을 상단 탭과 정확히 정렬하기 위한 좌표/폭
+  const [megaLeft, setMegaLeft] = useState(0);
+  const [megaWidth, setMegaWidth] = useState(0);
+  const [showIllu, setShowIllu] = useState(true);
+
+  const ILLU_W = 360;
+  const ILLU_GAP = 44;
+
+  const updateMegaRect = () => {
+    if (!tabsRef.current) return;
+    const rect = tabsRef.current.getBoundingClientRect();
+    // tabsRef 기준(뷰포트 좌표)로 메가메뉴 컬럼을 위치시킴
+    setMegaLeft(rect.left);
+    setMegaWidth(rect.width || tabsRef.current.offsetWidth || 0);
+
+    // 일러스트는 컬럼 왼쪽에 놓되, 공간이 부족하면 숨김(겹침 방지)
+    const illuLeft = rect.left - (ILLU_W + ILLU_GAP);
+    setShowIllu(illuLeft >= 16);
+  };
 
   // 모바일 드로어가 열려 있을 때 배경(body) 스크롤을 잠가 이중 스크롤을 방지
   useEffect(() => {
@@ -126,6 +145,23 @@ export default function Navbar() {
       document.body.style.overflow = prev || '';
     };
   }, [mobileOpen]);
+
+  // 메가메뉴가 열릴 때 상단 탭 좌표를 측정(첫 렌더 타이밍 보정)
+  useEffect(() => {
+    if (!megaOpen) return;
+    // layout 안정화 후 측정
+    requestAnimationFrame(() => updateMegaRect());
+  }, [megaOpen]);
+
+  // 리사이즈 시 좌표 재계산
+  useEffect(() => {
+    const onResize = () => {
+      if (!megaOpen) return;
+      updateMegaRect();
+    };
+    window.addEventListener("resize", onResize);
+    return () => window.removeEventListener("resize", onResize);
+  }, [megaOpen]);
 
   // 로고는 최적화 변환 없이 원본을 사용(리사이즈/압축 과정에서의 흐림 방지)
   const logoSrc = "/images/main/main3.png";
@@ -237,7 +273,12 @@ h1, h2, h3, h4, h5 { line-height: 1.25; }
                 <button
                   type="button"
                   className={`text-left font-medium text-[16px] hover:text-emerald-600 leading-tight ${hoveredIdx === idx ? "text-emerald-600 underline decoration-emerald-500 underline-offset-8" : ""}`}
-                  onMouseEnter={() => { setMegaOpen(true); setHoveredIdx(idx); }}
+                  onMouseEnter={() => {
+                    setMegaOpen(true);
+                    setHoveredIdx(idx);
+                    // hover 진입 시에도 즉시 좌표 갱신
+                    requestAnimationFrame(() => updateMegaRect());
+                  }}
                 >
                   {sec.title}
                 </button>
@@ -271,29 +312,31 @@ h1, h2, h3, h4, h5 { line-height: 1.25; }
               setMegaOpen(false);
               setHoveredIdx(null);
             }}
+            style={{ position: "absolute" }}
           >
+            {/*
+              핵심 포인트
+              - 메뉴 4컬럼은 상단 탭(ul)과 동일한 left/width로 '그대로' 정렬
+              - 일러스트는 컬럼 왼쪽에 '별도'로 절대배치(공간 부족하면 숨김)
+            */}
             <div
               style={{
-                maxWidth: 1360,
-                margin: "0 auto",
-                padding: "22px 24px 26px",
+                position: "relative",
+                width: "100%",
+                padding: "22px 0 26px",
+                minHeight: 260,
               }}
             >
-              <div
-                style={{
-                  position: "relative",
-                  minHeight: 260,
-                }}
-              >
-                {/* Left illustration panel (layout에만 존재, 오른쪽 텍스트는 절대 배치로 분리) */}
+              {/* Left illustration (does NOT affect columns layout) */}
+              {showIllu && (
                 <div
                   aria-hidden
                   style={{
                     position: "absolute",
-                    left: 24,
-                    top: 0,
-                    width: 360,
-                    maxWidth: 360,
+                    left: Math.max(16, megaLeft - (ILLU_W + ILLU_GAP)),
+                    top: 22,
+                    width: ILLU_W,
+                    maxWidth: ILLU_W,
                   }}
                 >
                   <div
@@ -322,48 +365,39 @@ h1, h2, h3, h4, h5 { line-height: 1.25; }
                     />
                   </div>
                 </div>
+              )}
 
-                {/* Right menu columns (상단 탭과 동일한 폭으로 중앙 정렬) */}
-                <div
-                  style={{
-                    position: "relative",
-                    width: "100%",
-                    display: "flex",
-                    justifyContent: "center",
-                    paddingTop: 2,
-                  }}
-                >
-                  <div
-                    style={{
-                      width: 750,              // 상단 탭 UL의 w-[750px]과 동일
-                      maxWidth: "100%",
-                    }}
-                  >
-                    <div className="grid grid-cols-4 gap-16 justify-items-center pt-1 text-center">
-                      {sections.map((sec) => (
-                        <div key={sec.title} className="text-center">
-                          <ul className="space-y-2">
-                            {sec.items.map((it) => (
-                              <li key={it.to}>
-                                <NavLink
-                                  to={it.to}
-                                  className="block py-1 leading-[1.6] text-[15px] text-gray-800 hover:text-emerald-600 whitespace-normal focus-visible:ring-2 focus-visible:ring-emerald-500 text-center"
-                                  onClick={() => {
-                                    setMegaOpen(false);
-                                    setHoveredIdx(null);
-                                  }}
-                                >
-                                  <span className={it.nowrap ? "nav-nowrap" : ""}>
-                                    {it.label}
-                                  </span>
-                                </NavLink>
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
-                      ))}
+              {/* Right menu columns aligned to the top tabs */}
+              <div
+                style={{
+                  position: "absolute",
+                  left: megaLeft,
+                  top: 22,
+                  width: megaWidth,
+                  maxWidth: "calc(100% - 32px)",
+                }}
+              >
+                <div className="grid grid-cols-4 gap-16 justify-items-center pt-1 text-center">
+                  {sections.map((sec) => (
+                    <div key={sec.title} className="text-center">
+                      <ul className="space-y-2">
+                        {sec.items.map((it) => (
+                          <li key={it.to}>
+                            <NavLink
+                              to={it.to}
+                              className="block py-1 leading-[1.6] text-[15px] text-gray-800 hover:text-emerald-600 whitespace-normal focus-visible:ring-2 focus-visible:ring-emerald-500 text-center"
+                              onClick={() => {
+                                setMegaOpen(false);
+                                setHoveredIdx(null);
+                              }}
+                            >
+                              <span className={it.nowrap ? "nav-nowrap" : ""}>{it.label}</span>
+                            </NavLink>
+                          </li>
+                        ))}
+                      </ul>
                     </div>
-                  </div>
+                  ))}
                 </div>
               </div>
             </div>
