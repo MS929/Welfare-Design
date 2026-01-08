@@ -346,6 +346,32 @@ function extractThumbSrc(v) {
 
   return "";
 }
+
+// ===== Cloudinary (image/upload) URL transform helper =====
+// Hoisted to top-level so Home1 can reuse it for preloading/prefetching.
+function withCldUploadTransform(url, w) {
+  if (!url) return url;
+  // Only transform Cloudinary "image/upload" URLs.
+  const isCloudinaryUpload =
+    /res\.cloudinary\.com\//.test(url) && /\/image\/upload\//.test(url);
+  if (!isCloudinaryUpload) return url;
+
+  const marker = "/image/upload/";
+  const idx = url.indexOf(marker);
+  if (idx === -1) return url;
+
+  const before = url.slice(0, idx + marker.length);
+  const after = url.slice(idx + marker.length);
+
+  // If a transform already exists, do not insert another.
+  const firstSeg = after.split("/")[0] || "";
+  const alreadyHasTransform =
+    /(^|,)(c_|w_|q_|f_|dpr_)/.test(firstSeg) || firstSeg.includes(",");
+  if (alreadyHasTransform) return url;
+
+  const transform = `c_limit,f_auto,q_auto,w_${w}`;
+  return `${before}${transform}/${after}`;
+}
 /**
  * StoryCard(소식 카드)
  * - 썸네일 유무에 따라 이미지/플레이스홀더를 분기 렌더링
@@ -374,28 +400,6 @@ const StoryCard = (props) => {
   // (image/fetch는 계정 설정에 따라 401이 발생할 수 있어 사용하지 않음)
   const isCloudinaryUpload =
     isCloudinary && /\/image\/upload\//.test(thumbSrc);
-
-  const withCldUploadTransform = (url, w) => {
-    if (!url || !isCloudinaryUpload) return url;
-    // 기존 변환이 이미 붙어있으면 중복 삽입을 피한다.
-    // 예) .../image/upload/c_limit,w_800/... 또는 .../image/upload/w_800,...
-    const marker = "/image/upload/";
-    const idx = url.indexOf(marker);
-    if (idx === -1) return url;
-
-    const before = url.slice(0, idx + marker.length);
-    const after = url.slice(idx + marker.length);
-
-    // 이미 변환 문자열이 있는 경우(첫 세그먼트에 쉼표가 있거나 c_/w_로 시작)
-    const firstSeg = after.split("/")[0] || "";
-    const alreadyHasTransform =
-      /(^|,)(c_|w_|q_|f_|dpr_)/.test(firstSeg) || firstSeg.includes(",");
-
-    const transform = `c_limit,f_auto,q_auto,w_${w}`;
-    if (alreadyHasTransform) return url;
-
-    return `${before}${transform}/${after}`;
-  };
 
   // Use a small fixed set of widths so Cloudinary URLs stay identical across renders/tabs
   // (better browser cache hit rate, less perceived delay when switching tabs)
