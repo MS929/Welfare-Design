@@ -370,13 +370,39 @@ const StoryCard = (props) => {
   const hasThumb = typeof thumbSrc === "string" && thumbSrc.length > 0;
   const isCloudinary = hasThumb && /res\.cloudinary\.com\//.test(thumbSrc);
 
-  // 썸네일 로딩 최적화:
-  // - Cloudinary URL이면 Cloudinary 변환(w/srcset)로 가볍게 내려받고
-  // - 그 외(URL/로컬)면 Netlify Image CDN(OptimizedImg의 useCdn)을 사용
+  // Cloudinary 최적화는 `image/upload` URL 변환만 사용한다.
+  // (image/fetch는 계정 설정에 따라 401이 발생할 수 있어 사용하지 않음)
+  const isCloudinaryUpload =
+    isCloudinary && /\/image\/upload\//.test(thumbSrc);
+
+  const withCldUploadTransform = (url, w) => {
+    if (!url || !isCloudinaryUpload) return url;
+    // 기존 변환이 이미 붙어있으면 중복 삽입을 피한다.
+    // 예) .../image/upload/c_limit,w_800/... 또는 .../image/upload/w_800,...
+    const marker = "/image/upload/";
+    const idx = url.indexOf(marker);
+    if (idx === -1) return url;
+
+    const before = url.slice(0, idx + marker.length);
+    const after = url.slice(idx + marker.length);
+
+    // 이미 변환 문자열이 있는 경우(첫 세그먼트에 쉼표가 있거나 c_/w_로 시작)
+    const firstSeg = after.split("/")[0] || "";
+    const alreadyHasTransform =
+      /(^|,)(c_|w_|q_|f_|dpr_)/.test(firstSeg) || firstSeg.includes(",");
+
+    const transform = `c_limit,f_auto,q_auto,w_${w}`;
+    if (alreadyHasTransform) return url;
+
+    return `${before}${transform}/${after}`;
+  };
+
   const cardW = isMobile ? 640 : isTablet ? 900 : 1100;
-  const optimizedThumbSrc = isCloudinary ? cldFetch(thumbSrc, cardW) : thumbSrc;
-  const optimizedThumbSrcSet = isCloudinary
-    ? cldSrcSet(thumbSrc, [480, 800, 1200])
+  const optimizedThumbSrc = withCldUploadTransform(thumbSrc, cardW);
+  const optimizedThumbSrcSet = isCloudinaryUpload
+    ? [480, 800, 1200]
+        .map((w) => `${withCldUploadTransform(thumbSrc, w)} ${w}w`)
+        .join(", ")
     : undefined;
 
   return (
@@ -813,8 +839,8 @@ mark, [data-hl] {
                 {HERO_IMAGES.map((src, i) => (
                   <OptimizedImg
                     key={src}
-                    src={cldFetch(src, isMobile ? 800 : 1200)}
-                    srcSet={cldSrcSet(src, [800, 1200, 1600])}
+                    src={src}
+                    srcSet={undefined}
                     alt="복지디자인 활동 이미지"
                     // 현재 보이는 것만 우선 로드(high)
                     priority={i === heroIndex}
