@@ -289,8 +289,40 @@ const MorePill = ({ href, children }) => (
 
 // CMS thumbnail 필드가 다양한 형태(문자열/객체/배열)로 들어올 수 있어 URL을 안전하게 추출
 function extractThumbSrc(v) {
+  const normalize = (u) => {
+    if (!u) return "";
+    const s = String(u).trim();
+    if (!s) return "";
+
+    // 이미 절대 URL(또는 data/blob)이면 그대로 사용
+    if (/^(https?:)?\/\//i.test(s) || /^data:/i.test(s) || /^blob:/i.test(s)) {
+      return s;
+    }
+
+    // Netlify CMS에서 흔한 상대 경로 형태 정리: ./, ../ 제거
+    let p = s.replace(/^\.\//, "");
+    p = p.replace(/^\.\.\//, "");
+
+    // 최종적으로는 루트 기준(/...)로 맞춰서 Vite/Netlify에서 안정적으로 서빙되게 함
+    if (!p.startsWith("/")) p = `/${p}`;
+
+    // 공백 등 특수문자가 있으면 브라우저에서 깨질 수 있어 인코딩
+    try {
+      // 이미 인코딩된 경우를 크게 해치지 않도록, path 부분만 안전 인코딩
+      const [path, query] = p.split("?");
+      const safePath = path
+        .split("/")
+        .map((seg) => encodeURIComponent(decodeURIComponent(seg)))
+        .join("/");
+      return query ? `${safePath}?${query}` : safePath;
+    } catch {
+      return p;
+    }
+  };
+
   if (!v) return "";
-  if (typeof v === "string") return v.trim();
+  if (typeof v === "string") return normalize(v);
+
   try {
     if (Array.isArray(v)) {
       for (const it of v) {
@@ -299,17 +331,19 @@ function extractThumbSrc(v) {
       }
       return "";
     }
+
     if (typeof v === "object") {
-      return (
+      const candidate =
         (typeof v.url === "string" && v.url) ||
         (typeof v.secure_url === "string" && v.secure_url) ||
         (typeof v.src === "string" && v.src) ||
         (typeof v.path === "string" && v.path) ||
         (typeof v.download_url === "string" && v.download_url) ||
-        ""
-      ).trim();
+        "";
+      return normalize(candidate);
     }
   } catch {}
+
   return "";
 }
 /**
