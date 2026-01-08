@@ -113,42 +113,6 @@ export default function Navbar() {
 
   // 상단 탭 UL의 실제 좌표와 너비를 기준으로 메가메뉴를 정렬
   const tabsRef = useRef(null);
-  const [megaLeft, setMegaLeft] = useState(0);
-  const [megaWidth, setMegaWidth] = useState(0);
-  // 메가메뉴 정렬값(탭 영역 기준) 보정용
-  const clamp = (n, min, max) => Math.min(Math.max(n, min), max);
-
-  const updateMegaLeft = () => {
-    if (!tabsRef.current) return;
-    const rect = tabsRef.current.getBoundingClientRect();
-
-    // viewport 기준 좌표를 사용 (메가메뉴 패널은 left:0/right:0로 viewport에 붙어있음)
-    const vw = typeof window !== "undefined" ? window.innerWidth : 0;
-
-    // 탭 영역과 동일한 폭/좌표를 유지하되, 화면 밖으로 튀는 경우를 방지
-    const nextLeft = clamp(rect.left, 16, Math.max(16, vw - 16));
-    const nextWidth = clamp(rect.width || tabsRef.current.offsetWidth || 0, 0, Math.max(0, vw - 32));
-
-    setMegaLeft(nextLeft);
-    setMegaWidth(nextWidth);
-  };
-
-  // 메가메뉴 토글 시 현재 탭 영역 좌표를 다시 측정 + 스크롤 중에도 보정
-  useEffect(() => {
-    updateMegaLeft();
-    if (!megaOpen) return;
-
-    const onScroll = () => updateMegaLeft();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, [megaOpen]);
-
-  // 리사이즈 시 메가메뉴 좌표 재계산
-  useEffect(() => {
-    const on = () => updateMegaLeft();
-    window.addEventListener("resize", on);
-    return () => window.removeEventListener("resize", on);
-  }, []);
 
   // 모바일 드로어가 열려 있을 때 배경(body) 스크롤을 잠가 이중 스크롤을 방지
   useEffect(() => {
@@ -318,7 +282,7 @@ h1, h2, h3, h4, h5 { line-height: 1.25; }
               <div
                 style={{
                   position: "relative",
-                  minHeight: 220,
+                  minHeight: 260,
                 }}
               >
                 {/* Left illustration panel (layout에만 존재, 오른쪽 텍스트는 절대 배치로 분리) */}
@@ -359,39 +323,46 @@ h1, h2, h3, h4, h5 { line-height: 1.25; }
                   </div>
                 </div>
 
-                {/* Right menu columns (상단 탭 영역과 동일한 left/width로 고정) */}
+                {/* Right menu columns (상단 탭과 동일한 폭으로 중앙 정렬) */}
                 <div
                   style={{
-                    position: "absolute",
-                    left: megaLeft,
-                    top: 0,
-                    width: megaWidth || "auto",
+                    position: "relative",
+                    width: "100%",
+                    display: "flex",
+                    justifyContent: "center",
                     paddingTop: 2,
                   }}
                 >
-                  <div className="grid grid-cols-4 gap-16 justify-items-center pt-1 text-center">
-                    {sections.map((sec) => (
-                      <div key={sec.title} className="text-center">
-                        <ul className="space-y-2">
-                          {sec.items.map((it) => (
-                            <li key={it.to}>
-                              <NavLink
-                                to={it.to}
-                                className="block py-1 leading-[1.6] text-[15px] text-gray-800 hover:text-emerald-600 whitespace-normal focus-visible:ring-2 focus-visible:ring-emerald-500 text-center"
-                                onClick={() => {
-                                  setMegaOpen(false);
-                                  setHoveredIdx(null);
-                                }}
-                              >
-                                <span className={it.nowrap ? "nav-nowrap" : ""}>
-                                  {it.label}
-                                </span>
-                              </NavLink>
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                    ))}
+                  <div
+                    style={{
+                      width: 750,              // 상단 탭 UL의 w-[750px]과 동일
+                      maxWidth: "100%",
+                    }}
+                  >
+                    <div className="grid grid-cols-4 gap-16 justify-items-center pt-1 text-center">
+                      {sections.map((sec) => (
+                        <div key={sec.title} className="text-center">
+                          <ul className="space-y-2">
+                            {sec.items.map((it) => (
+                              <li key={it.to}>
+                                <NavLink
+                                  to={it.to}
+                                  className="block py-1 leading-[1.6] text-[15px] text-gray-800 hover:text-emerald-600 whitespace-normal focus-visible:ring-2 focus-visible:ring-emerald-500 text-center"
+                                  onClick={() => {
+                                    setMegaOpen(false);
+                                    setHoveredIdx(null);
+                                  }}
+                                >
+                                  <span className={it.nowrap ? "nav-nowrap" : ""}>
+                                    {it.label}
+                                  </span>
+                                </NavLink>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      ))}
+                    </div>
                   </div>
                 </div>
               </div>
