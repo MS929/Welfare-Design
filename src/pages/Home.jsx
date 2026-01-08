@@ -336,6 +336,15 @@ const StoryCard = (props) => {
   const hasThumb = typeof thumbSrc === "string" && thumbSrc.length > 0;
   const isCloudinary = hasThumb && /res\.cloudinary\.com\//.test(thumbSrc);
 
+  // 썸네일 로딩 최적화:
+  // - Cloudinary URL이면 Cloudinary 변환(w/srcset)로 가볍게 내려받고
+  // - 그 외(URL/로컬)면 Netlify Image CDN(OptimizedImg의 useCdn)을 사용
+  const cardW = isMobile ? 640 : isTablet ? 900 : 1100;
+  const optimizedThumbSrc = isCloudinary ? cldFetch(thumbSrc, cardW) : thumbSrc;
+  const optimizedThumbSrcSet = isCloudinary
+    ? cldSrcSet(thumbSrc, [480, 800, 1200])
+    : undefined;
+
   return (
     <a href={href} style={{ textDecoration: "none", color: "inherit" }}>
       <article
@@ -393,15 +402,16 @@ const StoryCard = (props) => {
         >
           {hasThumb ? (
             <OptimizedImg
-              src={thumbSrc}
+              src={optimizedThumbSrc}
+              srcSet={optimizedThumbSrcSet}
               alt=""
               priority={priority}
               sizes="(min-width: 1024px) 33vw, 100vw"
               style={{ width: "100%", height: "100%" }}
-              // Cloudinary URL이면 Cloudinary CDN을 그대로 사용, 로컬/업로드 경로면 Netlify Image CDN 사용
+              // Cloudinary URL이면 Cloudinary 변환을 사용하므로 Netlify CDN은 끔
               useCdn={!isCloudinary}
               cdnWidth={isMobile ? 480 : isTablet ? 800 : 1000}
-              cdnQuality={76}
+              cdnQuality={72}
               imgStyle={{
                 width: "100%",
                 height: "100%",
@@ -1305,50 +1315,99 @@ mark, [data-hl] {
           </div>
 
           {/* 카드 그리드 (소식 카드 목록) */}
-          <div
-            style={{
-              display: "grid",
-              ...(storyFiltered.length === 1
-                ? {
-                    gridTemplateColumns: isMobile
-                      ? "1fr"
-                      : "minmax(560px, 720px)",
-                    justifyContent: "center",
-                    justifyItems: "center",
-                  }
-                : {
-                    gridTemplateColumns: isMobile
-                      ? "1fr"
-                      : isTablet
-                      ? "repeat(2, minmax(0,1fr))"
-                      : "repeat(3, minmax(0,1fr))",
-                  }),
-              gap: 24,
-            }}
-          >
-            {storyFiltered.slice(0, 6).map((n, idx) => (
-              <StoryCard
-                key={n.slug}
-                title={n.title}
-                date={n.date}
-                href={`/news/stories/${encodeURIComponent(n.slug)}${
-                  n.type ? `?type=${encodeURIComponent(n.type)}` : ""
-                }`}
-                thumbnail={n.thumbnail}
-                priority={idx < 3}
-                //  모바일/터치에서 hover/transition 비활성화
-                isTouchDevice={isMobile || isTouch}
-                isMobile={isMobile}
-                isTablet={isTablet}
-                objectPosition={n.thumbPosition}
-              />
-            ))}
-            {storyFiltered.length === 0 && (
-              <div style={{ color: PALETTE.grayText, gridColumn: "1/-1" }}>
-                표시할 소식이 없습니다.
+          {(() => {
+            const list = storyFiltered.slice(0, 6);
+            const placeholders = Math.max(0, 6 - list.length);
+
+            return (
+              <div
+                style={{
+                  display: "grid",
+                  gridTemplateColumns: isMobile
+                    ? "1fr"
+                    : isTablet
+                    ? "repeat(2, minmax(0,1fr))"
+                    : "repeat(3, minmax(0,1fr))",
+                  gap: 24,
+                }}
+              >
+                {list.map((n, idx) => (
+                  <StoryCard
+                    key={n.slug}
+                    title={n.title}
+                    date={n.date}
+                    href={`/news/stories/${encodeURIComponent(n.slug)}${
+                      n.type ? `?type=${encodeURIComponent(n.type)}` : ""
+                    }`}
+                    thumbnail={n.thumbnail}
+                    priority={idx < 3}
+                    //  모바일/터치에서 hover/transition 비활성화
+                    isTouchDevice={isMobile || isTouch}
+                    isMobile={isMobile}
+                    isTablet={isTablet}
+                    objectPosition={n.thumbPosition}
+                  />
+                ))}
+
+                {/* 카테고리별 게시물이 6개 미만이면 동일한 카드 슬롯을 채워 레이아웃을 고정 */}
+                {Array.from({ length: placeholders }).map((_, i) => (
+                  <div
+                    key={`story-ph-${i}`}
+                    aria-hidden
+                    style={{
+                      background: "#fff",
+                      borderRadius: PALETTE.radiusLg,
+                      border: `1px solid ${PALETTE.line}`,
+                      boxShadow: PALETTE.shadowSm,
+                      overflow: "hidden",
+                    }}
+                  >
+                    <div
+                      style={{
+                        aspectRatio: "16 / 9",
+                        background:
+                          "linear-gradient(180deg, #f3f4f6 0%, #e5e7eb 100%)",
+                        borderBottom: `1px solid ${PALETTE.line}`,
+                      }}
+                    />
+                    <div
+                      style={{
+                        padding: 16,
+                        display: "flex",
+                        flexDirection: "column",
+                        alignItems: "center",
+                        textAlign: "center",
+                      }}
+                    >
+                      <div
+                        style={{
+                          height: 16,
+                          width: "55%",
+                          background: "#EEF2F7",
+                          borderRadius: 6,
+                        }}
+                      />
+                      <div
+                        style={{
+                          height: 12,
+                          width: 90,
+                          background: "#EEF2F7",
+                          borderRadius: 6,
+                          marginTop: 10,
+                        }}
+                      />
+                    </div>
+                  </div>
+                ))}
+
+                {storyFiltered.length === 0 && (
+                  <div style={{ color: PALETTE.grayText, gridColumn: "1/-1" }}>
+                    표시할 소식이 없습니다.
+                  </div>
+                )}
               </div>
-            )}
-          </div>
+            );
+          })()}
         </Section>
 
         {/* ================= 지원사업(바로가기 카드) ================= */}
