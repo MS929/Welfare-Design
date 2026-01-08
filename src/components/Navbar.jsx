@@ -115,18 +115,33 @@ export default function Navbar() {
   const tabsRef = useRef(null);
   const [megaLeft, setMegaLeft] = useState(0);
   const [megaWidth, setMegaWidth] = useState(0);
+  // 메가메뉴 정렬값(탭 영역 기준) 보정용
+  const clamp = (n, min, max) => Math.min(Math.max(n, min), max);
 
   const updateMegaLeft = () => {
     if (!tabsRef.current) return;
     const rect = tabsRef.current.getBoundingClientRect();
-    // 소수점까지 포함한 정확한 좌표를 사용해 메가메뉴 컬럼을 상단 탭과 정렬
-    // 특히 우측 끝("후원") 컬럼이 어긋나지 않도록 rect.left/width 값을 그대로 사용
-    setMegaLeft(rect.left);
-    setMegaWidth(rect.width || tabsRef.current.offsetWidth || 0);
+
+    // viewport 기준 좌표를 사용 (메가메뉴 패널은 left:0/right:0로 viewport에 붙어있음)
+    const vw = typeof window !== "undefined" ? window.innerWidth : 0;
+
+    // 탭 영역과 동일한 폭/좌표를 유지하되, 화면 밖으로 튀는 경우를 방지
+    const nextLeft = clamp(rect.left, 16, Math.max(16, vw - 16));
+    const nextWidth = clamp(rect.width || tabsRef.current.offsetWidth || 0, 0, Math.max(0, vw - 32));
+
+    setMegaLeft(nextLeft);
+    setMegaWidth(nextWidth);
   };
 
-  // 메가메뉴 토글 시 현재 탭 영역 좌표를 다시 측정
-  useEffect(() => { updateMegaLeft(); }, [megaOpen]);
+  // 메가메뉴 토글 시 현재 탭 영역 좌표를 다시 측정 + 스크롤 중에도 보정
+  useEffect(() => {
+    updateMegaLeft();
+    if (!megaOpen) return;
+
+    const onScroll = () => updateMegaLeft();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, [megaOpen]);
 
   // 리사이즈 시 메가메뉴 좌표 재계산
   useEffect(() => {
@@ -293,11 +308,6 @@ h1, h2, h3, h4, h5 { line-height: 1.25; }
               setHoveredIdx(null);
             }}
           >
-            {/*
-              Desktop Mega Menu Layout
-              - Left: illustration panel (replace the image path as needed)
-              - Right: 4-column menu aligned in a centered container
-            */}
             <div
               style={{
                 maxWidth: 1360,
@@ -307,16 +317,18 @@ h1, h2, h3, h4, h5 { line-height: 1.25; }
             >
               <div
                 style={{
-                  display: "flex",
-                  alignItems: "flex-start",
-                  gap: 44,
+                  position: "relative",
+                  minHeight: 220,
                 }}
               >
-                {/* Left illustration panel */}
+                {/* Left illustration panel (layout에만 존재, 오른쪽 텍스트는 절대 배치로 분리) */}
                 <div
                   aria-hidden
                   style={{
-                    flex: "0 0 360px",
+                    position: "absolute",
+                    left: 24,
+                    top: 0,
+                    width: 360,
                     maxWidth: 360,
                   }}
                 >
@@ -341,16 +353,22 @@ h1, h2, h3, h4, h5 { line-height: 1.25; }
                         display: "block",
                       }}
                       onError={(e) => {
-                        // If the file path is different, replace it with the correct one.
-                        // Prevent infinite loop.
                         e.currentTarget.onerror = null;
                       }}
                     />
                   </div>
                 </div>
 
-                {/* Right menu columns */}
-                <div style={{ flex: "1 1 auto" }}>
+                {/* Right menu columns (상단 탭 영역과 동일한 left/width로 고정) */}
+                <div
+                  style={{
+                    position: "absolute",
+                    left: megaLeft,
+                    top: 0,
+                    width: megaWidth || "auto",
+                    paddingTop: 2,
+                  }}
+                >
                   <div className="grid grid-cols-4 gap-16 justify-items-center pt-1 text-center">
                     {sections.map((sec) => (
                       <div key={sec.title} className="text-center">
@@ -365,7 +383,9 @@ h1, h2, h3, h4, h5 { line-height: 1.25; }
                                   setHoveredIdx(null);
                                 }}
                               >
-                                <span className={it.nowrap ? "nav-nowrap" : ""}>{it.label}</span>
+                                <span className={it.nowrap ? "nav-nowrap" : ""}>
+                                  {it.label}
+                                </span>
                               </NavLink>
                             </li>
                           ))}
