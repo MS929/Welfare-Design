@@ -31,7 +31,7 @@ const useMedia = (query) => {
 import matter from "gray-matter";
 import { Link } from "react-router-dom";
 import OptimizedImg from "../components/OptimizedImg";
-import { cldFetch, cldSrcSet } from "../lib/image";
+// (unused) image helpers were removed to avoid lint/build warnings
 // =============================
 // 디자인 토큰(컬러/그림자/라운드 등) — 인라인 스타일 기반 UI 일관성 유지
 // =============================
@@ -397,12 +397,14 @@ const StoryCard = (props) => {
     return `${before}${transform}/${after}`;
   };
 
-  const cardW = isMobile ? 640 : isTablet ? 900 : 1100;
+  // Use a small fixed set of widths so Cloudinary URLs stay identical across renders/tabs
+  // (better browser cache hit rate, less perceived delay when switching tabs)
+  const CLD_WIDTHS = [480, 960, 1440];
+  const cardW = isMobile ? CLD_WIDTHS[0] : isTablet ? CLD_WIDTHS[1] : CLD_WIDTHS[2];
+
   const optimizedThumbSrc = withCldUploadTransform(thumbSrc, cardW);
   const optimizedThumbSrcSet = isCloudinaryUpload
-    ? [480, 800, 1200]
-        .map((w) => `${withCldUploadTransform(thumbSrc, w)} ${w}w`)
-        .join(", ")
+    ? CLD_WIDTHS.map((w) => `${withCldUploadTransform(thumbSrc, w)} ${w}w`).join(", ")
     : undefined;
 
   return (
@@ -466,11 +468,11 @@ const StoryCard = (props) => {
               srcSet={optimizedThumbSrcSet}
               alt=""
               priority={priority}
-              sizes="(min-width: 1024px) 33vw, 100vw"
+              sizes="(min-width: 1024px) 33vw, (min-width: 641px) 50vw, 100vw"
               style={{ width: "100%", height: "100%" }}
               // Cloudinary URL이면 Cloudinary 변환을 사용하므로 Netlify CDN은 끔
               useCdn={!isCloudinary}
-              cdnWidth={isMobile ? 480 : isTablet ? 800 : 1000}
+              cdnWidth={isMobile ? 480 : isTablet ? 960 : 1440}
               cdnQuality={72}
               imgStyle={{
                 width: "100%",
@@ -687,6 +689,36 @@ export default function Home1() {
       setStoryItems([]);
     }
   }, []);
+
+  // ===== Image preload to reduce tab-switch delay (Cloudinary / CDN) =====
+  const preloadImage = (url) => {
+    if (!url) return;
+    try {
+      const img = new Image();
+      img.decoding = "async";
+      img.loading = "eager";
+      img.src = url;
+    } catch {}
+  };
+
+  // When the filter tab changes, prefetch the next set of thumbnails so clicking feels instant.
+  useEffect(() => {
+    const next = storyItems
+      .filter((d) => storyActive === "전체" || d.type === storyActive)
+      .slice(0, 6);
+
+    next.forEach((n, idx) => {
+      const src = extractThumbSrc(n.thumbnail);
+      if (!src) return;
+
+      const isCld = /res\.cloudinary\.com\//.test(src) && /\/image\/upload\//.test(src);
+      const w = isMobile ? 480 : isTablet ? 960 : 1440;
+      const finalUrl = isCld ? withCldUploadTransform(src, w) : src;
+
+      // limit preloading to top 6 (already sliced) and bias first few
+      if (idx < 6) preloadImage(finalUrl);
+    });
+  }, [storyActive, storyItems, isMobile, isTablet]);
 
   // iOS BFCache(뒤로가기 캐시) 복귀 시 눌림/hover 잔상을 제거하기 위한 스타일 초기화
   useEffect(() => {
@@ -1332,6 +1364,45 @@ mark, [data-hl] {
                   <button
                     key={label}
                     onClick={() => setStoryActive(label)}
+                    onMouseEnter={() => {
+                      const next = storyItems
+                        .filter((d) => label === "전체" || d.type === label)
+                        .slice(0, 6);
+                      next.forEach((n) => {
+                        const src = extractThumbSrc(n.thumbnail);
+                        if (!src) return;
+                        const isCld = /res\.cloudinary\.com\//.test(src) && /\/image\/upload\//.test(src);
+                        const w = isMobile ? 480 : isTablet ? 960 : 1440;
+                        const finalUrl = isCld ? withCldUploadTransform(src, w) : src;
+                        preloadImage(finalUrl);
+                      });
+                    }}
+                    onFocus={() => {
+                      const next = storyItems
+                        .filter((d) => label === "전체" || d.type === label)
+                        .slice(0, 6);
+                      next.forEach((n) => {
+                        const src = extractThumbSrc(n.thumbnail);
+                        if (!src) return;
+                        const isCld = /res\.cloudinary\.com\//.test(src) && /\/image\/upload\//.test(src);
+                        const w = isMobile ? 480 : isTablet ? 960 : 1440;
+                        const finalUrl = isCld ? withCldUploadTransform(src, w) : src;
+                        preloadImage(finalUrl);
+                      });
+                    }}
+                    onTouchStart={() => {
+                      const next = storyItems
+                        .filter((d) => label === "전체" || d.type === label)
+                        .slice(0, 6);
+                      next.forEach((n) => {
+                        const src = extractThumbSrc(n.thumbnail);
+                        if (!src) return;
+                        const isCld = /res\.cloudinary\.com\//.test(src) && /\/image\/upload\//.test(src);
+                        const w = isMobile ? 480 : isTablet ? 960 : 1440;
+                        const finalUrl = isCld ? withCldUploadTransform(src, w) : src;
+                        preloadImage(finalUrl);
+                      });
+                    }}
                     style={{
                       cursor: "pointer",
                       height: isMobile ? 32 : 36,
