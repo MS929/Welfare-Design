@@ -117,7 +117,6 @@ export default function Navbar() {
     openTimer.current = setTimeout(() => {
       setMegaOpen(true);
       setActiveIdx(idx);
-      requestAnimationFrame(() => updateMegaRect());
     }, OPEN_DELAY_MS);
   };
   const closeMega = () => {
@@ -129,32 +128,8 @@ export default function Navbar() {
     }, CLOSE_DELAY_MS);
   };
 
-  // 상단 탭 UL의 실제 좌표와 너비를 기준으로 메가메뉴를 정렬
+  // 상단 탭 UL ref(향후 정렬/접근성 확장용)
   const tabsRef = useRef(null);
-  // 메가메뉴 컬럼을 상단 탭과 정확히 정렬하기 위한 좌표/폭
-  const [megaLeft, setMegaLeft] = useState(0);
-  const [megaWidth, setMegaWidth] = useState(0);
-  const [showIllu, setShowIllu] = useState(true);
-
-  // Mega-menu illustration card size (portrait 느낌)
-  // - 가로로 'contain'되면서 가운데 작게 떠 보이는 문제를 해결하기 위해
-  //   카드 자체를 세로 비율로 만들고, 이미지는 cover로 채움
-  const ILLU_W = 320;
-  const ILLU_H = 300;
-  const ILLU_GAP = 44;
-
-  const updateMegaRect = () => {
-    if (!tabsRef.current) return;
-    const rect = tabsRef.current.getBoundingClientRect();
-    // tabsRef 기준(뷰포트 좌표)로 메가메뉴 컬럼을 위치시킴
-    const w = rect.width || tabsRef.current.offsetWidth || 0;
-    setMegaLeft(rect.left);
-    setMegaWidth(w || 750);
-
-    // 일러스트는 컬럼 왼쪽에 놓되, 공간이 부족하면 숨김(겹침 방지)
-    const illuLeft = rect.left - (ILLU_W + ILLU_GAP);
-    setShowIllu(illuLeft >= 16);
-  };
 
   // 모바일 드로어가 열려 있을 때 배경(body) 스크롤을 잠가 이중 스크롤을 방지
   useEffect(() => {
@@ -169,22 +144,6 @@ export default function Navbar() {
     };
   }, [mobileOpen]);
 
-  // 메가메뉴가 열릴 때 상단 탭 좌표를 측정(첫 렌더 타이밍 보정)
-  useEffect(() => {
-    if (!megaOpen) return;
-    // layout 안정화 후 측정
-    requestAnimationFrame(() => updateMegaRect());
-  }, [megaOpen]);
-
-  // 리사이즈 시 좌표 재계산
-  useEffect(() => {
-    const onResize = () => {
-      if (!megaOpen) return;
-      updateMegaRect();
-    };
-    window.addEventListener("resize", onResize);
-    return () => window.removeEventListener("resize", onResize);
-  }, [megaOpen]);
 
   // 로고는 최적화 변환 없이 원본을 사용(리사이즈/압축 과정에서의 흐림 방지)
   const logoSrc = "/images/main/main3.png";
@@ -288,7 +247,7 @@ h1, h2, h3, h4, h5 { line-height: 1.25; }
           {/* 상단 탭(데스크톱) */}
           <ul
             ref={tabsRef}
-            className="hidden md:grid col-start-2 grid-cols-4 gap-20 justify-items-center items-center text-center w-[750px] mx-auto"
+            className="hidden md:grid col-start-2 grid-cols-4 gap-24 justify-items-center items-center text-center w-[750px] mx-auto"
           >
             {sections.map((sec, idx) => (
               <li key={sec.title} className="flex items-center">
@@ -339,110 +298,77 @@ h1, h2, h3, h4, h5 { line-height: 1.25; }
           </button>
         </nav>
 
-        {megaOpen && (
+        {megaOpen && activeIdx != null && (
           <div
             className="absolute left-0 right-0 top-full z-40 bg-white shadow-lg border-t"
-            onMouseEnter={() => { if (closeTimer.current) clearTimeout(closeTimer.current); }}
+            onMouseEnter={() => {
+              if (closeTimer.current) clearTimeout(closeTimer.current);
+            }}
             onMouseLeave={closeMega}
           >
-            <div
-              style={{
-                position: "relative",
-                width: "100%",
-                padding: "18px 0 26px",
-                background: "#fff",
-                overflow: "visible",
-                minHeight: Math.max(300, ILLU_H + 60),
-              }}
-            >
-              {/* Left illustration */}
-              {showIllu && (
-                <div
-                  aria-hidden
-                  style={{
-                    position: "absolute",
-                    left: Math.max(16, megaLeft - (ILLU_W + ILLU_GAP)),
-                    top: 18,
-                    width: ILLU_W,
-                  }}
-                >
-                  <div
-                    style={{
-                      width: "100%",
-                      height: ILLU_H,
-                      borderRadius: 12,
-                      overflow: "hidden",
-                      background: "#FFF7F2",
-                      border: "1px solid rgba(17,24,39,.10)",
-                      boxShadow: "0 10px 22px rgba(0,0,0,.06)",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      padding: 0,
-                    }}
-                  >
-                    <img
-                      src="/images/illustrations/community.png"
-                      alt=""
-                      loading="eager"
-                      decoding="async"
-                      style={{
-                        width: "100%",
-                        height: "100%",
-                        objectFit: "cover",
-                        objectPosition: "center 30%",
-                        display: "block",
-                        padding: 0,
-                      }}
-                      onError={(e) => {
-                        e.currentTarget.onerror = null;
-                      }}
-                    />
-                  </div>
-                </div>
-              )}
+            {/*
+              C-2 스타일: 좌측 타이틀 패널 + 우측 다중 컬럼(세로 구분선)
+              - 클릭 없이 hover만으로 노출(상단 탭에서 openMega가 hover로 호출됨)
+              - 굵은 큰 제목은 제거하고(요청), 전체는 일반 굵기로 정돈
+            */}
+            {(() => {
+              const sec = sections[activeIdx];
+              const items = sec.items;
 
-              {/* Right menu columns aligned to the top tabs */}
-              <div
-                style={{
-                  position: "relative",
-                  marginLeft: Math.max(16, megaLeft),
-                  width: megaWidth,
-                  maxWidth: "calc(100% - 32px)",
-                }}
-              >
-                {(() => {
-                  const sec = activeIdx != null ? sections[activeIdx] : null;
-                  if (!sec) return null;
+              // 항목 개수에 따라 2~4열로 분배
+              const colCount = Math.min(4, Math.max(2, Math.ceil(items.length / 3)));
+              const cols = Array.from({ length: colCount }, () => []);
+              items.forEach((it, i) => cols[i % colCount].push(it));
 
-                  const itemCount = sec.items.length;
-                  const cols = itemCount >= 6 ? 2 : 1; // 항목이 많으면 2열
+              return (
+                <div className="w-full">
+                  <div className="mx-auto max-w-[1280px] px-6 py-10">
+                    <div className="flex w-full gap-0">
+                      {/* Left title panel */}
+                      <div className="w-[280px] shrink-0 bg-[#FFF7F2] border border-gray-200/70 rounded-none">
+                        <div className="px-10 py-12">
+                          <div className="text-[36px] leading-tight text-emerald-600 font-normal">
+                            {sec.title}
+                          </div>
+                        </div>
+                      </div>
 
-                  return (
-                    <div className="w-full">
-                      <div
-                        className="flex flex-wrap items-center justify-start gap-x-16 gap-y-5"
-                        style={{ maxWidth: 980 }}
-                      >
-                        {sec.items.map((it) => (
-                          <NavLink
-                            key={it.to}
-                            to={it.to}
-                            className="block py-1 leading-[1.9] text-[15px] text-gray-800 hover:text-emerald-600 whitespace-normal focus-visible:ring-2 focus-visible:ring-emerald-500"
-                            onClick={() => {
-                              setMegaOpen(false);
-                              setActiveIdx(null);
-                            }}
-                          >
-                            <span className={it.nowrap ? "nav-nowrap" : ""}>{it.label}</span>
-                          </NavLink>
-                        ))}
+                      {/* Right columns */}
+                      <div className="flex-1 border-y border-gray-200/70 border-r border-gray-200/70">
+                        <div
+                          className="grid h-full"
+                          style={{ gridTemplateColumns: `repeat(${colCount}, minmax(0, 1fr))` }}
+                        >
+                          {cols.map((col, ci) => (
+                            <div
+                              key={ci}
+                              className={`px-10 py-10 ${ci !== 0 ? "border-l border-gray-200/70" : ""}`}
+                            >
+                              <ul className="space-y-4">
+                                {col.map((it) => (
+                                  <li key={it.to}>
+                                    <NavLink
+                                      to={it.to}
+                                      className="text-[18px] leading-snug text-gray-900 font-normal hover:text-emerald-600 focus-visible:ring-2 focus-visible:ring-emerald-500"
+                                      onClick={() => {
+                                        setMegaOpen(false);
+                                        setActiveIdx(null);
+                                      }}
+                                    >
+                                      <span className={it.nowrap ? "nav-nowrap" : ""}>{it.label}</span>
+                                    </NavLink>
+                                  </li>
+                                ))}
+                              </ul>
+                            </div>
+                          ))}
+                        </div>
                       </div>
                     </div>
-                  );
-                })()}
-              </div>
-            </div>
+                  </div>
+                </div>
+              );
+            })()}
           </div>
         )}
 
