@@ -118,9 +118,11 @@ export default function Navbar() {
   const [megaWidth, setMegaWidth] = useState(0);
   const [showIllu, setShowIllu] = useState(true);
 
-  // Mega-menu illustration card size
-  // (Keep similar footprint to the old horizontal card; image may be portrait)
-  const ILLU_W = 360;
+  // Mega-menu illustration card size (portrait 느낌)
+  // - 가로로 'contain'되면서 가운데 작게 떠 보이는 문제를 해결하기 위해
+  //   카드 자체를 세로 비율로 만들고, 이미지는 cover로 채움
+  const ILLU_W = 320;
+  const ILLU_H = 300;
   const ILLU_GAP = 44;
 
   const updateMegaRect = () => {
@@ -330,7 +332,7 @@ h1, h2, h3, h4, h5 { line-height: 1.25; }
                 background: "#fff",
                 overflow: "visible",
                 // absolute 일러스트가 높이에 포함되지 않으므로 최소 높이를 확보
-                minHeight: 270,
+                minHeight: Math.max(300, ILLU_H + 60),
               }}
             >
               {/* Left illustration (does NOT affect columns layout) */}
@@ -347,7 +349,7 @@ h1, h2, h3, h4, h5 { line-height: 1.25; }
                   <div
                     style={{
                       width: "100%",
-                      height: 240,
+                      height: ILLU_H,
                       borderRadius: 12,
                       overflow: "hidden",
                       background: "#FFF7F2",
@@ -356,6 +358,7 @@ h1, h2, h3, h4, h5 { line-height: 1.25; }
                       display: "flex",
                       alignItems: "center",
                       justifyContent: "center",
+                      padding: 0,
                     }}
                   >
                     <img
@@ -364,12 +367,15 @@ h1, h2, h3, h4, h5 { line-height: 1.25; }
                       loading="eager"
                       decoding="async"
                       style={{
+                        // 세로 이미지가 '가로 카드 안에서 작게 떠 보이는' 문제 방지
+                        // - cover로 카드 전체를 채우고
+                        // - 인물(하단 쪽)을 살리기 위해 살짝 아래로 포지션
                         width: "100%",
                         height: "100%",
-                        objectFit: "contain",      // show full image (no crop)
-                        objectPosition: "center",
+                        objectFit: "cover",
+                        objectPosition: "center 65%",
                         display: "block",
-                        padding: 22,               // give breathing room for portrait art
+                        padding: 0,
                       }}
                       onError={(e) => {
                         e.currentTarget.onerror = null;
