@@ -315,10 +315,14 @@ h1, h2, h3, h4, h5 { line-height: 1.25; }
               const sec = sections[activeIdx];
               const items = sec.items;
 
-              // 항목 개수에 따라 2~4열로 분배
-              const colCount = Math.min(4, Math.max(2, Math.ceil(items.length / 3)));
+              // 항상 4칸(4열)으로 고정
+              const colCount = 4;
               const cols = Array.from({ length: colCount }, () => []);
-              items.forEach((it, i) => cols[i % colCount].push(it));
+
+              // 아이템을 4열로 균등 분배(위에서 아래로 자연스럽게)
+              items.forEach((it, i) => {
+                cols[i % colCount].push(it);
+              });
 
               return (
                 <div className="w-full">
