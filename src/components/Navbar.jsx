@@ -49,52 +49,6 @@ function useHoverDelay() {
   return { open, enter, leave, setOpen };
 }
 
-/**
- * Dropdown: 간단 드롭다운 메뉴 컴포넌트(확장용)
- * - hover/focus 이벤트로 open 상태 제어
- * - items: {to, label} 배열을 받아 NavLink 목록을 렌더링
- */
-function Dropdown({ title, items }) {
-  const { open, enter, leave } = useHoverDelay();
-  return (
-    <li
-      className="relative"
-      onMouseEnter={enter}
-      onMouseLeave={leave}
-      onFocus={enter}
-      onBlur={leave}
-    >
-      <button
-        type="button"
-        className="hover:text-sky-600 focus:outline-none"
-        aria-expanded={open}
-      >
-        {title}
-      </button>
-      {open && (
-        <div
-          className="absolute top-full left-0 z-[60] mt-2 bg-white shadow-xl rounded-2xl p-3 w-56"
-          onMouseEnter={enter}
-          onMouseLeave={leave}
-          role="menu"
-        >
-          <ul className="flex flex-col">
-            {items.map((it) => (
-              <li key={it.to}>
-                <NavLink
-                  to={it.to}
-                  className="block px-3 py-2 rounded hover:bg-gray-50 focus-visible:ring-2 focus-visible:ring-emerald-500"
-                >
-                  {it.label}
-                </NavLink>
-              </li>
-            ))}
-          </ul>
-        </div>
-      )}
-    </li>
-  );
-}
 
 // 상단 네비게이션 바(데스크톱 메가메뉴 + 모바일 드로어)
 export default function Navbar() {
@@ -220,6 +174,7 @@ h1, h2, h3, h4, h5 { line-height: 1.25; }
         aria-label="Primary"
         className="sticky top-0 z-50 bg-white shadow"
         onMouseLeave={closeMega}
+        style={{ backdropFilter: "saturate(140%) blur(8px)" }}
       >
         <nav className="w-full relative px-4 md:pl-[120px] md:pr-6 py-3 grid grid-cols-[auto,1fr,auto] items-center gap-6">
           {/* 로고 영역 */}
@@ -247,22 +202,31 @@ h1, h2, h3, h4, h5 { line-height: 1.25; }
           {/* 상단 탭(데스크톱) */}
           <ul
             ref={tabsRef}
-            className="hidden md:grid col-start-2 grid-cols-4 gap-28 justify-items-center items-center text-center w-[750px] mx-auto"
+            className="hidden md:flex col-start-2 items-center justify-center gap-20 w-[820px] mx-auto"
           >
             {sections.map((sec, idx) => (
               <li key={sec.title} className="flex items-center">
                 <button
                   type="button"
-                  className={`text-left font-normal text-[15.5px] hover:text-emerald-600 leading-tight ${
+                  className={`relative text-left font-normal text-[15.5px] tracking-[0.01em] text-gray-900 hover:text-emerald-600 leading-tight transition-colors ${
                     megaOpen && activeIdx === idx
-                      ? "text-emerald-600 underline decoration-emerald-500 underline-offset-8"
+                      ? "text-emerald-600"
                       : ""
                   }`}
+                  style={{ padding: "10px 6px" }}
                   onMouseEnter={() => openMega(idx)}
                   onMouseLeave={closeMega}
                   aria-expanded={megaOpen && activeIdx === idx}
                 >
-                  {sec.title}
+                  <span className="relative">
+                    {sec.title}
+                    <span
+                      aria-hidden="true"
+                      className={`absolute left-0 -bottom-[10px] h-[2px] w-full rounded-full bg-emerald-500 transition-opacity ${
+                        megaOpen && activeIdx === idx ? "opacity-100" : "opacity-0"
+                      }`}
+                    />
+                  </span>
                 </button>
               </li>
             ))}
@@ -300,7 +264,8 @@ h1, h2, h3, h4, h5 { line-height: 1.25; }
 
         {megaOpen && activeIdx != null && (
           <div
-            className="absolute left-0 right-0 top-full z-40 bg-white shadow-lg border-t"
+            className="absolute left-0 right-0 top-full z-40 bg-transparent"
+            style={{ paddingTop: 10 }}
             onMouseEnter={() => {
               if (closeTimer.current) clearTimeout(closeTimer.current);
             }}
@@ -347,47 +312,55 @@ h1, h2, h3, h4, h5 { line-height: 1.25; }
 
               return (
                 <div className="w-full">
-                  {/* 길이감 있게: max-width 제한을 빼고 좌우 패딩만 적용 */}
-                  <div className="w-full px-8 md:px-16 py-10">
-                    <div className="flex w-full gap-0">
-                      {/* Left title panel */}
-                      <div className="w-[280px] shrink-0 bg-[#FFF7F2] border border-gray-200/70 rounded-none">
-                        <div className="px-10 py-12">
-                          <div className="text-[36px] leading-tight text-emerald-600 font-normal">
-                            {sec.title}
+                  {/* 전체 폭은 넓게 쓰되, 너무 허전해지지 않게 최대폭만 살짝 제한 */}
+                  <div className="mx-auto w-full max-w-[1400px] px-6 md:px-10 py-8">
+                    <div className="rounded-2xl border border-gray-200 bg-white shadow-[0_18px_45px_rgba(0,0,0,0.08)] overflow-hidden">
+                      <div className="flex">
+                        {/* Left title panel */}
+                        <div className="w-[280px] shrink-0 bg-gradient-to-b from-[#FFF7F2] to-white border-r border-gray-200">
+                          <div className="px-10 py-12">
+                            <div className="text-[34px] leading-tight text-emerald-600 font-normal tracking-[-0.01em]">
+                              {sec.title}
+                            </div>
+                            <div className="mt-3 text-[13px] text-gray-500 leading-relaxed">
+                              원하는 메뉴를 선택해 주세요.
+                            </div>
                           </div>
                         </div>
-                      </div>
 
-                      {/* Right columns */}
-                      <div className="flex-1 border-y border-gray-200/70 border-r border-gray-200/70">
-                        <div
-                          className="grid h-full"
-                          style={{ gridTemplateColumns: `repeat(${colCount}, minmax(0, 1fr))` }}
-                        >
-                          {cols.map((col, ci) => (
-                            <div
-                              key={ci}
-                              className={`px-10 py-10 ${ci !== 0 ? "border-l border-gray-200/70" : ""}`}
-                            >
-                              <ul className="space-y-6">
-                                {col.map((it) => (
-                                  <li key={it.to}>
-                                    <NavLink
-                                      to={it.to}
-                                      className="text-[18px] leading-snug text-gray-900 font-normal hover:text-emerald-600 focus-visible:ring-2 focus-visible:ring-emerald-500"
-                                      onClick={() => {
-                                        setMegaOpen(false);
-                                        setActiveIdx(null);
-                                      }}
-                                    >
-                                      <span className={it.nowrap ? "nav-nowrap" : ""}>{it.label}</span>
-                                    </NavLink>
-                                  </li>
-                                ))}
-                              </ul>
-                            </div>
-                          ))}
+                        {/* Right columns */}
+                        <div className="flex-1">
+                          <div
+                            className="grid divide-x divide-gray-200"
+                            style={{ gridTemplateColumns: `repeat(${colCount}, minmax(0, 1fr))` }}
+                          >
+                            {cols.map((col, ci) => (
+                              <div key={ci} className="px-10 py-10">
+                                <ul className="space-y-5">
+                                  {col.map((it) => (
+                                    <li key={it.to}>
+                                      <NavLink
+                                        to={it.to}
+                                        className="group inline-flex items-center gap-2 rounded-lg px-2 py-2 text-[17px] leading-snug text-gray-900 font-normal transition-colors hover:bg-emerald-50 hover:text-emerald-700 focus-visible:ring-2 focus-visible:ring-emerald-500"
+                                        onClick={() => {
+                                          setMegaOpen(false);
+                                          setActiveIdx(null);
+                                        }}
+                                      >
+                                        <span className={it.nowrap ? "nav-nowrap" : ""}>{it.label}</span>
+                                        <span
+                                          aria-hidden="true"
+                                          className="opacity-0 translate-x-[-2px] transition-all group-hover:opacity-100 group-hover:translate-x-0 text-emerald-600"
+                                        >
+                                          →
+                                        </span>
+                                      </NavLink>
+                                    </li>
+                                  ))}
+                                </ul>
+                              </div>
+                            ))}
+                          </div>
                         </div>
                       </div>
                     </div>
