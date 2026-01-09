@@ -125,8 +125,9 @@ export default function Navbar() {
     if (!tabsRef.current) return;
     const rect = tabsRef.current.getBoundingClientRect();
     // tabsRef 기준(뷰포트 좌표)로 메가메뉴 컬럼을 위치시킴
+    const w = rect.width || tabsRef.current.offsetWidth || 0;
     setMegaLeft(rect.left);
-    setMegaWidth(rect.width || tabsRef.current.offsetWidth || 0);
+    setMegaWidth(w || 750);
 
     // 일러스트는 컬럼 왼쪽에 놓되, 공간이 부족하면 숨김(겹침 방지)
     const illuLeft = rect.left - (ILLU_W + ILLU_GAP);
@@ -323,8 +324,8 @@ h1, h2, h3, h4, h5 { line-height: 1.25; }
               style={{
                 position: "relative",
                 width: "100%",
-                padding: "22px 0 26px",
-                minHeight: 260,
+                padding: "22px 0 44px",
+                minHeight: 320,
               }}
             >
               {/* Left illustration (does NOT affect columns layout) */}
@@ -334,7 +335,7 @@ h1, h2, h3, h4, h5 { line-height: 1.25; }
                   style={{
                     position: "absolute",
                     left: Math.max(16, megaLeft - (ILLU_W + ILLU_GAP)),
-                    top: 22,
+                    top: 0,
                     width: ILLU_W,
                     maxWidth: ILLU_W,
                   }}
@@ -370,14 +371,14 @@ h1, h2, h3, h4, h5 { line-height: 1.25; }
               {/* Right menu columns aligned to the top tabs */}
               <div
                 style={{
-                  position: "absolute",
-                  left: megaLeft,
-                  top: 22,
+                  position: "relative",
+                  marginLeft: Math.max(16, megaLeft),
                   width: megaWidth,
                   maxWidth: "calc(100% - 32px)",
+                  paddingBottom: 8,
                 }}
               >
-                <div className="grid grid-cols-4 gap-16 justify-items-center pt-1 text-center">
+                <div className="grid grid-cols-4 gap-16 justify-items-center pt-2 text-center">
                   {sections.map((sec) => (
                     <div key={sec.title} className="text-center">
                       <ul className="space-y-2">
