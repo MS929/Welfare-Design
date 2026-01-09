@@ -102,6 +102,12 @@ export default function Navbar() {
   // 로고는 최적화 변환 없이 원본을 사용(리사이즈/압축 과정에서의 흐림 방지)
   const logoSrc = "/images/main/main3.png";
 
+  // CTA button styles (2안: 브라운 Primary + 그린 Secondary)
+  const CTA_PRIMARY =
+    "bg-[#A07055] hover:bg-[#8B5E45] text-white px-4 py-2 rounded-full shadow-sm hover:shadow transition whitespace-nowrap";
+  const CTA_SECONDARY =
+    "border border-[#4FAF7C] text-[#4FAF7C] hover:bg-[#E9F6EF] px-4 py-2 rounded-full transition whitespace-nowrap";
+
   // 상단 섹션/항목 정의
   const sections = [
     {
@@ -227,13 +233,13 @@ h1, h2, h3, h4, h5 { line-height: 1.25; }
           <div className="hidden md:flex items-center gap-3 col-start-3 justify-self-end">
             <Link
               to="/support/guide"
-              className="bg-emerald-500 hover:bg-emerald-600 text-white px-4 py-2 rounded-full shadow-sm hover:shadow transition whitespace-nowrap"
+              className={CTA_PRIMARY}
             >
               후원 안내
             </Link>
             <Link
               to="/support/combination"
-              className="border border-emerald-500 text-emerald-600 hover:bg-emerald-50 px-4 py-2 rounded-full transition whitespace-nowrap"
+              className={CTA_SECONDARY}
             >
               조합 가입
             </Link>
@@ -388,14 +394,14 @@ h1, h2, h3, h4, h5 { line-height: 1.25; }
             <div className="px-4 py-3 flex gap-2 items-center sticky top-0 bg-white z-10 border-b">
               <Link
                 to="/support/guide"
-                className="bg-emerald-500 hover:bg-emerald-600 text-white px-3 py-2 rounded-full text-sm shadow-sm transition whitespace-nowrap"
+                className="bg-[#A07055] hover:bg-[#8B5E45] text-white px-3 py-2 rounded-full text-sm shadow-sm transition whitespace-nowrap"
                 onClick={() => setMobileOpen(false)}
               >
                 후원 안내
               </Link>
               <Link
                 to="/support/combination"
-                className="border border-emerald-500 text-emerald-600 hover:bg-emerald-50 px-3 py-2 rounded-full text-sm transition whitespace-nowrap"
+                className="border border-[#4FAF7C] text-[#4FAF7C] hover:bg-[#E9F6EF] px-3 py-2 rounded-full text-sm transition whitespace-nowrap"
                 onClick={() => setMobileOpen(false)}
               >
                 조합 가입
