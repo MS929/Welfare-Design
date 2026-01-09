@@ -102,11 +102,11 @@ export default function Navbar() {
   // 로고는 최적화 변환 없이 원본을 사용(리사이즈/압축 과정에서의 흐림 방지)
   const logoSrc = "/images/main/main3.png";
 
-  // CTA button styles (2안: 브라운 Primary + 그린 Secondary)
+  // CTA button styles (2안: 로고 브라운 톤 Primary + 눌린 그린 Secondary)
   const CTA_PRIMARY =
-    "bg-[#A07055] hover:bg-[#8B5E45] text-white px-4 py-2 rounded-full shadow-sm hover:shadow transition whitespace-nowrap";
+    "bg-[#8B5E45] hover:bg-[#764D38] text-white px-4 py-2 rounded-full shadow-sm hover:shadow transition whitespace-nowrap";
   const CTA_SECONDARY =
-    "border border-[#4FAF7C] text-[#4FAF7C] hover:bg-[#E9F6EF] px-4 py-2 rounded-full transition whitespace-nowrap";
+    "border border-[#2F8F67] text-[#2F8F67] hover:bg-[#EAF6F0] px-4 py-2 rounded-full transition whitespace-nowrap";
 
   // 상단 섹션/항목 정의
   const sections = [
@@ -208,13 +208,13 @@ h1, h2, h3, h4, h5 { line-height: 1.25; }
           {/* 상단 탭(데스크톱) */}
           <ul
             ref={tabsRef}
-            className="hidden md:grid col-start-2 grid-cols-4 gap-24 justify-items-center items-center text-center w-[750px] mx-auto"
+            className="hidden md:grid col-start-2 grid-cols-4 gap-16 justify-items-center items-center text-center w-[680px] mx-auto"
           >
             {sections.map((sec, idx) => (
               <li key={sec.title} className="flex items-center">
                 <button
                   type="button"
-                  className={`text-left font-normal text-[15.5px] hover:text-emerald-600 leading-tight transition-colors ${
+                  className={`text-left font-normal text-[15.5px] tracking-[-0.01em] hover:text-emerald-600 leading-tight transition-colors ${
                     megaOpen && activeIdx === idx
                       ? "text-emerald-600 underline decoration-emerald-500 underline-offset-8"
                       : ""
@@ -394,14 +394,14 @@ h1, h2, h3, h4, h5 { line-height: 1.25; }
             <div className="px-4 py-3 flex gap-2 items-center sticky top-0 bg-white z-10 border-b">
               <Link
                 to="/support/guide"
-                className="bg-[#A07055] hover:bg-[#8B5E45] text-white px-3 py-2 rounded-full text-sm shadow-sm transition whitespace-nowrap"
+                className="bg-[#8B5E45] hover:bg-[#764D38] text-white px-3 py-2 rounded-full text-sm shadow-sm transition whitespace-nowrap"
                 onClick={() => setMobileOpen(false)}
               >
                 후원 안내
               </Link>
               <Link
                 to="/support/combination"
-                className="border border-[#4FAF7C] text-[#4FAF7C] hover:bg-[#E9F6EF] px-3 py-2 rounded-full text-sm transition whitespace-nowrap"
+                className="border border-[#2F8F67] text-[#2F8F67] hover:bg-[#EAF6F0] px-3 py-2 rounded-full text-sm transition whitespace-nowrap"
                 onClick={() => setMobileOpen(false)}
               >
                 조합 가입
