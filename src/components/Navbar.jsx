@@ -345,6 +345,7 @@ h1, h2, h3, h4, h5 { line-height: 1.25; }
                   <div
                     style={{
                       width: "100%",
+                      height: 240,
                       borderRadius: 12,
                       overflow: "hidden",
                       background: "#FFF7F2",
@@ -359,8 +360,9 @@ h1, h2, h3, h4, h5 { line-height: 1.25; }
                       decoding="async"
                       style={{
                         width: "100%",
-                        height: 210,
-                        objectFit: "contain",
+                        height: "100%",
+                        objectFit: "cover",
+                        objectPosition: "center",
                         display: "block",
                       }}
                       onError={(e) => {
