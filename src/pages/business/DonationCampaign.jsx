@@ -18,6 +18,36 @@
 import BizLayout from "./_Layout";
 
 export default function DonationCampaign() {
+  // =========================
+  // 페이지 컨텐츠 상수(템플릿화)
+  // =========================
+  const PAGE_TITLE = "보조기기 기증 캠페인";
+  const HERO_ALT = "보조기기 기증 캠페인";
+
+  const INFO_TITLE = "핵심 안내";
+  const EFFECT_TITLE = "기대 효과";
+
+  const PHONE_LABEL = "신청 문의 : 복지디자인";
+  const PHONE_TEL = "0420000000";
+  const PHONE_DISPLAY = "042-000-0000";
+
+  const infoItems = [
+    {
+      lines: [
+        "지역 주민과 단체를 대상으로 보조기기 기증 캠페인 실시",
+        "- 기증가능 품목 : 수동/전동 휠체어, 보행보조기, 목욕의자, 안전손잡이 등",
+      ],
+    },
+    {
+      lines: ["주민센터 및 공공기관 대상 장애인 인식개선 캠페인 연 2회 진행"],
+    },
+  ];
+
+  const effectItems = [
+    "취약계층의 복지정보 접근성 강화 및 제도적 권리 실현 지원",
+    "장애인에 대한 지역사회 인식 개선 및 복지문화 조성",
+  ];
+
   // ---------------------------------------------------------------------------
   // 이미지 URL 구성
   //  - ORIGIN: 현재 배포 origin (SSR 환경 대비 fallback 포함)
@@ -126,7 +156,7 @@ mark, [data-hl] {
         ` }}
       />
       {/* 사업 페이지 공통 레이아웃: 브레드크럼 + 페이지 제목(h1) 영역 */}
-      <BizLayout title="보조기기 기증 캠페인">
+      <BizLayout title={PAGE_TITLE}>
       <div className="max-w-screen-xl mx-auto px-4 pb-4 md:pb-0">
         {/* ====================== 메인 섹션: 이미지 + 캠페인 안내 ====================== */}
         <div className="grid gap-8 md:grid-cols-2 items-stretch">
@@ -160,7 +190,7 @@ mark, [data-hl] {
               */}
               <img
                 src="/images/business/donation.png"
-                alt="보조기기 기증 캠페인"
+                alt={HERO_ALT}
                 loading="eager"
                 fetchPriority="high"
                 decoding="async"
@@ -174,35 +204,36 @@ mark, [data-hl] {
           </div>
 
           {/* 우측 컬럼: 캠페인 안내 → 기대 효과 → 문의 배너*/}
-          <div className="grid gap-6 mt-10 md:mt-14 md:grid-rows-[auto,1fr,auto] md:h-[470px] md:max-h-none">
+          <div className="flex flex-col gap-6 mt-10 md:mt-14">
             <div className="rounded-2xl border border-[#2CB9B1]/40 bg-white/90 backdrop-blur-[1px] shadow-md p-7 md:p-8">
+              <h3 className="font-semibold text-lg tracking-tight text-gray-900 mb-4">
+                {INFO_TITLE}
+              </h3>
               <ul className="space-y-4 text-gray-800 leading-relaxed">
-                <li className="flex gap-3">
-                  <span className="mt-2 h-2 w-2 rounded-full bg-[#2CB9B1] shadow-[0_0_0_2px_rgba(44,185,177,0.18)] shrink-0" />
-                  <span>
-                    지역 주민과 단체를 대상으로 보조기기 기증 캠페인 실시{" "}
-                    <br></br>- 기증가능 품목 : 수동/전동 휠체어, 보행보조기,
-                    목욕의자, 안전손잡이 등
-                  </span>
-                </li>
-                <li className="flex gap-3">
-                  <span className="mt-2 h-2 w-2 rounded-full bg-[#2CB9B1] shadow-[0_0_0_2px_rgba(44,185,177,0.18)] shrink-0" />
-                  <span>
-                    주민센터 및 공공기관 대상 장애인 인식개선 캠페인 연 2회 진행
-                  </span>
-                </li>
+                {infoItems.map((it, i) => (
+                  <li key={i} className="flex gap-3">
+                    <span className="mt-2 h-2 w-2 rounded-full bg-[#2CB9B1] shadow-[0_0_0_2px_rgba(44,185,177,0.18)] shrink-0" />
+                    <span>
+                      {it.lines.map((line, li) => (
+                        <span key={li}>
+                          {line}
+                          {li < it.lines.length - 1 ? <br /> : null}
+                        </span>
+                      ))}
+                    </span>
+                  </li>
+                ))}
               </ul>
             </div>
 
             <div className="rounded-2xl border border-[#2CB9B1]/30 bg-white/90 backdrop-blur-[1px] shadow-md py-10 px-7 md:px-8 md:py-12">
-              <h3 className="font-semibold text-lg tracking-tight text-[#F26C2A] mb-3">
-                기대 효과
+              <h3 className="font-semibold text-lg tracking-tight text-gray-900 mb-3">
+                {EFFECT_TITLE}
               </h3>
               <ul className="list-disc list-outside pl-5 space-y-1.5 text-gray-700 leading-relaxed tracking-tight text-justify">
-                <li>
-                  취약계층의 복지정보 접근성 강화 및 제도적 권리 실현 지원
-                </li>
-                <li>장애인에 대한 지역사회 인식 개선 및 복지문화 조성</li>
+                {effectItems.map((txt) => (
+                  <li key={txt}>{txt}</li>
+                ))}
               </ul>
             </div>
 
@@ -227,13 +258,13 @@ mark, [data-hl] {
                     <path d="M2.25 6.75c0 7.008 5.742 12.75 12.75 12.75.71 0 1.32-.51 1.44-1.21l.38-2.19a1.5 1.5 0 0 0-1.08-1.71l-2.24-.62a1.5 1.5 0 0 0-1.49.44l-.82.83a10.97 10.97 0 0 1-4.26-4.27l.83-.82a1.5 1.5 0 0 0 .44-1.49l-.62-2.24a1.5 1.5 0 0 0-1.71-1.08l-2.19.38c-.7.12-1.21.73-1.21 1.44Z" />
                   </svg>
                   <span className="font-semibold tracking-wide text-[#374151]">
-                    신청 문의 : 복지디자인
+                    {PHONE_LABEL}
                   </span>
                   <a
-                    href="tel:0420000000"
+                    href={`tel:${PHONE_TEL}`}
                     className="font-extrabold text-2xl tabular-nums text-[#F26C2A] underline whitespace-nowrap"
                   >
-                    042-000-0000
+                    {PHONE_DISPLAY}
                   </a>
                 </div>
               </div>
@@ -252,14 +283,14 @@ mark, [data-hl] {
                       <path d="M2.25 6.75c0 7.008 5.742 12.75 12.75 12.75.71 0 1.32-.51 1.44-1.21l.38-2.19a1.5 1.5 0 0 0-1.08-1.71l-2.24-.62a1.5 1.5 0 0 0-1.49.44l-.82.83a10.97 10.97 0 0 1-4.26-4.27l.83-.82a1.5 1.5 0 0 0 .44-1.49l-.62-2.24a1.5 1.5 0 0 0-1.71-1.08l-2.19.38c-.7.12-1.21.73-1.21 1.44Z" />
                     </svg>
                     <span className="font-semibold text-[15px] text-[#374151] whitespace-nowrap">
-                      신청 문의 : 복지디자인
+                      {PHONE_LABEL}
                     </span>
                   </div>
                   <a
-                    href="tel:0420000000"
+                    href={`tel:${PHONE_TEL}`}
                     className="font-extrabold text-[20px] tabular-nums text-[#F26C2A] underline whitespace-nowrap"
                   >
-                    042-000-0000
+                    {PHONE_DISPLAY}
                   </a>
                 </div>
               </div>
