@@ -118,8 +118,7 @@ export default function Navbar() {
   const [megaWidth, setMegaWidth] = useState(0);
   const [showIllu, setShowIllu] = useState(true);
 
-  // Mega menu illustration card size (kept subtle so it doesn't overpower the menu)
-  const ILLU_W = 300;
+  const ILLU_W = 320;
   const ILLU_GAP = 44;
 
   const updateMegaRect = () => {
@@ -316,24 +315,23 @@ h1, h2, h3, h4, h5 { line-height: 1.25; }
             }}
           >
             {/*
-              C안(요구사항 반영)
-              - 카드(일러스트) 유지
-              - 컬럼 헤더(섹션 제목) 제거
-              - 4컬럼 텍스트는 상단 탭(ul)과 동일한 left/width로 정렬(절대 밀리지 않게)
-              - 일러스트는 레이아웃을 밀지 않도록 absolute로 배치
-              - absolute 때문에 패널 높이가 부족해 아래 컨텐츠가 비치지 않도록 minHeight 확보
+              목표(스크린샷 느낌):
+              - 4컬럼 텍스트는 상단 탭(ul)과 동일한 left/width로 정렬(절대 안 밀리게)
+              - 일러스트는 왼쪽에 배치하되, 레이아웃(텍스트)을 밀지 않도록 absolute
+              - absolute 요소(일러스트) 때문에 패널 높이가 부족해 아래 컨텐츠가 비치지 않도록 minHeight로 높이 확보
             */}
             <div
               style={{
                 position: "relative",
                 width: "100%",
-                padding: "22px 0 32px",
+                padding: "18px 0 26px",
                 background: "#fff",
                 overflow: "visible",
-                minHeight: 260,
+                // absolute 일러스트가 높이에 포함되지 않으므로 최소 높이를 확보
+                minHeight: 270,
               }}
             >
-              {/* Left illustration card (does NOT affect columns layout) */}
+              {/* Left illustration (does NOT affect columns layout) */}
               {showIllu && (
                 <div
                   aria-hidden
@@ -361,10 +359,9 @@ h1, h2, h3, h4, h5 { line-height: 1.25; }
                       decoding="async"
                       style={{
                         width: "100%",
-                        height: 180,
+                        height: 210,
                         objectFit: "contain",
                         display: "block",
-                        padding: 14,
                       }}
                       onError={(e) => {
                         e.currentTarget.onerror = null;
@@ -374,7 +371,7 @@ h1, h2, h3, h4, h5 { line-height: 1.25; }
                 </div>
               )}
 
-              {/* Right 4 columns aligned to the top tabs */}
+              {/* Right menu columns aligned to the top tabs */}
               <div
                 style={{
                   position: "relative",
@@ -383,15 +380,15 @@ h1, h2, h3, h4, h5 { line-height: 1.25; }
                   maxWidth: "calc(100% - 32px)",
                 }}
               >
-                <div className="grid grid-cols-4 gap-16 justify-items-center items-start">
+                <div className="grid grid-cols-4 gap-16 justify-items-center items-start text-center">
                   {sections.map((sec) => (
-                    <div key={sec.title} className="w-[190px] max-w-full text-left">
-                      <ul className="space-y-6">
+                    <div key={sec.title} className="text-center">
+                      <ul className="space-y-3">
                         {sec.items.map((it) => (
                           <li key={it.to}>
                             <NavLink
                               to={it.to}
-                              className="block leading-[1.55] text-[16px] text-gray-800 hover:text-emerald-600 whitespace-normal focus-visible:ring-2 focus-visible:ring-emerald-500"
+                              className="block py-1 leading-[1.7] text-[15px] text-gray-800 hover:text-emerald-600 whitespace-normal focus-visible:ring-2 focus-visible:ring-emerald-500"
                               onClick={() => {
                                 setMegaOpen(false);
                                 setHoveredIdx(null);
