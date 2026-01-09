@@ -118,7 +118,8 @@ export default function Navbar() {
   const [megaWidth, setMegaWidth] = useState(0);
   const [showIllu, setShowIllu] = useState(true);
 
-  const ILLU_W = 320;
+  // Mega menu illustration card size (kept subtle so it doesn't overpower the menu)
+  const ILLU_W = 300;
   const ILLU_GAP = 44;
 
   const updateMegaRect = () => {
@@ -324,11 +325,11 @@ h1, h2, h3, h4, h5 { line-height: 1.25; }
               style={{
                 position: "relative",
                 width: "100%",
-                padding: "18px 0 26px",
+                padding: "20px 0 32px",
                 background: "#fff",
                 overflow: "visible",
                 // absolute 일러스트가 높이에 포함되지 않으므로 최소 높이를 확보
-                minHeight: 270,
+                minHeight: 290,
               }}
             >
               {/* Left illustration (does NOT affect columns layout) */}
@@ -359,7 +360,7 @@ h1, h2, h3, h4, h5 { line-height: 1.25; }
                       decoding="async"
                       style={{
                         width: "100%",
-                        height: 210,
+                        height: 190,
                         objectFit: "contain",
                         display: "block",
                       }}
@@ -380,15 +381,18 @@ h1, h2, h3, h4, h5 { line-height: 1.25; }
                   maxWidth: "calc(100% - 32px)",
                 }}
               >
-                <div className="grid grid-cols-4 gap-16 justify-items-center items-start text-center">
+                <div className="grid grid-cols-4 gap-16 justify-items-center items-start">
                   {sections.map((sec) => (
-                    <div key={sec.title} className="text-center">
-                      <ul className="space-y-3">
+                    <div key={sec.title} className="w-[190px] max-w-full text-left">
+                      <div className="mb-3 text-[16px] font-semibold text-gray-900 tracking-tight">
+                        {sec.title}
+                      </div>
+                      <ul className="space-y-2">
                         {sec.items.map((it) => (
                           <li key={it.to}>
                             <NavLink
                               to={it.to}
-                              className="block py-1 leading-[1.7] text-[15px] text-gray-800 hover:text-emerald-600 whitespace-normal focus-visible:ring-2 focus-visible:ring-emerald-500"
+                              className="block py-0.5 leading-[1.65] text-[15px] text-gray-800 hover:text-emerald-600 whitespace-normal focus-visible:ring-2 focus-visible:ring-emerald-500"
                               onClick={() => {
                                 setMegaOpen(false);
                                 setHoveredIdx(null);
