@@ -173,11 +173,10 @@ h1, h2, h3, h4, h5 { line-height: 1.25; }
       <header
         role="navigation"
         aria-label="Primary"
-        className="sticky top-0 z-50 bg-white shadow-sm"
+        className="sticky top-0 z-50 bg-white shadow"
         onMouseLeave={closeMega}
-        style={{ backdropFilter: "saturate(140%) blur(8px)" }}
       >
-        <nav className="w-full relative px-4 md:pl-[120px] md:pr-6 py-4 md:py-5 min-h-[72px] md:min-h-[92px] grid grid-cols-[auto,1fr,auto] items-center gap-6">
+        <nav className="w-full relative px-4 md:pl-[120px] md:pr-6 py-3 grid grid-cols-[auto,1fr,auto] items-center gap-6">
           {/* 로고 영역 */}
           <Link
             to="/"
@@ -203,31 +202,22 @@ h1, h2, h3, h4, h5 { line-height: 1.25; }
           {/* 상단 탭(데스크톱) */}
           <ul
             ref={tabsRef}
-            className="hidden md:flex col-start-2 items-center justify-center gap-20 w-full max-w-[900px] mx-auto"
+            className="hidden md:grid col-start-2 grid-cols-4 gap-16 justify-items-center items-center text-center w-[750px] mx-auto"
           >
             {sections.map((sec, idx) => (
               <li key={sec.title} className="flex items-center">
                 <button
                   type="button"
-                  className={`relative text-left font-normal text-[15.5px] tracking-[0.01em] text-gray-900 hover:text-emerald-600 leading-tight transition-colors ${
+                  className={`text-left font-normal text-[15.5px] hover:text-emerald-600 leading-tight transition-colors ${
                     megaOpen && activeIdx === idx
-                      ? "text-emerald-600"
+                      ? "text-emerald-600 underline decoration-emerald-500 underline-offset-8"
                       : ""
                   }`}
-                  style={{ padding: "10px 6px" }}
                   onMouseEnter={() => openMega(idx)}
                   onMouseLeave={closeMega}
                   aria-expanded={megaOpen && activeIdx === idx}
                 >
-                  <span className="relative">
-                    {sec.title}
-                    <span
-                      aria-hidden="true"
-                      className={`absolute left-0 -bottom-[10px] h-[2px] w-full rounded-full bg-emerald-500 transition-opacity ${
-                        megaOpen && activeIdx === idx ? "opacity-100" : "opacity-0"
-                      }`}
-                    />
-                  </span>
+                  {sec.title}
                 </button>
               </li>
             ))}
