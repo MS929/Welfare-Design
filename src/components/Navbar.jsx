@@ -324,8 +324,9 @@ h1, h2, h3, h4, h5 { line-height: 1.25; }
               style={{
                 position: "relative",
                 width: "100%",
-                padding: "22px 0 44px",
-                minHeight: 320,
+                padding: "24px 0 64px",
+                minHeight: 380,
+                overflow: "visible",
               }}
             >
               {/* Left illustration (does NOT affect columns layout) */}
@@ -375,18 +376,23 @@ h1, h2, h3, h4, h5 { line-height: 1.25; }
                   marginLeft: Math.max(16, megaLeft),
                   width: megaWidth,
                   maxWidth: "calc(100% - 32px)",
-                  paddingBottom: 8,
+                  paddingBottom: 24,
+                  paddingTop: 4,
+                  overflow: "visible",
                 }}
               >
-                <div className="grid grid-cols-4 gap-16 justify-items-center pt-2 text-center">
+                <div className="grid grid-cols-4 gap-16 justify-items-center pt-2 text-center items-start">
                   {sections.map((sec) => (
                     <div key={sec.title} className="text-center">
-                      <ul className="space-y-2">
+                      <div className="font-semibold text-[16px] text-gray-900 mb-4">
+                        {sec.title}
+                      </div>
+                      <ul className="space-y-3">
                         {sec.items.map((it) => (
                           <li key={it.to}>
                             <NavLink
                               to={it.to}
-                              className="block py-1 leading-[1.6] text-[15px] text-gray-800 hover:text-emerald-600 whitespace-normal focus-visible:ring-2 focus-visible:ring-emerald-500 text-center"
+                              className="block py-1 leading-[1.65] text-[15px] text-gray-800 hover:text-emerald-600 whitespace-normal focus-visible:ring-2 focus-visible:ring-emerald-500 text-center"
                               onClick={() => {
                                 setMegaOpen(false);
                                 setHoveredIdx(null);
