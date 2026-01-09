@@ -208,20 +208,21 @@ h1, h2, h3, h4, h5 { line-height: 1.25; }
           {/* 상단 탭(데스크톱) */}
           <ul
             ref={tabsRef}
-            className="hidden md:grid col-start-2 grid-cols-4 gap-16 justify-items-center items-center text-center w-[680px] mx-auto"
+            className="hidden md:grid col-start-2 grid-cols-4 gap-16 justify-items-center items-center text-center w-[720px] mx-auto"
           >
             {sections.map((sec, idx) => (
               <li key={sec.title} className="flex items-center">
                 <button
                   type="button"
-                  className={`text-left font-normal text-[15.5px] tracking-[-0.01em] hover:text-emerald-600 leading-tight transition-colors ${
+                  className={`text-left font-medium text-[17px] tracking-normal text-gray-900 hover:text-emerald-600 leading-tight transition-colors ${
                     megaOpen && activeIdx === idx
-                      ? "text-emerald-600 underline decoration-emerald-500 underline-offset-8"
+                      ? "text-emerald-700 underline decoration-emerald-500 underline-offset-8"
                       : ""
                   }`}
                   onMouseEnter={() => openMega(idx)}
                   onMouseLeave={closeMega}
                   aria-expanded={megaOpen && activeIdx === idx}
+                  aria-label={sec.title}
                 >
                   {sec.title}
                 </button>
