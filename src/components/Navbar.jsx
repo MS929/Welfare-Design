@@ -5,7 +5,7 @@
  *  - 사이트 전 페이지에서 공통으로 사용하는 상단 네비게이션(헤더)
  *
  * [구성]
- *  - 데스크톱: 상단 4개 섹션 탭 + 호버 기반 메가메뉴ssssssss
+ *  - 데스크톱: 상단 4개 섹션 탭(클릭) + 선택된 섹션만 표시되는 메가메뉴
  *  - 모바일: 햄버거 버튼 + 드로어(섹션별 details/summary 아코디언)
  *
  * [UX/동작 포인트]
@@ -106,10 +106,9 @@ export default function Navbar() {
 
   // 메가메뉴(데스크톱) 열기 상태
   const [megaOpen, setMegaOpen] = useState(false);
-  // (hover 기반) 메가메뉴가 열려 있는 동안만 하단 패널을 렌더링
 
-  // 현재 포인터가 올라간 상단 탭 인덱스
-  const [hoveredIdx, setHoveredIdx] = useState(null);
+  // 클릭(또는 보조로 hover)로 선택된 상단 탭 인덱스
+  const [activeIdx, setActiveIdx] = useState(null);
 
   // 상단 탭 UL의 실제 좌표와 너비를 기준으로 메가메뉴를 정렬
   const tabsRef = useRef(null);
@@ -242,10 +241,6 @@ h1, h2, h3, h4, h5 { line-height: 1.25; }
         role="navigation"
         aria-label="Primary"
         className="sticky top-0 z-50 bg-white shadow"
-        onMouseLeave={() => {
-          setMegaOpen(false);
-          setHoveredIdx(null);
-        }}
       >
         <nav className="w-full relative px-4 md:pl-[120px] md:pr-6 py-3 grid grid-cols-[auto,1fr,auto] items-center gap-6">
           {/* 로고 영역 */}
@@ -280,15 +275,28 @@ h1, h2, h3, h4, h5 { line-height: 1.25; }
                 <button
                   type="button"
                   className={`text-left font-medium text-[16px] hover:text-emerald-600 leading-tight ${
-                    hoveredIdx === idx
+                    activeIdx === idx
                       ? "text-emerald-600 underline decoration-emerald-500 underline-offset-8"
                       : ""
                   }`}
-                  onMouseEnter={() => {
+                  onClick={() => {
+                    // 같은 탭을 다시 누르면 닫기
+                    if (megaOpen && activeIdx === idx) {
+                      setMegaOpen(false);
+                      setActiveIdx(null);
+                      return;
+                    }
                     setMegaOpen(true);
-                    setHoveredIdx(idx);
+                    setActiveIdx(idx);
                     requestAnimationFrame(() => updateMegaRect());
                   }}
+                  onMouseEnter={() => {
+                    // 클릭 UX가 기본이지만, 이미 열려있을 때는 hover로 탭 전환 허용
+                    if (!megaOpen) return;
+                    setActiveIdx(idx);
+                    requestAnimationFrame(() => updateMegaRect());
+                  }}
+                  aria-expanded={megaOpen && activeIdx === idx}
                 >
                   {sec.title}
                 </button>
@@ -331,8 +339,7 @@ h1, h2, h3, h4, h5 { line-height: 1.25; }
             className="absolute left-0 right-0 top-full z-40 bg-white shadow-lg border-t"
             onMouseEnter={() => setMegaOpen(true)}
             onMouseLeave={() => {
-              setMegaOpen(false);
-              setHoveredIdx(null);
+              // hover로 닫히지 않게 유지 (클릭으로 닫는 방식)
             }}
           >
             <div
@@ -401,30 +408,40 @@ h1, h2, h3, h4, h5 { line-height: 1.25; }
                   maxWidth: "calc(100% - 32px)",
                 }}
               >
-                <div className="grid grid-cols-4 gap-16 justify-items-center items-start text-center">
-                  {sections.map((sec) => (
-                    <div key={sec.title} className="text-center">
-                      <ul className="space-y-3">
+                {(() => {
+                  const sec = activeIdx != null ? sections[activeIdx] : null;
+                  if (!sec) return null;
+
+                  const itemCount = sec.items.length;
+                  const cols = itemCount >= 6 ? 2 : 1; // 항목이 많으면 2열
+
+                  return (
+                    <div className="w-full">
+                      <div className="text-left font-semibold text-[16px] text-gray-900 mb-5">
+                        {sec.title}
+                      </div>
+
+                      <div
+                        className={`grid gap-x-16 gap-y-3 ${cols === 2 ? "grid-cols-2" : "grid-cols-1"}`}
+                        style={{ maxWidth: cols === 2 ? 680 : 420 }}
+                      >
                         {sec.items.map((it) => (
-                          <li key={it.to}>
-                            <NavLink
-                              to={it.to}
-                              className="block py-1 leading-[1.7] text-[15px] text-gray-800 hover:text-emerald-600 whitespace-normal focus-visible:ring-2 focus-visible:ring-emerald-500"
-                              onClick={() => {
-                                setMegaOpen(false);
-                                setHoveredIdx(null);
-                              }}
-                            >
-                              <span className={it.nowrap ? "nav-nowrap" : ""}>
-                                {it.label}
-                              </span>
-                            </NavLink>
-                          </li>
+                          <NavLink
+                            key={it.to}
+                            to={it.to}
+                            className="block py-1 leading-[1.9] text-[15px] text-gray-800 hover:text-emerald-600 whitespace-normal focus-visible:ring-2 focus-visible:ring-emerald-500"
+                            onClick={() => {
+                              setMegaOpen(false);
+                              setActiveIdx(null);
+                            }}
+                          >
+                            <span className={it.nowrap ? "nav-nowrap" : ""}>{it.label}</span>
+                          </NavLink>
                         ))}
-                      </ul>
+                      </div>
                     </div>
-                  ))}
-                </div>
+                  );
+                })()}
               </div>
             </div>
           </div>
@@ -649,3 +666,32 @@ h1, h2, h3, h4, h5 { line-height: 1.25; }
     </>
   );
 }
+
+  // 데스크톱 메가메뉴: ESC / 바깥 클릭 시 닫기
+  useEffect(() => {
+    if (!megaOpen) return;
+
+    const onKeyDown = (e) => {
+      if (e.key === "Escape") {
+        setMegaOpen(false);
+        setActiveIdx(null);
+      }
+    };
+
+    const onPointerDown = (e) => {
+      // header(네비) 영역 밖을 누르면 닫기
+      const headerEl = document.querySelector('header[aria-label="Primary"]');
+      if (!headerEl) return;
+      if (!headerEl.contains(e.target)) {
+        setMegaOpen(false);
+        setActiveIdx(null);
+      }
+    };
+
+    window.addEventListener("keydown", onKeyDown);
+    window.addEventListener("pointerdown", onPointerDown);
+    return () => {
+      window.removeEventListener("keydown", onKeyDown);
+      window.removeEventListener("pointerdown", onPointerDown);
+    };
+  }, [megaOpen]);
