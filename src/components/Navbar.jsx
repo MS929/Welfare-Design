@@ -353,7 +353,7 @@ h1, h2, h3, h4, h5 { line-height: 1.25; }
                     }}
                   >
                     <img
-                      src="/images/illustrations/mega-community.png"
+                      src="/images/illustrations/community.png"
                       alt=""
                       loading="eager"
                       decoding="async"
