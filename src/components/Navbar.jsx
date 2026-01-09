@@ -362,7 +362,7 @@ h1, h2, h3, h4, h5 { line-height: 1.25; }
                         width: "100%",
                         height: "100%",
                         objectFit: "cover",
-                        objectPosition: "center 10%",
+                        objectPosition: "center 25%",
                         display: "block",
                       }}
                       onError={(e) => {
