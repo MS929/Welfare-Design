@@ -247,7 +247,7 @@ h1, h2, h3, h4, h5 { line-height: 1.25; }
           {/* 상단 탭(데스크톱) */}
           <ul
             ref={tabsRef}
-            className="hidden md:grid col-start-2 grid-cols-4 gap-24 justify-items-center items-center text-center w-[750px] mx-auto"
+            className="hidden md:grid col-start-2 grid-cols-4 gap-28 justify-items-center items-center text-center w-[750px] mx-auto"
           >
             {sections.map((sec, idx) => (
               <li key={sec.title} className="flex items-center">
@@ -315,18 +315,40 @@ h1, h2, h3, h4, h5 { line-height: 1.25; }
               const sec = sections[activeIdx];
               const items = sec.items;
 
-              // 항상 4칸(4열)으로 고정
-              const colCount = 4;
+              // 섹션별 컬럼 수
+              // - 소식/후원: 2칸
+              // - 나머지: 4칸
+              const isNews = sec.title === "소식";
+              const isSupport = sec.title === "후원";
+              const isBusiness = sec.title === "사업";
+              const colCount = (isNews || isSupport) ? 2 : 4;
+
               const cols = Array.from({ length: colCount }, () => []);
 
-              // 아이템을 4열로 균등 분배(위에서 아래로 자연스럽게)
-              items.forEach((it, i) => {
-                cols[i % colCount].push(it);
-              });
+              // 아이템 분배 규칙
+              // - 사업: 1번 칸에 '사업영역'만, 나머지는 2개씩 2~4칸에 배치
+              // - 그 외: 균등 분배
+              if (isBusiness) {
+                const first = items[0]; // 사업영역
+                if (first) cols[0].push(first);
+
+                const rest = items.slice(1);
+                rest.forEach((it, i) => {
+                  // i=0,1 -> 2번째 칸 / i=2,3 -> 3번째 칸 / i=4,5 -> 4번째 칸
+                  const target = 1 + Math.floor(i / 2);
+                  const safeTarget = Math.min(target, colCount - 1);
+                  cols[safeTarget].push(it);
+                });
+              } else {
+                items.forEach((it, i) => {
+                  cols[i % colCount].push(it);
+                });
+              }
 
               return (
                 <div className="w-full">
-                  <div className="mx-auto max-w-[1280px] px-6 py-10">
+                  {/* 길이감 있게: max-width 제한을 빼고 좌우 패딩만 적용 */}
+                  <div className="w-full px-8 md:px-16 py-10">
                     <div className="flex w-full gap-0">
                       {/* Left title panel */}
                       <div className="w-[280px] shrink-0 bg-[#FFF7F2] border border-gray-200/70 rounded-none">
@@ -348,7 +370,7 @@ h1, h2, h3, h4, h5 { line-height: 1.25; }
                               key={ci}
                               className={`px-10 py-10 ${ci !== 0 ? "border-l border-gray-200/70" : ""}`}
                             >
-                              <ul className="space-y-4">
+                              <ul className="space-y-6">
                                 {col.map((it) => (
                                   <li key={it.to}>
                                     <NavLink
