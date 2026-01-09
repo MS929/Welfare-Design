@@ -288,13 +288,13 @@ h1, h2, h3, h4, h5 { line-height: 1.25; }
           {/* 상단 탭(데스크톱) */}
           <ul
             ref={tabsRef}
-            className="hidden md:grid col-start-2 grid-cols-4 gap-16 justify-items-center items-center text-center w-[750px] mx-auto"
+            className="hidden md:grid col-start-2 grid-cols-4 gap-20 justify-items-center items-center text-center w-[750px] mx-auto"
           >
             {sections.map((sec, idx) => (
               <li key={sec.title} className="flex items-center">
                 <button
                   type="button"
-                  className={`text-left font-normal text-[16px] hover:text-emerald-600 leading-tight ${
+                  className={`text-left font-normal text-[15.5px] hover:text-emerald-600 leading-tight ${
                     megaOpen && activeIdx === idx
                       ? "text-emerald-600 underline decoration-emerald-500 underline-offset-8"
                       : ""
@@ -421,8 +421,8 @@ h1, h2, h3, h4, h5 { line-height: 1.25; }
                   return (
                     <div className="w-full">
                       <div
-                        className="flex flex-wrap items-center gap-x-14 gap-y-4"
-                        style={{ maxWidth: 920 }}
+                        className="flex flex-wrap items-center justify-start gap-x-16 gap-y-5"
+                        style={{ maxWidth: 980 }}
                       >
                         {sec.items.map((it) => (
                           <NavLink
