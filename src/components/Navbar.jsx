@@ -102,11 +102,13 @@ export default function Navbar() {
   // 로고는 최적화 변환 없이 원본을 사용(리사이즈/압축 과정에서의 흐림 방지)
   const logoSrc = "/images/main/main3.png";
 
-  // CTA button styles (2안: 로고 브라운 톤 Primary + 눌린 그린 Secondary)
+  // CTA button styles (톤다운: 첫 시선이 CTA로 쏠리지 않게)
+  // - Primary: 조합 가입(조용하지만 확실한 그린)
+  // - Secondary: 후원 안내(브라운 아웃라인)
   const CTA_PRIMARY =
-    "bg-[#8B5E45] hover:bg-[#764D38] text-white px-4 py-2 rounded-full shadow-sm hover:shadow transition whitespace-nowrap";
+    "bg-[#2F8F67] hover:bg-[#257255] text-white px-4 py-2 rounded-full shadow-sm hover:shadow transition whitespace-nowrap";
   const CTA_SECONDARY =
-    "border border-[#2F8F67] text-[#2F8F67] hover:bg-[#EAF6F0] px-4 py-2 rounded-full transition whitespace-nowrap";
+    "border border-[#8B5E45] text-[#8B5E45] hover:bg-[#F7EFEA] px-4 py-2 rounded-full transition whitespace-nowrap";
 
   // 상단 섹션/항목 정의
   const sections = [
@@ -208,13 +210,13 @@ h1, h2, h3, h4, h5 { line-height: 1.25; }
           {/* 상단 탭(데스크톱) */}
           <ul
             ref={tabsRef}
-            className="hidden md:grid col-start-2 grid-cols-4 gap-16 justify-items-center items-center text-center w-[720px] mx-auto"
+            className="hidden md:grid col-start-2 grid-cols-4 gap-14 justify-items-center items-center text-center w-[760px] mx-auto"
           >
             {sections.map((sec, idx) => (
               <li key={sec.title} className="flex items-center">
                 <button
                   type="button"
-                  className={`text-left font-medium text-[17px] tracking-normal text-gray-900 hover:text-emerald-600 leading-tight transition-colors ${
+                  className={`text-left font-medium text-[18px] tracking-tight text-[#111827] hover:text-emerald-700 leading-tight transition-colors ${
                     megaOpen && activeIdx === idx
                       ? "text-emerald-700 underline decoration-emerald-500 underline-offset-8"
                       : ""
@@ -234,13 +236,13 @@ h1, h2, h3, h4, h5 { line-height: 1.25; }
           <div className="hidden md:flex items-center gap-3 col-start-3 justify-self-end">
             <Link
               to="/support/guide"
-              className={CTA_PRIMARY}
+              className={CTA_SECONDARY}
             >
               후원 안내
             </Link>
             <Link
               to="/support/combination"
-              className={CTA_SECONDARY}
+              className={CTA_PRIMARY}
             >
               조합 가입
             </Link>
@@ -395,14 +397,14 @@ h1, h2, h3, h4, h5 { line-height: 1.25; }
             <div className="px-4 py-3 flex gap-2 items-center sticky top-0 bg-white z-10 border-b">
               <Link
                 to="/support/guide"
-                className="bg-[#8B5E45] hover:bg-[#764D38] text-white px-3 py-2 rounded-full text-sm shadow-sm transition whitespace-nowrap"
+                className="border border-[#8B5E45] text-[#8B5E45] hover:bg-[#F7EFEA] px-3 py-2 rounded-full text-sm transition whitespace-nowrap"
                 onClick={() => setMobileOpen(false)}
               >
                 후원 안내
               </Link>
               <Link
                 to="/support/combination"
-                className="border border-[#2F8F67] text-[#2F8F67] hover:bg-[#EAF6F0] px-3 py-2 rounded-full text-sm transition whitespace-nowrap"
+                className="bg-[#2F8F67] hover:bg-[#257255] text-white px-3 py-2 rounded-full text-sm shadow-sm transition whitespace-nowrap"
                 onClick={() => setMobileOpen(false)}
               >
                 조합 가입
