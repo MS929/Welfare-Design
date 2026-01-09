@@ -56,35 +56,6 @@ function useHoverDelay() {
  */
 function Dropdown({ title, items }) {
   const { open, enter, leave } = useHoverDelay();
-  // 데스크톱 메가메뉴: ESC / 바깥 클릭 시 닫기
-  useEffect(() => {
-    if (!megaOpen) return;
-
-    const onKeyDown = (e) => {
-      if (e.key === "Escape") {
-        setMegaOpen(false);
-        setActiveIdx(null);
-      }
-    };
-
-    const onPointerDown = (e) => {
-      // header(네비) 영역 밖을 누르면 닫기
-      const headerEl = document.querySelector('header[aria-label="Primary"]');
-      if (!headerEl) return;
-      if (!headerEl.contains(e.target)) {
-        setMegaOpen(false);
-        setActiveIdx(null);
-      }
-    };
-
-    window.addEventListener("keydown", onKeyDown);
-    window.addEventListener("pointerdown", onPointerDown);
-    return () => {
-      window.removeEventListener("keydown", onKeyDown);
-      window.removeEventListener("pointerdown", onPointerDown);
-    };
-  }, [megaOpen, setMegaOpen, setActiveIdx]);
-
   return (
     <li
       className="relative"
@@ -138,6 +109,25 @@ export default function Navbar() {
 
   // 클릭(또는 보조로 hover)로 선택된 상단 탭 인덱스
   const [activeIdx, setActiveIdx] = useState(null);
+  const openTimer = useRef(null);
+  const closeTimer = useRef(null);
+  const openMega = (idx) => {
+    if (closeTimer.current) clearTimeout(closeTimer.current);
+    if (openTimer.current) clearTimeout(openTimer.current);
+    openTimer.current = setTimeout(() => {
+      setMegaOpen(true);
+      setActiveIdx(idx);
+      requestAnimationFrame(() => updateMegaRect());
+    }, OPEN_DELAY_MS);
+  };
+  const closeMega = () => {
+    if (openTimer.current) clearTimeout(openTimer.current);
+    if (closeTimer.current) clearTimeout(closeTimer.current);
+    closeTimer.current = setTimeout(() => {
+      setMegaOpen(false);
+      setActiveIdx(null);
+    }, CLOSE_DELAY_MS);
+  };
 
   // 상단 탭 UL의 실제 좌표와 너비를 기준으로 메가메뉴를 정렬
   const tabsRef = useRef(null);
@@ -270,6 +260,7 @@ h1, h2, h3, h4, h5 { line-height: 1.25; }
         role="navigation"
         aria-label="Primary"
         className="sticky top-0 z-50 bg-white shadow"
+        onMouseLeave={closeMega}
       >
         <nav className="w-full relative px-4 md:pl-[120px] md:pr-6 py-3 grid grid-cols-[auto,1fr,auto] items-center gap-6">
           {/* 로고 영역 */}
@@ -303,28 +294,13 @@ h1, h2, h3, h4, h5 { line-height: 1.25; }
               <li key={sec.title} className="flex items-center">
                 <button
                   type="button"
-                  className={`text-left font-medium text-[16px] hover:text-emerald-600 leading-tight ${
-                    activeIdx === idx
+                  className={`text-left font-normal text-[16px] hover:text-emerald-600 leading-tight ${
+                    megaOpen && activeIdx === idx
                       ? "text-emerald-600 underline decoration-emerald-500 underline-offset-8"
                       : ""
                   }`}
-                  onClick={() => {
-                    // 같은 탭을 다시 누르면 닫기
-                    if (megaOpen && activeIdx === idx) {
-                      setMegaOpen(false);
-                      setActiveIdx(null);
-                      return;
-                    }
-                    setMegaOpen(true);
-                    setActiveIdx(idx);
-                    requestAnimationFrame(() => updateMegaRect());
-                  }}
-                  onMouseEnter={() => {
-                    // 클릭 UX가 기본이지만, 이미 열려있을 때는 hover로 탭 전환 허용
-                    if (!megaOpen) return;
-                    setActiveIdx(idx);
-                    requestAnimationFrame(() => updateMegaRect());
-                  }}
+                  onMouseEnter={() => openMega(idx)}
+                  onMouseLeave={closeMega}
                   aria-expanded={megaOpen && activeIdx === idx}
                 >
                   {sec.title}
@@ -366,10 +342,8 @@ h1, h2, h3, h4, h5 { line-height: 1.25; }
         {megaOpen && (
           <div
             className="absolute left-0 right-0 top-full z-40 bg-white shadow-lg border-t"
-            onMouseEnter={() => setMegaOpen(true)}
-            onMouseLeave={() => {
-              // hover로 닫히지 않게 유지 (클릭으로 닫는 방식)
-            }}
+            onMouseEnter={() => { if (closeTimer.current) clearTimeout(closeTimer.current); }}
+            onMouseLeave={closeMega}
           >
             <div
               style={{
@@ -446,13 +420,9 @@ h1, h2, h3, h4, h5 { line-height: 1.25; }
 
                   return (
                     <div className="w-full">
-                      <div className="text-left font-semibold text-[16px] text-gray-900 mb-5">
-                        {sec.title}
-                      </div>
-
                       <div
-                        className={`grid gap-x-16 gap-y-3 ${cols === 2 ? "grid-cols-2" : "grid-cols-1"}`}
-                        style={{ maxWidth: cols === 2 ? 680 : 420 }}
+                        className="flex flex-wrap items-center gap-x-14 gap-y-4"
+                        style={{ maxWidth: 920 }}
                       >
                         {sec.items.map((it) => (
                           <NavLink
