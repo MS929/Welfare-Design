@@ -162,7 +162,8 @@ body {
   word-break: keep-all;
   overflow-wrap: anywhere;
 }
-a, button, p, li, div, span { overflow-wrap: anywhere; word-break: keep-all; }
+a, button { overflow-wrap: normal; word-break: keep-all; }
+p, li, div, span { overflow-wrap: anywhere; word-break: keep-all; }
 h1, h2, h3, h4, h5 { line-height: 1.25; }
 .nowrap, .nav-nowrap { white-space: nowrap; }
 `,
@@ -176,7 +177,7 @@ h1, h2, h3, h4, h5 { line-height: 1.25; }
         onMouseLeave={closeMega}
         style={{ backdropFilter: "saturate(140%) blur(8px)" }}
       >
-        <nav className="w-full relative px-4 md:pl-[120px] md:pr-6 py-3 grid grid-cols-[auto,1fr,auto] items-center gap-6">
+        <nav className="w-full relative px-4 md:pl-[120px] md:pr-6 py-4 md:py-5 min-h-[72px] md:min-h-[92px] grid grid-cols-[auto,1fr,auto] items-center gap-6">
           {/* 로고 영역 */}
           <Link
             to="/"
@@ -202,7 +203,7 @@ h1, h2, h3, h4, h5 { line-height: 1.25; }
           {/* 상단 탭(데스크톱) */}
           <ul
             ref={tabsRef}
-            className="hidden md:flex col-start-2 items-center justify-center gap-24 w-[900px] mx-auto"
+            className="hidden md:flex col-start-2 items-center justify-center gap-20 w-full max-w-[900px] mx-auto"
           >
             {sections.map((sec, idx) => (
               <li key={sec.title} className="flex items-center">
@@ -236,13 +237,13 @@ h1, h2, h3, h4, h5 { line-height: 1.25; }
           <div className="hidden md:flex items-center gap-3 col-start-3 justify-self-end">
             <Link
               to="/support/guide"
-              className="bg-emerald-500 hover:bg-emerald-600 text-white px-4 py-2 rounded-full shadow-sm hover:shadow transition"
+              className="bg-emerald-500 hover:bg-emerald-600 text-white px-4 py-2 rounded-full shadow-sm hover:shadow transition whitespace-nowrap"
             >
               후원 안내
             </Link>
             <Link
               to="/support/combination"
-              className="border border-emerald-500 text-emerald-600 hover:bg-emerald-50 px-4 py-2 rounded-full transition"
+              className="border border-emerald-500 text-emerald-600 hover:bg-emerald-50 px-4 py-2 rounded-full transition whitespace-nowrap"
             >
               조합 가입
             </Link>
