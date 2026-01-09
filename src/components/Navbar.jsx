@@ -315,17 +315,20 @@ h1, h2, h3, h4, h5 { line-height: 1.25; }
             }}
           >
             {/*
-              A안(정렬 우선):
-              - 4컬럼(제목+링크)은 상단 탭(ul)과 동일한 left/width로 그대로 정렬
-              - 일러스트는 컬럼 왼쪽에 절대배치(공간 부족하면 자동 숨김)
-              - 높이는 내용에 맞게(과한 빈공간 제거)
+              목표(스크린샷 느낌):
+              - 4컬럼 텍스트는 상단 탭(ul)과 동일한 left/width로 정렬(절대 안 밀리게)
+              - 일러스트는 왼쪽에 배치하되, 레이아웃(텍스트)을 밀지 않도록 absolute
+              - absolute 요소(일러스트) 때문에 패널 높이가 부족해 아래 컨텐츠가 비치지 않도록 minHeight로 높이 확보
             */}
             <div
               style={{
                 position: "relative",
                 width: "100%",
-                padding: "20px 0 28px",
+                padding: "18px 0 26px",
+                background: "#fff",
                 overflow: "visible",
+                // absolute 일러스트가 높이에 포함되지 않으므로 최소 높이를 확보
+                minHeight: 270,
               }}
             >
               {/* Left illustration (does NOT affect columns layout) */}
@@ -335,9 +338,8 @@ h1, h2, h3, h4, h5 { line-height: 1.25; }
                   style={{
                     position: "absolute",
                     left: Math.max(16, megaLeft - (ILLU_W + ILLU_GAP)),
-                    top: 6,
+                    top: 18,
                     width: ILLU_W,
-                    maxWidth: ILLU_W,
                   }}
                 >
                   <div
@@ -357,7 +359,8 @@ h1, h2, h3, h4, h5 { line-height: 1.25; }
                       decoding="async"
                       style={{
                         width: "100%",
-                        height: "auto",
+                        height: 210,
+                        objectFit: "contain",
                         display: "block",
                       }}
                       onError={(e) => {
@@ -380,11 +383,6 @@ h1, h2, h3, h4, h5 { line-height: 1.25; }
                 <div className="grid grid-cols-4 gap-16 justify-items-center items-start text-center">
                   {sections.map((sec) => (
                     <div key={sec.title} className="text-center">
-                      {/* 컬럼 제목(상단 탭과 연결감) */}
-                      <div className="font-semibold text-[16px] text-gray-900 mb-4">
-                        {sec.title}
-                      </div>
-
                       <ul className="space-y-3">
                         {sec.items.map((it) => (
                           <li key={it.to}>
