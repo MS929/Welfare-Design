@@ -55,6 +55,18 @@ export default function Navbar() {
   // 현재 경로 확인(홈에서 로고 클릭 시 강제 새로고침 처리 등에 사용)
   const location = useLocation();
 
+  // 현재 경로에 따라 상단 탭을 기본 활성(밑줄) 처리
+  // - 메가메뉴가 열려 있으면(activeIdx) 그 상태를 우선
+  // - 메가메뉴가 닫혀 있으면(location.pathname)로 섹션을 판단
+  const currentSectionIdx = (() => {
+    const p = location.pathname || "/";
+    if (p.startsWith("/about")) return 0;
+    if (p.startsWith("/news")) return 1;
+    if (p.startsWith("/business")) return 2;
+    if (p.startsWith("/support")) return 3;
+    return null;
+  })();
+
   // 모바일 드로어(햄버거 메뉴) 열림/닫힘 상태
   const [mobileOpen, setMobileOpen] = useState(false);
 
@@ -210,14 +222,14 @@ h1, h2, h3, h4, h5 { line-height: 1.25; }
           {/* 상단 탭(데스크톱) */}
           <ul
             ref={tabsRef}
-            className="hidden md:grid col-start-2 grid-cols-4 gap-14 justify-items-center items-center text-center w-[760px] mx-auto"
+            className="hidden md:grid col-start-2 grid-cols-4 gap-12 justify-items-center items-center text-center w-[680px] mx-auto"
           >
             {sections.map((sec, idx) => (
               <li key={sec.title} className="flex items-center">
                 <button
                   type="button"
-                  className={`text-left font-medium text-[18px] tracking-tight text-[#111827] hover:text-emerald-700 leading-tight transition-colors ${
-                    megaOpen && activeIdx === idx
+                  className={`text-left font-semibold text-[18px] tracking-[-0.01em] text-[#111827] hover:text-emerald-700 leading-tight transition-colors ${
+                    (megaOpen && activeIdx === idx) || (!megaOpen && currentSectionIdx === idx)
                       ? "text-emerald-700 underline decoration-emerald-500 underline-offset-8"
                       : ""
                   }`}
