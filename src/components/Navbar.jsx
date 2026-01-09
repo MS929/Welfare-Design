@@ -1,6 +1,6 @@
 /**
  * -----------------------------------------------------------------------------
- * Navbar.jsx 
+ * Navbar.jsx
  * [컴포넌트 목적]
  *  - 사이트 전 페이지에서 공통으로 사용하는 상단 네비게이션(헤더)
  *
@@ -142,12 +142,12 @@ export default function Navbar() {
   useEffect(() => {
     const prev = document.body.style.overflow;
     if (mobileOpen) {
-      document.body.style.overflow = 'hidden';
+      document.body.style.overflow = "hidden";
     } else {
-      document.body.style.overflow = prev || '';
+      document.body.style.overflow = prev || "";
     }
     return () => {
-      document.body.style.overflow = prev || '';
+      document.body.style.overflow = prev || "";
     };
   }, [mobileOpen]);
 
@@ -196,7 +196,11 @@ export default function Navbar() {
         { to: "/business/rental", label: "휠체어·복지용구 대여" },
         { to: "/business/apply-help", label: "복지용구 신청 안내" },
         { to: "/business/donation", label: "보조기기 기증 캠페인" },
-        { to: "/business/ewc-insurance", label: "전동휠체어 보험금 지원", nowrap: true },
+        {
+          to: "/business/ewc-insurance",
+          label: "전동휠체어 보험금 지원",
+          nowrap: true,
+        },
         { to: "/business/needs-survey", label: "복지욕구 실태조사" },
         { to: "/business/member-services", label: "조합원 지원 서비스" },
       ],
@@ -214,46 +218,44 @@ export default function Navbar() {
     <>
       <style
         id="global-text-guard"
-        // Navbar를 통해 모든 페이지에 적용되는 전역 텍스트/줄바꿈 안정화 스타일
-        dangerouslySetInnerHTML={{ __html: `
+        dangerouslySetInnerHTML={{
+          __html: `
 html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
 /* 공통 박스 모델: 레이아웃 계산 안정화 */
 *, *::before, *::after { box-sizing: border-box; min-width: 0; }
 body {
-  line-height: 1.5;                    /* 기본 행간 */
-  -webkit-font-smoothing: antialiased; /* 글자 렌더링 부드럽게(웹킷) */
-  -moz-osx-font-smoothing: grayscale;  /* 글자 렌더링 부드럽게(맥) */
-  text-rendering: optimizeLegibility;  /* 가독성 우선 렌더링 */
-  word-break: keep-all;                /* 한글 단어 중간 분리 방지 */
-  overflow-wrap: anywhere;             /* 긴 영문/URL도 안전하게 줄바꿈 */
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  word-break: keep-all;
+  overflow-wrap: anywhere;
 }
-/* 링크/버튼/텍스트 요소에서 긴 문자열이 레이아웃을 깨지 않도록 방어 */
 a, button, p, li, div, span { overflow-wrap: anywhere; word-break: keep-all; }
-/* 제목 계열: 과도한 줄간격 확장을 방지 */
 h1, h2, h3, h4, h5 { line-height: 1.25; }
-/* 특정 텍스트는 줄바꿈 금지(메뉴 라벨 등) */
 .nowrap, .nav-nowrap { white-space: nowrap; }
-` }}
+`,
+        }}
       />
 
       <header
         role="navigation"
         aria-label="Primary"
         className="sticky top-0 z-50 bg-white shadow"
-        onMouseLeave={() => { setMegaOpen(false); setHoveredIdx(null); }}
+        onMouseLeave={() => {
+          setMegaOpen(false);
+          setHoveredIdx(null);
+        }}
       >
         <nav className="w-full relative px-4 md:pl-[120px] md:pr-6 py-3 grid grid-cols-[auto,1fr,auto] items-center gap-6">
-          {/* 로고 영역 (데스크톱에서 탭 그리드가 밀리지 않도록 인라인 배치) */}
+          {/* 로고 영역 */}
           <Link
             to="/"
             className="flex items-center mr-4 md:mr-8"
             onClick={(e) => {
-              // 이미 홈(/)에 있는 상태에서 로고를 누르면 "새로고침"처럼 동작하도록 강제 처리
               if (location.pathname === "/") {
                 e.preventDefault();
-                // UX를 위해 먼저 상단으로 스크롤한 뒤 하드 리로드 실행
                 window.scrollTo({ top: 0, behavior: "smooth" });
-                // smooth 스크롤 적용을 고려해 잠시 지연 후 리로드
                 setTimeout(() => window.location.reload(), 150);
               }
             }}
@@ -268,7 +270,7 @@ h1, h2, h3, h4, h5 { line-height: 1.25; }
             />
           </Link>
 
-          {/* 상단 탭(데스크톱) — 로고 옆에 4개 섹션 탭 표시 */}
+          {/* 상단 탭(데스크톱) */}
           <ul
             ref={tabsRef}
             className="hidden md:grid col-start-2 grid-cols-4 gap-16 justify-items-center items-center text-center w-[750px] mx-auto"
@@ -277,11 +279,14 @@ h1, h2, h3, h4, h5 { line-height: 1.25; }
               <li key={sec.title} className="flex items-center">
                 <button
                   type="button"
-                  className={`text-left font-medium text-[16px] hover:text-emerald-600 leading-tight ${hoveredIdx === idx ? "text-emerald-600 underline decoration-emerald-500 underline-offset-8" : ""}`}
+                  className={`text-left font-medium text-[16px] hover:text-emerald-600 leading-tight ${
+                    hoveredIdx === idx
+                      ? "text-emerald-600 underline decoration-emerald-500 underline-offset-8"
+                      : ""
+                  }`}
                   onMouseEnter={() => {
                     setMegaOpen(true);
                     setHoveredIdx(idx);
-                    // hover 진입 시에도 즉시 좌표 갱신
                     requestAnimationFrame(() => updateMegaRect());
                   }}
                 >
@@ -293,19 +298,31 @@ h1, h2, h3, h4, h5 { line-height: 1.25; }
 
           {/* 우측 버튼 */}
           <div className="hidden md:flex items-center gap-3 col-start-3 justify-self-end">
-            <Link to="/support/guide" className="bg-emerald-500 hover:bg-emerald-600 text-white px-4 py-2 rounded-full shadow-sm hover:shadow transition">후원 안내</Link>
-            <Link to="/support/combination" className="border border-emerald-500 text-emerald-600 hover:bg-emerald-50 px-4 py-2 rounded-full transition">조합 가입</Link>
+            <Link
+              to="/support/guide"
+              className="bg-emerald-500 hover:bg-emerald-600 text-white px-4 py-2 rounded-full shadow-sm hover:shadow transition"
+            >
+              후원 안내
+            </Link>
+            <Link
+              to="/support/combination"
+              className="border border-emerald-500 text-emerald-600 hover:bg-emerald-50 px-4 py-2 rounded-full transition"
+            >
+              조합 가입
+            </Link>
           </div>
 
           {/* 모바일 햄버거 버튼 */}
           <button
             className="md:hidden ml-auto rounded-md p-3 hover:bg-gray-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 z-[75] min-w-[44px] min-h-[44px] flex items-center justify-center"
-            style={{ touchAction: 'manipulation' }}
-            onClick={() => setMobileOpen(v => !v)}
+            style={{ touchAction: "manipulation" }}
+            onClick={() => setMobileOpen((v) => !v)}
             aria-label="toggle menu"
             aria-expanded={mobileOpen}
           >
-            <span className="text-2xl leading-none" aria-hidden="true">☰</span>
+            <span className="text-2xl leading-none" aria-hidden="true">
+              ☰
+            </span>
           </button>
         </nav>
 
@@ -318,12 +335,6 @@ h1, h2, h3, h4, h5 { line-height: 1.25; }
               setHoveredIdx(null);
             }}
           >
-            {/*
-              목표(스크린샷 느낌):
-              - 4컬럼 텍스트는 상단 탭(ul)과 동일한 left/width로 정렬(절대 안 밀리게)
-              - 일러스트는 왼쪽에 배치하되, 레이아웃(텍스트)을 밀지 않도록 absolute
-              - absolute 요소(일러스트) 때문에 패널 높이가 부족해 아래 컨텐츠가 비치지 않도록 minHeight로 높이 확보
-            */}
             <div
               style={{
                 position: "relative",
@@ -331,11 +342,10 @@ h1, h2, h3, h4, h5 { line-height: 1.25; }
                 padding: "18px 0 26px",
                 background: "#fff",
                 overflow: "visible",
-                // absolute 일러스트가 높이에 포함되지 않으므로 최소 높이를 확보
                 minHeight: Math.max(300, ILLU_H + 60),
               }}
             >
-              {/* Left illustration (does NOT affect columns layout) */}
+              {/* Left illustration */}
               {showIllu && (
                 <div
                   aria-hidden
@@ -367,9 +377,6 @@ h1, h2, h3, h4, h5 { line-height: 1.25; }
                       loading="eager"
                       decoding="async"
                       style={{
-                        // 세로 이미지가 '가로 카드 안에서 작게 떠 보이는' 문제 방지
-                        // - cover로 카드 전체를 채우고
-                        // - 인물(하단 쪽)을 살리기 위해 살짝 아래로 포지션
                         width: "100%",
                         height: "100%",
                         objectFit: "cover",
@@ -408,7 +415,9 @@ h1, h2, h3, h4, h5 { line-height: 1.25; }
                                 setHoveredIdx(null);
                               }}
                             >
-                              <span className={it.nowrap ? "nav-nowrap" : ""}>{it.label}</span>
+                              <span className={it.nowrap ? "nav-nowrap" : ""}>
+                                {it.label}
+                              </span>
                             </NavLink>
                           </li>
                         ))}
@@ -421,56 +430,217 @@ h1, h2, h3, h4, h5 { line-height: 1.25; }
           </div>
         )}
 
-        {/* 모바일 메뉴 오버레이(바깥 클릭 시 닫힘) */}
+        {/* 모바일 메뉴 오버레이 */}
         {mobileOpen && (
-          <div className="fixed inset-0 z-40 md:hidden" onClick={() => setMobileOpen(false)} aria-hidden="true" />
+          <div
+            className="fixed inset-0 z-40 md:hidden"
+            onClick={() => setMobileOpen(false)}
+            aria-hidden="true"
+          />
         )}
 
         {mobileOpen && (
           <div className="md:hidden absolute left-0 right-0 top-full z-[70] border-t bg-white shadow-lg">
-            {/* 모바일 드로어 상단 CTA 버튼 */}
             <div className="px-4 py-3 flex gap-2 items-center sticky top-0 bg-white z-10 border-b">
-              <Link to="/support/guide" className="bg-emerald-500 hover:bg-emerald-600 text-white px-3 py-2 rounded-full text-sm shadow-sm transition whitespace-nowrap" onClick={() => setMobileOpen(false)}>후원 안내</Link>
-              <Link to="/support/combination" className="border border-emerald-500 text-emerald-600 hover:bg-emerald-50 px-3 py-2 rounded-full text-sm transition whitespace-nowrap" onClick={() => setMobileOpen(false)}>조합 가입</Link>
+              <Link
+                to="/support/guide"
+                className="bg-emerald-500 hover:bg-emerald-600 text-white px-3 py-2 rounded-full text-sm shadow-sm transition whitespace-nowrap"
+                onClick={() => setMobileOpen(false)}
+              >
+                후원 안내
+              </Link>
+              <Link
+                to="/support/combination"
+                className="border border-emerald-500 text-emerald-600 hover:bg-emerald-50 px-3 py-2 rounded-full text-sm transition whitespace-nowrap"
+                onClick={() => setMobileOpen(false)}
+              >
+                조합 가입
+              </Link>
             </div>
 
-            {/* 모바일 아코디언 메뉴: 섹션별로 details/summary로 접고 펼침 */}
             {/* 소개 */}
-            <details className="border-b"><summary className="px-4 py-3 cursor-pointer hover:bg-gray-50">소개</summary>
+            <details className="border-b">
+              <summary className="px-4 py-3 cursor-pointer hover:bg-gray-50">
+                소개
+              </summary>
               <div className="px-2 pb-2">
-                <NavLink to="/about/what" className="block px-3 py-2 rounded hover:bg-gray-50" onClick={(e)=>{setMobileOpen(false); e.target.closest('details').removeAttribute('open');}}>복지디자인은?</NavLink>
-                <NavLink to="/about/establishment" className="block px-3 py-2 rounded hover:bg-gray-50" onClick={(e)=>{setMobileOpen(false); e.target.closest('details').removeAttribute('open');}}>인사말</NavLink>
-                <NavLink to="/about/history" className="block px-3 py-2 rounded hover:bg-gray-50" onClick={(e)=>{setMobileOpen(false); e.target.closest('details').removeAttribute('open');}}>연혁</NavLink>
-                <NavLink to="/about/people" className="block px-3 py-2 rounded hover:bg-gray-50" onClick={(e)=>{setMobileOpen(false); e.target.closest('details').removeAttribute('open');}}>함께하는 사람들</NavLink>
+                <NavLink
+                  to="/about/what"
+                  className="block px-3 py-2 rounded hover:bg-gray-50"
+                  onClick={(e) => {
+                    setMobileOpen(false);
+                    e.target.closest("details").removeAttribute("open");
+                  }}
+                >
+                  복지디자인은?
+                </NavLink>
+                <NavLink
+                  to="/about/establishment"
+                  className="block px-3 py-2 rounded hover:bg-gray-50"
+                  onClick={(e) => {
+                    setMobileOpen(false);
+                    e.target.closest("details").removeAttribute("open");
+                  }}
+                >
+                  인사말
+                </NavLink>
+                <NavLink
+                  to="/about/history"
+                  className="block px-3 py-2 rounded hover:bg-gray-50"
+                  onClick={(e) => {
+                    setMobileOpen(false);
+                    e.target.closest("details").removeAttribute("open");
+                  }}
+                >
+                  연혁
+                </NavLink>
+                <NavLink
+                  to="/about/people"
+                  className="block px-3 py-2 rounded hover:bg-gray-50"
+                  onClick={(e) => {
+                    setMobileOpen(false);
+                    e.target.closest("details").removeAttribute("open");
+                  }}
+                >
+                  함께하는 사람들
+                </NavLink>
               </div>
             </details>
 
             {/* 소식 */}
-            <details className="border-b"><summary className="px-4 py-3 cursor-pointer hover:bg-gray-50">소식</summary>
+            <details className="border-b">
+              <summary className="px-4 py-3 cursor-pointer hover:bg-gray-50">
+                소식
+              </summary>
               <div className="px-2 pb-2">
-                <NavLink to="/news/stories" className="block px-3 py-2 rounded hover:bg-gray-50" onClick={(e)=>{setMobileOpen(false); e.target.closest('details').removeAttribute('open');}}>복지디자인 이야기</NavLink>
-                <NavLink to="/news/notices" className="block px-3 py-2 rounded hover:bg-gray-50" onClick={(e)=>{setMobileOpen(false); e.target.closest('details').removeAttribute('open');}}>공지사항</NavLink>
+                <NavLink
+                  to="/news/stories"
+                  className="block px-3 py-2 rounded hover:bg-gray-50"
+                  onClick={(e) => {
+                    setMobileOpen(false);
+                    e.target.closest("details").removeAttribute("open");
+                  }}
+                >
+                  복지디자인 이야기
+                </NavLink>
+                <NavLink
+                  to="/news/notices"
+                  className="block px-3 py-2 rounded hover:bg-gray-50"
+                  onClick={(e) => {
+                    setMobileOpen(false);
+                    e.target.closest("details").removeAttribute("open");
+                  }}
+                >
+                  공지사항
+                </NavLink>
               </div>
             </details>
 
             {/* 사업 */}
-            <details className="border-b"><summary className="px-4 py-3 cursor-pointer hover:bg-gray-50">사업</summary>
+            <details className="border-b">
+              <summary className="px-4 py-3 cursor-pointer hover:bg-gray-50">
+                사업
+              </summary>
               <div className="px-2 pb-2">
-                <NavLink to="/business/overview" className="block px-3 py-2 rounded hover:bg-gray-50" onClick={(e)=>{setMobileOpen(false); e.target.closest('details').removeAttribute('open');}}>사업영역</NavLink>
-                <NavLink to="/business/rental" className="block px-3 py-2 rounded hover:bg-gray-50" onClick={(e)=>{setMobileOpen(false); e.target.closest('details').removeAttribute('open');}}>휠체어·복지용구 대여</NavLink>
-                <NavLink to="/business/apply-help" className="block px-3 py-2 rounded hover:bg-gray-50" onClick={(e)=>{setMobileOpen(false); e.target.closest('details').removeAttribute('open');}}>복지용구 신청 안내</NavLink>
-                <NavLink to="/business/donation" className="block px-3 py-2 rounded hover:bg-gray-50" onClick={(e)=>{setMobileOpen(false); e.target.closest('details').removeAttribute('open');}}>보조기기 기증 캠페인</NavLink>
-                <NavLink to="/business/ewc-insurance" className="block px-3 py-2 rounded hover:bg-gray-50" onClick={(e)=>{setMobileOpen(false); e.target.closest('details').removeAttribute('open');}}>전동휠체어 보험금 지원</NavLink>
-                <NavLink to="/business/needs-survey" className="block px-3 py-2 rounded hover:bg-gray-50" onClick={(e)=>{setMobileOpen(false); e.target.closest('details').removeAttribute('open');}}>복지욕구 실태조사</NavLink>
-                <NavLink to="/business/member-services" className="block px-3 py-2 rounded hover:bg-gray-50" onClick={(e)=>{setMobileOpen(false); e.target.closest('details').removeAttribute('open');}}>조합원 지원 서비스</NavLink>
+                <NavLink
+                  to="/business/overview"
+                  className="block px-3 py-2 rounded hover:bg-gray-50"
+                  onClick={(e) => {
+                    setMobileOpen(false);
+                    e.target.closest("details").removeAttribute("open");
+                  }}
+                >
+                  사업영역
+                </NavLink>
+                <NavLink
+                  to="/business/rental"
+                  className="block px-3 py-2 rounded hover:bg-gray-50"
+                  onClick={(e) => {
+                    setMobileOpen(false);
+                    e.target.closest("details").removeAttribute("open");
+                  }}
+                >
+                  휠체어·복지용구 대여
+                </NavLink>
+                <NavLink
+                  to="/business/apply-help"
+                  className="block px-3 py-2 rounded hover:bg-gray-50"
+                  onClick={(e) => {
+                    setMobileOpen(false);
+                    e.target.closest("details").removeAttribute("open");
+                  }}
+                >
+                  복지용구 신청 안내
+                </NavLink>
+                <NavLink
+                  to="/business/donation"
+                  className="block px-3 py-2 rounded hover:bg-gray-50"
+                  onClick={(e) => {
+                    setMobileOpen(false);
+                    e.target.closest("details").removeAttribute("open");
+                  }}
+                >
+                  보조기기 기증 캠페인
+                </NavLink>
+                <NavLink
+                  to="/business/ewc-insurance"
+                  className="block px-3 py-2 rounded hover:bg-gray-50"
+                  onClick={(e) => {
+                    setMobileOpen(false);
+                    e.target.closest("details").removeAttribute("open");
+                  }}
+                >
+                  전동휠체어 보험금 지원
+                </NavLink>
+                <NavLink
+                  to="/business/needs-survey"
+                  className="block px-3 py-2 rounded hover:bg-gray-50"
+                  onClick={(e) => {
+                    setMobileOpen(false);
+                    e.target.closest("details").removeAttribute("open");
+                  }}
+                >
+                  복지욕구 실태조사
+                </NavLink>
+                <NavLink
+                  to="/business/member-services"
+                  className="block px-3 py-2 rounded hover:bg-gray-50"
+                  onClick={(e) => {
+                    setMobileOpen(false);
+                    e.target.closest("details").removeAttribute("open");
+                  }}
+                >
+                  조합원 지원 서비스
+                </NavLink>
               </div>
             </details>
 
             {/* 후원 */}
-            <details><summary className="px-4 py-3 cursor-pointer hover:bg-gray-50">후원</summary>
+            <details>
+              <summary className="px-4 py-3 cursor-pointer hover:bg-gray-50">
+                후원
+              </summary>
               <div className="px-2 pb-2">
-                <NavLink to="/support/guide" className="block px-3 py-2 rounded hover:bg-gray-50" onClick={(e)=>{setMobileOpen(false); e.target.closest('details').removeAttribute('open');}}>후원안내</NavLink>
-                <NavLink to="/support/faq" className="block px-3 py-2 rounded hover:bg-gray-50" onClick={(e)=>{setMobileOpen(false); e.target.closest('details').removeAttribute('open');}}>FAQ</NavLink>
+                <NavLink
+                  to="/support/guide"
+                  className="block px-3 py-2 rounded hover:bg-gray-50"
+                  onClick={(e) => {
+                    setMobileOpen(false);
+                    e.target.closest("details").removeAttribute("open");
+                  }}
+                >
+                  후원안내
+                </NavLink>
+                <NavLink
+                  to="/support/faq"
+                  className="block px-3 py-2 rounded hover:bg-gray-50"
+                  onClick={(e) => {
+                    setMobileOpen(false);
+                    e.target.closest("details").removeAttribute("open");
+                  }}
+                >
+                  FAQ
+                </NavLink>
               </div>
             </details>
           </div>
