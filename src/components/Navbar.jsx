@@ -202,7 +202,7 @@ h1, h2, h3, h4, h5 { line-height: 1.25; }
           {/* 상단 탭(데스크톱) */}
           <ul
             ref={tabsRef}
-            className="hidden md:grid col-start-2 grid-cols-4 gap-16 justify-items-center items-center text-center w-[750px] mx-auto"
+            className="hidden md:grid col-start-2 grid-cols-4 gap-24 justify-items-center items-center text-center w-[750px] mx-auto"
           >
             {sections.map((sec, idx) => (
               <li key={sec.title} className="flex items-center">
@@ -297,70 +297,72 @@ h1, h2, h3, h4, h5 { line-height: 1.25; }
 
               return (
                 <div className="w-full">
-                  {/* 살짝 넓게 + 높이 과하지 않게 */}
-                  <div className="mx-auto w-full max-w-[1400px] px-6 md:px-10 py-6">
-                    <div className="rounded-2xl border border-gray-200 bg-white shadow-[0_14px_38px_rgba(0,0,0,0.10)] overflow-hidden">
-                      <div className="flex">
-                        {/* Left illustration panel (2번째 이미지 느낌) */}
-                        <div className="w-[260px] shrink-0 border-r border-gray-200 bg-[#FFF7F2]">
-                          <div className="relative h-[260px]">
-                            <img
-                              src="/images/illustrations/community.png"
-                              alt=""
-                              className="absolute inset-0 h-full w-full object-cover object-center"
-                              loading="eager"
-                              decoding="async"
-                            />
-                            {/* 살짝 하얀 오버레이로 가독성 */}
-                            <div className="absolute inset-0 bg-white/65" />
+                  {/* 드롭다운 영역 배경(살짝 따뜻한 톤) */}
+                  <div className="bg-gradient-to-b from-[#FFF7F2] to-white">
+                    <div className="mx-auto w-full max-w-[1440px] px-6 md:px-10 py-6">
+                      <div className="rounded-2xl border border-gray-200 bg-white shadow-[0_18px_48px_rgba(0,0,0,0.12)] overflow-hidden">
+                        <div className="flex">
+                          {/* Left image panel */}
+                          <div className="w-[320px] shrink-0 border-r border-gray-200 bg-[#FFF7F2]">
+                            <div className="relative h-[300px]">
+                              <img
+                                src="/images/illustrations/community.png"
+                                alt=""
+                                className="absolute inset-0 h-full w-full object-cover object-center"
+                                loading="eager"
+                                decoding="async"
+                              />
+                              {/* 상단은 밝게, 하단은 살짝 진하게: 텍스트 가독성 */}
+                              <div className="absolute inset-0 bg-gradient-to-b from-white/70 via-white/55 to-white/85" />
 
-                            <div className="relative h-full px-8 py-8 flex flex-col justify-end">
-                              <div className="text-[32px] leading-tight text-emerald-700 font-normal tracking-[-0.01em]">
-                                {sec.title}
-                              </div>
-                              <div className="mt-2 text-[13px] text-gray-600 leading-relaxed">
-                                원하는 메뉴를 선택해 주세요.
+                              <div className="relative h-full px-9 py-8 flex flex-col justify-end">
+                                <div className="text-[30px] leading-tight text-emerald-700 font-normal tracking-[-0.01em]">
+                                  {sec.title}
+                                </div>
+                                <div className="mt-2 text-[13px] text-gray-600 leading-relaxed">
+                                  원하는 메뉴를 선택해 주세요.
+                                </div>
                               </div>
                             </div>
                           </div>
-                        </div>
 
-                        {/* Right columns */}
-                        <div className="flex-1">
-                          <div
-                            className="grid divide-x divide-gray-200"
-                            style={{
-                              gridTemplateColumns: `repeat(${colCount}, minmax(0, 1fr))`,
-                            }}
-                          >
-                            {cols.map((col, ci) => (
-                              <div key={ci} className="px-8 py-8">
-                                <ul className="space-y-3">
-                                  {col.map((it) => (
-                                    <li key={it.to}>
-                                      <NavLink
-                                        to={it.to}
-                                        className="group inline-flex items-center gap-2 rounded-lg px-2 py-2 text-[16px] leading-snug text-gray-900 font-normal transition-colors hover:bg-emerald-50 hover:text-emerald-700 focus-visible:ring-2 focus-visible:ring-emerald-500"
-                                        onClick={() => {
-                                          setMegaOpen(false);
-                                          setActiveIdx(null);
-                                        }}
-                                      >
-                                        <span className={it.nowrap ? "nav-nowrap" : ""}>
-                                          {it.label}
-                                        </span>
-                                        <span
-                                          aria-hidden="true"
-                                          className="opacity-0 translate-x-[-2px] transition-all group-hover:opacity-100 group-hover:translate-x-0 text-emerald-600"
+                          {/* Right columns */}
+                          <div className="flex-1">
+                            <div
+                              className="grid divide-x divide-gray-200"
+                              style={{
+                                gridTemplateColumns: `repeat(${colCount}, minmax(0, 1fr))`,
+                              }}
+                            >
+                              {cols.map((col, ci) => (
+                                <div key={ci} className="px-10 py-10">
+                                  <ul className="space-y-2">
+                                    {col.map((it) => (
+                                      <li key={it.to}>
+                                        <NavLink
+                                          to={it.to}
+                                          className="group w-full inline-flex items-center justify-between gap-3 rounded-xl px-3 py-3 text-[17px] leading-snug text-gray-900 font-normal transition-colors hover:bg-emerald-50 hover:text-emerald-700 focus-visible:ring-2 focus-visible:ring-emerald-500"
+                                          onClick={() => {
+                                            setMegaOpen(false);
+                                            setActiveIdx(null);
+                                          }}
                                         >
-                                          →
-                                        </span>
-                                      </NavLink>
-                                    </li>
-                                  ))}
-                                </ul>
-                              </div>
-                            ))}
+                                          <span className={it.nowrap ? "nav-nowrap" : ""}>
+                                            {it.label}
+                                          </span>
+                                          <span
+                                            aria-hidden="true"
+                                            className="opacity-0 translate-x-[-2px] transition-all group-hover:opacity-100 group-hover:translate-x-0 text-emerald-600"
+                                          >
+                                            →
+                                          </span>
+                                        </NavLink>
+                                      </li>
+                                    ))}
+                                  </ul>
+                                </div>
+                              ))}
+                            </div>
                           </div>
                         </div>
                       </div>
