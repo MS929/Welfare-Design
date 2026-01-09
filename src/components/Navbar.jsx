@@ -118,7 +118,7 @@ export default function Navbar() {
   const [megaWidth, setMegaWidth] = useState(0);
   const [showIllu, setShowIllu] = useState(true);
 
-  const ILLU_W = 360;
+  const ILLU_W = 320;
   const ILLU_GAP = 44;
 
   const updateMegaRect = () => {
@@ -376,23 +376,20 @@ h1, h2, h3, h4, h5 { line-height: 1.25; }
                   marginLeft: Math.max(16, megaLeft),
                   width: megaWidth,
                   maxWidth: "calc(100% - 32px)",
-                  paddingBottom: 24,
+                  paddingBottom: 40,
                   paddingTop: 4,
                   overflow: "visible",
                 }}
               >
-                <div className="grid grid-cols-4 gap-16 justify-items-center pt-2 text-center items-start">
+                <div className="grid grid-cols-4 gap-12 justify-items-start pt-2 text-left items-start">
                   {sections.map((sec) => (
-                    <div key={sec.title} className="text-center">
-                      <div className="font-semibold text-[16px] text-gray-900 mb-4">
-                        {sec.title}
-                      </div>
+                    <div key={sec.title} className="text-left">
                       <ul className="space-y-3">
                         {sec.items.map((it) => (
                           <li key={it.to}>
                             <NavLink
                               to={it.to}
-                              className="block py-1 leading-[1.65] text-[15px] text-gray-800 hover:text-emerald-600 whitespace-normal focus-visible:ring-2 focus-visible:ring-emerald-500 text-center"
+                              className="block py-1 leading-[1.65] text-[15px] text-gray-800 hover:text-emerald-600 whitespace-normal focus-visible:ring-2 focus-visible:ring-emerald-500 text-left"
                               onClick={() => {
                                 setMegaOpen(false);
                                 setHoveredIdx(null);
