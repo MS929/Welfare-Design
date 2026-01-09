@@ -278,27 +278,33 @@ h1, h2, h3, h4, h5 { line-height: 1.25; }
             }}
           >
             <div className="max-w-[1360px] mx-auto px-4 md:pl-[120px] md:pr-6 py-6">
-              {/* A안: 텍스트 4컬럼은 상단 탭(750px) 기준으로 중앙 정렬, 일러스트는 절대 배치로 보조 */}
-              <div className="relative min-h-[280px]">
-                {/* Left illustration card (does NOT affect columns layout) */}
-                <div className="hidden lg:block absolute left-0 top-0 w-[360px]">
-                  <div className="w-full rounded-xl overflow-hidden bg-[#FFF7F2] border border-black/10 shadow-[0_10px_22px_rgba(0,0,0,.06)]">
-                    <img
-                      src="/images/illustrations/mega-community.png"
-                      alt=""
-                      loading="eager"
-                      decoding="async"
-                      className="w-full h-[220px] object-contain block"
-                      onError={(e) => {
-                        e.currentTarget.onerror = null;
-                      }}
-                    />
+              {/**
+               * A안 + 카드 유지 / 헤더는 X
+               * - 가운데(상단 탭 영역과 동일한 폭 750px)는 항상 중앙 정렬 유지
+               * - 일러스트 카드는 왼쪽 여백(1fr)에만 배치해서 텍스트 영역을 절대 가리지 않게 함
+               */}
+              <div className="grid grid-cols-1 lg:grid-cols-[1fr_750px_1fr] items-start gap-10">
+                {/* Left: illustration card (only on lg+) */}
+                <div className="hidden lg:flex justify-end">
+                  <div className="w-[360px]">
+                    <div className="w-full rounded-xl overflow-hidden bg-[#FFF7F2] border border-black/10 shadow-[0_10px_22px_rgba(0,0,0,.06)]">
+                      <img
+                        src="/images/illustrations/mega-community.png"
+                        alt=""
+                        loading="eager"
+                        decoding="async"
+                        className="w-full h-auto max-h-[240px] object-contain block"
+                        onError={(e) => {
+                          e.currentTarget.onerror = null;
+                        }}
+                      />
+                    </div>
                   </div>
                 </div>
 
-                {/* Centered menu columns (matches top tabs width) */}
-                <div className="flex justify-center">
-                  <div className="w-[750px] max-w-full">
+                {/* Center: menu columns (matches top tabs width) */}
+                <div className="flex justify-center lg:justify-center">
+                  <div className="w-full lg:w-[750px]">
                     <div className="grid grid-cols-4 gap-16 justify-items-center items-start text-center">
                       {sections.map((sec) => (
                         <div key={sec.title} className="text-center">
@@ -323,6 +329,9 @@ h1, h2, h3, h4, h5 { line-height: 1.25; }
                     </div>
                   </div>
                 </div>
+
+                {/* Right: empty spacer to keep center truly centered */}
+                <div className="hidden lg:block" />
               </div>
             </div>
           </div>
