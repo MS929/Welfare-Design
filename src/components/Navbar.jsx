@@ -313,19 +313,18 @@ h1, h2, h3, h4, h5 { line-height: 1.25; }
               setMegaOpen(false);
               setHoveredIdx(null);
             }}
-            style={{ position: "absolute" }}
           >
             {/*
-              핵심 포인트
-              - 메뉴 4컬럼은 상단 탭(ul)과 동일한 left/width로 '그대로' 정렬
-              - 일러스트는 컬럼 왼쪽에 '별도'로 절대배치(공간 부족하면 숨김)
+              A안(정렬 우선):
+              - 4컬럼(제목+링크)은 상단 탭(ul)과 동일한 left/width로 그대로 정렬
+              - 일러스트는 컬럼 왼쪽에 절대배치(공간 부족하면 자동 숨김)
+              - 높이는 내용에 맞게(과한 빈공간 제거)
             */}
             <div
               style={{
                 position: "relative",
                 width: "100%",
-                padding: "24px 0 64px",
-                minHeight: 380,
+                padding: "20px 0 28px",
                 overflow: "visible",
               }}
             >
@@ -336,7 +335,7 @@ h1, h2, h3, h4, h5 { line-height: 1.25; }
                   style={{
                     position: "absolute",
                     left: Math.max(16, megaLeft - (ILLU_W + ILLU_GAP)),
-                    top: 0,
+                    top: 6,
                     width: ILLU_W,
                     maxWidth: ILLU_W,
                   }}
@@ -344,11 +343,11 @@ h1, h2, h3, h4, h5 { line-height: 1.25; }
                   <div
                     style={{
                       width: "100%",
-                      borderRadius: 10,
+                      borderRadius: 12,
                       overflow: "hidden",
                       background: "#FFF7F2",
                       border: "1px solid rgba(17,24,39,.10)",
-                      boxShadow: "0 8px 18px rgba(0,0,0,.06)",
+                      boxShadow: "0 10px 22px rgba(0,0,0,.06)",
                     }}
                   >
                     <img
@@ -376,20 +375,22 @@ h1, h2, h3, h4, h5 { line-height: 1.25; }
                   marginLeft: Math.max(16, megaLeft),
                   width: megaWidth,
                   maxWidth: "calc(100% - 32px)",
-                  paddingBottom: 40,
-                  paddingTop: 4,
-                  overflow: "visible",
                 }}
               >
-                <div className="grid grid-cols-4 gap-12 justify-items-start pt-2 text-left items-start">
+                <div className="grid grid-cols-4 gap-16 justify-items-center items-start text-center">
                   {sections.map((sec) => (
-                    <div key={sec.title} className="text-left">
+                    <div key={sec.title} className="text-center">
+                      {/* 컬럼 제목(상단 탭과 연결감) */}
+                      <div className="font-semibold text-[16px] text-gray-900 mb-4">
+                        {sec.title}
+                      </div>
+
                       <ul className="space-y-3">
                         {sec.items.map((it) => (
                           <li key={it.to}>
                             <NavLink
                               to={it.to}
-                              className="block py-1 leading-[1.65] text-[15px] text-gray-800 hover:text-emerald-600 whitespace-normal focus-visible:ring-2 focus-visible:ring-emerald-500 text-left"
+                              className="block py-1 leading-[1.7] text-[15px] text-gray-800 hover:text-emerald-600 whitespace-normal focus-visible:ring-2 focus-visible:ring-emerald-500"
                               onClick={() => {
                                 setMegaOpen(false);
                                 setHoveredIdx(null);
