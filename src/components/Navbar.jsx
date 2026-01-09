@@ -303,8 +303,8 @@ h1, h2, h3, h4, h5 { line-height: 1.25; }
                       <div className="rounded-2xl border border-gray-200 bg-white shadow-[0_18px_48px_rgba(0,0,0,0.12)] overflow-hidden">
                         <div className="flex">
                           {/* Left image panel */}
-                          <div className="w-[360px] shrink-0 border-r border-gray-200 bg-[#FFF7F2]">
-                            <div className="relative h-[260px]">
+                          <div className="w-[320px] shrink-0 border-r border-gray-200 bg-[#FFF7F2]">
+                            <div className="relative h-[300px]">
                               <img
                                 src="/images/illustrations/community.png"
                                 alt=""
@@ -316,10 +316,10 @@ h1, h2, h3, h4, h5 { line-height: 1.25; }
                               <div className="absolute inset-0 bg-gradient-to-b from-white/70 via-white/55 to-white/85" />
 
                               <div className="relative h-full px-9 py-8 flex flex-col justify-end">
-                                <div className="text-[28px] leading-tight text-emerald-700 font-normal tracking-[-0.01em]">
+                                <div className="text-[30px] leading-tight text-emerald-700 font-normal tracking-[-0.01em]">
                                   {sec.title}
                                 </div>
-                                <div className="mt-2 text-[12px] text-gray-600/90 leading-relaxed">
+                                <div className="mt-2 text-[13px] text-gray-600 leading-relaxed">
                                   원하는 메뉴를 선택해 주세요.
                                 </div>
                               </div>
@@ -327,9 +327,7 @@ h1, h2, h3, h4, h5 { line-height: 1.25; }
                           </div>
 
                           {/* Right columns */}
-                          <div
-                            className={`flex-1 ${colCount === 2 ? "max-w-[820px] mx-auto" : ""}`}
-                          >
+                          <div className="flex-1">
                             <div
                               className="grid divide-x divide-gray-200"
                               style={{
@@ -337,13 +335,13 @@ h1, h2, h3, h4, h5 { line-height: 1.25; }
                               }}
                             >
                               {cols.map((col, ci) => (
-                                <div key={ci} className="px-8 py-8">
+                                <div key={ci} className="px-10 py-10">
                                   <ul className="space-y-2">
                                     {col.map((it) => (
                                       <li key={it.to}>
                                         <NavLink
                                           to={it.to}
-                                          className="group w-full inline-flex items-center justify-between gap-3 rounded-xl px-3 py-2.5 text-[17px] leading-snug text-gray-900 font-normal transition-colors hover:bg-emerald-50 hover:text-emerald-700 focus-visible:ring-2 focus-visible:ring-emerald-500"
+                                          className="group w-full inline-flex items-center justify-between gap-3 rounded-xl px-3 py-3 text-[17px] leading-snug text-gray-900 font-normal transition-colors hover:bg-emerald-50 hover:text-emerald-700 focus-visible:ring-2 focus-visible:ring-emerald-500"
                                           onClick={() => {
                                             setMegaOpen(false);
                                             setActiveIdx(null);
