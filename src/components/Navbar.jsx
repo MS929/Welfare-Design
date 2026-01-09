@@ -56,6 +56,35 @@ function useHoverDelay() {
  */
 function Dropdown({ title, items }) {
   const { open, enter, leave } = useHoverDelay();
+  // 데스크톱 메가메뉴: ESC / 바깥 클릭 시 닫기
+  useEffect(() => {
+    if (!megaOpen) return;
+
+    const onKeyDown = (e) => {
+      if (e.key === "Escape") {
+        setMegaOpen(false);
+        setActiveIdx(null);
+      }
+    };
+
+    const onPointerDown = (e) => {
+      // header(네비) 영역 밖을 누르면 닫기
+      const headerEl = document.querySelector('header[aria-label="Primary"]');
+      if (!headerEl) return;
+      if (!headerEl.contains(e.target)) {
+        setMegaOpen(false);
+        setActiveIdx(null);
+      }
+    };
+
+    window.addEventListener("keydown", onKeyDown);
+    window.addEventListener("pointerdown", onPointerDown);
+    return () => {
+      window.removeEventListener("keydown", onKeyDown);
+      window.removeEventListener("pointerdown", onPointerDown);
+    };
+  }, [megaOpen, setMegaOpen, setActiveIdx]);
+
   return (
     <li
       className="relative"
@@ -666,32 +695,3 @@ h1, h2, h3, h4, h5 { line-height: 1.25; }
     </>
   );
 }
-
-  // 데스크톱 메가메뉴: ESC / 바깥 클릭 시 닫기
-  useEffect(() => {
-    if (!megaOpen) return;
-
-    const onKeyDown = (e) => {
-      if (e.key === "Escape") {
-        setMegaOpen(false);
-        setActiveIdx(null);
-      }
-    };
-
-    const onPointerDown = (e) => {
-      // header(네비) 영역 밖을 누르면 닫기
-      const headerEl = document.querySelector('header[aria-label="Primary"]');
-      if (!headerEl) return;
-      if (!headerEl.contains(e.target)) {
-        setMegaOpen(false);
-        setActiveIdx(null);
-      }
-    };
-
-    window.addEventListener("keydown", onKeyDown);
-    window.addEventListener("pointerdown", onPointerDown);
-    return () => {
-      window.removeEventListener("keydown", onKeyDown);
-      window.removeEventListener("pointerdown", onPointerDown);
-    };
-  }, [megaOpen]);
