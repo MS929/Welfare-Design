@@ -118,7 +118,9 @@ export default function Navbar() {
   const [megaWidth, setMegaWidth] = useState(0);
   const [showIllu, setShowIllu] = useState(true);
 
-  const ILLU_W = 320;
+  // Mega-menu illustration card size
+  // (Keep similar footprint to the old horizontal card; image may be portrait)
+  const ILLU_W = 360;
   const ILLU_GAP = 44;
 
   const updateMegaRect = () => {
@@ -351,6 +353,9 @@ h1, h2, h3, h4, h5 { line-height: 1.25; }
                       background: "#FFF7F2",
                       border: "1px solid rgba(17,24,39,.10)",
                       boxShadow: "0 10px 22px rgba(0,0,0,.06)",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
                     }}
                   >
                     <img
@@ -361,9 +366,10 @@ h1, h2, h3, h4, h5 { line-height: 1.25; }
                       style={{
                         width: "100%",
                         height: "100%",
-                        objectFit: "cover",
-                        objectPosition: "center 25%",
+                        objectFit: "contain",      // show full image (no crop)
+                        objectPosition: "center",
                         display: "block",
+                        padding: 22,               // give breathing room for portrait art
                       }}
                       onError={(e) => {
                         e.currentTarget.onerror = null;
