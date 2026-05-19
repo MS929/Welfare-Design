@@ -105,8 +105,29 @@ collections:
       - { label: "제목", name: "title", widget: "string" }
       - { label: "활성화", name: "enabled", widget: "boolean", default: true }
       - { label: "이미지", name: "image", widget: "image", required: false }
-      - { label: "버튼 텍스트", name: "buttonText", widget: "string", required: false }
-      - { label: "버튼 링크", name: "buttonLink", widget: "string", required: false }
+      - label: "버튼 링크"
+        name: "buttonLink"
+        widget: "select"
+        required: false
+        default: "/support/guide"
+        options:
+          - { label: "링크 없음", value: "#" }
+          - { label: "복지디자인은?", value: "/about/what" }
+          - { label: "인사말", value: "/about/establishment" }
+          - { label: "연혁", value: "/about/history" }
+          - { label: "함께하는 사람들", value: "/about/people" }
+          - { label: "복지디자인 이야기", value: "/news/stories" }
+          - { label: "공지사항", value: "/news/notices" }
+          - { label: "사업영역", value: "/business/overview" }
+          - { label: "휠체어·복지용구 대여", value: "/business/rental" }
+          - { label: "복지용구 신청 안내", value: "/business/apply-help" }
+          - { label: "보조기기 기증 캠페인", value: "/business/donation" }
+          - { label: "전동휠체어 보험금 지원", value: "/business/ewc-insurance" }
+          - { label: "복지욕구 실태조사", value: "/business/needs-survey" }
+          - { label: "조합원 지원 서비스", value: "/business/member-services" }
+          - { label: "후원안내", value: "/support/guide" }
+          - { label: "FAQ", value: "/support/faq" }
+          - { label: "조합 가입", value: "/support/combination" }
       - { label: "내용", name: "body", widget: "markdown" }
 
 media_library:
