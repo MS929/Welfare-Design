@@ -565,10 +565,211 @@ function MainPopup({ isMobile }) {
   const popups = useMemo(() => getMainPopupData(), []);
   const fallbackPopup = popups[0] || null;
   const [open, setOpen] = useState(false);
-  // 새 창 팝업 열기
+  const openedWindowsRef = useRef([]);
+  const didRunRef = useRef(false);
+
+  const escapeHtml = (value) =>
+    String(value ?? "")
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#039;");
+
+  const closeOpenedWindows = () => {
+    openedWindowsRef.current.forEach((win) => {
+      try {
+        if (win && !win.closed) win.close();
+      } catch {}
+    });
+    openedWindowsRef.current = [];
+  };
+
+  const markHiddenToday = (popupId) => {
+    if (typeof window === "undefined" || !popupId) return;
+    const today = new Date().toISOString().slice(0, 10);
+    window.localStorage.setItem(`wd-main-popup-hidden-date:${popupId}`, today);
+  };
+
+  const writePopupWindow = (popupWindow, popup) => {
+    const title = escapeHtml(popup.title || "복지디자인 안내");
+    const body = escapeHtml(
+      popup.body || "복지디자인 사회적협동조합의 새로운 소식을 확인해 주세요."
+    );
+    const image = popup.image ? escapeHtml(popup.image) : "";
+    const buttonLink = popup.buttonLink || "#";
+    const safeButtonLink = escapeHtml(buttonLink);
+    const popupId = escapeHtml(popup.id);
+    const hasButton = buttonLink && buttonLink !== "#";
+
+    popupWindow.document.open();
+    popupWindow.document.write(`
+      <!DOCTYPE html>
+      <html lang="ko">
+      <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>${title}</title>
+        <style>
+          * { box-sizing:border-box; }
+          html, body { margin:0; padding:0; }
+          body {
+            min-height:100vh;
+            font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans KR',sans-serif;
+            background:#f8fafc;
+            color:#111827;
+          }
+          .wrap {
+            min-height:100vh;
+            background:#fff;
+            display:flex;
+            flex-direction:column;
+          }
+          .top {
+            height:56px;
+            padding:0 22px;
+            border-bottom:1px solid #e5e7eb;
+            display:flex;
+            align-items:center;
+            justify-content:space-between;
+            gap:12px;
+            font-weight:900;
+            font-size:18px;
+            letter-spacing:-.02em;
+          }
+          .top button {
+            width:32px;
+            height:32px;
+            border-radius:999px;
+            border:1px solid #d1d5db;
+            background:#fff;
+            color:#374151;
+            cursor:pointer;
+            font-size:18px;
+            line-height:1;
+          }
+          .img {
+            width:100%;
+            aspect-ratio:16/10;
+            overflow:hidden;
+            background:#f1f5f9;
+            border-bottom:1px solid #e5e7eb;
+          }
+          .img img {
+            width:100%;
+            height:100%;
+            object-fit:cover;
+            display:block;
+          }
+          .content {
+            padding:28px 28px 22px;
+            flex:1;
+          }
+          h1 {
+            margin:0 0 14px;
+            font-size:28px;
+            line-height:1.3;
+            font-weight:900;
+            letter-spacing:-.04em;
+          }
+          p {
+            margin:0;
+            line-height:1.75;
+            color:#4b5563;
+            font-size:15px;
+            white-space:pre-line;
+            word-break:keep-all;
+          }
+          .bottom {
+            margin-top:auto;
+            padding:18px 22px 22px;
+            border-top:1px solid #e5e7eb;
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            gap:10px;
+            background:linear-gradient(180deg,#fff 0%,#fafafa 100%);
+          }
+          .btns {
+            display:flex;
+            gap:8px;
+            margin-left:auto;
+          }
+          button, a {
+            height:40px;
+            padding:0 18px;
+            border-radius:999px;
+            cursor:pointer;
+            font-weight:800;
+            text-decoration:none;
+            display:inline-flex;
+            align-items:center;
+            justify-content:center;
+            white-space:nowrap;
+            font-size:14px;
+          }
+          .close {
+            background:#fff;
+            border:1px solid #d1d5db;
+            color:#374151;
+          }
+          .primary {
+            border:1px solid #3BA7A0;
+            background:#3BA7A0;
+            color:#fff;
+            box-shadow:0 8px 18px rgba(59,167,160,.20);
+          }
+          .hide {
+            border:0;
+            background:none;
+            color:#64748b;
+            padding:0;
+          }
+        </style>
+      </head>
+      <body>
+        <div class="wrap">
+          <div class="top">
+            <span>WELFARE DESIGN</span>
+            <button type="button" onclick="window.close()" aria-label="닫기">×</button>
+          </div>
+
+          ${image ? `
+            <div class="img">
+              <img src="${image}" alt="" />
+            </div>
+          ` : ""}
+
+          <div class="content">
+            <h1>${title}</h1>
+            <p>${body}</p>
+          </div>
+
+          <div class="bottom">
+            <button class="hide" type="button" onclick="try { window.opener && window.opener.localStorage.setItem('wd-main-popup-hidden-date:${popupId}', new Date().toISOString().slice(0,10)); } catch(e) {} window.close();">
+              오늘 하루 보지 않기
+            </button>
+
+            <div class="btns">
+              <button class="close" type="button" onclick="window.close()">닫기</button>
+              ${hasButton ? `<a class="primary" href="${safeButtonLink}" target="_blank" rel="noopener">자세히 보기</a>` : ""}
+            </div>
+          </div>
+        </div>
+      </body>
+      </html>
+    `);
+    popupWindow.document.close();
+    popupWindow.focus();
+  };
+
   useEffect(() => {
     if (!popups.length) return;
     if (typeof window === "undefined") return;
+
+    // React StrictMode 또는 홈 재진입에서 같은 팝업이 중복으로 뜨는 현상 방지
+    if (didRunRef.current) return;
+    didRunRef.current = true;
 
     const today = new Date().toISOString().slice(0, 10);
     const forcePopup = window.location.search.includes("popup=1");
@@ -579,167 +780,57 @@ function MainPopup({ isMobile }) {
       });
     }
 
+    closeOpenedWindows();
+    setOpen(false);
+
     let blocked = false;
+    let openedCount = 0;
 
     popups.forEach((popup, index) => {
       const hiddenDate = localStorage.getItem(`wd-main-popup-hidden-date:${popup.id}`);
       if (hiddenDate === today && !forcePopup) return;
 
       const offset = index * 36;
-      const popupWindow = window.open(
-        "",
-        `welfareDesignPopup_${index}`,
-        `width=540,height=680,left=${120 + offset},top=${80 + offset},resizable=yes,scrollbars=yes`
-      );
+      const width = isMobile ? 380 : 540;
+      const height = popup.image ? (isMobile ? 640 : 680) : 430;
+      const features = [
+        `width=${width}`,
+        `height=${height}`,
+        `left=${120 + offset}`,
+        `top=${80 + offset}`,
+        "resizable=yes",
+        "scrollbars=yes",
+        "toolbar=no",
+        "menubar=no",
+        "location=no",
+        "status=no",
+      ].join(",");
+
+      const popupWindow = window.open("", `welfareDesignPopup_${index}`, features);
 
       if (!popupWindow || popupWindow.closed || typeof popupWindow.closed === "undefined") {
         blocked = true;
         return;
       }
 
-      popupWindow.document.write(`
-        <!DOCTYPE html>
-        <html lang="ko">
-        <head>
-          <meta charset="UTF-8" />
-          <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-          <title>${popup.title || "복지디자인 안내"}</title>
-          <style>
-            * { box-sizing:border-box; }
-            body {
-              margin:0;
-              font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
-              background:#f8fafc;
-              color:#111827;
-            }
-            .wrap {
-              background:#fff;
-              min-height:100vh;
-              display:flex;
-              flex-direction:column;
-            }
-            .top {
-              padding:16px 20px;
-              border-bottom:1px solid #e5e7eb;
-              font-weight:900;
-              font-size:18px;
-            }
-            .img {
-              width:100%;
-              aspect-ratio:16/10;
-              overflow:hidden;
-              background:#f1f5f9;
-            }
-            .img img {
-              width:100%;
-              height:100%;
-              object-fit:cover;
-            }
-            .content {
-              padding:24px;
-            }
-            h1 {
-              margin:0 0 12px;
-              font-size:28px;
-              font-weight:900;
-            }
-            p {
-              line-height:1.7;
-              color:#4b5563;
-              white-space:pre-line;
-            }
-            .bottom {
-              margin-top:auto;
-              padding:20px;
-              border-top:1px solid #e5e7eb;
-              display:flex;
-              justify-content:space-between;
-              align-items:center;
-              gap:10px;
-            }
-            .btns {
-              display:flex;
-              gap:8px;
-            }
-            button,a {
-              height:40px;
-              padding:0 18px;
-              border-radius:999px;
-              border:none;
-              cursor:pointer;
-              font-weight:800;
-              text-decoration:none;
-              display:flex;
-              align-items:center;
-              justify-content:center;
-            }
-            .close {
-              background:#fff;
-              border:1px solid #d1d5db;
-              color:#374151;
-            }
-            .primary {
-              background:#3BA7A0;
-              color:#fff;
-            }
-            .hide {
-              background:none;
-              color:#64748b;
-              padding:0;
-            }
-          </style>
-        </head>
-        <body>
-          <div class="wrap">
-            <div class="top">WELFARE DESIGN</div>
-
-            ${popup.image ? `
-              <div class="img">
-                <img src="${popup.image}" alt="popup" />
-              </div>
-            ` : ""}
-
-            <div class="content">
-              <h1>${popup.title || "복지디자인 안내"}</h1>
-              <p>${popup.body || "복지디자인 사회적협동조합의 새로운 소식을 확인해 주세요."}</p>
-            </div>
-
-            <div class="bottom">
-              <button class="hide" onclick="window.opener.localStorage.setItem('wd-main-popup-hidden-date:${popup.id}', new Date().toISOString().slice(0,10)); window.close();">
-                오늘 하루 보지 않기
-              </button>
-
-              <div class="btns">
-                <button class="close" onclick="window.close()">닫기</button>
-                <a class="primary" href="${popup.buttonLink || "/support/guide"}" target="_blank">
-                  ${popup.buttonText || "자세히 보기"}
-                </a>
-              </div>
-            </div>
-          </div>
-        </body>
-        </html>
-      `);
-
-      popupWindow.document.close();
+      openedWindowsRef.current.push(popupWindow);
+      openedCount += 1;
+      writePopupWindow(popupWindow, popup);
     });
 
-    // 팝업 차단 시 첫 번째 팝업만 기존 모달로 대체 표시
-    if (blocked) setOpen(true);
-  }, [popups, isMobile]);
+    // 새 창이 하나도 못 열렸을 때만 사이트 내부 모달로 대체 표시
+    if (blocked && openedCount === 0) setOpen(true);
 
-  // (두 번째 useEffect 삭제됨)
+    return () => {
+      closeOpenedWindows();
+    };
+  }, [popups, isMobile]);
 
   if (!fallbackPopup?.enabled || !open) return null;
 
   const close = () => setOpen(false);
   const hideToday = () => {
-    if (typeof window !== "undefined") {
-      const today = new Date().toISOString().slice(0, 10);
-      if (fallbackPopup?.id) {
-        window.localStorage.setItem(`wd-main-popup-hidden-date:${fallbackPopup.id}`, today);
-      }
-    }
+    markHiddenToday(fallbackPopup?.id);
     setOpen(false);
   };
 
@@ -887,7 +978,7 @@ function MainPopup({ isMobile }) {
                     boxShadow: "0 8px 18px rgba(59,167,160,.22)",
                   }}
                 >
-                  {fallbackPopup.buttonText || "자세히 보기"}
+                  자세히 보기
                 </Link>
               )}
             </div>
