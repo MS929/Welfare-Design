@@ -591,177 +591,165 @@ function MainPopup({ isMobile }) {
     window.localStorage.setItem(`wd-main-popup-hidden-date:${popupId}`, today);
   };
 
-  const writePopupWindow = (popupWindow, popup) => {
-    const title = escapeHtml(popup.title || "복지디자인 안내");
-    const body = escapeHtml(
-      popup.body || "복지디자인 사회적협동조합의 새로운 소식을 확인해 주세요."
-    );
-    const image = popup.image ? escapeHtml(popup.image) : "";
-    const buttonLink = popup.buttonLink || "#";
-    const safeButtonLink = escapeHtml(buttonLink);
-    const popupId = escapeHtml(popup.id);
-    const hasButton = buttonLink && buttonLink !== "#";
+    const writePopupWindow = (popupWindow, popup) => {
+      const title = escapeHtml(popup.title || "복지디자인 안내");
+      const body = escapeHtml(
+        popup.body || "복지디자인 사회적협동조합의 새로운 소식을 확인해 주세요."
+      );
+      const image = popup.image ? escapeHtml(popup.image) : "";
+      const buttonLink = popup.buttonLink || "#";
+      const safeButtonLink = escapeHtml(buttonLink);
+      const popupId = escapeHtml(popup.id);
+      const hasButton = buttonLink && buttonLink !== "#";
 
-    popupWindow.document.open();
-    popupWindow.document.write(`
-      <!DOCTYPE html>
-      <html lang="ko">
-      <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>${title}</title>
-        <style>
-          * { box-sizing:border-box; }
-          html, body { margin:0; padding:0; }
-          body {
-            min-height:100vh;
-            font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans KR',sans-serif;
-            background:#f8fafc;
-            color:#111827;
-          }
-          .wrap {
-            min-height:100vh;
-            background:#fff;
-            display:flex;
-            flex-direction:column;
-          }
-          .top {
-            height:56px;
-            padding:0 22px;
-            border-bottom:1px solid #e5e7eb;
-            display:flex;
-            align-items:center;
-            justify-content:space-between;
-            gap:12px;
-            font-weight:900;
-            font-size:18px;
-            letter-spacing:-.02em;
-          }
-          .top button {
-            width:32px;
-            height:32px;
-            border-radius:999px;
-            border:1px solid #d1d5db;
-            background:#fff;
-            color:#374151;
-            cursor:pointer;
-            font-size:18px;
-            line-height:1;
-          }
-          .img {
-            width:100%;
-            aspect-ratio:16/10;
-            overflow:hidden;
-            background:#f1f5f9;
-            border-bottom:1px solid #e5e7eb;
-          }
-          .img img {
-            width:100%;
-            height:100%;
-            object-fit:cover;
-            display:block;
-          }
-          .content {
-            padding:28px 28px 22px;
-            flex:1;
-          }
-          h1 {
-            margin:0 0 14px;
-            font-size:28px;
-            line-height:1.3;
-            font-weight:900;
-            letter-spacing:-.04em;
-          }
-          p {
-            margin:0;
-            line-height:1.75;
-            color:#4b5563;
-            font-size:15px;
-            white-space:pre-line;
-            word-break:keep-all;
-          }
-          .bottom {
-            margin-top:auto;
-            padding:18px 22px 22px;
-            border-top:1px solid #e5e7eb;
-            display:flex;
-            justify-content:space-between;
-            align-items:center;
-            gap:10px;
-            background:linear-gradient(180deg,#fff 0%,#fafafa 100%);
-          }
-          .btns {
-            display:flex;
-            gap:8px;
-            margin-left:auto;
-          }
-          button, a {
-            height:40px;
-            padding:0 18px;
-            border-radius:999px;
-            cursor:pointer;
-            font-weight:800;
-            text-decoration:none;
-            display:inline-flex;
-            align-items:center;
-            justify-content:center;
-            white-space:nowrap;
-            font-size:14px;
-          }
-          .close {
-            background:#fff;
-            border:1px solid #d1d5db;
-            color:#374151;
-          }
-          .primary {
-            border:1px solid #3BA7A0;
-            background:#3BA7A0;
-            color:#fff;
-            box-shadow:0 8px 18px rgba(59,167,160,.20);
-          }
-          .hide {
-            border:0;
-            background:none;
-            color:#64748b;
-            padding:0;
-          }
-        </style>
-      </head>
-      <body>
-        <div class="wrap">
-          <div class="top">
-            <span>WELFARE DESIGN</span>
-            <button type="button" onclick="window.close()" aria-label="닫기">×</button>
-          </div>
-
-          ${image ? `
-            <div class="img">
-              <img src="${image}" alt="" />
+      popupWindow.document.open();
+      popupWindow.document.write(`
+        <!DOCTYPE html>
+        <html lang="ko">
+        <head>
+          <meta charset="UTF-8" />
+          <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+          <title>${title}</title>
+          <style>
+            * { box-sizing:border-box; }
+            html, body { margin:0; padding:0; }
+            body {
+              min-height:100vh;
+              font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans KR',sans-serif;
+              background:#f8fafc;
+              color:#111827;
+            }
+            .wrap {
+              min-height:100vh;
+              background:#fff;
+              display:flex;
+              flex-direction:column;
+            }
+            .top {
+              height:56px;
+              padding:0 22px;
+              border-bottom:1px solid #e5e7eb;
+              display:flex;
+              align-items:center;
+              justify-content:space-between;
+              gap:12px;
+              font-weight:900;
+              font-size:18px;
+              letter-spacing:-.02em;
+            }
+            .img {
+              width:100%;
+              aspect-ratio:16/10;
+              overflow:hidden;
+              background:#f1f5f9;
+              border-bottom:1px solid #e5e7eb;
+            }
+            .img img {
+              width:100%;
+              height:100%;
+              object-fit:cover;
+              display:block;
+            }
+            .content {
+              padding:28px 28px 22px;
+              flex:1;
+            }
+            h1 {
+              margin:0 0 14px;
+              font-size:28px;
+              line-height:1.3;
+              font-weight:900;
+              letter-spacing:-.04em;
+            }
+            p {
+              margin:0;
+              line-height:1.75;
+              color:#4b5563;
+              font-size:15px;
+              white-space:pre-line;
+              word-break:keep-all;
+            }
+            .bottom {
+              margin-top:auto;
+              padding:18px 22px 22px;
+              border-top:1px solid #e5e7eb;
+              display:flex;
+              justify-content:space-between;
+              align-items:center;
+              gap:10px;
+              background:linear-gradient(180deg,#fff 0%,#fafafa 100%);
+            }
+            .btns {
+              display:flex;
+              gap:8px;
+              margin-left:auto;
+            }
+            button, a {
+              height:40px;
+              padding:0 18px;
+              border-radius:999px;
+              cursor:pointer;
+              font-weight:800;
+              text-decoration:none;
+              display:inline-flex;
+              align-items:center;
+              justify-content:center;
+              white-space:nowrap;
+              font-size:14px;
+            }
+            .close {
+              background:#fff;
+              border:1px solid #d1d5db;
+              color:#374151;
+            }
+            .primary {
+              border:1px solid #3BA7A0;
+              background:#3BA7A0;
+              color:#fff;
+              box-shadow:0 8px 18px rgba(59,167,160,.20);
+            }
+            .hide {
+              border:0;
+              background:none;
+              color:#64748b;
+              padding:0;
+            }
+          </style>
+        </head>
+        <body>
+          <div class="wrap">
+            <div class="top">
+              <span>WELFARE DESIGN</span>
             </div>
-          ` : ""}
 
-          <div class="content">
-            <h1>${title}</h1>
-            <p>${body}</p>
-          </div>
+            ${image ? `
+              <div class="img">
+                <img src="${image}" alt="" />
+              </div>
+            ` : ""}
 
-          <div class="bottom">
-            <button class="hide" type="button" onclick="try { window.opener && window.opener.localStorage.setItem('wd-main-popup-hidden-date:${popupId}', new Date().toISOString().slice(0,10)); } catch(e) {} window.close();">
-              오늘 하루 보지 않기
-            </button>
+            <div class="content">
+              <h1>${title}</h1>
+              <p>${body}</p>
+            </div>
 
-            <div class="btns">
-              <button class="close" type="button" onclick="window.close()">닫기</button>
-              ${hasButton ? `<a class="primary" href="${safeButtonLink}" target="_blank" rel="noopener">자세히 보기</a>` : ""}
+            <div class="bottom">
+              <button class="hide" type="button" onclick="try { window.opener && window.opener.localStorage.setItem('wd-main-popup-hidden-date:${popupId}', new Date().toISOString().slice(0,10)); } catch(e) {} window.close();">
+                오늘 하루 보지 않기
+              </button>
+
+              <div class="btns">
+                <button class="close" type="button" onclick="window.close()">닫기</button>
+                ${hasButton ? `<a class="primary" href="${safeButtonLink}" target="_blank" rel="noopener">자세히 보기</a>` : ""}
+              </div>
             </div>
           </div>
-        </div>
-      </body>
-      </html>
-    `);
-    popupWindow.document.close();
-    popupWindow.focus();
-  };
+        </body>
+        </html>
+      `);
+      popupWindow.document.close();
+      popupWindow.focus();
+    };
 
   useEffect(() => {
     if (!popups.length) return;
