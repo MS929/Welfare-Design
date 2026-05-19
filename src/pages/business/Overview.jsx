@@ -19,7 +19,7 @@ import BizLayout from "./_Layout";
 
 // BizLayout: 사업영역 공통 레이아웃 및 페이지 타이틀/메타 정보 제공
 
-export default function BizOverview() {     // 사업영역 메인 페이지 컴포넌트
+export default function BizOverview() {
   // 현재 운영 중인 주요 사업 목록 (카드 UI로 렌더링됨)
   const programs = [
     {
@@ -62,10 +62,11 @@ export default function BizOverview() {     // 사업영역 메인 페이지 컴
 
   return (
     <>
-      {/*페이지 전용 텍스트/레이아웃 안정화 CSS (text-guard) */}
+      {/* 페이지 전용 텍스트/레이아웃 안정화 CSS (text-guard) */}
       <style
         id="page-text-guard"
-        dangerouslySetInnerHTML={{ __html: `
+        dangerouslySetInnerHTML={{
+          __html: `
 /* 모바일 환경에서 브라우저 자동 글자 확대 방지 */
 html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
 /* 박스 모델 통일 및 줄바꿈 안정성 확보 */
@@ -101,77 +102,82 @@ mark, [data-hl] {
 .u-ellipsis { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 /* 카드 렌더링 성능 최적화 (content-visibility) */
 .cv { content-visibility: auto; contain-intrinsic-size: 240px 160px; }
-        ` }}
+        `,
+        }}
       />
-      <BizLayout title="사업영역">
-      <section>
-        {/* 사업영역 개요 설명 (인트로) */}
-        <p className="text-gray-700 leading-relaxed">
-          복지디자인 사회적협동조합은 이동·건강·경제·정보 접근성 등을 중심으로
-          지역 기반 상호부조의 사업을 전개합니다. 아래 프로그램은 현재 운영 중인
-          핵심 사업으로, 대상/절차/문의는 각 페이지에서 확인하실 수 있습니다.
-        </p>
 
-        {/* 사업영역 프로그램 카드 목록 영역 */}
-        <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 gap-6">
-          {programs.map((p) => {
-            // 개별 사업 카드 (클릭 시 상세 페이지 이동)
-            return (
-              <Link
-                key={p.to}
-                to={p.to}
-                className="cv relative block h-full rounded-2xl border border-[#2CB9B1]/30 bg-white/90 backdrop-blur-[1px] ring-1 ring-inset ring-white/60 shadow-sm hover:shadow-md transition-all duration-200 hover:border-[#2CB9B1]/50 focus:outline-none focus:ring-2 focus:ring-[#2CB9B1]/40"
-              >
-                <div className="p-5 flex flex-col h-full">
-                  <div className="flex items-center gap-3">
-                    <span className="inline-block h-2.5 w-2.5 shrink-0 rounded-full bg-[#F26C2A] shadow-[0_0_0_2px_rgba(242,108,42,0.18)]" />
-                    <h4 className="font-semibold text-[17px] text-[#111827] leading-snug">
-                      {p.title.includes("<strong>") ? (
-                        <>
-                          <span className="relative top-[1px] text-[13px] font-medium text-gray-500">
-                            노인장기요양보험
-                          </span>{" "}
-                          <span className="text-[20px] font-bold text-[#111827] tracking-[-0.01em] leading-none">
-                            복지용구
-                          </span>
-                        </>
-                      ) : (
-                        p.title
-                      )}
-                    </h4>
+      <BizLayout title="사업영역">
+        <section>
+          {/* 사업영역 개요 설명 (인트로) */}
+          <p className="text-gray-700 leading-relaxed">
+            복지디자인 사회적협동조합은 이동·건강·경제·정보 접근성 등을 중심으로
+            지역 기반 상호부조의 사업을 전개합니다. 아래 프로그램은 현재 운영 중인
+            핵심 사업으로, 대상/절차/문의는 각 페이지에서 확인하실 수 있습니다.
+          </p>
+
+          {/* 사업영역 프로그램 카드 목록 영역 */}
+          <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 gap-6">
+            {programs.map((p) => {
+              // 개별 사업 카드 (클릭 시 상세 페이지 이동)
+              return (
+                <Link
+                  key={p.to + p.title}
+                  to={p.to}
+                  className="cv relative block h-full rounded-2xl border border-[#2CB9B1]/30 bg-white/90 backdrop-blur-[1px] ring-1 ring-inset ring-white/60 shadow-sm hover:shadow-md transition-all duration-200 hover:border-[#2CB9B1]/50 focus:outline-none focus:ring-2 focus:ring-[#2CB9B1]/40"
+                >
+                  <div className="p-5 flex flex-col h-full">
+                    <div className="flex items-center gap-3">
+                      <span className="inline-block h-2.5 w-2.5 shrink-0 rounded-full bg-[#F26C2A] shadow-[0_0_0_2px_rgba(242,108,42,0.18)]" />
+                      <h4 className="font-semibold text-[17px] text-[#111827] leading-snug">
+                        {p.title.includes("<strong>") ? (
+                          <>
+                            <span className="relative top-[1px] text-[13px] font-medium text-gray-500">
+                              노인장기요양보험
+                            </span>{" "}
+                            <span className="text-[20px] font-bold text-[#111827] tracking-[-0.01em] leading-none">
+                              복지용구
+                            </span>
+                          </>
+                        ) : (
+                          p.title
+                        )}
+                      </h4>
+                    </div>
+
+                    <p className="text-sm text-gray-600 mt-3 leading-relaxed flex-1">
+                      {p.desc}
+                    </p>
+
+                    <span className="inline-flex items-center gap-1 text-[#F26C2A] font-semibold mt-4">
+                      자세히 보기
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24"
+                        fill="currentColor"
+                        className="h-4 w-4"
+                      >
+                        <path d="M13.5 4.5 21 12l-7.5 7.5m7.5-7.5H3" />
+                      </svg>
+                    </span>
                   </div>
-                  <p className="text-sm text-gray-600 mt-3 leading-relaxed flex-1">
-                    {p.desc}
-                  </p>
-                  <span className="inline-flex items-center gap-1 text-[#F26C2A] font-semibold mt-4">
-                    자세히 보기
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 24 24"
-                      fill="currentColor"
-                      className="h-4 w-4"
-                    >
-                      <path d="M13.5 4.5 21 12l-7.5 7.5m7.5-7.5H3" />
-                    </svg>
-                  </span>
-                </div>
-                {/* 사업 아이콘 이미지: 카드 내용을 보조하는 시각 요소 */}
-                <img
-                  src={p.icon}
-                  alt=""
-                  width={48}
-                  height={48}
-                  loading="lazy"
-                  decoding="async"
-                  fetchpriority="low"
-                  className="absolute bottom-3 right-3 w-12 h-12 opacity-80 select-none pointer-events-none"
-                />
-              </Link>
-            );
-          })}
-        </div>
-      </section>
-    </BizLayout>
+
+                  {/* 사업 아이콘 이미지: 카드 내용을 보조하는 시각 요소 */}
+                  <img
+                    src={p.icon}
+                    alt=""
+                    width={48}
+                    height={48}
+                    loading="lazy"
+                    decoding="async"
+                    fetchPriority="low"
+                    className="absolute bottom-3 right-3 w-12 h-12 opacity-80 select-none pointer-events-none"
+                  />
+                </Link>
+              );
+            })}
+          </div>
+        </section>
+      </BizLayout>
     </>
   );
 }
