@@ -618,9 +618,13 @@ function MainPopup({ isMobile }) {
               font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans KR',sans-serif;
               background:#f8fafc;
               color:#111827;
+              display:flex;
+              align-items:flex-start;
+              justify-content:center;
             }
             .wrap {
-              min-height:100vh;
+              width:100%;
+              min-height:auto;
               background:#fff;
               display:flex;
               flex-direction:column;
@@ -652,7 +656,7 @@ function MainPopup({ isMobile }) {
             }
             .content {
               padding:28px 28px 22px;
-              flex:1;
+              flex:0 0 auto;
             }
             h1 {
               margin:0 0 14px;
@@ -670,7 +674,7 @@ function MainPopup({ isMobile }) {
               word-break:keep-all;
             }
             .bottom {
-              margin-top:auto;
+              margin-top:0;
               padding:18px 22px 22px;
               border-top:1px solid #e5e7eb;
               display:flex;
@@ -780,7 +784,7 @@ function MainPopup({ isMobile }) {
 
       const offset = index * 36;
       const width = isMobile ? 380 : 540;
-      const height = popup.image ? (isMobile ? 640 : 680) : 430;
+      const height = popup.image ? (isMobile ? 640 : 680) : 340;
       const features = [
         `width=${width}`,
         `height=${height}`,
