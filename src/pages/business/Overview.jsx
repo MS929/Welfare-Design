@@ -125,15 +125,13 @@ mark, [data-hl] {
                 <div className="p-5 flex flex-col h-full">
                   <div className="flex items-center gap-3">
                     <span className="inline-block h-2.5 w-2.5 shrink-0 rounded-full bg-[#F26C2A] shadow-[0_0_0_2px_rgba(242,108,42,0.18)]" />
-                    <h4
-                      className="font-semibold text-[17px] text-[#111827] leading-snug"
-                    >
+                    <h4 className="font-semibold text-[17px] text-[#111827] leading-snug">
                       {p.title.includes("<strong>") ? (
                         <>
                           <span className="relative top-[1px] text-[13px] font-medium text-gray-500">
                             노인장기요양보험
                           </span>{" "}
-                          <span className="text-[24px] font-extrabold text-[#111827] tracking-[-0.02em] leading-none">
+                          <span className="text-[20px] font-bold text-[#111827] tracking-[-0.01em] leading-none">
                             복지용구
                           </span>
                         </>
