@@ -144,11 +144,11 @@ export default function Navbar() {
       title: "복지용구 지원사업",
       items: [
         { to: "/business/overview", label: "사업영역" },
-        { to: "/business/apply-help", label: "노인장기요양보험 복지용구", nowrap: true },
+        { to: "/business/apply-help", label: "노인장기요양보험 복지용구" },
         { to: "/business/rental", label: "휠체어 무료 대여" },
         { to: "/business/donation", label: "보조기기 기증 및 수리" },
-        { to: "/business/apply-help", label: "보조기기·복지용구 신청 안내 지원", nowrap: true },
-        { to: "/business/needs-survey", label: "취약 계층 복지욕구 실태조사", nowrap: true },
+        { to: "/business/apply-help", label: "보조기기·복지용구 신청 안내 지원" },
+        { to: "/business/needs-survey", label: "취약 계층 복지욕구 실태조사" },
         { to: "/business/member-services", label: "조합원 지원 서비스" },
       ],
     },
@@ -352,30 +352,20 @@ h1, h2, h3, h4, h5 { line-height: 1.25; }
                               }}
                             >
                               {cols.map((col, ci) => (
-                                <div key={ci} className="px-10 py-10">
+                                <div key={ci} className="px-5 py-10">
                                   <ul className="space-y-2">
                                     {col.map((it) => (
                                       <li key={it.to}>
                                         <NavLink
                                           to={it.to}
-                                          className="group w-full flex items-center justify-between gap-3 rounded-xl px-3 py-2 text-[17px] text-gray-900 font-normal transition-colors hover:text-emerald-700 focus-visible:ring-2 focus-visible:ring-emerald-500"
+                                          className="group w-full flex items-center justify-center gap-2 rounded-xl px-1 py-2 text-center text-[16px] leading-[1.45] text-gray-900 font-normal transition-colors hover:text-emerald-700 focus-visible:ring-2 focus-visible:ring-emerald-500"
                                           onClick={() => {
                                             setMegaOpen(false);
                                             setActiveIdx(null);
                                           }}
                                         >
-                                          <span
-                                            className={`inline-flex items-center rounded-2xl px-4 py-2 leading-none whitespace-nowrap transition-all duration-200 group-hover:bg-emerald-50 ${
-                                              it.nowrap ? "nav-nowrap" : ""
-                                            }`}
-                                          >
+                                          <span className="inline-block max-w-full rounded-2xl px-3 py-2 leading-[1.35] whitespace-normal break-keep transition-all duration-200 group-hover:bg-emerald-50">
                                             {it.label}
-                                          </span>
-                                          <span
-                                            aria-hidden="true"
-                                            className="opacity-0 translate-x-[-2px] transition-all group-hover:opacity-100 group-hover:translate-x-0 text-emerald-600"
-                                          >
-                                            →
                                           </span>
                                         </NavLink>
                                       </li>
