@@ -218,10 +218,10 @@ mark, [data-hl] {
                     신청 문의 : 복지디자인
                   </span>
                   <a
-                    href="tel:0420000000"
+                    href="tel:010-4303-6693"
                     className="font-extrabold text-2xl tabular-nums text-[#F26C2A] underline whitespace-nowrap"
                   >
-                    042-000-0000
+                    010-4303-6693
                   </a>
                 </div>
               </div>
@@ -244,10 +244,10 @@ mark, [data-hl] {
                     </span>
                   </div>
                   <a
-                    href="tel:0420000000"
+                    href="tel:010-4303-6693"
                     className="font-extrabold text-[20px] tabular-nums text-[#F26C2A] underline whitespace-nowrap"
                   >
-                    042-000-0000
+                    010-4303-6693
                   </a>
                 </div>
               </div>

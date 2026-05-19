@@ -39,8 +39,8 @@ export default function ApplyHelp() {
 
   // 문의(CTA) 정보는 상세 페이지들에서 동일한 UI로 재사용할 수 있게 상수화
   const CONTACT_LABEL = "신청 문의 : 복지디자인";
-  const CONTACT_TEL_DISPLAY = "042-000-0000";
-  const CONTACT_TEL_HREF = "tel:0420000000";
+  const CONTACT_TEL_DISPLAY = "010-4303-6693";
+  const CONTACT_TEL_HREF = "tel:010-4303-6693";
 
   return (
     <>

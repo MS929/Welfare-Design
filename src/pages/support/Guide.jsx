@@ -273,11 +273,11 @@ mark, [data-hl] {
           <ul className="mt-2 list-disc pl-5 text-gray-700 space-y-1">
             <li>
               이메일:{" "}
-              <a className="text-sky-600" href="mailto:test@naver.com">
-                test@naver.com
+              <a className="text-sky-600" href="mailto:wdsc2025@naver.com">
+                wdsc2025@naver.com
               </a>
             </li>
-            <li>전화: 02-000-0000 (평일 10:00–17:00)</li>
+            <li>전화: 010-4303-6693 (평일 09:00–18:00)</li>
           </ul>
         </div>
       </section>
@@ -406,8 +406,8 @@ function BankBox({ className = "", compact = false }) {
   const [copied, setCopied] = useState(false);
 
   const bank = {
-    name: "하나은행",
-    number: "1230456789-1011-22",
+    name: "국민은행",
+    number: "748301-01-618473",
     holder: "복지디자인사회적협동조합",
   };
 

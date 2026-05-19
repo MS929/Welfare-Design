@@ -28,8 +28,8 @@ export default function DonationCampaign() {
   const EFFECT_TITLE = "기대 효과";
 
   const PHONE_LABEL = "신청 문의 : 복지디자인";
-  const PHONE_TEL = "0420000000";
-  const PHONE_DISPLAY = "042-000-0000";
+  const PHONE_TEL = "010-4303-6693";
+  const PHONE_DISPLAY = "010-4303-6693";
 
   const infoItems = [
     {

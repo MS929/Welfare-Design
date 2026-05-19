@@ -102,11 +102,11 @@ mark, [data-hl] {
                 />
               </svg>
               <a
-                href="tel:042-000-0000"
+                href="tel:010-4303-6693"
                 className="font-semibold hover:text-emerald-700"
-                aria-label="전화 걸기 042-000-0000"
+                aria-label="전화 걸기 010-4303-6693"
               >
-                042-000-0000
+                010-4303-6693
               </a>
             </li>
 
@@ -133,11 +133,11 @@ mark, [data-hl] {
                 />
               </svg>
               <a
-                href="mailto:info@welfaredesign.org"
+                href="mailto:wdsc2025@naver.com"
                 className="font-semibold hover:text-sky-700"
-                aria-label="이메일 보내기 info@welfaredesign.org"
+                aria-label="이메일 보내기 wdsc2025@naver.com"
               >
-                info@welfaredesign.org
+                wdsc2025@naver.com
               </a>
             </li>
           </ul>
@@ -145,14 +145,14 @@ mark, [data-hl] {
           {/* 빠른 문의를 위한 CTA 버튼 영역 */}
           <div className="mt-8 flex flex-wrap gap-3 justify-center">
             <a
-              href="tel:042-000-0000"
+              href="tel:010-4303-6693"
               className="inline-flex items-center justify-center rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white px-5 py-2.5 font-semibold"
               aria-label="전화 걸기 버튼"
             >
               전화 걸기
             </a>
             <a
-              href="mailto:info@welfaredesign.org"
+              href="mailto:wdsc2025@naver.com"
               className="inline-flex items-center justify-center rounded-lg bg-white text-sky-700 ring-1 ring-inset ring-sky-200 hover:bg-sky-50 px-5 py-2.5 font-semibold"
               aria-label="이메일 보내기 버튼"
             >

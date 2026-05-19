@@ -51,7 +51,7 @@ export default function Footer() {
                   함께 성장하며 모두의 행복을 위한 복지를 디자인합니다.
                 </p>
                 <p className="text-[12.5px] md:text-[13px] lg:text-[13.5px] text-gray-300 mt-1 font-medium tracking-tight">
-                  계좌번호 : 1230456789-1011-22 · 하나은행
+                  계좌번호 : 748301-01-618473 · 국민은행
                 </p>
               </div>
             </div>
@@ -60,7 +60,7 @@ export default function Footer() {
             <ul className="grid grid-cols-1 gap-1 md:gap-1 md:text-right text-[14px] md:text-[13.5px] lg:text-[14px] leading-relaxed tabular-nums text-gray-300">
               <li className="whitespace-nowrap">
                 <span className="text-gray-400">전화</span>
-                <span className="mx-1 text-gray-500">:</span>042-934-6338
+                <span className="mx-1 text-gray-500">:</span>010-4303-6693
               </li>
               <li className="whitespace-nowrap">
                 <span className="text-gray-400">팩스</span>
@@ -69,10 +69,10 @@ export default function Footer() {
               <li className="break-all">
                 <span className="text-gray-400">이메일</span>
                 <span className="mx-1 text-gray-500">:</span>
-                songkangbokji@songkang.or.kr
+                wdsc2025@naver.com
               </li>
               <li className="whitespace-normal md:whitespace-nowrap">
-                대전광역시 유성구 봉산로 45
+                대전광역시 유성구 계룡료88번길 46 4층
               </li>
             </ul>
           </div>
