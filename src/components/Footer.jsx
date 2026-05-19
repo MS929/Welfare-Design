@@ -22,7 +22,7 @@ export default function Footer() {
             <div className="flex items-center gap-3 md:gap-4">
               {/* 단체 로고 이미지 (반응형 + CDN 최적화 적용) */}
               <OptimizedImg
-                src="/images/about/main.png"
+                src="/images/about/main.jpg"
                 alt="복지디자인 로고"
                 useCdn
                 cdnWidth={80}
@@ -35,7 +35,7 @@ export default function Footer() {
                 height={30}
                 onError={(e) => {
                   // 로고 이미지 로딩 실패 시 fallback 이미지로 대체
-                  e.currentTarget.src = "/images/about/fallback.png";
+                  e.currentTarget.src = "/images/about/fallback.jpg";
                 }}
               />
 
