@@ -563,6 +563,160 @@ function getMainPopupData() {
 function MainPopup({ isMobile }) {
   const popup = useMemo(() => getMainPopupData(), []);
   const [open, setOpen] = useState(false);
+  // 새 창 팝업 열기
+  useEffect(() => {
+    if (!popup?.enabled) return;
+    if (typeof window === "undefined") return;
+
+    const today = new Date().toISOString().slice(0, 10);
+    const hiddenDate = localStorage.getItem("wd-main-popup-hidden-date");
+
+    // 테스트용 강제 팝업
+    const forcePopup = window.location.search.includes("popup=1");
+
+    if (forcePopup) {
+      localStorage.removeItem("wd-main-popup-hidden-date");
+    }
+
+    if (hiddenDate === today && !forcePopup) return;
+
+    const popupWindow = window.open(
+      "",
+      "welfareDesignPopup",
+      "width=540,height=680,resizable=yes,scrollbars=yes"
+    );
+
+    // 팝업 차단 시 기존 모달 표시
+    if (!popupWindow || popupWindow.closed || typeof popupWindow.closed === "undefined") {
+      setOpen(true);
+      return;
+    }
+
+    popupWindow.document.write(`
+      <!DOCTYPE html>
+      <html lang="ko">
+      <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>${popup.title || "복지디자인 안내"}</title>
+        <style>
+          * { box-sizing:border-box; }
+          body {
+            margin:0;
+            font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+            background:#f8fafc;
+            color:#111827;
+          }
+          .wrap {
+            background:#fff;
+            min-height:100vh;
+            display:flex;
+            flex-direction:column;
+          }
+          .top {
+            padding:16px 20px;
+            border-bottom:1px solid #e5e7eb;
+            font-weight:900;
+            font-size:18px;
+          }
+          .img {
+            width:100%;
+            aspect-ratio:16/10;
+            overflow:hidden;
+            background:#f1f5f9;
+          }
+          .img img {
+            width:100%;
+            height:100%;
+            object-fit:cover;
+          }
+          .content {
+            padding:24px;
+          }
+          h1 {
+            margin:0 0 12px;
+            font-size:28px;
+            font-weight:900;
+          }
+          p {
+            line-height:1.7;
+            color:#4b5563;
+          }
+          .bottom {
+            margin-top:auto;
+            padding:20px;
+            border-top:1px solid #e5e7eb;
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            gap:10px;
+          }
+          .btns {
+            display:flex;
+            gap:8px;
+          }
+          button,a {
+            height:40px;
+            padding:0 18px;
+            border-radius:999px;
+            border:none;
+            cursor:pointer;
+            font-weight:800;
+            text-decoration:none;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+          }
+          .close {
+            background:#fff;
+            border:1px solid #d1d5db;
+            color:#374151;
+          }
+          .primary {
+            background:#3BA7A0;
+            color:#fff;
+          }
+          .hide {
+            background:none;
+            color:#64748b;
+            padding:0;
+          }
+        </style>
+      </head>
+      <body>
+        <div class="wrap">
+          <div class="top">WELFARE DESIGN</div>
+
+          ${popup.image ? `
+            <div class="img">
+              <img src="${popup.image}" alt="popup" />
+            </div>
+          ` : ""}
+
+          <div class="content">
+            <h1>${popup.title || "복지디자인 안내"}</h1>
+            <p>${popup.body || "복지디자인 사회적협동조합의 새로운 소식을 확인해 주세요."}</p>
+          </div>
+
+          <div class="bottom">
+            <button class="hide" onclick="window.opener.localStorage.setItem('wd-main-popup-hidden-date', new Date().toISOString().slice(0,10)); window.close();">
+              오늘 하루 보지 않기
+            </button>
+
+            <div class="btns">
+              <button class="close" onclick="window.close()">닫기</button>
+              <a class="primary" href="${popup.buttonLink || "/support/guide"}" target="_blank">
+                ${popup.buttonText || "자세히 보기"}
+              </a>
+            </div>
+          </div>
+        </div>
+      </body>
+      </html>
+    `);
+
+    popupWindow.document.close();
+  }, [popup, isMobile]);
 
   useEffect(() => {
     if (!popup?.enabled) return;

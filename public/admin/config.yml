@@ -96,6 +96,8 @@ collections:
 
   - name: "popup"
     label: "메인 팝업"
+    create: true
+    format: "frontmatter"
     files:
       - file: "src/content/popup/main-popup.md"
         label: "메인 팝업 설정"
@@ -119,4 +121,3 @@ media_library:
           quality: auto        # 자동 품질 최적화
           width: 1600          # 최대 크기 제한
           crop: limit
-          
