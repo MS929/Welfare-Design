@@ -358,13 +358,17 @@ h1, h2, h3, h4, h5 { line-height: 1.25; }
                                       <li key={it.to}>
                                         <NavLink
                                           to={it.to}
-                                          className="group w-full inline-flex items-center justify-between gap-3 rounded-xl px-3 py-3 text-[17px] leading-snug text-gray-900 font-normal transition-colors hover:bg-emerald-50 hover:text-emerald-700 focus-visible:ring-2 focus-visible:ring-emerald-500"
+                                          className="group w-full flex items-center justify-between gap-3 rounded-xl px-3 py-2 text-[17px] text-gray-900 font-normal transition-colors hover:text-emerald-700 focus-visible:ring-2 focus-visible:ring-emerald-500"
                                           onClick={() => {
                                             setMegaOpen(false);
                                             setActiveIdx(null);
                                           }}
                                         >
-                                          <span className={it.nowrap ? "nav-nowrap" : ""}>
+                                          <span
+                                            className={`inline-flex items-center rounded-2xl px-4 py-2 leading-none whitespace-nowrap transition-all duration-200 group-hover:bg-emerald-50 ${
+                                              it.nowrap ? "nav-nowrap" : ""
+                                            }`}
+                                          >
                                             {it.label}
                                           </span>
                                           <span
