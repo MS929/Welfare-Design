@@ -1156,22 +1156,41 @@ export default function Home1() {
     } catch {}
   };
 
-  // When the filter tab changes, prefetch the next set of thumbnails so clicking feels instant.
+  const getStoryThumbUrl = (thumbnail) => {
+    const src = extractThumbSrc(thumbnail);
+    if (!src) return "";
+
+    const isCld = /res\.cloudinary\.com\//.test(src) && /\/image\/upload\//.test(src);
+    const w = isMobile ? 480 : isTablet ? 960 : 1440;
+    return isCld ? withCldUploadTransform(src, w) : src;
+  };
+
+  // 탭 전환 시 이미지가 늦게 뜨지 않도록, CMS 소식 썸네일은 최초 로딩 후 미리 캐싱한다.
+  useEffect(() => {
+    if (!storyItems.length) return;
+
+    const urls = Array.from(
+      new Set(
+        storyItems
+          .map((item) => getStoryThumbUrl(item.thumbnail))
+          .filter(Boolean)
+      )
+    );
+
+    urls.forEach((url, idx) => {
+      window.setTimeout(() => preloadImage(url), idx * 120);
+    });
+  }, [storyItems, isMobile, isTablet]);
+
+  // 탭이 바뀌는 순간 해당 탭 상위 6개 이미지는 즉시 다시 preload한다.
   useEffect(() => {
     const next = storyItems
       .filter((d) => storyActive === "전체" || d.type === storyActive)
       .slice(0, 6);
 
-    next.forEach((n, idx) => {
-      const src = extractThumbSrc(n.thumbnail);
-      if (!src) return;
-
-      const isCld = /res\.cloudinary\.com\//.test(src) && /\/image\/upload\//.test(src);
-      const w = isMobile ? 480 : isTablet ? 960 : 1440;
-      const finalUrl = isCld ? withCldUploadTransform(src, w) : src;
-
-      // limit preloading to top 6 (already sliced) and bias first few
-      if (idx < 6) preloadImage(finalUrl);
+    next.forEach((n) => {
+      const finalUrl = getStoryThumbUrl(n.thumbnail);
+      if (finalUrl) preloadImage(finalUrl);
     });
   }, [storyActive, storyItems, isMobile, isTablet]);
 
@@ -1825,12 +1844,8 @@ mark, [data-hl] {
                         .filter((d) => label === "전체" || d.type === label)
                         .slice(0, 6);
                       next.forEach((n) => {
-                        const src = extractThumbSrc(n.thumbnail);
-                        if (!src) return;
-                        const isCld = /res\.cloudinary\.com\//.test(src) && /\/image\/upload\//.test(src);
-                        const w = isMobile ? 480 : isTablet ? 960 : 1440;
-                        const finalUrl = isCld ? withCldUploadTransform(src, w) : src;
-                        preloadImage(finalUrl);
+                        const finalUrl = getStoryThumbUrl(n.thumbnail);
+                        if (finalUrl) preloadImage(finalUrl);
                       });
                     }}
                     onFocus={() => {
@@ -1838,12 +1853,8 @@ mark, [data-hl] {
                         .filter((d) => label === "전체" || d.type === label)
                         .slice(0, 6);
                       next.forEach((n) => {
-                        const src = extractThumbSrc(n.thumbnail);
-                        if (!src) return;
-                        const isCld = /res\.cloudinary\.com\//.test(src) && /\/image\/upload\//.test(src);
-                        const w = isMobile ? 480 : isTablet ? 960 : 1440;
-                        const finalUrl = isCld ? withCldUploadTransform(src, w) : src;
-                        preloadImage(finalUrl);
+                        const finalUrl = getStoryThumbUrl(n.thumbnail);
+                        if (finalUrl) preloadImage(finalUrl);
                       });
                     }}
                     onTouchStart={() => {
@@ -1851,12 +1862,8 @@ mark, [data-hl] {
                         .filter((d) => label === "전체" || d.type === label)
                         .slice(0, 6);
                       next.forEach((n) => {
-                        const src = extractThumbSrc(n.thumbnail);
-                        if (!src) return;
-                        const isCld = /res\.cloudinary\.com\//.test(src) && /\/image\/upload\//.test(src);
-                        const w = isMobile ? 480 : isTablet ? 960 : 1440;
-                        const finalUrl = isCld ? withCldUploadTransform(src, w) : src;
-                        preloadImage(finalUrl);
+                        const finalUrl = getStoryThumbUrl(n.thumbnail);
+                        if (finalUrl) preloadImage(finalUrl);
                       });
                     }}
                     style={{
@@ -1927,7 +1934,7 @@ mark, [data-hl] {
                       n.type ? `?type=${encodeURIComponent(n.type)}` : ""
                     }`}
                     thumbnail={n.thumbnail}
-                    priority={idx < 3}
+                    priority={idx < 6}
                     //  모바일/터치에서 hover/transition 비활성화
                     isTouchDevice={isMobile || isTouch}
                     isMobile={isMobile}
