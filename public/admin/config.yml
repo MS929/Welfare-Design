@@ -5,11 +5,11 @@ backend:
 publish_mode: editorial_workflow
 
 commit_messages:
-  create: "Create {{collection}} “{{slug}}” [skip ci]"
-  update: "Update {{collection}} “{{slug}}” [skip ci]"
-  delete: "Delete {{collection}} “{{slug}}” [skip ci]"
-  uploadMedia: "Upload “{{path}}” [skip ci]"
-  deleteMedia: "Delete “{{path}}” [skip ci]"
+  create: "Create {{collection}} “{{slug}}”"
+  update: "Update {{collection}} “{{slug}}”"
+  delete: "Delete {{collection}} “{{slug}}”"
+  uploadMedia: "Upload “{{path}}”"
+  deleteMedia: "Delete “{{path}}”"
 
 media_folder: "public/uploads"
 public_folder: "/uploads"
