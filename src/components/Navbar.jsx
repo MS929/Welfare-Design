@@ -141,18 +141,14 @@ export default function Navbar() {
       ],
     },
     {
-      title: "사업",
+      title: "복지용구 지원사업",
       items: [
         { to: "/business/overview", label: "사업영역" },
-        { to: "/business/rental", label: "휠체어·복지용구 대여" },
-        { to: "/business/apply-help", label: "복지용구 신청 안내" },
-        { to: "/business/donation", label: "보조기기 기증 캠페인" },
-        {
-          to: "/business/ewc-insurance",
-          label: "전동휠체어 보험금 지원",
-          nowrap: true,
-        },
-        { to: "/business/needs-survey", label: "복지욕구 실태조사" },
+        { to: "/business/apply-help", label: "노인장기요양보험 복지용구", nowrap: true },
+        { to: "/business/rental", label: "휠체어 무료 대여" },
+        { to: "/business/donation", label: "보조기기 기증 및 수리" },
+        { to: "/business/apply-help", label: "보조기기·복지용구 신청 안내 지원", nowrap: true },
+        { to: "/business/needs-survey", label: "취약 계층 복지욕구 실태조사", nowrap: true },
         { to: "/business/member-services", label: "조합원 지원 서비스" },
       ],
     },
@@ -292,7 +288,7 @@ h1, h2, h3, h4, h5 { line-height: 1.25; }
               // - 나머지: 4칸
               const isNews = sec.title === "소식";
               const isSupport = sec.title === "후원";
-              const isBusiness = sec.title === "사업";
+              const isBusiness = sec.title === "복지용구 지원사업";
               const colCount = isNews || isSupport ? 2 : 4;
 
               const cols = Array.from({ length: colCount }, () => []);
@@ -501,10 +497,10 @@ h1, h2, h3, h4, h5 { line-height: 1.25; }
               </div>
             </details>
 
-            {/* 사업 */}
+            {/* 복지용구 지원사업 */}
             <details className="border-b">
               <summary className="px-4 py-3 cursor-pointer hover:bg-gray-50">
-                사업
+                복지용구 지원사업
               </summary>
               <div className="px-2 pb-2">
                 <NavLink
@@ -518,16 +514,6 @@ h1, h2, h3, h4, h5 { line-height: 1.25; }
                   사업영역
                 </NavLink>
                 <NavLink
-                  to="/business/rental"
-                  className="block px-3 py-2 rounded hover:bg-gray-50"
-                  onClick={(e) => {
-                    setMobileOpen(false);
-                    e.target.closest("details").removeAttribute("open");
-                  }}
-                >
-                  휠체어·복지용구 대여
-                </NavLink>
-                <NavLink
                   to="/business/apply-help"
                   className="block px-3 py-2 rounded hover:bg-gray-50"
                   onClick={(e) => {
@@ -535,7 +521,17 @@ h1, h2, h3, h4, h5 { line-height: 1.25; }
                     e.target.closest("details").removeAttribute("open");
                   }}
                 >
-                  복지용구 신청 안내
+                  노인장기요양보험 복지용구
+                </NavLink>
+                <NavLink
+                  to="/business/rental"
+                  className="block px-3 py-2 rounded hover:bg-gray-50"
+                  onClick={(e) => {
+                    setMobileOpen(false);
+                    e.target.closest("details").removeAttribute("open");
+                  }}
+                >
+                  휠체어 무료 대여
                 </NavLink>
                 <NavLink
                   to="/business/donation"
@@ -545,17 +541,17 @@ h1, h2, h3, h4, h5 { line-height: 1.25; }
                     e.target.closest("details").removeAttribute("open");
                   }}
                 >
-                  보조기기 기증 캠페인
+                  보조기기 기증 및 수리
                 </NavLink>
                 <NavLink
-                  to="/business/ewc-insurance"
+                  to="/business/apply-help"
                   className="block px-3 py-2 rounded hover:bg-gray-50"
                   onClick={(e) => {
                     setMobileOpen(false);
                     e.target.closest("details").removeAttribute("open");
                   }}
                 >
-                  전동휠체어 보험금 지원
+                  보조기기·복지용구 신청 안내 지원
                 </NavLink>
                 <NavLink
                   to="/business/needs-survey"
@@ -565,7 +561,7 @@ h1, h2, h3, h4, h5 { line-height: 1.25; }
                     e.target.closest("details").removeAttribute("open");
                   }}
                 >
-                  복지욕구 실태조사
+                  취약 계층 복지욕구 실태조사
                 </NavLink>
                 <NavLink
                   to="/business/member-services"
