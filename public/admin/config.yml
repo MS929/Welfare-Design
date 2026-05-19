@@ -96,17 +96,18 @@ collections:
 
   - name: "popup"
     label: "메인 팝업"
-    files:
-      - file: "src/content/popup/main-popup.md"
-        label: "메인 팝업 설정"
-        name: "main-popup"
-        fields:
-          - { label: "제목", name: "title", widget: "string" }
-          - { label: "활성화", name: "enabled", widget: "boolean", default: true }
-          - { label: "이미지", name: "image", widget: "image", required: false }
-          - { label: "버튼 텍스트", name: "buttonText", widget: "string", required: false }
-          - { label: "버튼 링크", name: "buttonLink", widget: "string", required: false }
-          - { label: "내용", name: "body", widget: "markdown" }
+    folder: "src/content/popup"
+    create: true
+    format: "frontmatter"
+    slug: "{{slug}}"
+    identifier_field: "title"
+    fields:
+      - { label: "제목", name: "title", widget: "string" }
+      - { label: "활성화", name: "enabled", widget: "boolean", default: true }
+      - { label: "이미지", name: "image", widget: "image", required: false }
+      - { label: "버튼 텍스트", name: "buttonText", widget: "string", required: false }
+      - { label: "버튼 링크", name: "buttonLink", widget: "string", required: false }
+      - { label: "내용", name: "body", widget: "markdown" }
 
 media_library:
   name: cloudinary
