@@ -364,11 +364,7 @@ h1, h2, h3, h4, h5 { line-height: 1.25; }
                                             setActiveIdx(null);
                                           }}
                                         >
-                                          <span
-                                            className={`inline-flex items-center rounded-2xl px-5 py-3 leading-tight transition-all duration-200 group-hover:bg-emerald-50 ${
-                                              it.nowrap ? "nav-nowrap" : ""
-                                            }`}
-                                          >
+                                          <span className={it.nowrap ? "nav-nowrap" : ""}>
                                             {it.label}
                                           </span>
                                           <span
