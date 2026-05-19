@@ -71,6 +71,15 @@ const CONTAINER = 1360;
 const HERO_IMAGES = ["/images/hero/dog.png", "/images/hero/light.png"];
 const HERO_INTERVAL = 10000; // 10초
 
+// CMS 메인 팝업 설정 파일 로드
+// - Netlify CMS에서 src/content/popup/main-popup.md 를 관리
+// - 파일이 아직 없으면 빈 객체로 처리되어 팝업이 뜨지 않음
+const popupModules = import.meta.glob("/src/content/popup/main-popup.md", {
+  eager: true,
+  query: "?raw",
+  import: "default",
+});
+
 /**
  * 파일명에서 날짜가 포함된 slug를 파싱
  * 예) 2025-01-01-my-post.md -> { date: '2025-01-01', slug: 'my-post', titleFromFile: 'my-post' }
@@ -526,6 +535,213 @@ const StoryCard = (props) => {
   );
 };
 
+// CMS 메인 팝업 데이터 파싱
+function getMainPopupData() {
+  try {
+    const raw = Object.values(popupModules)[0];
+    if (!raw) return null;
+
+    const { data, content } = matter(raw);
+
+    return {
+      title: data?.title || "",
+      enabled: data?.enabled === true,
+      image: extractThumbSrc(data?.image || ""),
+      buttonText: data?.buttonText || "자세히 보기",
+      buttonLink: data?.buttonLink || "#",
+      body: (content || "").trim(),
+    };
+  } catch (e) {
+    console.warn("메인 팝업 로드 실패:", e);
+    return null;
+  }
+}
+
+// 메인 페이지 팝업
+// - CMS에서 enabled=true 일 때만 노출
+// - 오늘 하루 보지 않기는 localStorage로 처리
+function MainPopup({ isMobile }) {
+  const popup = useMemo(() => getMainPopupData(), []);
+  const [open, setOpen] = useState(false);
+
+  useEffect(() => {
+    if (!popup?.enabled) return;
+    if (typeof window === "undefined") return;
+
+    const today = new Date().toISOString().slice(0, 10);
+    const hiddenDate = window.localStorage.getItem("wd-main-popup-hidden-date");
+
+    if (hiddenDate !== today) {
+      setOpen(true);
+    }
+  }, [popup]);
+
+  if (!popup?.enabled || !open) return null;
+
+  const close = () => setOpen(false);
+  const hideToday = () => {
+    if (typeof window !== "undefined") {
+      const today = new Date().toISOString().slice(0, 10);
+      window.localStorage.setItem("wd-main-popup-hidden-date", today);
+    }
+    setOpen(false);
+  };
+
+  return (
+    <div
+      role="dialog"
+      aria-modal="true"
+      aria-label={popup.title || "메인 팝업"}
+      style={{
+        position: "fixed",
+        inset: 0,
+        zIndex: 9999,
+        display: "flex",
+        alignItems: isMobile ? "flex-end" : "center",
+        justifyContent: "center",
+        padding: isMobile ? 14 : 24,
+        background: "rgba(15, 23, 42, 0.42)",
+      }}
+      onClick={close}
+    >
+      <div
+        style={{
+          width: "100%",
+          maxWidth: isMobile ? 420 : 520,
+          borderRadius: isMobile ? 22 : 26,
+          overflow: "hidden",
+          background: "#fff",
+          border: "1px solid rgba(255,255,255,.75)",
+          boxShadow: "0 24px 70px rgba(0,0,0,.22)",
+        }}
+        onClick={(e) => e.stopPropagation()}
+      >
+        {popup.image && (
+          <div
+            style={{
+              width: "100%",
+              aspectRatio: isMobile ? "4 / 3" : "16 / 10",
+              background: "#F8FAFC",
+              overflow: "hidden",
+            }}
+          >
+            <img
+              src={popup.image}
+              alt=""
+              loading="eager"
+              decoding="async"
+              style={{
+                width: "100%",
+                height: "100%",
+                objectFit: "cover",
+                display: "block",
+              }}
+            />
+          </div>
+        )}
+
+        <div style={{ padding: isMobile ? "20px 20px 16px" : "24px 26px 18px" }}>
+          {popup.title && (
+            <h2
+              style={{
+                margin: 0,
+                fontSize: isMobile ? 22 : 26,
+                lineHeight: 1.25,
+                fontWeight: 900,
+                letterSpacing: "-0.03em",
+                color: PALETTE.darkText,
+              }}
+            >
+              {popup.title}
+            </h2>
+          )}
+
+          {popup.body && (
+            <p
+              style={{
+                margin: popup.title ? "12px 0 0" : 0,
+                color: "#4B5563",
+                fontSize: isMobile ? 14 : 15,
+                lineHeight: 1.65,
+                whiteSpace: "pre-line",
+              }}
+            >
+              {popup.body}
+            </p>
+          )}
+
+          <div
+            style={{
+              display: "flex",
+              gap: 10,
+              alignItems: "center",
+              justifyContent: "space-between",
+              marginTop: 20,
+              flexWrap: "wrap",
+            }}
+          >
+            <button
+              type="button"
+              onClick={hideToday}
+              style={{
+                border: "none",
+                background: "transparent",
+                color: PALETTE.grayText,
+                fontSize: 13,
+                cursor: "pointer",
+                padding: "8px 0",
+              }}
+            >
+              오늘 하루 보지 않기
+            </button>
+
+            <div style={{ display: "flex", gap: 8, marginLeft: "auto" }}>
+              <button
+                type="button"
+                onClick={close}
+                style={{
+                  height: 40,
+                  padding: "0 16px",
+                  borderRadius: 999,
+                  border: `1px solid ${PALETTE.lineStrong}`,
+                  background: "#fff",
+                  color: "#374151",
+                  fontWeight: 800,
+                  cursor: "pointer",
+                }}
+              >
+                닫기
+              </button>
+
+              {popup.buttonLink && popup.buttonLink !== "#" && (
+                <Link
+                  to={popup.buttonLink}
+                  onClick={close}
+                  style={{
+                    height: 40,
+                    padding: "0 18px",
+                    borderRadius: 999,
+                    background: PALETTE.teal,
+                    color: "#fff",
+                    fontWeight: 900,
+                    display: "inline-flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    textDecoration: "none",
+                    boxShadow: "0 8px 18px rgba(59,167,160,.22)",
+                  }}
+                >
+                  {popup.buttonText || "자세히 보기"}
+                </Link>
+              )}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 // 메인(Home) 페이지 컴포넌트
 // - 반응형/터치 감지, 히어로 캐러셀, 공지/소식 데이터 로딩 및 렌더 담당
 export default function Home1() {
@@ -834,6 +1050,7 @@ mark, [data-hl] {
         }}
       />
       <main style={{ background: "#fff", overflowX: "hidden" }}>
+        <MainPopup isMobile={isMobile} />
         {/* ================= HERO(상단 캐러셀) ================= */}
         <Section
           fullBleed
