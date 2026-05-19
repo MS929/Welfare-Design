@@ -123,17 +123,17 @@ mark, [data-hl] {
                 className="cv relative block h-full rounded-2xl border border-[#2CB9B1]/30 bg-white/90 backdrop-blur-[1px] ring-1 ring-inset ring-white/60 shadow-sm hover:shadow-md transition-all duration-200 hover:border-[#2CB9B1]/50 focus:outline-none focus:ring-2 focus:ring-[#2CB9B1]/40"
               >
                 <div className="p-5 flex flex-col h-full">
-                  <div className="flex items-start gap-3">
-                    <span className="mt-1 inline-block h-2.5 w-2.5 rounded-full bg-[#F26C2A] shadow-[0_0_0_2px_rgba(242,108,42,0.18)]" />
+                  <div className="flex items-center gap-3">
+                    <span className="inline-block h-2.5 w-2.5 shrink-0 rounded-full bg-[#F26C2A] shadow-[0_0_0_2px_rgba(242,108,42,0.18)]" />
                     <h4
                       className="font-semibold text-[17px] text-[#111827] leading-snug"
                     >
                       {p.title.includes("<strong>") ? (
                         <>
-                          <span className="text-[13px] font-medium text-gray-500">
+                          <span className="relative top-[1px] text-[13px] font-medium text-gray-500">
                             노인장기요양보험
                           </span>{" "}
-                          <span className="text-[24px] font-extrabold text-[#111827] tracking-[-0.02em]">
+                          <span className="text-[24px] font-extrabold text-[#111827] tracking-[-0.02em] leading-none">
                             복지용구
                           </span>
                         </>
