@@ -1748,6 +1748,7 @@ mark, [data-hl] {
                           <div
                             style={{
                               fontWeight: 900,
+                              fontSize: isMobile ? 15 : 16,
                               whiteSpace: "nowrap",
                               overflow: "hidden",
                               textOverflow: "ellipsis",
@@ -1757,7 +1758,7 @@ mark, [data-hl] {
                           </div>
                           <div
                             style={{
-                              fontSize: 12,
+                              fontSize: isMobile ? 12 : 13,
                               color: PALETTE.grayText,
                               marginTop: 2,
                             }}
@@ -2168,9 +2169,9 @@ mark, [data-hl] {
                           })()
                         : it.icon}
                     </div>
-                    <div style={{ fontWeight: 900 }}>{it.label}</div>
+                    <div style={{ fontWeight: 900, fontSize: isMobile ? 15 : 17 }}>{it.label}</div>
                   </div>
-                  <span style={{ opacity: 0.9, fontSize: 12 }}>바로가기 ›</span>
+                  <span style={{ opacity: 0.9, fontSize: isMobile ? 12 : 13 }}>바로가기 ›</span>
                 </Link>
               ))}
             </div>
