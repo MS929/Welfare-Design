@@ -25,7 +25,6 @@ export default function DonationCampaign() {
   const HERO_ALT = "보조기기 기증 캠페인";
 
   const INFO_TITLE = "핵심 안내";
-  const EFFECT_TITLE = "기대 효과";
 
   const PHONE_LABEL = "신청 문의 : 복지디자인";
   const PHONE_TEL = "010-4303-6693";
@@ -199,7 +198,7 @@ mark, [data-hl] {
           </div>
 
           {/* 우측 컬럼: 캠페인 안내 → 기대 효과 → 문의 배너*/}
-          <div className="flex flex-col gap-6 mt-10 md:mt-14">
+          <div className="flex flex-col gap-6 mt-10 md:mt-14 md:justify-center">
             <div className="rounded-2xl border border-[#2CB9B1]/40 bg-white/90 backdrop-blur-[1px] shadow-md p-7 md:p-8">
               <h3 className="font-semibold text-lg tracking-tight text-gray-900 mb-4">
                 {INFO_TITLE}
@@ -221,16 +220,6 @@ mark, [data-hl] {
               </ul>
             </div>
 
-            <div className="rounded-2xl border border-[#2CB9B1]/30 bg-white/90 backdrop-blur-[1px] shadow-md py-10 px-7 md:px-8 md:py-12">
-              <h3 className="font-semibold text-lg tracking-tight text-gray-900 mb-3">
-                {EFFECT_TITLE}
-              </h3>
-              <ul className="list-disc list-outside pl-5 space-y-1.5 text-gray-700 leading-relaxed tracking-tight text-justify">
-                {effectItems.map((txt) => (
-                  <li key={txt}>{txt}</li>
-                ))}
-              </ul>
-            </div>
 
             {/*
               문의 배너 반응형 처리
