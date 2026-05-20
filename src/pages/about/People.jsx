@@ -186,7 +186,7 @@ function OrgChartDesktop() {
         {/* 하단 분기: 3플랫폼 위치까지 하강 및 가로선/세로선 */}
         <VLine h={16} />
         {/* 좌·우 플랫폼 컬럼 사이까지만 이어지는 가로 연결선 */}
-        <div className="h-[2px] w-2/3 mx-auto bg-gray-400" />
+        <div className="h-[2px] w-2/3 mx-auto bg-black" />
         <div className="grid w-full grid-cols-3">
           <div className="flex justify-center"><VLine h={36} /></div>
           <div className="flex justify-center"><VLine h={36} /></div>
@@ -216,7 +216,7 @@ function OrgChartMobile() {
 
 function MobileNode({ label }) {
   return (
-    <div className="inline-flex items-center justify-center rounded-full border border-gray-300 bg-white px-4 h-10 text-gray-800 shadow-sm text-sm">
+    <div className="inline-flex items-center justify-center rounded-full border-2 border-black bg-white px-4 h-10 text-gray-800 shadow-sm text-sm">
       {label}
     </div>
   );
@@ -234,7 +234,7 @@ function MobileConnector({ h = 24 }) {
 function MobileAuditor() {
   // 세로 트렁크를 유지한 채 좌측으로만 감사 노드를 분기하는 T자 구조
   const spur = 118; // 중앙 트렁크에서 감사 노드까지의 거리(px)
-  const lineColor = "#000000"; // 라인 색상(gray-400)
+  const lineColor = "#000000"; // 라인 색상(black)
   const H = 56; // 감사 블록 전체 높이(이사장–사무국 간 간격 조절)
   const mid = Math.floor(H / 2); // 분기선이 위치할 세로 중앙 좌표
 
@@ -263,7 +263,7 @@ function MobileAuditor() {
 function VLine({ h = 8 }) {
   return (
     <div
-      className="w-[2px] bg-gray-400 mx-auto"
+      className="w-[2px] bg-black mx-auto"
       style={{ height: `${h * 4}px` }}
     />
   );
@@ -271,7 +271,7 @@ function VLine({ h = 8 }) {
 
 function Node({ label, small = false }) {
   const base =
-    "inline-flex items-center justify-center rounded-xl border border-gray-300 bg-white px-4 text-gray-800 shadow-sm";
+    "inline-flex items-center justify-center rounded-xl border-2 border-black bg-white px-4 text-gray-800 shadow-sm";
   const size = small
     ? "h-9 text-sm"
     : "h-11 text-base min-w-[96px]";
@@ -289,7 +289,7 @@ function CrossAuditor() {
       </div>
       {/* 트렁크에서 감사 박스까지 이어지는 짧은 가로선(좌측) */}
       <div
-        className="absolute top-1/2 -translate-y-1/2 h-[2px] bg-gray-400"
+        className="absolute top-1/2 -translate-y-1/2 h-[2px] bg-black"
         style={{ left: `calc(50% - ${spur}px)`, width: `${spur}px` }}
       />
       {/* 분기선 끝에 정확히 배치된 감사 노드 */}
