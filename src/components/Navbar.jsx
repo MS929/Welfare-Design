@@ -218,13 +218,13 @@ h1, h2, h3, h4, h5 { line-height: 1.25; }
           {/* 상단 탭(데스크톱) */}
           <ul
             ref={tabsRef}
-            className="hidden md:grid col-start-2 grid-cols-4 gap-14 justify-items-center items-center text-center w-[860px] mx-auto"
+            className="hidden md:grid col-start-2 grid-cols-4 gap-13 justify-items-center items-center text-center w-[820px] mx-auto"
           >
             {sections.map((sec, idx) => (
               <li key={sec.title} className="flex items-center">
                 <button
                   type="button"
-                  className={`text-left font-extrabold text-[24px] tracking-[-0.02em] text-[#111827] hover:text-emerald-700 leading-tight transition-colors ${
+                  className={`text-left font-extrabold text-[22px] tracking-[-0.02em] text-[#111827] hover:text-emerald-700 leading-tight transition-colors ${
                     (megaOpen && activeIdx === idx) || (!megaOpen && currentSectionIdx === idx)
                       ? "text-emerald-700 underline decoration-emerald-500 underline-offset-8"
                       : ""
