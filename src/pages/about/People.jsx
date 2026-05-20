@@ -234,7 +234,7 @@ function MobileConnector({ h = 24 }) {
 function MobileAuditor() {
   // 세로 트렁크를 유지한 채 좌측으로만 감사 노드를 분기하는 T자 구조
   const spur = 118; // 중앙 트렁크에서 감사 노드까지의 거리(px)
-  const lineColor = "#9CA3AF"; // 라인 색상(gray-400)
+  const lineColor = "#000000"; // 라인 색상(gray-400)
   const H = 56; // 감사 블록 전체 높이(이사장–사무국 간 간격 조절)
   const mid = Math.floor(H / 2); // 분기선이 위치할 세로 중앙 좌표
 
