@@ -64,7 +64,7 @@ const PALETTE = {
 };
 
 // 페이지 기본 컨테이너 최대 폭(px)
-const CONTAINER = 1360;
+const CONTAINER = 1440;
 
 // HERO(상단) 캐러셀 이미지 경로 (public/images/hero 하위 정적 리소스)
 // - 필요 시 파일만 교체하면 코드 변경 없이 이미지 교체 가능
@@ -1312,20 +1312,20 @@ mark, [data-hl] {
         {/* ================= HERO(상단 캐러셀) ================= */}
         <Section
           fullBleed
-          innerMaxWidth={CONTAINER}
+          innerMaxWidth={isTablet ? CONTAINER : 1500}
           style={{
-            paddingTop: isMobile ? 36 : isTablet ? 60 : 80,
-            paddingBottom: isMobile ? 40 : isTablet ? 72 : 96,
+            paddingTop: isMobile ? 36 : isTablet ? 60 : 70,
+            paddingBottom: isMobile ? 40 : isTablet ? 72 : 86,
             background: "linear-gradient(180deg, #FAEEE0 0%, #FFFFFF 72%)",
           }}
         >
           <div
             style={{
               display: "grid",
-              gridTemplateColumns: isTablet ? "1fr" : "1.1fr 1.4fr",
-              gap: isTablet ? 20 : 36,
+              gridTemplateColumns: isTablet ? "1fr" : "1.12fr 1.28fr",
+              gap: isTablet ? 20 : 48,
               alignItems: "center",
-              padding: "0 32px",
+              padding: isMobile ? "0" : isTablet ? "0 32px" : "0 40px",
             }}
           >
             {/* 좌측 이미지 프레임 (수동/자동 캐러셀) + 하단 컨트롤 */}
@@ -1339,7 +1339,7 @@ mark, [data-hl] {
               <div
                 style={{
                   position: "relative",
-                  height: isMobile ? 220 : isTablet ? 300 : 360,
+                  height: isMobile ? 220 : isTablet ? 300 : 390,
                   borderRadius: PALETTE.radiusLg,
                   overflow: "hidden",
                   boxShadow: "0 12px 28px rgba(0,0,0,.10)",
@@ -1479,10 +1479,10 @@ mark, [data-hl] {
             {/* 우측 텍스트 */}
             <div
               style={{
-                marginTop: isTablet ? 10 : -36,
+                marginTop: isTablet ? 10 : -24,
                 textAlign: isTablet ? "center" : "left",
-                maxWidth: isMobile ? "34ch" : isTablet ? "42ch" : "60ch",
-                width: isTablet ? "auto" : "60ch",
+                maxWidth: isMobile ? "34ch" : isTablet ? "42ch" : "64ch",
+                width: isTablet ? "auto" : "64ch",
                 marginInline: isTablet ? "auto" : 0,
               }}
             >
@@ -1523,7 +1523,7 @@ mark, [data-hl] {
 
               <h1
                 style={{
-                  fontSize: isMobile ? 24 : isTablet ? 30 : 38,
+                  fontSize: isMobile ? 24 : isTablet ? 30 : 42,
                   lineHeight: 1.35,
                   margin: 0,
                   letterSpacing: -0.2,
@@ -1588,10 +1588,13 @@ mark, [data-hl] {
             width: "100vw",
             marginLeft: "calc(50% - 50vw)",
             marginRight: "calc(50% - 50vw)",
-            padding: "28px 0",
+            padding: isTablet ? "28px 0" : "30px 0",
           }}
         >
-          <Section style={{ paddingTop: 6, paddingBottom: 6 }}>
+          <Section
+            innerMaxWidth={isTablet ? CONTAINER : 1500}
+            style={{ paddingTop: 6, paddingBottom: 6 }}
+          >
             {(() => {
               const quickLinks = [
                 {
@@ -1639,7 +1642,7 @@ mark, [data-hl] {
                     gridTemplateColumns: isTablet
                       ? "1fr"
                       : "minmax(220px, 1fr) 2fr",
-                    gap: isTablet ? 14 : 18,
+                    gap: isTablet ? 14 : 28,
                     alignItems: isTablet ? "stretch" : "center",
                   }}
                 >
@@ -1679,7 +1682,7 @@ mark, [data-hl] {
                         : isTablet
                         ? "repeat(2, minmax(0,1fr))"
                         : "repeat(4, minmax(0,1fr))",
-                      gap: 10,
+                      gap: isTablet ? 10 : 14,
                     }}
                   >
                     {quickLinks.map((it, i) => (
@@ -1690,7 +1693,7 @@ mark, [data-hl] {
                           display: "flex",
                           alignItems: "center",
                           gap: 12,
-                          padding: "12px 14px",
+                          padding: isTablet ? "12px 14px" : "14px 16px",
                           borderRadius: 16,
                           background: "#fff",
                           border: `1px solid ${PALETTE.line}`,
@@ -1700,7 +1703,7 @@ mark, [data-hl] {
                           transition:
                             "transform .12s ease, box-shadow .12s ease",
                           width: "100%",
-                          minHeight: 64,
+                          minHeight: isTablet ? 64 : 70,
                         }}
                         onMouseEnter={(e) => {
                           e.currentTarget.style.transform = "translateY(-2px)";
