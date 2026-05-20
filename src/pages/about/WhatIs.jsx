@@ -56,7 +56,7 @@ export default function AboutWhat() {
         style={{ backgroundColor: color }}
         aria-hidden
       />
-      <h2 className="text-xl md:text-2xl font-bold leading-tight text-brand-900 m-0">
+      <h2 className="text-[22px] md:text-[26px] font-bold leading-tight text-brand-900 m-0">
         {children}
       </h2>
     </div>
@@ -637,10 +637,10 @@ export default function AboutWhat() {
     <div className="bg-white">
       {/* ===== 브레드크럼 + 제목 (필요 시 수정) ===== */}
       <section className="max-w-screen-xl mx-auto px-4 pt-10">
-        <nav className="text-sm text-black">
+        <nav className="text-[15px] text-black">
           소개 &gt; <span className="text-black">복지디자인은?</span>
         </nav>
-        <h1 className="mt-3 text-3xl md:text-4xl font-extrabold tracking-tight text-black">
+        <h1 className="mt-3 text-[34px] md:text-[42px] font-extrabold tracking-tight text-black">
           복지디자인은?
         </h1>
       </section>
@@ -648,12 +648,12 @@ export default function AboutWhat() {
       {/* ===== 소개 카피(헤더 카피) ===== */}
       <section className="max-w-screen-xl mx-auto px-4 pt-6 pb-4 text-center">
         {/* 1줄 제목 */}
-        <h2 className="mt-2 text-xl md:text-2xl font-semibold text-brand-700">
+        <h2 className="mt-2 text-[22px] md:text-[26px] font-semibold text-brand-700">
           복지디자인사회적협동조합은
         </h2>
 
         {/* 2줄 메인 카피 (따옴표 강조) */}
-        <p className="mt-2 text-2xl md:text-3xl font-extrabold text-brand-900">
+        <p className="mt-2 text-[26px] md:text-[34px] font-extrabold text-brand-900 leading-tight">
           <span className="text-gray-900">
             “함께 성장하며, 모두의 행복을 위한 복지를 디자인합니다.”
           </span>
@@ -690,7 +690,7 @@ export default function AboutWhat() {
             {background.paragraphs.map((t, i) => (
               <p
                 key={i}
-                className="whitespace-pre-line text-[15px] md:text-base leading-[1.75]"
+                className="whitespace-pre-line text-[16px] md:text-[17px] leading-[1.78]"
               >
                 {t}
               </p>
@@ -718,7 +718,7 @@ export default function AboutWhat() {
               >
                 {/* 컬러 헤더 (제목 가운데) */}
                 <div
-                  className="py-3 text-center font-semibold tracking-tight"
+                  className="py-3 text-center text-[17px] md:text-[18px] font-semibold tracking-tight"
                   style={{ backgroundColor: accent.bg, color: accent.fg }}
                 >
                   {b.key}
@@ -731,14 +731,14 @@ export default function AboutWhat() {
                       {b.body.map((t, i) => (
                         <li
                           key={i}
-                          className="text-[15px] md:text-base leading-[1.7]"
+                          className="text-[16px] md:text-[17px] leading-[1.72]"
                         >
                           {t}
                         </li>
                       ))}
                     </ul>
                   ) : (
-                    <p className="text-gray-800 leading-relaxed text-[15px] md:text-base leading-[1.7]">
+                    <p className="text-gray-800 text-[16px] md:text-[17px] leading-[1.72]">
                       {b.body}
                     </p>
                   )}
@@ -756,7 +756,7 @@ export default function AboutWhat() {
           {pastChairs.map((name, i) => (
             <span
               key={i}
-              className="rounded-full border border-brand-200 bg-brand-50 px-4 py-2 text-sm text-brand-800"
+              className="rounded-full border border-brand-200 bg-brand-50 px-4 py-2 text-[15px] md:text-base text-brand-800"
             >
               {name}
             </span>
@@ -767,12 +767,12 @@ export default function AboutWhat() {
       {/* ===== 조합원의 자격 및 유형 / 운영 공개 ===== */}
       <section className="max-w-screen-xl mx-auto px-4 pb-10 grid grid-cols-1 md:grid-cols-2 gap-6 space-y-4 md:space-y-0">
         <div className="rounded-xl border border-brand-200 bg-white p-5 shadow-sm">
-          <h3 className="text-lg font-semibold mb-3 text-brand-800">
+          <h3 className="text-xl font-semibold mb-3 text-brand-800">
             조합원의 자격 및 유형
           </h3>
           <ul className="list-disc pl-5 space-y-2 text-gray-800">
             {memberEligibility.map((t, i) => (
-              <li key={i} className="text-[15px] md:text-base leading-[1.7]">
+              <li key={i} className="text-[16px] md:text-[17px] leading-[1.72]">
                 {t}
               </li>
             ))}
@@ -780,12 +780,12 @@ export default function AboutWhat() {
         </div>
 
         <div className="rounded-xl border border-brand-200 bg-white p-5 shadow-sm">
-          <h3 className="text-lg font-semibold mb-3 text-brand-800">
+          <h3 className="text-xl font-semibold mb-3 text-brand-800">
             운영 공개
           </h3>
           <ul className="list-disc pl-5 space-y-2 text-gray-800">
             {operationDisclosure.map((t, i) => (
-              <li key={i} className="text-[15px] md:text-base leading-[1.7]">
+              <li key={i} className="text-[16px] md:text-[17px] leading-[1.72]">
                 {t}
               </li>
             ))}
@@ -810,7 +810,7 @@ export default function AboutWhat() {
               >
                 {/* 상단 헤더: 01. 제목 (배경색 = 팔레트 색) */}
                 <div
-                  className="px-4 py-3 text-[17px] font-semibold tracking-tight"
+                  className="px-4 py-3 text-[18px] md:text-[19px] font-semibold tracking-tight"
                   style={{ backgroundColor: pc, color: "#2B2E34" }}
                 >
                   {p.no} {p.title}
@@ -823,14 +823,14 @@ export default function AboutWhat() {
                       {p.desc.map((line, i) => (
                         <li
                           key={i}
-                          className="text-[15px] md:text-base leading-[1.7]"
+                          className="text-[16px] md:text-[17px] leading-[1.72]"
                         >
                           {line}
                         </li>
                       ))}
                     </ul>
                   ) : (
-                    <p className="text-gray-800 leading-relaxed text-[15px] md:text-base leading-[1.7]">
+                    <p className="text-gray-800 text-[16px] md:text-[17px] leading-[1.72]">
                       {p.desc}
                     </p>
                   )}
@@ -839,7 +839,7 @@ export default function AboutWhat() {
             );
           })}
         </div>
-        <p className="mt-4 text-sm text-black">
+        <p className="mt-4 text-[15px] text-black">
           출처: 국제협동조합연맹(ICA)의 협동조합 7대원칙(1995년)
         </p>
       </section>
@@ -850,7 +850,7 @@ export default function AboutWhat() {
 
         <div className="rounded-xl border border-brand-200 bg-white p-4 md:p-5 shadow-sm">
           {/* 고정 높이 + 스크롤 */}
-          <div className="max-h-[60vh] overflow-y-auto overscroll-contain whitespace-pre-wrap leading-relaxed text-gray-900 text-[15px] md:text-base">
+          <div className="max-h-[60vh] overflow-y-auto overscroll-contain whitespace-pre-wrap text-gray-900 text-[16px] md:text-[17px] leading-[1.75]">
             {bylawsText}
           </div>
 
