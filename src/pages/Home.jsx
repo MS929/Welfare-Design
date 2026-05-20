@@ -2065,24 +2065,24 @@ mark, [data-hl] {
             >
               {[
                 {
+                  icon: "/images/icons/apply-help.png",
+                  label: "노인장기요양보험 복지용구",
+                  href: "/business/apply-help",
+                },
+                {
                   icon: "/images/icons/rental.png",
-                  label: "휠체어 및 복지용구 무료 대여",
-                  href: "/business/Rental",
+                  label: "휠체어 무료 대여",
+                  href: "/business/rental",
+                },
+                {
+                  icon: "/images/icons/donation.png",
+                  label: "보조기기 기증 및 수리",
+                  href: "/business/donation",
                 },
                 {
                   icon: "/images/icons/apply-help.png",
                   label: "보조기기·복지용구 신청 안내 지원",
                   href: "/business/apply-help",
-                },
-                {
-                  icon: "/images/icons/donation.png",
-                  label: "보조기기 기증 캠페인",
-                  href: "/business/donation",
-                },
-                {
-                  icon: "/images/icons/ewc-insurance.png",
-                  label: "취약 계층 전동 휠체어 보험금 지원",
-                  href: "/business/ewc-insurance",
                 },
                 {
                   icon: "/images/icons/needs-survey.png",
