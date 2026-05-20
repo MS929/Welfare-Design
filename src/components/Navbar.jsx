@@ -333,7 +333,7 @@ h1, h2, h3, h4, h5 { line-height: 1.25; }
                               <div className="absolute inset-0 bg-gradient-to-b from-white/70 via-white/55 to-white/85" />
 
                               <div className="relative h-full px-9 py-8 flex flex-col justify-end">
-                                <div className="text-[30px] leading-tight text-emerald-700 font-normal tracking-[-0.01em]">
+                                <div className="text-[32px] leading-tight text-emerald-700 font-normal tracking-[-0.01em]">
                                   {sec.title}
                                 </div>
                                 <div className="mt-2 text-[13px] text-gray-600 leading-relaxed">
@@ -358,13 +358,13 @@ h1, h2, h3, h4, h5 { line-height: 1.25; }
                                       <li key={it.to}>
                                         <NavLink
                                           to={it.to}
-                                          className="group w-full flex items-center justify-center gap-2 rounded-xl px-1 py-2 text-center text-[16px] leading-[1.45] text-gray-900 font-normal transition-colors hover:text-emerald-700 focus-visible:ring-2 focus-visible:ring-emerald-500"
+                                          className="group w-full flex items-center justify-center gap-2 rounded-xl px-1 py-2 text-center text-[20px] leading-[1.45] text-gray-900 font-semibold transition-colors hover:text-emerald-700 focus-visible:ring-2 focus-visible:ring-emerald-500"
                                           onClick={() => {
                                             setMegaOpen(false);
                                             setActiveIdx(null);
                                           }}
                                         >
-                                          <span className="inline-block max-w-full rounded-2xl px-3 py-2 leading-[1.35] whitespace-normal break-keep transition-all duration-200 group-hover:bg-emerald-50">
+                                          <span className="inline-block max-w-full rounded-2xl px-4 py-3 leading-[1.4] whitespace-normal break-keep transition-all duration-200 group-hover:bg-emerald-50">
                                             {it.label}
                                           </span>
                                         </NavLink>
