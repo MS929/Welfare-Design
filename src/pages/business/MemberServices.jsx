@@ -185,20 +185,6 @@ mark, [data-hl] {
               </ul>
             </div>
 
-            <div className="rounded-2xl border border-[#2CB9B1]/30 bg-white/90 backdrop-blur-[1px] shadow-md p-7 md:p-8 h-full">
-              <h3 className="font-semibold text-lg tracking-tight text-[#F26C2A] mb-3">
-                기대 효과
-              </h3>
-              <ul className="list-disc list-inside space-y-1.5 text-gray-700 leading-relaxed">
-                <li>전문성 및 자립 능력 향상 조합원 역량 강화</li>
-                <li>협력 사업을 통해 자원 공유와 공동 성장 가능</li>
-                <li>
-                  지역사회 문제 해결에 동참하며 공익적 역할 수행을 통한 지역사회
-                  기여
-                </li>
-              </ul>
-            </div>
-
             {/* 문의 박스: PC(데스크탑) / 모바일 분리 렌더링 */}
             <div className="mt-3 mb-1 md:mb-0">
               {/* md 이상: 중앙 정렬 + 큰 타이포그래피 */}

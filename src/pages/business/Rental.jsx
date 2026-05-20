@@ -148,16 +148,6 @@ mark, [data-hl] {
               </ul>
             </div>
 
-            {/* 기대 효과(사업이 지역사회에 주는 가치) */}
-            <div className="rounded-2xl border border-[#2CB9B1]/30 bg-white/90 backdrop-blur-[1px] shadow-md p-7 md:p-8 mt-6">
-              <h3 className="font-semibold text-lg tracking-tight text-[#F26C2A] mb-3">기대 효과</h3>
-              <ul className="list-disc list-inside space-y-1.5 text-gray-700 leading-relaxed">
-                <li>복지 사각지대 해소 및 취약계층 복지 접근성 강화</li>
-                <li>지역 복지 자원의 선순환 구조 형성</li>
-                <li>협력기관 및 조합원과의 지속 가능한 복지 파트너십 구축</li>
-              </ul>
-            </div>
-
             {/* 문의 배너: PC/모바일을 별도 렌더링하여(줄바꿈/전화번호 잘림) 문제를 예방 */}
             <div className="mt-3 mb-1 md:mb-0">
               {/* PC/태블릿(md 이상): 가운데 정렬 + 큰 폰트로 강조(전화번호 가독성 우선) */}

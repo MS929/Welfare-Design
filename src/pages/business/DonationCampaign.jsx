@@ -43,11 +43,6 @@ export default function DonationCampaign() {
     },
   ];
 
-  const effectItems = [
-    "취약계층의 복지정보 접근성 강화 및 제도적 권리 실현 지원",
-    "장애인에 대한 지역사회 인식 개선 및 복지문화 조성",
-  ];
-
   // ---------------------------------------------------------------------------
   // 이미지 URL 구성
   //  - ORIGIN: 현재 배포 origin (SSR 환경 대비 fallback 포함)
