@@ -117,8 +117,8 @@ mark, [data-hl] {
       <div className="max-w-screen-xl mx-auto px-4 pb-8">
         {/* ====================== 메인 섹션: 이미지 + 안내 콘텐츠 ====================== */}
         {/* 상단: 좌측 이미지 / 우측 안내 박스 */}
-        <div className="grid gap-8 md:grid-cols-2 items-stretch">
-          <div className="flex items-center justify-center">
+        <div className="flex justify-center">
+          <div className="w-full max-w-[1050px] mx-auto">
             {/*
               [이미지 포맷/미디어쿼리 분기]
               - (max-width: 767px) 모바일 구간에서만 AVIF/WEBP 소스를 제공
@@ -150,16 +150,17 @@ mark, [data-hl] {
                 loading="eager"
                 fetchPriority="high"
                 decoding="async"
-                width="960"
-                height="720"
-                sizes="(max-width: 767px) 100vw, 50vw"
-                className="w-full h-auto"
-                style={{ imageRendering: "auto", display: "block" }}
+                width="1400"
+                height="1000"
+                sizes="100vw"
+                className="w-full h-auto object-contain rounded-2xl"
+                style={{
+                  imageRendering: "auto",
+                  display: "block",
+                }}
               />
             </picture>
           </div>
-          {/* 우측 영역: 텍스트 제거 후 빈 레이아웃만 유지 */}
-          <div className="flex flex-col h-full mt-8" />
         </div>
       </div>
     </BizLayout>
