@@ -155,6 +155,9 @@ mark, [data-hl] {
               />
             </picture>
           </div>
+
+          {/* 우측 영역: 텍스트 제거 후 빈 레이아웃만 유지 */}
+          <div className="flex flex-col h-full mt-8" />
         </div>
       </div>
     </BizLayout>
