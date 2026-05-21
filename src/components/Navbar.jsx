@@ -146,7 +146,6 @@ export default function Navbar() {
         { to: "/business/overview", label: "사업영역" },
         { to: "/business/apply-help", label: "노인장기요양보험 복지용구" },
         { to: "/business/rental", label: "휠체어 무료 대여" },
-        { to: "/business/donation", label: "보조기기 기증 및 수리" },
         { to: "/business/apply-help", label: "보조기기·복지용구 신청 안내 지원" },
         { to: "/business/needs-survey", label: "취약 계층 복지욕구 실태조사" },
         { to: "/business/member-services", label: "조합원 지원 서비스" },
@@ -526,16 +525,6 @@ h1, h2, h3, h4, h5 { line-height: 1.25; }
                   }}
                 >
                   휠체어 무료 대여
-                </NavLink>
-                <NavLink
-                  to="/business/donation"
-                  className="block px-3 py-2 rounded hover:bg-gray-50"
-                  onClick={(e) => {
-                    setMobileOpen(false);
-                    e.target.closest("details").removeAttribute("open");
-                  }}
-                >
-                  보조기기 기증 및 수리
                 </NavLink>
                 <NavLink
                   to="/business/apply-help"

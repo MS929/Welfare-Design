@@ -123,7 +123,6 @@ export default function App() {
           <Route path="/business/overview" element={<BizOverview />} />
           <Route path="/business/rental" element={<BizRental />} />
           <Route path="/business/apply-help" element={<BizApplyHelp />} />
-          <Route path="/business/donation" element={<BizDonation />} />
           <Route path="/business/ewc-insurance" element={<BizInsurance />} />
           <Route path="/business/needs-survey" element={<BizSurvey />} />
           <Route path="/business/member-services" element={<BizMemberSvc />} />
