@@ -21,7 +21,7 @@ import BizLayout from "./_Layout";
 //  - 태블릿/데스크탑은 로컬 PNG를 그대로 사용해 디자인/품질/캐시 안정성 유지
 // -----------------------------------------------------------------------------
 const ORIGIN = "https://welfaredesign.netlify.app"; // 배포(프로덕션) 정적 파일 기준 origin
-const RAW = `${ORIGIN}/images/business/apply-help.png`; // Cloudinary가 fetch할 원본 URL
+const RAW = `${ORIGIN}/images/business/apply-help.png?v=2`; // Cloudinary가 fetch할 원본 URL
 
 // w: 요청 너비(px), fmt: avif/webp/auto
 // c_limit: 원본 비율 유지, 지정 폭 이상 확대 방지
@@ -145,7 +145,7 @@ mark, [data-hl] {
                 - 빌드 시 정적 자산 캐시를 그대로 활용
               */}
               <img
-                src="/images/business/apply-help.png"
+                src="/images/business/apply-help.png?v=2"
                 alt={HERO_ALT}
                 loading="eager"
                 fetchPriority="high"
