@@ -64,7 +64,7 @@ export default function Footer() {
               </li>
               <li className="whitespace-nowrap">
                 <span className="text-gray-400">팩스</span>
-                <span className="mx-1 text-gray-500">:</span>042-934-1858
+                <span className="mx-1 text-gray-500">:</span>0504-143-6693
               </li>
               <li className="break-all">
                 <span className="text-gray-400">이메일</span>
