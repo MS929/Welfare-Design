@@ -20,7 +20,7 @@ export default function EwcInsurance() {
     ? window.location.origin
     // SSR/프리뷰 환경 대비용 fallback (fetch URL이 절대 경로가 되도록 운영 도메인 사용)
     : 'https://welfaredesign.netlify.app';
-  const RAW = '/images/business/ewc-insurance.png';
+  const RAW = '/images/business/ewc-insurance.png?v=2';
   const cld = (w) => `https://res.cloudinary.com/dxeadg9wi/image/fetch/c_limit,f_auto,q_auto,w_${w}/${encodeURIComponent(ORIGIN + RAW)}`;
   const cldM = (w, fmt = 'auto') =>
     `https://res.cloudinary.com/dxeadg9wi/image/fetch/c_limit,f_${fmt},q_auto:eco,dpr_auto,w_${w}/${encodeURIComponent(ORIGIN + RAW)}`;
