@@ -126,7 +126,7 @@ mark, [data-hl] {
                 />
                 {/* 태블릿/데스크탑: 로컬 정적 PNG 사용 */}
                 <img
-                  src="/images/business/needs-survey.png"
+                  src="/images/business/donation.png"
                   alt="취약 계층 복지욕구 실태조사"
                   loading="eager"
                   fetchPriority="high"
