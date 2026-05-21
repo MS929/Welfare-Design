@@ -155,36 +155,6 @@ mark, [data-hl] {
               />
             </picture>
           </div>
-
-          {/* 우측: 대여 안내 + 기대효과 + 문의 */}
-          <div className="grid h-full grid-rows-[auto,1fr,auto] gap-6">
-            <div className="rounded-2xl border border-[#2CB9B1]/40 bg-white/90 backdrop-blur-[1px] shadow-md p-7 md:p-8">
-              <ul className="space-y-4 text-gray-800 leading-relaxed">
-                <li className="flex gap-3">
-                  <span className="mt-2 h-2 w-2 rounded-full bg-[#2CB9B1] shadow-[0_0_0_2px_rgba(44,185,177,0.18)] shrink-0" />
-                  <span>
-                    조합원에 대한 상담, 교육·훈련 및 정보 제공 <br></br>- 조합원
-                    맞춤 상담 <br></br>- 기본 및 실무교육 <br></br>- 정보 제공
-                    및 커뮤니티 구축
-                  </span>
-                </li>
-                <li className="flex gap-3">
-                  <span className="mt-2 h-2 w-2 rounded-full bg-[#2CB9B1] shadow-[0_0_0_2px_rgba(44,185,177,0.18)] shrink-0" />
-                  <span>
-                    조합 간 협력을 위한 사업 <br></br>- 외부 네트워크 구축{" "}
-                    <br></br>- 내부거래 활성화
-                  </span>
-                </li>
-                <li className="flex gap-3">
-                  <span className="mt-2 h-2 w-2 rounded-full bg-[#2CB9B1] shadow-[0_0_0_2px_rgba(44,185,177,0.18)] shrink-0" />
-                  <span>
-                    조합 홍보 및 지역사회를 위한 사업 <br></br>- 주민 대상
-                    홍보캠페인 운영 <br></br>- 사회복지시설 연계 홍보
-                  </span>
-                </li>
-              </ul>
-            </div>
-          </div>
         </div>
       </div>
     </BizLayout>
