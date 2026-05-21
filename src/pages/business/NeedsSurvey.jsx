@@ -95,9 +95,9 @@ mark, [data-hl] {
       <BizLayout title="취약 계층 복지욕구 실태조사">
         <div className="max-w-screen-xl mx-auto px-4 pb-4 md:pb-0">
           {/* 이미지 + 우측 정보 박스(조사 안내) + 기대 효과(안내 박스 아래) */}
-          <div className="grid gap-8 md:grid-cols-2 items-stretch">
+          <div className="flex justify-center">
             {/* 좌측 이미지: JS 동기화 제거, 순수 CSS로 동일 높이 */}
-            <div className="flex items-center justify-center">
+            <div className="w-full max-w-[1050px] mx-auto">
               <picture>
                 {/* 모바일: Cloudinary 최적화(AVIF/WebP + srcset) */}
                 <source
@@ -131,17 +131,17 @@ mark, [data-hl] {
                   loading="eager"
                   fetchPriority="high"
                   decoding="async"
-                  width="1200"
-                  height="900"
-                  sizes="(max-width: 767px) 100vw, 50vw"
-                  className="w-full h-auto"
-                  style={{ imageRendering: "auto", display: "block" }}
+                  width="1400"
+                  height="1000"
+                  sizes="100vw"
+                  className="w-full h-auto object-contain rounded-2xl"
+                  style={{
+                    imageRendering: "auto",
+                    display: "block",
+                  }}
                 />
               </picture>
             </div>
-
-            {/* 우측 영역: 텍스트 제거 후 빈 레이아웃만 유지 */}
-            <div className="flex flex-col h-full mt-8" />
           </div>
         </div>
       </BizLayout>
