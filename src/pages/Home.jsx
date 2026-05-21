@@ -1621,6 +1621,13 @@ mark, [data-hl] {
                   },
                 },
                 {
+                  href: "/support/guide",
+                  iconsrc: "/images/icons/donation.png",
+                  label: "후원 안내",
+                  desc: "지지와 참여 방법",
+                  theme: { bg: "#FEF3D6", border: "#F5E3A6", text: "#D6A216" },
+                },
+                {
                   href: "/support/combination",
                   iconsrc: "/images/icons/member-services.png",
                   label: "조합 가입",
