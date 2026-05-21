@@ -44,7 +44,6 @@ import NewsIndex from "./pages/news/index.jsx";
 import BizOverview from "./pages/business/Overview.jsx";
 import BizRental from "./pages/business/Rental.jsx";
 import BizApplyHelp from "./pages/business/ApplyHelp.jsx";
-import BizDonation from "./pages/business/DonationCampaign.jsx";
 import BizInsurance from "./pages/business/EWheelchairInsurance.jsx";
 import BizSurvey from "./pages/business/NeedsSurvey.jsx";
 import BizMemberSvc from "./pages/business/MemberServices.jsx";

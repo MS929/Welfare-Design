@@ -121,7 +121,6 @@ collections:
           - { label: "사업영역", value: "/business/overview" }
           - { label: "휠체어·복지용구 대여", value: "/business/rental" }
           - { label: "복지용구 신청 안내", value: "/business/apply-help" }
-          - { label: "보조기기 기증 캠페인", value: "/business/donation" }
           - { label: "전동휠체어 보험금 지원", value: "/business/ewc-insurance" }
           - { label: "복지욕구 실태조사", value: "/business/needs-survey" }
           - { label: "조합원 지원 서비스", value: "/business/member-services" }

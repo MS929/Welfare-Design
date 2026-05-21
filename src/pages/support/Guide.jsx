@@ -116,7 +116,7 @@ mark, [data-hl] {
             <SupportPanel
               icon={
                 <OptImg
-                  path="/images/support/donation.png"
+                  path="/images/support/.png"
                   alt="개인 후원 아이콘"
                   className="w-24 h-24 md:w-28 md:h-28 mx-auto object-contain drop-shadow-sm"
                   width={112}

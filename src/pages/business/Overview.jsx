@@ -35,12 +35,6 @@ export default function BizOverview() {
       icon: "/images/icons/rental.png",
     },
     {
-      to: "/business/donation",
-      title: "보조기기 기증 및 수리",
-      desc: "기증–수리–재분배로 순환 시스템을 구축합니다.",
-      icon: "/images/icons/donation.png",
-    },
-    {
       to: "/business/apply-help",
       title: "보조기기·복지용구 신청 안내 지원",
       desc: "신청 절차 안내, 서류 준비, 기관 연계까지 동행 지원.",
