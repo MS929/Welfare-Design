@@ -27,7 +27,7 @@ export default function NeedsSurvey() {
       ? window.location.origin
       : "https://welfaredesign.netlify.app";
   // Cloudinary가 가져갈 원본 이미지(로컬 정적 파일) 경로
-  const RAW = `${ORIGIN}/images/business/needs-survey.png`;
+  const RAW = `${ORIGIN}/images/business/donation.png`;
   // 기본 품질: 자동 포맷/품질 + 너비(w)만 지정
   const cld = (w, fmt = "auto") =>
     `https://res.cloudinary.com/dxeadg9wi/image/fetch/c_limit,f_${fmt},q_auto,w_${w}/${encodeURIComponent(
