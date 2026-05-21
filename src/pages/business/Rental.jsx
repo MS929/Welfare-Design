@@ -77,7 +77,7 @@ mark, [data-hl] {
         {/* 섹션 구성: 좌측(이미지) + 우측(대여 안내/기대효과/문의) */}
         <div className="flex justify-center">
           {/* 좌측 이미지 영역: 불필요한 JS 레이아웃 동기화 없이 반응형으로 표시 */}
-          <div className="w-full max-w-[1200px] mx-auto">
+          <div className="w-full max-w-[1050px] mx-auto">
             {/* <picture> 사용: 모바일는 최적화(Cloudinary), PC는 원본 PNG 유지 */}
             <picture>
               {(() => {
