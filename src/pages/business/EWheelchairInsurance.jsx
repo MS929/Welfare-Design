@@ -88,9 +88,9 @@ mark, [data-hl] {
       <BizLayout title="취약 계층 전동휠체어 보험금 지원">
       <div className="max-w-screen-xl mx-auto px-4 pb-4 md:pb-0">
         {/* 이미지 + 우측 정보 박스(대여 안내) + 기대효과(대여 안내 박스 아래) */}
-        <div className="grid gap-8 md:grid-cols-2 items-stretch">
+        <div className="flex justify-center">
           {/* 좌측 이미지: JS 동기화 제거, CSS만으로 동일 높이 유지 */}
-          <div className="flex items-center justify-center">
+          <div className="w-full max-w-[1050px] mx-auto">
             {/*
               단일 그림 요소로 중복 렌더 제거
               <picture>를 사용해 브라우저가 지원하는 포맷(AVIF/WEBP)을 우선 선택 → 용량/속도 개선
@@ -114,20 +114,20 @@ mark, [data-hl] {
               <img
                 src={RAW}
                 alt="취약 계층 전동휠체어 보험금 지원"
-                width={960}
-                height={720}
+                width={1400}
+                height={1000}
                 decoding="async"
                 loading="eager"
                 fetchPriority="high"
-                sizes="(max-width: 767px) 100vw, 50vw"
-                className="w-full h-auto"
-                style={{ imageRendering: 'auto', display: 'block' }}
+                sizes="100vw"
+                className="w-full h-auto object-contain rounded-2xl"
+                style={{
+                  imageRendering: 'auto',
+                  display: 'block',
+                }}
               />
             </picture>
           </div>
-
-          {/* 우측 영역: 텍스트 제거 후 빈 레이아웃만 유지 */}
-          <div className="flex flex-col h-full mt-8" />
         </div>
       </div>
     </BizLayout>
