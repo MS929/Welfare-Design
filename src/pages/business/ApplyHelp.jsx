@@ -34,8 +34,8 @@ export default function ApplyHelp() {
   // ======================
   // 페이지 공통 템플릿 설정
   // ======================
-  const PAGE_TITLE = "복지용구 신청 안내 지원";
-  const HERO_ALT = "복지용구 신청 안내 지원";
+  const PAGE_TITLE = "노인장기요양보험 복지용구";
+  const HERO_ALT = "노인장기요양보험 복지용구";
 
   // 문의(CTA) 정보는 상세 페이지들에서 동일한 UI로 재사용할 수 있게 상수화
   const CONTACT_LABEL = "신청 문의 : 복지디자인";
