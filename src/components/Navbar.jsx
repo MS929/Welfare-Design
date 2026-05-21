@@ -147,7 +147,7 @@ export default function Navbar() {
         { to: "/business/apply-help", label: "노인장기요양보험 복지용구" },
         { to: "/business/rental", label: "휠체어 무료 대여" },
         { to: "/business/needs-survey", label: "보조기기·복지용구 신청 안내 지원" },
-        { to: "/business/EWheelchairInsurance", label: "취약 계층 복지욕구 실태조사 " },
+        { to: "/business/ewc-insurance", label: "취약 계층 복지용구 실태조사" },
         { to: "/business/member-services", label: "조합원 지원 서비스" },
       ],
     },
@@ -537,7 +537,7 @@ h1, h2, h3, h4, h5 { line-height: 1.25; }
                   보조기기·복지용구 신청 안내 지원
                 </NavLink>
                 <NavLink
-                  to="/business/needs-survey"
+                  to="/business/ewc-insurance"
                   className="block px-3 py-2 rounded hover:bg-gray-50"
                   onClick={(e) => {
                     setMobileOpen(false);
