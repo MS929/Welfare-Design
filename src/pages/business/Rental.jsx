@@ -70,14 +70,14 @@ mark, [data-hl] {
           `,
         }}
       />
-      <BizLayout title="휠체어 및 복지용구 무료 대여">
+      <BizLayout title="휠체어 무료 대여">
         {/* 이미지 CDN(Cloudinary)과의 연결을 미리 열어(Preconnect) 모바일 첫 로딩 지연을 줄임 */}
         <link rel="preconnect" href="https://res.cloudinary.com" crossOrigin="anonymous" />
       <div className="max-w-screen-xl mx-auto px-4 pb-4 md:pb-0">
         {/* 섹션 구성: 좌측(이미지) + 우측(대여 안내/기대효과/문의) */}
-        <div className="grid gap-8 md:grid-cols-2 items-stretch">
+        <div className="flex justify-center">
           {/* 좌측 이미지 영역: 불필요한 JS 레이아웃 동기화 없이 반응형으로 표시 */}
-          <div className="flex items-center justify-center">
+          <div className="w-full max-w-[1200px] mx-auto">
             {/* <picture> 사용: 모바일는 최적화(Cloudinary), PC는 원본 PNG 유지 */}
             <picture>
               {(() => {
@@ -105,24 +105,24 @@ mark, [data-hl] {
                     {/* 데스크탑/태블릿: 정적 PNG 사용(PC는 변환 없이 원본 유지) */}
                     <img
                       src="/images/business/rental.png"
-                      alt="휠체어 및 복지용구 무료 대여"
+                      alt="휠체어 무료 대여"
                       loading="eager"
                       fetchPriority="high"
                       decoding="async"
-                      width="960"
-                      height="720"
-                      sizes="(max-width: 767px) 100vw, 50vw"
-                      className="w-full h-auto"
-                      style={{ imageRendering: "auto", display: "block" }}
+                      width="1400"
+                      height="1000"
+                      sizes="100vw"
+                      className="w-full h-auto object-contain rounded-2xl"
+                      style={{
+                        imageRendering: "auto",
+                        display: "block",
+                      }}
                     />
                   </>
                 );
               })()}
             </picture>
           </div>
-
-          {/* 우측 영역: 텍스트 제거 후 빈 레이아웃만 유지 */}
-          <div className="flex flex-col h-full mt-8" />
         </div>
       </div>
     </BizLayout>
