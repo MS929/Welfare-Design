@@ -92,7 +92,7 @@ mark, [data-hl] {
         }}
       />
       {/* BizLayout: 사업 페이지 공통 레이아웃(브레드크럼/제목) */}
-      <BizLayout title="취약 계층 복지욕구 실태조사">
+      <BizLayout title="보조기기·복지용구 신청 안내 지원">
         <div className="max-w-screen-xl mx-auto px-4 pb-4 md:pb-0">
           {/* 이미지 + 우측 정보 박스(조사 안내) + 기대 효과(안내 박스 아래) */}
           <div className="flex justify-center">
@@ -105,10 +105,10 @@ mark, [data-hl] {
                   type="image/avif"
                   srcSet={`${cldM(320, "avif")} 320w, ${cldM(
                     480,
-                    "avif"
+                    "avif",
                   )} 480w, ${cldM(640, "avif")} 640w, ${cldM(
                     750,
-                    "avif"
+                    "avif",
                   )} 750w, ${cldM(828, "avif")} 828w`}
                   sizes="100vw"
                 />
@@ -117,17 +117,17 @@ mark, [data-hl] {
                   type="image/webp"
                   srcSet={`${cldM(320, "webp")} 320w, ${cldM(
                     480,
-                    "webp"
+                    "webp",
                   )} 480w, ${cldM(640, "webp")} 640w, ${cldM(
                     750,
-                    "webp"
+                    "webp",
                   )} 750w, ${cldM(828, "webp")} 828w`}
                   sizes="100vw"
                 />
                 {/* 태블릿/데스크탑: 로컬 정적 PNG 사용 */}
                 <img
                   src="/images/business/donation.png"
-                  alt="취약 계층 복지욕구 실태조사"
+                  alt="보조기기·복지용구 신청 안내 지원"
                   loading="eager"
                   fetchPriority="high"
                   decoding="async"
