@@ -27,7 +27,7 @@ export default function NeedsSurvey() {
       ? window.location.origin
       : "https://welfaredesign.netlify.app";
   // Cloudinary가 가져갈 원본 이미지(로컬 정적 파일) 경로
-  const RAW = `${ORIGIN}/images/business/donation.png`;
+  const RAW = `${ORIGIN}/images/business/donation.png?v=2`;
   // 기본 품질: 자동 포맷/품질 + 너비(w)만 지정
   const cld = (w, fmt = "auto") =>
     `https://res.cloudinary.com/dxeadg9wi/image/fetch/c_limit,f_${fmt},q_auto,w_${w}/${encodeURIComponent(
@@ -126,7 +126,7 @@ mark, [data-hl] {
                 />
                 {/* 태블릿/데스크탑: 로컬 정적 PNG 사용 */}
                 <img
-                  src="/images/business/donation.png"
+                  src="/images/business/donation.png?v=2"
                   alt="보조기기·복지용구 신청 안내 지원"
                   loading="eager"
                   fetchPriority="high"

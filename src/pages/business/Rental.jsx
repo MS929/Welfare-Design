@@ -82,7 +82,7 @@ mark, [data-hl] {
             <picture>
               {(() => {
                 // 원본 이미지는 Netlify 정적 파일 URL을 기준으로, 모바일에서만 Cloudinary로 변환/최적화
-                const REMOTE = "https://welfaredesign.netlify.app/images/business/rental.png";
+                const REMOTE = "https://welfaredesign.netlify.app/images/business/rental.png?v=2";
                 // Cloudinary fetch 변환 URL 생성기(너비/포맷 자동 최적화)
                 const cldM = (w, fmt = 'auto') =>
                   `https://res.cloudinary.com/dxeadg9wi/image/fetch/c_limit,f_${fmt},q_auto:eco,dpr_auto,w_${w}/${encodeURIComponent(REMOTE)}`;
@@ -104,7 +104,7 @@ mark, [data-hl] {
                     />
                     {/* 데스크탑/태블릿: 정적 PNG 사용(PC는 변환 없이 원본 유지) */}
                     <img
-                      src="/images/business/rental.png"
+                      src="/images/business/rental.png?v=2"
                       alt="휠체어 무료 대여"
                       loading="eager"
                       fetchPriority="high"

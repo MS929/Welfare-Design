@@ -27,7 +27,7 @@ export default function MemberServices() {
   //  - cld/cldM: 폭(w)과 포맷(fmt)에 따라 최적화된 이미지 URL 생성
   // ---------------------------------------------------------------------------
   const ORIGIN = typeof window !== 'undefined' ? window.location.origin : 'https://welfaredesign.netlify.app';
-  const RAW = `${ORIGIN}/images/business/member-services.png`;
+  const RAW = `${ORIGIN}/images/business/member-services.png?v=2`;
   const cld = (w, fmt = 'auto') => `https://res.cloudinary.com/dxeadg9wi/image/fetch/c_limit,f_${fmt},q_auto,w_${w}/${RAW}`;
   const cldM = (w, fmt = 'auto') => `https://res.cloudinary.com/dxeadg9wi/image/fetch/c_limit,f_${fmt},q_auto:eco,dpr_auto,w_${w}/${RAW}`;
 
@@ -126,7 +126,7 @@ mark, [data-hl] {
                 - 태블릿/데스크탑: 로컬 PNG 사용 (화질 안정성) */}
             {/* 단일 picture 요소 사용으로 이미지 중복 렌더링 방지 */}
             <img
-              src="/images/business/member-services.png"
+              src="/images/business/member-services.png?v=2"
               alt="조합원 지원 서비스"
               loading="eager"
               fetchPriority="high"
