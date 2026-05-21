@@ -118,46 +118,31 @@ mark, [data-hl] {
       <BizLayout title="조합원 지원 서비스">
       <div className="max-w-screen-xl mx-auto px-4 pb-4 md:pb-0">
         {/* 이미지 + 우측 정보 박스(대여 안내) + 기대효과(대여 안내 박스 아래) */}
-        <div className="grid gap-8 md:grid-cols-2 items-stretch">
+        <div className="flex justify-center">
           {/* 좌측 이미지: JS 동기화 제거, 순수 CSS로 동일 높이 */}
-          <div className="flex items-center justify-center">
+          <div className="w-full max-w-[1050px] mx-auto">
             {/* 반응형 이미지 처리:
                 - 모바일: Cloudinary AVIF/WebP 자동 최적화
                 - 태블릿/데스크탑: 로컬 PNG 사용 (화질 안정성) */}
             {/* 단일 picture 요소 사용으로 이미지 중복 렌더링 방지 */}
-            <picture>
-              {/* 모바일: AVIF 우선 제공(지원 시 가장 효율적) */}
-              <source
-                media="(max-width: 767px)"
-                type="image/avif"
-                srcSet={`${cldM(320,'avif')} 320w, ${cldM(480,'avif')} 480w, ${cldM(640,'avif')} 640w, ${cldM(750,'avif')} 750w, ${cldM(828,'avif')} 828w`}
-                sizes="100vw"
-              />
-              {/* 모바일: WEBP 대체 제공(AVIF 미지원 대비) */}
-              <source
-                media="(max-width: 767px)"
-                type="image/webp"
-                srcSet={`${cldM(320,'webp')} 320w, ${cldM(480,'webp')} 480w, ${cldM(640,'webp')} 640w, ${cldM(750,'webp')} 750w, ${cldM(828,'webp')} 828w`}
-                sizes="100vw"
-              />
-              {/* 기본 표시 이미지(태블릿/데스크탑은 로컬 PNG로 고정) */}
-              <img
-                src="/images/business/member-services.png"
-                alt="조합원 지원 서비스"
-                loading="eager"
-                fetchPriority="high"
-                decoding="async"
-                width="960"
-                height="720"
-                sizes="(max-width: 767px) 100vw, 50vw"
-                className="w-full h-auto"
-                style={{ imageRendering: 'auto', display: 'block' }}
-              />
-            </picture>
+            <img
+              src="/images/business/member-services.png"
+              alt="조합원 지원 서비스"
+              loading="eager"
+              fetchPriority="high"
+              decoding="async"
+              width="1400"
+              height="1000"
+              sizes="100vw"
+              className="w-full h-auto object-contain rounded-2xl"
+              style={{
+                imageRendering: 'auto',
+                display: 'block',
+              }}
+            />
           </div>
 
-          {/* 우측 영역: 텍스트 제거 후 빈 레이아웃만 유지 */}
-          <div className="flex flex-col h-full mt-8" />
+          {/* 우측 영역 제거 */}
         </div>
       </div>
     </BizLayout>
