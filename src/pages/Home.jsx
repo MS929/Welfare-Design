@@ -832,9 +832,16 @@ function MainPopup({ isMobile }) {
       const viewportW = window.innerWidth || window.outerWidth || 1440;
       const viewportH = window.innerHeight || window.outerHeight || 900;
 
-      // PC 팝업 위치: 화면 가운데에서 살짝 오른쪽, 너무 끝으로 붙지 않게 고정
-      const left = Math.max(40, Math.round(screenLeft + (viewportW - width) / 2 + 180 + offset));
-      const top = Math.max(60, Math.round(screenTop + (viewportH - height) / 2 + 30 + offset));
+      // PC 팝업 위치: 대형 모니터에서도 중앙 기준으로 자연스럽게 표시
+      const left = Math.max(
+        40,
+        Math.round(screenLeft + (viewportW - width) / 2 + 40 + offset)
+      );
+
+      const top = Math.max(
+        60,
+        Math.round(screenTop + (viewportH - height) / 2 + 20 + offset)
+      );
 
       const features = [
         `width=${width}`,
