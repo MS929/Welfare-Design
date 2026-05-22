@@ -22,20 +22,20 @@ function getHistoryItems() {
     const cmsItems = Object.entries(historyModules)
       .map(([path, raw]) => {
         const fileContent = typeof raw === "string" ? raw : raw?.default || "";
-        const { data } = matter(fileContent);
+        const { data, content } = matter(fileContent);
 
         return {
           id: path,
           date: String(data?.date || "").trim(),
-          event: String(data?.event || "").trim(),
+          event: String(data?.event || content || "").trim(),
         };
       })
-      .filter((item) => item.date);
+      .filter((item) => item.date && item.event);
 
-    return cmsItems.length > 0 ? cmsItems : fallbackRaw;
+    return cmsItems.length > 0 ? cmsItems : fallbackRaw.filter((item) => item.date && item.event);
   } catch (e) {
     console.warn("연혁 CMS 데이터 로드 실패:", e);
-    return fallbackRaw;
+    return fallbackRaw.filter((item) => item.date && item.event);
   }
 }
 
@@ -43,10 +43,10 @@ const raw = getHistoryItems();
 
 const byYear = raw
   .slice()
-  .filter((item) => item.date)
+  .filter((item) => item.date && item.event)
   .sort((a, b) => {
     const normalize = (d) => {
-      const [y, m = "00"] = d.split(".");
+      const [y, m = "00"] = String(d).split(".");
       return Number(`${y}${m.padStart(2, "0")}`);
     };
 
@@ -58,7 +58,7 @@ const byYear = raw
 
     (acc[y] ||= []).push({
       ym,
-      event: item.event || "",
+      event: item.event,
     });
 
     return acc;
