@@ -13,9 +13,12 @@
 // -----------------------------------------------------------------------------
 import { memo, useEffect, useMemo, useRef, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import matter from "gray-matter";
+
 // 카테고리 탭(화면 표시용) — 쿼리스트링(type/tab)과도 동기화됨
 const CATEGORIES = ["전체", "사업", "교육", "회의", "기타"];
+
+const GITHUB_STORIES_API =
+  "https://api.github.com/repos/MS929/Welfare-Design/contents/src/content/stories?ref=main";
 
 // 구(旧) 카테고리 값을 현재 탭 체계(사업/교육/회의/기타)로 정규화
 // - frontmatter.category 값이 허용 목록에 없으면 과거 표기/오타 등을 매핑해서 정리
@@ -44,6 +47,86 @@ function toExcerpt(md = "", max = 80) {
     .replace(/\s+/g, " ")
     .trim();
   return text.length > max ? text.slice(0, max) + "…" : text;
+}
+
+function parseFrontmatter(rawText) {
+  const text = String(rawText || "");
+  const match = text.match(/^---\s*\n([\s\S]*?)\n---\s*\n?([\s\S]*)$/);
+
+  if (!match) {
+    return { data: {}, content: text.trim() };
+  }
+
+  const [, yaml, content] = match;
+  const data = {};
+
+  yaml.split("\n").forEach((line) => {
+    const trimmed = line.trim();
+    if (!trimmed || trimmed.startsWith("#")) return;
+
+    const idx = trimmed.indexOf(":");
+    if (idx === -1) return;
+
+    const key = trimmed.slice(0, idx).trim();
+    let value = trimmed.slice(idx + 1).trim();
+
+    value = value.replace(/^['"]|['"]$/g, "");
+    data[key] = value;
+  });
+
+  return { data, content: content.trim() };
+}
+
+async function fetchStoryItems() {
+  const res = await fetch(`${GITHUB_STORIES_API}&t=${Date.now()}`, {
+    cache: "no-store",
+    headers: {
+      Accept: "application/vnd.github+json",
+    },
+  });
+
+  if (!res.ok) {
+    throw new Error(`GitHub stories list fetch failed: ${res.status}`);
+  }
+
+  const files = await res.json();
+
+  const mdFiles = Array.isArray(files)
+    ? files.filter(
+        (file) =>
+          file.type === "file" &&
+          /\.(md|mdx)$/i.test(file.name || "") &&
+          file.download_url
+      )
+    : [];
+
+  const entries = await Promise.all(
+    mdFiles.map(async (file) => {
+      const rawUrl = `${file.download_url}${
+        file.download_url.includes("?") ? "&" : "?"
+      }t=${Date.now()}`;
+      const fileRes = await fetch(rawUrl, { cache: "no-store" });
+
+      if (!fileRes.ok) return null;
+
+      const raw = await fileRes.text();
+      const { data, content } = parseFrontmatter(raw);
+      const slug = String(file.name || "").replace(/\.(md|mdx)$/i, "");
+      const date = String(data?.date || "").trim();
+
+      return {
+        slug,
+        title: String(data?.title || "제목 없음").trim(),
+        date,
+        thumbnail: String(data?.thumbnail || "").trim(),
+        category: normalizeCat(data?.category),
+        excerpt: toExcerpt(content),
+        _sort: date ? new Date(date).getTime() : 0,
+      };
+    })
+  );
+
+  return entries.filter(Boolean).sort((a, b) => b._sort - a._sort);
 }
 
 // 카테고리/라벨 등을 표시할 때 사용하는 작은 태그 UI
@@ -151,36 +234,21 @@ export default function NewsStories() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Vite의 import.meta.glob으로 마크다운 파일을 "문자열(raw)"로 읽어들인 뒤,
-    // gray-matter로 frontmatter(data)와 본문(content)을 분리해 목록 데이터로 변환
-    const modules = import.meta.glob("/src/content/stories/*.md", {
-      query: "?raw",
-      import: "default",
-    });
+    let alive = true;
 
-    (async () => {
-      const entries = await Promise.all(
-        Object.entries(modules).map(async ([path, loader]) => {
-          const raw = await loader();
-          const { data, content } = matter(raw);
-          const file = path.split("/").pop().replace(".md", "");
+    fetchStoryItems()
+      .then((entries) => {
+        if (!alive) return;
+        setRawItems(entries);
+      })
+      .catch((e) => {
+        console.warn("복지디자인 이야기 GitHub CMS 데이터 로드 실패:", e);
+        if (alive) setRawItems([]);
+      });
 
-          return {
-            slug: file, // 상세 라우팅에 그대로 사용
-            title: data.title || "제목 없음",
-            date: data.date || "",
-            thumbnail: data.thumbnail || "",
-            category: normalizeCat(data.category),
-            excerpt: toExcerpt(content),
-            _sort: data.date ? new Date(data.date).getTime() : 0,
-          };
-        })
-      );
-
-      // 최신 날짜가 위로 오도록 정렬(날짜가 없으면 _sort=0으로 뒤쪽)
-      entries.sort((a, b) => b._sort - a._sort);
-      setRawItems(entries);
-    })();
+    return () => {
+      alive = false;
+    };
   }, []);
 
   // URL 쿼리스트링(type 또는 tab)과 현재 탭 상태(activeCat)를 동기화
