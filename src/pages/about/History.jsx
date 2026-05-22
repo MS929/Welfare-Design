@@ -19,7 +19,7 @@ import matter from "gray-matter";
 //  - date: "YYYY.MM" (정렬/그룹핑 기준)
 //  - event: 해당 월의 핵심 이벤트(짧은 문장)
 // -----------------------------------------------------------------------------
-const historyModules = import.meta.glob("/src/content/history/*.{md,mdx}", {
+const historyModules = import.meta.glob("../../content/history/*.{md,mdx}", {
   eager: true,
   query: "?raw",
   import: "default",
@@ -37,7 +37,8 @@ function getHistoryItems() {
   try {
     const cmsItems = Object.entries(historyModules)
       .map(([path, raw]) => {
-        const { data } = matter(raw);
+        const fileContent = typeof raw === "string" ? raw : raw?.default || "";
+        const { data } = matter(fileContent);
         return {
           id: path,
           date: String(data?.date || "").trim(),
