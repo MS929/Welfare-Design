@@ -101,7 +101,7 @@ function makeByYear(items) {
 }
 
 export default function AboutHistory() {
-  const [items, setItems] = useState(fallbackRaw);
+  const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -114,7 +114,7 @@ export default function AboutHistory() {
       })
       .catch((e) => {
         console.warn("연혁 GitHub 실시간 로드 실패:", e);
-        if (alive) setItems(fallbackRaw);
+        if (alive) setItems([]);
       })
       .finally(() => {
         if (alive) setLoading(false);
@@ -176,6 +176,12 @@ export default function AboutHistory() {
           {loading && (
             <p className="mt-3 text-sm text-slate-500">
               연혁 데이터를 불러오는 중입니다.
+            </p>
+          )}
+
+          {!loading && Object.keys(byYear).length === 0 && (
+            <p className="mt-3 text-sm text-slate-500">
+              등록된 연혁이 없습니다.
             </p>
           )}
         </header>
