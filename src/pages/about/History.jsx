@@ -7,7 +7,6 @@ const historyModules = import.meta.glob("/src/content/history/*.{md,mdx}", {
 });
 
 const fallbackRaw = [
-  { date: "2026", event: "" },
   { date: "2025.05", event: "가칭) 복지디자인사회적협동조합 실무자 교육 진행" },
   { date: "2025.06", event: "가칭) 복지디자인사회적협동조합 설립 추진단 결성" },
   { date: "2024.11", event: "가칭) 복지디자인사회적협동조합 창립총회 개최" },
@@ -22,20 +21,25 @@ function getHistoryItems() {
     const cmsItems = Object.entries(historyModules)
       .map(([path, raw]) => {
         const fileContent = typeof raw === "string" ? raw : raw?.default || "";
+
         const { data, content } = matter(fileContent);
 
         return {
           id: path,
           date: String(data?.date || "").trim(),
-          event: String(data?.event || content || "").trim(),
+          event: String(
+            data?.event || content || data?.body || data?.description || "",
+          ).trim(),
         };
       })
       .filter((item) => item.date && item.event);
 
-    return cmsItems.length > 0 ? cmsItems : fallbackRaw.filter((item) => item.date && item.event);
+    console.log("CMS 연혁 데이터:", cmsItems);
+
+    return cmsItems.length > 0 ? cmsItems : fallbackRaw;
   } catch (e) {
-    console.warn("연혁 CMS 데이터 로드 실패:", e);
-    return fallbackRaw.filter((item) => item.date && item.event);
+    console.error("연혁 CMS 데이터 로드 실패:", e);
+    return fallbackRaw;
   }
 }
 
@@ -43,20 +47,21 @@ const raw = getHistoryItems();
 
 const byYear = raw
   .slice()
-  .filter((item) => item.date && item.event)
   .sort((a, b) => {
     const normalize = (d) => {
       const [y, m = "00"] = String(d).split(".");
       return Number(`${y}${m.padStart(2, "0")}`);
     };
 
-    return normalize(a.date) - normalize(b.date);
+    return normalize(b.date) - normalize(a.date);
   })
   .reduce((acc, item) => {
     const [y, m] = item.date.split(".");
     const ym = m ? `${y}. ${m}` : y;
 
-    (acc[y] ||= []).push({
+    if (!acc[y]) acc[y] = [];
+
+    acc[y].push({
       ym,
       event: item.event,
     });
@@ -106,6 +111,7 @@ export default function AboutHistory() {
           <p className="text-sm text-black/80">
             소개 &gt; <span className="text-black">연혁</span>
           </p>
+
           <h1 className="mt-3 text-3xl md:text-4xl font-extrabold tracking-tight">
             연혁
           </h1>
@@ -115,62 +121,63 @@ export default function AboutHistory() {
           className="history-wrapper relative mt-5 px-4 pr-5 md:px-0 md:pr-0 overflow-x-visible"
           style={{ paddingLeft: "var(--timeline-offset)" }}
         >
-          {Object.keys(byYear)
-            .sort((a, b) => b.localeCompare(a))
-            .map((year) => (
-              <section key={year} className="relative mb-16">
-                <div
-                  className="pl-1 mb-6 relative"
-                  style={{ height: "var(--year-block)" }}
-                >
-                  <div className="absolute left-[var(--rail)] flex flex-col items-center -translate-x-0 md:-translate-x-1/2">
-                    <h2 className="text-2xl md:text-3xl font-black tracking-tighter md:tracking-tight leading-none">
-                      <span className="bg-gradient-to-r from-[var(--pri)] to-[var(--sec)] bg-clip-text text-transparent">
-                        {year}
-                      </span>
-                    </h2>
-                    <span className="mt-1 px-2 py-0.5 text-xs font-semibold rounded-full bg-[var(--pri-soft)] text-[var(--pri)]">
-                      YEAR
+          {Object.keys(byYear).map((year) => (
+            <section key={year} className="relative mb-16">
+              <div
+                className="pl-1 mb-6 relative"
+                style={{ height: "var(--year-block)" }}
+              >
+                <div className="absolute left-[var(--rail)] flex flex-col items-center -translate-x-0 md:-translate-x-1/2">
+                  <h2 className="text-2xl md:text-3xl font-black tracking-tighter md:tracking-tight leading-none">
+                    <span className="bg-gradient-to-r from-[var(--pri)] to-[var(--sec)] bg-clip-text text-transparent">
+                      {year}
                     </span>
-                  </div>
-                </div>
+                  </h2>
 
-                <div className="relative flex-1 min-w-0 pl-9 md:pl-10 lg:pl-12 overflow-x-visible">
-                  <div
-                    className="absolute bottom-6 border-l-2 border-dashed border-[var(--pri)]/30"
-                    style={{
-                      left: "var(--rail)",
-                      top: "calc(var(--year-block) - 28px)",
-                    }}
-                  />
-
-                  <div className="space-y-6 md:space-y-8">
-                    {byYear[year].map((item, i) => (
-                      <div key={`${item.ym}-${i}`} className="relative">
-                        <article className="relative w-full max-w-full min-w-0 bg-white/90 backdrop-blur-sm border border-slate-200 rounded-xl shadow-sm hover:shadow-md transition overflow-visible md:overflow-hidden">
-                          <div className="absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b from-[var(--pri)] to-[var(--sec)]" />
-                          <div className="p-4 pr-6 md:p-6 max-w-full">
-                            <time className="inline-block px-3 py-1 text-xs font-semibold text-[var(--pri)] bg-[var(--pri-soft)] rounded-full">
-                              {item.ym}
-                            </time>
-                            <p
-                              className="mt-2 md:mt-3 font-medium text-slate-800 leading-relaxed break-keep break-words"
-                              style={{
-                                overflowWrap: "anywhere",
-                                wordBreak: "keep-all",
-                                lineHeight: 1.6,
-                              }}
-                            >
-                              {item.event}
-                            </p>
-                          </div>
-                        </article>
-                      </div>
-                    ))}
-                  </div>
+                  <span className="mt-1 px-2 py-0.5 text-xs font-semibold rounded-full bg-[var(--pri-soft)] text-[var(--pri)]">
+                    YEAR
+                  </span>
                 </div>
-              </section>
-            ))}
+              </div>
+
+              <div className="relative flex-1 min-w-0 pl-9 md:pl-10 lg:pl-12 overflow-x-visible">
+                <div
+                  className="absolute bottom-6 border-l-2 border-dashed border-[var(--pri)]/30"
+                  style={{
+                    left: "var(--rail)",
+                    top: "calc(var(--year-block) - 28px)",
+                  }}
+                />
+
+                <div className="space-y-6 md:space-y-8">
+                  {byYear[year].map((item, i) => (
+                    <div key={`${item.ym}-${i}`} className="relative">
+                      <article className="relative w-full max-w-full min-w-0 bg-white/90 backdrop-blur-sm border border-slate-200 rounded-xl shadow-sm hover:shadow-md transition overflow-visible md:overflow-hidden">
+                        <div className="absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b from-[var(--pri)] to-[var(--sec)]" />
+
+                        <div className="p-4 pr-6 md:p-6 max-w-full">
+                          <time className="inline-block px-3 py-1 text-xs font-semibold text-[var(--pri)] bg-[var(--pri-soft)] rounded-full">
+                            {item.ym}
+                          </time>
+
+                          <p
+                            className="mt-2 md:mt-3 font-medium text-slate-800 leading-relaxed break-keep break-words"
+                            style={{
+                              overflowWrap: "anywhere",
+                              wordBreak: "keep-all",
+                              lineHeight: 1.6,
+                            }}
+                          >
+                            {item.event}
+                          </p>
+                        </div>
+                      </article>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </section>
+          ))}
         </div>
       </div>
     </>
