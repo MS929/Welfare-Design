@@ -759,9 +759,14 @@ function MainPopup({ isMobile }) {
     if (!popups.length) return;
     if (typeof window === "undefined") return;
 
-    // React StrictMode 또는 홈 재진입에서 같은 팝업이 중복으로 뜨는 현상 방지
+    // React StrictMode / 모바일 matchMedia 재계산 / 홈 재진입에서 팝업 중복 실행 방지
+    const runKey = "wd-main-popup-opened-this-page";
+    if (!window.location.search.includes("popup=1") && window.sessionStorage.getItem(runKey) === "1") {
+      return;
+    }
     if (didRunRef.current) return;
     didRunRef.current = true;
+    window.sessionStorage.setItem(runKey, "1");
 
     const today = new Date().toISOString().slice(0, 10);
     const forcePopup = window.location.search.includes("popup=1");
@@ -774,6 +779,18 @@ function MainPopup({ isMobile }) {
 
     closeOpenedWindows();
     setOpen(false);
+
+    // 모바일에서는 window.open과 내부 모달이 동시에 동작할 수 있어 내부 모달만 사용
+    if (isMobile) {
+      const shouldShowMobilePopup = popups.some((popup) => {
+        const hiddenDate = localStorage.getItem(`wd-main-popup-hidden-date:${popup.id}`);
+        return hiddenDate !== today || forcePopup;
+      });
+      if (shouldShowMobilePopup) setOpen(true);
+      return () => {
+        closeOpenedWindows();
+      };
+    }
 
     let blocked = false;
     let openedCount = 0;
