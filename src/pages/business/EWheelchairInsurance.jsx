@@ -76,7 +76,7 @@ mark, [data-hl] {
   -webkit-box-decoration-break: clone;
   box-decoration-break: clone;
   padding: 0 .08em;
-  border-radius: 2px;
+  border-radius: 2px;ㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋ
 }
 
 /* ===== 6) 유틸 클래스: 특정 상황에서 줄바꿈/말줄임 제어 ===== */
