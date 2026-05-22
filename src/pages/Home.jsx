@@ -761,10 +761,35 @@ function MainPopup({ isMobile }) {
 
     // React StrictMode / 모바일 matchMedia 재계산 / 홈 재진입에서 팝업 중복 실행 방지
     const runKey = "wd-main-popup-opened-this-page";
-    if (!window.location.search.includes("popup=1") && window.sessionStorage.getItem(runKey) === "1") {
-      return;
+
+    // 새로고침(F5) 이후에도 팝업이 다시 정상 실행되도록
+    // 현재 탭에서만 중복 실행을 막고, 페이지를 벗어나면 runKey를 제거한다.
+    const clearRunKey = () => {
+      try {
+        window.sessionStorage.removeItem(runKey);
+      } catch {}
+    };
+
+    window.addEventListener("beforeunload", clearRunKey);
+    window.addEventListener("pagehide", clearRunKey);
+
+    if (
+      !window.location.search.includes("popup=1") &&
+      window.sessionStorage.getItem(runKey) === "1"
+    ) {
+      return () => {
+        window.removeEventListener("beforeunload", clearRunKey);
+        window.removeEventListener("pagehide", clearRunKey);
+      };
     }
-    if (didRunRef.current) return;
+
+    if (didRunRef.current) {
+      return () => {
+        window.removeEventListener("beforeunload", clearRunKey);
+        window.removeEventListener("pagehide", clearRunKey);
+      };
+    }
+
     didRunRef.current = true;
     window.sessionStorage.setItem(runKey, "1");
 
@@ -832,6 +857,8 @@ function MainPopup({ isMobile }) {
 
     return () => {
       closeOpenedWindows();
+      window.removeEventListener("beforeunload", clearRunKey);
+      window.removeEventListener("pagehide", clearRunKey);
     };
   }, [popups, isMobile]);
 
