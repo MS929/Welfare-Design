@@ -83,8 +83,8 @@ mark, [data-hl] {
 /* 유틸: 한 줄 말줄임(카드 제목/짧은 설명 등에 사용) */
 .u-ellipsis { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 
-/* 성능 최적화: 화면 밖 콘텐츠는 필요 시점에 렌더링(지원 브라우저에서만 적용) */
-.cv-auto { content-visibility: auto; contain-intrinsic-size: 400px 600px; }
+/* 모바일 Safari 스크롤 시 카드 높이 흔들림 방지 */
+.cv-auto { content-visibility: visible; contain-intrinsic-size: auto; }
         ` }}
       />
       <div className="bg-white">
@@ -112,7 +112,7 @@ mark, [data-hl] {
 
       <section className="max-w-screen-xl mx-auto px-4 mt-8">
         <div className="grid md:grid-cols-3 gap-6 auto-rows-[1fr] items-stretch">
-          <div className="rounded-xl shadow-sm h-full min-h-[360px] md:min-h-[400px]">
+          <div className="rounded-xl shadow-sm h-full min-h-[300px] md:min-h-[400px]">
             <SupportPanel
               icon={
                 <OptImg
@@ -132,7 +132,7 @@ mark, [data-hl] {
               accent="yellow"
             />
           </div>
-          <div className="rounded-xl shadow-sm h-full min-h-[360px] md:min-h-[400px]">
+          <div className="rounded-xl shadow-sm h-full min-h-[300px] md:min-h-[400px]">
             <SupportPanel
               icon={
                 <OptImg
@@ -152,7 +152,7 @@ mark, [data-hl] {
               accent="warm"
             />
           </div>
-          <div className="rounded-xl shadow-sm h-full min-h-[360px] md:min-h-[400px]">
+          <div className="rounded-xl shadow-sm h-full min-h-[300px] md:min-h-[400px]">
             <SupportPanel
               icon={
                 <OptImg
@@ -351,7 +351,7 @@ function SupportPanel({ icon, title, items = [], accent = "teal" }) {
   }[accent] || "marker:text-teal-600";
 
   return (
-    <div className={`px-8 py-8 md:px-9 flex flex-col h-full rounded-xl cv-auto ${bgClass}`}>
+    <div className={`px-8 py-8 md:px-9 flex flex-col h-full rounded-xl ${bgClass}`}>
       <div className="mx-auto w-full max-w-[420px] text-left flex-1">
         <div className="mb-4 h-28 md:h-32 flex items-center justify-center">{icon}</div>
         <h3 className={`text-center text-[19px] md:text-[20px] font-semibold mb-4 tracking-tight ${titleClass}`}>{title}</h3>
