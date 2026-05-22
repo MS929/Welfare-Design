@@ -527,7 +527,7 @@ h1, h2, h3, h4, h5 { line-height: 1.25; }
                   휠체어 무료 대여
                 </NavLink>
                 <NavLink
-                  to="/business/apply-help"
+                  to="/business/needs-survey"
                   className="block px-3 py-2 rounded hover:bg-gray-50"
                   onClick={(e) => {
                     setMobileOpen(false);
