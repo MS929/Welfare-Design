@@ -1,8 +1,7 @@
-const historyModules = import.meta.glob("/src/content/history/*.{md,mdx}", {
-  eager: true,
-  query: "?raw",
-  import: "default",
-});
+import { useEffect, useMemo, useState } from "react";
+
+const GITHUB_API =
+  "https://api.github.com/repos/MS929/Welfare-Design/contents/src/content/history?ref=main";
 
 const fallbackRaw = [
   { date: "2025.05", event: "가칭) 복지디자인사회적협동조합 실무자 교육 진행" },
@@ -18,9 +17,7 @@ function parseFrontmatter(rawText) {
   const text = String(rawText || "");
   const match = text.match(/^---\s*\n([\s\S]*?)\n---\s*\n?([\s\S]*)$/);
 
-  if (!match) {
-    return { data: {}, content: text.trim() };
-  }
+  if (!match) return { data: {}, content: text.trim() };
 
   const [, yaml, content] = match;
   const data = {};
@@ -42,54 +39,94 @@ function parseFrontmatter(rawText) {
   return { data, content: content.trim() };
 }
 
-function getHistoryItems() {
-  try {
-    const cmsItems = Object.entries(historyModules)
-      .map(([path, raw]) => {
-        const fileContent = typeof raw === "string" ? raw : raw?.default || "";
-        const { data, content } = parseFrontmatter(fileContent);
+async function fetchHistoryItems() {
+  const res = await fetch(`${GITHUB_API}&t=${Date.now()}`, {
+    cache: "no-store",
+  });
 
-        return {
-          id: path,
-          date: String(data?.date || "").trim(),
-          event: String(data?.event || content || "").trim(),
-        };
-      })
-      .filter((item) => item.date && item.event);
+  if (!res.ok) throw new Error("GitHub history list fetch failed");
 
-    return cmsItems.length > 0 ? cmsItems : fallbackRaw;
-  } catch (e) {
-    console.warn("연혁 CMS 데이터 로드 실패:", e);
-    return fallbackRaw;
-  }
+  const files = await res.json();
+
+  const mdFiles = files.filter(
+    (file) =>
+      file.type === "file" &&
+      /\.(md|mdx)$/i.test(file.name) &&
+      file.download_url,
+  );
+
+  const items = await Promise.all(
+    mdFiles.map(async (file) => {
+      const fileRes = await fetch(`${file.download_url}?t=${Date.now()}`, {
+        cache: "no-store",
+      });
+
+      const raw = await fileRes.text();
+      const { data, content } = parseFrontmatter(raw);
+
+      return {
+        id: file.path,
+        date: String(data?.date || "").trim(),
+        event: String(data?.event || content || "").trim(),
+      };
+    }),
+  );
+
+  return items.filter((item) => item.date && item.event);
 }
 
-const raw = getHistoryItems();
+function makeByYear(items) {
+  return items
+    .slice()
+    .filter((item) => item.date && item.event)
+    .sort((a, b) => {
+      const normalize = (d) => {
+        const [y, m = "00"] = String(d).split(".");
+        return Number(`${y}${m.padStart(2, "0")}`);
+      };
 
-const byYear = raw
-  .slice()
-  .filter((item) => item.date && item.event)
-  .sort((a, b) => {
-    const normalize = (d) => {
-      const [y, m = "00"] = String(d).split(".");
-      return Number(`${y}${m.padStart(2, "0")}`);
-    };
+      return normalize(a.date) - normalize(b.date);
+    })
+    .reduce((acc, item) => {
+      const [y, m] = String(item.date).split(".");
+      const ym = m ? `${y}. ${m}` : y;
 
-    return normalize(a.date) - normalize(b.date);
-  })
-  .reduce((acc, item) => {
-    const [y, m] = String(item.date).split(".");
-    const ym = m ? `${y}. ${m}` : y;
+      (acc[y] ||= []).push({
+        ym,
+        event: item.event,
+      });
 
-    (acc[y] ||= []).push({
-      ym,
-      event: item.event,
-    });
-
-    return acc;
-  }, {});
+      return acc;
+    }, {});
+}
 
 export default function AboutHistory() {
+  const [items, setItems] = useState(fallbackRaw);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    let alive = true;
+
+    fetchHistoryItems()
+      .then((data) => {
+        if (!alive) return;
+        setItems(data.length > 0 ? data : fallbackRaw);
+      })
+      .catch((e) => {
+        console.warn("연혁 GitHub 실시간 로드 실패:", e);
+        if (alive) setItems(fallbackRaw);
+      })
+      .finally(() => {
+        if (alive) setLoading(false);
+      });
+
+    return () => {
+      alive = false;
+    };
+  }, []);
+
+  const byYear = useMemo(() => makeByYear(items), [items]);
+
   const themeVars = {
     "--pri": "#F26C2A",
     "--sec": "#2CB9B1",
@@ -131,9 +168,16 @@ export default function AboutHistory() {
           <p className="text-sm text-black/80">
             소개 &gt; <span className="text-black">연혁</span>
           </p>
+
           <h1 className="mt-3 text-3xl md:text-4xl font-extrabold tracking-tight">
             연혁
           </h1>
+
+          {loading && (
+            <p className="mt-3 text-sm text-slate-500">
+              연혁 데이터를 불러오는 중입니다.
+            </p>
+          )}
         </header>
 
         <div
@@ -154,6 +198,7 @@ export default function AboutHistory() {
                         {year}
                       </span>
                     </h2>
+
                     <span className="mt-1 px-2 py-0.5 text-xs font-semibold rounded-full bg-[var(--pri-soft)] text-[var(--pri)]">
                       YEAR
                     </span>
@@ -174,10 +219,12 @@ export default function AboutHistory() {
                       <div key={`${item.ym}-${i}`} className="relative">
                         <article className="relative w-full max-w-full min-w-0 bg-white/90 backdrop-blur-sm border border-slate-200 rounded-xl shadow-sm hover:shadow-md transition overflow-visible md:overflow-hidden">
                           <div className="absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b from-[var(--pri)] to-[var(--sec)]" />
+
                           <div className="p-4 pr-6 md:p-6 max-w-full">
                             <time className="inline-block px-3 py-1 text-xs font-semibold text-[var(--pri)] bg-[var(--pri-soft)] rounded-full">
                               {item.ym}
                             </time>
+
                             <p
                               className="mt-2 md:mt-3 font-medium text-slate-800 leading-relaxed break-keep break-words"
                               style={{
