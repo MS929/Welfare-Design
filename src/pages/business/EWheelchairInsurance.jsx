@@ -20,7 +20,7 @@ export default function EwcInsurance() {
     ? window.location.origin
     // SSR/프리뷰 환경 대비용 fallback (fetch URL이 절대 경로가 되도록 운영 도메인 사용)
     : 'https://welfaredesign.netlify.app';
-  const RAW = '/images/business/needs-survey.png?v=2';
+  const RAW = '/images/business/needs-survey.png?v=20260522-ewc';
   const cld = (w) => `https://res.cloudinary.com/dxeadg9wi/image/fetch/c_limit,f_auto,q_auto,w_${w}/${encodeURIComponent(ORIGIN + RAW)}`;
   const cldM = (w, fmt = 'auto') =>
     `https://res.cloudinary.com/dxeadg9wi/image/fetch/c_limit,f_${fmt},q_auto:eco,dpr_auto,w_${w}/${encodeURIComponent(ORIGIN + RAW)}`;
@@ -96,20 +96,6 @@ mark, [data-hl] {
               <picture>를 사용해 브라우저가 지원하는 포맷(AVIF/WEBP)을 우선 선택 → 용량/속도 개선
             */}
             <picture>
-              {/* AVIF 포맷 우선 제공(용량 효율 최상) */}
-              <source
-                media="(max-width: 767px)"
-                type="image/avif"
-                srcSet={`${cldM(320,'avif')} 320w, ${cldM(480,'avif')} 480w, ${cldM(640,'avif')} 640w, ${cldM(750,'avif')} 750w, ${cldM(828,'avif')} 828w`}
-                sizes="100vw"
-              />
-              {/* WEBP 대체 포맷(AVIF 미지원 브라우저 대응) */}
-              <source
-                media="(max-width: 767px)"
-                type="image/webp"
-                srcSet={`${cldM(320,'webp')} 320w, ${cldM(480,'webp')} 480w, ${cldM(640,'webp')} 640w, ${cldM(750,'webp')} 750w, ${cldM(828,'webp')} 828w`}
-                sizes="100vw"
-              />
               {/* 최종 PNG fallback(모든 환경 대응) */}
               <img
                 src={RAW}
