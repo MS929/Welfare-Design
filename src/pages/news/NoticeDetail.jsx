@@ -1,11 +1,12 @@
 // -----------------------------------------------------------------------------
 // [페이지 목적]
 //  - 공지사항 상세 페이지(NoticeDetail)
-//  - URL 파라미터(slug)로 /src/content/notices/*.md 중 해당 글을 찾아 렌더링
+//  - URL 파라미터(slug)로 GitHub에 저장된 CMS markdown 공지 파일을 찾아 렌더링
 //
 // [데이터 로딩 흐름]
-//  - Vite import.meta.glob(..., { query: '?raw' })로 마크다운 원문을 문자열로 로드
-//  - gray-matter로 프론트매터(data)와 본문(content) 분리
+//  - GitHub Contents API로 src/content/notices 목록을 실시간 조회
+//  - 현재 slug와 같은 파일명을 찾은 뒤 download_url로 markdown 원문 로드
+//  - 직접 frontmatter를 파싱하여 data/content 분리
 //  - slug 파일이 없거나 로딩/파싱 오류가 나면 404 성격 화면(post === undefined) 노출
 //
 // [마크다운 렌더링]
@@ -15,52 +16,103 @@
 
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import matter from 'gray-matter';
 import ReactMarkdown from 'react-markdown';
+
+const GITHUB_NOTICES_API =
+  'https://api.github.com/repos/MS929/Welfare-Design/contents/src/content/notices?ref=main';
+
+function parseFrontmatter(rawText) {
+  const text = String(rawText || '');
+  const match = text.match(/^---\s*\n([\s\S]*?)\n---\s*\n?([\s\S]*)$/);
+
+  if (!match) {
+    return { data: {}, content: text.trim() };
+  }
+
+  const [, yaml, content] = match;
+  const data = {};
+
+  yaml.split('\n').forEach((line) => {
+    const trimmed = line.trim();
+    if (!trimmed || trimmed.startsWith('#')) return;
+
+    const idx = trimmed.indexOf(':');
+    if (idx === -1) return;
+
+    const key = trimmed.slice(0, idx).trim();
+    let value = trimmed.slice(idx + 1).trim();
+
+    value = value.replace(/^["']|["']$/g, '');
+    data[key] = value;
+  });
+
+  return { data, content: content.trim() };
+}
 
 // -----------------------------------------------------------------------------
 // [컴포넌트] 공지사항 상세 뷰
 // -----------------------------------------------------------------------------
 export default function NoticeDetail() {
-  // URL 경로에서 공지 slug 추출 (/news/notices/:slug)
   const { slug } = useParams();
-  // 목록 페이지로 이동하기 위한 네비게이션 훅
   const nav = useNavigate();
-  // 공지 데이터 상태
-  // - null: 로딩 중
-  // - undefined: 파일 없음(404 성격)
-  // - object: 정상 로드
   const [post, setPost] = useState(null);
 
-  // slug 변경 시마다 해당 공지 markdown 파일을 비동기로 로드
   useEffect(() => {
+    let alive = true;
+
     (async () => {
       try {
-        // Vite glob 기능으로 공지 markdown 파일들을 문자열(raw)로 로드
-        const modules = import.meta.glob('/src/content/notices/*.md', { query: '?raw', import: 'default' });
-        // slug와 일치하는 파일 경로 탐색
-        const fileKey = Object.keys(modules).find((p) => p.endsWith(`${slug}.md`));
+        const listRes = await fetch(`${GITHUB_NOTICES_API}&t=${Date.now()}`, {
+          cache: 'no-store',
+          headers: {
+            Accept: 'application/vnd.github+json',
+          },
+        });
 
-        // 해당 slug에 대응하는 파일이 없으면 404 상태로 처리
-        if (!fileKey) {
-          setPost(undefined);
+        if (!listRes.ok) {
+          throw new Error(`GitHub notices list fetch failed: ${listRes.status}`);
+        }
+
+        const files = await listRes.json();
+        const target = Array.isArray(files)
+          ? files.find((file) => {
+              const name = String(file.name || '');
+              const base = name.replace(/\.(md|mdx)$/i, '');
+              return file.type === 'file' && file.download_url && base === slug;
+            })
+          : null;
+
+        if (!target) {
+          if (alive) setPost(undefined);
           return;
         }
 
-        // markdown 원문 로드
-        const raw = await modules[fileKey]();
-        // gray-matter로 프론트매터(data)와 본문(content) 분리
-        const { data, content } = matter(raw);
-        setPost({ ...(data ?? {}), content });
+        const rawUrl = `${target.download_url}${
+          target.download_url.includes('?') ? '&' : '?'
+        }t=${Date.now()}`;
+        const rawRes = await fetch(rawUrl, { cache: 'no-store' });
+
+        if (!rawRes.ok) {
+          throw new Error(`GitHub notice file fetch failed: ${rawRes.status}`);
+        }
+
+        const raw = await rawRes.text();
+        const { data, content } = parseFrontmatter(raw);
+
+        if (alive) {
+          setPost({ ...(data ?? {}), content });
+        }
       } catch (e) {
-        // 파싱/로딩 중 오류 발생 시: 콘솔 로그 후 404 상태로 폴백
-        console.error('[notice detail] load error:', e);
-        setPost(undefined);
+        console.error('[notice detail] live load error:', e);
+        if (alive) setPost(undefined);
       }
     })();
+
+    return () => {
+      alive = false;
+    };
   }, [slug]);
 
-  // 공지 파일을 찾을 수 없을 때 보여주는 안내 화면
   if (post === undefined) {
     return (
       <div className="max-w-screen-md mx-auto px-4 py-16 text-center">
@@ -72,14 +124,8 @@ export default function NoticeDetail() {
     );
   }
 
-  // 로딩 중에는 화면을 비워두고(=null 반환) 데이터가 준비되면 본문을 렌더링
   if (!post) return null;
 
-  // ---------------------------------------------------------------------------
-  // [마크다운 컴포넌트 커스터마이징]
-  //  - 이미지(img): lazy 로딩 + async 디코딩
-  //  - 화면 폭에 맞추되, 최대 높이를 제한하고(object-contain) 비율을 유지
-  // ---------------------------------------------------------------------------
   const markdownComponents = {
     img: ({ node, ...props }) => (
       <img
@@ -95,8 +141,6 @@ export default function NoticeDetail() {
   return (
     <div className="max-w-3xl mx-auto px-4 py-12">
       <div className="mb-6 flex items-center justify-between">
-        {/* 공지 목록으로 돌아가기 버튼 */}
-        {/* aria-label은 스크린리더 접근성용(영문 유지) */}
         <button
           onClick={() => nav('/news/notices')}
           className="inline-flex items-center gap-1 px-3 py-1.5 rounded border border-gray-300 text-gray-700 hover:bg-gray-50 transition text-sm font-medium"
@@ -104,13 +148,13 @@ export default function NoticeDetail() {
         >
           <span aria-hidden>←</span> 목록으로
         </button>
-        {/* 배지 UI는 의도적으로 제거됨 (공지 성격 단순화) */}
       </div>
 
-      {/* 공지 본문 카드 영역 */}
       <article className="bg-white shadow-sm ring-1 ring-gray-200 rounded-lg p-8 text-gray-900">
         <header className="mb-6">
-          <h1 className="text-3xl md:text-4xl font-extrabold tracking-tight">{post.title || slug}</h1>
+          <h1 className="text-3xl md:text-4xl font-extrabold tracking-tight">
+            {post.title || slug}
+          </h1>
           {post.date && (
             <time
               dateTime={new Date(post.date).toISOString()}
@@ -125,7 +169,6 @@ export default function NoticeDetail() {
           )}
         </header>
 
-        {/* 썸네일 이미지가 있을 경우에만 렌더링 */}
         {post.thumbnail && (
           <img
             src={post.thumbnail}
@@ -136,7 +179,6 @@ export default function NoticeDetail() {
           />
         )}
 
-        {/* 마크다운 본문 렌더링 영역 */}
         <div className="prose max-w-none text-[17px] leading-8 text-gray-800">
           <ReactMarkdown components={markdownComponents}>{post.content}</ReactMarkdown>
         </div>
