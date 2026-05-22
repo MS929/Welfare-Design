@@ -829,10 +829,13 @@ function MainPopup({ isMobile }) {
       const height = popup.image ? 640 : 340;
       const screenLeft = typeof window.screenX === "number" ? window.screenX : window.screenLeft || 0;
       const screenTop = typeof window.screenY === "number" ? window.screenY : window.screenTop || 0;
-      const viewportW = window.outerWidth || window.innerWidth || 1440;
-      const viewportH = window.outerHeight || window.innerHeight || 900;
-      const left = Math.max(24, Math.round(screenLeft + viewportW - width - 96 - offset));
-      const top = Math.max(48, Math.round(screenTop + Math.min(120 + offset, (viewportH - height) / 2)));
+      const viewportW = window.innerWidth || window.outerWidth || 1440;
+      const viewportH = window.innerHeight || window.outerHeight || 900;
+
+      // PC 팝업 위치: 화면 가운데에서 살짝 오른쪽, 너무 끝으로 붙지 않게 고정
+      const left = Math.max(40, Math.round(screenLeft + (viewportW - width) / 2 + 180 + offset));
+      const top = Math.max(60, Math.round(screenTop + (viewportH - height) / 2 + 30 + offset));
+
       const features = [
         `width=${width}`,
         `height=${height}`,
@@ -846,12 +849,18 @@ function MainPopup({ isMobile }) {
         "status=no",
       ].join(",");
 
-      const popupWindow = window.open("", `welfareDesignPopup_${index}`, features);
+      // 같은 이름의 팝업창을 재사용하면 브라우저가 이전 위치를 기억하므로 매번 새 이름 사용
+      const popupWindow = window.open("", `welfareDesignPopup_${Date.now()}_${index}`, features);
 
       if (!popupWindow || popupWindow.closed || typeof popupWindow.closed === "undefined") {
         blocked = true;
         return;
       }
+
+      try {
+        popupWindow.resizeTo(width, height);
+        popupWindow.moveTo(left, top);
+      } catch {}
 
       openedWindowsRef.current.push(popupWindow);
       openedCount += 1;
