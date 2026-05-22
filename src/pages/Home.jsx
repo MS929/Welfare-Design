@@ -824,14 +824,20 @@ function MainPopup({ isMobile }) {
       const hiddenDate = localStorage.getItem(`wd-main-popup-hidden-date:${popup.id}`);
       if (hiddenDate === today && !forcePopup) return;
 
-      const offset = index * 36;
-      const width = isMobile ? 380 : 540;
-      const height = popup.image ? (isMobile ? 640 : 680) : 340;
+      const offset = index * 28;
+      const width = 520;
+      const height = popup.image ? 640 : 340;
+      const screenLeft = typeof window.screenX === "number" ? window.screenX : window.screenLeft || 0;
+      const screenTop = typeof window.screenY === "number" ? window.screenY : window.screenTop || 0;
+      const viewportW = window.outerWidth || window.innerWidth || 1440;
+      const viewportH = window.outerHeight || window.innerHeight || 900;
+      const left = Math.max(24, Math.round(screenLeft + viewportW - width - 96 - offset));
+      const top = Math.max(48, Math.round(screenTop + Math.min(120 + offset, (viewportH - height) / 2)));
       const features = [
         `width=${width}`,
         `height=${height}`,
-        `left=${120 + offset}`,
-        `top=${80 + offset}`,
+        `left=${left}`,
+        `top=${top}`,
         "resizable=yes",
         "scrollbars=yes",
         "toolbar=no",
