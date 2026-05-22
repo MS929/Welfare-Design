@@ -21,14 +21,14 @@ import BizLayout from "./_Layout";
 //  - 태블릿/데스크탑은 로컬 PNG를 그대로 사용해 디자인/품질/캐시 안정성 유지
 // -----------------------------------------------------------------------------
 const ORIGIN = "https://welfaredesign.netlify.app"; // 배포(프로덕션) 정적 파일 기준 origin
-const RAW = `${ORIGIN}/images/business/apply-help.png?v=2`; // Cloudinary가 fetch할 원본 URL
+const RAW = `${ORIGIN}/images/business/apply-help.png?v=20260522-applyhelp`; // Cloudinary가 fetch할 원본 URL
 
 // w: 요청 너비(px), fmt: avif/webp/auto
 // c_limit: 원본 비율 유지, 지정 폭 이상 확대 방지
 // q_auto:eco: 자동 품질(eco)
 // dpr_auto: 기기 DPR에 맞춰 최적화
 const cld = (w, fmt = "auto") =>
-  `https://res.cloudinary.com/dxeadg9wi/image/fetch/c_limit,f_${fmt},q_auto:eco,dpr_auto,w_${w}/${RAW}`;
+  `https://res.cloudinary.com/dxeadg9wi/image/fetch/c_limit,f_${fmt},q_auto:eco,dpr_auto,w_${w}/${encodeURIComponent(RAW)}`;
 
 export default function ApplyHelp() {
   // ======================
@@ -125,27 +125,13 @@ mark, [data-hl] {
               - 태블릿/데스크탑은 로컬 PNG를 사용해 품질과 캐시 안정성을 확보
             */}
             <picture>
-              {/* 모바일: AVIF (가장 용량 효율이 좋은 포맷) */}
-              <source
-                media="(max-width: 767px)"
-                type="image/avif"
-                srcSet={`${cld(320,'avif')} 320w, ${cld(480,'avif')} 480w, ${cld(640,'avif')} 640w, ${cld(750,'avif')} 750w, ${cld(828,'avif')} 828w`}
-                sizes="100vw"
-              />
-              {/* 모바일: WEBP (AVIF 미지원 브라우저를 위한 대체 포맷) */}
-              <source
-                media="(max-width: 767px)"
-                type="image/webp"
-                srcSet={`${cld(320,'webp')} 320w, ${cld(480,'webp')} 480w, ${cld(640,'webp')} 640w, ${cld(750,'webp')} 750w, ${cld(828,'webp')} 828w`}
-                sizes="100vw"
-              />
               {/*
                 태블릿/데스크탑: 로컬 정적 PNG
                 - 디자인/화질을 고정해 의도한 비주얼 유지
                 - 빌드 시 정적 자산 캐시를 그대로 활용
               */}
               <img
-                src="/images/business/apply-help.png?v=2"
+                src="/images/business/apply-help.png?v=20260522-applyhelp"
                 alt={HERO_ALT}
                 loading="eager"
                 fetchPriority="high"
