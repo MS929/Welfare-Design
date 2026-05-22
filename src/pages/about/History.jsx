@@ -1,3 +1,4 @@
+import matter from "gray-matter";
 // -----------------------------------------------------------------------------
 // [파일 목적]
 //  - 소개 > 연혁(History) 페이지
@@ -18,13 +19,41 @@
 //  - date: "YYYY.MM" (정렬/그룹핑 기준)
 //  - event: 해당 월의 핵심 이벤트(짧은 문장)
 // -----------------------------------------------------------------------------
-const raw = [
-  { date: "2026" },
+const historyModules = import.meta.glob("/src/content/history/*.{md,mdx}", {
+  eager: true,
+  query: "?raw",
+  import: "default",
+});
+
+const fallbackRaw = [
+  { date: "2026", event: "" },
   { date: "2025.05", event: "가칭) 복지디자인사회적협동조합 실무자 교육 진행" },
   { date: "2025.06", event: "가칭) 복지디자인사회적협동조합 설립 추진단 결성" },
   { date: "2024.11", event: "가칭) 복지디자인사회적협동조합 창립총회 개최" },
   { date: "2024.12", event: "가칭) 복지디자인사회적협동조합 설립동의자 모집 및 준비모임" },
 ];
+
+function getHistoryItems() {
+  try {
+    const cmsItems = Object.entries(historyModules)
+      .map(([path, raw]) => {
+        const { data } = matter(raw);
+        return {
+          id: path,
+          date: String(data?.date || "").trim(),
+          event: String(data?.event || "").trim(),
+        };
+      })
+      .filter((item) => item.date);
+
+    return cmsItems.length > 0 ? cmsItems : fallbackRaw;
+  } catch (e) {
+    console.warn("연혁 CMS 데이터 로드 실패:", e);
+    return fallbackRaw;
+  }
+}
+
+const raw = getHistoryItems();
 
 // -----------------------------------------------------------------------------
 // [가공 데이터: byYear]
@@ -38,7 +67,8 @@ const byYear = raw
     // "YYYY.MM"을 연도/월로 분리
     const [y, m] = item.date.split(".");
     // 해당 연도 배열이 없으면 생성 후, "YYYY. MM" 표시용 문자열과 이벤트를 저장
-    (acc[y] ||= []).push({ ym: `${y}. ${m}`, event: item.event });
+    const ym = m ? `${y}. ${m}` : y;
+    (acc[y] ||= []).push({ ym, event: item.event || "" });
     return acc;
   }, {});
 
@@ -146,8 +176,8 @@ export default function AboutHistory() {
 
                   <div className="space-y-6 md:space-y-8">
                     {/* 해당 연도에 속한 월별 이벤트를 카드로 나열 */}
-                    {byYear[year].map((item, i) => (
-                      <div key={i} className="relative">
+                    {byYear[year].filter((item) => item.event).map((item, i) => (
+                      <div key={`${item.ym}-${i}`} className="relative">
                         {/* 이벤트 카드(좌측 컬러 바 + 날짜 뱃지 + 설명 텍스트) */}
                         <article className="relative w-full max-w-full min-w-0 bg-white/90 backdrop-blur-sm border border-slate-200 rounded-xl shadow-sm hover:shadow-md transition overflow-visible md:overflow-hidden">
                           <div className="absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b from-[var(--pri)] to-[var(--sec)]" />

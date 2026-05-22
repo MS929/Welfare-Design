@@ -15,6 +15,16 @@ media_folder: "public/uploads"
 public_folder: "/uploads"
 
 collections:
+  - name: "history"
+    label: "소개 - 연혁"
+    folder: "src/content/history"
+    create: true
+    format: "frontmatter"
+    identifier_field: "date"
+    slug: "{{year}}-{{month}}-{{slug}}"
+    fields:
+      - { label: "날짜", name: "date", widget: "string", hint: "예: 2025.05 또는 2026" }
+      - { label: "연혁 내용", name: "event", widget: "string", required: false }
   - name: stories
     label: 복지디자인 이야기
     folder: "src/content/stories"   # ← 실제 콘텐츠 폴더 경로
