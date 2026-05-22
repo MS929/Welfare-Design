@@ -30,7 +30,7 @@ function getHistoryItems() {
           event: String(data?.event || "").trim(),
         };
       })
-      .filter((item) => item.date && item.event);
+      .filter((item) => item.date);
 
     return cmsItems.length > 0 ? cmsItems : fallbackRaw;
   } catch (e) {
@@ -43,12 +43,24 @@ const raw = getHistoryItems();
 
 const byYear = raw
   .slice()
-  .filter((item) => item.date && item.event)
-  .sort((a, b) => a.date.localeCompare(b.date))
+  .filter((item) => item.date)
+  .sort((a, b) => {
+    const normalize = (d) => {
+      const [y, m = "00"] = d.split(".");
+      return Number(`${y}${m.padStart(2, "0")}`);
+    };
+
+    return normalize(a.date) - normalize(b.date);
+  })
   .reduce((acc, item) => {
     const [y, m] = item.date.split(".");
     const ym = m ? `${y}. ${m}` : y;
-    (acc[y] ||= []).push({ ym, event: item.event });
+
+    (acc[y] ||= []).push({
+      ym,
+      event: item.event || "",
+    });
+
     return acc;
   }, {});
 
