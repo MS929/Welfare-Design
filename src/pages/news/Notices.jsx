@@ -1,55 +1,141 @@
 // -----------------------------------------------------------------------------
 // [페이지 목적]
 //  - 공지사항 목록 페이지
-//  - 마크다운 공지 파일을 불러와 목록/검색/카테고리/페이지네이션 제공
+//  - GitHub에 저장된 CMS markdown 공지 파일을 실시간으로 불러와 목록/검색/카테고리/페이지네이션 제공
 //
 // [화면 구성]
 //  - 데스크탑(md 이상): 테이블 형태 목록
 //  - 모바일(md 미만): 카드형 리스트
 //
 // [데이터 처리]
-//  - /src/content/notices/*.md 파일을 로드
+//  - GitHub Contents API로 src/content/notices/*.md 파일을 로드
 //  - 프론트매터(date, title, category 등)를 기준으로 목록 구성
 //  - 최신 날짜 기준 내림차순 정렬
 // -----------------------------------------------------------------------------
 import { useEffect, useMemo, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import matter from "gray-matter";
 
-// -----------------------------------------------------------------------------
-// [마크다운 로딩]
-//  - Vite import.meta.glob을 사용해 공지 마크다운 파일을 일괄 로드
-//  - query: '?raw'  → 파일 내용을 문자열로 로드
-//  - import: 'default' → default export만 사용
-// -----------------------------------------------------------------------------
-const modules = import.meta.glob("/src/content/notices/*.md", {
-  query: "?raw",
-  import: "default",
-});
+const GITHUB_NOTICES_API =
+  "https://api.github.com/repos/MS929/Welfare-Design/contents/src/content/notices?ref=main";
 
-// -----------------------------------------------------------------------------
-// [유틸] 날짜 문자열을 Date 객체로 정규화
-//  - ISO, YYYY-MM-DD 형식 모두 대응
-//  - 파싱 실패 시 null 반환
-// -----------------------------------------------------------------------------
+function parseFrontmatter(rawText) {
+  const text = String(rawText || "");
+  const match = text.match(/^---\s*\n([\s\S]*?)\n---\s*\n?([\s\S]*)$/);
+
+  if (!match) {
+    return { data: {}, content: text.trim() };
+  }
+
+  const [, yaml, content] = match;
+  const data = {};
+
+  yaml.split("\n").forEach((line) => {
+    const trimmed = line.trim();
+    if (!trimmed || trimmed.startsWith("#")) return;
+
+    const idx = trimmed.indexOf(":");
+    if (idx === -1) return;
+
+    const key = trimmed.slice(0, idx).trim();
+    let value = trimmed.slice(idx + 1).trim();
+
+    value = value.replace(/^['"]|['"]$/g, "");
+    data[key] = value;
+  });
+
+  return { data, content: content.trim() };
+}
+
 function normalizeDate(v) {
   try {
-    // ISO, YYYY-MM-DD 모두 대응
     const d = new Date(v);
     if (!isNaN(d.getTime())) return d;
   } catch (_) {}
   return null;
 }
 
-// -----------------------------------------------------------------------------
-// [컴포넌트] 공지사항 목록
-// -----------------------------------------------------------------------------
+function normalizeCategory(rawCategory) {
+  const raw = String(rawCategory || "공지").trim();
+  const compact = raw.replace(/[\s-]/g, "");
+  if (compact === "공모") return "정보공개";
+  if (compact.includes("정보") && compact.includes("공개")) return "정보공개";
+  if (compact.includes("공지")) return "공지";
+  return raw || "공지";
+}
+
+function makeExcerpt(content = "") {
+  const text = String(content || "")
+    .replace(/\n+/g, " ")
+    .replace(/!\[[^\]]*\]\([^)]+\)/g, "")
+    .trim();
+  return text.slice(0, 120) + (text.length > 120 ? "…" : "");
+}
+
+async function fetchNoticeItems() {
+  const res = await fetch(`${GITHUB_NOTICES_API}&t=${Date.now()}`, {
+    cache: "no-store",
+    headers: {
+      Accept: "application/vnd.github+json",
+    },
+  });
+
+  if (!res.ok) {
+    throw new Error(`GitHub notices list fetch failed: ${res.status}`);
+  }
+
+  const files = await res.json();
+
+  const mdFiles = Array.isArray(files)
+    ? files.filter(
+        (file) =>
+          file.type === "file" &&
+          /\.(md|mdx)$/i.test(file.name || "") &&
+          file.download_url
+      )
+    : [];
+
+  const entries = await Promise.all(
+    mdFiles.map(async (file) => {
+      const rawUrl = `${file.download_url}${
+        file.download_url.includes("?") ? "&" : "?"
+      }t=${Date.now()}`;
+      const fileRes = await fetch(rawUrl, { cache: "no-store" });
+
+      if (!fileRes.ok) return null;
+
+      const raw = await fileRes.text();
+      const { data, content } = parseFrontmatter(raw);
+      const slug = String(file.name || "").replace(/\.(md|mdx)$/i, "");
+      const rawCategory = data?.category ?? "공지";
+      const category = normalizeCategory(rawCategory);
+      const date = String(data?.date || "").trim();
+      const dateObj = normalizeDate(date);
+
+      return {
+        slug,
+        title: String(data?.title || "").trim(),
+        date,
+        dateObj,
+        thumbnail: String(data?.thumbnail || "").trim(),
+        category,
+        excerpt: makeExcerpt(content),
+      };
+    })
+  );
+
+  return entries.filter(Boolean).sort((a, b) => {
+    const ta = a.dateObj ? a.dateObj.getTime() : 0;
+    const tb = b.dateObj ? b.dateObj.getTime() : 0;
+    if (tb !== ta) return tb - ta;
+    return b.slug.localeCompare(a.slug);
+  });
+}
+
 export default function Notices() {
   const location = useLocation();
   const navigate = useNavigate();
   const [items, setItems] = useState([]);
-  // URL 쿼리스트링(?category=)을 기준으로 초기 탭 결정
-  // 전체 | 공지 | 정보공개
+  const [loading, setLoading] = useState(true);
   const [tab, setTab] = useState(() => {
     const qs = new URLSearchParams(location.search);
     const c = (qs.get("category") || "").replace(/\s+/g, "");
@@ -57,56 +143,32 @@ export default function Notices() {
     if (c.includes("공지")) return "공지";
     if (c.includes("정보") && c.includes("공개")) return "정보공개";
     return "전체";
-  }); // 전체 | 공지 | 정보공개
+  });
   const [q, setQ] = useState("");
   const [page, setPage] = useState(1);
   const PAGE_SIZE = 9;
 
   useEffect(() => {
-    // 최초 마운트 시 모든 공지 마크다운을 로드하여 목록 데이터 구성
-    (async () => {
-      // 각 markdown 파일을 순회하며 메타데이터/본문 파싱
-      const entries = await Promise.all(
-        Object.entries(modules).map(async ([path, loader]) => {
-          const raw = await loader();
-          const { data, content } = matter(raw);
+    let alive = true;
 
-          // 파일명에서 slug 추출 (상세 페이지 URL에 사용)
-          const slug = path.split("/").pop().replace(/\.md$/, "");
-
-          // 카테고리 명칭 보정: '공모' → '정보공개'
-          const rawCategory = data.category ?? "공지";
-          const category = rawCategory === "공모" ? "정보공개" : rawCategory;
-
-          return {
-            slug,
-            title: data.title ?? "",
-            date: data.date ?? "",
-            dateObj: normalizeDate(data.date),
-            thumbnail: data.thumbnail ?? "",
-            category,
-            excerpt:
-              content
-                .replace(/\n+/g, " ")
-                .replace(/!\[[^\]]*\]\([^)]+\)/g, "") // 마크다운 이미지 제거
-                .slice(0, 120) + (content.length > 120 ? "…" : ""),
-          };
-        })
-      );
-
-      // 최신 날짜 기준 내림차순 정렬 (동일 날짜일 경우 파일명 기준으로 안정 정렬)
-      entries.sort((a, b) => {
-        const ta = a.dateObj ? a.dateObj.getTime() : 0;
-        const tb = b.dateObj ? b.dateObj.getTime() : 0;
-        if (tb !== ta) return tb - ta;
-        return b.slug.localeCompare(a.slug); // 안정 정렬: 파일명 역순
+    fetchNoticeItems()
+      .then((entries) => {
+        if (!alive) return;
+        setItems(entries);
+      })
+      .catch((e) => {
+        console.warn("공지사항 GitHub CMS 데이터 로드 실패:", e);
+        if (alive) setItems([]);
+      })
+      .finally(() => {
+        if (alive) setLoading(false);
       });
 
-      setItems(entries);
-    })();
+    return () => {
+      alive = false;
+    };
   }, []);
 
-  // URL 쿼리스트링 변경 시 탭 상태 동기화 (예: 다른 페이지의 '더보기' 링크)
   useEffect(() => {
     const qs = new URLSearchParams(location.search);
     const c = (qs.get("category") || "").replace(/\s+/g, "");
@@ -116,7 +178,6 @@ export default function Notices() {
     setTab("전체");
   }, [location.search]);
 
-  // 탭 변경 + URL 쿼리스트링 동기화
   const setTabAndURL = (t) => {
     setTab(t);
     const param =
@@ -138,31 +199,25 @@ export default function Notices() {
     });
   }, [items, tab, q]);
 
-  // 필터(탭/검색어) 변경 시 페이지를 1로 초기화
   useEffect(() => {
     setPage(1);
   }, [tab, q]);
 
-  // 전체 페이지 수 계산
-  const totalPages = Math.ceil(filtered.length / PAGE_SIZE);
+  const totalPages = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE));
 
-  // 필터 변경으로 전체 페이지 수가 줄어들 경우 현재 페이지 보정
   useEffect(() => {
     const tp = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE));
     if (page > tp) setPage(1);
   }, [filtered.length, page]);
 
-  // 페이지 변경 시 상단으로 스크롤 이동
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, [page]);
 
-  // 현재 페이지에 해당하는 아이템 슬라이스
   const paginatedItems = filtered.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
 
   return (
     <div className="bg-white">
-      {/* 브레드크럼 + 페이지 제목 */} 
       <section className="max-w-screen-xl mx-auto px-4 pt-10">
         <nav className="text-sm text-black/80">
           소식 <span className="mx-1 text-gray-400">›</span>
@@ -173,7 +228,6 @@ export default function Notices() {
         </h1>
       </section>
 
-      {/* 카테고리 필터 + 검색 입력 */} 
       <div className="max-w-screen-xl mx-auto flex flex-wrap items-center gap-3 px-4 pt-6 pb-6 antialiased tracking-[-0.01em]">
         {["전체", "공지", "정보공개"].map((t) => (
           <button
@@ -199,12 +253,12 @@ export default function Notices() {
         </div>
       </div>
 
-      {/* 검색/필터 결과가 없을 때 */} 
-      {paginatedItems.length === 0 ? (
+      {loading ? (
+        <p className="max-w-screen-xl mx-auto px-4 py-8 text-gray-500">공지사항을 불러오는 중입니다.</p>
+      ) : paginatedItems.length === 0 ? (
         <p className="max-w-screen-xl mx-auto px-4 py-8 text-gray-500">등록된 글이 없습니다.</p>
       ) : (
         <>
-          {/* 데스크탑(md 이상): 테이블 형태 공지 목록 */} 
           <div className="hidden md:block">
             <div className="max-w-screen-xl mx-auto overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm">
               <table className="w-full text-sm">
@@ -236,7 +290,6 @@ export default function Notices() {
                         <td className="py-4 px-4 text-gray-500 text-center align-middle">
                           {number}
                         </td>
-                        {/* 클릭 시 공지 상세 페이지로 이동 */} 
                         <td className="py-4 px-4 align-middle">
                           <Link
                             to={`/news/notices/${encodeURIComponent(it.slug)}`}
@@ -257,7 +310,6 @@ export default function Notices() {
             </div>
           </div>
 
-          {/* 모바일(md 미만): 카드형 공지 리스트 */} 
           <div className="md:hidden">
             <ul className="max-w-screen-xl mx-auto px-4 space-y-4">
               {paginatedItems.map((it, idx) => {
@@ -265,18 +317,15 @@ export default function Notices() {
                 const dateStr = (it.dateObj && it.dateObj.toISOString().slice(0, 10)) || it.date || "";
                 return (
                   <li key={it.slug}>
-                    {/* 클릭 시 공지 상세 페이지로 이동 */} 
                     <Link
                       to={`/news/notices/${encodeURIComponent(it.slug)}`}
                       className="block rounded-2xl border border-gray-200 bg-white p-4 shadow-sm hover:shadow-md active:bg-gray-50 transition-shadow"
                     >
                       <div className="flex items-start gap-3">
-                        {/* 번호 */}
                         <span className="shrink-0 mt-0.5 grid place-items-center h-6 w-6 rounded-full bg-gray-100 text-xs font-semibold text-gray-700">
                           {number}
                         </span>
 
-                        {/* 본문 */}
                         <div className="min-w-0 flex-1">
                           <p className="text-[15px] font-semibold text-gray-900 leading-snug break-words truncate">
                             {it.title || "제목 없음"}
@@ -306,7 +355,6 @@ export default function Notices() {
         </>
       )}
 
-      {/* 페이지네이션 컨트롤 */} 
       <div className="max-w-screen-xl mx-auto flex justify-center items-center gap-4 my-8 px-4">
         <button
           onClick={() => setPage((p) => Math.max(1, p - 1))}

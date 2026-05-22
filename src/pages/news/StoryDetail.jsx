@@ -1,7 +1,7 @@
 // -----------------------------------------------------------------------------
 // [페이지 목적]
 //  - 동행이야기(스토리) 상세 페이지
-//  - /src/content/stories/*.md(마크다운) 파일을 읽어 본문을 렌더링
+//  - GitHub에 저장된 CMS markdown 파일을 실시간으로 읽어 본문을 렌더링
 //
 // [상태 유지/이동 동선]
 //  - 목록 화면의 탭(tab) 상태를 location.state 또는 URL 쿼리(?tab=...)로 전달받음
@@ -14,9 +14,85 @@
 
 import { useEffect, useState, useRef, useMemo } from "react";
 import { useNavigate, useParams, useLocation } from "react-router-dom";
-import matter from "gray-matter";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
+
+const GITHUB_STORIES_API =
+  "https://api.github.com/repos/MS929/Welfare-Design/contents/src/content/stories?ref=main";
+
+function parseFrontmatter(rawText) {
+  const text = String(rawText || "");
+  const match = text.match(/^---\s*\n([\s\S]*?)\n---\s*\n?([\s\S]*)$/);
+
+  if (!match) {
+    return { data: {}, content: text.trim() };
+  }
+
+  const [, yaml, content] = match;
+  const data = {};
+
+  yaml.split("\n").forEach((line) => {
+    const trimmed = line.trim();
+    if (!trimmed || trimmed.startsWith("#")) return;
+
+    const idx = trimmed.indexOf(":");
+    if (idx === -1) return;
+
+    const key = trimmed.slice(0, idx).trim();
+    let value = trimmed.slice(idx + 1).trim();
+
+    value = value.replace(/^['"]|['"]$/g, "");
+    data[key] = value;
+  });
+
+  return { data, content: content.trim() };
+}
+
+async function fetchStoryEntries() {
+  const listRes = await fetch(`${GITHUB_STORIES_API}&t=${Date.now()}`, {
+    cache: "no-store",
+    headers: {
+      Accept: "application/vnd.github+json",
+    },
+  });
+
+  if (!listRes.ok) {
+    throw new Error(`GitHub stories list fetch failed: ${listRes.status}`);
+  }
+
+  const files = await listRes.json();
+  const mdFiles = Array.isArray(files)
+    ? files.filter(
+        (file) =>
+          file.type === "file" &&
+          /\.(md|mdx)$/i.test(file.name || "") &&
+          file.download_url
+      )
+    : [];
+
+  const entries = await Promise.all(
+    mdFiles.map(async (file) => {
+      const rawUrl = `${file.download_url}${
+        file.download_url.includes("?") ? "&" : "?"
+      }t=${Date.now()}`;
+      const rawRes = await fetch(rawUrl, { cache: "no-store" });
+
+      if (!rawRes.ok) return null;
+
+      const raw = await rawRes.text();
+      const { data, content } = parseFrontmatter(raw);
+      const slugFromPath = String(file.name || "").replace(/\.(md|mdx)$/i, "");
+
+      return {
+        slug: slugFromPath,
+        data,
+        content,
+      };
+    })
+  );
+
+  return entries.filter(Boolean);
+}
 
 // -----------------------------------------------------------------------------
 // SmartImage: 지연 로딩 + 뷰포트 근접 시 로드하는 이미지 컴포넌트
@@ -83,8 +159,8 @@ function SmartImage({ src, alt, className, priority = false, placeholderMin = 22
 
 /**
  * 동행이야기(스토리) 상세 페이지
- * - CMS가 생성한 /src/content/stories/*.md 파일을 읽어 렌더링
- * - Vite 환경에서 마크다운을 문자열(raw)로 불러오기 위해 import.meta.glob + query:"?raw" 조합 사용
+ * - CMS가 생성한 GitHub src/content/stories/*.md 파일을 실시간으로 읽어 렌더링
+ * - 새 글/수정 글은 CMS 저장 후 GitHub 반영이 끝나면 새로고침으로 확인 가능
  */
 export default function StoryDetail() {
   const { slug } = useParams();
@@ -102,47 +178,32 @@ export default function StoryDetail() {
       : "/news/stories");
   const [post, setPost] = useState(null); // null=로딩 중, undefined=글 없음(404), 객체=정상 데이터
   const [neighbors, setNeighbors] = useState({ prev: null, next: null });
-  const [copied, setCopied] = useState(false);
   const progressRef = useRef(null);
 
   useEffect(() => {
+    let alive = true;
+
     (async () => {
       try {
-        // Vite의 import.meta.glob으로 스토리 마크다운 파일을 "문자열(raw)"로 한 번에 수집
-        // - query:"?raw" + import:"default" 조합으로 마크다운 본문을 문자열로 로드
-        const modules = import.meta.glob("/src/content/stories/*.md", {
-          query: "?raw",
-          import: "default",
-        });
+        const entries = await fetchStoryEntries();
 
-        // 각 파일을 읽어 frontmatter(메타데이터)와 본문(content)을 분리하고, 파일명에서 slug를 만든다
-        const entries = await Promise.all(
-          Object.entries(modules).map(async ([path, resolver]) => {
-            const raw = await resolver();
-            const { data, content } = matter(raw);
-            const slugFromPath = path.split("/").pop().replace(/\.md$/, "");
-            return { slug: slugFromPath, data, content };
-          })
-        );
-
-        // URL slug와 일치하는 글을 찾는다. 없으면 not found 처리
         const currentIndex = entries.findIndex((e) => e.slug === slug);
         if (currentIndex === -1) {
-          setPost(undefined);
+          if (alive) setPost(undefined);
           return;
         }
 
-        // 상세 화면에서 사용할 데이터(제목/날짜/썸네일/작성자/본문)를 상태로 저장
         const currentEntry = entries[currentIndex];
-        setPost({
-          title: currentEntry.data.title ?? "",
-          date: currentEntry.data.date ?? "",
-          thumbnail: currentEntry.data.thumbnail ?? "",
-          author: currentEntry.data.author ?? "",
-          content: currentEntry.content,
-        });
+        if (alive) {
+          setPost({
+            title: currentEntry.data.title ?? "",
+            date: currentEntry.data.date ?? "",
+            thumbnail: currentEntry.data.thumbnail ?? "",
+            author: currentEntry.data.author ?? "",
+            content: currentEntry.content,
+          });
+        }
 
-        // 날짜 내림차순으로 정렬(날짜가 없으면 파일명(slug)로 보조 정렬)
         const sorted = entries.slice().sort((a, b) => {
           const dateA = a.data.date ? new Date(a.data.date).getTime() : 0;
           const dateB = b.data.date ? new Date(b.data.date).getTime() : 0;
@@ -151,20 +212,24 @@ export default function StoryDetail() {
         });
 
         const sortedIndex = sorted.findIndex((e) => e.slug === slug);
-
-        // 정렬된 목록 기준으로 이전/다음 글 네비게이션 정보를 만든다
         const prev = sortedIndex > 0 ? sorted[sortedIndex - 1] : null;
         const next = sortedIndex < sorted.length - 1 ? sorted[sortedIndex + 1] : null;
 
-        setNeighbors({
-          prev: prev ? { slug: prev.slug, title: prev.data.title ?? "" } : null,
-          next: next ? { slug: next.slug, title: next.data.title ?? "" } : null,
-        });
+        if (alive) {
+          setNeighbors({
+            prev: prev ? { slug: prev.slug, title: prev.data.title ?? "" } : null,
+            next: next ? { slug: next.slug, title: next.data.title ?? "" } : null,
+          });
+        }
       } catch (e) {
-        console.error(e);
-        setPost(undefined);
+        console.error("[story detail] live load error:", e);
+        if (alive) setPost(undefined);
       }
     })();
+
+    return () => {
+      alive = false;
+    };
   }, [slug]);
 
   useEffect(() => {

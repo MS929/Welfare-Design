@@ -11,104 +11,167 @@
 //  - 상단: 브레드크럼(소식 > 동행이야기 > 상세)
 //  - 본문: frontmatter(제목/날짜/썸네일) + 마크다운 body를 줄 단위로 문단(<p>) 출력
 // -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
+// [페이지 목적]
+//  - "복지디자인 이야기" 상세 페이지
+//  - URL 파라미터(slug)에 해당하는 GitHub CMS markdown 파일을 찾아 렌더링
+//
+// [데이터 로딩 방식]
+//  - GitHub Contents API로 src/content/stories 목록을 실시간 조회
+//  - 현재 slug와 같은 파일을 찾은 뒤 download_url로 markdown 원문 로드
+//  - 직접 frontmatter를 파싱하여 제목/날짜/썸네일/본문 렌더링
+// -----------------------------------------------------------------------------
 
+import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
+import ReactMarkdown from "react-markdown";
 
-// /src/content/news/*.md 경로의 파일들을 { "경로": "원문 문자열" } 형태로 매핑
-const rawModules = import.meta.glob("/src/content/news/*.md", {
-  eager: true,
-  as: "raw",
-});
+const GITHUB_STORIES_API =
+  "https://api.github.com/repos/MS929/Welfare-Design/contents/src/content/stories?ref=main";
 
-// 마크다운 원문에서 frontmatter(--- ... ---)와 본문(body)을 분리하는 간단 파서
-// - 외부 라이브러리 없이 최소 기능만 구현(제목/날짜/썸네일 등 key: value 형태 가정)
-function parseFrontMatter(md) {
-  // frontmatter 영역(--- ... ---) 정규식으로 추출
-  const fmMatch = md.match(/^---([\s\S]*?)---\s*/);
-  // frontmatter를 제거한 나머지를 본문(body)으로 사용
-  const body = md.replace(/^---[\s\S]*?---\s*/, "").trim();
+function parseFrontmatter(rawText) {
+  const text = String(rawText || "");
+  const match = text.match(/^---\s*\n([\s\S]*?)\n---\s*\n?([\s\S]*)$/);
 
-  const fm = {};
-  // frontmatter 블록을 줄 단위로 나누어 key: value 형태로 파싱
-  const fmBlock = fmMatch ? fmMatch[1] : "";
-  fmBlock
-    .split("\n")
-    .map((l) => l.trim())
-    .filter(Boolean)
-    .forEach((line) => {
-      const idx = line.indexOf(":");
-      if (idx === -1) return;
-      const key = line.slice(0, idx).trim();
-      let value = line.slice(idx + 1).trim();
-      // 따옴표로 감싸진 값("value") 처리
-      value = value.replace(/^"(.*)"$/, "$1");
-      fm[key] = value;
-    });
+  if (!match) {
+    return { data: {}, content: text.trim() };
+  }
 
-  return { frontmatter: fm, body };
+  const [, yaml, content] = match;
+  const data = {};
+
+  yaml.split("\n").forEach((line) => {
+    const trimmed = line.trim();
+    if (!trimmed || trimmed.startsWith("#")) return;
+
+    const idx = trimmed.indexOf(":");
+    if (idx === -1) return;
+
+    const key = trimmed.slice(0, idx).trim();
+    let value = trimmed.slice(idx + 1).trim();
+
+    value = value.replace(/^['"]|['"]$/g, "");
+    data[key] = value;
+  });
+
+  return { data, content: content.trim() };
 }
 
-// 복지디자인 이야기 상세 컴포넌트
 export default function StoryDetail() {
-  // URL 경로에서 slug 파라미터 추출 (예: /news/stories/:slug)
   const { slug } = useParams();
+  const [post, setPost] = useState(null);
 
-  // slug와 일치하는 markdown 파일 경로 탐색
-  const matchPath = Object.keys(rawModules).find((p) =>
-    p.endsWith(`${slug}.md`)
-  );
+  useEffect(() => {
+    let alive = true;
 
-  // slug에 해당하는 파일이 없을 경우: 404 대체 메시지 표시
-  if (!matchPath) {
+    (async () => {
+      try {
+        const listRes = await fetch(`${GITHUB_STORIES_API}&t=${Date.now()}`, {
+          cache: "no-store",
+          headers: {
+            Accept: "application/vnd.github+json",
+          },
+        });
+
+        if (!listRes.ok) {
+          throw new Error(`GitHub stories list fetch failed: ${listRes.status}`);
+        }
+
+        const files = await listRes.json();
+        const target = Array.isArray(files)
+          ? files.find((file) => {
+              const name = String(file.name || "");
+              const base = name.replace(/\.(md|mdx)$/i, "");
+              return file.type === "file" && file.download_url && base === slug;
+            })
+          : null;
+
+        if (!target) {
+          if (alive) setPost(undefined);
+          return;
+        }
+
+        const rawUrl = `${target.download_url}${
+          target.download_url.includes("?") ? "&" : "?"
+        }t=${Date.now()}`;
+        const rawRes = await fetch(rawUrl, { cache: "no-store" });
+
+        if (!rawRes.ok) {
+          throw new Error(`GitHub story file fetch failed: ${rawRes.status}`);
+        }
+
+        const raw = await rawRes.text();
+        const { data, content } = parseFrontmatter(raw);
+
+        if (alive) {
+          setPost({ ...(data ?? {}), content });
+        }
+      } catch (e) {
+        console.error("[story detail] live load error:", e);
+        if (alive) setPost(undefined);
+      }
+    })();
+
+    return () => {
+      alive = false;
+    };
+  }, [slug]);
+
+  if (post === undefined) {
     return (
       <div className="max-w-screen-xl mx-auto px-4 py-12">
         <p className="text-gray-500">글을 찾을 수 없습니다.</p>
+        <Link to="/news/stories" className="mt-4 inline-block text-sky-600 underline">
+          목록으로
+        </Link>
       </div>
     );
   }
 
-  // 매칭된 markdown 파일의 원본 문자열(raw) 가져오기
-  const raw = rawModules[matchPath];
-  const { frontmatter, body } = parseFrontMatter(raw);
+  if (!post) return null;
+
+  const markdownComponents = {
+    img: ({ node, ...props }) => (
+      <img
+        {...props}
+        loading="lazy"
+        decoding="async"
+        className="mt-6 rounded-lg border border-gray-200 w-full max-h-[70vh] object-contain"
+        alt={props.alt || ""}
+      />
+    ),
+  };
 
   return (
     <div className="max-w-screen-md mx-auto px-4 py-12">
-      {/* 상단 브레드크럼: 소식 > 동행이야기 > 상세 */}
       <p className="text-sm text-gray-500 mb-2">
         <Link to="/news/stories" className="hover:underline">
-          소식 &gt; 동행이야기
+          소식 &gt; 복지디자인 이야기
         </Link>
         &gt; 상세
       </p>
 
-      {/* 게시글 제목 */}
-      <h1 className="text-3xl font-bold">{frontmatter.title}</h1>
-      {/* 게시 날짜 (YYYY-MM-DD 형식으로 표시) */}
-      <time className="block text-sm text-gray-500 mt-2 mb-6">
-        {frontmatter.date?.slice(0, 10)}
-      </time>
+      <h1 className="text-3xl font-bold">{post.title || slug}</h1>
 
-      {/* 썸네일 이미지가 있을 경우에만 렌더링 */}
-      {frontmatter.thumbnail ? (
+      {post.date && (
+        <time className="block text-sm text-gray-500 mt-2 mb-6">
+          {String(post.date).slice(0, 10)}
+        </time>
+      )}
+
+      {post.thumbnail ? (
         <img
-          src={frontmatter.thumbnail}
+          src={post.thumbnail}
           alt=""
+          loading="lazy"
+          decoding="async"
           className="w-full rounded-xl mb-6"
         />
       ) : null}
 
-      {/* 마크다운 본문을 줄 단위로 분리하여 문단(<p>)으로 출력 */}
       <div className="prose max-w-none">
-        {body.split("\n").map((line, i) => (
-          <p key={i}>{line}</p>
-        ))}
+        <ReactMarkdown components={markdownComponents}>{post.content}</ReactMarkdown>
       </div>
     </div>
   );
 }
-
-// -----------------------------------------------------------------------------
-// 메모
-//  - frontmatter는 단순 key: value 형태만 가정(복잡한 YAML 문법/배열/중첩은 미지원)
-//  - 본문은 줄 단위로 <p>를 생성하므로, 공백 줄/목록/제목 등은 필요 시 추가 처리 필요
-// -----------------------------------------------------------------------------
