@@ -832,15 +832,16 @@ function MainPopup({ isMobile }) {
       const viewportW = window.innerWidth || window.outerWidth || 1440;
       const viewportH = window.innerHeight || window.outerHeight || 900;
 
-      // PC 팝업 위치: 대형 모니터에서도 중앙 기준으로 자연스럽게 표시
+      // PC 팝업 위치: 브라우저 화면 중앙보다 살짝 왼쪽으로 고정
+      // 27인치 대형 모니터에서 오른쪽 벽에 붙어 보이는 현상을 방지
       const left = Math.max(
         40,
-        Math.round(screenLeft + (viewportW - width) / 2 + 40 + offset)
+        Math.round(screenLeft + viewportW * 0.42 - width / 2 + offset)
       );
 
       const top = Math.max(
         60,
-        Math.round(screenTop + (viewportH - height) / 2 + 20 + offset)
+        Math.round(screenTop + viewportH * 0.16 + offset)
       );
 
       const features = [
