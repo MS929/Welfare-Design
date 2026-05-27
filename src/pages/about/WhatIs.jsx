@@ -23,7 +23,7 @@ export default function AboutWhat() {
     if (!document) return;
     try {
       // Cloudinary 최적화 이미지 URL 생성 (기준 폭 1200px)
-      const href = "/images/about/main2.png?v=20260527";
+      const href = "/images/about/main2.png";
 
       // <link rel="preload" as="image"> 태그를 head에 삽입
       const link = document.createElement("link");
@@ -71,7 +71,7 @@ export default function AboutWhat() {
   // 1) 설립 배경
   const background = {
     title: "설립 배경",
-    image: "/images/about/main2.png?v=20260527", // 로딩 실패 시 대체 이미지로 전환
+    image: "/images/about/main2.png",
     paragraphs: [
       "복지디자인 사회적협동조합은 한국침례신학대학교 사회복지대학원에서 만난 12명의 동문들이 사람을 향한 마음을 배우고 사회복지의 가치를 실천해온 경험을 지역사회와 이웃에게 돌려드리고자 설립한 조합입니다.",
       "우리는 복지가 설계될 수 있다는 믿음 아래, 작고 연약한 삶도 따뜻하게 디자인될 수 있으며 의미와 책임, 그리고 소명을 담은 복지를 만들어가야 한다고 확신합니다.",
@@ -217,10 +217,7 @@ export default function AboutWhat() {
             fetchPriority="high"
             width={680}
             height={510}
-            className="block w-full h-auto max-w-[320px] md:max-w-none max-h-40 md:max-h-56 object-contain transition-opacity duration-300 mx-auto mb-4"
-            onError={(e) => {
-              e.currentTarget.src = "/images/about/fallback.jpg";
-            }}
+            className="block w-full h-auto max-w-[320px] md:max-w-none max-h-40 md:max-h-56 object-contain mx-auto mb-4"
           />
           <div className="space-y-4 text-gray-900 leading-relaxed break-words self-center mt-0">
             {background.paragraphs.map((t, i) => (
