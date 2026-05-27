@@ -44,7 +44,7 @@ export default function BizOverview() {
       to: "/business/ewc-insurance",
       title: "취약 계층 복지욕구 실태조사",
       desc: "현장의 요구를 데이터로 수집·분석하여 정책·사업에 반영.",
-      icon: "/images/icons/needs-survey.png",
+      icon: "/images/icons/ewc-insurance.png",
     },
     {
       to: "/business/member-services",
