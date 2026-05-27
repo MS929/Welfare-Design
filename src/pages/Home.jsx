@@ -1071,7 +1071,16 @@ function MainPopup({ isMobile, isTablet, isTouch }) {
 
     // 모바일/패드/터치에서는 window.open 대신 내부 모달로 여러 팝업을 순서대로 보여준다.
     if (useModalPopup) {
-      const nextModalPopups = popups.filter((popup) => {
+      const sortedPopups = [...popups].sort((a, b) => {
+        const at = Number(a.sortDate || 0);
+        const bt = Number(b.sortDate || 0);
+
+        if (bt !== at) return bt - at;
+
+        return String(b.id || "").localeCompare(String(a.id || ""));
+      });
+
+      const nextModalPopups = sortedPopups.filter((popup) => {
         const hiddenDate = localStorage.getItem(`wd-main-popup-hidden-date:${popup.id}`);
         return hiddenDate !== today || forcePopup;
       });
