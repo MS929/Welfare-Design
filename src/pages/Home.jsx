@@ -569,7 +569,7 @@ function getMainPopupData() {
 // 메인 페이지 팝업
 // - CMS에서 enabled=true 일 때만 노출
 // - 오늘 하루 보지 않기는 localStorage로 처리
-function MainPopup({ isMobile }) {
+function MainPopup({ isMobile, isTablet }) {
   const popups = useMemo(() => getMainPopupData(), []);
   const [open, setOpen] = useState(false);
   const [modalPopups, setModalPopups] = useState([]);
@@ -1414,7 +1414,10 @@ mark, [data-hl] {
         }}
       />
       <main style={{ background: "#fff", overflowX: "hidden" }}>
-        <MainPopup isMobile={isMobile} />
+        <MainPopup
+          isMobile={isMobile}
+          isTablet={isTablet}
+        />
         {/* ================= HERO(상단 캐러셀) ================= */}
         <Section
           fullBleed
