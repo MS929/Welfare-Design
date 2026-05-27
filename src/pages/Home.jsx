@@ -1612,17 +1612,19 @@ mark, [data-hl] {
               gridTemplateColumns: isTablet
                 ? "1fr"
                 : isWide
-                  ? "1.16fr 1.22fr"
-                  : "1.1fr 1.4fr",
-              gap: isTablet ? 20 : isWide ? 56 : 36,
+                  ? "minmax(380px, 520px) minmax(0, 1fr)"
+                  : "minmax(320px, 440px) minmax(0, 1fr)",
+              gap: isTablet ? 20 : isWide ? 56 : 40,
               alignItems: "center",
               padding: isMobile
                 ? "0"
                 : isTablet
-                  ? "0 32px"
+                  ? "0 24px"
                   : isWide
                     ? "0 48px"
                     : "0 32px",
+              width: "100%",
+              minWidth: 0,
             }}
           >
             {/* 좌측 이미지 프레임 (수동/자동 캐러셀) + 하단 컨트롤 */}
@@ -1776,16 +1778,11 @@ mark, [data-hl] {
             {/* 우측 텍스트 */}
             <div
               style={{
-                marginTop: isTablet ? 10 : isWide ? -20 : -36,
+                marginTop: isTablet ? 10 : isWide ? -12 : -20,
                 textAlign: isTablet ? "center" : "left",
-                maxWidth: isMobile
-                  ? "34ch"
-                  : isTablet
-                    ? "42ch"
-                    : isWide
-                      ? "64ch"
-                      : "60ch",
-                width: isTablet ? "auto" : isWide ? "64ch" : "60ch",
+                maxWidth: isTablet ? "100%" : isWide ? "64ch" : "56ch",
+                width: "100%",
+                minWidth: 0,
                 marginInline: isTablet ? "auto" : 0,
               }}
             >
@@ -1826,15 +1823,21 @@ mark, [data-hl] {
 
               <h1
                 style={{
-                  fontSize: isMobile ? 24 : isTablet ? 30 : isWide ? 42 : 38,
+                  fontSize: isMobile ? 24 : isTablet ? 30 : isWide ? "clamp(34px, 2.4vw, 42px)" : "clamp(30px, 2.8vw, 38px)",
                   lineHeight: 1.35,
                   margin: 0,
                   letterSpacing: -0.2,
                   fontWeight: 600,
                   textWrap: "balance",
+                  wordBreak: "keep-all",
+                  overflowWrap: "break-word",
                 }}
               >
-                <span style={{ whiteSpace: isTablet ? "normal" : "nowrap" }}>
+                <span
+                  style={{
+                    whiteSpace: isWide ? "nowrap" : "normal",
+                  }}
+                >
                   현장과 지역을 잇는{" "}
                   <span
                     style={{
