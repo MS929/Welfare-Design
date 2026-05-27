@@ -1,6 +1,3 @@
-import { useEffect } from "react";
-// Cloudinary 경유 시 public 폴더 이미지가 배포 환경에서 누락될 수 있어
-// 이 페이지의 대표 이미지는 public 경로를 직접 사용한다.
 /**
  * WhatIs.jsx (소개 > 복지디자인은?)
  * --------------------------------------------------
@@ -11,39 +8,7 @@ import { useEffect } from "react";
  * - 상단 대표 이미지는 preload를 통해 초기 렌더링 성능(LCP)을 개선
  */
 export default function AboutWhat() {
-  /**
-   * [이미지 Preload 처리]
-   * - 첫 화면(above-the-fold)에 노출되는 대표 이미지를 미리 로드
-   * - <link rel="preload"> + Image() 객체로 캐시 예열
-   * - 일부 브라우저 preload 미동작 상황을 대비한 이중 안전장치
-   * - 실패해도 UX에 영향이 없도록 try/catch로 감쌈
-   */
-  useEffect(() => {
-    // SSR/빌드 환경 방어 (document가 없는 경우 실행 방지)
-    if (!document) return;
-    try {
-      // Cloudinary 최적화 이미지 URL 생성 (기준 폭 1200px)
-      const href = "/images/about/main2.png";
-
-      // <link rel="preload" as="image"> 태그를 head에 삽입
-      const link = document.createElement("link");
-      link.rel = "preload";
-      link.as = "image";
-      link.href = href;
-      document.head.appendChild(link);
-
-      // preload 지원이 약한 브라우저를 대비한 캐시 워밍(Image 객체)
-      const img = new Image();
-      img.src = href;
-
-      // 정리(cleanup): 컴포넌트 언마운트 시 preload 링크 제거
-      return () => {
-        if (link.parentNode) document.head.removeChild(link);
-      };
-    } catch {
-      // preload가 실패해도 페이지는 정상 렌더링
-    }
-  }, []);
+  const main2Image = "/images/about/main2.png";
 
   /**
    * 섹션 제목 공통 컴포넌트
@@ -71,7 +36,7 @@ export default function AboutWhat() {
   // 1) 설립 배경
   const background = {
     title: "설립 배경",
-    image: "/images/about/main2.png",
+    image: main2Image,
     paragraphs: [
       "복지디자인 사회적협동조합은 한국침례신학대학교 사회복지대학원에서 만난 12명의 동문들이 사람을 향한 마음을 배우고 사회복지의 가치를 실천해온 경험을 지역사회와 이웃에게 돌려드리고자 설립한 조합입니다.",
       "우리는 복지가 설계될 수 있다는 믿음 아래, 작고 연약한 삶도 따뜻하게 디자인될 수 있으며 의미와 책임, 그리고 소명을 담은 복지를 만들어가야 한다고 확신합니다.",
@@ -210,11 +175,11 @@ export default function AboutWhat() {
 
         <div className="grid grid-cols-1 md:grid-cols-[minmax(200px,260px),1fr] gap-4 md:gap-6 items-center justify-items-center md:justify-items-start">
           <img
+            key={background.image}
             src={background.image}
             alt="설립 배경"
             loading="eager"
             decoding="async"
-            fetchPriority="high"
             width={680}
             height={510}
             className="block w-full h-auto max-w-[320px] md:max-w-none max-h-40 md:max-h-56 object-contain mx-auto mb-4"
