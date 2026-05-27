@@ -8,7 +8,7 @@
  * - 상단 대표 이미지는 preload를 통해 초기 렌더링 성능(LCP)을 개선
  */
 export default function AboutWhat() {
-  const main2Image = "/images/about/main2.png";
+  const main2Image = "https://welfaredesign.kr/images/about/main2.png";
 
   /**
    * 섹션 제목 공통 컴포넌트
@@ -183,6 +183,9 @@ export default function AboutWhat() {
             width={680}
             height={510}
             className="block w-full h-auto max-w-[320px] md:max-w-none max-h-40 md:max-h-56 object-contain mx-auto mb-4"
+            onError={(e) => {
+              console.error("main2 이미지 로딩 실패:", e.currentTarget.src);
+            }}
           />
           <div className="space-y-4 text-gray-900 leading-relaxed break-words self-center mt-0">
             {background.paragraphs.map((t, i) => (
