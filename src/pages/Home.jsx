@@ -2629,10 +2629,10 @@ mark, [data-hl] {
                       />
                     </div>
                   ) : (
-                    <a
-                      key={item.id}
-                      href={item.to}
-                      data-reset-touch="true"
+                    <Link
+  key={item.id}
+  to={`/news/notices/${encodeURIComponent(item.slug)}`}
+  data-reset-touch="true"
                       style={{
                         display: "block",
                         background: "#fff",
@@ -2719,7 +2719,7 @@ mark, [data-hl] {
                           {item.date}
                         </time>
                       )}
-                    </a>
+                    </Link>
                   ),
                 )}
                 {!loadingNotices && (noticesSplit.공지 || []).length === 0 && (
@@ -2786,10 +2786,13 @@ mark, [data-hl] {
                       />
                     </div>
                   ) : (
-                    <a
-                      key={item.id}
-                      href={item.to}
-                      data-reset-touch="true"
+                    <Link
+
+  key={item.id}
+
+  to={`/news/notices/${encodeURIComponent(item.slug)}`}
+
+  data-reset-touch="true"
                       style={{
                         display: "block",
                         background: "#fff",
@@ -2876,7 +2879,7 @@ mark, [data-hl] {
                           {item.date}
                         </time>
                       )}
-                    </a>
+                    </Link>
                   ),
                 )}
                 {!loadingNotices &&
