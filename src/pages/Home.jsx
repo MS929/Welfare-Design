@@ -234,6 +234,21 @@ function parseFrontmatter(rawText) {
   return { data, content: content.trim() };
 }
 
+function getSortableDateValue(value) {
+  const raw = String(value || "").trim();
+  if (!raw) return 0;
+
+  const normalized = raw.replace(/[./]/g, "-");
+  const parts = normalized.split("-").filter(Boolean);
+  const year = Number(parts[0] || 0);
+  const month = Number(parts[1] || 1);
+  const day = Number(parts[2] || 1);
+
+  if (!year) return 0;
+
+  return new Date(year, month - 1, day).getTime();
+}
+
 function normalizeStoryType(rawType) {
   const typeText = String(rawType || "기타").trim();
   const legacyToNew = {
@@ -758,7 +773,7 @@ async function fetchMainPopupData() {
 
       const raw = await fileRes.text();
       const { data, content } = parseFrontmatter(raw);
-      const dateValue = data?.date || data?.createdAt || data?.updatedAt || "";
+      const dateValue = data?.date || data?.createdAt || data?.updatedAt || file.name || "";
       const enabledValue = data?.enabled;
       const enabled = enabledValue === true || String(enabledValue).toLowerCase() === "true";
 
@@ -767,6 +782,7 @@ async function fetchMainPopupData() {
         title: data?.title || "",
         enabled,
         date: String(dateValue || "").trim(),
+        sortDate: getSortableDateValue(dateValue),
         image: extractThumbSrc(data?.image || ""),
         buttonText: data?.buttonText || "자세히 보기",
         buttonLink: data?.buttonLink || "#",
@@ -778,10 +794,10 @@ async function fetchMainPopupData() {
   return popups
     .filter((popup) => popup?.enabled)
     .sort((a, b) => {
-      const at = a.date ? new Date(a.date).getTime() : 0;
-      const bt = b.date ? new Date(b.date).getTime() : 0;
+      const at = Number(a.sortDate || 0);
+      const bt = Number(b.sortDate || 0);
       if (bt !== at) return bt - at;
-      return String(a.id).localeCompare(String(b.id));
+      return String(b.id || "").localeCompare(String(a.id || ""));
     });
 }
 
@@ -1072,7 +1088,14 @@ function MainPopup({ isMobile, isTablet, isTouch }) {
     let blocked = false;
     let openedCount = 0;
 
-    popups.forEach((popup, index) => {
+    [...popups]
+      .sort((a, b) => {
+        const at = Number(a.sortDate || 0);
+        const bt = Number(b.sortDate || 0);
+        if (bt !== at) return bt - at;
+        return String(b.id || "").localeCompare(String(a.id || ""));
+      })
+      .forEach((popup, index) => {
       const hiddenDate = localStorage.getItem(`wd-main-popup-hidden-date:${popup.id}`);
       if (hiddenDate === today && !forcePopup) return;
 
