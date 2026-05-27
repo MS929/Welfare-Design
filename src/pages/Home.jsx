@@ -2211,9 +2211,9 @@ mark, [data-hl] {
                   href: "/business/needs-survey",
                 },
                 {
-                  to: "/business/ewc-insurance",
-                  title: "취약 계층 복지욕구 실태조사",
+                  label: "취약 계층 복지욕구 실태조사",
                   icon: "/images/icons/ewc-insurance.png",
+                  href: "/business/ewc-insurance",
                 },
                 {
                   icon: "/images/icons/member-services.png",
