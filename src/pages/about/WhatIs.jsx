@@ -8,7 +8,7 @@
  * - 상단 대표 이미지는 preload를 통해 초기 렌더링 성능(LCP)을 개선
  */
 export default function AboutWhat() {
-  const main2Image = "/images/about/main2.png";
+  const main2Image = "/images/about/main2.png?v=direct-object";
 
   /**
    * 섹션 제목 공통 컴포넌트
@@ -174,16 +174,15 @@ export default function AboutWhat() {
         <SectionTitle color="#3BA7A0">설립 배경</SectionTitle>
 
         <div className="grid grid-cols-1 md:grid-cols-[minmax(200px,260px),1fr] gap-4 md:gap-6 items-center justify-items-center md:justify-items-start">
-          <img
+          <object
             key={background.image}
-            src={background.image}
-            alt="설립 배경"
-            loading="eager"
-            decoding="async"
-            width={680}
-            height={510}
+            data={background.image}
+            type="image/png"
+            aria-label="설립 배경"
             className="block w-full h-auto max-w-[320px] md:max-w-none max-h-40 md:max-h-56 object-contain mx-auto mb-4"
-          />
+          >
+            설립 배경 이미지
+          </object>
           <div className="space-y-4 text-gray-900 leading-relaxed break-words self-center mt-0">
             {background.paragraphs.map((t, i) => (
               <p
