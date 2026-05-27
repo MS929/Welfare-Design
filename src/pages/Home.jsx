@@ -2190,14 +2190,14 @@ mark, [data-hl] {
                   href: "/business/rental",
                 },
                 {
-                  icon: "/images/icons/apply-help.png",
+                  icon: "/images/icons/needs-survey.png",
                   label: "보조기기·복지용구 신청 안내 지원",
-                  href: "/business/apply-help",
+                  href: "/business/needs-survey"
                 },
                 {
-                  icon: "/images/icons/needs-survey.png",
+                  icon: "/images/icons/apply-help.png",
                   label: "취약 계층 복지욕구 실태조사",
-                  href: "/business/needs-survey",
+                  href: "/business/apply-help"
                 },
                 {
                   icon: "/images/icons/member-services.png",
