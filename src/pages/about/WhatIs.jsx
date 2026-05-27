@@ -1,5 +1,6 @@
 import { useEffect } from "react";
-import { cldFetch, cldSrcSet } from "../../lib/image";
+// Cloudinary 경유 시 public 폴더 이미지가 배포 환경에서 누락될 수 있어
+// 이 페이지의 대표 이미지는 public 경로를 직접 사용한다.
 /**
  * WhatIs.jsx (소개 > 복지디자인은?)
  * --------------------------------------------------
@@ -22,7 +23,7 @@ export default function AboutWhat() {
     if (!document) return;
     try {
       // Cloudinary 최적화 이미지 URL 생성 (기준 폭 1200px)
-      const href = cldFetch("/images/about/main2.png", 1200);
+      const href = "/images/about/main2.png";
 
       // <link rel="preload" as="image"> 태그를 head에 삽입
       const link = document.createElement("link");
@@ -209,22 +210,16 @@ export default function AboutWhat() {
 
         <div className="grid grid-cols-1 md:grid-cols-[minmax(200px,260px),1fr] gap-4 md:gap-6 items-center justify-items-center md:justify-items-start">
           <img
-            src={cldFetch(background.image, 680)}
-            srcSet={cldSrcSet(background.image, [320, 480, 680, 960, 1200])}
+            src={background.image}
             alt="설립 배경"
             loading="eager"
             decoding="async"
             fetchPriority="high"
             width={680}
             height={510}
-            sizes="(min-width: 1024px) 260px, (min-width: 768px) 240px, 88vw"
-            className="block w-full h-auto max-w-[320px] md:max-w-none max-h-40 md:max-h-56 object-contain opacity-0 transition-opacity duration-300 mx-auto mb-4"
-            onLoad={(e) => {
-              e.currentTarget.style.opacity = "1";
-            }}
+            className="block w-full h-auto max-w-[320px] md:max-w-none max-h-40 md:max-h-56 object-contain transition-opacity duration-300 mx-auto mb-4"
             onError={(e) => {
               e.currentTarget.src = "/images/about/fallback.png";
-              e.currentTarget.style.opacity = "1";
             }}
           />
           <div className="space-y-4 text-gray-900 leading-relaxed break-words self-center mt-0">
