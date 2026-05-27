@@ -35,16 +35,16 @@ export default function BizOverview() {
       icon: "/images/icons/rental.png",
     },
     {
-      to: "/business/apply-help",
+      to: "/business/needs-survey",
       title: "보조기기·복지용구 신청 안내 지원",
       desc: "신청 절차 안내, 서류 준비, 기관 연계까지 동행 지원.",
-      icon: "/images/icons/apply-help.png",
+      icon: "/images/icons/needs-survey.png",
     },
     {
-      to: "/business/needs-survey",
+      to: "/business/apply-help",
       title: "취약 계층 복지욕구 실태조사",
       desc: "현장의 요구를 데이터로 수집·분석하여 정책·사업에 반영.",
-      icon: "/images/icons/needs-survey.png",
+      icon: "/images/icons/apply-help.png",
     },
     {
       to: "/business/member-services",
