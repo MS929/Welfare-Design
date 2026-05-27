@@ -238,15 +238,47 @@ function getSortableDateValue(value) {
   const raw = String(value || "").trim();
   if (!raw) return 0;
 
-  const normalized = raw.replace(/[./]/g, "-");
-  const parts = normalized.split("-").filter(Boolean);
-  const year = Number(parts[0] || 0);
-  const month = Number(parts[1] || 1);
-  const day = Number(parts[2] || 1);
+  // Supports 2026-05-25, 2026.05.25, 2026/05/25, and filenames containing dates.
+  const fullDateMatch = raw.match(/(\d{4})[^\d]?(\d{1,2})[^\d]?(\d{1,2})/);
+  if (fullDateMatch) {
+    const [, y, m, d] = fullDateMatch;
+    const year = Number(y);
+    const month = Number(m);
+    const day = Number(d);
+    if (year && month && day) {
+      return new Date(year, month - 1, day, 23, 59, 59).getTime();
+    }
+  }
 
-  if (!year) return 0;
+  // Supports month-only values like 2026-05 or 2026.05.
+  const monthMatch = raw.match(/(\d{4})[^\d]?(\d{1,2})/);
+  if (monthMatch) {
+    const [, y, m] = monthMatch;
+    const year = Number(y);
+    const month = Number(m);
+    if (year && month) {
+      return new Date(year, month - 1, 1, 23, 59, 59).getTime();
+    }
+  }
 
-  return new Date(year, month - 1, day).getTime();
+  const yearMatch = raw.match(/(\d{4})/);
+  if (yearMatch) {
+    const year = Number(yearMatch[1]);
+    if (year) return new Date(year, 0, 1, 23, 59, 59).getTime();
+  }
+
+  return 0;
+}
+
+function sortPopupsNewestFirst(list) {
+  return [...list].sort((a, b) => {
+    const at = Number(a.sortDate || 0);
+    const bt = Number(b.sortDate || 0);
+
+    if (bt !== at) return bt - at;
+
+    return String(b.id || "").localeCompare(String(a.id || ""));
+  });
 }
 
 function normalizeStoryType(rawType) {
@@ -791,14 +823,7 @@ async function fetchMainPopupData() {
     })
   );
 
-  return popups
-    .filter((popup) => popup?.enabled)
-    .sort((a, b) => {
-      const at = Number(a.sortDate || 0);
-      const bt = Number(b.sortDate || 0);
-      if (bt !== at) return bt - at;
-      return String(b.id || "").localeCompare(String(a.id || ""));
-    });
+  return sortPopupsNewestFirst(popups.filter((popup) => popup?.enabled));
 }
 
 // 메인 페이지 팝업
@@ -809,7 +834,8 @@ function MainPopup({ isMobile, isTablet, isTouch }) {
   const [open, setOpen] = useState(false);
   const [modalPopups, setModalPopups] = useState([]);
   const [activePopupIndex, setActivePopupIndex] = useState(0);
-  const fallbackPopup = modalPopups[activePopupIndex] || popups[0] || null;
+  const sortedPopups = useMemo(() => sortPopupsNewestFirst(popups), [popups]);
+  const fallbackPopup = modalPopups[activePopupIndex] || sortedPopups[0] || null;
   const openedWindowsRef = useRef([]);
   const didRunRef = useRef(false);
   const useModalPopup = isMobile || isTablet || isTouch;
@@ -820,7 +846,7 @@ function MainPopup({ isMobile, isTablet, isTouch }) {
     fetchMainPopupData()
       .then((items) => {
         if (!alive) return;
-        setPopups(items);
+        setPopups(sortPopupsNewestFirst(items));
       })
       .catch((e) => {
         console.warn("메인 팝업 GitHub CMS 데이터 로드 실패:", e);
@@ -1071,15 +1097,6 @@ function MainPopup({ isMobile, isTablet, isTouch }) {
 
     // 모바일/패드/터치에서는 window.open 대신 내부 모달로 여러 팝업을 순서대로 보여준다.
     if (useModalPopup) {
-      const sortedPopups = [...popups].sort((a, b) => {
-        const at = Number(a.sortDate || 0);
-        const bt = Number(b.sortDate || 0);
-
-        if (bt !== at) return bt - at;
-
-        return String(b.id || "").localeCompare(String(a.id || ""));
-      });
-
       const nextModalPopups = sortedPopups.filter((popup) => {
         const hiddenDate = localStorage.getItem(`wd-main-popup-hidden-date:${popup.id}`);
         return hiddenDate !== today || forcePopup;
@@ -1097,14 +1114,7 @@ function MainPopup({ isMobile, isTablet, isTouch }) {
     let blocked = false;
     let openedCount = 0;
 
-    [...popups]
-      .sort((a, b) => {
-        const at = Number(a.sortDate || 0);
-        const bt = Number(b.sortDate || 0);
-        if (bt !== at) return bt - at;
-        return String(b.id || "").localeCompare(String(a.id || ""));
-      })
-      .forEach((popup, index) => {
+    sortedPopups.forEach((popup, index) => {
       const hiddenDate = localStorage.getItem(`wd-main-popup-hidden-date:${popup.id}`);
       if (hiddenDate === today && !forcePopup) return;
 
