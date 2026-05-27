@@ -92,7 +92,7 @@ mark, [data-hl] {
         }}
       />
       {/* BizLayout: 사업 페이지 공통 레이아웃(브레드크럼/제목) */}
-      <BizLayout title="보조기기·복지용구 신청 안내 지원">
+      <BizLayout title="보조기기 기증 및 수리 ">
         <div className="max-w-screen-xl mx-auto px-4 pb-4 md:pb-0">
           {/* 이미지 + 우측 정보 박스(조사 안내) + 기대 효과(안내 박스 아래) */}
           <div className="flex justify-center">
@@ -127,7 +127,7 @@ mark, [data-hl] {
                 {/* 태블릿/데스크탑: 로컬 정적 PNG 사용 */}
                 <img
                   src="/images/business/donation.png?v=2"
-                  alt="보조기기·복지용구 신청 안내 지원"
+                  alt="보조기기 기증 및 수리 "
                   loading="eager"
                   fetchPriority="high"
                   decoding="async"

@@ -36,8 +36,8 @@ export default function BizOverview() {
     },
     {
       to: "/business/needs-survey",
-      title: "보조기기·복지용구 신청 안내 지원",
-      desc: "신청 절차 안내, 서류 준비, 기관 연계까지 동행 지원.",
+      title: "보조기기 기증 및 수리",
+      desc: "문의 및 상담, 기증 및 수리 서비스 안내.",
       icon: "/images/icons/needs-survey.png",
     },
     {

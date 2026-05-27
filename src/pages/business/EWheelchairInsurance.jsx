@@ -85,7 +85,7 @@ mark, [data-hl] {
 .u-ellipsis { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
         ` }}
       />
-      <BizLayout title="취약 계층 전동휠체어 보험금 지원">
+      <BizLayout title="취약 계층 복지욕구 실태조사">
       <div className="max-w-screen-xl mx-auto px-4 pb-4 md:pb-0">
         {/* 이미지 + 우측 정보 박스(대여 안내) + 기대효과(대여 안내 박스 아래) */}
         <div className="flex justify-center">
@@ -99,7 +99,7 @@ mark, [data-hl] {
               {/* 최종 PNG fallback(모든 환경 대응) */}
               <img
                 src={RAW}
-                alt="취약 계층 전동휠체어 보험금 지원"
+                alt="취약 계층 복지욕구 실태조사"
                 width={1400}
                 height={1000}
                 decoding="async"
