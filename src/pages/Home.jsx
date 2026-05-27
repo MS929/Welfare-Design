@@ -77,6 +77,85 @@ const GITHUB_POPUP_API =
 const GITHUB_STORIES_API =
   "https://api.github.com/repos/MS929/Welfare-Design/contents/src/content/stories?ref=main";
 
+const GITHUB_NOTICES_API =
+  "https://api.github.com/repos/MS929/Welfare-Design/contents/src/content/notices?ref=main";
+
+async function fetchHomeNoticeItems() {
+  const res = await fetch(`${GITHUB_NOTICES_API}&t=${Date.now()}`, {
+    cache: "no-store",
+    headers: {
+      Accept: "application/vnd.github+json",
+    },
+  });
+
+  if (!res.ok) {
+    throw new Error(`GitHub notices list fetch failed: ${res.status}`);
+  }
+
+  const files = await res.json();
+
+  const mdFiles = Array.isArray(files)
+    ? files.filter(
+        (file) =>
+          file.type === "file" &&
+          /\.(md|mdx)$/i.test(file.name || "") &&
+          file.download_url
+      )
+    : [];
+
+  const mapped = await Promise.all(
+    mdFiles.map(async (file) => {
+      const rawUrl = `${file.download_url}${
+        file.download_url.includes("?") ? "&" : "?"
+      }t=${Date.now()}`;
+
+      const fileRes = await fetch(rawUrl, {
+        cache: "no-store",
+      });
+
+      if (!fileRes.ok) return null;
+
+      const raw = await fileRes.text();
+      const { data } = parseFrontmatter(raw);
+
+      const meta = parseDatedSlug(file.name || "");
+      const base = String(file.name || "").replace(/\.(md|mdx)$/i, "");
+
+      const category = normalizeNoticeCategory(
+        data?.category || data?.type || "공지"
+      );
+
+      return {
+        id: file.path || base,
+        slug: base,
+        title: data?.title || meta.titleFromFile || "제목 없음",
+        date:
+          formatDate(data?.date) ||
+          formatDate(meta.date) ||
+          "",
+        category,
+        pinned:
+          data?.pinned === true ||
+          String(data?.pinned).toLowerCase() === "true",
+      };
+    })
+  );
+
+  return mapped
+    .filter(Boolean)
+    .sort((a, b) => {
+      if (a.pinned && !b.pinned) return -1;
+      if (!a.pinned && b.pinned) return 1;
+
+      const ad = a.date ? new Date(a.date).getTime() : 0;
+      const bd = b.date ? new Date(b.date).getTime() : 0;
+
+      if (bd !== ad) return bd - ad;
+
+      return String(b.id || "").localeCompare(String(a.id || ""));
+    });
+}
+
 /**
  * 파일명에서 날짜가 포함된 slug를 파싱
  * 예) 2025-01-01-my-post.md -> { date: '2025-01-01', slug: 'my-post', titleFromFile: 'my-post' }
@@ -1261,14 +1340,14 @@ export default function Home1() {
   const [storyItems, setStoryItems] = useState([]);
   const storyPills = useMemo(
     () => ["전체", "사업", "교육", "회의", "기타"],
-    []
+    [],
   );
   const storyFiltered = useMemo(
     () =>
       storyItems.filter(
-        (d) => storyActive === "전체" || d.type === storyActive
+        (d) => storyActive === "전체" || d.type === storyActive,
       ),
-    [storyItems, storyActive]
+    [storyItems, storyActive],
   );
   // 공지 범위 토글 UI는 제거하고, 항상 두 컬럼(공지/정보공개)을 함께 표시
 
@@ -1313,47 +1392,28 @@ export default function Home1() {
     };
   }, [prefersReducedMotion]);
 
-  // 공지/정보공개 콘텐츠 로드 (md/mdx -> frontmatter 파싱 -> 최신순 정렬)
+  // 공지/정보공개 콘텐츠 로드: GitHub API 실시간 로드
   useEffect(() => {
-    try {
-      setLoadingNotices(true);
-      const modules = import.meta.glob("/src/content/notices/*.{md,mdx}", {
-        eager: true,
-        query: "?raw",
-        import: "default",
+    let alive = true;
+
+    setLoadingNotices(true);
+
+    fetchHomeNoticeItems()
+      .then((items) => {
+        if (!alive) return;
+        setNotices(items);
+      })
+      .catch((e) => {
+        console.warn("메인 공지사항 GitHub CMS 데이터 로드 실패:", e);
+        if (alive) setNotices([]);
+      })
+      .finally(() => {
+        if (alive) setLoadingNotices(false);
       });
 
-      const mapped = Object.entries(modules).map(([path, raw]) => {
-        const { data } = matter(raw);
-        const meta = parseDatedSlug(path);
-        const base = (path.split("/").pop() || "").replace(/\.(md|mdx)$/i, "");
-        const category = normalizeNoticeCategory(data?.category);
-        return {
-          id: path,
-          title: data?.title || meta.titleFromFile,
-          date: formatDate(data?.date) || formatDate(meta.date) || "",
-          to: `/news/notices/${encodeURIComponent(base)}`,
-          category,
-        };
-      });
-
-      // 최신순 + 파일명 역순(안정 정렬)
-      mapped.sort((a, b) => {
-        const ad = a.date ? new Date(a.date) : new Date(0);
-        const bd = b.date ? new Date(b.date) : new Date(0);
-        if (!isNaN(bd) && !isNaN(ad) && bd.getTime() !== ad.getTime()) {
-          return bd.getTime() - ad.getTime();
-        }
-        return (b.id || "").localeCompare(a.id || "");
-      });
-
-      setNotices(mapped);
-    } catch (e) {
-      console.warn("공지 로드 실패:", e);
-      setNotices([]);
-    } finally {
-      setLoadingNotices(false);
-    }
+    return () => {
+      alive = false;
+    };
   }, []);
 
   // 복지디자인 소식(스토리) 콘텐츠 로드: GitHub API 실시간 로드
@@ -1390,7 +1450,8 @@ export default function Home1() {
     const src = extractThumbSrc(thumbnail);
     if (!src) return "";
 
-    const isCld = /res\.cloudinary\.com\//.test(src) && /\/image\/upload\//.test(src);
+    const isCld =
+      /res\.cloudinary\.com\//.test(src) && /\/image\/upload\//.test(src);
     const w = isMobile ? 480 : isTablet ? 960 : 1440;
     return isCld ? withCldUploadTransform(src, w) : src;
   };
@@ -1403,8 +1464,8 @@ export default function Home1() {
       new Set(
         storyItems
           .map((item) => getStoryThumbUrl(item.thumbnail))
-          .filter(Boolean)
-      )
+          .filter(Boolean),
+      ),
     );
 
     urls.forEach((url, idx) => {
