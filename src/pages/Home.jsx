@@ -71,14 +71,11 @@ const CONTAINER = 1440;
 const HERO_IMAGES = ["/images/hero/dog.png", "/images/hero/light.png"];
 const HERO_INTERVAL = 10000; // 10초
 
-// CMS 메인 팝업 설정 파일 로드
-// - Netlify CMS에서 src/content/popup/*.md 또는 *.mdx 를 관리
-// - 파일이 아직 없으면 빈 객체로 처리되어 팝업이 뜨지 않음
-const popupModules = import.meta.glob("/src/content/popup/*.{md,mdx}", {
-  eager: true,
-  query: "?raw",
-  import: "default",
-});
+const GITHUB_POPUP_API =
+  "https://api.github.com/repos/MS929/Welfare-Design/contents/src/content/popup?ref=main";
+
+const GITHUB_STORIES_API =
+  "https://api.github.com/repos/MS929/Welfare-Design/contents/src/content/stories?ref=main";
 
 /**
  * 파일명에서 날짜가 포함된 slug를 파싱
@@ -128,6 +125,119 @@ function normalizeNoticeCategory(v) {
   if (compact.includes("정보") && compact.includes("공개")) return "정보공개";
   if (s.startsWith("공지")) return "공지";
   return s; // 그 외 값은 원문 그대로 사용
+}
+
+function parseFrontmatter(rawText) {
+  const text = String(rawText || "");
+  const match = text.match(/^---\s*\n([\s\S]*?)\n---\s*\n?([\s\S]*)$/);
+
+  if (!match) {
+    return { data: {}, content: text.trim() };
+  }
+
+  const [, yaml, content] = match;
+  const data = {};
+
+  yaml.split("\n").forEach((line) => {
+    const trimmed = line.trim();
+    if (!trimmed || trimmed.startsWith("#")) return;
+
+    const idx = trimmed.indexOf(":");
+    if (idx === -1) return;
+
+    const key = trimmed.slice(0, idx).trim();
+    let value = trimmed.slice(idx + 1).trim();
+
+    value = value.replace(/^['"]|['"]$/g, "");
+    data[key] = value;
+  });
+
+  return { data, content: content.trim() };
+}
+
+function normalizeStoryType(rawType) {
+  const typeText = String(rawType || "기타").trim();
+  const legacyToNew = {
+    인터뷰: "교육",
+    교육: "교육",
+    행사: "회의",
+    행사안내: "회의",
+    이벤트: "회의",
+    공탁: "사업",
+    사업: "사업",
+    공조동행: "기타",
+    활동: "기타",
+    활동소식: "기타",
+    공지: "기타",
+  };
+
+  const normalized = legacyToNew[typeText] || typeText;
+  return ["사업", "교육", "회의", "기타"].includes(normalized)
+    ? normalized
+    : "기타";
+}
+
+async function fetchHomeStoryItems() {
+  const res = await fetch(`${GITHUB_STORIES_API}&t=${Date.now()}`, {
+    cache: "no-store",
+    headers: {
+      Accept: "application/vnd.github+json",
+    },
+  });
+
+  if (!res.ok) {
+    throw new Error(`GitHub stories list fetch failed: ${res.status}`);
+  }
+
+  const files = await res.json();
+  const mdFiles = Array.isArray(files)
+    ? files.filter(
+        (file) =>
+          file.type === "file" &&
+          /\.(md|mdx)$/i.test(file.name || "") &&
+          file.download_url
+      )
+    : [];
+
+  const mapped = await Promise.all(
+    mdFiles.map(async (file) => {
+      const rawUrl = `${file.download_url}${
+        file.download_url.includes("?") ? "&" : "?"
+      }t=${Date.now()}`;
+      const fileRes = await fetch(rawUrl, { cache: "no-store" });
+
+      if (!fileRes.ok) return null;
+
+      const raw = await fileRes.text();
+      const { data } = parseFrontmatter(raw);
+      const meta = parseDatedSlug(file.name || "");
+      const base = String(file.name || "").replace(/\.(md|mdx)$/i, "");
+      const date = formatDate(data?.date) || formatDate(meta.date);
+
+      return {
+        id: file.path || base,
+        title: data?.title || meta.titleFromFile || "제목 없음",
+        date,
+        slug: base,
+        type: normalizeStoryType(data?.category || data?.type || "기타"),
+        thumbnail: data?.thumbnail || null,
+        thumbPosition:
+          data?.thumbPosition ||
+          data?.thumb_position ||
+          data?.focal ||
+          "50% 30%",
+      };
+    })
+  );
+
+  return mapped.filter(Boolean).sort((a, b) => {
+    const ad = a.date ? new Date(a.date) : new Date(0);
+    const bd = b.date ? new Date(b.date) : new Date(0);
+    if (!isNaN(bd) && !isNaN(ad) && bd.getTime() !== ad.getTime()) {
+      return bd.getTime() - ad.getTime();
+    }
+    return String(b.id || "").localeCompare(String(a.id || ""));
+  });
 }
 
 // 레이아웃 섹션 컴포넌트
@@ -535,42 +645,72 @@ const StoryCard = (props) => {
   );
 };
 
-// CMS 메인 팝업 데이터 파싱
-function getMainPopupData() {
-  try {
-    return Object.entries(popupModules)
-      .map(([path, raw]) => {
-        const { data, content } = matter(raw);
-        const dateValue = data?.date || data?.createdAt || data?.updatedAt || "";
-        return {
-          id: path,
-          title: data?.title || "",
-          enabled: data?.enabled === true,
-          date: String(dateValue || "").trim(),
-          image: extractThumbSrc(data?.image || ""),
-          buttonText: data?.buttonText || "자세히 보기",
-          buttonLink: data?.buttonLink || "#",
-          body: (content || "").trim(),
-        };
-      })
-      .filter((popup) => popup.enabled)
-      .sort((a, b) => {
-        const at = a.date ? new Date(a.date).getTime() : 0;
-        const bt = b.date ? new Date(b.date).getTime() : 0;
-        if (bt !== at) return bt - at;
-        return String(b.id).localeCompare(String(a.id));
-      });
-  } catch (e) {
-    console.warn("메인 팝업 로드 실패:", e);
-    return [];
+// CMS 메인 팝업 데이터 파싱: GitHub API 실시간 로드
+async function fetchMainPopupData() {
+  const res = await fetch(`${GITHUB_POPUP_API}&t=${Date.now()}`, {
+    cache: "no-store",
+    headers: {
+      Accept: "application/vnd.github+json",
+    },
+  });
+
+  if (!res.ok) {
+    throw new Error(`GitHub popup list fetch failed: ${res.status}`);
   }
+
+  const files = await res.json();
+  const mdFiles = Array.isArray(files)
+    ? files.filter(
+        (file) =>
+          file.type === "file" &&
+          /\.(md|mdx)$/i.test(file.name || "") &&
+          file.download_url
+      )
+    : [];
+
+  const popups = await Promise.all(
+    mdFiles.map(async (file) => {
+      const rawUrl = `${file.download_url}${
+        file.download_url.includes("?") ? "&" : "?"
+      }t=${Date.now()}`;
+      const fileRes = await fetch(rawUrl, { cache: "no-store" });
+
+      if (!fileRes.ok) return null;
+
+      const raw = await fileRes.text();
+      const { data, content } = parseFrontmatter(raw);
+      const dateValue = data?.date || data?.createdAt || data?.updatedAt || "";
+      const enabledValue = data?.enabled;
+      const enabled = enabledValue === true || String(enabledValue).toLowerCase() === "true";
+
+      return {
+        id: file.path || file.name,
+        title: data?.title || "",
+        enabled,
+        date: String(dateValue || "").trim(),
+        image: extractThumbSrc(data?.image || ""),
+        buttonText: data?.buttonText || "자세히 보기",
+        buttonLink: data?.buttonLink || "#",
+        body: (content || "").trim(),
+      };
+    })
+  );
+
+  return popups
+    .filter((popup) => popup?.enabled)
+    .sort((a, b) => {
+      const at = a.date ? new Date(a.date).getTime() : 0;
+      const bt = b.date ? new Date(b.date).getTime() : 0;
+      if (bt !== at) return bt - at;
+      return String(a.id).localeCompare(String(b.id));
+    });
 }
 
 // 메인 페이지 팝업
 // - CMS에서 enabled=true 일 때만 노출
 // - 오늘 하루 보지 않기는 localStorage로 처리
 function MainPopup({ isMobile, isTablet, isTouch }) {
-  const popups = useMemo(() => getMainPopupData(), []);
+  const [popups, setPopups] = useState([]);
   const [open, setOpen] = useState(false);
   const [modalPopups, setModalPopups] = useState([]);
   const [activePopupIndex, setActivePopupIndex] = useState(0);
@@ -578,6 +718,24 @@ function MainPopup({ isMobile, isTablet, isTouch }) {
   const openedWindowsRef = useRef([]);
   const didRunRef = useRef(false);
   const useModalPopup = isMobile || isTablet || isTouch;
+
+  useEffect(() => {
+    let alive = true;
+
+    fetchMainPopupData()
+      .then((items) => {
+        if (!alive) return;
+        setPopups(items);
+      })
+      .catch((e) => {
+        console.warn("메인 팝업 GitHub CMS 데이터 로드 실패:", e);
+        if (alive) setPopups([]);
+      });
+
+    return () => {
+      alive = false;
+    };
+  }, []);
 
   const escapeHtml = (value) =>
     String(value ?? "")
@@ -1198,62 +1356,23 @@ export default function Home1() {
     }
   }, []);
 
-  // 복지디자인 소식(스토리) 콘텐츠 로드 (구버전 카테고리명을 현재 카테고리로 매핑)
+  // 복지디자인 소식(스토리) 콘텐츠 로드: GitHub API 실시간 로드
   useEffect(() => {
-    try {
-      const modules = import.meta.glob("/src/content/stories/*.{md,mdx}", {
-        eager: true,
-        query: "?raw",
-        import: "default",
+    let alive = true;
+
+    fetchHomeStoryItems()
+      .then((items) => {
+        if (!alive) return;
+        setStoryItems(items);
+      })
+      .catch((e) => {
+        console.warn("메인 스토리 GitHub CMS 데이터 로드 실패:", e);
+        if (alive) setStoryItems([]);
       });
-      const mapped = Object.entries(modules).map(([path, raw]) => {
-        const { data } = matter(raw);
-        const meta = parseDatedSlug(path);
-        const base = (path.split("/").pop() || "").replace(/\.(md|mdx)$/i, "");
-        const rawType = (data?.category || data?.type || "기타").trim();
-        const legacyToNew = {
-          인터뷰: "교육",
-          교육: "교육",
-          행사: "회의",
-          행사안내: "회의",
-          이벤트: "회의",
-          공탁: "사업",
-          사업: "사업",
-          공조동행: "기타",
-          활동: "기타",
-          활동소식: "기타",
-          공지: "기타",
-        };
-        let type = legacyToNew[rawType] || rawType;
-        if (!["사업", "교육", "회의", "기타"].includes(type)) type = "기타";
-        return {
-          id: path,
-          title: data?.title || meta.titleFromFile,
-          date: formatDate(data?.date) || formatDate(meta.date),
-          slug: base,
-          type,
-          thumbnail: data?.thumbnail || null,
-          // frontmatter에서 썸네일 포커스 위치를 지정할 수 있도록 허용 (예: "50% 20%")
-          thumbPosition:
-            data?.thumbPosition ||
-            data?.thumb_position ||
-            data?.focal ||
-            "50% 30%",
-        };
-      });
-      mapped.sort((a, b) => {
-        const ad = a.date ? new Date(a.date) : new Date(0);
-        const bd = b.date ? new Date(b.date) : new Date(0);
-        if (!isNaN(bd) && !isNaN(ad) && bd.getTime() !== ad.getTime()) {
-          return bd.getTime() - ad.getTime();
-        }
-        return (b.id || "").localeCompare(a.id || "");
-      });
-      setStoryItems(mapped);
-    } catch (e) {
-      console.warn("스토리 로드 실패:", e);
-      setStoryItems([]);
-    }
+
+    return () => {
+      alive = false;
+    };
   }, []);
 
   // ===== Image preload to reduce tab-switch delay (Cloudinary / CDN) =====
