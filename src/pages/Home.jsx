@@ -569,7 +569,7 @@ function getMainPopupData() {
 // 메인 페이지 팝업
 // - CMS에서 enabled=true 일 때만 노출
 // - 오늘 하루 보지 않기는 localStorage로 처리
-function MainPopup({ isMobile, isTablet }) {
+function MainPopup({ isMobile, isTablet, isTouch }) {
   const popups = useMemo(() => getMainPopupData(), []);
   const [open, setOpen] = useState(false);
   const [modalPopups, setModalPopups] = useState([]);
@@ -577,6 +577,7 @@ function MainPopup({ isMobile, isTablet }) {
   const fallbackPopup = modalPopups[activePopupIndex] || popups[0] || null;
   const openedWindowsRef = useRef([]);
   const didRunRef = useRef(false);
+  const useModalPopup = isMobile || isTablet || isTouch;
 
   const escapeHtml = (value) =>
     String(value ?? "")
@@ -815,8 +816,8 @@ function MainPopup({ isMobile, isTablet }) {
     closeOpenedWindows();
     setOpen(false);
 
-    // 모바일/패드에서는 window.open 대신 내부 모달로 여러 팝업을 순서대로 보여준다.
-    if (isMobile || isTablet) {
+    // 모바일/패드/터치에서는 window.open 대신 내부 모달로 여러 팝업을 순서대로 보여준다.
+    if (useModalPopup) {
       const nextModalPopups = popups.filter((popup) => {
         const hiddenDate = localStorage.getItem(`wd-main-popup-hidden-date:${popup.id}`);
         return hiddenDate !== today || forcePopup;
@@ -897,12 +898,12 @@ function MainPopup({ isMobile, isTablet }) {
       window.removeEventListener("beforeunload", clearRunKey);
       window.removeEventListener("pagehide", clearRunKey);
     };
-  }, [popups, isMobile, isTablet]);
+  }, [popups, isMobile, isTablet, isTouch, useModalPopup]);
 
   if (!fallbackPopup?.enabled || !open) return null;
 
   const close = () => {
-    if ((isMobile || isTablet) && activePopupIndex < modalPopups.length - 1) {
+    if (useModalPopup && activePopupIndex < modalPopups.length - 1) {
       setActivePopupIndex((idx) => idx + 1);
       return;
     }
@@ -911,7 +912,7 @@ function MainPopup({ isMobile, isTablet }) {
 
   const hideToday = () => {
     markHiddenToday(fallbackPopup?.id);
-    if ((isMobile || isTablet) && activePopupIndex < modalPopups.length - 1) {
+    if (useModalPopup && activePopupIndex < modalPopups.length - 1) {
       setActivePopupIndex((idx) => idx + 1);
       return;
     }
@@ -987,7 +988,7 @@ function MainPopup({ isMobile, isTablet }) {
             </h2>
           )}
 
-          {(isMobile || isTablet) && modalPopups.length > 1 && (
+          {useModalPopup && modalPopups.length > 1 && (
             <div
               style={{
                 marginTop: 8,
@@ -1054,7 +1055,7 @@ function MainPopup({ isMobile, isTablet }) {
                   cursor: "pointer",
                 }}
               >
-                {(isMobile || isTablet) && activePopupIndex < modalPopups.length - 1 ? "다음" : "닫기"}
+                {useModalPopup && activePopupIndex < modalPopups.length - 1 ? "다음" : "닫기"}
               </button>
 
               {fallbackPopup.buttonLink && fallbackPopup.buttonLink !== "#" && (
@@ -1417,6 +1418,7 @@ mark, [data-hl] {
         <MainPopup
           isMobile={isMobile}
           isTablet={isTablet}
+          isTouch={isTouch}
         />
         {/* ================= HERO(상단 캐러셀) ================= */}
         <Section
