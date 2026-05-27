@@ -541,17 +541,25 @@ function getMainPopupData() {
     return Object.entries(popupModules)
       .map(([path, raw]) => {
         const { data, content } = matter(raw);
+        const dateValue = data?.date || data?.createdAt || data?.updatedAt || "";
         return {
           id: path,
           title: data?.title || "",
           enabled: data?.enabled === true,
+          date: String(dateValue || "").trim(),
           image: extractThumbSrc(data?.image || ""),
           buttonText: data?.buttonText || "자세히 보기",
           buttonLink: data?.buttonLink || "#",
           body: (content || "").trim(),
         };
       })
-      .filter((popup) => popup.enabled);
+      .filter((popup) => popup.enabled)
+      .sort((a, b) => {
+        const at = a.date ? new Date(a.date).getTime() : 0;
+        const bt = b.date ? new Date(b.date).getTime() : 0;
+        if (bt !== at) return bt - at;
+        return String(b.id).localeCompare(String(a.id));
+      });
   } catch (e) {
     console.warn("메인 팝업 로드 실패:", e);
     return [];
@@ -563,8 +571,10 @@ function getMainPopupData() {
 // - 오늘 하루 보지 않기는 localStorage로 처리
 function MainPopup({ isMobile }) {
   const popups = useMemo(() => getMainPopupData(), []);
-  const fallbackPopup = popups[0] || null;
   const [open, setOpen] = useState(false);
+  const [modalPopups, setModalPopups] = useState([]);
+  const [activePopupIndex, setActivePopupIndex] = useState(0);
+  const fallbackPopup = modalPopups[activePopupIndex] || popups[0] || null;
   const openedWindowsRef = useRef([]);
   const didRunRef = useRef(false);
 
@@ -805,13 +815,17 @@ function MainPopup({ isMobile }) {
     closeOpenedWindows();
     setOpen(false);
 
-    // 모바일에서는 window.open과 내부 모달이 동시에 동작할 수 있어 내부 모달만 사용
-    if (isMobile) {
-      const shouldShowMobilePopup = popups.some((popup) => {
+    // 모바일/패드에서는 window.open 대신 내부 모달로 여러 팝업을 순서대로 보여준다.
+    if (isMobile || isTablet) {
+      const nextModalPopups = popups.filter((popup) => {
         const hiddenDate = localStorage.getItem(`wd-main-popup-hidden-date:${popup.id}`);
         return hiddenDate !== today || forcePopup;
       });
-      if (shouldShowMobilePopup) setOpen(true);
+
+      setModalPopups(nextModalPopups);
+      setActivePopupIndex(0);
+      setOpen(nextModalPopups.length > 0);
+
       return () => {
         closeOpenedWindows();
       };
@@ -883,13 +897,24 @@ function MainPopup({ isMobile }) {
       window.removeEventListener("beforeunload", clearRunKey);
       window.removeEventListener("pagehide", clearRunKey);
     };
-  }, [popups, isMobile]);
+  }, [popups, isMobile, isTablet]);
 
   if (!fallbackPopup?.enabled || !open) return null;
 
-  const close = () => setOpen(false);
+  const close = () => {
+    if ((isMobile || isTablet) && activePopupIndex < modalPopups.length - 1) {
+      setActivePopupIndex((idx) => idx + 1);
+      return;
+    }
+    setOpen(false);
+  };
+
   const hideToday = () => {
     markHiddenToday(fallbackPopup?.id);
+    if ((isMobile || isTablet) && activePopupIndex < modalPopups.length - 1) {
+      setActivePopupIndex((idx) => idx + 1);
+      return;
+    }
     setOpen(false);
   };
 
@@ -962,6 +987,19 @@ function MainPopup({ isMobile }) {
             </h2>
           )}
 
+          {(isMobile || isTablet) && modalPopups.length > 1 && (
+            <div
+              style={{
+                marginTop: 8,
+                color: PALETTE.grayText,
+                fontSize: 12,
+                fontWeight: 700,
+              }}
+            >
+              {activePopupIndex + 1} / {modalPopups.length}
+            </div>
+          )}
+
           {fallbackPopup.body && (
             <p
               style={{
@@ -1016,7 +1054,7 @@ function MainPopup({ isMobile }) {
                   cursor: "pointer",
                 }}
               >
-                닫기
+                {(isMobile || isTablet) && activePopupIndex < modalPopups.length - 1 ? "다음" : "닫기"}
               </button>
 
               {fallbackPopup.buttonLink && fallbackPopup.buttonLink !== "#" && (
