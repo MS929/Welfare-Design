@@ -18,7 +18,6 @@
 // -----------------------------------------------------------------------------
 import { Link } from "react-router-dom";
 import { useState } from "react";
-import { imageUrl } from "../../lib/image";
 
 export default function SupGuide() {
   return (
@@ -298,25 +297,21 @@ mark, [data-hl] {
 //  - priority=true일 때 LCP 후보 이미지를 빠르게 로딩(eager/high)하도록 힌트 제공
 // -----------------------------------------------------------------------------
 function OptImg({ path, alt, width = 112, height = 112, className = "", priority = false }) {
-  const avif = imageUrl(path, { w: 256, q: 82, fm: "avif" });
-  const webp = imageUrl(path, { w: 256, q: 82, fm: "webp" });
-  const png  = imageUrl(path, { w: 256, q: 82, fm: "png" });
   return (
-    <picture>
-      <source srcSet={avif} type="image/avif" />
-      <source srcSet={webp} type="image/webp" />
-      <img
-        src={png}
-        alt={alt}
-        width={width}
-        height={height}
-        loading={priority ? "eager" : "lazy"}
-        decoding="async"
-        fetchpriority={priority ? "high" : "low"}
-        className={className}
-        sizes="(max-width: 768px) 96px, 112px"
-      />
-    </picture>
+    <img
+      src={path}
+      alt={alt}
+      width={width}
+      height={height}
+      loading={priority ? "eager" : "lazy"}
+      decoding="async"
+      fetchpriority={priority ? "high" : "low"}
+      className={className}
+      sizes="(max-width: 768px) 96px, 112px"
+      onError={(e) => {
+        console.error("이미지 로딩 실패:", path);
+      }}
+    />
   );
 }
 
