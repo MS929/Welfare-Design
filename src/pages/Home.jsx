@@ -1415,11 +1415,7 @@ mark, [data-hl] {
         }}
       />
       <main style={{ background: "#fff", overflowX: "hidden" }}>
-        <MainPopup
-          isMobile={isMobile}
-          isTablet={isTablet}
-          isTouch={isTouch}
-        />
+        <MainPopup isMobile={isMobile} isTablet={isTablet} isTouch={isTouch} />
         {/* ================= HERO(상단 캐러셀) ================= */}
         <Section
           fullBleed
@@ -1433,10 +1429,20 @@ mark, [data-hl] {
           <div
             style={{
               display: "grid",
-              gridTemplateColumns: isTablet ? "1fr" : isWide ? "1.16fr 1.22fr" : "1.1fr 1.4fr",
+              gridTemplateColumns: isTablet
+                ? "1fr"
+                : isWide
+                  ? "1.16fr 1.22fr"
+                  : "1.1fr 1.4fr",
               gap: isTablet ? 20 : isWide ? 56 : 36,
               alignItems: "center",
-              padding: isMobile ? "0" : isTablet ? "0 32px" : isWide ? "0 48px" : "0 32px",
+              padding: isMobile
+                ? "0"
+                : isTablet
+                  ? "0 32px"
+                  : isWide
+                    ? "0 48px"
+                    : "0 32px",
             }}
           >
             {/* 좌측 이미지 프레임 (수동/자동 캐러셀) + 하단 컨트롤 */}
@@ -1592,7 +1598,13 @@ mark, [data-hl] {
               style={{
                 marginTop: isTablet ? 10 : isWide ? -20 : -36,
                 textAlign: isTablet ? "center" : "left",
-                maxWidth: isMobile ? "34ch" : isTablet ? "42ch" : isWide ? "64ch" : "60ch",
+                maxWidth: isMobile
+                  ? "34ch"
+                  : isTablet
+                    ? "42ch"
+                    : isWide
+                      ? "64ch"
+                      : "60ch",
                 width: isTablet ? "auto" : isWide ? "64ch" : "60ch",
                 marginInline: isTablet ? "auto" : 0,
               }}
@@ -1791,8 +1803,8 @@ mark, [data-hl] {
                       gridTemplateColumns: isMobile
                         ? "repeat(1, minmax(0,1fr))"
                         : isTablet
-                        ? "repeat(2, minmax(0,1fr))"
-                        : "repeat(4, minmax(0,1fr))",
+                          ? "repeat(2, minmax(0,1fr))"
+                          : "repeat(4, minmax(0,1fr))",
                       gap: isTablet ? 10 : isWide ? 14 : 10,
                     }}
                   >
@@ -1804,7 +1816,11 @@ mark, [data-hl] {
                           display: "flex",
                           alignItems: "center",
                           gap: 12,
-                          padding: isTablet ? "12px 14px" : isWide ? "14px 16px" : "12px 14px",
+                          padding: isTablet
+                            ? "12px 14px"
+                            : isWide
+                              ? "14px 16px"
+                              : "12px 14px",
                           borderRadius: 16,
                           background: "#fff",
                           border: `1px solid ${PALETTE.line}`,
@@ -2039,8 +2055,8 @@ mark, [data-hl] {
                   gridTemplateColumns: isMobile
                     ? "1fr"
                     : isTablet
-                    ? "repeat(2, minmax(0,1fr))"
-                    : "repeat(3, minmax(0,1fr))",
+                      ? "repeat(2, minmax(0,1fr))"
+                      : "repeat(3, minmax(0,1fr))",
                   gap: 24,
                 }}
               >
@@ -2173,8 +2189,8 @@ mark, [data-hl] {
                 gridTemplateColumns: isMobile
                   ? "1fr"
                   : isTablet
-                  ? "repeat(2, minmax(0,1fr))"
-                  : "repeat(3, minmax(0,1fr))",
+                    ? "repeat(2, minmax(0,1fr))"
+                    : "repeat(3, minmax(0,1fr))",
                 gap: 20,
               }}
             >
@@ -2192,12 +2208,12 @@ mark, [data-hl] {
                 {
                   icon: "/images/icons/needs-survey.png",
                   label: "보조기기·복지용구 신청 안내 지원",
-                  href: "/business/needs-survey"
+                  href: "/business/needs-survey",
                 },
                 {
-                  icon: "/images/icons/apply-help.png",
-                  label: "취약 계층 복지욕구 실태조사",
-                  href: "/business/apply-help"
+                  to: "/business/ewc-insurance",
+                  title: "취약 계층 복지욕구 실태조사",
+                  icon: "/images/icons/ewc-insurance.png",
                 },
                 {
                   icon: "/images/icons/member-services.png",
@@ -2274,9 +2290,15 @@ mark, [data-hl] {
                           })()
                         : it.icon}
                     </div>
-                    <div style={{ fontWeight: 900, fontSize: isMobile ? 15 : 17 }}>{it.label}</div>
+                    <div
+                      style={{ fontWeight: 900, fontSize: isMobile ? 15 : 17 }}
+                    >
+                      {it.label}
+                    </div>
                   </div>
-                  <span style={{ opacity: 0.9, fontSize: isMobile ? 12 : 13 }}>바로가기 ›</span>
+                  <span style={{ opacity: 0.9, fontSize: isMobile ? 12 : 13 }}>
+                    바로가기 ›
+                  </span>
                 </Link>
               ))}
             </div>
@@ -2476,7 +2498,7 @@ mark, [data-hl] {
                         </time>
                       )}
                     </a>
-                  )
+                  ),
                 )}
                 {!loadingNotices && (noticesSplit.공지 || []).length === 0 && (
                   <div style={{ color: PALETTE.grayText, fontSize: 14 }}>
@@ -2633,7 +2655,7 @@ mark, [data-hl] {
                         </time>
                       )}
                     </a>
-                  )
+                  ),
                 )}
                 {!loadingNotices &&
                   (noticesSplit.정보공개 || []).length === 0 && (
