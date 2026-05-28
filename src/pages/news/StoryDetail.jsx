@@ -52,15 +52,54 @@ function parseFrontmatter(rawText) {
   return { data, content: content.trim() };
 }
 
+function parseGalleryImages(rawText) {
+  const text = String(rawText || "");
+  const match = text.match(/^---\s*\n([\s\S]*?)\n---/);
+  if (!match) return [];
+
+  const yaml = match[1];
+  const galleryMatch = yaml.match(/(?:^|\n)gallery:\s*\n([\s\S]*?)(?=\n[a-zA-Z가-힣0-9_-]+:\s*|$)/);
+  if (!galleryMatch) return [];
+
+  const block = galleryMatch[1];
+  const items = [];
+  let current = null;
+
+  block.split("\n").forEach((line) => {
+    const imageMatch = line.match(/^\s*-\s*image:\s*(.+?)\s*$/);
+    const captionMatch = line.match(/^\s*caption:\s*(.+?)\s*$/);
+
+    if (imageMatch) {
+      if (current?.image) items.push(current);
+      current = {
+        image: imageMatch[1].replace(/^["']|["']$/g, "").trim(),
+        caption: "",
+      };
+      return;
+    }
+
+    if (captionMatch && current) {
+      current.caption = captionMatch[1].replace(/^["']|["']$/g, "").trim();
+    }
+  });
+
+  if (current?.image) items.push(current);
+  return items;
+}
+
 async function fetchStoryEntries() {
   const entries = Object.entries(STORY_DETAIL_MODULES).map(([path, raw]) => {
     const fileName = path.split("/").pop() || "";
     const slugFromPath = fileName.replace(/\.(md|mdx)$/i, "");
     const { data, content } = parseFrontmatter(raw);
+    const gallery = parseGalleryImages(raw);
 
     return {
       slug: slugFromPath,
-      data,
+      data: {
+        ...data,
+        gallery,
+      },
       content,
     };
   });
@@ -173,6 +212,9 @@ export default function StoryDetail() {
             title: currentEntry.data.title ?? "",
             date: currentEntry.data.date ?? "",
             thumbnail: currentEntry.data.thumbnail ?? "",
+            gallery: Array.isArray(currentEntry.data.gallery)
+              ? currentEntry.data.gallery
+              : [],
             author: currentEntry.data.author ?? "",
             content: currentEntry.content,
           });
@@ -314,6 +356,32 @@ export default function StoryDetail() {
           <figure className="mt-6">
             <SmartImage src={post.thumbnail} alt="" className="block w-full h-auto rounded-2xl" priority />
           </figure>
+        ) : null}
+
+        {Array.isArray(post.gallery) && post.gallery.length > 0 ? (
+          <section className="mt-8">
+            <h2 className="text-xl font-bold text-gray-900 mb-4">행사 사진</h2>
+            <div className="grid gap-4 sm:grid-cols-2">
+              {post.gallery.map((item, index) => (
+                <figure
+                  key={`${item.image}-${index}`}
+                  className="overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-sm"
+                >
+                  <SmartImage
+                    src={item.image}
+                    alt={item.caption || `${post.title} 추가 이미지 ${index + 1}`}
+                    className="block w-full h-auto rounded-2xl"
+                    placeholderMin={180}
+                  />
+                  {item.caption ? (
+                    <figcaption className="px-4 py-3 text-sm text-gray-500">
+                      {item.caption}
+                    </figcaption>
+                  ) : null}
+                </figure>
+              ))}
+            </div>
+          </section>
         ) : null}
 
         <hr className="my-8 md:my-10 border-t-0 h-[1px] bg-gradient-to-r from-transparent via-gray-200 to-transparent" />
