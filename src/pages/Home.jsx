@@ -71,22 +71,62 @@ const CONTAINER = 1440;
 const HERO_IMAGES = ["/images/hero/dog.png", "/images/hero/light.png"];
 const HERO_INTERVAL = 10000; // 10초
 
-const GITHUB_POPUP_API =
-  "https://api.github.com/repos/MS929/Welfare-Design/contents/src/content/popup?ref=main";
+const HOME_POPUP_MODULES = import.meta.glob("../content/popup/*.{md,mdx}", {
+  query: "?raw",
+  import: "default",
+  eager: true,
+});
 
-const GITHUB_STORIES_API =
-  "https://api.github.com/repos/MS929/Welfare-Design/contents/src/content/stories?ref=main";
+const HOME_STORY_MODULES = import.meta.glob("../content/stories/*.{md,mdx}", {
+  query: "?raw",
+  import: "default",
+  eager: true,
+});
 
-const GITHUB_NOTICES_API =
-  "https://api.github.com/repos/MS929/Welfare-Design/contents/src/content/notices?ref=main";
+const HOME_NOTICE_MODULES = import.meta.glob("../content/notices/*.{md,mdx}", {
+  query: "?raw",
+  import: "default",
+  eager: true,
+});
 
 async function fetchHomeNoticeItems() {
-  const res = await fetch(`${GITHUB_NOTICES_API}&t=${Date.now()}`, {
-    cache: "no-store",
-    headers: {
-      Accept: "application/vnd.github+json",
-    },
+  const mapped = Object.entries(HOME_NOTICE_MODULES).map(([path, raw]) => {
+    const fileName = path.split("/").pop() || "";
+    const { data } = parseFrontmatter(raw);
+
+    const meta = parseDatedSlug(fileName);
+    const base = fileName.replace(/\.(md|mdx)$/i, "");
+
+    const category = normalizeNoticeCategory(
+      data?.category || data?.type || "공지"
+    );
+
+    return {
+      id: path,
+      slug: base,
+      title: data?.title || meta.titleFromFile || "제목 없음",
+      date: formatDate(data?.date) || formatDate(meta.date) || "",
+      category,
+      pinned:
+        data?.pinned === true ||
+        String(data?.pinned).toLowerCase() === "true",
+    };
   });
+
+  return mapped
+    .filter(Boolean)
+    .sort((a, b) => {
+      if (a.pinned && !b.pinned) return -1;
+      if (!a.pinned && b.pinned) return 1;
+
+      const ad = a.date ? new Date(a.date).getTime() : 0;
+      const bd = b.date ? new Date(b.date).getTime() : 0;
+
+      if (bd !== ad) return bd - ad;
+
+      return String(b.id || "").localeCompare(String(a.id || ""));
+    });
+}
 
   if (!res.ok) {
     throw new Error(`GitHub notices list fetch failed: ${res.status}`);
@@ -304,12 +344,37 @@ function normalizeStoryType(rawType) {
 }
 
 async function fetchHomeStoryItems() {
-  const res = await fetch(`${GITHUB_STORIES_API}&t=${Date.now()}`, {
-    cache: "no-store",
-    headers: {
-      Accept: "application/vnd.github+json",
-    },
+  const mapped = Object.entries(HOME_STORY_MODULES).map(([path, raw]) => {
+    const fileName = path.split("/").pop() || "";
+    const { data } = parseFrontmatter(raw);
+    const meta = parseDatedSlug(fileName);
+    const base = fileName.replace(/\.(md|mdx)$/i, "");
+    const date = formatDate(data?.date) || formatDate(meta.date);
+
+    return {
+      id: path,
+      title: data?.title || meta.titleFromFile || "제목 없음",
+      date,
+      slug: base,
+      type: normalizeStoryType(data?.category || data?.type || "기타"),
+      thumbnail: data?.thumbnail || null,
+      thumbPosition:
+        data?.thumbPosition ||
+        data?.thumb_position ||
+        data?.focal ||
+        "50% 30%",
+    };
   });
+
+  return mapped.filter(Boolean).sort((a, b) => {
+    const ad = a.date ? new Date(a.date) : new Date(0);
+    const bd = b.date ? new Date(b.date) : new Date(0);
+    if (!isNaN(bd) && !isNaN(ad) && bd.getTime() !== ad.getTime()) {
+      return bd.getTime() - ad.getTime();
+    }
+    return String(b.id || "").localeCompare(String(a.id || ""));
+  });
+}
 
   if (!res.ok) {
     throw new Error(`GitHub stories list fetch failed: ${res.status}`);
@@ -773,12 +838,28 @@ const StoryCard = (props) => {
 
 // CMS 메인 팝업 데이터 파싱: GitHub API 실시간 로드
 async function fetchMainPopupData() {
-  const res = await fetch(`${GITHUB_POPUP_API}&t=${Date.now()}`, {
-    cache: "no-store",
-    headers: {
-      Accept: "application/vnd.github+json",
-    },
+  const popups = Object.entries(HOME_POPUP_MODULES).map(([path, raw]) => {
+    const fileName = path.split("/").pop() || "";
+    const { data, content } = parseFrontmatter(raw);
+    const dateValue = data?.date || data?.createdAt || data?.updatedAt || fileName || "";
+    const enabledValue = data?.enabled;
+    const enabled = enabledValue === true || String(enabledValue).toLowerCase() === "true";
+
+    return {
+      id: path,
+      title: data?.title || "",
+      enabled,
+      date: String(dateValue || "").trim(),
+      sortDate: getSortableDateValue(dateValue),
+      image: extractThumbSrc(data?.image || ""),
+      buttonText: data?.buttonText || "자세히 보기",
+      buttonLink: data?.buttonLink || "#",
+      body: (content || "").trim(),
+    };
   });
+
+  return sortPopupsNewestFirst(popups.filter((popup) => popup?.enabled));
+}
 
   if (!res.ok) {
     throw new Error(`GitHub popup list fetch failed: ${res.status}`);
@@ -849,7 +930,7 @@ function MainPopup({ isMobile, isTablet, isTouch }) {
         setPopups(sortPopupsNewestFirst(items));
       })
       .catch((e) => {
-        console.warn("메인 팝업 GitHub CMS 데이터 로드 실패:", e);
+        console.warn("메인 팝업 CMS 데이터 로드 실패:", e);
         if (alive) setPopups([]);
       });
 
@@ -1446,7 +1527,7 @@ export default function Home1() {
         setNotices(items);
       })
       .catch((e) => {
-        console.warn("메인 공지사항 GitHub CMS 데이터 로드 실패:", e);
+        console.warn("메인 스토리 CMS 데이터 로드 실패:", e);
         if (alive) setNotices([]);
       })
       .finally(() => {
