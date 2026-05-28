@@ -354,27 +354,34 @@ export default function StoryDetail() {
 
         {post.thumbnail ? (
           <figure className="mt-6">
-            <SmartImage src={post.thumbnail} alt="" className="block w-full h-auto rounded-2xl" priority />
+            <SmartImage
+              src={post.thumbnail}
+              alt=""
+              className="block w-full h-auto rounded-2xl"
+              priority
+            />
           </figure>
         ) : null}
 
         {Array.isArray(post.gallery) && post.gallery.length > 0 ? (
           <section className="mt-8">
-            <h2 className="text-xl font-bold text-gray-900 mb-4">행사 사진</h2>
-            <div className="grid gap-4 sm:grid-cols-2">
+            <div className="grid gap-5 sm:grid-cols-2">
               {post.gallery.map((item, index) => (
                 <figure
                   key={`${item.image}-${index}`}
-                  className="overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-sm"
+                  className="overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm"
                 >
                   <SmartImage
                     src={item.image}
-                    alt={item.caption || `${post.title} 추가 이미지 ${index + 1}`}
-                    className="block w-full h-auto rounded-2xl"
+                    alt={
+                      item.caption || `${post.title} 추가 이미지 ${index + 1}`
+                    }
+                    className="block w-full h-auto"
                     placeholderMin={180}
                   />
+
                   {item.caption ? (
-                    <figcaption className="px-4 py-3 text-sm text-gray-500">
+                    <figcaption className="px-5 py-4 text-lg font-bold text-black leading-relaxed">
                       {item.caption}
                     </figcaption>
                   ) : null}
@@ -395,12 +402,20 @@ export default function StoryDetail() {
         <nav className="mt-10 rounded-xl bg-gray-50 ring-1 ring-gray-200 p-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
           {neighbors.prev ? (
             <button
-              onClick={() => nav(`/news/stories/${neighbors.prev.slug}`, { state: { tab: effectiveTab, backTo } })}
+              onClick={() =>
+                nav(`/news/stories/${neighbors.prev.slug}`, {
+                  state: { tab: effectiveTab, backTo },
+                })
+              }
               className="group text-left inline-flex items-center gap-2 rounded-lg px-3 py-2 hover:bg-white hover:shadow-sm"
             >
-              <span className="text-gray-400 group-hover:text-emerald-700">←</span>
+              <span className="text-gray-400 group-hover:text-emerald-700">
+                ←
+              </span>
               <span className="text-sm text-gray-600">이전 글</span>
-              <span className="font-semibold text-gray-800 line-clamp-1">{neighbors.prev.title}</span>
+              <span className="font-semibold text-gray-800 line-clamp-1">
+                {neighbors.prev.title}
+              </span>
             </button>
           ) : (
             <span className="text-gray-300 select-none">&nbsp;</span>
@@ -408,11 +423,19 @@ export default function StoryDetail() {
 
           {neighbors.next ? (
             <button
-              onClick={() => nav(`/news/stories/${neighbors.next.slug}`, { state: { tab: effectiveTab, backTo } })}
+              onClick={() =>
+                nav(`/news/stories/${neighbors.next.slug}`, {
+                  state: { tab: effectiveTab, backTo },
+                })
+              }
               className="group text-right inline-flex items-center gap-2 rounded-lg px-3 py-2 self-end sm:self-auto hover:bg-white hover:shadow-sm"
             >
-              <span className="font-semibold text-gray-800 line-clamp-1">{neighbors.next.title}</span>
-              <span className="text-gray-400 group-hover:text-emerald-700">→</span>
+              <span className="font-semibold text-gray-800 line-clamp-1">
+                {neighbors.next.title}
+              </span>
+              <span className="text-gray-400 group-hover:text-emerald-700">
+                →
+              </span>
               <span className="text-sm text-gray-600">다음 글</span>
             </button>
           ) : (
