@@ -66,6 +66,20 @@ collections:
         widget: "image"
         choose_url: true
         required: false
+      - label: "추가 이미지(여러 장 선택 가능)"
+        name: "gallery"
+        widget: "list"
+        required: false
+        summary: "{{fields.image}}"
+        fields:
+          - label: "이미지"
+            name: "image"
+            widget: "image"
+            choose_url: true
+          - label: "이미지 설명(선택)"
+            name: "caption"
+            widget: "string"
+            required: false
       - label: "본문"
         name: "body"
         widget: "markdown"
@@ -80,6 +94,20 @@ collections:
       - { label: "제목", name: "title", widget: "string" }
       - { label: "작성일", name: "date", widget: "datetime", format: "YYYY-MM-DDTHH:mm:ssZ" }
       - { label: "대표 이미지(선택)", name: "thumbnail", widget: "image", choose_url: true, required: false }
+      - label: "추가 이미지(여러 장 선택 가능)"
+        name: "gallery"
+        widget: "list"
+        required: false
+        summary: "{{fields.image}}"
+        fields:
+          - label: "이미지"
+            name: "image"
+            widget: "image"
+            choose_url: true
+          - label: "이미지 설명(선택)"
+            name: "caption"
+            widget: "string"
+            required: false
       - label: "카테고리"              # ✅ 추가
         name: "category"
         widget: "select"
