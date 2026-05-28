@@ -278,7 +278,6 @@ export default function AboutWhat() {
                   style={{ backgroundColor: "#3BA7A0" }}
                   aria-hidden
                 >
-                  01
                 </span>
                 <h2 className="text-[22px] md:text-[26px] font-bold leading-tight text-brand-900 m-0">
                   조합원의 자격 및 유형
@@ -316,7 +315,6 @@ export default function AboutWhat() {
                   style={{ backgroundColor: "#ED6A32" }}
                   aria-hidden
                 >
-                  02
                 </span>
                 <h2 className="text-[22px] md:text-[26px] font-bold leading-tight text-brand-900 m-0">
                   운영 공개
