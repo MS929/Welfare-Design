@@ -68,7 +68,7 @@ const CONTAINER = 1440;
 
 // HERO(상단) 캐러셀 이미지 경로 (public/images/hero 하위 정적 리소스)
 // - 필요 시 파일만 교체하면 코드 변경 없이 이미지 교체 가능
-const HERO_IMAGES = ["/images/hero/dog.png", "/images/hero/light.png"];
+const HERO_IMAGES = ["/images/hero/main0.png", "/images/hero/main1.png"];
 const HERO_INTERVAL = 10000; // 10초
 
 const HOME_POPUP_MODULES = import.meta.glob("../content/popup/*.{md,mdx}", {
