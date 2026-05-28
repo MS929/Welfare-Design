@@ -51,6 +51,41 @@ function parseFrontmatter(rawText) {
   return { data, content: content.trim() };
 }
 
+function parseGalleryImages(rawText) {
+  const text = String(rawText || "");
+  const match = text.match(/^---\s*\n([\s\S]*?)\n---/);
+  if (!match) return [];
+
+  const yaml = match[1];
+  const galleryMatch = yaml.match(/(?:^|\n)gallery:\s*\n([\s\S]*?)(?=\n[a-zA-Z가-힣0-9_-]+:\s*|$)/);
+  if (!galleryMatch) return [];
+
+  const block = galleryMatch[1];
+  const items = [];
+  let current = null;
+
+  block.split("\n").forEach((line) => {
+    const imageMatch = line.match(/^\s*-\s*image:\s*(.+?)\s*$/);
+    const captionMatch = line.match(/^\s*caption:\s*(.+?)\s*$/);
+
+    if (imageMatch) {
+      if (current?.image) items.push(current);
+      current = {
+        image: imageMatch[1].replace(/^["']|["']$/g, "").trim(),
+        caption: "",
+      };
+      return;
+    }
+
+    if (captionMatch && current) {
+      current.caption = captionMatch[1].replace(/^["']|["']$/g, "").trim();
+    }
+  });
+
+  if (current?.image) items.push(current);
+  return items;
+}
+
 function formatDate(date) {
   try {
     const d = new Date(date);
@@ -77,9 +112,11 @@ async function fetchNoticeDetail(slug) {
 
   const [, raw] = target;
   const { data, content } = parseFrontmatter(raw);
+  const gallery = parseGalleryImages(raw);
 
   return {
     ...(data ?? {}),
+    gallery,
     content,
   };
 }
@@ -216,6 +253,33 @@ export default function NoticeDetail() {
             className="mb-6 w-full rounded-lg object-cover"
           />
         )}
+
+        {Array.isArray(post.gallery) && post.gallery.length > 0 ? (
+          <section className="mb-8">
+            <h2 className="mb-4 text-xl font-bold text-gray-900">첨부 이미지</h2>
+            <div className="grid gap-4 sm:grid-cols-2">
+              {post.gallery.map((item, index) => (
+                <figure
+                  key={`${item.image}-${index}`}
+                  className="overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-sm"
+                >
+                  <img
+                    src={item.image}
+                    alt={item.caption || `${post.title || slug} 추가 이미지 ${index + 1}`}
+                    loading="lazy"
+                    decoding="async"
+                    className="block w-full rounded-2xl object-cover"
+                  />
+                  {item.caption ? (
+                    <figcaption className="px-4 py-3 text-sm text-gray-500">
+                      {item.caption}
+                    </figcaption>
+                  ) : null}
+                </figure>
+              ))}
+            </div>
+          </section>
+        ) : null}
 
         <div className="prose max-w-none text-[17px] leading-8 text-gray-800">
           <ReactMarkdown components={markdownComponents}>{post.content || ""}</ReactMarkdown>
