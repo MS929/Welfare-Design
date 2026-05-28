@@ -263,56 +263,82 @@ export default function AboutWhat() {
       </section>
 
       {/* ===== 조합원의 자격 및 유형 / 운영 공개 ===== */}
-      <section className="max-w-screen-xl mx-auto px-4 pb-10">
-        <div className="grid grid-cols-1 gap-10">
+      <section className="max-w-screen-xl mx-auto px-4 pb-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {/* 조합원의 자격 및 유형 */}
-          <div>
-            <div className="flex items-center gap-3 mb-4">
-              <span
-                className="inline-block h-4 w-4 md:h-6 md:w-6 rounded-full"
-                style={{ backgroundColor: "#3BA7A0" }}
-                aria-hidden
-              />
-              <h2 className="text-[22px] md:text-[26px] font-bold leading-tight text-brand-900 m-0">
-                조합원의 자격 및 유형
-              </h2>
-            </div>
-
-            <ul className="list-disc pl-6 space-y-3 text-gray-800">
-              {memberEligibility.map((t, i) => (
-                <li
-                  key={i}
-                  className="text-[16px] md:text-[17px] leading-[1.72]"
+          <div className="relative overflow-hidden rounded-2xl border border-teal-100 bg-gradient-to-br from-white via-white to-teal-50/70 p-6 md:p-7 shadow-sm">
+            <div
+              className="absolute -right-10 -top-10 h-28 w-28 rounded-full bg-teal-100/60"
+              aria-hidden
+            />
+            <div className="relative">
+              <div className="flex items-center gap-3 mb-5">
+                <span
+                  className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full text-white shadow-sm"
+                  style={{ backgroundColor: "#3BA7A0" }}
+                  aria-hidden
                 >
-                  {t}
-                </li>
-              ))}
-            </ul>
+                  01
+                </span>
+                <h2 className="text-[22px] md:text-[26px] font-bold leading-tight text-brand-900 m-0">
+                  조합원의 자격 및 유형
+                </h2>
+              </div>
+
+              <ul className="space-y-3 text-gray-800">
+                {memberEligibility.map((t, i) => (
+                  <li
+                    key={i}
+                    className="flex gap-3 text-[16px] md:text-[17px] leading-[1.72]"
+                  >
+                    <span
+                      className="mt-[0.65em] h-2 w-2 shrink-0 rounded-full"
+                      style={{ backgroundColor: "#3BA7A0" }}
+                      aria-hidden
+                    />
+                    <span>{t}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
           </div>
 
           {/* 운영 공개 */}
-          <div>
-            <div className="flex items-center gap-3 mb-4">
-              <span
-                className="inline-block h-4 w-4 md:h-6 md:w-6 rounded-full"
-                style={{ backgroundColor: "#3BA7A0" }}
-                aria-hidden
-              />
-              <h2 className="text-[22px] md:text-[26px] font-bold leading-tight text-brand-900 m-0">
-                운영 공개
-              </h2>
-            </div>
-
-            <ul className="list-disc pl-6 space-y-3 text-gray-800">
-              {operationDisclosure.map((t, i) => (
-                <li
-                  key={i}
-                  className="text-[16px] md:text-[17px] leading-[1.72]"
+          <div className="relative overflow-hidden rounded-2xl border border-orange-100 bg-gradient-to-br from-white via-white to-orange-50/70 p-6 md:p-7 shadow-sm">
+            <div
+              className="absolute -right-10 -top-10 h-28 w-28 rounded-full bg-orange-100/70"
+              aria-hidden
+            />
+            <div className="relative">
+              <div className="flex items-center gap-3 mb-5">
+                <span
+                  className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full text-white shadow-sm"
+                  style={{ backgroundColor: "#ED6A32" }}
+                  aria-hidden
                 >
-                  {t}
-                </li>
-              ))}
-            </ul>
+                  02
+                </span>
+                <h2 className="text-[22px] md:text-[26px] font-bold leading-tight text-brand-900 m-0">
+                  운영 공개
+                </h2>
+              </div>
+
+              <ul className="space-y-3 text-gray-800">
+                {operationDisclosure.map((t, i) => (
+                  <li
+                    key={i}
+                    className="flex gap-3 text-[16px] md:text-[17px] leading-[1.72]"
+                  >
+                    <span
+                      className="mt-[0.65em] h-2 w-2 shrink-0 rounded-full"
+                      style={{ backgroundColor: "#ED6A32" }}
+                      aria-hidden
+                    />
+                    <span>{t}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
           </div>
         </div>
       </section>
