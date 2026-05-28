@@ -1,7 +1,7 @@
 // -----------------------------------------------------------------------------
 // [페이지 목적]
 //  - 동행이야기(스토리) 상세 페이지
-//  - GitHub에 저장된 CMS markdown 파일을 실시간으로 읽어 본문을 렌더링
+//  - /src/content/stories/*.md[x] CMS markdown 파일을 빌드 시점에 읽어 본문을 렌더링
 //
 // [상태 유지/이동 동선]
 //  - 목록 화면의 탭(tab) 상태를 location.state 또는 URL 쿼리(?tab=...)로 전달받음
@@ -10,6 +10,7 @@
 // [UX/성능 포인트]
 //  - 상단 고정 스크롤 진행률 바 표시
 //  - 마크다운 이미지 로딩을 SmartImage로 교체해 초기 렌더 비용과 레이아웃 시프트를 줄임
+//  - GitHub API 실시간 호출 없이 Vite import.meta.glob 로 로컬 CMS markdown을 사용
 // -----------------------------------------------------------------------------
 
 import { useEffect, useState, useRef, useMemo } from "react";
@@ -17,8 +18,11 @@ import { useNavigate, useParams, useLocation } from "react-router-dom";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 
-const GITHUB_STORIES_API =
-  "https://api.github.com/repos/MS929/Welfare-Design/contents/src/content/stories?ref=main";
+const STORY_DETAIL_MODULES = import.meta.glob("../../content/stories/*.{md,mdx}", {
+  query: "?raw",
+  import: "default",
+  eager: true,
+});
 
 function parseFrontmatter(rawText) {
   const text = String(rawText || "");
@@ -41,7 +45,7 @@ function parseFrontmatter(rawText) {
     const key = trimmed.slice(0, idx).trim();
     let value = trimmed.slice(idx + 1).trim();
 
-    value = value.replace(/^['"]|['"]$/g, "");
+    value = value.replace(/^[']|[']$/g, "").replace(/^[\"]|[\"]$/g, "");
     data[key] = value;
   });
 
@@ -49,60 +53,26 @@ function parseFrontmatter(rawText) {
 }
 
 async function fetchStoryEntries() {
-  const listRes = await fetch(`${GITHUB_STORIES_API}&t=${Date.now()}`, {
-    cache: "no-store",
-    headers: {
-      Accept: "application/vnd.github+json",
-    },
+  const entries = Object.entries(STORY_DETAIL_MODULES).map(([path, raw]) => {
+    const fileName = path.split("/").pop() || "";
+    const slugFromPath = fileName.replace(/\.(md|mdx)$/i, "");
+    const { data, content } = parseFrontmatter(raw);
+
+    return {
+      slug: slugFromPath,
+      data,
+      content,
+    };
   });
-
-  if (!listRes.ok) {
-    throw new Error(`GitHub stories list fetch failed: ${listRes.status}`);
-  }
-
-  const files = await listRes.json();
-  const mdFiles = Array.isArray(files)
-    ? files.filter(
-        (file) =>
-          file.type === "file" &&
-          /\.(md|mdx)$/i.test(file.name || "") &&
-          file.download_url
-      )
-    : [];
-
-  const entries = await Promise.all(
-    mdFiles.map(async (file) => {
-      const rawUrl = `${file.download_url}${
-        file.download_url.includes("?") ? "&" : "?"
-      }t=${Date.now()}`;
-      const rawRes = await fetch(rawUrl, { cache: "no-store" });
-
-      if (!rawRes.ok) return null;
-
-      const raw = await rawRes.text();
-      const { data, content } = parseFrontmatter(raw);
-      const slugFromPath = String(file.name || "").replace(/\.(md|mdx)$/i, "");
-
-      return {
-        slug: slugFromPath,
-        data,
-        content,
-      };
-    })
-  );
 
   return entries.filter(Boolean);
 }
 
 // -----------------------------------------------------------------------------
 // SmartImage: 지연 로딩 + 뷰포트 근접 시 로드하는 이미지 컴포넌트
-//  - priority=true: 즉시 로드(상단 썸네일 등)
-//  - 그 외: IntersectionObserver로 화면 근처(rootMargin)에서만 로드해 초기 렌더 비용 절감
-//  - 로드 전에는 회색 플레이스홀더(minHeight)로 레이아웃 흔들림(레이아웃 시프트) 최소화
 // -----------------------------------------------------------------------------
 function SmartImage({ src, alt, className, priority = false, placeholderMin = 220 }) {
   const [shouldLoad, setShouldLoad] = useState(priority);
-  const [loaded, setLoaded] = useState(false);
   const [size, setSize] = useState({ width: undefined, height: undefined });
   const ref = useRef(null);
 
@@ -113,7 +83,7 @@ function SmartImage({ src, alt, className, priority = false, placeholderMin = 22
     }
     if (!ref.current) return;
 
-    let observer = new IntersectionObserver(
+    const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
           setShouldLoad(true);
@@ -122,9 +92,10 @@ function SmartImage({ src, alt, className, priority = false, placeholderMin = 22
       },
       { rootMargin: "1000px" }
     );
+
     observer.observe(ref.current);
 
-    return () => observer && observer.disconnect();
+    return () => observer.disconnect();
   }, [priority]);
 
   const currentSrc = shouldLoad ? src : "";
@@ -138,7 +109,7 @@ function SmartImage({ src, alt, className, priority = false, placeholderMin = 22
       {currentSrc && (
         <img
           src={currentSrc}
-          alt={alt}
+          alt={alt || ""}
           decoding="async"
           loading={priority ? "eager" : "lazy"}
           className={`${className} transition-opacity duration-300 opacity-100`}
@@ -146,9 +117,11 @@ function SmartImage({ src, alt, className, priority = false, placeholderMin = 22
           height={size.height}
           style={{ willChange: "opacity", backfaceVisibility: "hidden" }}
           onLoad={(e) => {
-            setLoaded(true);
             if (!size.width || !size.height) {
-              setSize({ width: e.target.naturalWidth, height: e.target.naturalHeight });
+              setSize({
+                width: e.currentTarget.naturalWidth,
+                height: e.currentTarget.naturalHeight,
+              });
             }
           }}
         />
@@ -159,41 +132,42 @@ function SmartImage({ src, alt, className, priority = false, placeholderMin = 22
 
 /**
  * 동행이야기(스토리) 상세 페이지
- * - CMS가 생성한 GitHub src/content/stories/*.md 파일을 실시간으로 읽어 렌더링
- * - 새 글/수정 글은 CMS 저장 후 GitHub 반영이 끝나면 새로고침으로 확인 가능
+ * - CMS가 생성한 src/content/stories/*.md 파일을 빌드 시점에 읽어 렌더링
+ * - 새 글/수정 글은 CMS 저장 후 Netlify 재배포가 끝나면 반영됨
  */
 export default function StoryDetail() {
   const { slug } = useParams();
   const nav = useNavigate();
   const location = useLocation();
-  // 목록 화면에서 전달된 state(tab) 우선, 없으면 URL의 ?tab=... 도 허용
+
   const qs = new URLSearchParams(location.search);
   const stateTab = location.state?.tab || location.state?.activeTab || null;
-  const urlTab = qs.get("tab");
+  const urlTab = qs.get("tab") || qs.get("type");
   const effectiveTab = stateTab || urlTab || null;
   const backTo =
     location.state?.backTo ||
     (effectiveTab
-      ? `/news/stories?tab=${encodeURIComponent(effectiveTab)}`
+      ? `/news/stories?type=${encodeURIComponent(effectiveTab)}`
       : "/news/stories");
-  const [post, setPost] = useState(null); // null=로딩 중, undefined=글 없음(404), 객체=정상 데이터
+
+  const [post, setPost] = useState(null);
   const [neighbors, setNeighbors] = useState({ prev: null, next: null });
   const progressRef = useRef(null);
 
   useEffect(() => {
     let alive = true;
 
-    (async () => {
-      try {
-        const entries = await fetchStoryEntries();
-
+    fetchStoryEntries()
+      .then((entries) => {
         const currentIndex = entries.findIndex((e) => e.slug === slug);
+
         if (currentIndex === -1) {
           if (alive) setPost(undefined);
           return;
         }
 
         const currentEntry = entries[currentIndex];
+
         if (alive) {
           setPost({
             title: currentEntry.data.title ?? "",
@@ -221,11 +195,11 @@ export default function StoryDetail() {
             next: next ? { slug: next.slug, title: next.data.title ?? "" } : null,
           });
         }
-      } catch (e) {
-        console.error("[story detail] live load error:", e);
+      })
+      .catch((e) => {
+        console.error("[story detail] CMS load error:", e);
         if (alive) setPost(undefined);
-      }
-    })();
+      });
 
     return () => {
       alive = false;
@@ -233,7 +207,6 @@ export default function StoryDetail() {
   }, [slug]);
 
   useEffect(() => {
-    // 페이지 스크롤 위치에 따라 상단 진행률 바(progressRef)의 너비를 갱신
     const onScroll = () => {
       const el = document.documentElement;
       const total = el.scrollHeight - el.clientHeight;
@@ -242,17 +215,16 @@ export default function StoryDetail() {
         progressRef.current.style.width = `${Math.min(100, Math.max(0, scrolled * 100))}%`;
       }
     };
+
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
+
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  // 마크다운 본문을 ReactMarkdown으로 렌더링
-  // - 이미지(img): SmartImage로 교체해 로딩/성능 최적화
-  // - 링크(a): 외부 링크는 새 탭으로 열고 보안 속성(rel)을 추가
-  // - useMemo로 post.content가 바뀔 때만 렌더 결과를 재계산
   const markdownContent = useMemo(() => {
     if (!post) return null;
+
     return (
       <ReactMarkdown
         remarkPlugins={[remarkGfm]}
@@ -274,7 +246,7 @@ export default function StoryDetail() {
           },
         }}
       >
-        {post.content}
+        {post.content || ""}
       </ReactMarkdown>
     );
   }, [post?.content]);
@@ -300,7 +272,6 @@ export default function StoryDetail() {
 
   return (
     <>
-      {/* 스크롤 진행률 바(상단 고정) */}
       <div className="fixed left-0 right-0 top-0 h-0.5 z-40">
         <div
           ref={progressRef}
@@ -310,7 +281,6 @@ export default function StoryDetail() {
       </div>
 
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-10 md:py-14">
-        {/* 목록(탭 유지)으로 돌아가기 */}
         <button
           onClick={() => nav(backTo)}
           className="inline-flex items-center gap-1 rounded-full px-3 py-1.5 text-sm font-medium text-emerald-700 bg-emerald-50 hover:bg-emerald-100 ring-1 ring-emerald-200 mb-6"
@@ -326,10 +296,10 @@ export default function StoryDetail() {
         <div className="mt-4 flex flex-wrap items-center gap-2 text-sm">
           {post.date ? (
             <time
-              dateTime={new Date(post.date).toISOString()}
+              dateTime={post.date}
               className="inline-flex items-center gap-1 rounded-full bg-gray-50 px-3 py-1 text-gray-600 ring-1 ring-gray-200"
             >
-              {new Date(post.date).toISOString().slice(0, 10)}
+              {String(post.date).slice(0, 10)}
             </time>
           ) : null}
           {post.author ? (
@@ -356,34 +326,29 @@ export default function StoryDetail() {
 
         <nav className="mt-10 rounded-xl bg-gray-50 ring-1 ring-gray-200 p-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
           {neighbors.prev ? (
-            <>
-              {/* 이전/다음 이동 시에도 탭과 backTo를 state로 넘겨 목록 복귀 동선을 유지 */}
-              <button
-                onClick={() => nav(`/news/stories/${neighbors.prev.slug}`, { state: { tab: effectiveTab, backTo } })}
-                className="group text-left inline-flex items-center gap-2 rounded-lg px-3 py-2 hover:bg-white hover:shadow-sm"
-              >
-                <span className="text-gray-400 group-hover:text-emerald-700">←</span>
-                <span className="text-sm text-gray-600">이전 글</span>
-                <span className="font-semibold text-gray-800 line-clamp-1">{neighbors.prev.title}</span>
-              </button>
-            </>
+            <button
+              onClick={() => nav(`/news/stories/${neighbors.prev.slug}`, { state: { tab: effectiveTab, backTo } })}
+              className="group text-left inline-flex items-center gap-2 rounded-lg px-3 py-2 hover:bg-white hover:shadow-sm"
+            >
+              <span className="text-gray-400 group-hover:text-emerald-700">←</span>
+              <span className="text-sm text-gray-600">이전 글</span>
+              <span className="font-semibold text-gray-800 line-clamp-1">{neighbors.prev.title}</span>
+            </button>
           ) : (
-            <span className="text-gray-300 select-none"> </span>
+            <span className="text-gray-300 select-none">&nbsp;</span>
           )}
 
           {neighbors.next ? (
-            <>
-              <button
-                onClick={() => nav(`/news/stories/${neighbors.next.slug}`, { state: { tab: effectiveTab, backTo } })}
-                className="group text-right inline-flex items-center gap-2 rounded-lg px-3 py-2 self-end sm:self-auto hover:bg-white hover:shadow-sm"
-              >
-                <span className="font-semibold text-gray-800 line-clamp-1">{neighbors.next.title}</span>
-                <span className="text-gray-400 group-hover:text-emerald-700">→</span>
-                <span className="text-sm text-gray-600">다음 글</span>
-              </button>
-            </>
+            <button
+              onClick={() => nav(`/news/stories/${neighbors.next.slug}`, { state: { tab: effectiveTab, backTo } })}
+              className="group text-right inline-flex items-center gap-2 rounded-lg px-3 py-2 self-end sm:self-auto hover:bg-white hover:shadow-sm"
+            >
+              <span className="font-semibold text-gray-800 line-clamp-1">{neighbors.next.title}</span>
+              <span className="text-gray-400 group-hover:text-emerald-700">→</span>
+              <span className="text-sm text-gray-600">다음 글</span>
+            </button>
           ) : (
-            <span className="text-gray-300 select-none"> </span>
+            <span className="text-gray-300 select-none">&nbsp;</span>
           )}
         </nav>
       </div>

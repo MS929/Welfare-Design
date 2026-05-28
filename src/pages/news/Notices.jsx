@@ -1,22 +1,25 @@
 // -----------------------------------------------------------------------------
 // [페이지 목적]
 //  - 공지사항 목록 페이지
-//  - GitHub에 저장된 CMS markdown 공지 파일을 실시간으로 불러와 목록/검색/카테고리/페이지네이션 제공
+//  - /src/content/notices/*.md(마크다운) frontmatter를 빌드 시점에 읽어 목록 구성
 //
 // [화면 구성]
 //  - 데스크탑(md 이상): 테이블 형태 목록
 //  - 모바일(md 미만): 카드형 리스트
 //
 // [데이터 처리]
-//  - GitHub Contents API로 src/content/notices/*.md 파일을 로드
+//  - GitHub API 실시간 호출 없이 Vite import.meta.glob 로 로컬 CMS markdown을 사용
 //  - 프론트매터(date, title, category 등)를 기준으로 목록 구성
 //  - 최신 날짜 기준 내림차순 정렬
 // -----------------------------------------------------------------------------
 import { useEffect, useMemo, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 
-const GITHUB_NOTICES_API =
-  "https://api.github.com/repos/MS929/Welfare-Design/contents/src/content/notices?ref=main";
+const NOTICE_MODULES = import.meta.glob("../../content/notices/*.{md,mdx}", {
+  query: "?raw",
+  import: "default",
+  eager: true,
+});
 
 function parseFrontmatter(rawText) {
   const text = String(rawText || "");
@@ -39,7 +42,7 @@ function parseFrontmatter(rawText) {
     const key = trimmed.slice(0, idx).trim();
     let value = trimmed.slice(idx + 1).trim();
 
-    value = value.replace(/^['"]|['"]$/g, "");
+    value = value.replace(/^[']|[']$/g, "").replace(/^[\"]|[\"]$/g, "");
     data[key] = value;
   });
 
@@ -57,9 +60,11 @@ function normalizeDate(v) {
 function normalizeCategory(rawCategory) {
   const raw = String(rawCategory || "공지").trim();
   const compact = raw.replace(/[\s-]/g, "");
+
   if (compact === "공모") return "정보공개";
   if (compact.includes("정보") && compact.includes("공개")) return "정보공개";
   if (compact.includes("공지")) return "공지";
+
   return raw || "공지";
 }
 
@@ -67,66 +72,41 @@ function makeExcerpt(content = "") {
   const text = String(content || "")
     .replace(/\n+/g, " ")
     .replace(/!\[[^\]]*\]\([^)]+\)/g, "")
+    .replace(/\[[^\]]*\]\([^)]+\)/g, "")
+    .replace(/[#>*`_~-]/g, "")
+    .replace(/\s+/g, " ")
     .trim();
+
   return text.slice(0, 120) + (text.length > 120 ? "…" : "");
 }
 
 async function fetchNoticeItems() {
-  const res = await fetch(`${GITHUB_NOTICES_API}&t=${Date.now()}`, {
-    cache: "no-store",
-    headers: {
-      Accept: "application/vnd.github+json",
-    },
+  const entries = Object.entries(NOTICE_MODULES).map(([path, raw]) => {
+    const fileName = path.split("/").pop() || "";
+    const { data, content } = parseFrontmatter(raw);
+    const slug = fileName.replace(/\.(md|mdx)$/i, "");
+    const rawCategory = data?.category ?? "공지";
+    const category = normalizeCategory(rawCategory);
+    const date = String(data?.date || "").trim();
+    const dateObj = normalizeDate(date);
+
+    return {
+      slug,
+      title: String(data?.title || "").trim(),
+      date,
+      dateObj,
+      thumbnail: String(data?.thumbnail || "").trim(),
+      category,
+      excerpt: makeExcerpt(content),
+    };
   });
-
-  if (!res.ok) {
-    throw new Error(`GitHub notices list fetch failed: ${res.status}`);
-  }
-
-  const files = await res.json();
-
-  const mdFiles = Array.isArray(files)
-    ? files.filter(
-        (file) =>
-          file.type === "file" &&
-          /\.(md|mdx)$/i.test(file.name || "") &&
-          file.download_url
-      )
-    : [];
-
-  const entries = await Promise.all(
-    mdFiles.map(async (file) => {
-      const rawUrl = `${file.download_url}${
-        file.download_url.includes("?") ? "&" : "?"
-      }t=${Date.now()}`;
-      const fileRes = await fetch(rawUrl, { cache: "no-store" });
-
-      if (!fileRes.ok) return null;
-
-      const raw = await fileRes.text();
-      const { data, content } = parseFrontmatter(raw);
-      const slug = String(file.name || "").replace(/\.(md|mdx)$/i, "");
-      const rawCategory = data?.category ?? "공지";
-      const category = normalizeCategory(rawCategory);
-      const date = String(data?.date || "").trim();
-      const dateObj = normalizeDate(date);
-
-      return {
-        slug,
-        title: String(data?.title || "").trim(),
-        date,
-        dateObj,
-        thumbnail: String(data?.thumbnail || "").trim(),
-        category,
-        excerpt: makeExcerpt(content),
-      };
-    })
-  );
 
   return entries.filter(Boolean).sort((a, b) => {
     const ta = a.dateObj ? a.dateObj.getTime() : 0;
     const tb = b.dateObj ? b.dateObj.getTime() : 0;
+
     if (tb !== ta) return tb - ta;
+
     return b.slug.localeCompare(a.slug);
   });
 }
@@ -139,9 +119,11 @@ export default function Notices() {
   const [tab, setTab] = useState(() => {
     const qs = new URLSearchParams(location.search);
     const c = (qs.get("category") || "").replace(/\s+/g, "");
+
     if (!c) return "전체";
     if (c.includes("공지")) return "공지";
     if (c.includes("정보") && c.includes("공개")) return "정보공개";
+
     return "전체";
   });
   const [q, setQ] = useState("");
@@ -157,7 +139,7 @@ export default function Notices() {
         setItems(entries);
       })
       .catch((e) => {
-        console.warn("공지사항 GitHub CMS 데이터 로드 실패:", e);
+        console.warn("공지사항 CMS 데이터 로드 실패:", e);
         if (alive) setItems([]);
       })
       .finally(() => {
@@ -172,17 +154,24 @@ export default function Notices() {
   useEffect(() => {
     const qs = new URLSearchParams(location.search);
     const c = (qs.get("category") || "").replace(/\s+/g, "");
+
     if (!c) return setTab("전체");
     if (c.includes("공지")) return setTab("공지");
     if (c.includes("정보") && c.includes("공개")) return setTab("정보공개");
+
     setTab("전체");
   }, [location.search]);
 
   const setTabAndURL = (t) => {
     setTab(t);
+
     const param =
-      t === "전체" ? "" :
-      t === "공지" ? "?category=공지" : "?category=정보공개";
+      t === "전체"
+        ? ""
+        : t === "공지"
+          ? "?category=공지"
+          : "?category=정보공개";
+
     navigate(`/news/notices${param}`, { replace: false });
   };
 
@@ -195,6 +184,7 @@ export default function Notices() {
           ? true
           : (it.title ?? "").toLowerCase().includes(query) ||
             (it.excerpt ?? "").toLowerCase().includes(query);
+
       return byTab && byQ;
     });
   }, [items, tab, q]);
@@ -214,7 +204,10 @@ export default function Notices() {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, [page]);
 
-  const paginatedItems = filtered.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
+  const paginatedItems = filtered.slice(
+    (page - 1) * PAGE_SIZE,
+    page * PAGE_SIZE
+  );
 
   return (
     <div className="bg-white">
@@ -254,9 +247,13 @@ export default function Notices() {
       </div>
 
       {loading ? (
-        <p className="max-w-screen-xl mx-auto px-4 py-8 text-gray-500">공지사항을 불러오는 중입니다.</p>
+        <p className="max-w-screen-xl mx-auto px-4 py-8 text-gray-500">
+          공지사항을 불러오는 중입니다.
+        </p>
       ) : paginatedItems.length === 0 ? (
-        <p className="max-w-screen-xl mx-auto px-4 py-8 text-gray-500">등록된 글이 없습니다.</p>
+        <p className="max-w-screen-xl mx-auto px-4 py-8 text-gray-500">
+          등록된 글이 없습니다.
+        </p>
       ) : (
         <>
           <div className="hidden md:block">
@@ -264,16 +261,40 @@ export default function Notices() {
               <table className="w-full text-sm">
                 <thead className="bg-gray-50 text-gray-600 sticky top-0 z-10 border-b border-gray-100">
                   <tr>
-                    <th scope="col" className="w-24 py-3.5 px-4 text-center font-medium text-gray-600">번호</th>
-                    <th scope="col" className="py-3.5 px-4 text-center font-medium text-gray-600">제목</th>
-                    <th scope="col" className="w-32 py-3.5 px-4 text-center font-medium text-gray-600">구분</th>
-                    <th scope="col" className="w-44 py-3.5 px-4 text-center font-medium text-gray-600">작성일</th>
+                    <th
+                      scope="col"
+                      className="w-24 py-3.5 px-4 text-center font-medium text-gray-600"
+                    >
+                      번호
+                    </th>
+                    <th
+                      scope="col"
+                      className="py-3.5 px-4 text-center font-medium text-gray-600"
+                    >
+                      제목
+                    </th>
+                    <th
+                      scope="col"
+                      className="w-32 py-3.5 px-4 text-center font-medium text-gray-600"
+                    >
+                      구분
+                    </th>
+                    <th
+                      scope="col"
+                      className="w-44 py-3.5 px-4 text-center font-medium text-gray-600"
+                    >
+                      작성일
+                    </th>
                   </tr>
                 </thead>
                 <tbody>
                   {paginatedItems.map((it, idx) => {
-                    const number = filtered.length - ((page - 1) * PAGE_SIZE + idx);
-                    const dateStr = (it.dateObj && it.dateObj.toISOString().slice(0, 10)) || it.date || "";
+                    const number =
+                      filtered.length - ((page - 1) * PAGE_SIZE + idx);
+                    const dateStr =
+                      (it.dateObj && it.dateObj.toISOString().slice(0, 10)) ||
+                      it.date ||
+                      "";
                     const circleChip = (
                       <span
                         className={`inline-flex items-center rounded-full border bg-white px-3 py-1 shadow-sm text-sm ${
@@ -282,11 +303,17 @@ export default function Notices() {
                             : "text-[#1E9E8F] border-[#9FDCD5]"
                         }`}
                       >
-                        <span className="font-medium tracking-tight">{it.category}</span>
+                        <span className="font-medium tracking-tight">
+                          {it.category}
+                        </span>
                       </span>
                     );
+
                     return (
-                      <tr key={it.slug} className="border-t border-gray-100 odd:bg-white even:bg-gray-50/40 hover:bg-gray-100 transition-colors">
+                      <tr
+                        key={it.slug}
+                        className="border-t border-gray-100 odd:bg-white even:bg-gray-50/40 hover:bg-gray-100 transition-colors"
+                      >
                         <td className="py-4 px-4 text-gray-500 text-center align-middle">
                           {number}
                         </td>
@@ -295,13 +322,17 @@ export default function Notices() {
                             to={`/news/notices/${encodeURIComponent(it.slug)}`}
                             className="block w-full -mx-2 px-2 -my-1 py-1 max-w-full truncate transition-colors hover:text-[#1E9E8F]"
                           >
-                            <span className="text-gray-900 font-medium truncate">{it.title || "제목 없음"}</span>
+                            <span className="text-gray-900 font-medium truncate">
+                              {it.title || "제목 없음"}
+                            </span>
                           </Link>
                         </td>
                         <td className="py-4 px-4 align-middle text-center">
                           {circleChip}
                         </td>
-                        <td className="py-4 px-4 text-gray-600 align-middle whitespace-nowrap">{dateStr}</td>
+                        <td className="py-4 px-4 text-gray-600 align-middle whitespace-nowrap">
+                          {dateStr}
+                        </td>
                       </tr>
                     );
                   })}
@@ -313,8 +344,13 @@ export default function Notices() {
           <div className="md:hidden">
             <ul className="max-w-screen-xl mx-auto px-4 space-y-4">
               {paginatedItems.map((it, idx) => {
-                const number = filtered.length - ((page - 1) * PAGE_SIZE + idx);
-                const dateStr = (it.dateObj && it.dateObj.toISOString().slice(0, 10)) || it.date || "";
+                const number =
+                  filtered.length - ((page - 1) * PAGE_SIZE + idx);
+                const dateStr =
+                  (it.dateObj && it.dateObj.toISOString().slice(0, 10)) ||
+                  it.date ||
+                  "";
+
                 return (
                   <li key={it.slug}>
                     <Link
@@ -341,7 +377,10 @@ export default function Notices() {
                             >
                               {it.category}
                             </span>
-                            <span className="h-3 w-px bg-gray-300" aria-hidden="true" />
+                            <span
+                              className="h-3 w-px bg-gray-300"
+                              aria-hidden="true"
+                            />
                             <time className="text-gray-500">{dateStr}</time>
                           </div>
                         </div>

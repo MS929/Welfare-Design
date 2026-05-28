@@ -1,18 +1,21 @@
 // -----------------------------------------------------------------------------
 // [페이지 목적]
 //  - "복지디자인 이야기"(스토리) 목록 페이지
-//  - GitHub에 저장된 CMS markdown 파일을 실시간으로 읽어 목록을 구성
+//  - /src/content/stories/*.md[x] CMS markdown 파일을 빌드 시점에 읽어 목록을 구성
 //
 // [데이터 구성 규칙]
 //  - CMS 저장 위치: src/content/stories/*.md[x]
-//  - GitHub API로 새로고침 시 최신 파일을 가져옴
+//  - GitHub API 실시간 호출 없이 Vite import.meta.glob 로 로컬 CMS markdown을 사용
 //  - 최신 날짜가 위로 오도록 내림차순 정렬
 // -----------------------------------------------------------------------------
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
-const GITHUB_STORIES_API =
-  "https://api.github.com/repos/MS929/Welfare-Design/contents/src/content/stories?ref=main";
+const STORY_INDEX_MODULES = import.meta.glob("../../content/stories/*.{md,mdx}", {
+  query: "?raw",
+  import: "default",
+  eager: true,
+});
 
 // -----------------------------------------------------------------------------
 // [유틸] 파일명에서 날짜/슬러그 추출
@@ -78,7 +81,7 @@ function parseFrontmatter(rawText) {
     const key = trimmed.slice(0, idx).trim();
     let value = trimmed.slice(idx + 1).trim();
 
-    value = value.replace(/^['"]|['"]$/g, "");
+    value = value.replace(/^[']|[']$/g, "").replace(/^[\"]|[\"]$/g, "");
     data[key] = value;
   });
 
@@ -86,58 +89,30 @@ function parseFrontmatter(rawText) {
 }
 
 async function fetchStoryIndexItems() {
-  const res = await fetch(`${GITHUB_STORIES_API}&t=${Date.now()}`, {
-    cache: "no-store",
-    headers: {
-      Accept: "application/vnd.github+json",
-    },
+  const list = Object.entries(STORY_INDEX_MODULES).map(([path, raw]) => {
+    const fileName = path.split("/").pop() || "";
+    const { data, content } = parseFrontmatter(raw);
+    const meta = parseDatedSlug(fileName);
+    const slug = fileName.replace(/\.(md|mdx)$/i, "");
+    const title = String(data?.title || meta.titleFromFile || "제목 없음").trim();
+    const date = formatDate(data?.date) || formatDate(meta.date);
+    const excerpt = String(data?.excerpt || content?.slice(0, 120) || "")
+      .replace(/\n/g, " ")
+      .trim();
+
+    return {
+      id: path,
+      title,
+      date,
+      excerpt,
+      to: `/news/stories/${encodeURIComponent(slug)}`,
+    };
   });
 
-  if (!res.ok) {
-    throw new Error(`GitHub stories list fetch failed: ${res.status}`);
-  }
-
-  const files = await res.json();
-
-  const mdFiles = Array.isArray(files)
-    ? files.filter(
-        (file) =>
-          file.type === "file" &&
-          /\.(md|mdx)$/i.test(file.name || "") &&
-          file.download_url
-      )
-    : [];
-
-  const list = await Promise.all(
-    mdFiles.map(async (file) => {
-      const rawUrl = `${file.download_url}${
-        file.download_url.includes("?") ? "&" : "?"
-      }t=${Date.now()}`;
-      const fileRes = await fetch(rawUrl, { cache: "no-store" });
-
-      if (!fileRes.ok) return null;
-
-      const raw = await fileRes.text();
-      const { data, content } = parseFrontmatter(raw);
-      const meta = parseDatedSlug(file.name || "");
-      const slug = String(file.name || "").replace(/\.(md|mdx)$/i, "");
-      const title = String(data?.title || meta.titleFromFile || "제목 없음").trim();
-      const date = formatDate(data?.date) || formatDate(meta.date);
-      const excerpt = String(data?.excerpt || content?.slice(0, 120) || "")
-        .replace(/\n/g, " ")
-        .trim();
-
-      return {
-        id: file.path || slug,
-        title,
-        date,
-        excerpt,
-        to: `/news/stories/${encodeURIComponent(slug)}`,
-      };
-    })
-  );
-
-  return list.filter(Boolean).sort((a, b) => (a.date > b.date ? -1 : 1));
+  return list.filter(Boolean).sort((a, b) => {
+    if (a.date === b.date) return String(b.id).localeCompare(String(a.id));
+    return a.date > b.date ? -1 : 1;
+  });
 }
 
 export default function NewsIndex() {
@@ -153,7 +128,7 @@ export default function NewsIndex() {
         setItems(list);
       })
       .catch((e) => {
-        console.warn("뉴스 목록 GitHub CMS 데이터 로드 실패:", e);
+        console.warn("뉴스 목록 CMS 데이터 로드 실패:", e);
         if (alive) setItems([]);
       })
       .finally(() => {
