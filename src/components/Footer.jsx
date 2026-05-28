@@ -51,7 +51,7 @@ export default function Footer() {
                   함께 성장하며 모두의 행복을 위한 복지를 디자인합니다.
                 </p>
                 <p className="text-[12.5px] md:text-[13px] lg:text-[13.5px] text-gray-300 mt-1 font-medium tracking-tight">
-                  계좌번호 : 748301-01-618473 · 국민은행
+                  후원계좌 : 국민은행 · 748301-01-618473 (복지디자인 사회적협동조합)
                 </p>
               </div>
             </div>
@@ -82,10 +82,9 @@ export default function Footer() {
 
           {/* 하단 영역: 저작권 및 제작자 정보 */}
           <div className="flex flex-col items-center justify-center text-center gap-[3px] text-[11.5px] sm:text-[12.5px] lg:text-[13px] text-gray-400">
-            <p>© {year} 복지디자인 사회적협동조합. All rights reserved.</p>
+            <p>© 2025 복지디자인 사회적협동조합. All rights reserved.</p>
             <p>
-              Design By{" "}
-              {/* 제작자 GitHub 외부 링크 */}
+              Design By {/* 제작자 GitHub 외부 링크 */}
               <a
                 href="https://github.com/MS929"
                 className="underline decoration-gray-600 hover:text-gray-300 hover:decoration-gray-300"
