@@ -293,6 +293,8 @@ export default function AboutWhat() {
           {/* 운영 공개 */}
           <div>
             <div className="flex items-center gap-3 mb-4">
+              <div className="grid grid-cols-1 gap-8">
+
               <span
                 className="inline-block h-4 w-4 md:h-6 md:w-6 rounded-full"
                 style={{ backgroundColor: "#3BA7A0" }}
