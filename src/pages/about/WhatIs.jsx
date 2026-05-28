@@ -264,7 +264,7 @@ export default function AboutWhat() {
 
       {/* ===== 조합원의 자격 및 유형 / 운영 공개 ===== */}
       <section className="max-w-screen-xl mx-auto px-4 pb-10">
-        <div className="grid grid-cols-1 gap-8">
+        <div className="grid grid-cols-1 gap-10">
           {/* 조합원의 자격 및 유형 */}
           <div>
             <div className="flex items-center gap-3 mb-4">
@@ -289,12 +289,10 @@ export default function AboutWhat() {
               ))}
             </ul>
           </div>
-        </div>
+
           {/* 운영 공개 */}
           <div>
             <div className="flex items-center gap-3 mb-4">
-              <div className="grid grid-cols-1 gap-8">
-
               <span
                 className="inline-block h-4 w-4 md:h-6 md:w-6 rounded-full"
                 style={{ backgroundColor: "#3BA7A0" }}
