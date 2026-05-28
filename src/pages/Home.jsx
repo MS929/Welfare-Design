@@ -128,73 +128,7 @@ async function fetchHomeNoticeItems() {
     });
 }
 
-  if (!res.ok) {
-    throw new Error(`GitHub notices list fetch failed: ${res.status}`);
-  }
 
-  const files = await res.json();
-
-  const mdFiles = Array.isArray(files)
-    ? files.filter(
-        (file) =>
-          file.type === "file" &&
-          /\.(md|mdx)$/i.test(file.name || "") &&
-          file.download_url
-      )
-    : [];
-
-  const mapped = await Promise.all(
-    mdFiles.map(async (file) => {
-      const rawUrl = `${file.download_url}${
-        file.download_url.includes("?") ? "&" : "?"
-      }t=${Date.now()}`;
-
-      const fileRes = await fetch(rawUrl, {
-        cache: "no-store",
-      });
-
-      if (!fileRes.ok) return null;
-
-      const raw = await fileRes.text();
-      const { data } = parseFrontmatter(raw);
-
-      const meta = parseDatedSlug(file.name || "");
-      const base = String(file.name || "").replace(/\.(md|mdx)$/i, "");
-
-      const category = normalizeNoticeCategory(
-        data?.category || data?.type || "공지"
-      );
-
-      return {
-        id: file.path || base,
-        slug: base,
-        title: data?.title || meta.titleFromFile || "제목 없음",
-        date:
-          formatDate(data?.date) ||
-          formatDate(meta.date) ||
-          "",
-        category,
-        pinned:
-          data?.pinned === true ||
-          String(data?.pinned).toLowerCase() === "true",
-      };
-    })
-  );
-
-  return mapped
-    .filter(Boolean)
-    .sort((a, b) => {
-      if (a.pinned && !b.pinned) return -1;
-      if (!a.pinned && b.pinned) return 1;
-
-      const ad = a.date ? new Date(a.date).getTime() : 0;
-      const bd = b.date ? new Date(b.date).getTime() : 0;
-
-      if (bd !== ad) return bd - ad;
-
-      return String(b.id || "").localeCompare(String(a.id || ""));
-    });
-}
 
 /**
  * 파일명에서 날짜가 포함된 slug를 파싱
@@ -365,61 +299,6 @@ async function fetchHomeStoryItems() {
         "50% 30%",
     };
   });
-
-  return mapped.filter(Boolean).sort((a, b) => {
-    const ad = a.date ? new Date(a.date) : new Date(0);
-    const bd = b.date ? new Date(b.date) : new Date(0);
-    if (!isNaN(bd) && !isNaN(ad) && bd.getTime() !== ad.getTime()) {
-      return bd.getTime() - ad.getTime();
-    }
-    return String(b.id || "").localeCompare(String(a.id || ""));
-  });
-}
-
-  if (!res.ok) {
-    throw new Error(`GitHub stories list fetch failed: ${res.status}`);
-  }
-
-  const files = await res.json();
-  const mdFiles = Array.isArray(files)
-    ? files.filter(
-        (file) =>
-          file.type === "file" &&
-          /\.(md|mdx)$/i.test(file.name || "") &&
-          file.download_url
-      )
-    : [];
-
-  const mapped = await Promise.all(
-    mdFiles.map(async (file) => {
-      const rawUrl = `${file.download_url}${
-        file.download_url.includes("?") ? "&" : "?"
-      }t=${Date.now()}`;
-      const fileRes = await fetch(rawUrl, { cache: "no-store" });
-
-      if (!fileRes.ok) return null;
-
-      const raw = await fileRes.text();
-      const { data } = parseFrontmatter(raw);
-      const meta = parseDatedSlug(file.name || "");
-      const base = String(file.name || "").replace(/\.(md|mdx)$/i, "");
-      const date = formatDate(data?.date) || formatDate(meta.date);
-
-      return {
-        id: file.path || base,
-        title: data?.title || meta.titleFromFile || "제목 없음",
-        date,
-        slug: base,
-        type: normalizeStoryType(data?.category || data?.type || "기타"),
-        thumbnail: data?.thumbnail || null,
-        thumbPosition:
-          data?.thumbPosition ||
-          data?.thumb_position ||
-          data?.focal ||
-          "50% 30%",
-      };
-    })
-  );
 
   return mapped.filter(Boolean).sort((a, b) => {
     const ad = a.date ? new Date(a.date) : new Date(0);
@@ -836,7 +715,7 @@ const StoryCard = (props) => {
   );
 };
 
-// CMS 메인 팝업 데이터 파싱: GitHub API 실시간 로드
+
 async function fetchMainPopupData() {
   const popups = Object.entries(HOME_POPUP_MODULES).map(([path, raw]) => {
     const fileName = path.split("/").pop() || "";
@@ -857,52 +736,6 @@ async function fetchMainPopupData() {
       body: (content || "").trim(),
     };
   });
-
-  return sortPopupsNewestFirst(popups.filter((popup) => popup?.enabled));
-}
-
-  if (!res.ok) {
-    throw new Error(`GitHub popup list fetch failed: ${res.status}`);
-  }
-
-  const files = await res.json();
-  const mdFiles = Array.isArray(files)
-    ? files.filter(
-        (file) =>
-          file.type === "file" &&
-          /\.(md|mdx)$/i.test(file.name || "") &&
-          file.download_url
-      )
-    : [];
-
-  const popups = await Promise.all(
-    mdFiles.map(async (file) => {
-      const rawUrl = `${file.download_url}${
-        file.download_url.includes("?") ? "&" : "?"
-      }t=${Date.now()}`;
-      const fileRes = await fetch(rawUrl, { cache: "no-store" });
-
-      if (!fileRes.ok) return null;
-
-      const raw = await fileRes.text();
-      const { data, content } = parseFrontmatter(raw);
-      const dateValue = data?.date || data?.createdAt || data?.updatedAt || file.name || "";
-      const enabledValue = data?.enabled;
-      const enabled = enabledValue === true || String(enabledValue).toLowerCase() === "true";
-
-      return {
-        id: file.path || file.name,
-        title: data?.title || "",
-        enabled,
-        date: String(dateValue || "").trim(),
-        sortDate: getSortableDateValue(dateValue),
-        image: extractThumbSrc(data?.image || ""),
-        buttonText: data?.buttonText || "자세히 보기",
-        buttonLink: data?.buttonLink || "#",
-        body: (content || "").trim(),
-      };
-    })
-  );
 
   return sortPopupsNewestFirst(popups.filter((popup) => popup?.enabled));
 }
@@ -1515,7 +1348,7 @@ export default function Home1() {
     };
   }, [prefersReducedMotion]);
 
-  // 공지/정보공개 콘텐츠 로드: GitHub API 실시간 로드
+  // 공지/정보공개 콘텐츠 로드: 빌드된 로컬 CMS 데이터 사용
   useEffect(() => {
     let alive = true;
 
@@ -1527,7 +1360,7 @@ export default function Home1() {
         setNotices(items);
       })
       .catch((e) => {
-        console.warn("메인 스토리 CMS 데이터 로드 실패:", e);
+        console.warn("메인 공지사항 CMS 데이터 로드 실패:", e);
         if (alive) setNotices([]);
       })
       .finally(() => {
@@ -1539,7 +1372,7 @@ export default function Home1() {
     };
   }, []);
 
-  // 복지디자인 소식(스토리) 콘텐츠 로드: GitHub API 실시간 로드
+  // 복지디자인 소식(스토리) 콘텐츠 로드: 빌드된 로컬 CMS 데이터 사용
   useEffect(() => {
     let alive = true;
 
@@ -1549,7 +1382,7 @@ export default function Home1() {
         setStoryItems(items);
       })
       .catch((e) => {
-        console.warn("메인 스토리 GitHub CMS 데이터 로드 실패:", e);
+        console.warn("메인 스토리 CMS 데이터 로드 실패:", e);
         if (alive) setStoryItems([]);
       });
 
@@ -2711,9 +2544,9 @@ mark, [data-hl] {
                     </div>
                   ) : (
                     <Link
-  key={item.id}
-  to={`/news/notices/${encodeURIComponent(item.slug)}`}
-  data-reset-touch="true"
+                      key={item.id}
+                      to={`/news/notices/${encodeURIComponent(item.slug)}`}
+                      data-reset-touch="true"
                       style={{
                         display: "block",
                         background: "#fff",
@@ -2868,12 +2701,9 @@ mark, [data-hl] {
                     </div>
                   ) : (
                     <Link
-
-  key={item.id}
-
-  to={`/news/notices/${encodeURIComponent(item.slug)}`}
-
-  data-reset-touch="true"
+                      key={item.id}
+                      to={`/news/notices/${encodeURIComponent(item.slug)}`}
+                      data-reset-touch="true"
                       style={{
                         display: "block",
                         background: "#fff",
