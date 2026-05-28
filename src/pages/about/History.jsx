@@ -1,7 +1,10 @@
 import { useEffect, useMemo, useState } from "react";
 
-const GITHUB_API =
-  "https://api.github.com/repos/MS929/Welfare-Design/contents/src/content/history?ref=main";
+const HISTORY_MODULES = import.meta.glob("../../content/history/*.{md,mdx}", {
+  query: "?raw",
+  import: "default",
+  eager: true,
+});
 
 const fallbackRaw = [
   { date: "2025.05", event: "가칭) 복지디자인사회적협동조합 실무자 교육 진행" },
@@ -40,53 +43,29 @@ function parseFrontmatter(rawText) {
 }
 
 async function fetchHistoryItems() {
-  const res = await fetch(`${GITHUB_API}&t=${Date.now()}`, {
-    cache: "no-store",
+  const items = Object.entries(HISTORY_MODULES).map(([path, raw]) => {
+    const { data, content } = parseFrontmatter(raw);
+
+    return {
+      id: path,
+      date: String(data?.date || "").trim(),
+      event: String(data?.event || content || "").trim(),
+    };
   });
-
-  if (!res.ok) throw new Error("GitHub history list fetch failed");
-
-  const files = await res.json();
-
-  const mdFiles = files.filter(
-    (file) =>
-      file.type === "file" &&
-      /\.(md|mdx)$/i.test(file.name) &&
-      file.download_url,
-  );
-
-  const items = await Promise.all(
-    mdFiles.map(async (file) => {
-      const fileRes = await fetch(`${file.download_url}?t=${Date.now()}`, {
-        cache: "no-store",
-      });
-
-      const raw = await fileRes.text();
-      const { data, content } = parseFrontmatter(raw);
-
-      return {
-        id: file.path,
-        date: String(data?.date || "").trim(),
-        event: String(data?.event || content || "").trim(),
-      };
-    }),
-  );
 
   return items.filter((item) => item.date && item.event);
 }
 
 function makeByYear(items) {
+  const normalize = (d) => {
+    const [y, m = "00"] = String(d).split(".");
+    return Number(`${y}${m.padStart(2, "0")}`);
+  };
+
   return items
     .slice()
     .filter((item) => item.date && item.event)
-    .sort((a, b) => {
-      const normalize = (d) => {
-        const [y, m = "00"] = String(d).split(".");
-        return Number(`${y}${m.padStart(2, "0")}`);
-      };
-
-      return normalize(a.date) - normalize(b.date);
-    })
+    .sort((a, b) => normalize(b.date) - normalize(a.date))
     .reduce((acc, item) => {
       const [y, m] = String(item.date).split(".");
       const ym = m ? `${y}. ${m}` : y;
@@ -113,8 +92,8 @@ export default function AboutHistory() {
         setItems(data.length > 0 ? data : fallbackRaw);
       })
       .catch((e) => {
-        console.warn("연혁 GitHub 실시간 로드 실패:", e);
-        if (alive) setItems([]);
+        console.warn("연혁 CMS 데이터 로드 실패:", e);
+        if (alive) setItems(fallbackRaw);
       })
       .finally(() => {
         if (alive) setLoading(false);
