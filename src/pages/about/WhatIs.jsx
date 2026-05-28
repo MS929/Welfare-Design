@@ -263,31 +263,57 @@ export default function AboutWhat() {
       </section>
 
       {/* ===== 조합원의 자격 및 유형 / 운영 공개 ===== */}
-      <section className="max-w-screen-xl mx-auto px-4 pb-10 grid grid-cols-1 md:grid-cols-2 gap-6 space-y-4 md:space-y-0">
-        <div className="rounded-xl border border-brand-200 bg-white p-5 shadow-sm">
-          <h3 className="text-xl font-semibold mb-3 text-brand-800">
-            조합원의 자격 및 유형
-          </h3>
-          <ul className="list-disc pl-5 space-y-2 text-gray-800">
-            {memberEligibility.map((t, i) => (
-              <li key={i} className="text-[16px] md:text-[17px] leading-[1.72]">
-                {t}
-              </li>
-            ))}
-          </ul>
-        </div>
+      <section className="max-w-screen-xl mx-auto px-4 pb-10">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
+          {/* 조합원의 자격 및 유형 */}
+          <div>
+            <div className="flex items-center gap-3 mb-4">
+              <span
+                className="inline-block h-4 w-4 md:h-6 md:w-6 rounded-full"
+                style={{ backgroundColor: "#3BA7A0" }}
+                aria-hidden
+              />
+              <h2 className="text-[22px] md:text-[26px] font-bold leading-tight text-brand-900 m-0">
+                조합원의 자격 및 유형
+              </h2>
+            </div>
 
-        <div className="rounded-xl border border-brand-200 bg-white p-5 shadow-sm">
-          <h3 className="text-xl font-semibold mb-3 text-brand-800">
-            운영 공개
-          </h3>
-          <ul className="list-disc pl-5 space-y-2 text-gray-800">
-            {operationDisclosure.map((t, i) => (
-              <li key={i} className="text-[16px] md:text-[17px] leading-[1.72]">
-                {t}
-              </li>
-            ))}
-          </ul>
+            <ul className="list-disc pl-6 space-y-3 text-gray-800">
+              {memberEligibility.map((t, i) => (
+                <li
+                  key={i}
+                  className="text-[16px] md:text-[17px] leading-[1.72]"
+                >
+                  {t}
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* 운영 공개 */}
+          <div>
+            <div className="flex items-center gap-3 mb-4">
+              <span
+                className="inline-block h-4 w-4 md:h-6 md:w-6 rounded-full"
+                style={{ backgroundColor: "#3BA7A0" }}
+                aria-hidden
+              />
+              <h2 className="text-[22px] md:text-[26px] font-bold leading-tight text-brand-900 m-0">
+                운영 공개
+              </h2>
+            </div>
+
+            <ul className="list-disc pl-6 space-y-3 text-gray-800">
+              {operationDisclosure.map((t, i) => (
+                <li
+                  key={i}
+                  className="text-[16px] md:text-[17px] leading-[1.72]"
+                >
+                  {t}
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
       </section>
 
@@ -341,7 +367,6 @@ export default function AboutWhat() {
           출처: 국제협동조합연맹(ICA)의 협동조합 7대원칙(1995년)
         </p>
       </section>
-
     </div>
   );
 }
