@@ -134,11 +134,10 @@ export default function AboutWhat() {
       no: "07.",
       title: "지역사회에 대한 기여",
       desc: [
-        "조합은 지역사회의 지속가능한 발전에 기여하며, 공익을 증진하는 사업을 추진합니다。",
+        "조합은 지역사회의 지속가능한 발전에 기여하며, 공익을 증진하는 사업을 추진합니다.",
       ],
     },
   ];
-
 
   return (
     <div className="bg-white">
@@ -169,6 +168,7 @@ export default function AboutWhat() {
         {/* 가는 구분선 */}
         <div className="mx-auto mt-5 h-1 w-28 rounded-full bg-gradient-to-r from-brand-400 to-brand-600" />
       </section>
+
       {/* ===== 설립 배경 ===== */}
       <section className="max-w-screen-xl mx-auto px-4 py-10">
         <SectionTitle color="#3BA7A0">설립 배경</SectionTitle>
@@ -203,9 +203,9 @@ export default function AboutWhat() {
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 space-y-4 sm:space-y-0">
           {gmv.map((b, idx) => {
             const accents = [
-              { bg: "#F4B731", fg: "#2B2E34" }, // 노랑(대비를 위해 어두운 글자)
-              { bg: "#ED6A32", fg: "#2B2E34" }, // 오렌지
-              { bg: "#3BA7A0", fg: "#2B2E34" }, // 청록
+              { bg: "#F4B731", fg: "#2B2E34" },
+              { bg: "#ED6A32", fg: "#2B2E34" },
+              { bg: "#3BA7A0", fg: "#2B2E34" },
             ];
             const accent = accents[idx % accents.length];
             return (
@@ -264,7 +264,7 @@ export default function AboutWhat() {
 
       {/* ===== 조합원의 자격 및 유형 / 운영 공개 ===== */}
       <section className="max-w-screen-xl mx-auto px-4 pb-10">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
+        <div className="grid grid-cols-1 gap-8">
           {/* 조합원의 자격 및 유형 */}
           <div>
             <div className="flex items-center gap-3 mb-4">
@@ -326,7 +326,7 @@ export default function AboutWhat() {
         </SectionTitle>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-stretch space-y-4 md:space-y-0">
           {principles.map((p, idx) => {
-            const principlePalette = ["#F4B731", "#ED6A32", "#3BA7A0"]; // 반복 적용
+            const principlePalette = ["#F4B731", "#ED6A32", "#3BA7A0"];
             const pc = principlePalette[idx % principlePalette.length];
             return (
               <div
