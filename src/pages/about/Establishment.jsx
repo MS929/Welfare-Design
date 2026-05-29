@@ -82,7 +82,7 @@ mark, [data-hl] {
         />{" "}
         {/* 상단 영역: 브레드크럼 + 페이지 제목 (safe-area 및 반응형 타이포그래피 고려) */}
         <section
-          className="max-w-screen-xl mx-auto px-4 sm:px-5 md:px-6 pb-4 pt-6 sm:pt-7 md:pt-10 lg:pt-12"
+          className="max-w-screen-xl mx-auto px-4 sm:px-5 md:px-6 pb-4 pt-4 sm:pt-5 md:pt-7 lg:pt-8"
           style={{ paddingTop: "calc(env(safe-area-inset-top, 0px) + 64px)" }}
         >
           <nav className="text-[clamp(12px,2.8vw,14px)] text-gray-500">
