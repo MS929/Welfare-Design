@@ -68,6 +68,22 @@ mark, [data-hl] {
 .nowrap { white-space: nowrap; }
 .u-wrap-anywhere { overflow-wrap: anywhere; word-break: keep-all; }
 .u-ellipsis { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+.greeting-body-text {
+  text-align: justify;
+  text-align-last: left;
+  word-break: keep-all;
+  overflow-wrap: normal;
+}
+
+@media (max-width: 640px) {
+  .greeting-body-text {
+    text-align: left;
+    text-align-last: auto;
+    word-break: keep-all;
+    overflow-wrap: break-word;
+  }
+}
         `,
         }}
       />
@@ -110,7 +126,7 @@ mark, [data-hl] {
             }}
           >
             {/* 페이지 핵심 메시지를 강조하는 인용구 영역 */}
-            <blockquote className="text-left text-gray-700 italic tracking-tight text-[clamp(16px,4.2vw,20px)] leading-[1.75] sm:leading-[1.8] md:leading-[1.85]">
+            <blockquote className="text-left text-gray-700 italic tracking-tight text-[clamp(16px,4.2vw,20px)] leading-[1.75] sm:leading-[1.8] md:leading-[1.85] break-keep">
               {" "}
               “사람을 향한 사랑의 마음으로, 복지를 디자인하는 따뜻한 연결을
               시작합니다.”
@@ -118,15 +134,7 @@ mark, [data-hl] {
             <div className="mt-4 mb-8 h-[2px] w-full rounded-full bg-gradient-to-r from-[#3BA7A0]/45 via-[#3BA7A0]/20 to-transparent" />
             {/* 인사말 본문 문단
               - 문단 간 충분한 간격과 line-height로 편안한 읽기 경험 제공 */}
-            <div
-              className="space-y-8 text-gray-900 text-[clamp(15px,3.9vw,17.5px)] leading-[1.75] sm:leading-[1.85] md:leading-[1.9]"
-              style={{
-                textAlign: "justify",
-                textAlignLast: "left",
-                wordBreak: "keep-all",
-                overflowWrap: "normal",
-              }}
-            >
+            <div className="greeting-body-text space-y-8 text-gray-900 text-[clamp(15px,3.9vw,17.5px)] leading-[1.75] sm:leading-[1.85] md:leading-[1.9]">
               <p>
                 안녕하십니까. 복지디자인 사회적협동조합 이사장{" "}
                 <strong>신창섭</strong>입니다. 저희 조합은 한국침례신학대학교
