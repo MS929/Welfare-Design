@@ -115,10 +115,10 @@ mark, [data-hl] {
               “사람을 향한 사랑의 마음으로, 복지를 디자인하는 따뜻한 연결을
               시작합니다.”
             </blockquote>
-            <div className="mt-4 mb-8 h-[3px] w-14 rounded-full bg-[#3BA7A0]/35" />
+            <div className="mt-4 mb-8 h-[2px] w-full rounded-full bg-gradient-to-r from-[#3BA7A0]/45 via-[#3BA7A0]/20 to-transparent" />
             {/* 인사말 본문 문단
               - 문단 간 충분한 간격과 line-height로 편안한 읽기 경험 제공 */}
-            <div className="space-y-8 text-gray-800 text-[clamp(15px,3.9vw,17.5px)] leading-[1.75] sm:leading-[1.85] md:leading-[1.9]">
+            <div className="space-y-8 text-gray-1000 text-[clamp(15px,3.9vw,17.5px)] leading-[1.75] sm:leading-[1.85] md:leading-[1.9]">
               <p>
                 안녕하십니까. 복지디자인 사회적협동조합 이사장{" "}
                 <strong>신창섭</strong>입니다. 저희 조합은 한국침례신학대학교
