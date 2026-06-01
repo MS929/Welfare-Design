@@ -1547,10 +1547,51 @@ mark, [data-hl] {
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+/* PDF 저장/인쇄 시 화면용 overflow, shadow, grid 잘림 방지 */
+@media print {
+  html,
+  body,
+  #root,
+  main {
+    overflow: visible !important;
+    height: auto !important;
+  }
+
+  main,
+  section,
+  article,
+  div {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  img,
+  picture {
+    max-width: 100% !important;
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  a {
+    text-decoration: none !important;
+  }
+
+  .shadow,
+  .shadow-sm,
+  .shadow-md,
+  .shadow-lg {
+    box-shadow: none !important;
+  }
+}
     `,
         }}
       />
-      <main style={{ background: "#fff", overflowX: "hidden" }}>
+      <main
+        style={{
+          background: "#fff",
+          overflowX: "hidden",
+        }}
+      >
         <MainPopup isMobile={isMobile} isTablet={isTablet} isTouch={isTouch} />
         {/* ================= HERO(상단 캐러셀) ================= */}
         <Section
