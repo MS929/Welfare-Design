@@ -825,6 +825,7 @@ function MainPopup({ isMobile, isTablet, isTouch }) {
               display:flex;
               align-items:flex-start;
               justify-content:center;
+              overflow:auto;
             }
             .wrap {
               width:100%;
@@ -832,6 +833,7 @@ function MainPopup({ isMobile, isTablet, isTouch }) {
               background:#fff;
               display:flex;
               flex-direction:column;
+              overflow:visible;
             }
             .top {
               height:56px;
@@ -847,16 +849,22 @@ function MainPopup({ isMobile, isTablet, isTouch }) {
             }
             .img {
               width:100%;
-              aspect-ratio:16/10;
-              overflow:hidden;
-              background:#f1f5f9;
+              min-height:320px;
+              background:#f8fafc;
               border-bottom:1px solid #e5e7eb;
+              display:flex;
+              align-items:center;
+              justify-content:center;
+              padding:12px;
+              overflow:auto;
             }
             .img img {
               width:100%;
-              height:100%;
-              object-fit:cover;
+              height:auto;
+              object-fit:contain;
+              object-position:center;
               display:block;
+              background:#f8fafc;
             }
             .content {
               padding:28px 28px 22px;
@@ -1028,60 +1036,60 @@ function MainPopup({ isMobile, isTablet, isTouch }) {
     let blocked = false;
     let openedCount = 0;
 
-    sortedPopups.forEach((popup, index) => {
-      const hiddenDate = localStorage.getItem(`wd-main-popup-hidden-date:${popup.id}`);
-      if (hiddenDate === today && !forcePopup) return;
+      sortedPopups.forEach((popup, index) => {
+        const hiddenDate = localStorage.getItem(`wd-main-popup-hidden-date:${popup.id}`);
+        if (hiddenDate === today && !forcePopup) return;
 
-      const offset = index * 28;
-      const width = 520;
-      const height = popup.image ? 640 : 340;
-      const screenLeft = typeof window.screenX === "number" ? window.screenX : window.screenLeft || 0;
-      const screenTop = typeof window.screenY === "number" ? window.screenY : window.screenTop || 0;
-      const viewportW = window.innerWidth || window.outerWidth || 1440;
-      const viewportH = window.innerHeight || window.outerHeight || 900;
+        const offset = index * 28;
+        const width = 520;
+        const height = popup.image ? 760 : 380;
+        const screenLeft = typeof window.screenX === "number" ? window.screenX : window.screenLeft || 0;
+        const screenTop = typeof window.screenY === "number" ? window.screenY : window.screenTop || 0;
+        const viewportW = window.innerWidth || window.outerWidth || 1440;
+        const viewportH = window.innerHeight || window.outerHeight || 900;
 
-      // PC 팝업 위치: 브라우저 화면 중앙보다 살짝 왼쪽으로 고정
-      // 27인치 대형 모니터에서 오른쪽 벽에 붙어 보이는 현상을 방지
-      const left = Math.max(
-        40,
-        Math.round(screenLeft + viewportW * 0.42 - width / 2 + offset)
-      );
+        // PC 팝업 위치: 브라우저 화면 중앙보다 살짝 왼쪽으로 고정
+        // 27인치 대형 모니터에서 오른쪽 벽에 붙어 보이는 현상을 방지
+        const left = Math.max(
+          40,
+          Math.round(screenLeft + viewportW * 0.42 - width / 2 + offset)
+        );
 
-      const top = Math.max(
-        60,
-        Math.round(screenTop + viewportH * 0.16 + offset)
-      );
+        const top = Math.max(
+          60,
+          Math.round(screenTop + viewportH * 0.16 + offset)
+        );
 
-      const features = [
-        `width=${width}`,
-        `height=${height}`,
-        `left=${left}`,
-        `top=${top}`,
-        "resizable=yes",
-        "scrollbars=yes",
-        "toolbar=no",
-        "menubar=no",
-        "location=no",
-        "status=no",
-      ].join(",");
+        const features = [
+          `width=${width}`,
+          `height=${height}`,
+          `left=${left}`,
+          `top=${top}`,
+          "resizable=yes",
+          "scrollbars=yes",
+          "toolbar=no",
+          "menubar=no",
+          "location=no",
+          "status=no",
+        ].join(",");
 
-      // 같은 이름의 팝업창을 재사용하면 브라우저가 이전 위치를 기억하므로 매번 새 이름 사용
-      const popupWindow = window.open("", `welfareDesignPopup_${Date.now()}_${index}`, features);
+        // 같은 이름의 팝업창을 재사용하면 브라우저가 이전 위치를 기억하므로 매번 새 이름 사용
+        const popupWindow = window.open("", `welfareDesignPopup_${Date.now()}_${index}`, features);
 
-      if (!popupWindow || popupWindow.closed || typeof popupWindow.closed === "undefined") {
-        blocked = true;
-        return;
-      }
+        if (!popupWindow || popupWindow.closed || typeof popupWindow.closed === "undefined") {
+          blocked = true;
+          return;
+        }
 
-      try {
-        popupWindow.resizeTo(width, height);
-        popupWindow.moveTo(left, top);
-      } catch {}
+        try {
+          popupWindow.resizeTo(width, height);
+          popupWindow.moveTo(left, top);
+        } catch {}
 
-      openedWindowsRef.current.push(popupWindow);
-      openedCount += 1;
-      writePopupWindow(popupWindow, popup);
-    });
+        openedWindowsRef.current.push(popupWindow);
+        openedCount += 1;
+        writePopupWindow(popupWindow, popup);
+      });
 
     // 새 창이 하나도 못 열렸을 때만 사이트 내부 모달로 대체 표시
     if (blocked && openedCount === 0) setOpen(true);
