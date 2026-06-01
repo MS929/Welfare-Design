@@ -83,6 +83,7 @@ collections:
       - label: "본문"
         name: "body"
         widget: "markdown"
+        required: false
 
   - name: "notices"
     label: "공지사항"
@@ -113,7 +114,7 @@ collections:
         widget: "select"
         options: ["공지", "정보공개"]
         default: "공지"
-      - { label: "본문", name: "body", widget: "markdown" }
+      - { label: "본문", name: "body", widget: "markdown", required: false }
 
   - name: "faq"
     label: "faq"
@@ -130,7 +131,7 @@ collections:
         default: "후원관련 문의"
       - { label: "정렬 순서", name: "order", widget: "number", default: 0 }
       - { label: "노출 여부", name: "published", widget: "boolean", default: true }
-      - { label: "답변", name: "body", widget: "markdown" }
+      - { label: "답변", name: "body", widget: "markdown", required: false }
 
   - name: "popup"
     label: "메인 팝업"
@@ -165,7 +166,7 @@ collections:
           - { label: "후원안내", value: "/support/guide" }
           - { label: "FAQ", value: "/support/faq" }
           - { label: "조합 가입", value: "/support/combination" }
-      - { label: "내용", name: "body", widget: "markdown" }
+      - { label: "내용", name: "body", widget: "markdown", required: false }
 
 media_library:
   name: cloudinary
