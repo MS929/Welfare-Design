@@ -330,8 +330,8 @@ const Section = ({
                 padding: "24px 0",
               }
             : {
-                width: "100vw",
-                margin: "0 calc(50% - 50vw)",
+                width: "100%",
+                margin: 0,
                 padding: "40px 0",
               }),
           ...style,
@@ -1589,7 +1589,7 @@ mark, [data-hl] {
       <main
         style={{
           background: "#fff",
-          overflowX: "hidden",
+          overflowX: "clip",
         }}
       >
         <MainPopup isMobile={isMobile} isTablet={isTablet} isTouch={isTouch} />
@@ -1885,9 +1885,9 @@ mark, [data-hl] {
             borderTop: `1px solid ${PALETTE.line}`,
             borderBottom: `1px solid ${PALETTE.line}`,
             boxShadow: "inset 0 1px 0 rgba(255,255,255,.6)",
-            width: "100vw",
-            marginLeft: "calc(50% - 50vw)",
-            marginRight: "calc(50% - 50vw)",
+            width: "100%",
+            marginLeft: 0,
+            marginRight: 0,
             padding: isTablet ? "28px 0" : isWide ? "30px 0" : "28px 0",
           }}
         >
@@ -2322,9 +2322,9 @@ mark, [data-hl] {
             background: PALETTE.pageBg,
             borderTop: `1px solid ${PALETTE.line}`,
             padding: "28px 0",
-            width: "100vw",
-            marginLeft: "calc(50% - 50vw)",
-            marginRight: "calc(50% - 50vw)",
+            width: "100%",
+            marginLeft: 0,
+            marginRight: 0,
           }}
         >
           <Section id="support" style={{ padding: "24px 20px" }}>
