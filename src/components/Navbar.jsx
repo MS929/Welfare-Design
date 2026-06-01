@@ -191,11 +191,11 @@ h1, h2, h3, h4, h5 { line-height: 1.25; }
         className="sticky top-0 z-50 bg-white shadow"
         onMouseLeave={closeMega}
       >
-        <nav className="w-full relative px-4 md:pl-[120px] md:pr-6 py-3 grid grid-cols-[auto,1fr,auto] items-center gap-6">
+        <nav className="w-full relative px-4 md:px-6 xl:pl-[120px] xl:pr-6 py-3 grid grid-cols-[auto,minmax(0,1fr),auto] items-center gap-3 xl:gap-6">
           {/* 로고 영역 */}
           <Link
             to="/"
-            className="flex items-center mr-4 md:mr-8"
+            className="flex items-center mr-2 xl:mr-8 shrink-0"
             onClick={(e) => {
               if (location.pathname === "/") {
                 e.preventDefault();
@@ -207,7 +207,7 @@ h1, h2, h3, h4, h5 { line-height: 1.25; }
             <img
               src={logoSrc}
               alt="복지 디자인 로고"
-              className="h-12 w-auto md:h-16 object-contain block"
+              className="h-12 w-auto lg:h-14 xl:h-16 object-contain block max-w-[220px] lg:max-w-[260px] xl:max-w-none"
               loading="eager"
               fetchPriority="high"
               decoding="async"
@@ -217,13 +217,13 @@ h1, h2, h3, h4, h5 { line-height: 1.25; }
           {/* 상단 탭(데스크톱) */}
           <ul
             ref={tabsRef}
-            className="hidden md:grid col-start-2 grid-cols-4 gap-13 justify-items-center items-center text-center w-[820px] mx-auto"
+            className="hidden lg:grid col-start-2 grid-cols-4 gap-4 xl:gap-13 justify-items-center items-center text-center w-full max-w-[820px] mx-auto"
           >
             {sections.map((sec, idx) => (
-              <li key={sec.title} className="flex items-center">
+              <li key={sec.title} className="flex items-center justify-center min-w-0 w-full">
                 <button
                   type="button"
-                  className={`text-left font-extrabold text-[22px] tracking-[-0.02em] text-[#111827] hover:text-emerald-700 leading-tight transition-colors ${
+                  className={`max-w-full text-center font-extrabold text-[18px] xl:text-[22px] tracking-[-0.02em] text-[#111827] hover:text-emerald-700 leading-tight transition-colors whitespace-nowrap ${
                     (megaOpen && activeIdx === idx) || (!megaOpen && currentSectionIdx === idx)
                       ? "text-emerald-700 underline decoration-emerald-500 underline-offset-8"
                       : ""
@@ -240,7 +240,7 @@ h1, h2, h3, h4, h5 { line-height: 1.25; }
           </ul>
 
           {/* 우측 버튼 */}
-          <div className="hidden md:flex items-center gap-3 col-start-3 justify-self-end">
+          <div className="hidden lg:flex items-center gap-2 xl:gap-3 col-start-3 justify-self-end shrink-0">
             <Link
               to="/support/guide"
               className={CTA_SECONDARY}
@@ -257,7 +257,7 @@ h1, h2, h3, h4, h5 { line-height: 1.25; }
 
           {/* 모바일 햄버거 버튼 */}
           <button
-            className="md:hidden ml-auto rounded-md p-3 hover:bg-gray-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 z-[75] min-w-[44px] min-h-[44px] flex items-center justify-center"
+            className="lg:hidden ml-auto rounded-md p-3 hover:bg-gray-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 z-[75] min-w-[44px] min-h-[44px] flex items-center justify-center"
             style={{ touchAction: "manipulation" }}
             onClick={() => setMobileOpen((v) => !v)}
             aria-label="toggle menu"
@@ -387,14 +387,14 @@ h1, h2, h3, h4, h5 { line-height: 1.25; }
         {/* 모바일 메뉴 오버레이 */}
         {mobileOpen && (
           <div
-            className="fixed inset-0 z-40 md:hidden"
+            className="fixed inset-0 z-40 lg:hidden"
             onClick={() => setMobileOpen(false)}
             aria-hidden="true"
           />
         )}
 
         {mobileOpen && (
-          <div className="md:hidden absolute left-0 right-0 top-full z-[70] border-t bg-white shadow-lg">
+          <div className="lg:hidden absolute left-0 right-0 top-full z-[70] border-t bg-white shadow-lg">
             <div className="px-4 py-3 flex gap-2 items-center sticky top-0 bg-white z-10 border-b">
               <Link
                 to="/support/guide"
