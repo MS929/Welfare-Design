@@ -1145,9 +1145,22 @@ function MainPopup({ isMobile, isTablet, isTouch }) {
           <div
             style={{
               width: "100%",
-              aspectRatio: isMobile ? "4 / 3" : "16 / 10",
+
+              minHeight: isMobile ? 240 : 320,
+
+              maxHeight: isMobile ? 420 : 520,
+
               background: "#F8FAFC",
+
               overflow: "hidden",
+
+              display: "flex",
+
+              alignItems: "center",
+
+              justifyContent: "center",
+
+              padding: 12,
             }}
           >
             <img
@@ -1157,15 +1170,24 @@ function MainPopup({ isMobile, isTablet, isTouch }) {
               decoding="async"
               style={{
                 width: "100%",
+
                 height: "100%",
-                objectFit: "cover",
+
+                objectFit: "contain",
+
+                objectPosition: "center",
+
                 display: "block",
+
+                background: "#f8fafc",
               }}
             />
           </div>
         )}
 
-        <div style={{ padding: isMobile ? "20px 20px 16px" : "24px 26px 18px" }}>
+        <div
+          style={{ padding: isMobile ? "20px 20px 16px" : "24px 26px 18px" }}
+        >
           {fallbackPopup.title && (
             <h2
               style={{
@@ -1248,7 +1270,9 @@ function MainPopup({ isMobile, isTablet, isTouch }) {
                   cursor: "pointer",
                 }}
               >
-                {useModalPopup && activePopupIndex < modalPopups.length - 1 ? "다음" : "닫기"}
+                {useModalPopup && activePopupIndex < modalPopups.length - 1
+                  ? "다음"
+                  : "닫기"}
               </button>
 
               {fallbackPopup.buttonLink && fallbackPopup.buttonLink !== "#" && (
