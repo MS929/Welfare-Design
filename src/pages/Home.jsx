@@ -1130,7 +1130,7 @@ function MainPopup({ isMobile, isTablet, isTouch }) {
         inset: 0,
         zIndex: 9999,
         display: "flex",
-        alignItems: isMobile ? "flex-end" : "center",
+        alignItems: isMobile ? "center" : "center",
         justifyContent: "center",
         padding: isMobile ? 14 : 24,
         background: "rgba(15, 23, 42, 0.42)",
@@ -1141,8 +1141,11 @@ function MainPopup({ isMobile, isTablet, isTouch }) {
         style={{
           width: "100%",
           maxWidth: isMobile ? 420 : 520,
+          maxHeight: isMobile ? "calc(100dvh - 96px)" : "calc(100vh - 64px)",
           borderRadius: isMobile ? 22 : 26,
-          overflow: "hidden",
+          overflowY: "auto",
+          overflowX: "hidden",
+          WebkitOverflowScrolling: "touch",
           background: "#fff",
           border: "1px solid rgba(255,255,255,.75)",
           boxShadow: "0 24px 70px rgba(0,0,0,.22)",
@@ -1153,22 +1156,12 @@ function MainPopup({ isMobile, isTablet, isTouch }) {
           <div
             style={{
               width: "100%",
-
-              minHeight: isMobile ? 240 : 320,
-
-              maxHeight: isMobile ? 420 : 520,
-
               background: "#F8FAFC",
-
-              overflow: "hidden",
-
+              overflow: "visible",
               display: "flex",
-
               alignItems: "center",
-
               justifyContent: "center",
-
-              padding: 12,
+              padding: isMobile ? 8 : 12,
             }}
           >
             <img
@@ -1178,15 +1171,11 @@ function MainPopup({ isMobile, isTablet, isTouch }) {
               decoding="async"
               style={{
                 width: "100%",
-
-                height: "100%",
-
+                height: "auto",
+                maxHeight: "none",
                 objectFit: "contain",
-
                 objectPosition: "center",
-
                 display: "block",
-
                 background: "#f8fafc",
               }}
             />
