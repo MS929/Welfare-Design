@@ -20,32 +20,8 @@
 import BizLayout from "./_Layout";
 
 export default function NeedsSurvey() {
-  // Cloudinary fetch URL 생성(SSR에서도 안전하게 origin 처리)
-  // 배포/로컬 환경에서 이미지 절대경로를 만들기 위한 기준 도메인
-  const ORIGIN =
-    typeof window !== "undefined"
-      ? window.location.origin
-      : "https://welfaredesign.netlify.app";
-  // Cloudinary가 가져갈 원본 이미지(로컬 정적 파일) 경로
-  const RAW = `${ORIGIN}/images/business/donation.png?v=2`;
-  // 기본 품질: 자동 포맷/품질 + 너비(w)만 지정
-  const cld = (w, fmt = "auto") =>
-    `https://res.cloudinary.com/dxeadg9wi/image/fetch/c_limit,f_${fmt},q_auto,w_${w}/${encodeURIComponent(
-      RAW
-    )}`;
-  // 모바일 최적화: dpr_auto + q_auto:eco로 데이터 절감
-  const cldM = (w, fmt = "auto") =>
-    `https://res.cloudinary.com/dxeadg9wi/image/fetch/c_limit,f_${fmt},q_auto:eco,dpr_auto,w_${w}/${encodeURIComponent(
-      RAW
-    )}`;
   return (
     <>
-      {/* Cloudinary 연결을 미리 열어 첫 이미지 로딩 지연을 줄임 */}
-      <link
-        rel="preconnect"
-        href="https://res.cloudinary.com"
-        crossOrigin="anonymous"
-      />
       {/* 모바일/브라우저별 자동 텍스트 확대 등으로 생기는 레이아웃 흔들림을 방지하는 가드 CSS */}
       <style
         id="page-text-guard"
@@ -98,49 +74,20 @@ mark, [data-hl] {
           <div className="flex justify-center">
             {/* 좌측 이미지: JS 동기화 제거, 순수 CSS로 동일 높이 */}
             <div className="w-full max-w-[1050px] mx-auto">
-              <picture>
-                {/* 모바일: Cloudinary 최적화(AVIF/WebP + srcset) */}
-                <source
-                  media="(max-width: 767px)"
-                  type="image/avif"
-                  srcSet={`${cldM(320, "avif")} 320w, ${cldM(
-                    480,
-                    "avif",
-                  )} 480w, ${cldM(640, "avif")} 640w, ${cldM(
-                    750,
-                    "avif",
-                  )} 750w, ${cldM(828, "avif")} 828w`}
-                  sizes="100vw"
-                />
-                <source
-                  media="(max-width: 767px)"
-                  type="image/webp"
-                  srcSet={`${cldM(320, "webp")} 320w, ${cldM(
-                    480,
-                    "webp",
-                  )} 480w, ${cldM(640, "webp")} 640w, ${cldM(
-                    750,
-                    "webp",
-                  )} 750w, ${cldM(828, "webp")} 828w`}
-                  sizes="100vw"
-                />
-                {/* 태블릿/데스크탑: 로컬 정적 PNG 사용 */}
-                <img
-                  src="/images/business/donation.png?v=2"
-                  alt="보조기기 기증 및 수리 "
-                  loading="eager"
-                  fetchPriority="high"
-                  decoding="async"
-                  width="1400"
-                  height="1000"
-                  sizes="100vw"
-                  className="w-full h-auto object-contain rounded-2xl"
-                  style={{
-                    imageRendering: "auto",
-                    display: "block",
-                  }}
-                />
-              </picture>
+              <img
+                src="/images/business/donation.png?v=2"
+                alt="보조기기 기증 및 수리"
+                loading="eager"
+                fetchPriority="high"
+                decoding="async"
+                width="1400"
+                height="1000"
+                className="w-full h-auto object-contain rounded-2xl"
+                style={{
+                  imageRendering: "auto",
+                  display: "block",
+                }}
+              />
             </div>
           </div>
         </div>
