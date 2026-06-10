@@ -1,19 +1,11 @@
-# React + Vite
-
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
-
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
-
----
-
 # 복지디자인 홈페이지
+
+## 프로젝트 개요
+
+복지디자인 사회적협동조합 홈페이지입니다.
+
+공지사항, 복지디자인 이야기, 연혁, FAQ, 후원안내 등의 콘텐츠를 제공하며,
+CMS를 통해 관리자가 직접 콘텐츠를 등록·수정·관리할 수 있도록 구축되었습니다.
 
 복지디자인 홈페이지는 지역사회의 복지 활동과 지원사업을 알리고,
 회원·후원자·이용자 간의 소통을 돕기 위해 제작된 웹사이트입니다.
@@ -22,12 +14,17 @@ Netlify·Cloudinary·Sentry 기반으로 운영 안정성과 편의성을 강화
 
 - **Production URL**: https://welfaredesign.netlify.app  
 
+## 관련 문서
+
+- CHANGELOG.md : 홈페이지 구축 및 업데이트 이력
+- CMS 관리자 메뉴얼.pdf : 관리자용 콘텐츠 등록 및 운영 가이드
+
 ---
 
 ## 주요 기술 스택
 - **프론트엔드**: React + Vite
 - **배포**: Netlify (main 브랜치 푸시 시 자동 배포)
-- **콘텐츠 관리**: Netlify CMS (직접 글 등록/수정 가능)
+- **콘텐츠 관리**: Decap CMS (관리자 직접 콘텐츠 등록/수정)
 - **이미지 관리**: Cloudinary (저장/최적화/배포)
 - **에러 모니터링**: Sentry (프론트엔드 오류 자동 수집)
 
@@ -74,11 +71,28 @@ npm run build
 ## 레포 구조 (발췌)
 ```
 src/
-  components/   # UI 컴포넌트
-  pages/        # 페이지 단위 컴포넌트
+  components/        # 공통 UI 컴포넌트
+  pages/             # 페이지 컴포넌트
+  content/           # CMS 콘텐츠
+  layouts/           # 공통 레이아웃
 public/
-  images/       # 정적 이미지
-README.md       # 프로젝트 설명
+  images/            # 정적 이미지
+  uploads/           # 업로드 파일
+admin/
+  config.yml         # CMS 설정
+README.md            # 프로젝트 설명
+CHANGELOG.md         # 구축 및 업데이트 이력
 ```
 
 ---
+
+## 운영 참고
+
+콘텐츠 수정 시:
+
+CMS 저장
+→ GitHub 반영
+→ Netlify 자동 배포
+→ 홈페이지 반영
+
+변경 이력은 CHANGELOG.md에 기록합니다.
