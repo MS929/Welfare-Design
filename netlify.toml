@@ -4,4 +4,3 @@
 
   # CMS 콘텐츠/업로드만 변경된 경우에만 빌드 스킵
   # - 코드/설정 등 다른 파일이 하나라도 바뀌면 빌드는 반드시 수행
-  ignore = "bash -lc 'CHANGED=$(git diff --name-only $CACHED_COMMIT_REF $COMMIT_REF); echo \"$CHANGED\" | grep -qvE \"^(src/content/|public/uploads/)\" || exit 0; exit 1'"
