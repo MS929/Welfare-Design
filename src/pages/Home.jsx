@@ -40,6 +40,9 @@ const PALETTE = {
   orange: "#ED6A32",
   yellow: "#F4B731",
   teal: "#3BA7A0",
+  brand: "#C58A4A",
+  brandLight: "#E7D0AF",
+  brandDark: "#B7773B",
   grayBg: "#F5F7FA",
   mintPeachBg: "linear-gradient(180deg, #E8F4F2 0%, #FCE9E2 100%)",
   grayCard: "#FFFFFF",
@@ -2034,8 +2037,9 @@ mark, [data-hl] {
                           e.currentTarget.style.transform = "translateY(-2px)";
                           e.currentTarget.style.boxShadow =
                             "0 8px 18px rgba(0,0,0,.10)";
-                          e.currentTarget.style.borderColor = PALETTE.teal;
-                          e.currentTarget.style.outline = `3px solid ${PALETTE.teal}22`;
+                          e.currentTarget.style.borderColor = PALETTE.brand;
+                          e.currentTarget.style.outline = "3px solid rgba(197,138,74,.22)";
+                          e.currentTarget.style.background = "rgba(197,138,74,.05)";
                         }}
                         onMouseLeave={(e) => {
                           e.currentTarget.style.transform = "none";
@@ -2043,6 +2047,7 @@ mark, [data-hl] {
                             "0 2px 8px rgba(0,0,0,.04)";
                           e.currentTarget.style.borderColor = PALETTE.line;
                           e.currentTarget.style.outline = "none";
+                          e.currentTarget.style.background = "#fff";
                         }}
                       >
                         <div
@@ -2096,7 +2101,7 @@ mark, [data-hl] {
                         </div>
                         <span
                           aria-hidden
-                          style={{ color: PALETTE.teal, fontWeight: 800 }}
+                          style={{ color: PALETTE.brand, fontWeight: 800 }}
                         >
                           ›
                         </span>
