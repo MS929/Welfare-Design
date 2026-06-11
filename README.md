@@ -12,7 +12,7 @@ CMS를 통해 관리자가 직접 콘텐츠를 등록·수정·관리할 수 있
 CMS를 통해 관리자가 직접 콘텐츠를 등록/수정할 수 있으며,
 Netlify·Cloudinary 기반으로 운영 안정성과 편의성을 강화했습니다.
 
-- **Production URL**: https://welfaredesign.netlify.app  
+- **Production URL**: https://welfaredesign.kr 
 
 ## 관련 문서
 
