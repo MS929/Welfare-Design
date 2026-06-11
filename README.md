@@ -10,7 +10,7 @@ CMS를 통해 관리자가 직접 콘텐츠를 등록·수정·관리할 수 있
 복지디자인 홈페이지는 지역사회의 복지 활동과 지원사업을 알리고,
 회원·후원자·이용자 간의 소통을 돕기 위해 제작된 웹사이트입니다.
 CMS를 통해 관리자가 직접 콘텐츠를 등록/수정할 수 있으며,
-Netlify·Cloudinary·Sentry 기반으로 운영 안정성과 편의성을 강화했습니다.
+Netlify·Cloudinary 기반으로 운영 안정성과 편의성을 강화했습니다.
 
 - **Production URL**: https://welfaredesign.netlify.app  
 
@@ -26,7 +26,6 @@ Netlify·Cloudinary·Sentry 기반으로 운영 안정성과 편의성을 강화
 - **배포**: Netlify (main 브랜치 푸시 시 자동 배포)
 - **콘텐츠 관리**: Decap CMS (관리자 직접 콘텐츠 등록/수정)
 - **이미지 관리**: Cloudinary (저장/최적화/배포)
-- **에러 모니터링**: Sentry (프론트엔드 오류 자동 수집)
 
 ---
 
@@ -48,9 +47,6 @@ Netlify·Cloudinary·Sentry 기반으로 운영 안정성과 편의성을 강화
 - 커밋/푸시 후 자동 빌드 및 배포
 - 배포 상태/로그는 Netlify 대시보드에서 확인
 
-### 에러 모니터링 (Sentry)
-- 프론트엔드 오류 자동 수집
-- Netlify 환경변수로 DSN/프로젝트 정보 관리
 
 ---
 
