@@ -2033,12 +2033,16 @@ mark, [data-hl] {
                         onMouseEnter={(e) => {
                           e.currentTarget.style.transform = "translateY(-2px)";
                           e.currentTarget.style.boxShadow =
-                            "0 6px 14px rgba(0,0,0,.08)";
+                            "0 8px 18px rgba(0,0,0,.10)";
+                          e.currentTarget.style.borderColor = PALETTE.teal;
+                          e.currentTarget.style.outline = `3px solid ${PALETTE.teal}22`;
                         }}
                         onMouseLeave={(e) => {
                           e.currentTarget.style.transform = "none";
                           e.currentTarget.style.boxShadow =
                             "0 2px 8px rgba(0,0,0,.04)";
+                          e.currentTarget.style.borderColor = PALETTE.line;
+                          e.currentTarget.style.outline = "none";
                         }}
                       >
                         <div
