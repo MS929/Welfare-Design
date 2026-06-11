@@ -139,7 +139,7 @@ export default function AboutHistory() {
         `}</style>
 
         <div
-          className="pointer-events-none absolute inset-x-0 -top-8 h-20 bg-gradient-to-b from-[var(--pri-soft)] via-[var(--sec-soft)] to-transparent blur-2xl"
+          className="pointer-events-none absolute inset-x-0 -top-8 h-20 bg-gradient-to-b from-[var(--pri-soft)] via-[var(--sec-soft)] to-transparent opacity-70"
           aria-hidden="true"
         />
 
@@ -202,7 +202,7 @@ export default function AboutHistory() {
                   <div className="space-y-6 md:space-y-8">
                     {byYear[year].map((item, i) => (
                       <div key={`${item.ym}-${i}`} className="relative">
-                        <article className="relative w-full max-w-full min-w-0 bg-white/90 backdrop-blur-sm border border-slate-200 rounded-xl shadow-sm hover:shadow-md transition overflow-visible md:overflow-hidden">
+                        <article className="relative w-full max-w-full min-w-0 bg-white border border-slate-200 rounded-xl shadow-sm overflow-visible md:overflow-hidden">
                           <div className="absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b from-[var(--pri)] to-[var(--sec)]" />
 
                           <div className="p-4 pr-6 md:p-6 max-w-full">
