@@ -74,24 +74,37 @@ const CONTAINER = 1440;
 const HERO_IMAGES = ["/images/hero/main0.png", "/images/hero/main1.png"];
 const HERO_INTERVAL = 10000; // 10초
 
+// CMS 메인 팝업 데이터 로드
+// - src/content/popup/*.md[x] 파일을 빌드 시점에 raw 문자열로 불러옴
+// - 관리자 CMS에서 "메인 팝업"으로 작성한 글이 이 데이터에 포함됨
+// - enabled: true 인 팝업만 실제 화면에 표시됨
 const HOME_POPUP_MODULES = import.meta.glob("../content/popup/*.{md,mdx}", {
   query: "?raw",
   import: "default",
   eager: true,
 });
 
+// CMS 복지디자인 이야기 데이터 로드
+// - 메인 화면의 "복지디자인 소식" 카드 목록에 사용
+// - 제목, 날짜, 썸네일, 카테고리 정보를 구성함
 const HOME_STORY_MODULES = import.meta.glob("../content/stories/*.{md,mdx}", {
   query: "?raw",
   import: "default",
   eager: true,
 });
 
+// CMS 공지사항/정보공개 데이터 로드
+// - 메인 하단의 공지사항·정보공개 목록에 사용
+// - category 값에 따라 "공지"와 "정보공개"로 분리 표시됨
 const HOME_NOTICE_MODULES = import.meta.glob("../content/notices/*.{md,mdx}", {
   query: "?raw",
   import: "default",
   eager: true,
 });
 
+// 메인 페이지용 공지사항 목록 생성
+// - frontmatter에서 title/date/category/pinned 값을 읽음
+// - pinned가 true인 글을 우선 노출하고, 이후 최신 날짜순으로 정렬
 async function fetchHomeNoticeItems() {
   const mapped = Object.entries(HOME_NOTICE_MODULES).map(([path, raw]) => {
     const fileName = path.split("/").pop() || "";
@@ -280,6 +293,9 @@ function normalizeStoryType(rawType) {
     : "기타";
 }
 
+// 메인 페이지용 복지디자인 이야기 목록 생성
+// - frontmatter에서 제목, 날짜, 카테고리, 썸네일 정보를 읽어 카드 데이터로 변환
+// - 최신 날짜순으로 정렬하여 메인 화면에 노출
 async function fetchHomeStoryItems() {
   const mapped = Object.entries(HOME_STORY_MODULES).map(([path, raw]) => {
     const fileName = path.split("/").pop() || "";
@@ -719,6 +735,10 @@ const StoryCard = (props) => {
 };
 
 
+// CMS 메인 팝업 데이터 생성
+// - popup 폴더의 md/mdx 파일을 읽어 메인 팝업 데이터로 변환
+// - enabled=true 인 팝업만 사용
+// - 최신 날짜순으로 정렬하여 반환
 async function fetchMainPopupData() {
   const popups = Object.entries(HOME_POPUP_MODULES).map(([path, raw]) => {
     const fileName = path.split("/").pop() || "";
@@ -755,6 +775,9 @@ function MainPopup({ isMobile, isTablet, isTouch }) {
   const fallbackPopup = modalPopups[activePopupIndex] || sortedPopups[0] || null;
   const openedWindowsRef = useRef([]);
   const didRunRef = useRef(false);
+  // 모바일/태블릿/터치 환경에서는
+  // 브라우저 새 창(window.open) 대신
+  // 사이트 내부 모달 팝업을 사용한다.
   const useModalPopup = isMobile || isTablet || isTouch;
 
   useEffect(() => {
@@ -792,12 +815,18 @@ function MainPopup({ isMobile, isTablet, isTouch }) {
     openedWindowsRef.current = [];
   };
 
+  // "오늘 하루 보지 않기"
+  // localStorage에 날짜를 저장하여
+  // 같은 날에는 동일 팝업을 다시 띄우지 않는다.
   const markHiddenToday = (popupId) => {
     if (typeof window === "undefined" || !popupId) return;
     const today = new Date().toISOString().slice(0, 10);
     window.localStorage.setItem(`wd-main-popup-hidden-date:${popupId}`, today);
   };
 
+    // PC 새 창 팝업 생성
+    // window.open으로 열린 팝업창 내부에
+    // HTML/CSS를 직접 작성하여 표시한다.
     const writePopupWindow = (popupWindow, popup) => {
       const title = escapeHtml(popup.title || "복지디자인 안내");
       const body = escapeHtml(
@@ -1020,7 +1049,10 @@ function MainPopup({ isMobile, isTablet, isTouch }) {
     closeOpenedWindows();
     setOpen(false);
 
-    // 모바일/패드/터치에서는 window.open 대신 내부 모달로 여러 팝업을 순서대로 보여준다.
+    // 모바일/패드/터치에서는
+    // 새 창 대신 사이트 내부 모달을 사용한다.
+    // 여러 팝업이 활성화되어 있으면
+    // 하나씩 순서대로 표시한다.
     if (useModalPopup) {
       const nextModalPopups = sortedPopups.filter((popup) => {
         const hiddenDate = localStorage.getItem(`wd-main-popup-hidden-date:${popup.id}`);
@@ -1039,6 +1071,9 @@ function MainPopup({ isMobile, isTablet, isTouch }) {
     let blocked = false;
     let openedCount = 0;
 
+      // PC에서는 활성화된 팝업을 각각 새 창으로 표시
+      // 여러 개가 enabled=true이면 여러 팝업창이 열린다.
+      // 팝업 차단 시에는 내부 모달 방식으로 대체된다.
       sortedPopups.forEach((popup, index) => {
         const hiddenDate = localStorage.getItem(`wd-main-popup-hidden-date:${popup.id}`);
         if (hiddenDate === today && !forcePopup) return;
@@ -1315,7 +1350,9 @@ export default function Home1() {
   // 공지/정보공개 목록 데이터
   const [notices, setNotices] = useState([]);
   const [loadingNotices, setLoadingNotices] = useState(true);
-  // 복지디자인 소식 필터(카테고리) 상태
+  // 복지디자인 소식 카테고리 필터 상태
+  // - 사용자가 선택한 탭(전체/사업/교육/회의/기타)을 저장
+  // - 선택된 값에 따라 메인 카드 목록을 필터링한다.
   const [storyActive, setStoryActive] = useState("전체");
   const [storyItems, setStoryItems] = useState([]);
   const storyPills = useMemo(
@@ -1415,7 +1452,11 @@ export default function Home1() {
     };
   }, []);
 
-  // ===== Image preload to reduce tab-switch delay (Cloudinary / CDN) =====
+  // ===== 이미지 사전 로딩 =====
+  // - 소식 탭 전환 시 썸네일이 늦게 나타나는 현상을 줄이기 위한 처리
+  // - Cloudinary image/upload URL만 최적화하여 브라우저 캐시 효율을 높인다.
+  // 브라우저 캐시에 이미지를 미리 적재
+  // 이후 탭을 변경해도 썸네일이 빠르게 표시되도록 한다.
   const preloadImage = (url) => {
     if (!url) return;
     try {
@@ -1426,6 +1467,9 @@ export default function Home1() {
     } catch {}
   };
 
+  // CMS 썸네일 URL 생성
+  // - Cloudinary image/upload 이미지는 화면 크기에 맞게 변환 URL을 생성
+  // - 일반 이미지는 원본 URL을 그대로 사용
   const getStoryThumbUrl = (thumbnail) => {
     const src = extractThumbSrc(thumbnail);
     if (!src) return "";
@@ -1492,6 +1536,8 @@ export default function Home1() {
     return () => window.removeEventListener("pageshow", resetStyles);
   }, []);
 
+  // 공지사항 데이터를 '공지'와 '정보공개' 두 그룹으로 분리
+  // 메인 화면에서 두 개의 목록을 동시에 출력하기 위한 전처리이다.
   // 공지 데이터를 카테고리(공지/정보공개) 기준으로 분리해 화면에 표시하기 위한 전처리
   const noticesSplit = useMemo(() => {
     const norm = (c) => normalizeNoticeCategory(c);
@@ -1997,7 +2043,9 @@ mark, [data-hl] {
                     </p>
                   </div>
 
-                  {/* 우측: 빠르게 가기 카드 4개 영역 (퀵링크 카드) */}
+                  {/* 우측: 빠르게 가기 카드 4개 영역 (퀵링크 카드)
+                      - 마우스를 올리면 브랜드 컬러 테두리와 배경을 적용하여
+                      - 현재 선택한 카드를 직관적으로 확인할 수 있도록 구성 */}
                   <div
                     style={{
                       display: "grid",
