@@ -14,7 +14,8 @@
 //  - 긴 문장/URL/영문이 있어도 레이아웃이 깨지지 않도록 페이지 전용 텍스트 가드(style 주입) 적용
 //
 // [이미지 처리]
-//  - OptImg: Cloudinary 기반 포맷(avif/webp/png) 자동 선택 + lazy/eager 제어
+//  - OptImg: public/images 경로의 정적 이미지를 표시하는 페이지 전용 이미지 컴포넌트
+//  - Cloudinary 변환은 사용하지 않으며, priority 값에 따라 lazy/eager 로딩만 제어
 // -----------------------------------------------------------------------------
 import { Link } from "react-router-dom";
 import { useState } from "react";
@@ -275,7 +276,7 @@ mark, [data-hl] {
               <a className="text-sky-600" href="mailto:wdsc2025@naver.com">
                 wdsc2025@naver.com
               </a>
-            </li>
+            </li> 
             <li>전화: 010-4303-6693 (평일 09:00–18:00)</li>
           </ul>
         </div>
@@ -292,9 +293,10 @@ mark, [data-hl] {
 
 // -----------------------------------------------------------------------------
 // OptImg
-//  - Cloudinary(image/fetch) 기반 최적화 이미지 컴포넌트
-//  - avif → webp → png 순으로 제공하여 브라우저가 지원하는 포맷을 자동 선택
+//  - 후원 안내 페이지 전용 정적 이미지 컴포넌트
+//  - public/images 경로의 이미지를 그대로 표시하며 Cloudinary 변환은 사용하지 않음
 //  - priority=true일 때 LCP 후보 이미지를 빠르게 로딩(eager/high)하도록 힌트 제공
+//  - 이미지 로딩 실패 시 콘솔에 경로를 출력하여 문제 확인이 쉽도록 처리
 // -----------------------------------------------------------------------------
 function OptImg({ path, alt, width = 112, height = 112, className = "", priority = false }) {
   return (
@@ -367,6 +369,11 @@ function SupportPanel({ icon, title, items = [], accent = "teal" }) {
   );
 }
 
+// -----------------------------------------------------------------------------
+// SupportCard
+//  - 현재 화면에서는 사용하지 않는 예비 카드 컴포넌트
+//  - 향후 후원 카드 구성을 Link CTA 방식으로 바꿀 때 재사용 가능
+// -----------------------------------------------------------------------------
 function SupportCard({ title, desc, bullets = [], cta, className = "" }) {
   return (
     <div className={`rounded-2xl border p-6 bg-white flex flex-col h-full ${className}`}>
@@ -442,6 +449,11 @@ function BankBox({ className = "", compact = false }) {
   );
 }
 
+// -----------------------------------------------------------------------------
+// 아래 SVG 아이콘 컴포넌트들
+//  - 현재 화면에서는 이미지 파일 아이콘을 사용하므로 직접 렌더링되지는 않음
+//  - 추후 이미지 파일 없이 SVG 아이콘으로 대체할 경우 재사용 가능
+// -----------------------------------------------------------------------------
 // 아이콘: 손+하트(후원/나눔 느낌)
 function HeartHandIcon({ className = "" }) {
   return (
