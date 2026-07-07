@@ -1,8 +1,123 @@
 /**
- * Home.jsx (메인 페이지)
- * - 홈 화면 구성(히어로 캐러셀 / 빠르게 가기 / 복지디자인 소식 / 공지·정보공개)
- * - CMS(markdown/mdx) 기반 콘텐츠를 Vite import.meta.glob 으로 로드해 리스트로 렌더링
- * - 모바일/터치 환경에서 hover/active 잔상 및 떨림(iOS Safari) 방지를 위한 스타일 처리 포함
+ * ============================================================
+ * Home.jsx (복지디자인 메인 페이지)
+ * ============================================================
+ *
+ * 역할
+ * - 홈페이지 첫 화면 전체 구성 담당
+ * - Hero 이미지 캐러셀
+ * - 빠르게 가기 메뉴
+ * - 복지디자인 소식
+ * - 지원사업 바로가기
+ * - 공지사항 / 정보공개
+ * - CMS 기반 메인 팝업 관리
+ *
+ *
+ * 전체 데이터 흐름
+ *
+ * CMS(Netlify CMS)
+ *        ↓
+ * content/*.md, *.mdx
+ *        ↓
+ * Vite import.meta.glob()
+ *        ↓
+ * frontmatter 데이터 파싱
+ *        ↓
+ * React State 저장
+ *        ↓
+ * 화면 컴포넌트 렌더링
+ *
+ *
+ * 주요 구성
+ *
+ * 1) 반응형 처리
+ * ------------------------------------------------------------
+ * useMedia()
+ *
+ * - 화면 크기 감지
+ * - PC / 태블릿 / 모바일 레이아웃 분리
+ * - 터치 환경 hover 문제 대응
+ *
+ *
+ * 2) CMS 데이터 관리
+ * ------------------------------------------------------------
+ *
+ * HOME_POPUP_MODULES
+ * → 메인 공지 팝업
+ *
+ * HOME_STORY_MODULES
+ * → 복지디자인 이야기
+ *
+ * HOME_NOTICE_MODULES
+ * → 공지사항 / 정보공개
+ *
+ *
+ * 3) 메인 팝업 시스템
+ * ------------------------------------------------------------
+ *
+ * MainPopup()
+ *
+ * PC:
+ * - window.open 새 창 팝업 사용
+ * - 여러 팝업 동시 표시 가능
+ *
+ * Mobile:
+ * - 내부 Modal 방식 사용
+ * - 여러 팝업은 순차 표시
+ *
+ * 공통:
+ * - localStorage 이용
+ * - 오늘 하루 보지 않기 기능 제공
+ *
+ *
+ * 4) 이미지 최적화
+ * ------------------------------------------------------------
+ *
+ * OptimizedImg
+ * Cloudinary Transform
+ *
+ * - 이미지 자동 크기 조절
+ * - WebP/압축 최적화
+ * - preload 처리로 탭 변경 속도 개선
+ *
+ *
+ * 5) 복지디자인 소식
+ * ------------------------------------------------------------
+ *
+ * StoryCard()
+ *
+ * CMS 글
+ *   ↓
+ * 카테고리 필터
+ *   ↓
+ * 카드 UI 출력
+ *
+ *
+ * 6) 공지사항
+ * ------------------------------------------------------------
+ *
+ * fetchHomeNoticeItems()
+ *
+ * - pinned 공지 우선 표시
+ * - 최신 날짜순 정렬
+ * - 공지 / 정보공개 자동 분리
+ *
+ *
+ * 유지보수 참고
+ *
+ * 색상 변경:
+ * → PALETTE 수정
+ *
+ * 메인 이미지 변경:
+ * → HERO_IMAGES 수정
+ *
+ * 팝업 수정:
+ * → CMS 메인 팝업 수정
+ *
+ * 소식/공지 수정:
+ * → CMS 게시글 수정
+ *
+ * ============================================================
  */
 import { useState, useEffect, useMemo, useRef } from "react";
 // 반응형(미디어 쿼리) 및 입력장치(터치/마우스) 상태를 감지하는 커스텀 훅
@@ -11,16 +126,24 @@ import { useState, useEffect, useMemo, useRef } from "react";
 const useMedia = (query) => {
   const [match, setMatch] = useState(() => {
     if (typeof window === "undefined" || !window.matchMedia) return false;
-    try { return window.matchMedia(query).matches; } catch { return false; }
+    try {
+      return window.matchMedia(query).matches;
+    } catch {
+      return false;
+    }
   });
   useEffect(() => {
     if (typeof window === "undefined" || !window.matchMedia) return;
     const mq = window.matchMedia(query);
     const handler = () => setMatch(mq.matches);
     handler();
-    mq.addEventListener ? mq.addEventListener("change", handler) : mq.addListener(handler);
+    mq.addEventListener
+      ? mq.addEventListener("change", handler)
+      : mq.addListener(handler);
     return () => {
-      mq.removeEventListener ? mq.removeEventListener("change", handler) : mq.removeListener(handler);
+      mq.removeEventListener
+        ? mq.removeEventListener("change", handler)
+        : mq.removeListener(handler);
     };
   }, [query]);
   return match;
@@ -114,7 +237,7 @@ async function fetchHomeNoticeItems() {
     const base = fileName.replace(/\.(md|mdx)$/i, "");
 
     const category = normalizeNoticeCategory(
-      data?.category || data?.type || "공지"
+      data?.category || data?.type || "공지",
     );
 
     return {
@@ -124,27 +247,22 @@ async function fetchHomeNoticeItems() {
       date: formatDate(data?.date) || formatDate(meta.date) || "",
       category,
       pinned:
-        data?.pinned === true ||
-        String(data?.pinned).toLowerCase() === "true",
+        data?.pinned === true || String(data?.pinned).toLowerCase() === "true",
     };
   });
 
-  return mapped
-    .filter(Boolean)
-    .sort((a, b) => {
-      if (a.pinned && !b.pinned) return -1;
-      if (!a.pinned && b.pinned) return 1;
+  return mapped.filter(Boolean).sort((a, b) => {
+    if (a.pinned && !b.pinned) return -1;
+    if (!a.pinned && b.pinned) return 1;
 
-      const ad = a.date ? new Date(a.date).getTime() : 0;
-      const bd = b.date ? new Date(b.date).getTime() : 0;
+    const ad = a.date ? new Date(a.date).getTime() : 0;
+    const bd = b.date ? new Date(b.date).getTime() : 0;
 
-      if (bd !== ad) return bd - ad;
+    if (bd !== ad) return bd - ad;
 
-      return String(b.id || "").localeCompare(String(a.id || ""));
-    });
+    return String(b.id || "").localeCompare(String(a.id || ""));
+  });
 }
-
-
 
 /**
  * 파일명에서 날짜가 포함된 slug를 파싱
@@ -196,6 +314,9 @@ function normalizeNoticeCategory(v) {
   return s; // 그 외 값은 원문 그대로 사용
 }
 
+// Markdown frontmatter 직접 파싱
+// - CMS에서 작성한 md/mdx 파일의 상단 --- 영역을 data 객체로 변환
+// - 나머지 본문은 content로 분리하여 팝업/게시글 본문에 사용
 function parseFrontmatter(rawText) {
   const text = String(rawText || "");
   const match = text.match(/^---\s*\n([\s\S]*?)\n---\s*\n?([\s\S]*)$/);
@@ -224,11 +345,14 @@ function parseFrontmatter(rawText) {
   return { data, content: content.trim() };
 }
 
+// 날짜 정렬용 숫자값 생성
+// - 2026-07-01, 2026.07.01, 2026/07/01 같은 다양한 날짜 표기를 지원
+// - 월 단위(2026.07)나 연도 단위(2026)만 있어도 정렬 가능한 값으로 변환
 function getSortableDateValue(value) {
   const raw = String(value || "").trim();
   if (!raw) return 0;
 
-  // Supports 2026-05-25, 2026.05.25, 2026/05/25, and filenames containing dates.
+  // 2026-05-25, 2026.05.25, 2026/05/25 및 파일명 안의 날짜 표기를 지원
   const fullDateMatch = raw.match(/(\d{4})[^\d]?(\d{1,2})[^\d]?(\d{1,2})/);
   if (fullDateMatch) {
     const [, y, m, d] = fullDateMatch;
@@ -240,7 +364,7 @@ function getSortableDateValue(value) {
     }
   }
 
-  // Supports month-only values like 2026-05 or 2026.05.
+  // 2026-05 또는 2026.05처럼 월까지만 있는 값도 지원
   const monthMatch = raw.match(/(\d{4})[^\d]?(\d{1,2})/);
   if (monthMatch) {
     const [, y, m] = monthMatch;
@@ -260,6 +384,9 @@ function getSortableDateValue(value) {
   return 0;
 }
 
+// 팝업 최신순 정렬
+// - sortDate가 큰 항목을 먼저 배치
+// - 날짜가 같으면 파일 id 기준으로 한 번 더 정렬하여 순서를 안정화
 function sortPopupsNewestFirst(list) {
   return [...list].sort((a, b) => {
     const at = Number(a.sortDate || 0);
@@ -271,6 +398,9 @@ function sortPopupsNewestFirst(list) {
   });
 }
 
+// 복지디자인 이야기 카테고리 정규화
+// - 과거 CMS 표기나 오타성 분류명을 현재 탭 체계(사업/교육/회의/기타)에 맞춤
+// - 허용되지 않는 값은 기본적으로 기타로 처리하여 필터 오류를 방지
 function normalizeStoryType(rawType) {
   const typeText = String(rawType || "기타").trim();
   const legacyToNew = {
@@ -312,10 +442,7 @@ async function fetchHomeStoryItems() {
       type: normalizeStoryType(data?.category || data?.type || "기타"),
       thumbnail: data?.thumbnail || null,
       thumbPosition:
-        data?.thumbPosition ||
-        data?.thumb_position ||
-        data?.focal ||
-        "50% 30%",
+        data?.thumbPosition || data?.thumb_position || data?.focal || "50% 30%",
     };
   });
 
@@ -491,7 +618,9 @@ const MorePill = ({ href, children }) => (
     }}
   >
     <span style={{ fontWeight: 900 }}>{children}</span>
-    <span aria-hidden style={{ fontWeight: 900 }}>›</span>
+    <span aria-hidden style={{ fontWeight: 900 }}>
+      ›
+    </span>
   </a>
 );
 
@@ -555,8 +684,10 @@ function extractThumbSrc(v) {
   return "";
 }
 
-// ===== Cloudinary (image/upload) URL transform helper =====
-// Hoisted to top-level so Home1 can reuse it for preloading/prefetching.
+// ===== Cloudinary image/upload URL 변환 헬퍼 =====
+// - CMS에서 업로드된 Cloudinary image/upload URL에만 안전하게 변환 옵션을 삽입
+// - image/fetch 방식은 계정 설정에 따라 오류가 생길 수 있어 사용하지 않음
+// - Home1의 이미지 사전 로딩과 StoryCard 썸네일 출력에서 함께 사용
 function withCldUploadTransform(url, w) {
   if (!url) return url;
   // Only transform Cloudinary "image/upload" URLs.
@@ -571,7 +702,7 @@ function withCldUploadTransform(url, w) {
   const before = url.slice(0, idx + marker.length);
   const after = url.slice(idx + marker.length);
 
-  // If a transform already exists, do not insert another.
+  // 이미 Cloudinary 변환 옵션이 들어간 URL이면 중복으로 삽입하지 않음
   const firstSeg = after.split("/")[0] || "";
   const alreadyHasTransform =
     /(^|,)(c_|w_|q_|f_|dpr_)/.test(firstSeg) || firstSeg.includes(",");
@@ -606,17 +737,22 @@ const StoryCard = (props) => {
 
   // Cloudinary 최적화는 `image/upload` URL 변환만 사용한다.
   // (image/fetch는 계정 설정에 따라 401이 발생할 수 있어 사용하지 않음)
-  const isCloudinaryUpload =
-    isCloudinary && /\/image\/upload\//.test(thumbSrc);
+  const isCloudinaryUpload = isCloudinary && /\/image\/upload\//.test(thumbSrc);
 
-  // Use a small fixed set of widths so Cloudinary URLs stay identical across renders/tabs
-  // (better browser cache hit rate, less perceived delay when switching tabs)
+  // Cloudinary URL이 렌더링/탭 전환마다 달라지지 않도록 고정된 폭 목록을 사용
+  // 브라우저 캐시 적중률을 높이고 탭 전환 시 체감 지연을 줄이기 위함
   const CLD_WIDTHS = [480, 960, 1440];
-  const cardW = isMobile ? CLD_WIDTHS[0] : isTablet ? CLD_WIDTHS[1] : CLD_WIDTHS[2];
+  const cardW = isMobile
+    ? CLD_WIDTHS[0]
+    : isTablet
+      ? CLD_WIDTHS[1]
+      : CLD_WIDTHS[2];
 
   const optimizedThumbSrc = withCldUploadTransform(thumbSrc, cardW);
   const optimizedThumbSrcSet = isCloudinaryUpload
-    ? CLD_WIDTHS.map((w) => `${withCldUploadTransform(thumbSrc, w)} ${w}w`).join(", ")
+    ? CLD_WIDTHS.map(
+        (w) => `${withCldUploadTransform(thumbSrc, w)} ${w}w`,
+      ).join(", ")
     : undefined;
 
   return (
@@ -626,7 +762,9 @@ const StoryCard = (props) => {
           background: "#fff",
           borderRadius: PALETTE.radiusLg,
           border: `1px solid ${PALETTE.line}`,
-          boxShadow: isTouchDevice ? "0 2px 6px rgba(0,0,0,.04)" : PALETTE.shadowSm,
+          boxShadow: isTouchDevice
+            ? "0 2px 6px rgba(0,0,0,.04)"
+            : PALETTE.shadowSm,
           overflow: "hidden",
           //  모바일에서는 transition/hover 제거 → 떨림 방지
           transition: isTouchDevice
@@ -642,7 +780,10 @@ const StoryCard = (props) => {
           // content-visibility는 iOS에서 떨림을 유발할 수 있어 터치 환경에서는 비활성화
           ...(isTouchDevice
             ? {}
-            : { contentVisibility: "auto", containIntrinsicSize: "268px 220px" }),
+            : {
+                contentVisibility: "auto",
+                containIntrinsicSize: "268px 220px",
+              }),
         }}
         //  터치 디바이스에서는 hover 핸들러 자체를 달지 않음
         onMouseEnter={
@@ -667,8 +808,8 @@ const StoryCard = (props) => {
         <div
           aria-hidden
           style={{
-            aspectRatio: '16 / 9',
-            height: 'auto',
+            aspectRatio: "16 / 9",
+            height: "auto",
             overflow: "hidden",
             borderBottom: `1px solid ${PALETTE.line}`,
             background: hasThumb ? "#fff" : PALETTE.grayBg,
@@ -734,7 +875,6 @@ const StoryCard = (props) => {
   );
 };
 
-
 // CMS 메인 팝업 데이터 생성
 // - popup 폴더의 md/mdx 파일을 읽어 메인 팝업 데이터로 변환
 // - enabled=true 인 팝업만 사용
@@ -743,9 +883,11 @@ async function fetchMainPopupData() {
   const popups = Object.entries(HOME_POPUP_MODULES).map(([path, raw]) => {
     const fileName = path.split("/").pop() || "";
     const { data, content } = parseFrontmatter(raw);
-    const dateValue = data?.date || data?.createdAt || data?.updatedAt || fileName || "";
+    const dateValue =
+      data?.date || data?.createdAt || data?.updatedAt || fileName || "";
     const enabledValue = data?.enabled;
-    const enabled = enabledValue === true || String(enabledValue).toLowerCase() === "true";
+    const enabled =
+      enabledValue === true || String(enabledValue).toLowerCase() === "true";
 
     return {
       id: path,
@@ -772,7 +914,8 @@ function MainPopup({ isMobile, isTablet, isTouch }) {
   const [modalPopups, setModalPopups] = useState([]);
   const [activePopupIndex, setActivePopupIndex] = useState(0);
   const sortedPopups = useMemo(() => sortPopupsNewestFirst(popups), [popups]);
-  const fallbackPopup = modalPopups[activePopupIndex] || sortedPopups[0] || null;
+  const fallbackPopup =
+    modalPopups[activePopupIndex] || sortedPopups[0] || null;
   const openedWindowsRef = useRef([]);
   const didRunRef = useRef(false);
   // 모바일/태블릿/터치 환경에서는
@@ -824,22 +967,22 @@ function MainPopup({ isMobile, isTablet, isTouch }) {
     window.localStorage.setItem(`wd-main-popup-hidden-date:${popupId}`, today);
   };
 
-    // PC 새 창 팝업 생성
-    // window.open으로 열린 팝업창 내부에
-    // HTML/CSS를 직접 작성하여 표시한다.
-    const writePopupWindow = (popupWindow, popup) => {
-      const title = escapeHtml(popup.title || "복지디자인 안내");
-      const body = escapeHtml(
-        popup.body || "복지디자인 사회적협동조합의 새로운 소식을 확인해 주세요."
-      );
-      const image = popup.image ? escapeHtml(popup.image) : "";
-      const buttonLink = popup.buttonLink || "#";
-      const safeButtonLink = escapeHtml(buttonLink);
-      const popupId = escapeHtml(popup.id);
-      const hasButton = buttonLink && buttonLink !== "#";
+  // PC 새 창 팝업 생성
+  // window.open으로 열린 팝업창 내부에
+  // HTML/CSS를 직접 작성하여 표시한다.
+  const writePopupWindow = (popupWindow, popup) => {
+    const title = escapeHtml(popup.title || "복지디자인 안내");
+    const body = escapeHtml(
+      popup.body || "복지디자인 사회적협동조합의 새로운 소식을 확인해 주세요.",
+    );
+    const image = popup.image ? escapeHtml(popup.image) : "";
+    const buttonLink = popup.buttonLink || "#";
+    const safeButtonLink = escapeHtml(buttonLink);
+    const popupId = escapeHtml(popup.id);
+    const hasButton = buttonLink && buttonLink !== "#";
 
-      popupWindow.document.open();
-      popupWindow.document.write(`
+    popupWindow.document.open();
+    popupWindow.document.write(`
         <!DOCTYPE html>
         <html lang="ko">
         <head>
@@ -970,11 +1113,15 @@ function MainPopup({ isMobile, isTablet, isTouch }) {
               <span>WELFARE DESIGN</span>
             </div>
 
-            ${image ? `
+            ${
+              image
+                ? `
               <div class="img">
                 <img src="${image}" alt="" />
               </div>
-            ` : ""}
+            `
+                : ""
+            }
 
             <div class="content">
               <h1>${title}</h1>
@@ -995,9 +1142,9 @@ function MainPopup({ isMobile, isTablet, isTouch }) {
         </body>
         </html>
       `);
-      popupWindow.document.close();
-      popupWindow.focus();
-    };
+    popupWindow.document.close();
+    popupWindow.focus();
+  };
 
   useEffect(() => {
     if (!popups.length) return;
@@ -1055,7 +1202,9 @@ function MainPopup({ isMobile, isTablet, isTouch }) {
     // 하나씩 순서대로 표시한다.
     if (useModalPopup) {
       const nextModalPopups = sortedPopups.filter((popup) => {
-        const hiddenDate = localStorage.getItem(`wd-main-popup-hidden-date:${popup.id}`);
+        const hiddenDate = localStorage.getItem(
+          `wd-main-popup-hidden-date:${popup.id}`,
+        );
         return hiddenDate !== today || forcePopup;
       });
 
@@ -1071,63 +1220,79 @@ function MainPopup({ isMobile, isTablet, isTouch }) {
     let blocked = false;
     let openedCount = 0;
 
-      // PC에서는 활성화된 팝업을 각각 새 창으로 표시
-      // 여러 개가 enabled=true이면 여러 팝업창이 열린다.
-      // 팝업 차단 시에는 내부 모달 방식으로 대체된다.
-      sortedPopups.forEach((popup, index) => {
-        const hiddenDate = localStorage.getItem(`wd-main-popup-hidden-date:${popup.id}`);
-        if (hiddenDate === today && !forcePopup) return;
+    // PC에서는 활성화된 팝업을 각각 새 창으로 표시
+    // 여러 개가 enabled=true이면 여러 팝업창이 열린다.
+    // 팝업 차단 시에는 내부 모달 방식으로 대체된다.
+    sortedPopups.forEach((popup, index) => {
+      const hiddenDate = localStorage.getItem(
+        `wd-main-popup-hidden-date:${popup.id}`,
+      );
+      if (hiddenDate === today && !forcePopup) return;
 
-        const offset = index * 28;
-        const width = 520;
-        const height = popup.image ? 760 : 380;
-        const screenLeft = typeof window.screenX === "number" ? window.screenX : window.screenLeft || 0;
-        const screenTop = typeof window.screenY === "number" ? window.screenY : window.screenTop || 0;
-        const viewportW = window.innerWidth || window.outerWidth || 1440;
-        const viewportH = window.innerHeight || window.outerHeight || 900;
+      const offset = index * 28;
+      const width = 520;
+      const height = popup.image ? 760 : 380;
+      const screenLeft =
+        typeof window.screenX === "number"
+          ? window.screenX
+          : window.screenLeft || 0;
+      const screenTop =
+        typeof window.screenY === "number"
+          ? window.screenY
+          : window.screenTop || 0;
+      const viewportW = window.innerWidth || window.outerWidth || 1440;
+      const viewportH = window.innerHeight || window.outerHeight || 900;
 
-        // PC 팝업 위치: 브라우저 화면 중앙보다 살짝 왼쪽으로 고정
-        // 27인치 대형 모니터에서 오른쪽 벽에 붙어 보이는 현상을 방지
-        const left = Math.max(
-          40,
-          Math.round(screenLeft + viewportW * 0.42 - width / 2 + offset)
-        );
+      // PC 팝업 위치: 브라우저 화면 중앙보다 살짝 왼쪽으로 고정
+      // 27인치 대형 모니터에서 오른쪽 벽에 붙어 보이는 현상을 방지
+      const left = Math.max(
+        40,
+        Math.round(screenLeft + viewportW * 0.42 - width / 2 + offset),
+      );
 
-        const top = Math.max(
-          60,
-          Math.round(screenTop + viewportH * 0.16 + offset)
-        );
+      const top = Math.max(
+        60,
+        Math.round(screenTop + viewportH * 0.16 + offset),
+      );
 
-        const features = [
-          `width=${width}`,
-          `height=${height}`,
-          `left=${left}`,
-          `top=${top}`,
-          "resizable=yes",
-          "scrollbars=yes",
-          "toolbar=no",
-          "menubar=no",
-          "location=no",
-          "status=no",
-        ].join(",");
+      const features = [
+        `width=${width}`,
+        `height=${height}`,
+        `left=${left}`,
+        `top=${top}`,
+        "resizable=yes",
+        "scrollbars=yes",
+        "toolbar=no",
+        "menubar=no",
+        "location=no",
+        "status=no",
+      ].join(",");
 
-        // 같은 이름의 팝업창을 재사용하면 브라우저가 이전 위치를 기억하므로 매번 새 이름 사용
-        const popupWindow = window.open("", `welfareDesignPopup_${Date.now()}_${index}`, features);
+      // 같은 이름의 팝업창을 재사용하면 브라우저가 이전 위치를 기억하므로 매번 새 이름 사용
+      const popupWindow = window.open(
+        "",
+        `welfareDesignPopup_${Date.now()}_${index}`,
+        features,
+      );
 
-        if (!popupWindow || popupWindow.closed || typeof popupWindow.closed === "undefined") {
-          blocked = true;
-          return;
-        }
+      if (
+        !popupWindow ||
+        popupWindow.closed ||
+        typeof popupWindow.closed === "undefined"
+      ) {
+        blocked = true;
+        return;
+      }
 
-        try {
-          popupWindow.resizeTo(width, height);
-          popupWindow.moveTo(left, top);
-        } catch {}
+      try {
+        popupWindow.resizeTo(width, height);
+        popupWindow.moveTo(left, top);
+      } catch {}
 
-        openedWindowsRef.current.push(popupWindow);
-        openedCount += 1;
-        writePopupWindow(popupWindow, popup);
-      });
+      openedWindowsRef.current.push(popupWindow);
+      openedCount += 1;
+      writePopupWindow(popupWindow, popup);
+    });
 
     // 새 창이 하나도 못 열렸을 때만 사이트 내부 모달로 대체 표시
     if (blocked && openedCount === 0) setOpen(true);
@@ -1724,7 +1889,7 @@ mark, [data-hl] {
                     decoding="async"
                     useCdn={false}
                     sizes="(max-width: 640px) 100vw, (max-width: 1024px) 100vw, 1200px"
-                    // wrapper(<picture>) 스타일: 위치/페이드
+                    // OptimizedImg의 바깥 래퍼 스타일: 위치 고정 및 페이드 전환 처리
                     style={{
                       position: "absolute",
                       inset: 0,
@@ -1736,7 +1901,7 @@ mark, [data-hl] {
                       pointerEvents: "none",
                       display: "block",
                     }}
-                    // 내부 <img> 스타일: 채우기
+                    // 내부 이미지 스타일: 프레임을 꽉 채우도록 설정
                     imgStyle={{
                       width: "100%",
                       height: "100%",
@@ -2086,8 +2251,10 @@ mark, [data-hl] {
                           e.currentTarget.style.boxShadow =
                             "0 8px 18px rgba(0,0,0,.10)";
                           e.currentTarget.style.borderColor = PALETTE.brand;
-                          e.currentTarget.style.outline = "3px solid rgba(197,138,74,.22)";
-                          e.currentTarget.style.background = "rgba(197,138,74,.05)";
+                          e.currentTarget.style.outline =
+                            "3px solid rgba(197,138,74,.22)";
+                          e.currentTarget.style.background =
+                            "rgba(197,138,74,.05)";
                         }}
                         onMouseLeave={(e) => {
                           e.currentTarget.style.transform = "none";
