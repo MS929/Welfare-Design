@@ -23,49 +23,74 @@ collections:
     identifier_field: "date"
     slug: "{{year}}-{{month}}-{{slug}}"
     fields:
-      - { label: "날짜", name: "date", widget: "string", hint: "예: 2025.05 또는 2026" }
-      - { label: "연혁 내용", name: "event", widget: "string", required: false }
-  - name: stories
-    label: 복지디자인 이야기
-    folder: "src/content/stories"   # ← 실제 콘텐츠 폴더 경로
+      - label: "날짜"
+        name: "date"
+        widget: "string"
+        hint: "예: 2025.05 또는 2026"
+
+      - label: "연혁 내용"
+        name: "event"
+        widget: "string"
+        required: false
+
+  - name: "stories"
+    label: "복지디자인 이야기"
+    folder: "src/content/stories"
     create: true
-    format: frontmatter
-    identifier_field: title
+    format: "frontmatter"
+    identifier_field: "title"
     slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+
     slugify:
       encoding: "ascii"
       clean_accents: true
       sanitize_replacement: "-"
+
     sort: "date:desc"
     summary: "{{title}} — {{date}}"
+
     view_groups:
       - label: "분류"
         field: "category"
+
       - label: "연도"
         field: "date"
         pattern: "YYYY"
+
       - label: "월"
         field: "date"
         pattern: "YYYY-MM"
+
     fields:
       - label: "제목"
         name: "title"
         widget: "string"
+
       - label: "작성일"
         name: "date"
-        widget: "date"
+        widget: "datetime"
         format: "YYYY-MM-DD"
+        date_format: "YYYY-MM-DD"
+        time_format: false
+        picker_utc: false
+
       - label: "분류"
         name: "category"
         widget: "select"
-        options: ["사업", "교육", "회의", "기타"]
+        options:
+          - "사업"
+          - "교육"
+          - "회의"
+          - "기타"
         default: "기타"
         allow_add: true
+
       - label: "대표 이미지(선택)"
         name: "thumbnail"
         widget: "image"
         choose_url: true
         required: false
+
       - label: "추가 이미지(여러 장 선택 가능)"
         name: "gallery"
         widget: "list"
@@ -76,10 +101,12 @@ collections:
             name: "image"
             widget: "image"
             choose_url: true
+
           - label: "이미지 설명(선택)"
             name: "caption"
             widget: "string"
             required: false
+
       - label: "본문"
         name: "body"
         widget: "markdown"
@@ -91,10 +118,26 @@ collections:
     create: true
     format: "frontmatter"
     slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+
     fields:
-      - { label: "제목", name: "title", widget: "string" }
-      - { label: "작성일", name: "date", widget: "date", format: "YYYY-MM-DD" }
-      - { label: "대표 이미지(선택)", name: "thumbnail", widget: "image", choose_url: true, required: false }
+      - label: "제목"
+        name: "title"
+        widget: "string"
+
+      - label: "작성일"
+        name: "date"
+        widget: "datetime"
+        format: "YYYY-MM-DD"
+        date_format: "YYYY-MM-DD"
+        time_format: false
+        picker_utc: false
+
+      - label: "대표 이미지(선택)"
+        name: "thumbnail"
+        widget: "image"
+        choose_url: true
+        required: false
+
       - label: "추가 이미지(여러 장 선택 가능)"
         name: "gallery"
         widget: "list"
@@ -105,33 +148,60 @@ collections:
             name: "image"
             widget: "image"
             choose_url: true
+
           - label: "이미지 설명(선택)"
             name: "caption"
             widget: "string"
             required: false
-      - label: "카테고리"              # ✅ 추가
+
+      - label: "카테고리"
         name: "category"
         widget: "select"
-        options: ["공지", "정보공개"]
+        options:
+          - "공지"
+          - "정보공개"
         default: "공지"
-      - { label: "본문", name: "body", widget: "markdown", required: false }
+
+      - label: "본문"
+        name: "body"
+        widget: "markdown"
+        required: false
 
   - name: "faq"
-    label: "faq"
+    label: "FAQ"
     folder: "src/content/faq"
     create: true
     format: "frontmatter"
     slug: "{{slug}}"
+
     fields:
-      - { label: "질문", name: "title", widget: "string" }
+      - label: "질문"
+        name: "title"
+        widget: "string"
+
       - label: "카테고리"
         name: "category"
         widget: "select"
-        options: ["후원관련 문의", "기부금영수증", "기타"]
+        options:
+          - "후원관련 문의"
+          - "기부금영수증"
+          - "기타"
         default: "후원관련 문의"
-      - { label: "정렬 순서", name: "order", widget: "number", default: 0 }
-      - { label: "노출 여부", name: "published", widget: "boolean", default: true }
-      - { label: "답변", name: "body", widget: "markdown", required: false }
+
+      - label: "정렬 순서"
+        name: "order"
+        widget: "number"
+        default: 0
+
+      - label: "노출 여부"
+        name: "published"
+        widget: "boolean"
+        default: true
+
+      - label: "답변"
+        name: "body"
+        widget: "markdown"
+        required: false
 
   - name: "popup"
     label: "메인 팝업"
@@ -140,42 +210,90 @@ collections:
     format: "frontmatter"
     slug: "{{slug}}"
     identifier_field: "title"
+
     fields:
-      - { label: "제목", name: "title", widget: "string" }
-      - { label: "활성화", name: "enabled", widget: "boolean", default: true }
-      - { label: "이미지", name: "image", widget: "image", required: false }
+      - label: "제목"
+        name: "title"
+        widget: "string"
+
+      - label: "활성화"
+        name: "enabled"
+        widget: "boolean"
+        default: true
+
+      - label: "이미지"
+        name: "image"
+        widget: "image"
+        required: false
+
       - label: "버튼 링크"
         name: "buttonLink"
         widget: "select"
         required: false
         default: "/support/guide"
         options:
-          - { label: "링크 없음", value: "#" }
-          - { label: "복지디자인은?", value: "/about/what" }
-          - { label: "인사말", value: "/about/establishment" }
-          - { label: "연혁", value: "/about/history" }
-          - { label: "함께하는 사람들", value: "/about/people" }
-          - { label: "복지디자인 이야기", value: "/news/stories" }
-          - { label: "공지사항", value: "/news/notices" }
-          - { label: "사업영역", value: "/business/overview" }
-          - { label: "휠체어 대여", value: "/business/rental" }
-          - { label: "노인장기요양보험 복지용구", value: "/business/apply-help" }
-          - { label: "취약계층 복지욕구 실태조사", value: "/business/ewc-insurance" }
-          - { label: "보조기기 기증 및 수리 캠페인", value: "/business/needs-survey" }
-          - { label: "조합원 지원 서비스", value: "/business/member-services" }
-          - { label: "후원안내", value: "/support/guide" }
-          - { label: "FAQ", value: "/support/faq" }
-          - { label: "조합 가입", value: "/support/combination" }
-      - { label: "내용", name: "body", widget: "markdown", required: false }
+          - label: "링크 없음"
+            value: "#"
+
+          - label: "복지디자인은?"
+            value: "/about/what"
+
+          - label: "인사말"
+            value: "/about/establishment"
+
+          - label: "연혁"
+            value: "/about/history"
+
+          - label: "함께하는 사람들"
+            value: "/about/people"
+
+          - label: "복지디자인 이야기"
+            value: "/news/stories"
+
+          - label: "공지사항"
+            value: "/news/notices"
+
+          - label: "사업영역"
+            value: "/business/overview"
+
+          - label: "휠체어 대여"
+            value: "/business/rental"
+
+          - label: "노인장기요양보험 복지용구"
+            value: "/business/apply-help"
+
+          - label: "취약계층 복지욕구 실태조사"
+            value: "/business/ewc-insurance"
+
+          - label: "보조기기 기증 및 수리 캠페인"
+            value: "/business/needs-survey"
+
+          - label: "조합원 지원 서비스"
+            value: "/business/member-services"
+
+          - label: "후원안내"
+            value: "/support/guide"
+
+          - label: "FAQ"
+            value: "/support/faq"
+
+          - label: "조합 가입"
+            value: "/support/combination"
+
+      - label: "내용"
+        name: "body"
+        widget: "markdown"
+        required: false
 
 media_library:
-  name: cloudinary
+  name: "cloudinary"
   config:
-    cloud_name: dxeadg9wi
-    api_key: 445728532345139
-    upload_preset: welfare_auto
+    cloud_name: "dxeadg9wi"
+    api_key: "445728532345139"
+    upload_preset: "welfare_auto"
+
     default_transformations:
-      - - fetch_format: auto   # 브라우저 맞춤 포맷 (webp/avif 등)
-          quality: auto        # 자동 품질 최적화
-          width: 1600          # 최대 크기 제한
-          crop: limit
+      - - fetch_format: "auto"
+          quality: "auto"
+          width: 1600
+          crop: "limit"

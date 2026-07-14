@@ -1,19 +1,32 @@
 /**
- * WhatIs.jsx (소개 > 복지디자인은?)
- * --------------------------------------------------
- * - 사회적협동조합 복지디자인의 정체성, 설립 배경,
- *   설립 목적·미션·비전(GMV), 운영 원칙, 정관을 설명하는 소개 페이지
- * - 정보 중심 페이지로, 하단의 데이터 상수만 수정하면
- *   레이아웃 변경 없이 콘텐츠 유지·관리 가능
- * - 상단 대표 이미지는 preload를 통해 초기 렌더링 성능(LCP)을 개선
+ * WhatIs.jsx
+ * -----------------------------------------------------------------------------
+ * [페이지 목적]
+ * - 소개 > 복지디자인은? 페이지
+ * - 복지디자인 사회적협동조합의 정체성, 설립 배경, 설립 목적, 미션, 비전, 운영 원칙을 설명
+ *
+ * [데이터 구조]
+ * - background: 설립 배경 이미지 및 문단
+ * - gmv: 설립 목적 / 미션 / 비전 카드
+ * - pastChairs: 역대 이사장
+ * - memberEligibility: 조합원 자격 및 유형
+ * - operationDisclosure: 운영 공개 항목
+ * - principles: 협동조합 7대 원칙
+ *
+ * [유지보수 위치]
+ * - 페이지 문구 수정: 아래 데이터 상수 수정
+ * - 설립 배경 이미지 변경: main2Image 경로 또는 public/images/about/main2.png 교체
+ * - 섹션 제목 스타일 변경: SectionTitle 컴포넌트 수정
  */
 export default function AboutWhat() {
+  // 설립 배경 섹션 대표 이미지
+  // - 이미지 파일 교체 시 public/images/about/main2.png 또는 이 경로를 수정
   const main2Image = "/images/about/main2.png";
 
   /**
    * 섹션 제목 공통 컴포넌트
-   * - 좌측 컬러 도트 + 제목 텍스트
-   * - 색상은 섹션의 성격(브랜드 컬러)에 맞춰 전달
+   * - 좌측 컬러 도트와 제목 텍스트를 함께 표시
+   * - 각 섹션의 브랜드 색상은 color prop으로 전달
    */
   const SectionTitle = ({ color, children }) => (
     <div className="flex items-center gap-3 mb-6">
@@ -30,7 +43,8 @@ export default function AboutWhat() {
 
   // ============================================================================
   // 페이지 콘텐츠 데이터
-  // - 아래 데이터(객체/배열)만 수정하면 페이지 내용 변경 가능
+  // - 이 페이지는 CMS가 아니라 코드 내부 데이터 상수로 내용을 관리
+  // - 문구 수정은 아래 객체/배열을 수정하면 레이아웃 변경 없이 반영 가능
   // ============================================================================
 
   // 1) 설립 배경
@@ -141,7 +155,7 @@ export default function AboutWhat() {
 
   return (
     <div className="bg-white">
-      {/* ===== 브레드크럼 + 제목 (필요 시 수정) ===== */}
+      {/* 상단 영역: 현재 위치 안내(브레드크럼)와 페이지 제목 */}
       <section className="max-w-screen-xl mx-auto px-4 pt-10">
         <nav className="text-[15px] text-black">
           소개 &gt; <span className="text-black">복지디자인은?</span>
@@ -151,25 +165,22 @@ export default function AboutWhat() {
         </h1>
       </section>
 
-      {/* ===== 소개 카피(헤더 카피) ===== */}
+      {/* 소개 카피 영역: 페이지 핵심 메시지 강조 */}
       <section className="max-w-screen-xl mx-auto px-4 pt-6 pb-4 text-center">
-        {/* 1줄 제목 */}
         <h2 className="mt-2 text-[22px] md:text-[26px] font-semibold text-brand-700">
           복지디자인사회적협동조합은
         </h2>
 
-        {/* 2줄 메인 카피 (따옴표 강조) */}
         <p className="mt-2 text-[26px] md:text-[34px] font-extrabold text-brand-900 leading-tight">
           <span className="text-gray-900">
             “함께 성장하며, 모두의 행복을 위한 복지를 디자인합니다.”
           </span>
         </p>
 
-        {/* 가는 구분선 */}
         <div className="mx-auto mt-5 h-1 w-28 rounded-full bg-gradient-to-r from-brand-400 to-brand-600" />
       </section>
 
-      {/* ===== 설립 배경 ===== */}
+      {/* 설립 배경 섹션 */}
       <section className="max-w-screen-xl mx-auto px-4 py-10">
         <SectionTitle color="#3BA7A0">설립 배경</SectionTitle>
 
@@ -197,9 +208,9 @@ export default function AboutWhat() {
         </div>
       </section>
 
-      {/* ===== 설립 목적 / 미션 / 비전 ===== */}
+      {/* 설립 목적 / 미션 / 비전 카드 섹션 */}
       <section className="max-w-screen-xl mx-auto px-4 pb-10">
-        {/* 카드 상단을 브랜드 3색으로 채우고, 제목을 가운데 정렬 */}
+        {/* gmv 배열을 기반으로 설립 목적/미션/비전 카드를 자동 생성 */}
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 space-y-4 sm:space-y-0">
           {gmv.map((b, idx) => {
             const accents = [
@@ -214,7 +225,7 @@ export default function AboutWhat() {
                 className="rounded-xl overflow-hidden border border-gray-200 bg-white shadow-sm min-h-[240px] flex flex-col"
                 style={{ boxShadow: "0 1px 3px rgba(0,0,0,0.06)" }}
               >
-                {/* 컬러 헤더 (제목 가운데) */}
+                {/* 카드 제목 영역 */}
                 <div
                   className="py-3 text-center text-[17px] md:text-[18px] font-semibold tracking-tight"
                   style={{ backgroundColor: accent.bg, color: accent.fg }}
@@ -222,7 +233,6 @@ export default function AboutWhat() {
                   {b.key}
                 </div>
 
-                {/* 내용 */}
                 <div className="p-5 flex-1">
                   {Array.isArray(b.body) ? (
                     <ul className="list-disc pl-5 space-y-2 text-gray-800 leading-relaxed">
@@ -247,7 +257,7 @@ export default function AboutWhat() {
         </div>
       </section>
 
-      {/* ===== 역대 이사장 ===== */}
+      {/* 역대 이사장 섹션 */}
       <section className="max-w-screen-xl mx-auto px-4 pb-10">
         <SectionTitle color="#ED6A32">역대 이사장</SectionTitle>
         <div className="flex flex-wrap gap-3">
@@ -262,10 +272,10 @@ export default function AboutWhat() {
         </div>
       </section>
 
-      {/* ===== 조합원의 자격 및 유형 / 운영 공개 ===== */}
+      {/* 조합원 자격 및 운영 공개 섹션 */}
       <section className="max-w-screen-xl mx-auto px-4 pb-12">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {/* 조합원의 자격 및 유형 */}
+          {/* 조합원 자격 및 유형 카드 */}
           <div className="relative overflow-hidden rounded-2xl border border-teal-100 bg-gradient-to-br from-white via-white to-teal-50/70 p-6 md:p-7 shadow-sm">
             <div
               className="absolute -right-10 -top-10 h-28 w-28 rounded-full bg-teal-100/60"
@@ -302,7 +312,7 @@ export default function AboutWhat() {
             </div>
           </div>
 
-          {/* 운영 공개 */}
+          {/* 운영 공개 카드 */}
           <div className="relative overflow-hidden rounded-2xl border border-orange-100 bg-gradient-to-br from-white via-white to-orange-50/70 p-6 md:p-7 shadow-sm">
             <div
               className="absolute -right-10 -top-10 h-28 w-28 rounded-full bg-orange-100/70"
@@ -341,7 +351,7 @@ export default function AboutWhat() {
         </div>
       </section>
 
-      {/* ===== 운영 원칙 (7대 원칙) ===== */}
+      {/* 협동조합 7대 원칙 섹션 */}
       <section className="max-w-screen-xl mx-auto px-4 pb-10">
         <SectionTitle color="#F4B731">
           운영 원칙(협동조합 7대 원칙)
@@ -356,7 +366,7 @@ export default function AboutWhat() {
                 className="rounded-xl overflow-hidden border bg-white shadow-sm h-full min-h-[180px] flex flex-col"
                 style={{ borderColor: pc }}
               >
-                {/* 상단 헤더: 01. 제목 (배경색 = 팔레트 색) */}
+                {/* 원칙 번호 및 제목 영역 */}
                 <div
                   className="px-4 py-3 text-[18px] md:text-[19px] font-semibold tracking-tight"
                   style={{ backgroundColor: pc, color: "#2B2E34" }}
@@ -364,7 +374,6 @@ export default function AboutWhat() {
                   {p.no} {p.title}
                 </div>
 
-                {/* 내용 */}
                 <div className="p-5 flex-1">
                   {Array.isArray(p.desc) ? (
                     <ul className="list-disc pl-5 space-y-2 text-gray-800 leading-relaxed">

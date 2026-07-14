@@ -1,23 +1,29 @@
 // -----------------------------------------------------------------------------
-// People.jsx (함께하는 사람들)
-// -----------------------------------------------------------------------------
+// People.jsx
 // [페이지 목적]
-//  - 복지디자인 사회적협동조합의 조직 구조와 운영 체계를 시각적으로 소개
+//  - 소개 > 함께하는 사람들 페이지
+//  - 복지디자인 사회적협동조합의 조직 구조, 운영 플랫폼, 구성별 역할을 소개
 //
-// [구성]
-//  - 상단: 조직도(데스크톱/모바일 분기 렌더링)
-//  - 하단: 3대 운영 플랫폼 카드 + 조직 역할/업무 표
+// [화면 구성]
+//  - 상단: 브레드크럼 + 페이지 제목
+//  - 중간: 조직도(데스크톱/모바일 분리 렌더링)
+//  - 하단: 3대 운영 플랫폼 카드 + 구성 및 업무 표
 //
-// [UI/UX 포인트]
-//  - 정보 전달을 우선한 구조적 레이아웃(조직도 → 플랫폼 요약 → 역할 표)
-//  - 화면 크기에 따라 조직도 레이아웃을 분리해 가독성 확보
+// [데이터 구조]
+//  - platforms: 3대 운영 플랫폼 카드 데이터
+//  - roles: 구성 및 업무 표 데이터
+//
+// [유지보수 위치]
+//  - 플랫폼 내용 변경: platforms 배열 수정
+//  - 조직 역할/업무 변경: roles 배열 수정
+//  - 조직도 구조 변경: OrgChartDesktop / OrgChartMobile 수정
 // -----------------------------------------------------------------------------
 
 export default function AboutPeople() {
-  // -----------------------------------------------------------------------------
-  // [데이터] 3대 운영 플랫폼(카드 영역)
-  //  - 플랫폼별 고유 색상(color)로 시각적 구분
-  // -----------------------------------------------------------------------------
+  // 3대 운영 플랫폼 카드 데이터
+  // - title: 플랫폼명
+  // - items: 주요 역할/사업 목록
+  // - color: 카드 강조색
   const platforms = [
     {
       title: "복지연결플랫폼",
@@ -51,10 +57,8 @@ export default function AboutPeople() {
     },
   ];
 
-  // -----------------------------------------------------------------------------
-  // [데이터] 조직 구성/업무 표(하단 테이블)
-  //  - 의사결정(총회/이사회) → 집행(사무국) 역할을 한눈에 정리
-  // -----------------------------------------------------------------------------
+  // 구성 및 업무 표 데이터
+  // - 의사결정 조직과 실행 조직의 역할을 하단 표로 표시
   const roles = [
     { part: "조합원총회", desc: "모든 조합원이 참가하는 최고의 의사결정기구" },
     { part: "이사회(이사장)", desc: "조합의 사무 총괄·관장 및 대외적 대표" },
@@ -63,9 +67,7 @@ export default function AboutPeople() {
 
   return (
     <div className="bg-white">
-      {/* -------------------------------------------------------------------
-         상단 헤더(브레드크럼 + 페이지 제목)
-         ------------------------------------------------------------------- */}
+      {/* 상단 영역: 현재 위치 안내(브레드크럼)와 페이지 제목 */}
       <header className="max-w-screen-xl mx-auto px-4 pt-10">
         <p className="text-sm text-gray-500">
           소개 &gt; <span className="text-gray-700">함께하는 사람들</span>
@@ -75,20 +77,16 @@ export default function AboutPeople() {
         </h1>
       </header>
 
-      {/* -------------------------------------------------------------------
-         조직도 영역
-         - 데스크톱: 가로 확장형 조직도(Desktop 전용 컴포넌트)
-         - 모바일: 세로 흐름형 조직도(Mobile 전용 컴포넌트)
-         ------------------------------------------------------------------- */}
+      {/* 조직도 영역
+          - 데스크톱: 가로 확장형 조직도
+          - 모바일: 세로 흐름형 조직도 */}
       <section className="max-w-screen-xl mx-auto px-4 pt-10 pb-0 mb-[-0px]">
         <div className="hidden md:block"><OrgChartDesktop /></div>
         <div className="md:hidden"><OrgChartMobile /></div>
       </section>
 
-      {/* -------------------------------------------------------------------
-         3대 운영 플랫폼 카드 영역
-         - 플랫폼별 주요 역할/사업을 요약 카드로 제공
-         ------------------------------------------------------------------- */}
+      {/* 3대 운영 플랫폼 카드 영역
+          - platforms 배열을 순회하여 카드 자동 생성 */}
       <section className="max-w-screen-xl mx-auto px-4 pb-14 mt-0 relative">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {platforms.map((p) => (
@@ -97,10 +95,8 @@ export default function AboutPeople() {
         </div>
       </section>
 
-      {/* -------------------------------------------------------------------
-         구성 및 업무 표
-         - 조직별 역할과 책임을 텍스트 기반 표로 정리
-         ------------------------------------------------------------------- */}
+      {/* 구성 및 업무 표
+          - roles 배열을 기반으로 조직별 역할을 표시 */}
       <section className="max-w-screen-xl mx-auto px-4 pb-16">
         <h2 className="text-xl font-bold mb-5">구성 및 업무</h2>
         <div className="overflow-x-auto rounded-xl border">
@@ -127,11 +123,11 @@ export default function AboutPeople() {
 }
 // -----------------------------------------------------------------------------
 // PlatformCard
-//  - 하단 3대 운영 플랫폼을 표현하는 공통 카드 컴포넌트
-//  - 플랫폼 고유 색상(color)을 제목/불릿/테두리 포인트로 사용
+//  - 3대 운영 플랫폼을 카드 형태로 표시하는 컴포넌트
+//  - color 값을 카드 테두리, 배경 tint, 제목/불릿 색상에 사용
 // -----------------------------------------------------------------------------
 function PlatformCard({ title, items, color }) {
-  // 카드 배경용 연한 그라데이션(플랫폼 색상에 투명도만 적용)
+  // 플랫폼 색상을 연하게 적용해 카드 배경과 테두리 톤을 맞춤
   const tint = `${color}1A`; // ~10% opacity hex (1A)
   const ring = color;
   return (
@@ -161,11 +157,11 @@ function PlatformCard({ title, items, color }) {
 
 // -----------------------------------------------------------------------------
 // 조직도 컴포넌트 묶음
-//  - Desktop/Mobile 환경에 따라 다른 레이아웃을 사용
+//  - 데스크톱과 모바일에서 서로 다른 조직도 레이아웃 사용
 // -----------------------------------------------------------------------------
 function OrgChartDesktop() {
-  // [Desktop] 가로 확장형 조직도
-  //  - 중앙 트렁크(총회 → 이사회 → 이사장)를 기준으로 분기 구조를 표현
+  // 데스크톱 조직도
+  // - 중앙 트렁크(총회 → 이사회 → 이사장 → 사무국)를 기준으로 감사와 3개 플랫폼을 분기
   return (
     <div className="relative mx-auto w-full max-w-screen-xl">
       <div className="flex flex-col items-center">
@@ -176,16 +172,16 @@ function OrgChartDesktop() {
         <VLine h={22} />
         <Node label="이사장" />
 
-        {/* 감사 교차부: 가로선은 전체, 중앙에 세로 연결점 포함 */}
+        {/* 감사 분기 영역 */}
         <CrossAuditor />
 
-        {/* 사무국 (트렁크가 끊기지 않도록 바로 이어짐) */}
+        {/* 사무국 */}
         <VLine h={10} />
         <Node label="사무국" />
 
-        {/* 하단 분기: 3플랫폼 위치까지 하강 및 가로선/세로선 */}
+        {/* 하단 3대 플랫폼 분기 */}
         <VLine h={16} />
-        {/* 좌·우 플랫폼 컬럼 사이까지만 이어지는 가로 연결선 */}
+        {/* 3개 플랫폼을 연결하는 가로선 */}
         <div className="h-[2px] w-2/3 mx-auto bg-slate-400" />
         <div className="grid w-full grid-cols-3">
           <div className="flex justify-center"><VLine h={36} /></div>
@@ -197,8 +193,8 @@ function OrgChartDesktop() {
   );
 }
 
-// [Mobile] 세로 흐름형 조직도
-//  - 작은 화면에서도 구조를 빠르게 이해할 수 있도록 단순화
+// 모바일 조직도
+// - 작은 화면에서 조직 흐름을 세로로 이해할 수 있도록 단순화
 function OrgChartMobile() {
   return (
     <div className="max-w-screen-sm mx-auto flex flex-col items-center gap-2 px-4">
@@ -214,6 +210,7 @@ function OrgChartMobile() {
   );
 }
 
+// 모바일 조직도 노드
 function MobileNode({ label }) {
   return (
     <div className="inline-flex items-center justify-center rounded-full border border-slate-400 bg-white px-4 h-10 text-gray-800 shadow-sm text-sm">
@@ -222,6 +219,7 @@ function MobileNode({ label }) {
   );
 }
 
+// 모바일 조직도 세로 연결선
 function MobileConnector({ h = 24 }) {
   return (
     <div
@@ -232,11 +230,11 @@ function MobileConnector({ h = 24 }) {
 }
 
 function MobileAuditor() {
-  // 세로 트렁크를 유지한 채 좌측으로만 감사 노드를 분기하는 T자 구조
-  const spur = 118; // 중앙 트렁크에서 감사 노드까지의 거리(px)
-  const lineColor = "#94A3B8"; // 라인 색상(slate-400)
-  const H = 56; // 감사 블록 전체 높이(이사장–사무국 간 간격 조절)
-  const mid = Math.floor(H / 2); // 분기선이 위치할 세로 중앙 좌표
+  // 중앙 세로 트렁크를 유지하면서 감사 노드만 좌측으로 분기
+  const spur = 118; // 중앙 트렁크에서 감사 노드까지의 거리
+  const lineColor = "#94A3B8"; // 조직도 연결선 색상
+  const H = 56; // 감사 분기 영역 높이
+  const mid = Math.floor(H / 2); // 분기선 세로 중앙 좌표
 
   return (
     <div className="relative w-full" style={{ height: H }}>
@@ -260,6 +258,7 @@ function MobileAuditor() {
   );
 }
 
+// 데스크톱 조직도 세로 연결선
 function VLine({ h = 8 }) {
   return (
     <div
@@ -269,6 +268,7 @@ function VLine({ h = 8 }) {
   );
 }
 
+// 데스크톱 조직도 노드
 function Node({ label, small = false }) {
   const base =
     "inline-flex items-center justify-center rounded-xl border border-slate-400 bg-white px-4 text-gray-800 shadow-sm";
@@ -279,20 +279,20 @@ function Node({ label, small = false }) {
 }
 
 function CrossAuditor() {
-  // 중앙 트렁크에서 감사 노드까지 이어지는 좌측 분기 길이(px)
+  // 중앙 트렁크에서 감사 노드까지 이어지는 좌측 분기 길이
   const spur = 280; // px
   return (
     <div className="relative w-full h-10">
-      {/* 트렁크가 시각적으로 끊기지 않도록 중앙 연결부 표시 */}
+      {/* 중앙 세로 트렁크 연결부 */}
       <div className="absolute left-1/2 top-0 -translate-x-1/2">
         <VLine h={10} />
       </div>
-      {/* 트렁크에서 감사 박스까지 이어지는 짧은 가로선(좌측) */}
+      {/* 감사 노드로 이어지는 좌측 분기선 */}
       <div
         className="absolute top-1/2 -translate-y-1/2 h-[2px] bg-slate-400"
         style={{ left: `calc(50% - ${spur}px)`, width: `${spur}px` }}
       />
-      {/* 분기선 끝에 정확히 배치된 감사 노드 */}
+      {/* 감사 노드 */}
       <div
         className="absolute top-1/2 -translate-y-1/2"
         style={{ left: `calc(50% - ${spur}px)` }}
@@ -303,14 +303,14 @@ function CrossAuditor() {
   );
 }
 
-// [표] 헤더 셀 공통 컴포넌트
+// 표 헤더 셀 공통 컴포넌트
 function Th({ children }) {
   return (
     <th className="p-3 text-sm font-semibold text-gray-700">{children}</th>
   );
 }
 
-// [표] 데이터 셀 공통 컴포넌트
+// 표 데이터 셀 공통 컴포넌트
 function Td({ children, className = "" }) {
   return (
     <td className={`p-3 text-sm text-gray-700 align-top ${className}`}>{children}</td>

@@ -1,12 +1,6 @@
 // -----------------------------------------------------------------------------
-// [페이지 목적]
-//  - "복지디자인 이야기"(스토리) 목록 페이지
-//  - /src/content/stories/*.md[x] CMS markdown 파일을 빌드 시점에 읽어 목록을 구성
-//
-// [데이터 구성 규칙]
-//  - CMS 저장 위치: src/content/stories/*.md[x]
-//  - GitHub API 실시간 호출 없이 Vite import.meta.glob 로 로컬 CMS markdown을 사용
-//  - 최신 날짜가 위로 오도록 내림차순 정렬
+// "복지디자인 이야기" 목록 페이지입니다.
+// src/content/stories 폴더의 CMS 마크다운 파일을 빌드 시점에 읽어 최신순으로 보여줍니다.
 // -----------------------------------------------------------------------------
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
@@ -17,10 +11,7 @@ const STORY_INDEX_MODULES = import.meta.glob("../../content/stories/*.{md,mdx}",
   eager: true,
 });
 
-// -----------------------------------------------------------------------------
-// [유틸] 파일명에서 날짜/슬러그 추출
-//  - 파일명 규칙: YYYY-MM-DD-제목(or-slug).md / .mdx
-// -----------------------------------------------------------------------------
+// 파일명 규칙(YYYY-MM-DD-title.md[x])에 맞춰 날짜와 URL용 slug를 추출합니다.
 function parseDatedSlug(filepath) {
   const name = filepath.split("/").pop() || "";
   const m = name.match(/^(\d{4}-\d{2}-\d{2})-(.+)\.(md|mdx)$/);
@@ -44,9 +35,7 @@ function parseDatedSlug(filepath) {
   return { date, slug, titleFromFile: rest };
 }
 
-// -----------------------------------------------------------------------------
-// [유틸] 날짜 값을 "YYYY-MM-DD" 형태 문자열로 정규화
-// -----------------------------------------------------------------------------
+// frontmatter나 파일명에서 얻은 날짜 값을 화면에 표시할 YYYY-MM-DD 형식으로 맞춥니다.
 function formatDate(v) {
   if (!v) return "";
   try {
@@ -60,6 +49,7 @@ function formatDate(v) {
   return "";
 }
 
+// 간단한 YAML frontmatter를 파싱해 목록 카드에 사용할 제목, 날짜, 요약 정보를 가져옵니다.
 function parseFrontmatter(rawText) {
   const text = String(rawText || "");
   const match = text.match(/^---\s*\n([\s\S]*?)\n---\s*\n?([\s\S]*)$/);
@@ -88,6 +78,7 @@ function parseFrontmatter(rawText) {
   return { data, content: content.trim() };
 }
 
+// 로드한 마크다운 파일을 목록 아이템 형태로 변환하고 최신 날짜순으로 정렬합니다.
 async function fetchStoryIndexItems() {
   const list = Object.entries(STORY_INDEX_MODULES).map(([path, raw]) => {
     const fileName = path.split("/").pop() || "";
@@ -120,6 +111,7 @@ export default function NewsIndex() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    // 컴포넌트가 사라진 뒤 비동기 결과가 state를 변경하지 않도록 방지합니다.
     let alive = true;
 
     fetchStoryIndexItems()

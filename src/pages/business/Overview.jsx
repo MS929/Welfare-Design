@@ -1,26 +1,34 @@
 // -----------------------------------------------------------------------------
+// Overview.jsx
 // [페이지 목적]
-//  - 복지디자인 사회적협동조합의 사업영역 전체를 한눈에 보여주는 메인 페이지
-//  - 개별 사업 페이지로 진입하기 위한 카드형 네비게이션 역할
+//  - 복지디자인 사회적협동조합 사업영역 메인 페이지
+//  - 운영 중인 사업들을 카드 형태로 보여주고 각 상세 페이지로 연결
 //
-// [구성]
-//  - 상단: 사업영역 개요 설명 텍스트
-//  - 하단: 현재 운영 중인 주요 사업 프로그램 카드 목록
+// [데이터 구조]
+//  - programs 배열에서 사업명/설명/아이콘/이동 경로 관리
+//  - 사업 추가 또는 삭제 시 programs 배열만 수정
 //
-// [UX/레이아웃 포인트]
-//  - 카드 UI에 content-visibility를 적용해 초기 렌더링 성능 최적화
-//  - 반응형 그리드로 화면 크기별 가독성 유지
+// [화면 구성]
+//  - 상단: 사업영역 소개 문구
+//  - 하단: 사업별 이동 카드 목록
 //
-// [텍스트/레이아웃 안정화]
-//  - 페이지 전용 text-guard CSS로 모바일 자동 확대 및 줄바꿈 깨짐 방지
+// [UX/성능]
+//  - 반응형 grid 구조로 PC/모바일 대응
+//  - content-visibility 적용으로 카드 렌더링 최적화
+//
+// [유지보수 위치]
+//  - 사업 추가: programs 배열 추가
+//  - 사업 아이콘 변경: /public/images/icons 이미지 교체
+//  - 공통 레이아웃 변경: BizLayout 수정
 // -----------------------------------------------------------------------------
 import { Link } from "react-router-dom";
 import BizLayout from "./_Layout";
 
-// BizLayout: 사업영역 공통 레이아웃 및 페이지 타이틀/메타 정보 제공
-
 export default function BizOverview() {
-  // 현재 운영 중인 주요 사업 목록 (카드 UI로 렌더링됨)
+  // 사업 카드 데이터
+  // - 사업 추가/삭제는 이 배열에서 관리
+  // - to: 이동 경로
+  // - icon: public/images/icons 기준 이미지 경로
   const programs = [
     {
       to: "/business/apply-help",
@@ -56,7 +64,9 @@ export default function BizOverview() {
 
   return (
     <>
-      {/* 페이지 전용 텍스트/레이아웃 안정화 CSS (text-guard) */}
+      {/* 페이지 전용 텍스트 가드 CSS
+          - 모바일 브라우저 자동 글자 확대 방지
+          - 한글 줄바꿈 및 긴 텍스트 깨짐 방지 */}
       <style
         id="page-text-guard"
         dangerouslySetInnerHTML={{
@@ -102,17 +112,17 @@ mark, [data-hl] {
 
       <BizLayout title="사업영역">
         <section>
-          {/* 사업영역 개요 설명 (인트로) */}
           <p className="text-gray-700 leading-relaxed">
             복지디자인 사회적협동조합은 이동·건강·경제·정보 접근성 등을 중심으로
             지역 기반 상호부조의 사업을 전개합니다. 아래 프로그램은 현재 운영 중인
             핵심 사업으로, 대상/절차/문의는 각 페이지에서 확인하실 수 있습니다.
           </p>
 
-          {/* 사업영역 프로그램 카드 목록 영역 */}
+          {/* 사업 카드 목록
+              - programs 배열을 순회하여 자동 생성
+              - 카드 클릭 시 각 사업 상세 페이지 이동 */}
           <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 gap-6">
             {programs.map((p) => {
-              // 개별 사업 카드 (클릭 시 상세 페이지 이동)
               return (
                 <Link
                   key={p.to + p.title}
@@ -155,7 +165,9 @@ mark, [data-hl] {
                     </span>
                   </div>
 
-                  {/* 사업 아이콘 이미지: 카드 내용을 보조하는 시각 요소 */}
+                  {/* 사업 아이콘 이미지
+                      - 장식 목적 이미지이므로 alt="" 처리
+                      - lazy loading으로 초기 로딩 부담 감소 */}
                   <img
                     src={p.icon}
                     alt=""

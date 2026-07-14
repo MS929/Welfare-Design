@@ -1,11 +1,35 @@
+// -----------------------------------------------------------------------------
+// History.jsx
+// [페이지 목적]
+//  - 소개 > 연혁 페이지
+//  - CMS의 src/content/history/*.md[x] 파일을 읽어 연도별 타임라인으로 표시
+//
+// [데이터 흐름]
+//  - Vite import.meta.glob으로 history 폴더의 markdown 원문을 raw 문자열로 로드
+//  - frontmatter에서 date/event 값을 파싱
+//  - 연도별로 묶고 최신 날짜순으로 정렬하여 타임라인 형태로 렌더링
+//
+// [예외 처리]
+//  - CMS 데이터 로드 실패 또는 데이터가 비어 있을 경우 fallbackRaw 기본 연혁을 표시
+//
+// [유지보수 위치]
+//  - 연혁 추가/수정: CMS의 연혁 메뉴 또는 src/content/history 파일 수정
+//  - 기본 예비 연혁 변경: fallbackRaw 배열 수정
+//  - 타임라인 색상/간격 변경: themeVars 수정
+// -----------------------------------------------------------------------------
 import { useEffect, useMemo, useState } from "react";
 
+// CMS 연혁 원문 로드
+// - history 폴더의 md/mdx 파일을 raw 문자열로 가져옴
+// - 연혁 페이지에서는 이 데이터로 타임라인 항목을 구성함
 const HISTORY_MODULES = import.meta.glob("../../content/history/*.{md,mdx}", {
   query: "?raw",
   import: "default",
   eager: true,
 });
 
+// CMS 데이터가 없거나 로드에 실패했을 때 사용하는 예비 연혁 데이터
+// - 운영 중에는 CMS 데이터가 우선 사용됨
 const fallbackRaw = [
   { date: "2025.05", event: "가칭) 복지디자인사회적협동조합 실무자 교육 진행" },
   { date: "2025.06", event: "가칭) 복지디자인사회적협동조합 설립 추진단 결성" },
@@ -16,6 +40,9 @@ const fallbackRaw = [
   },
 ];
 
+// Markdown frontmatter 파싱
+// - 상단 --- 영역의 key:value 값을 data 객체로 변환
+// - 나머지 본문은 content로 분리하여 event 값이 없을 때 보조로 사용
 function parseFrontmatter(rawText) {
   const text = String(rawText || "");
   const match = text.match(/^---\s*\n([\s\S]*?)\n---\s*\n?([\s\S]*)$/);
@@ -42,6 +69,9 @@ function parseFrontmatter(rawText) {
   return { data, content: content.trim() };
 }
 
+// CMS 연혁 목록 데이터 생성
+// - HISTORY_MODULES의 markdown 파일들을 순회하며 date/event 값만 추출
+// - 날짜와 내용이 모두 있는 항목만 타임라인에 사용
 async function fetchHistoryItems() {
   const items = Object.entries(HISTORY_MODULES).map(([path, raw]) => {
     const { data, content } = parseFrontmatter(raw);
@@ -56,7 +86,12 @@ async function fetchHistoryItems() {
   return items.filter((item) => item.date && item.event);
 }
 
+// 연혁 데이터를 연도별로 그룹화
+// - date 값을 기준으로 최신순 정렬
+// - 화면 렌더링에 필요한 { 연도: [{ ym, event }] } 구조로 변환
 function makeByYear(items) {
+  // 정렬용 날짜 숫자 생성
+  // - 2026.07 → 202607 형태로 변환하여 비교
   const normalize = (d) => {
     const [y, m = "00"] = String(d).split(".");
     return Number(`${y}${m.padStart(2, "0")}`);
@@ -79,10 +114,15 @@ function makeByYear(items) {
     }, {});
 }
 
+// 연혁 페이지 컴포넌트
+// - CMS 데이터 로드, fallback 처리, 연도별 그룹화, 타임라인 렌더링을 담당
 export default function AboutHistory() {
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  // CMS 연혁 데이터 로드
+  // - 데이터가 없거나 오류가 발생하면 fallbackRaw를 사용
+  // - alive 플래그로 언마운트 이후 setState가 실행되는 것을 방지
   useEffect(() => {
     let alive = true;
 
@@ -104,8 +144,12 @@ export default function AboutHistory() {
     };
   }, []);
 
+  // 연도별 타임라인 데이터 메모이제이션
+  // - items가 바뀔 때만 연도별 그룹을 다시 계산
   const byYear = useMemo(() => makeByYear(items), [items]);
 
+  // 타임라인 디자인 변수
+  // - 브랜드 색상, 연도 영역 높이, 세로 라인 위치 등을 CSS 변수로 관리
   const themeVars = {
     "--pri": "#F26C2A",
     "--sec": "#2CB9B1",
@@ -128,6 +172,7 @@ export default function AboutHistory() {
         className="relative max-w-7xl mx-auto px-0 pt-0 pb-14 overflow-x-hidden"
         style={themeVars}
       >
+        {/* 데스크톱 타임라인 간격 보정 CSS */}
         <style>{`
           @media (min-width: 768px) {
             .history-wrapper {
@@ -138,11 +183,13 @@ export default function AboutHistory() {
           }
         `}</style>
 
+        {/* 상단 배경 장식 그라데이션 */}
         <div
           className="pointer-events-none absolute inset-x-0 -top-8 h-20 bg-gradient-to-b from-[var(--pri-soft)] via-[var(--sec-soft)] to-transparent opacity-70"
           aria-hidden="true"
         />
 
+        {/* 상단 영역: 현재 위치 안내(브레드크럼)와 페이지 제목 */}
         <header className="max-w-screen-xl mx-auto px-4 pt-10">
           <p className="text-sm text-black/80">
             소개 &gt; <span className="text-black">연혁</span>
@@ -165,6 +212,8 @@ export default function AboutHistory() {
           )}
         </header>
 
+        {/* 연혁 타임라인 영역
+            - byYear 객체를 기준으로 연도별 섹션을 자동 생성 */}
         <div
           className="history-wrapper relative mt-5 px-4 pr-5 md:px-0 md:pr-0 overflow-x-visible"
           style={{ paddingLeft: "var(--timeline-offset)" }}
@@ -190,7 +239,11 @@ export default function AboutHistory() {
                   </div>
                 </div>
 
-                <div className="relative flex-1 min-w-0 pl-9 md:pl-10 lg:pl-12 overflow-x-visible">
+                {/* 해당 연도의 연혁 항목 목록 */}
+                <div
+                  className="relative flex-1 min-w-0 pl-9 md:pl-10 lg:pl-12 overflow-x-visible"
+                >
+                  {/* 연혁 항목을 따라 내려가는 세로 타임라인 라인 */}
                   <div
                     className="absolute bottom-6 border-l-2 border-dashed border-[var(--pri)]/30"
                     style={{

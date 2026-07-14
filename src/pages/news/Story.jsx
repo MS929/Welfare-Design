@@ -1,51 +1,39 @@
 // -----------------------------------------------------------------------------
+// Story.jsx
 // [페이지 목적]
 //  - "복지디자인 이야기" 상세 페이지
-//  - URL 파라미터(slug)에 해당하는 마크다운 파일을 찾아 제목/날짜/썸네일/본문을 렌더링
+//  - URL 파라미터(slug)에 해당하는 src/content/stories/*.md[x] 파일을 찾아 렌더링
 //
 // [데이터 로딩 방식]
-//  - Vite의 import.meta.glob을 사용해 /src/content/news/*.md 파일을 raw 문자열로 로드
-//  - eager: true → 빌드 시점에 모두 포함되어, 상세 페이지에서 즉시 조회 가능
-//
-// [렌더링 구성]
-//  - 상단: 브레드크럼(소식 > 동행이야기 > 상세)
-//  - 본문: frontmatter(제목/날짜/썸네일) + 마크다운 body를 줄 단위로 문단(<p>) 출력
-// -----------------------------------------------------------------------------
-// -----------------------------------------------------------------------------
-// [페이지 목적]
-//  - "복지디자인 이야기" 상세 페이지
-//  - URL 파라미터(slug)에 해당하는 GitHub CMS markdown 파일을 찾아 렌더링
-//
-// [데이터 로딩 방식]
-//  - GitHub Contents API로 src/content/stories 목록을 실시간 조회
-//  - 현재 slug와 같은 파일을 찾은 뒤 download_url로 markdown 원문 로드
-//  - 직접 frontmatter를 파싱하여 제목/날짜/썸네일/본문 렌더링
-// -----------------------------------------------------------------------------
-// -----------------------------------------------------------------------------
-// [페이지 목적]
-//  - "복지디자인 이야기" 상세 페이지
-//  - URL 파라미터(slug)에 해당하는 /src/content/stories/*.md[x] 파일을 찾아 렌더링
-//
-// [데이터 로딩 방식]
-//  - GitHub API 실시간 호출 없이 Vite import.meta.glob 로 로컬 CMS markdown을 사용
-//  - 빌드 시점에 모든 stories markdown을 raw 문자열로 포함
-//  - 현재 slug와 같은 파일명을 찾아 frontmatter와 본문을 렌더링
+//  - GitHub API를 직접 호출하지 않고 Vite import.meta.glob으로 로컬 CMS markdown을 사용
+//  - 빌드 시점에 stories 폴더의 모든 markdown 원문을 raw 문자열로 포함
+//  - 현재 slug와 파일명을 비교해 해당 글의 frontmatter와 본문을 표시
 //
 // [렌더링 구성]
 //  - 상단: 브레드크럼(소식 > 복지디자인 이야기 > 상세)
-//  - 본문: frontmatter(제목/날짜/썸네일) + 마크다운 body 렌더링
+//  - 본문: 제목, 날짜, 썸네일, markdown 본문
+//
+// [운영 참고]
+//  - CMS에서 새 글을 저장한 뒤 Netlify 재배포가 완료되어야 홈페이지에 반영됨
+//  - 복잡한 갤러리/이전·다음 글 기능은 StoryDetail.jsx에서 관리함
 // -----------------------------------------------------------------------------
 
 import { useEffect, useMemo, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import ReactMarkdown from "react-markdown";
 
+// CMS 스토리 원문 로드
+// - stories 폴더의 md/mdx 파일을 raw 문자열로 가져옴
+// - 상세 페이지에서 slug와 일치하는 파일을 찾기 위한 데이터 원본
 const STORY_DETAIL_MODULES = import.meta.glob("../../content/stories/*.{md,mdx}", {
   query: "?raw",
   import: "default",
   eager: true,
 });
 
+// Markdown frontmatter 파싱
+// - 상단 --- 영역의 key:value 값을 data 객체로 변환
+// - 나머지 영역은 content로 분리하여 ReactMarkdown 본문 렌더링에 사용
 function parseFrontmatter(rawText) {
   const text = String(rawText || "");
   const match = text.match(/^---\s*\n([\s\S]*?)\n---\s*\n?([\s\S]*)$/);
@@ -74,6 +62,9 @@ function parseFrontmatter(rawText) {
   return { data, content: content.trim() };
 }
 
+// 현재 slug에 해당하는 스토리 상세 데이터 찾기
+// - 파일명에서 확장자(.md/.mdx)를 제거한 값과 URL slug를 비교
+// - 일치하는 파일이 없으면 undefined를 반환하여 404 성격의 화면을 표시
 async function fetchStoryDetail(slug) {
   const target = Object.entries(STORY_DETAIL_MODULES).find(([path]) => {
     const fileName = path.split("/").pop() || "";
@@ -92,6 +83,8 @@ async function fetchStoryDetail(slug) {
   };
 }
 
+// Markdown 본문 안의 이미지 렌더링 컴포넌트
+// - ReactMarkdown의 img 태그를 대체하여 공통 스타일과 lazy loading을 적용
 function MarkdownImage({ alt = "", ...props }) {
   return (
     <img
@@ -104,11 +97,16 @@ function MarkdownImage({ alt = "", ...props }) {
   );
 }
 
+// 복지디자인 이야기 상세 페이지 컴포넌트
+// - slug 변경 시 해당 글을 다시 로드
+// - 로딩/글 없음/정상 표시 상태를 분기하여 렌더링
 export default function StoryDetail() {
   const { slug } = useParams();
   const [post, setPost] = useState(null);
   const [loading, setLoading] = useState(true);
 
+  // slug가 바뀔 때마다 CMS markdown에서 해당 글을 다시 조회
+  // - alive 플래그로 언마운트 이후 setState가 실행되는 것을 방지
   useEffect(() => {
     let alive = true;
 
@@ -132,6 +130,9 @@ export default function StoryDetail() {
     };
   }, [slug]);
 
+  // ReactMarkdown 커스텀 렌더러 설정
+  // - markdown 이미지에는 MarkdownImage 컴포넌트를 적용
+  // - useMemo로 렌더러 객체가 매번 새로 생성되지 않도록 함
   const markdownComponents = useMemo(
     () => ({
       img: MarkdownImage,
@@ -139,6 +140,7 @@ export default function StoryDetail() {
     []
   );
 
+  // 데이터 로딩 중에는 스켈레톤 UI 표시
   if (loading) {
     return (
       <div className="max-w-screen-md mx-auto px-4 py-12">
@@ -157,6 +159,7 @@ export default function StoryDetail() {
     );
   }
 
+  // slug와 일치하는 글이 없을 때 표시하는 화면
   if (post === undefined) {
     return (
       <div className="max-w-screen-xl mx-auto px-4 py-12">
@@ -187,6 +190,8 @@ export default function StoryDetail() {
         </time>
       )}
 
+      {/* 대표 썸네일 이미지
+          - CMS frontmatter의 thumbnail 값이 있을 때만 표시 */}
       {post.thumbnail ? (
         <img
           src={post.thumbnail}
@@ -197,6 +202,7 @@ export default function StoryDetail() {
         />
       ) : null}
 
+      {/* Markdown 본문 렌더링 영역 */}
       <div className="prose max-w-none">
         <ReactMarkdown components={markdownComponents}>{post.content || ""}</ReactMarkdown>
       </div>

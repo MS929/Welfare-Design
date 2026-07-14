@@ -1,28 +1,39 @@
 // -----------------------------------------------------------------------------
+// NoticeDetail.jsx
 // [페이지 목적]
-//  - 공지사항 상세 페이지(NoticeDetail)
-//  - URL 파라미터(slug)로 /src/content/notices/*.md CMS markdown 공지 파일을 찾아 렌더링
+//  - 공지사항 상세 페이지
+//  - URL 파라미터(slug)에 해당하는 src/content/notices/*.md[x] CMS markdown 파일을 찾아 렌더링
 //
-// [데이터 로딩 흐름]
-//  - GitHub API 실시간 호출 없이 Vite import.meta.glob 로 로컬 CMS markdown을 사용
-//  - 현재 slug와 같은 파일명을 찾은 뒤 frontmatter를 파싱하여 data/content 분리
-//  - slug 파일이 없거나 파싱 오류가 나면 404 성격 화면(post === undefined) 노출
+// [데이터 흐름]
+//  - Vite import.meta.glob으로 notices 폴더의 markdown 원문을 raw 문자열로 로드
+//  - URL slug와 파일명을 비교해 현재 공지 글을 찾음
+//  - frontmatter에서 제목/날짜/썸네일/갤러리 정보를 파싱하고 본문은 ReactMarkdown으로 렌더링
 //
-// [마크다운 렌더링]
-//  - react-markdown 사용
-//  - 이미지(img)는 공통 스타일 + lazy 로딩/async 디코딩으로 통일
+// [렌더링 구성]
+//  - 상단: 브레드크럼(소식 > 공지사항 > 상세)
+//  - 본문: 제목, 날짜, 대표 이미지, 첨부 이미지 갤러리, markdown 본문
+//
+// [운영 참고]
+//  - CMS에서 새 공지 또는 수정된 공지를 저장한 뒤 Netlify 재배포가 완료되어야 반영됨
+//  - gallery 필드는 CMS config.yml의 추가 이미지 목록 구조와 함께 관리
 // -----------------------------------------------------------------------------
 
 import React, { useEffect, useMemo, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import ReactMarkdown from "react-markdown";
 
+// CMS 공지사항 원문 로드
+// - notices 폴더의 md/mdx 파일을 raw 문자열로 가져옴
+// - 상세 페이지에서 slug와 일치하는 파일을 찾기 위한 데이터 원본
 const NOTICE_MODULES = import.meta.glob("../../content/notices/*.{md,mdx}", {
   query: "?raw",
   import: "default",
   eager: true,
 });
 
+// Markdown frontmatter 파싱
+// - 상단 --- 영역의 key:value 값을 data 객체로 변환
+// - 나머지 영역은 content로 분리하여 ReactMarkdown 본문 렌더링에 사용
 function parseFrontmatter(rawText) {
   const text = String(rawText || "");
   const match = text.match(/^---\s*\n([\s\S]*?)\n---\s*\n?([\s\S]*)$/);
@@ -51,6 +62,9 @@ function parseFrontmatter(rawText) {
   return { data, content: content.trim() };
 }
 
+// gallery 필드 전용 파서
+// - CMS config.yml의 gallery list 구조를 직접 읽어 첨부 이미지 배열로 변환
+// - 각 항목은 image와 caption 값을 가짐
 function parseGalleryImages(rawText) {
   const text = String(rawText || "");
   const match = text.match(/^---\s*\n([\s\S]*?)\n---/);
@@ -86,6 +100,9 @@ function parseGalleryImages(rawText) {
   return items;
 }
 
+// 공지 작성일 표시 형식 변환
+// - CMS에 저장된 날짜 값을 ko-KR 날짜 형식으로 변환하여 화면에 표시
+// - 유효하지 않은 날짜는 빈 문자열로 처리
 function formatDate(date) {
   try {
     const d = new Date(date);
@@ -101,6 +118,9 @@ function formatDate(date) {
   }
 }
 
+// 현재 slug에 해당하는 공지 상세 데이터 찾기
+// - 파일명에서 확장자(.md/.mdx)를 제거한 값과 URL slug를 비교
+// - 일치하는 파일이 없으면 undefined를 반환하여 404 성격의 화면을 표시
 async function fetchNoticeDetail(slug) {
   const target = Object.entries(NOTICE_MODULES).find(([path]) => {
     const fileName = path.split("/").pop() || "";
@@ -121,6 +141,8 @@ async function fetchNoticeDetail(slug) {
   };
 }
 
+// Markdown 본문 안의 이미지 렌더링 컴포넌트
+// - ReactMarkdown의 img 태그를 대체하여 공통 스타일과 lazy loading을 적용
 function MarkdownImage({ alt = "", ...props }) {
   return (
     <img
@@ -134,7 +156,9 @@ function MarkdownImage({ alt = "", ...props }) {
 }
 
 // -----------------------------------------------------------------------------
-// [컴포넌트] 공지사항 상세 뷰
+// NoticeDetail 컴포넌트
+//  - slug 변경 시 해당 공지를 다시 로드
+//  - 로딩/글 없음/정상 표시 상태를 분기하여 렌더링
 // -----------------------------------------------------------------------------
 export default function NoticeDetail() {
   const { slug } = useParams();
@@ -142,6 +166,8 @@ export default function NoticeDetail() {
   const [post, setPost] = useState(null);
   const [loading, setLoading] = useState(true);
 
+  // slug가 바뀔 때마다 CMS markdown에서 해당 공지를 다시 조회
+  // - alive 플래그로 언마운트 이후 setState가 실행되는 것을 방지
   useEffect(() => {
     let alive = true;
 
@@ -165,6 +191,9 @@ export default function NoticeDetail() {
     };
   }, [slug]);
 
+  // ReactMarkdown 커스텀 렌더러 설정
+  // - markdown 이미지에는 MarkdownImage 컴포넌트를 적용
+  // - useMemo로 렌더러 객체가 매번 새로 생성되지 않도록 함
   const markdownComponents = useMemo(
     () => ({
       img: MarkdownImage,
@@ -172,6 +201,7 @@ export default function NoticeDetail() {
     []
   );
 
+  // 데이터 로딩 중에는 스켈레톤 UI 표시
   if (loading) {
     return (
       <div className="max-w-3xl mx-auto px-4 py-20">
@@ -189,6 +219,7 @@ export default function NoticeDetail() {
     );
   }
 
+  // slug와 일치하는 공지가 없을 때 표시하는 화면
   if (post === undefined) {
     return (
       <div className="max-w-screen-md mx-auto px-4 py-16 text-center">
@@ -205,6 +236,8 @@ export default function NoticeDetail() {
 
   return (
     <div className="max-w-3xl mx-auto px-4 py-12">
+      {/* 브레드크럼
+          - 현재 위치를 소식 > 공지사항 > 상세 순서로 표시 */}
       <section className="mb-6">
         <nav className="text-sm text-black/80">
           <Link to="/news" className="hover:underline">
@@ -219,6 +252,7 @@ export default function NoticeDetail() {
         </nav>
       </section>
 
+      {/* 목록으로 돌아가기 버튼 */}
       <div className="mb-6 flex items-center justify-between">
         <button
           onClick={() => nav("/news/notices")}
@@ -244,6 +278,8 @@ export default function NoticeDetail() {
           )}
         </header>
 
+        {/* 대표 썸네일 이미지
+            - CMS frontmatter의 thumbnail 값이 있을 때만 표시 */}
         {post.thumbnail && (
           <img
             src={post.thumbnail}
@@ -254,6 +290,9 @@ export default function NoticeDetail() {
           />
         )}
 
+        {/* 첨부 이미지 갤러리
+            - CMS의 gallery 필드에 등록된 이미지를 2열 그리드로 표시
+            - caption이 있으면 이미지 아래에 설명 문구로 출력 */}
         {Array.isArray(post.gallery) && post.gallery.length > 0 ? (
           <section className="mb-8">
             <h2 className="mb-4 text-xl font-bold text-gray-900">첨부 이미지</h2>
@@ -281,6 +320,7 @@ export default function NoticeDetail() {
           </section>
         ) : null}
 
+        {/* Markdown 본문 렌더링 영역 */}
         <div className="prose max-w-none text-[17px] leading-8 text-gray-800">
           <ReactMarkdown components={markdownComponents}>{post.content || ""}</ReactMarkdown>
         </div>

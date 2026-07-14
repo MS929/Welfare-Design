@@ -22,10 +22,15 @@
 import { useMemo, useState, useEffect } from "react";
 import { loadFaqItems } from "../../lib/loadFaq";
 
-const CATEGORIES = ["전체", "후원관련 문의", "기부금영수증"]; // FAQ 카테고리(필요 시 '기타' 추가)
+// FAQ 화면에서 노출할 카테고리 탭
+// - CMS에 다른 카테고리가 있어도 이 배열에 없는 항목은 탭으로 노출되지 않음
+// - 카테고리를 추가하려면 CMS 설정과 이 배열을 함께 수정해야 함
+const CATEGORIES = ["전체", "후원관련 문의", "기부금영수증"];
 
 export default function SupFAQ() {
-	// 전체 FAQ 데이터(정적 로드: 한 번만)
+	// 전체 FAQ 데이터 로드
+	// - loadFaqItems()가 CMS/콘텐츠 파일을 읽어 FAQ 배열로 변환
+	// - useMemo로 최초 렌더링 시 한 번만 계산하여 불필요한 재처리를 줄임
 	const all = useMemo(() => loadFaqItems(), []);
 	// 현재 선택된 카테고리
 	const [cat, setCat] = useState("전체");
@@ -36,7 +41,9 @@ export default function SupFAQ() {
 	// 열려있는 아코디언 인덱스(없으면 null)
 	const [openIdx, setOpenIdx] = useState(null);
 
-	// 카테고리별 문항 수(배지 표시용)
+	// 카테고리별 문항 수 계산
+	// - 각 탭 오른쪽의 숫자 배지에 사용
+	// - FAQ가 추가/삭제되면 자동으로 개수가 반영됨
 	const counts = useMemo(() => {
 		const m = { 전체: all.length };
 		for (const c of CATEGORIES.filter((c) => c !== "전체")) {
@@ -45,13 +52,17 @@ export default function SupFAQ() {
 		return m;
 	}, [all]);
 
- 	// 검색어 입력 디바운스(타이핑 중 과도한 필터링 방지)
+ 	// 검색어 입력 디바운스
+	// - 사용자가 타이핑할 때마다 즉시 필터링하지 않고 250ms 후 검색어를 반영
+	// - FAQ 항목이 많아져도 입력 중 화면이 버벅이지 않도록 하기 위한 처리
 	useEffect(() => {
 		const t = setTimeout(() => setDq(q.trim()), 250);
 		return () => clearTimeout(t);
 	}, [q]);
 
-	// 카테고리 + 검색어 기준으로 FAQ 필터링
+	// 카테고리 + 검색어 기준 FAQ 필터링
+	// - 먼저 선택된 카테고리로 거르고, 이후 제목/본문에 검색어가 포함되는지 확인
+	// - 검색어가 없으면 카테고리 결과 전체를 그대로 보여줌
 	const filtered = useMemo(() => {
 		return all
 			.filter((it) => (cat === "전체" ? true : it.category === cat))
@@ -62,7 +73,10 @@ export default function SupFAQ() {
 
 	return (
 		<>
-      {/* 페이지 텍스트 표시 보정: iOS 글자 자동 확대 방지 + 긴 URL/영문 줄바꿈 + 제목 줄바꿈 균형 */}
+      {/* FAQ 페이지 전용 텍스트 표시 보정
+          - iOS 글자 자동 확대 방지
+          - 긴 URL/영문 텍스트 줄바꿈 처리
+          - 제목 줄바꿈 균형 및 한글 단어 중간 끊김 방지 */}
       <style
         id="page-text-guard"
         dangerouslySetInnerHTML={{ __html: `
@@ -123,7 +137,9 @@ mark, [data-hl] {
 }
         ` }}
       />
-			{/* ===== 데스크톱 전용 FAQ( md 이상 ) ===== */}
+			{/* ===== 데스크톱 전용 FAQ(md 이상) =====
+			    - 넓은 화면에서는 카테고리 탭과 검색창을 상단에 배치
+			    - FAQ 항목은 아코디언 목록으로 표시 */}
 			<section className="hidden md:block max-w-screen-xl mx-auto pl-2 pr-4 sm:pl-3 sm:pr-6 lg:pl-4 lg:pr-8 pb-10">
 				<div className="bg-white">
 				  {/* ===== 브레드크럼 + 제목 (whatIs.jsx 스타일) ===== */}
@@ -222,7 +238,9 @@ mark, [data-hl] {
 					)}
 				</div>
 			</section>
-			{/* ===== 모바일 전용 FAQ( md 미만 ) ===== */}
+			{/* ===== 모바일 전용 FAQ(md 미만) =====
+			    - 카테고리 탭은 가로 스크롤 칩 형태로 표시
+			    - 검색창과 FAQ 목록은 모바일 터치 사용성에 맞게 간격을 넓힘 */}
 			<section className="md:hidden max-w-screen-md mx-auto px-4 pb-20">
 				{/* ===== 제목 ===== */}
 				<h1 className="mt-6 text-[28px] font-extrabold tracking-tight text-black">자주 묻는 질문</h1>
@@ -292,7 +310,9 @@ mark, [data-hl] {
 	);
 }
 
-// 데스크톱 FAQ 항목 컴포넌트(질문/답변 아코디언)
+// 데스크톱 FAQ 항목 컴포넌트
+// - 질문 버튼 클릭 시 답변 영역을 열고 닫는 아코디언 구조
+// - aria-expanded / aria-controls로 접근성 상태를 전달
 function Item({ item, open, onToggle, idx, q }) {
 	const contentId = `faq-panel-${idx}`;
 	const buttonId = `faq-button-${idx}`;
@@ -344,7 +364,9 @@ function Item({ item, open, onToggle, idx, q }) {
 	);
 }
 
-// 매우 단순한 마크다운 → HTML 변환(굵게 ** **, 줄바꿈만 지원)
+// FAQ 본문용 간단한 Markdown → HTML 변환
+// - 굵게(**텍스트**)와 줄바꿈만 지원
+// - CMS에서 관리되는 신뢰 가능한 콘텐츠를 표시하는 용도로 사용
 function mdToHtml(md) {
 	return (md || "")
 		.replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
@@ -363,7 +385,9 @@ function highlight(text, keyword){
 	);
 }
 
-// 모바일 FAQ 항목 컴포넌트(질문/답변 아코디언)
+// 모바일 FAQ 항목 컴포넌트
+// - 데스크톱 Item과 같은 데이터를 사용하지만 터치 환경에 맞게 버튼 크기와 여백을 조정
+// - 열림 상태에서는 + 아이콘을 회전시켜 현재 상태를 시각적으로 표시
 function MobileItem({ item, open, onToggle, idx, q }) {
   const contentId = `m-faq-panel-${idx}`;
   const buttonId = `m-faq-button-${idx}`;

@@ -1,16 +1,23 @@
 // -----------------------------------------------------------------------------
+// StoryDetail.jsx
 // [페이지 목적]
-//  - 동행이야기(스토리) 상세 페이지
-//  - /src/content/stories/*.md[x] CMS markdown 파일을 빌드 시점에 읽어 본문을 렌더링
+//  - "복지디자인 이야기" 상세 페이지
+//  - src/content/stories/*.md[x] CMS markdown 파일을 빌드 시점에 읽어 본문을 렌더링
+//
+// [데이터 흐름]
+//  - Vite import.meta.glob으로 stories 폴더의 markdown 원문을 로드
+//  - frontmatter에서 제목/날짜/썸네일/작성자/갤러리 정보를 파싱
+//  - URL 파라미터(slug)와 파일명을 비교해 현재 글을 찾음
+//  - 날짜순으로 정렬한 뒤 이전 글/다음 글 링크를 구성
 //
 // [상태 유지/이동 동선]
-//  - 목록 화면의 탭(tab) 상태를 location.state 또는 URL 쿼리(?tab=...)로 전달받음
-//  - "목록으로" 버튼 및 이전/다음 글 이동 후에도 동일 탭으로 복귀할 수 있도록 backTo를 유지
+//  - 목록 화면의 탭 상태를 location.state 또는 URL 쿼리(?tab=..., ?type=...)로 전달받음
+//  - "목록으로" 및 이전/다음 이동 후에도 기존 목록 필터로 복귀할 수 있도록 backTo를 유지
 //
 // [UX/성능 포인트]
 //  - 상단 고정 스크롤 진행률 바 표시
-//  - 마크다운 이미지 로딩을 SmartImage로 교체해 초기 렌더 비용과 레이아웃 시프트를 줄임
-//  - GitHub API 실시간 호출 없이 Vite import.meta.glob 로 로컬 CMS markdown을 사용
+//  - 본문/갤러리 이미지는 SmartImage로 지연 로딩하여 초기 렌더 비용을 줄임
+//  - GitHub API 실시간 호출 없이 로컬 CMS markdown을 사용하여 배포 후 안정적으로 동작
 // -----------------------------------------------------------------------------
 
 import { useEffect, useState, useRef, useMemo } from "react";
@@ -18,12 +25,18 @@ import { useNavigate, useParams, useLocation } from "react-router-dom";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 
+// CMS 스토리 원문 로드
+// - stories 폴더의 md/mdx 파일을 raw 문자열로 가져옴
+// - 상세 페이지에서는 이 데이터에서 slug에 맞는 글 하나를 찾아 렌더링함
 const STORY_DETAIL_MODULES = import.meta.glob("../../content/stories/*.{md,mdx}", {
   query: "?raw",
   import: "default",
   eager: true,
 });
 
+// Markdown frontmatter 파싱
+// - 상단 --- 영역의 key:value 데이터를 data 객체로 변환
+// - 나머지 영역은 content로 분리하여 ReactMarkdown 본문 렌더링에 사용
 function parseFrontmatter(rawText) {
   const text = String(rawText || "");
   const match = text.match(/^---\s*\n([\s\S]*?)\n---\s*\n?([\s\S]*)$/);
@@ -52,6 +65,9 @@ function parseFrontmatter(rawText) {
   return { data, content: content.trim() };
 }
 
+// gallery 필드 전용 파서
+// - CMS config.yml의 gallery list 구조를 직접 읽어 추가 이미지 배열로 변환
+// - 각 항목은 image와 caption 값을 가짐
 function parseGalleryImages(rawText) {
   const text = String(rawText || "");
   const match = text.match(/^---\s*\n([\s\S]*?)\n---/);
@@ -87,6 +103,9 @@ function parseGalleryImages(rawText) {
   return items;
 }
 
+// 전체 스토리 목록 생성
+// - import.meta.glob으로 읽은 markdown들을 순회하며 slug/data/content/gallery를 구성
+// - 현재 글 탐색과 이전/다음 글 계산에 함께 사용
 async function fetchStoryEntries() {
   const entries = Object.entries(STORY_DETAIL_MODULES).map(([path, raw]) => {
     const fileName = path.split("/").pop() || "";
@@ -108,7 +127,10 @@ async function fetchStoryEntries() {
 }
 
 // -----------------------------------------------------------------------------
-// SmartImage: 지연 로딩 + 뷰포트 근접 시 로드하는 이미지 컴포넌트
+// SmartImage
+//  - 이미지가 화면 근처에 왔을 때만 실제 src를 넣어 로딩하는 지연 로딩 컴포넌트
+//  - priority=true인 대표 이미지는 즉시 로딩하고, 본문/갤러리 이미지는 IntersectionObserver로 지연 로딩
+//  - placeholderMin으로 최소 높이를 확보해 이미지 로딩 전 레이아웃 흔들림을 줄임
 // -----------------------------------------------------------------------------
 function SmartImage({ src, alt, className, priority = false, placeholderMin = 220 }) {
   const [shouldLoad, setShouldLoad] = useState(priority);
@@ -170,15 +192,17 @@ function SmartImage({ src, alt, className, priority = false, placeholderMin = 22
 }
 
 /**
- * 동행이야기(스토리) 상세 페이지
- * - CMS가 생성한 src/content/stories/*.md 파일을 빌드 시점에 읽어 렌더링
- * - 새 글/수정 글은 CMS 저장 후 Netlify 재배포가 끝나면 반영됨
+ * 복지디자인 이야기 상세 페이지
+ * - 현재 slug에 해당하는 CMS 글을 찾아 제목/날짜/썸네일/본문/갤러리를 표시
+ * - 새 글 또는 수정 글은 CMS 저장 후 Netlify 재배포가 완료되면 반영됨
  */
 export default function StoryDetail() {
   const { slug } = useParams();
   const nav = useNavigate();
   const location = useLocation();
 
+  // 목록 페이지의 탭 상태 유지
+  // - state 또는 URL 쿼리로 넘어온 카테고리 값을 읽어 목록 복귀 경로(backTo)를 구성
   const qs = new URLSearchParams(location.search);
   const stateTab = location.state?.tab || location.state?.activeTab || null;
   const urlTab = qs.get("tab") || qs.get("type");
@@ -193,6 +217,9 @@ export default function StoryDetail() {
   const [neighbors, setNeighbors] = useState({ prev: null, next: null });
   const progressRef = useRef(null);
 
+  // 현재 글 데이터 및 이전/다음 글 계산
+  // - slug와 일치하는 글을 찾아 post 상태에 저장
+  // - 전체 글을 최신순으로 정렬해 이전 글/다음 글 정보를 구성
   useEffect(() => {
     let alive = true;
 
@@ -248,6 +275,8 @@ export default function StoryDetail() {
     };
   }, [slug]);
 
+  // 스크롤 진행률 바 처리
+  // - 페이지 전체 스크롤 위치를 계산해 상단 progress bar의 너비를 갱신
   useEffect(() => {
     const onScroll = () => {
       const el = document.documentElement;
@@ -264,6 +293,9 @@ export default function StoryDetail() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  // Markdown 본문 렌더링
+  // - react-markdown + remark-gfm으로 본문을 HTML 구조로 변환
+  // - 이미지와 외부 링크 렌더링 방식을 커스텀하여 성능과 보안을 보완
   const markdownContent = useMemo(() => {
     if (!post) return null;
 
@@ -363,6 +395,9 @@ export default function StoryDetail() {
           </figure>
         ) : null}
 
+        {/* 추가 이미지 갤러리
+            - CMS의 gallery 필드에 등록된 이미지를 2열 그리드로 표시
+            - caption이 있으면 이미지 아래에 굵은 설명 문구로 출력 */}
         {Array.isArray(post.gallery) && post.gallery.length > 0 ? (
           <section className="mt-8">
             <div className="grid gap-5 sm:grid-cols-2">
@@ -399,6 +434,9 @@ export default function StoryDetail() {
           </article>
         </div>
 
+        {/* 이전/다음 글 이동
+            - 현재 글 기준으로 최신순 목록에서 앞뒤 글을 계산
+            - 이동 후에도 목록으로 돌아갈 때 기존 탭 상태를 유지 */}
         <nav className="mt-10 rounded-xl bg-gray-50 ring-1 ring-gray-200 p-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
           {neighbors.prev ? (
             <button
