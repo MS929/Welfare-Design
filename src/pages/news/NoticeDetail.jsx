@@ -268,7 +268,7 @@ export default function NoticeDetail() {
       {/* 브레드크럼
           - 현재 위치를 소식 > 공지사항 > 상세 순서로 표시 */}
       <section className="mb-4">
-        <nav className="text-sm text-black/80">
+        <nav className="text-base leading-7 text-black/80 md:text-[17px]">
           <Link to="/news" className="hover:underline">
             소식
           </Link>
@@ -291,7 +291,7 @@ export default function NoticeDetail() {
         <button
           type="button"
           onClick={() => nav("/news/notices")}
-          className="inline-flex items-center gap-1 rounded-md border border-gray-200 px-2.5 py-1 text-[13px] font-medium text-gray-500 transition hover:border-gray-300 hover:bg-gray-50 hover:text-gray-700"
+          className="inline-flex items-center gap-1.5 rounded-md border border-gray-200 px-3.5 py-2 text-sm font-medium text-gray-600 transition hover:border-gray-300 hover:bg-gray-50 hover:text-gray-800"
           aria-label="공지사항 목록으로 돌아가기"
         >
           <span aria-hidden="true">←</span>
