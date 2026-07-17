@@ -378,7 +378,7 @@ export default function Notices() {
 
                     <th
                       scope="col"
-                      className="px-6 py-3.5 text-left font-medium text-gray-600"
+                      className="px-4 py-3.5 text-left font-medium text-gray-600"
                     >
                       제목
                     </th>
@@ -392,7 +392,7 @@ export default function Notices() {
 
                     <th
                       scope="col"
-                      className="w-40 px-4 py-3.5 text-center font-medium text-gray-600"
+                      className="w-44 px-4 py-3.5 text-center font-medium text-gray-600"
                     >
                       작성일
                     </th>
@@ -429,7 +429,7 @@ export default function Notices() {
                           {number}
                         </td>
 
-                        <td className="px-6 py-4 align-middle">
+                        <td className="px-4 py-4 align-middle">
                           <Link
                             to={`/news/notices/${encodeURIComponent(
                               item.slug,
