@@ -336,7 +336,7 @@ export default function Notices() {
                     </th>
                     <th
                       scope="col"
-                      className="w-44 py-3.5 pl-4 pr-10 text-right font-medium text-gray-600"
+                      className="py-4 px-4 text-center text-gray-600 align-middle whitespace-nowrap"
                     >
                       작성일
                     </th>
