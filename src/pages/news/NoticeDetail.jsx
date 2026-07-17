@@ -55,7 +55,7 @@ function parseFrontmatter(rawText) {
     const key = trimmed.slice(0, idx).trim();
     let value = trimmed.slice(idx + 1).trim();
 
-    value = value.replace(/^[']|[']$/g, "").replace(/^[\"]|[\"]$/g, "");
+    value = value.replace(/^[']|[']$/g, "").replace(/^["]|["]$/g, "");
     data[key] = value;
   });
 
@@ -71,7 +71,10 @@ function parseGalleryImages(rawText) {
   if (!match) return [];
 
   const yaml = match[1];
-  const galleryMatch = yaml.match(/(?:^|\n)gallery:\s*\n([\s\S]*?)(?=\n[a-zA-Z가-힣0-9_-]+:\s*|$)/);
+  const galleryMatch = yaml.match(
+    /(?:^|\n)gallery:\s*\n([\s\S]*?)(?=\n[a-zA-Z가-힣0-9_-]+:\s*|$)/,
+  );
+
   if (!galleryMatch) return [];
 
   const block = galleryMatch[1];
@@ -84,10 +87,12 @@ function parseGalleryImages(rawText) {
 
     if (imageMatch) {
       if (current?.image) items.push(current);
+
       current = {
         image: imageMatch[1].replace(/^["']|["']$/g, "").trim(),
         caption: "",
       };
+
       return;
     }
 
@@ -97,6 +102,7 @@ function parseGalleryImages(rawText) {
   });
 
   if (current?.image) items.push(current);
+
   return items;
 }
 
@@ -106,14 +112,17 @@ function parseGalleryImages(rawText) {
 function formatDate(date) {
   try {
     const d = new Date(date);
-    if (isNaN(d.getTime())) return "";
+
+    if (Number.isNaN(d.getTime())) {
+      return "";
+    }
 
     return d.toLocaleDateString("ko-KR", {
       year: "numeric",
       month: "2-digit",
       day: "2-digit",
     });
-  } catch (_) {
+  } catch {
     return "";
   }
 }
@@ -125,10 +134,13 @@ async function fetchNoticeDetail(slug) {
   const target = Object.entries(NOTICE_MODULES).find(([path]) => {
     const fileName = path.split("/").pop() || "";
     const base = fileName.replace(/\.(md|mdx)$/i, "");
+
     return base === slug;
   });
 
-  if (!target) return undefined;
+  if (!target) {
+    return undefined;
+  }
 
   const [, raw] = target;
   const { data, content } = parseFrontmatter(raw);
@@ -150,7 +162,7 @@ function MarkdownImage({ alt = "", ...props }) {
       alt={alt}
       loading="lazy"
       decoding="async"
-      className="mt-6 rounded-lg border border-gray-200 w-full max-h-[70vh] object-contain"
+      className="mt-6 w-full max-h-[70vh] rounded-lg border border-gray-200 object-contain"
     />
   );
 }
@@ -163,6 +175,7 @@ function MarkdownImage({ alt = "", ...props }) {
 export default function NoticeDetail() {
   const { slug } = useParams();
   const nav = useNavigate();
+
   const [post, setPost] = useState(null);
   const [loading, setLoading] = useState(true);
 
@@ -178,12 +191,17 @@ export default function NoticeDetail() {
         if (!alive) return;
         setPost(data);
       })
-      .catch((e) => {
-        console.error("[notice detail] CMS load error:", e);
-        if (alive) setPost(undefined);
+      .catch((error) => {
+        console.error("[notice detail] CMS load error:", error);
+
+        if (alive) {
+          setPost(undefined);
+        }
       })
       .finally(() => {
-        if (alive) setLoading(false);
+        if (alive) {
+          setLoading(false);
+        }
       });
 
     return () => {
@@ -198,7 +216,7 @@ export default function NoticeDetail() {
     () => ({
       img: MarkdownImage,
     }),
-    []
+    [],
   );
 
   // 데이터 로딩 중에는 스켈레톤 UI 표시
@@ -206,13 +224,14 @@ export default function NoticeDetail() {
     return (
       <div className="max-w-3xl mx-auto px-4 py-20">
         <div className="animate-pulse space-y-5">
-          <div className="h-10 bg-gray-200 rounded w-2/3" />
-          <div className="h-4 bg-gray-200 rounded w-32" />
-          <div className="h-64 bg-gray-100 rounded-2xl" />
+          <div className="h-10 w-2/3 rounded bg-gray-200" />
+          <div className="h-4 w-32 rounded bg-gray-200" />
+          <div className="h-64 rounded-2xl bg-gray-100" />
+
           <div className="space-y-3">
-            <div className="h-4 bg-gray-100 rounded" />
-            <div className="h-4 bg-gray-100 rounded w-5/6" />
-            <div className="h-4 bg-gray-100 rounded w-4/6" />
+            <div className="h-4 rounded bg-gray-100" />
+            <div className="h-4 w-5/6 rounded bg-gray-100" />
+            <div className="h-4 w-4/6 rounded bg-gray-100" />
           </div>
         </div>
       </div>
@@ -223,16 +242,26 @@ export default function NoticeDetail() {
   if (post === undefined) {
     return (
       <div className="max-w-screen-md mx-auto px-4 py-16 text-center">
-        <h1 className="text-2xl font-bold mb-3">글을 찾을 수 없습니다</h1>
-        <p className="mb-6 text-gray-500">삭제되었거나 존재하지 않는 게시글입니다.</p>
-        <button className="text-sky-600 underline" onClick={() => nav("/news/notices")}>
+        <h1 className="mb-3 text-2xl font-bold">글을 찾을 수 없습니다</h1>
+
+        <p className="mb-6 text-gray-500">
+          삭제되었거나 존재하지 않는 게시글입니다.
+        </p>
+
+        <button
+          type="button"
+          className="text-sky-600 underline"
+          onClick={() => nav("/news/notices")}
+        >
           목록으로
         </button>
       </div>
     );
   }
 
-  if (!post) return null;
+  if (!post) {
+    return null;
+  }
 
   return (
     <div className="max-w-3xl mx-auto px-4 py-12">
@@ -243,35 +272,43 @@ export default function NoticeDetail() {
           <Link to="/news" className="hover:underline">
             소식
           </Link>
+
           <span className="mx-1 text-gray-400">›</span>
+
           <Link to="/news/notices" className="hover:underline">
             공지사항
           </Link>
+
           <span className="mx-1 text-gray-400">›</span>
+
           <span className="text-black">{post.title || slug}</span>
         </nav>
       </section>
 
-      {/* 목록으로 돌아가기 버튼 */}
-      <div className="mb-6 flex items-center justify-between">
+      {/* 목록으로 돌아가기 버튼
+          - 상세 콘텐츠보다 시각적 비중을 낮게 유지 */}
+      <div className="mb-4 flex items-center justify-between">
         <button
+          type="button"
           onClick={() => nav("/news/notices")}
-          className="inline-flex items-center gap-1 px-3 py-1.5 rounded border border-gray-300 text-gray-700 hover:bg-gray-50 transition text-sm font-medium"
-          aria-label="Back to notice list"
+          className="inline-flex items-center gap-1 rounded-md border border-gray-200 px-2.5 py-1 text-[13px] font-medium text-gray-500 transition hover:border-gray-300 hover:bg-gray-50 hover:text-gray-700"
+          aria-label="공지사항 목록으로 돌아가기"
         >
-          <span aria-hidden>←</span> 목록으로
+          <span aria-hidden="true">←</span>
+          목록으로
         </button>
       </div>
 
-      <article className="bg-white shadow-sm ring-1 ring-gray-200 rounded-lg p-8 text-gray-900">
+      <article className="rounded-lg bg-white p-8 text-gray-900 shadow-sm ring-1 ring-gray-200">
         <header className="mb-6">
-          <h1 className="text-3xl md:text-4xl font-extrabold tracking-tight break-words">
+          <h1 className="break-words text-3xl font-extrabold tracking-tight md:text-4xl">
             {post.title || slug}
           </h1>
+
           {post.date && (
             <time
               dateTime={post.date}
-              className="block mt-1 text-gray-500 text-sm font-medium select-none"
+              className="mt-1 block select-none text-sm font-medium text-gray-500"
             >
               {formatDate(post.date)}
             </time>
@@ -295,7 +332,10 @@ export default function NoticeDetail() {
             - caption이 있으면 이미지 아래에 설명 문구로 출력 */}
         {Array.isArray(post.gallery) && post.gallery.length > 0 ? (
           <section className="mb-8">
-            <h2 className="mb-4 text-xl font-bold text-gray-900">첨부 이미지</h2>
+            <h2 className="mb-4 text-xl font-bold text-gray-900">
+              첨부 이미지
+            </h2>
+
             <div className="grid gap-4 sm:grid-cols-2">
               {post.gallery.map((item, index) => (
                 <figure
@@ -304,11 +344,15 @@ export default function NoticeDetail() {
                 >
                   <img
                     src={item.image}
-                    alt={item.caption || `${post.title || slug} 추가 이미지 ${index + 1}`}
+                    alt={
+                      item.caption ||
+                      `${post.title || slug} 추가 이미지 ${index + 1}`
+                    }
                     loading="lazy"
                     decoding="async"
                     className="block w-full rounded-2xl object-cover"
                   />
+
                   {item.caption ? (
                     <figcaption className="px-4 py-3 text-sm text-gray-500">
                       {item.caption}
@@ -322,7 +366,9 @@ export default function NoticeDetail() {
 
         {/* Markdown 본문 렌더링 영역 */}
         <div className="prose max-w-none text-[17px] leading-8 text-gray-800">
-          <ReactMarkdown components={markdownComponents}>{post.content || ""}</ReactMarkdown>
+          <ReactMarkdown components={markdownComponents}>
+            {post.content || ""}
+          </ReactMarkdown>
         </div>
       </article>
     </div>
