@@ -264,10 +264,10 @@ export default function NoticeDetail() {
   }
 
   return (
-    <div className="max-w-3xl mx-auto px-4 py-12">
+    <div className="max-w-5xl mx-auto px-4 py-10">
       {/* 브레드크럼
           - 현재 위치를 소식 > 공지사항 > 상세 순서로 표시 */}
-      <section className="mb-6">
+      <section className="mb-4">
         <nav className="text-sm text-black/80">
           <Link to="/news" className="hover:underline">
             소식
@@ -287,7 +287,7 @@ export default function NoticeDetail() {
 
       {/* 목록으로 돌아가기 버튼
           - 상세 콘텐츠보다 시각적 비중을 낮게 유지 */}
-      <div className="mb-4 flex items-center justify-between">
+      <div className="mb-3 flex items-center justify-between">
         <button
           type="button"
           onClick={() => nav("/news/notices")}
@@ -299,12 +299,11 @@ export default function NoticeDetail() {
         </button>
       </div>
 
-      <article className="rounded-lg bg-white p-8 text-gray-900 shadow-sm ring-1 ring-gray-200">
-        <header className="mb-8 border-b border-gray-100 pb-6">
+      <article className="rounded-lg bg-white p-8 md:p-10 text-gray-900 shadow-sm ring-1 ring-gray-200">
+        <header className="mb-6 border-b border-gray-100 pb-5">
           <h1 className="break-words text-4xl font-extrabold leading-[1.15] tracking-tight">
             {post.title || slug}
           </h1>
-
           {post.date && (
             <time
               dateTime={post.date}
@@ -323,7 +322,7 @@ export default function NoticeDetail() {
             alt=""
             loading="lazy"
             decoding="async"
-            className="mb-6 w-full rounded-lg object-cover"
+            className="mb-8 mx-auto w-full max-w-4xl rounded-lg object-contain"
           />
         )}
 
@@ -332,7 +331,7 @@ export default function NoticeDetail() {
             - caption이 있으면 이미지 아래에 설명 문구로 출력 */}
         {Array.isArray(post.gallery) && post.gallery.length > 0 ? (
           <section className="mb-8">
-            <div className="grid gap-4 sm:grid-cols-2">
+            <div className="grid gap-4">
               {post.gallery.map((item, index) => (
                 <figure
                   key={`${item.image}-${index}`}
@@ -346,7 +345,7 @@ export default function NoticeDetail() {
                     }
                     loading="lazy"
                     decoding="async"
-                    className="block w-full rounded-2xl object-cover"
+                    className="mx-auto block w-full max-w-4xl rounded-2xl object-contain"
                   />
 
                   {item.caption ? (
@@ -361,7 +360,7 @@ export default function NoticeDetail() {
         ) : null}
 
         {/* Markdown 본문 렌더링 영역 */}
-        <div className="prose max-w-none text-[17px] leading-8 text-gray-800">
+        <div className="prose prose-neutral max-w-none text-[17px] leading-8 text-gray-800">
           <ReactMarkdown components={markdownComponents}>
             {post.content || ""}
           </ReactMarkdown>
