@@ -301,14 +301,14 @@ export default function NoticeDetail() {
 
       <article className="rounded-lg bg-white p-8 text-gray-900 shadow-sm ring-1 ring-gray-200">
         <header className="mb-6">
-          <h1 className="break-words text-3xl font-extrabold tracking-tight md:text-4xl">
+          <h1 className="break-words text-3xl font-extrabold leading-tight tracking-tight md:text-4xl">
             {post.title || slug}
           </h1>
 
           {post.date && (
             <time
               dateTime={post.date}
-              className="mt-1 block select-none text-sm font-medium text-gray-500"
+              className="mt-3 block select-none text-[15px] font-normal tracking-[0.01em] text-gray-500"
             >
               {formatDate(post.date)}
             </time>
