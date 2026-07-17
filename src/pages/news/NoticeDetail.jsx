@@ -332,10 +332,6 @@ export default function NoticeDetail() {
             - caption이 있으면 이미지 아래에 설명 문구로 출력 */}
         {Array.isArray(post.gallery) && post.gallery.length > 0 ? (
           <section className="mb-8">
-            <h2 className="mb-4 text-xl font-bold text-gray-900">
-              첨부 이미지
-            </h2>
-
             <div className="grid gap-4 sm:grid-cols-2">
               {post.gallery.map((item, index) => (
                 <figure
