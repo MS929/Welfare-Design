@@ -336,7 +336,7 @@ export default function Notices() {
                     </th>
                     <th
                       scope="col"
-                      className="w-44 py-3.5 px-4 text-center font-medium text-gray-600"
+                      className="w-44 py-3.5 pl-4 pr-10 text-right font-medium text-gray-600"
                     >
                       작성일
                     </th>
@@ -385,7 +385,7 @@ export default function Notices() {
                         <td className="py-4 px-4 align-middle text-center">
                           {circleChip}
                         </td>
-                        <td className="py-4 px-4 text-gray-600 align-middle whitespace-nowrap">
+                        <td className="py-4 pl-4 pr-10 text-right text-gray-600 align-middle whitespace-nowrap">
                           {dateStr}
                         </td>
                       </tr>
@@ -401,8 +401,7 @@ export default function Notices() {
           <div className="md:hidden">
             <ul className="max-w-screen-xl mx-auto px-4 space-y-4">
               {paginatedItems.map((it, idx) => {
-                const number =
-                  filtered.length - ((page - 1) * PAGE_SIZE + idx);
+                const number = filtered.length - ((page - 1) * PAGE_SIZE + idx);
                 const dateStr =
                   (it.dateObj && it.dateObj.toISOString().slice(0, 10)) ||
                   it.date ||
