@@ -183,12 +183,6 @@ export default function AboutHistory() {
           }
         `}</style>
 
-        {/* 상단 배경 장식 그라데이션 */}
-        <div
-          className="pointer-events-none absolute inset-x-0 -top-8 h-20 bg-gradient-to-b from-[var(--pri-soft)] via-[var(--sec-soft)] to-transparent opacity-70"
-          aria-hidden="true"
-        />
-
         {/* 상단 영역: 현재 위치 안내(브레드크럼)와 페이지 제목 */}
         <header className="max-w-screen-xl mx-auto px-4 pt-10">
           <p className="text-sm text-black/80">
