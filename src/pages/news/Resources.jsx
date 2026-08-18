@@ -3,7 +3,13 @@ import { Link } from "react-router-dom";
 import { formatResourceDate, getResources } from "../../lib/resources";
 
 const PAGE_SIZE = 10;
-const DEFAULT_CATEGORIES = ["서식", "보고서", "홍보자료", "기타"];
+const DEFAULT_CATEGORIES = [
+  "서식",
+  "연구보고서",
+  "사업보고서",
+  "홍보영상 및 자료",
+  "기타",
+];
 
 export default function Resources() {
   const items = getResources();
@@ -61,7 +67,8 @@ export default function Resources() {
           자료실
         </h1>
         <p className="mt-3 text-gray-600">
-          복지디자인의 서식, 보고서 및 각종 자료를 내려받을 수 있습니다.
+          복지디자인의 서식, 연구·사업보고서, 홍보영상 및 각종 자료를
+          내려받을 수 있습니다.
         </p>
       </section>
 

@@ -221,8 +221,9 @@ collections:
         widget: "select"
         options:
           - "서식"
-          - "보고서"
-          - "홍보자료"
+          - "연구보고서"
+          - "사업보고서"
+          - "홍보영상 및 자료"
           - "기타"
         default: "기타"
         allow_add: true
