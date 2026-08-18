@@ -96,10 +96,21 @@ export function getAttachmentName(attachment, index) {
 
   try {
     const baseUrl = globalThis.location?.origin || "https://welfaredesign.kr";
-    const pathname = new URL(attachment.file, baseUrl).pathname;
+    const fileUrl = new URL(attachment.file, baseUrl);
+    const pathname = fileUrl.pathname;
     const fileName = pathname.split("/").filter(Boolean).pop();
 
-    if (fileName) return decodeURIComponent(fileName);
+    if (fileName) {
+      const decodedName = decodeURIComponent(fileName);
+
+      // Cloudinary가 중복 방지를 위해 붙이는 6자리 public ID 접미사는
+      // 실제 URL에는 유지하되 사용자에게 표시하는 파일명에서만 제거합니다.
+      if (fileUrl.hostname === "res.cloudinary.com") {
+        return decodedName.replace(/_[a-z0-9]{6}(?=\.[^.]+$)/i, "");
+      }
+
+      return decodedName;
+    }
   } catch {
     // URL에서 파일명을 읽을 수 없으면 기본 이름을 사용합니다.
   }
