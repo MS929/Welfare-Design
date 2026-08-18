@@ -113,8 +113,8 @@ export default function Navbar() {
       title: "소식",
       items: [
         { to: "/news/stories", label: "복지디자인 이야기" },
-        { to: "/news/notices", label: "공지사항" },
         { to: "/news/resources", label: "자료실" },
+        { to: "/news/notices", label: "공지사항" },
       ],
     },
     {
@@ -455,16 +455,6 @@ h1, h2, h3, h4, h5 { line-height: 1.25; }
                   복지디자인 이야기
                 </NavLink>
                 <NavLink
-                  to="/news/notices"
-                  className="block px-3 py-2 rounded hover:bg-gray-50"
-                  onClick={(e) => {
-                    setMobileOpen(false);
-                    e.target.closest("details").removeAttribute("open");
-                  }}
-                >
-                  공지사항
-                </NavLink>
-                <NavLink
                   to="/news/resources"
                   className="block px-3 py-2 rounded hover:bg-gray-50"
                   onClick={(e) => {
@@ -473,6 +463,16 @@ h1, h2, h3, h4, h5 { line-height: 1.25; }
                   }}
                 >
                   자료실
+                </NavLink>
+                <NavLink
+                  to="/news/notices"
+                  className="block px-3 py-2 rounded hover:bg-gray-50"
+                  onClick={(e) => {
+                    setMobileOpen(false);
+                    e.target.closest("details").removeAttribute("open");
+                  }}
+                >
+                  공지사항
                 </NavLink>
               </div>
             </details>
