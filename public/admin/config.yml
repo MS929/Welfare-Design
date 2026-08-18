@@ -193,6 +193,69 @@ collections:
         widget: "markdown"
         required: false
 
+  - name: "resources"
+    label: "자료실"
+    folder: "src/content/resources"
+    create: true
+    format: "frontmatter"
+    identifier_field: "title"
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    sort: "date:desc"
+    summary: "{{title}} — {{date}}"
+
+    fields:
+      - label: "자료명"
+        name: "title"
+        widget: "string"
+
+      - label: "등록일"
+        name: "date"
+        widget: "datetime"
+        format: "YYYY-MM-DD"
+        date_format: "YYYY-MM-DD"
+        time_format: false
+        picker_utc: false
+
+      - label: "분류"
+        name: "category"
+        widget: "select"
+        options:
+          - "서식"
+          - "보고서"
+          - "홍보자료"
+          - "기타"
+        default: "기타"
+        allow_add: true
+
+      - label: "첨부 파일"
+        name: "attachments"
+        widget: "list"
+        required: true
+        collapsed: true
+        summary: "{{fields.name}} — {{fields.file}}"
+        fields:
+          - label: "파일"
+            name: "file"
+            widget: "file"
+            choose_url: true
+            allow_multiple: false
+            hint: "PDF, HWP, DOCX, XLSX, ZIP 등의 파일을 등록할 수 있습니다."
+            media_library:
+              config:
+                multiple: false
+                default_transformations: []
+
+          - label: "표시할 파일명(선택)"
+            name: "name"
+            widget: "string"
+            required: false
+            hint: "비워 두면 업로드한 파일명이 표시됩니다."
+
+      - label: "자료 설명(선택)"
+        name: "body"
+        widget: "markdown"
+        required: false
+
   - name: "faq"
     label: "FAQ"
     folder: "src/content/faq"
@@ -278,6 +341,9 @@ collections:
 
           - label: "공지사항"
             value: "/news/notices"
+
+          - label: "자료실"
+            value: "/news/resources"
 
           - label: "사업영역"
             value: "/business/overview"

@@ -35,6 +35,8 @@ import AboutEstablishment from "./pages/about/Establishment.jsx";
 import NewsStories from "./pages/news/Stories.jsx";
 import NewsNotices from "./pages/news/Notices.jsx";
 import NewsNewsletter from "./pages/news/Newsletter.jsx";
+import NewsResources from "./pages/news/Resources.jsx";
+import ResourceDetail from "./pages/news/ResourceDetail.jsx";
 import StoryDetail from "./pages/news/StoryDetail.jsx"; // 파일명/경로 꼭 확인!
 import NoticeDetail from "./pages/news/NoticeDetail.jsx";
 import NewsIndex from "./pages/news/index.jsx";
@@ -111,6 +113,8 @@ export default function App() {
             <Route path="stories/:slug" element={<StoryDetail />} />
             <Route path="notices" element={<NewsNotices />} />
             <Route path="notices/:slug" element={<NoticeDetail />} />
+            <Route path="resources" element={<NewsResources />} />
+            <Route path="resources/:slug" element={<ResourceDetail />} />
             <Route path="newsletter" element={<NewsNewsletter />} />
           </Route>
           {/* /news/* 도 안전망으로 처리 (직접 접근 케이스) */}

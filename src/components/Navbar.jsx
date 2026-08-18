@@ -26,30 +26,6 @@ import { Link, NavLink, useLocation } from "react-router-dom";
 const OPEN_DELAY_MS = 120;
 const CLOSE_DELAY_MS = 250;
 
-/**
- * hover 지연(open/close delay)을 적용한 상태 관리 훅
- * - 마우스가 메뉴 경계에서 살짝 흔들려도 드롭다운이 닫히지 않도록 UX 개선
- */
-function useHoverDelay() {
-  const [open, setOpen] = useState(false);
-  // 열기/닫기 타이머를 저장(컴포넌트 생명주기 동안 유지)
-  const openT = useRef(null);
-  const closeT = useRef(null);
-
-  // hover 진입: 닫기 타이머를 취소하고, 일정 시간 후 open=true
-  const enter = () => {
-    if (closeT.current) clearTimeout(closeT.current);
-    openT.current = setTimeout(() => setOpen(true), OPEN_DELAY_MS);
-  };
-  // hover 이탈: 열기 타이머를 취소하고, 일정 시간 후 open=false
-  const leave = () => {
-    if (openT.current) clearTimeout(openT.current);
-    closeT.current = setTimeout(() => setOpen(false), CLOSE_DELAY_MS);
-  };
-  return { open, enter, leave, setOpen };
-}
-
-
 // 상단 네비게이션 바(데스크톱 메가메뉴 + 모바일 드로어)
 export default function Navbar() {
   // 현재 경로 확인(홈에서 로고 클릭 시 강제 새로고침 처리 등에 사용)
@@ -138,6 +114,7 @@ export default function Navbar() {
       items: [
         { to: "/news/stories", label: "복지디자인 이야기" },
         { to: "/news/notices", label: "공지사항" },
+        { to: "/news/resources", label: "자료실" },
       ],
     },
     {
@@ -283,12 +260,12 @@ h1, h2, h3, h4, h5 { line-height: 1.25; }
               const items = sec.items;
 
               // 섹션별 컬럼 수
-              // - 소식/후원: 2칸
+              // - 소식: 3칸, 후원: 2칸
               // - 나머지: 4칸
               const isNews = sec.title === "소식";
               const isSupport = sec.title === "후원";
               const isBusiness = sec.title === "복지용구 지원사업";
-              const colCount = isNews || isSupport ? 2 : 4;
+              const colCount = isNews ? 3 : isSupport ? 2 : 4;
 
               const cols = Array.from({ length: colCount }, () => []);
 
@@ -486,6 +463,16 @@ h1, h2, h3, h4, h5 { line-height: 1.25; }
                   }}
                 >
                   공지사항
+                </NavLink>
+                <NavLink
+                  to="/news/resources"
+                  className="block px-3 py-2 rounded hover:bg-gray-50"
+                  onClick={(e) => {
+                    setMobileOpen(false);
+                    e.target.closest("details").removeAttribute("open");
+                  }}
+                >
+                  자료실
                 </NavLink>
               </div>
             </details>
