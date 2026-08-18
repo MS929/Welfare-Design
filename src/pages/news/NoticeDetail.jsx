@@ -7,15 +7,15 @@
 // [데이터 흐름]
 //  - Vite import.meta.glob으로 notices 폴더의 markdown 원문을 raw 문자열로 로드
 //  - URL slug와 파일명을 비교해 현재 공지 글을 찾음
-//  - frontmatter에서 제목/날짜/썸네일/갤러리 정보를 파싱하고 본문은 ReactMarkdown으로 렌더링
+//  - frontmatter에서 제목/날짜/썸네일/갤러리/첨부파일 정보를 파싱하고 본문은 ReactMarkdown으로 렌더링
 //
 // [렌더링 구성]
 //  - 상단: 브레드크럼(소식 > 공지사항 > 상세)
-//  - 본문: 제목, 날짜, 대표 이미지, 첨부 이미지 갤러리, markdown 본문
+//  - 본문: 제목, 날짜, 대표 이미지, 첨부 이미지 갤러리, 첨부파일, markdown 본문
 //
 // [운영 참고]
 //  - CMS에서 새 공지 또는 수정된 공지를 저장한 뒤 Netlify 재배포가 완료되어야 반영됨
-//  - gallery 필드는 CMS config.yml의 추가 이미지 목록 구조와 함께 관리
+//  - gallery와 attachments 필드는 CMS config.yml의 목록 구조와 함께 관리
 // -----------------------------------------------------------------------------
 
 import React, { useEffect, useMemo, useState } from "react";
@@ -106,6 +106,83 @@ function parseGalleryImages(rawText) {
   return items;
 }
 
+// attachments 필드 전용 파서
+// - CMS config.yml의 첨부파일 목록에서 파일 URL과 표시 이름을 읽음
+function parseAttachments(rawText) {
+  const text = String(rawText || "");
+  const match = text.match(/^---\s*\n([\s\S]*?)\n---/);
+  if (!match) return [];
+
+  const yaml = match[1];
+  const attachmentsMatch = yaml.match(
+    /(?:^|\n)attachments:\s*\n([\s\S]*?)(?=\n[a-zA-Z가-힣0-9_-]+:\s*|$)/,
+  );
+
+  if (!attachmentsMatch) return [];
+
+  const items = [];
+  let current = null;
+
+  attachmentsMatch[1].split("\n").forEach((line) => {
+    const fileMatch = line.match(/^\s*-\s*file:\s*(.+?)\s*$/);
+    const nameMatch = line.match(/^\s*name:\s*(.*?)\s*$/);
+
+    if (fileMatch) {
+      if (current?.file) items.push(current);
+
+      current = {
+        file: fileMatch[1].replace(/^["']|["']$/g, "").trim(),
+        name: "",
+      };
+
+      return;
+    }
+
+    if (nameMatch && current) {
+      current.name = nameMatch[1].replace(/^["']|["']$/g, "").trim();
+    }
+  });
+
+  if (current?.file) items.push(current);
+
+  return items.filter((item) => /^(https?:\/\/|\/)/i.test(item.file));
+}
+
+// 표시 이름을 입력하지 않은 첨부파일은 URL의 마지막 파일명을 사용
+function getAttachmentName(attachment, index) {
+  if (attachment.name) return attachment.name;
+
+  try {
+    const pathname = new URL(attachment.file, window.location.origin).pathname;
+    const fileName = pathname.split("/").filter(Boolean).pop();
+
+    if (fileName) return decodeURIComponent(fileName);
+  } catch {
+    // 잘못 인코딩된 URL은 아래 기본 이름으로 표시
+  }
+
+  return `첨부파일 ${index + 1}`;
+}
+
+// Cloudinary 파일은 fl_attachment를 적용해 브라우저에서 바로 다운로드
+// 그 외 URL은 저장된 주소를 그대로 사용
+function getAttachmentDownloadUrl(file) {
+  const url = String(file || "");
+
+  if (
+    !/^https:\/\/res\.cloudinary\.com\//i.test(url) ||
+    !/\/(image|video|raw)\/upload\//i.test(url) ||
+    /\/upload\/[^?#]*fl_attachment/i.test(url)
+  ) {
+    return url;
+  }
+
+  return url.replace(
+    /\/(image|video|raw)\/upload\//i,
+    "/$1/upload/fl_attachment/",
+  );
+}
+
 // 공지 작성일 표시 형식 변환
 // - CMS에 저장된 날짜 값을 ko-KR 날짜 형식으로 변환하여 화면에 표시
 // - 유효하지 않은 날짜는 빈 문자열로 처리
@@ -145,10 +222,12 @@ async function fetchNoticeDetail(slug) {
   const [, raw] = target;
   const { data, content } = parseFrontmatter(raw);
   const gallery = parseGalleryImages(raw);
+  const attachments = parseAttachments(raw);
 
   return {
     ...(data ?? {}),
     gallery,
+    attachments,
     content,
   };
 }
@@ -356,6 +435,49 @@ export default function NoticeDetail() {
                 </figure>
               ))}
             </div>
+          </section>
+        ) : null}
+
+        {/* 일반 첨부파일
+            - CMS의 attachments 필드에 등록된 파일을 다운로드 링크로 표시 */}
+        {Array.isArray(post.attachments) && post.attachments.length > 0 ? (
+          <section
+            className="mb-8 rounded-xl border border-gray-200 bg-gray-50 p-5"
+            aria-labelledby="notice-attachments-title"
+          >
+            <h2
+              id="notice-attachments-title"
+              className="mb-3 text-base font-semibold text-gray-900"
+            >
+              첨부파일
+            </h2>
+
+            <ul className="space-y-2">
+              {post.attachments.map((attachment, index) => {
+                const fileName = getAttachmentName(attachment, index);
+                const downloadUrl = getAttachmentDownloadUrl(attachment.file);
+
+                return (
+                  <li key={`${attachment.file}-${index}`}>
+                    <a
+                      href={downloadUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      download
+                      className="flex items-center justify-between gap-3 rounded-lg border border-gray-200 bg-white px-4 py-3 text-sm font-medium text-sky-700 transition hover:border-sky-300 hover:bg-sky-50 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2"
+                    >
+                      <span className="min-w-0 break-all">{fileName}</span>
+                      <span
+                        className="shrink-0 text-gray-500"
+                        aria-hidden="true"
+                      >
+                        다운로드 ↓
+                      </span>
+                    </a>
+                  </li>
+                );
+              })}
+            </ul>
           </section>
         ) : null}
 
