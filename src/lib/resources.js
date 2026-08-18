@@ -1,4 +1,4 @@
-import matter from "gray-matter";
+import { parseResourceDocument } from "./resourceFrontmatter";
 
 const RESOURCE_MODULES = import.meta.glob(
   "../content/resources/*.{md,mdx}",
@@ -47,7 +47,7 @@ function loadResources() {
     .map(([path, raw]) => {
       const fileName = path.split("/").pop() || "";
       const slug = fileName.replace(/\.(md|mdx)$/i, "");
-      const parsed = matter(String(raw || ""));
+      const parsed = parseResourceDocument(raw);
       const date = String(parsed.data?.date || "").slice(0, 10);
 
       return {
