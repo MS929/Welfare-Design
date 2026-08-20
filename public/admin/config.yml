@@ -311,10 +311,23 @@ collections:
         widget: "boolean"
         default: true
 
-      - label: "이미지"
+      - label: "첫 번째 이미지"
         name: "image"
         widget: "image"
         required: false
+        hint: "팝업에서 가장 먼저 표시할 이미지입니다."
+
+      - label: "추가 이미지(여러 장 등록 가능)"
+        name: "images"
+        widget: "list"
+        required: false
+        collapsed: true
+        summary: "{{fields.image}}"
+        fields:
+          - label: "이미지"
+            name: "image"
+            widget: "image"
+            choose_url: true
 
       - label: "버튼 링크"
         name: "buttonLink"

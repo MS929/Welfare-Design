@@ -154,6 +154,7 @@ const useMedia = (query) => {
 import matter from "gray-matter";
 import { Link } from "react-router-dom";
 import OptimizedImg from "../components/OptimizedImg";
+import { parsePopupImageValues } from "../lib/popupImages";
 // (unused) image helpers were removed to avoid lint/build warnings
 // =============================
 // 디자인 토큰(컬러/그림자/라운드 등) — 인라인 스타일 기반 UI 일관성 유지
@@ -888,6 +889,10 @@ async function fetchMainPopupData() {
     const enabledValue = data?.enabled;
     const enabled =
       enabledValue === true || String(enabledValue).toLowerCase() === "true";
+    const images = [data?.image, ...parsePopupImageValues(raw)]
+      .map((value) => extractThumbSrc(value || ""))
+      .filter(Boolean)
+      .filter((value, index, list) => list.indexOf(value) === index);
 
     return {
       id: path,
@@ -895,7 +900,8 @@ async function fetchMainPopupData() {
       enabled,
       date: String(dateValue || "").trim(),
       sortDate: getSortableDateValue(dateValue),
-      image: extractThumbSrc(data?.image || ""),
+      image: images[0] || "",
+      images,
       buttonText: data?.buttonText || "자세히 보기",
       buttonLink: data?.buttonLink || "#",
       body: (content || "").trim(),
@@ -913,9 +919,17 @@ function MainPopup({ isMobile, isTablet, isTouch }) {
   const [open, setOpen] = useState(false);
   const [modalPopups, setModalPopups] = useState([]);
   const [activePopupIndex, setActivePopupIndex] = useState(0);
+  const [activeImageIndex, setActiveImageIndex] = useState(0);
   const sortedPopups = useMemo(() => sortPopupsNewestFirst(popups), [popups]);
   const fallbackPopup =
     modalPopups[activePopupIndex] || sortedPopups[0] || null;
+  const fallbackImages = Array.isArray(fallbackPopup?.images)
+    ? fallbackPopup.images
+    : fallbackPopup?.image
+      ? [fallbackPopup.image]
+      : [];
+  const activePopupImage =
+    fallbackImages[Math.min(activeImageIndex, fallbackImages.length - 1)] || "";
   const openedWindowsRef = useRef([]);
   const didRunRef = useRef(false);
   // 모바일/태블릿/터치 환경에서는
@@ -940,6 +954,10 @@ function MainPopup({ isMobile, isTablet, isTouch }) {
       alive = false;
     };
   }, []);
+
+  useEffect(() => {
+    setActiveImageIndex(0);
+  }, [fallbackPopup?.id]);
 
   const escapeHtml = (value) =>
     String(value ?? "")
@@ -975,7 +993,15 @@ function MainPopup({ isMobile, isTablet, isTouch }) {
     const body = escapeHtml(
       popup.body || "복지디자인 사회적협동조합의 새로운 소식을 확인해 주세요.",
     );
-    const image = popup.image ? escapeHtml(popup.image) : "";
+    const images = (Array.isArray(popup.images) ? popup.images : [popup.image])
+      .filter(Boolean)
+      .map((image) => escapeHtml(image));
+    const imageSlides = images
+      .map(
+        (image, index) =>
+          `<img class="popup-slide${index === 0 ? " active" : ""}" src="${image}" alt="${title} 이미지 ${index + 1}" />`,
+      )
+      .join("");
     const buttonLink = popup.buttonLink || "#";
     const safeButtonLink = escapeHtml(buttonLink);
     const popupId = escapeHtml(popup.id);
@@ -1032,14 +1058,45 @@ function MainPopup({ isMobile, isTablet, isTouch }) {
               justify-content:center;
               padding:12px;
               overflow:auto;
+              position:relative;
             }
-            .img img {
+            .img img.popup-slide {
               width:100%;
               height:auto;
               object-fit:contain;
               object-position:center;
               display:block;
               background:#f8fafc;
+            }
+            .img img.popup-slide:not(.active) { display:none; }
+            .slide-btn {
+              position:absolute;
+              top:50%;
+              width:40px;
+              height:40px;
+              padding:0;
+              border:1px solid rgba(255,255,255,.75);
+              border-radius:999px;
+              background:rgba(15,23,42,.68);
+              color:#fff;
+              font-size:24px;
+              font-weight:700;
+              transform:translateY(-50%);
+              z-index:2;
+            }
+            .slide-prev { left:20px; }
+            .slide-next { right:20px; }
+            .slide-count {
+              position:absolute;
+              right:20px;
+              bottom:20px;
+              border-radius:999px;
+              padding:5px 10px;
+              background:rgba(15,23,42,.72);
+              color:#fff;
+              font-size:12px;
+              font-weight:800;
+              z-index:2;
             }
             .content {
               padding:28px 28px 22px;
@@ -1114,10 +1171,19 @@ function MainPopup({ isMobile, isTablet, isTouch }) {
             </div>
 
             ${
-              image
+              images.length
                 ? `
-              <div class="img">
-                <img src="${image}" alt="" />
+              <div class="img" aria-label="팝업 이미지">
+                ${imageSlides}
+                ${
+                  images.length > 1
+                    ? `
+                      <button class="slide-btn slide-prev" type="button" aria-label="이전 이미지" onclick="changePopupSlide(-1)">‹</button>
+                      <button class="slide-btn slide-next" type="button" aria-label="다음 이미지" onclick="changePopupSlide(1)">›</button>
+                      <span class="slide-count"><span id="popup-slide-current">1</span> / ${images.length}</span>
+                    `
+                    : ""
+                }
               </div>
             `
                 : ""
@@ -1139,6 +1205,22 @@ function MainPopup({ isMobile, isTablet, isTouch }) {
               </div>
             </div>
           </div>
+          <script>
+            (function () {
+              var current = 0;
+              var slides = Array.prototype.slice.call(document.querySelectorAll('.popup-slide'));
+              var currentLabel = document.getElementById('popup-slide-current');
+
+              window.changePopupSlide = function (delta) {
+                if (slides.length < 2) return;
+                current = (current + delta + slides.length) % slides.length;
+                slides.forEach(function (slide, index) {
+                  slide.classList.toggle('active', index === current);
+                });
+                if (currentLabel) currentLabel.textContent = String(current + 1);
+              };
+            })();
+          </script>
         </body>
         </html>
       `);
@@ -1231,7 +1313,7 @@ function MainPopup({ isMobile, isTablet, isTouch }) {
 
       const offset = index * 28;
       const width = 520;
-      const height = popup.image ? 760 : 380;
+      const height = popup.images?.length ? 760 : 380;
       const screenLeft =
         typeof window.screenX === "number"
           ? window.screenX
@@ -1355,7 +1437,7 @@ function MainPopup({ isMobile, isTablet, isTouch }) {
         }}
         onClick={(e) => e.stopPropagation()}
       >
-        {fallbackPopup.image && (
+        {activePopupImage && (
           <div
             style={{
               width: "100%",
@@ -1365,11 +1447,12 @@ function MainPopup({ isMobile, isTablet, isTouch }) {
               alignItems: "center",
               justifyContent: "center",
               padding: isMobile ? 8 : 12,
+              position: "relative",
             }}
           >
             <img
-              src={fallbackPopup.image}
-              alt=""
+              src={activePopupImage}
+              alt={`${fallbackPopup.title || "메인 팝업"} 이미지 ${activeImageIndex + 1}`}
               loading="eager"
               decoding="async"
               style={{
@@ -1382,6 +1465,78 @@ function MainPopup({ isMobile, isTablet, isTouch }) {
                 background: "#f8fafc",
               }}
             />
+
+            {fallbackImages.length > 1 ? (
+              <>
+                <button
+                  type="button"
+                  aria-label="이전 이미지"
+                  onClick={() =>
+                    setActiveImageIndex(
+                      (index) =>
+                        (index - 1 + fallbackImages.length) %
+                        fallbackImages.length,
+                    )
+                  }
+                  style={{
+                    position: "absolute",
+                    left: isMobile ? 14 : 20,
+                    top: "50%",
+                    width: 40,
+                    height: 40,
+                    border: "1px solid rgba(255,255,255,.75)",
+                    borderRadius: 999,
+                    background: "rgba(15,23,42,.68)",
+                    color: "#fff",
+                    fontSize: 24,
+                    cursor: "pointer",
+                    transform: "translateY(-50%)",
+                  }}
+                >
+                  ‹
+                </button>
+                <button
+                  type="button"
+                  aria-label="다음 이미지"
+                  onClick={() =>
+                    setActiveImageIndex(
+                      (index) => (index + 1) % fallbackImages.length,
+                    )
+                  }
+                  style={{
+                    position: "absolute",
+                    right: isMobile ? 14 : 20,
+                    top: "50%",
+                    width: 40,
+                    height: 40,
+                    border: "1px solid rgba(255,255,255,.75)",
+                    borderRadius: 999,
+                    background: "rgba(15,23,42,.68)",
+                    color: "#fff",
+                    fontSize: 24,
+                    cursor: "pointer",
+                    transform: "translateY(-50%)",
+                  }}
+                >
+                  ›
+                </button>
+                <span
+                  style={{
+                    position: "absolute",
+                    right: isMobile ? 14 : 20,
+                    bottom: isMobile ? 14 : 20,
+                    borderRadius: 999,
+                    padding: "5px 10px",
+                    background: "rgba(15,23,42,.72)",
+                    color: "#fff",
+                    fontSize: 12,
+                    fontWeight: 800,
+                  }}
+                >
+                  {activeImageIndex + 1} / {fallbackImages.length}
+                </span>
+              </>
+            ) : null}
           </div>
         )}
 
