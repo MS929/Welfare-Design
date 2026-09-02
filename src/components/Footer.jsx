@@ -72,7 +72,7 @@ export default function Footer() {
                 wdsc2025@naver.com
               </li>
               <li className="whitespace-normal md:whitespace-nowrap">
-                대전광역시 유성구 계룡료88번길 46 4층
+                대전 유성구 봉산로32번길 24
               </li>
             </ul>
           </div>
