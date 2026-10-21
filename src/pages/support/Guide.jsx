@@ -405,42 +405,62 @@ function SupportCard({ title, desc, bullets = [], cta, className = "" }) {
 //  - copied 상태로 즉시 피드백 제공(버튼 텍스트 변경 + 스크린리더 안내)
 // -----------------------------------------------------------------------------
 function BankBox({ className = "", compact = false }) {
-  const [copied, setCopied] = useState(false);
+  const [copiedAccount, setCopiedAccount] = useState("");
 
-  const bank = {
-    name: "국민은행",
-    number: "748301-01-618473",
-    holder: "복지디자인사회적협동조합",
-  };
+  const banks = [
+    {
+      name: "하나은행",
+      number: "658-910082-01805",
+      holder: "복지디자인사회적협동조합",
+    },
+    {
+      name: "국민은행",
+      number: "748301-01-618473",
+      holder: "복지디자인사회적협동조합",
+    },
+  ];
 
-  const copy = async () => {
+  const copy = async (bank) => {
     try {
       await navigator.clipboard.writeText(`${bank.name} ${bank.number}`);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 1500);
+      setCopiedAccount(bank.number);
+      setTimeout(() => {
+        setCopiedAccount((current) => current === bank.number ? "" : current);
+      }, 1500);
     } catch {}
   };
 
   return (
     <section className={`${compact ? "p-5" : "p-6"} ${className}`}>
       <h3 className={`${compact ? "text-[18px]" : "text-lg"} font-semibold`}>무통장 입금(계좌이체)</h3>
-      <div className={`${compact ? "mt-3 flex flex-col gap-3" : "mt-3 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3"}`}>
-        <p className={`${compact ? "text-[16px] leading-relaxed" : ""} text-gray-800 break-keep`}>
-          <span className="font-medium">{bank.name}</span>{" "}
-          <span className="font-mono tracking-wide">{bank.number}</span>
-          {" · "}
-          <span className="text-gray-600">{bank.holder}</span>
-        </p>
-        <div className="flex items-center gap-2">
-          <button
-            onClick={copy}
-            aria-label="계좌번호 복사"
-            className={`${compact ? "w-full px-6 py-3" : "px-7 py-3.5"} rounded-full bg-gradient-to-r from-teal-500 to-emerald-500 text-white font-semibold shadow-md hover:from-teal-600 hover:to-emerald-600 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2`}
-          >
-            {copied ? "복사됨!" : "계좌 복사"}
-          </button>
-          <span className="sr-only" aria-live="polite">{copied ? "계좌번호가 복사되었습니다." : ""}</span>
-        </div>
+      <div className="mt-3 flex flex-col gap-3">
+        {banks.map((bank) => {
+          const copied = copiedAccount === bank.number;
+
+          return (
+            <div
+              key={bank.number}
+              className={`${compact ? "flex flex-col gap-3" : "flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3"}`}
+            >
+              <p className={`${compact ? "text-[16px] leading-relaxed" : ""} text-gray-800 break-keep`}>
+                <span className="font-medium">{bank.name}</span>{" "}
+                <span className="font-mono tracking-wide">{bank.number}</span>
+                {" · "}
+                <span className="text-gray-600">{bank.holder}</span>
+              </p>
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={() => copy(bank)}
+                  aria-label={`${bank.name} 계좌번호 복사`}
+                  className={`${compact ? "w-full px-6 py-3" : "px-7 py-3.5"} rounded-full bg-gradient-to-r from-teal-500 to-emerald-500 text-white font-semibold shadow-md hover:from-teal-600 hover:to-emerald-600 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2`}
+                >
+                  {copied ? "복사됨!" : "계좌 복사"}
+                </button>
+                <span className="sr-only" aria-live="polite">{copied ? `${bank.name} 계좌번호가 복사되었습니다.` : ""}</span>
+              </div>
+            </div>
+          );
+        })}
       </div>
       <p className="text-gray-600 text-sm mt-3">
         * 입금자명 기록이 반드시 필요합니다. 입금자명과 신청 정보가 다를 경우 확인이 지연될 수 있습니다.

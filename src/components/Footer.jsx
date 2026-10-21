@@ -51,6 +51,9 @@ export default function Footer() {
                   함께 성장하며 모두의 행복을 위한 복지를 디자인합니다.
                 </p>
                 <p className="text-[12.5px] md:text-[13px] lg:text-[13.5px] text-gray-300 mt-1 font-medium tracking-tight">
+                  후원계좌 : 하나은행 · 658-910082-01805 (복지디자인사회적협동조합)
+                </p>
+                <p className="text-[12.5px] md:text-[13px] lg:text-[13.5px] text-gray-300 mt-1 font-medium tracking-tight">
                   후원계좌 : 국민은행 · 748301-01-618473 (복지디자인 사회적협동조합)
                 </p>
               </div>
